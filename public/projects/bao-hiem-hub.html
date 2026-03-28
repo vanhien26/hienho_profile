@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo BHXH Tự Nguyện — Web Growth Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #AE2070;
+  --pink-light: #F5E0EC;
+  --green: #00A64F;
+  --green-light: #E0F5EA;
+  --blue: #1848B8;
+  --blue-light: #E6EEFF;
+  --amber: #C05000;
+  --amber-light: #FFF0E0;
+  --red: #C42020;
+  --red-light: #FFE8E8;
+  --ink: #18120E;
+  --ink-2: #4A3F38;
+  --ink-3: #8C7D74;
+  --bg: #F6F3EF;
+  --surface: #FFFFFF;
+  --border: #E4DDD6;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --r: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:252px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
+.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
+.nav-section { padding:16px 0 0; }
+.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; user-select:none; }
+.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
+.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
+.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+
+.content { flex:1; overflow-y:auto; min-width:0; }
+.section { display:none; padding:40px 48px; }
+.section.active { display:block; }
+
+.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
+.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
+.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+
+.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
+.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
+
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
+.tag-tofu { background:#E0F4E8; color:#0B6130; }
+.tag-mofu { background:var(--blue-light); color:var(--blue); }
+.tag-bofu { background:var(--pink-light); color:var(--pink); }
+.tag-p1 { background:var(--pink-light); color:var(--pink); }
+.tag-p2 { background:#FFF3DC; color:#8B5800; }
+.tag-p3 { background:#F0EDE8; color:var(--ink-3); }
+.tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
+.tag-seo { background:var(--blue-light); color:var(--blue); }
+.tag-ux { background:var(--green-light); color:var(--green); }
+.tag-conv { background:var(--pink-light); color:var(--pink); }
+.tag-trust { background:#FFF3DC; color:#8B5800; }
+.tag-ymyl { background:var(--red-light); color:var(--red); }
+.tag-geo { background:#EDE8FF; color:#4B1DB8; border:1.5px solid #BDB0F5; }
+
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-total { background:#F0EDE8; font-weight:700; }
+.data-table tbody tr.row-highlight { background:#F0FFF6; }
+
+.divider { height:1px; background:var(--border); margin:32px 0; }
+
+.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
+.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:#EDE8FF; border:1px solid #C0B0F8; color:#3A1A90; }
+.callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.card-title { font-size:14px; font-weight:700; margin-bottom:8px; color:var(--ink); }
+
+/* OVERVIEW SPECIFIC */
+.overview-meta-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.meta-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 20px; }
+.meta-card-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:6px; }
+.meta-card-value { font-size:15px; font-weight:800; color:var(--ink); }
+.meta-card-sub { font-size:11.5px; color:var(--ink-3); margin-top:3px; }
+
+.scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.scope-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.scope-card-header { padding:10px 16px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; display:flex; align-items:center; gap:8px; }
+.scope-card-body { padding:12px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.7; }
+.scope-card-body li { list-style:none; padding:2px 0; }
+.scope-card-body li::before { content:"→ "; color:var(--ink-3); font-size:11px; }
+
+.persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.persona-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.persona-header { padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.persona-title { font-size:13px; font-weight:800; }
+.persona-body { padding:14px 18px; }
+.persona-step { display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
+.step-num { min-width:22px; height:22px; background:var(--ink); color:white; border-radius:50%; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.step-text { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+.persona-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:8px 12px; font-size:12px; color:#0B5020; font-weight:600; margin-top:6px; }
+
+.kw-cluster { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.kw-cluster-header { background:var(--ink); color:white; padding:10px 18px; font-size:12px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+.kw-cluster-body { padding:14px 18px; }
+.kw-item { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:13px; }
+.kw-item:last-child { border-bottom:none; }
+.kw-text { font-weight:500; color:var(--ink); }
+.kw-meta { display:flex; gap:8px; align-items:center; }
+.kw-vol { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-3); }
+.kw-intent { font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; }
+.kw-intent-info { background:#E0F4E8; color:#0B6130; }
+.kw-intent-trans { background:var(--pink-light); color:var(--pink); }
+.kw-intent-nav { background:var(--blue-light); color:var(--blue); }
+.kw-intent-comm { background:var(--amber-light); color:var(--amber); }
+
+.anatomy-wrap { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.anatomy-header-row { background:var(--ink); color:white; font-size:11.5px; font-weight:700; padding:10px 20px; font-family:'JetBrains Mono',monospace; }
+.anatomy-row { display:grid; grid-template-columns:32px 200px 1fr 100px; align-items:start; gap:14px; padding:12px 20px; border-bottom:1px solid var(--border); font-size:13px; }
+.anatomy-row:last-child { border-bottom:none; }
+.anatomy-row:hover { background:var(--bg); }
+.anatomy-order { width:28px; height:28px; border-radius:50%; background:var(--pink); color:white; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.anatomy-section-name { font-weight:700; font-size:13px; color:var(--ink); padding-top:4px; }
+.anatomy-section-desc { font-size:12.5px; color:var(--ink-2); line-height:1.55; padding-top:4px; }
+.anatomy-section-tag { padding-top:5px; }
+
+.geo-block { background:#F5F2FF; border:1.5px solid #C8BCFC; border-radius:var(--r); padding:16px 20px; margin-bottom:14px; }
+.geo-block-label { font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#4B1DB8; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.geo-block-q { font-size:13.5px; font-weight:700; color:var(--ink); margin-bottom:6px; font-style:italic; }
+.geo-block-a { font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.geo-block-a strong { color:var(--ink); }
+
+.cl-product { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+.cl-product-header { display:flex; align-items:center; gap:14px; padding:14px 20px; cursor:pointer; transition:background 0.12s; }
+.cl-product-header:hover { background:var(--bg); }
+.cl-product-icon { font-size:20px; flex-shrink:0; }
+.cl-product-meta { flex:1; }
+.cl-product-name { font-size:14px; font-weight:700; }
+.cl-product-sub { font-size:12px; color:var(--ink-3); margin-top:1px; }
+.cl-product-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+.cl-product-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
+.cl-product-toggle.open { transform:rotate(90deg); }
+.cl-product-body { display:none; border-top:1px solid var(--border); }
+.cl-product-body.open { display:block; }
+.cl-group { border-bottom:1px solid var(--border); padding:16px 20px; }
+.cl-group:last-child { border-bottom:none; }
+.cl-group-title { font-size:12px; font-weight:800; color:var(--ink-2); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px; }
+.cl-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.cl-item { display:flex; align-items:flex-start; gap:8px; }
+.cl-check { width:16px; height:16px; border:1.5px solid var(--border); border-radius:4px; flex-shrink:0; margin-top:2px; }
+.cl-item-text { font-size:12.5px; color:var(--ink-2); line-height:1.45; }
+.cl-note { background:var(--amber-light); border:1px solid #FFD0A0; border-radius:7px; padding:10px 14px; font-size:12px; color:#7A3A00; line-height:1.6; margin:16px 20px; }
+
+.funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
+.funnel-stage:last-child { border-right:none; }
+.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
+.funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
+.fs-tofu { border-top:3px solid var(--green); }
+.fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); }
+.fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); }
+.fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+
+/* INTERNAL LINK TREE */
+.link-tree { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.link-tree-header { background:var(--ink); color:white; padding:10px 18px; font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:600; }
+.link-node { padding:10px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; font-size:13px; }
+.link-node:last-child { border-bottom:none; }
+.link-node.level-0 { background:var(--bg); font-weight:800; }
+.link-node.level-1 { padding-left:38px; }
+.link-node-url { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--pink); }
+.link-node-desc { font-size:12px; color:var(--ink-3); margin-left:auto; }
+.link-arrow { color:var(--ink-3); font-size:10px; }
+/* ═══════════════════════════════════════
+   CALCULATOR — Scoped styles
+   ═══════════════════════════════════════ */
+.calc-wrap {
+  --pink-mid: #D4317F;
+  --pink-pale: #FDF3F8;
+  --r-sm: 8px;
+}
+.calc-wrap .calc-header {
+  background: var(--ink);
+  border-radius: var(--r);
+  padding: 24px 28px 22px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.calc-wrap .calc-header-deco {
+  position: absolute; right: -40px; top: -40px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(174,32,112,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.calc-wrap .calc-header-top { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.calc-wrap .calc-brand-pill {
+  background: var(--pink); color: white; font-weight:900; font-size:13px;
+  padding:3px 10px; border-radius:5px; letter-spacing:-0.3px;
+}
+.calc-wrap .calc-header-badge { font-size:11px; color:rgba(255,255,255,0.4); font-weight:600; letter-spacing:0.5px; text-transform:uppercase; }
+.calc-wrap .calc-header h2 { font-size:22px; font-weight:900; color:white; letter-spacing:-0.6px; line-height:1.2; margin-bottom:6px; }
+.calc-wrap .calc-header h2 span { color: #D4317F; }
+.calc-wrap .calc-header-sub { font-size:13px; color:rgba(255,255,255,0.5); max-width:520px; }
+
+.calc-disclaimer {
+  background: var(--amber-light); border:1.5px solid #FFD0A8;
+  border-radius: 8px; padding:12px 16px; font-size:12px; color:#7A3A00;
+  line-height:1.6; margin-bottom:20px; display:flex; gap:10px; align-items:flex-start;
+}
+.calc-disclaimer-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+
+.calc-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.calc-tab-bar { display:flex; background:var(--bg); border-bottom:1.5px solid var(--border); }
+.calc-tab-btn {
+  flex:1; padding:12px 14px; font-size:12.5px; font-weight:700; color:var(--ink-3);
+  background:none; border:none; cursor:pointer; transition:all 0.15s; position:relative;
+  font-family:'Be Vietnam Pro',sans-serif;
+}
+.calc-tab-btn:hover { color:var(--ink); background:rgba(0,0,0,0.02); }
+.calc-tab-btn.active { color:var(--pink); background:var(--surface); }
+.calc-tab-btn.active::after {
+  content:''; position:absolute; bottom:-1.5px; left:0; right:0;
+  height:2.5px; background:var(--pink);
+}
+
+.calc-form-body { padding:22px 26px; }
+.calc-form-row { margin-bottom:18px; }
+.calc-form-label { display:block; font-size:11.5px; font-weight:700; color:var(--ink-2); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:7px; }
+.calc-form-label-sub { font-size:11px; font-weight:400; color:var(--ink-3); text-transform:none; letter-spacing:0; margin-left:5px; }
+
+.calc-select-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.calc-select-option {
+  border:1.5px solid var(--border); border-radius:8px; padding:9px 12px;
+  cursor:pointer; transition:all 0.12s; background:var(--surface);
+}
+.calc-select-option:hover { border-color: #D4317F; background:#FDF3F8; }
+.calc-select-option.active { border-color:var(--pink); background:#FDF3F8; box-shadow:inset 0 0 0 1px var(--pink); }
+.calc-select-option .calc-opt-label { font-size:12.5px; font-weight:700; color:var(--ink); display:block; }
+.calc-select-option .calc-opt-sub { font-size:11px; color:var(--ink-3); margin-top:1px; }
+.calc-select-option.active .calc-opt-label { color:var(--pink); }
+
+.calc-value-display {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--pink-light); border:1.5px solid #D4317F;
+  border-radius:6px; padding:4px 11px; margin-bottom:8px;
+}
+.calc-value-display .cv { font-size:16px; font-weight:900; color:var(--pink); font-family:'JetBrains Mono',monospace; letter-spacing:-0.5px; }
+.calc-value-display .cu { font-size:11px; font-weight:600; color: #D4317F; }
+
+.calc-slider {
+  -webkit-appearance:none; appearance:none; width:100%; height:6px;
+  border-radius:3px; outline:none; cursor:pointer; margin-bottom:8px;
+  background: linear-gradient(to right, var(--pink) 0%, var(--pink) var(--pct, 30%), var(--border) var(--pct, 30%), var(--border) 100%);
+}
+.calc-slider::-webkit-slider-thumb {
+  -webkit-appearance:none; appearance:none; width:20px; height:20px;
+  border-radius:50%; background:var(--pink); border:3px solid white;
+  box-shadow:0 2px 8px rgba(174,32,112,0.35); cursor:pointer;
+}
+.calc-slider-labels { display:flex; justify-content:space-between; font-size:11px; color:var(--ink-3); font-family:'JetBrains Mono',monospace; }
+.calc-input-hint { font-size:11.5px; color:var(--ink-3); margin-top:5px; }
+
+.calc-support-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.calc-support-opt {
+  border:1.5px solid var(--border); border-radius:8px; padding:9px 8px 7px;
+  cursor:pointer; transition:all 0.12s; text-align:center; background:var(--surface);
+}
+.calc-support-opt:hover { border-color:var(--green); background:var(--green-light); }
+.calc-support-opt.active { border-color:var(--green); background:var(--green-light); box-shadow:inset 0 0 0 1px var(--green); }
+.calc-support-opt .cs-pct { font-size:17px; font-weight:900; color:var(--green); font-family:'JetBrains Mono',monospace; display:block; }
+.calc-support-opt .cs-lbl { font-size:10px; color:var(--ink-3); line-height:1.3; margin-top:2px; }
+.calc-support-opt.active .cs-lbl { color:var(--green); font-weight:600; }
+
+.calc-input-num-wrap { display:flex; align-items:center; border:1.5px solid var(--border); border-radius:8px; overflow:hidden; transition:border-color 0.12s; }
+.calc-input-num-wrap:focus-within { border-color:var(--pink); }
+.calc-input-num { flex:1; padding:10px 13px; font-size:15px; font-weight:700; font-family:'JetBrains Mono',monospace; border:none; outline:none; color:var(--ink); background:none; }
+.calc-input-unit { padding:0 12px; font-size:12px; font-weight:600; color:var(--ink-3); background:var(--bg); border-left:1.5px solid var(--border); height:100%; display:flex; align-items:center; }
+
+/* Result */
+.calc-result-section {
+  background:linear-gradient(135deg, #1C1510 0%, #2D1D15 100%);
+  border-radius:var(--r); padding:26px; margin-bottom:20px; position:relative; overflow:hidden;
+}
+.calc-result-deco {
+  position:absolute; right:-60px; top:-60px; width:220px; height:220px;
+  border-radius:50%; background:radial-gradient(circle, rgba(174,32,112,0.2) 0%, transparent 65%);
+  pointer-events:none;
+}
+.calc-result-deco2 {
+  position:absolute; left:-30px; bottom:-30px; width:160px; height:160px;
+  border-radius:50%; background:radial-gradient(circle, rgba(0,165,95,0.15) 0%, transparent 65%);
+  pointer-events:none;
+}
+.calc-result-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:14px; position:relative; }
+.calc-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; position:relative; margin-bottom:16px; }
+.calc-result-item-label { font-size:10.5px; color:rgba(255,255,255,0.45); font-weight:600; margin-bottom:3px; text-transform:uppercase; letter-spacing:0.5px; }
+.calc-result-item-value { font-size:24px; font-weight:900; letter-spacing:-1px; line-height:1; font-family:'JetBrains Mono',monospace; }
+.calc-result-item-unit { font-size:11px; font-weight:500; color:rgba(255,255,255,0.5); margin-left:2px; }
+.cri-main { color:#FFD6EC; }
+.cri-accent { color:#7DFFBE; }
+.cri-gold { color:#FFD55A; }
+.cri-neutral { color:rgba(255,255,255,0.8); }
+.calc-result-divider { height:1px; background:rgba(255,255,255,0.1); margin:14px 0; position:relative; }
+.calc-breakdown { display:flex; flex-direction:column; gap:7px; position:relative; }
+.calc-breakdown-row { display:flex; justify-content:space-between; align-items:center; font-size:12px; }
+.calc-breakdown-key { color:rgba(255,255,255,0.5); }
+.calc-breakdown-val { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; color:rgba(255,255,255,0.85); }
+.calc-breakdown-val.cbv-pos { color:#7DFFBE; }
+.calc-breakdown-val.cbv-hi { color:#FFD6EC; }
+
+/* Formula */
+.calc-formula-box { background:var(--blue-light); border:1.5px solid #C0D0FF; border-radius:8px; padding:14px 18px; margin-bottom:20px; }
+.calc-formula-title { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; color:var(--blue); margin-bottom:10px; }
+.calc-formula-line { display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-2); margin-bottom:5px; flex-wrap:wrap; }
+.calc-formula-line:last-child { margin-bottom:0; }
+.calc-formula-eq { font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:600; background:white; border:1px solid #C0D0FF; border-radius:4px; padding:2px 7px; color:var(--blue); }
+
+/* Chart */
+.calc-chart-section { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px 22px; margin-bottom:20px; }
+.calc-chart-title { font-size:13px; font-weight:800; color:var(--ink); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.calc-chart-title span { color:var(--pink); }
+.calc-bar-chart { display:flex; flex-direction:column; gap:9px; }
+.calc-bar-row { display:flex; align-items:center; gap:10px; }
+.calc-bar-label { width:112px; font-size:11px; color:var(--ink-2); font-weight:600; flex-shrink:0; text-align:right; }
+.calc-bar-track { flex:1; height:26px; background:var(--bg); border-radius:4px; overflow:hidden; }
+.calc-bar-fill { height:100%; border-radius:4px; display:flex; align-items:center; padding-left:8px; min-width:60px; transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1); background:linear-gradient(90deg,#1848B8 0%,#2B5FE0 100%); }
+.calc-bar-val { font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:700; color:white; white-space:nowrap; }
+.calc-bar-val-out { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--ink-2); flex-shrink:0; }
+
+/* Info + CTA */
+.calc-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.calc-info-card { background:var(--surface); border:1.5px solid var(--border); border-radius:8px; padding:13px 15px; }
+.calc-info-card-icon { font-size:17px; margin-bottom:5px; }
+.calc-info-card-label { font-size:10.5px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:3px; }
+.calc-info-card-value { font-size:13.5px; font-weight:800; color:var(--ink); line-height:1.3; }
+.calc-info-card-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
+
+.calc-cta-bar {
+  background:linear-gradient(135deg, var(--pink) 0%, #D4317F 100%);
+  border-radius:var(--r); padding:18px 22px; display:flex; align-items:center;
+  justify-content:space-between; gap:14px; margin-bottom:16px;
+}
+.calc-cta-title { font-size:14.5px; font-weight:800; color:white; margin-bottom:2px; }
+.calc-cta-sub { font-size:12px; color:rgba(255,255,255,0.7); }
+.calc-cta-btn {
+  background:white; color:var(--pink); font-family:'Be Vietnam Pro',sans-serif;
+  font-size:13px; font-weight:800; padding:10px 20px; border-radius:7px; border:none;
+  cursor:pointer; white-space:nowrap; transition:transform 0.1s, box-shadow 0.1s;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+.calc-cta-btn:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,0.2); }
+.calc-source-note { font-size:11px; color:var(--ink-3); line-height:1.6; text-align:center; }
+.calc-source-note a { color:var(--pink); text-decoration:none; }
+.calc-tab-panel { display:none; }
+.calc-tab-panel.active { display:block; }
+
+@keyframes calcFadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.calc-result-section { animation:calcFadeUp 0.3s ease both; }
+.calc-chart-section { animation:calcFadeUp 0.3s ease 0.08s both; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-sub">BHXH Tự Nguyện<br>Web Growth Document v1.0</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Tổng quan</div>
+    <div class="nav-item active" onclick="go('overview')">
+      <span class="nav-icon">📋</span> Project Overview
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Nghiên cứu thị trường</div>
+    <div class="nav-item" onclick="go('market')">
+      <span class="nav-icon">📊</span> Keyword & Market Research
+    </div>
+    <div class="nav-item" onclick="go('trend')">
+      <span class="nav-icon">📈</span> Trendline & Behavior
+    </div>
+    <div class="nav-item" onclick="go('geo')">
+      <span class="nav-icon">🤖</span> GEO / AEO Intelligence
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Kiến trúc nội dung</div>
+    <div class="nav-item" onclick="go('content-strategy')">
+      <span class="nav-icon">🗺</span> Content Strategy
+    </div>
+    <div class="nav-item" onclick="go('structure')">
+      <span class="nav-icon">🏗</span> Content Structure
+    </div>
+    <div class="nav-item" onclick="go('direction')">
+      <span class="nav-icon">✍️</span> Content Direction
+    </div>
+    <div class="nav-item" onclick="go('interlinking')">
+      <span class="nav-icon">🔗</span> Internal Linking
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Công cụ</div>
+    <div class="nav-item" onclick="go('calculator')">
+      <span class="nav-icon">🧮</span> Calculator Lương Hưu
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Triển khai</div>
+    <div class="nav-item" onclick="go('checklist')">
+      <span class="nav-icon">✅</span> Publish Checklist
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="version-tag">momo.vn/bao-hiem-xa-hoi · 2025</div>
+  </div>
+</nav>
+
+<main class="content">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 0. PROJECT OVERVIEW                       -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section active" id="s-overview">
+  <div class="page-header">
+    <div class="page-eyebrow">Project Overview — momo.vn/bao-hiem-xa-hoi</div>
+    <div class="page-title">BHXH Tự Nguyện trên MoMo</div>
+    <div class="page-desc">Tài liệu định hướng phát triển Web cho tính năng đóng Bảo hiểm Xã hội Tự nguyện trực tiếp qua ứng dụng MoMo — nhằm tăng trưởng Organic Traffic và tối ưu hóa Click-to-App conversion.</div>
+  </div>
+
+  <!-- Meta -->
+  <div class="overview-meta-grid">
+    <div class="meta-card" style="border-top:3px solid var(--pink);">
+      <div class="meta-card-label">PIC</div>
+      <div class="meta-card-value">Hien.ho</div>
+      <div class="meta-card-sub">SEO & GEO Lead — MoMo</div>
+    </div>
+    <div class="meta-card" style="border-top:3px solid var(--blue);">
+      <div class="meta-card-label">URL Trang</div>
+      <div class="meta-card-value"><code class="url" style="font-size:13px;">/bao-hiem-xa-hoi</code></div>
+      <div class="meta-card-sub">Trang duy nhất trong scope</div>
+    </div>
+    <div class="meta-card" style="border-top:3px solid var(--green);">
+      <div class="meta-card-label">Phiên bản tài liệu</div>
+      <div class="meta-card-value">v1.0 — Tháng 3/2026</div>
+      <div class="meta-card-sub">Cập nhật theo Luật BHXH 2024</div>
+    </div>
+  </div>
+
+  <!-- Project brief -->
+  <h2 class="sh">🎯 Mô tả dự án</h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">💼 Context — MoMo triển khai BHXH Tự nguyện</div>
+    MoMo chính thức cho phép người dùng <strong>đóng Bảo hiểm Xã hội Tự nguyện trực tiếp qua ứng dụng</strong> — không cần đến cơ quan BHXH, không cần giấy tờ phức tạp. Đây là bước mở rộng danh mục Financial Assistant của MoMo vào mảng an sinh xã hội, phục vụ tệp người lao động tự do, freelancer, người không có HĐLĐ dài hạn — nhóm chiếm hàng chục triệu người tại Việt Nam và hiện bị underserved bởi hệ thống BHXH truyền thống.
+    <br><br>
+    Từ ngày <strong>01/7/2025</strong>, Luật BHXH 2024 mở rộng đáng kể quyền lợi BHXH tự nguyện (thêm thai sản, TNLĐ) và điều chỉnh cách tính mức đóng (22% thu nhập chọn đóng). Đây là <strong>window cơ hội lớn</strong> để MoMo capture search demand tăng đột biến xung quanh các thay đổi pháp lý này.
+  </div>
+
+  <div class="scope-grid">
+    <div class="scope-card">
+      <div class="scope-card-header" style="background:var(--green-light);color:#006B30;">
+        <span>✅</span> Trong scope tài liệu này
+      </div>
+      <div class="scope-card-body">
+        <li>Trang chính <code class="url">/bao-hiem-xa-hoi</code> — toàn bộ content</li>
+        <li>Keyword research & intent mapping</li>
+        <li>GEO/AEO content structure</li>
+        <li>Page anatomy & content direction</li>
+        <li>Internal linking strategy</li>
+        <li>Publish checklist đầy đủ</li>
+      </div>
+    </div>
+    <div class="scope-card">
+      <div class="scope-card-header" style="background:var(--red-light);color:#8B1A1A;">
+        <span>❌</span> Ngoài scope tài liệu này
+      </div>
+      <div class="scope-card-body">
+        <li>Sub-pages hoặc trang bổ trợ khác</li>
+        <li>Roadmap triển khai theo phase</li>
+        <li>App UX flow (thuộc Product team)</li>
+        <li>Paid campaign / remarketing</li>
+        <li>Backend tích hợp BHXH cổng quốc gia</li>
+        <li>Nội dung BHXH bắt buộc</li>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🎯 Mục tiêu tăng trưởng</h2>
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-title">Organic Traffic</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">
+        Rank Top 5 cho head terms "đóng BHXH tự nguyện online" và "bảo hiểm xã hội tự nguyện momo". Capture long-tail intent từ nhóm freelancer, người lao động tự do đang tìm hiểu BHXH.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">Click-to-App Conversion</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">
+        Tối ưu Web-to-App funnel thông qua deep link contextual + Smart App Banner. Mục tiêu: user tìm thông tin trên web → mở app MoMo → hoàn thành đăng ký đóng BHXH tự nguyện.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--pink);">
+      <div class="card-title">GEO / AI Visibility</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">
+        Trở thành nguồn được Google AI Overviews và ChatGPT cite khi user hỏi về BHXH tự nguyện online, mức đóng 2025–2026, quyền lợi, cách đăng ký.
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">👤 Target Audience — Ai là người dùng mục tiêu?</h2>
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-header">
+        <span style="font-size:20px;">💻</span>
+        <div class="persona-title">Freelancer / Lao động tự do (Core)</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Không có HĐ lao động dài hạn, không được công ty đóng BHXH bắt buộc</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Lo lắng về lương hưu khi về già, muốn tham gia BHXH nhưng không biết cách</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Không có thời gian đến cơ quan BHXH — cần giải pháp online, nhanh</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: đăng ký + đóng BHXH tự nguyện ngay trong app</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header">
+        <span style="font-size:20px;">🛒</span>
+        <div class="persona-title">Tiểu thương / Hộ kinh doanh (High-volume)</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Bán hàng online, buôn bán nhỏ — không thuộc diện BHXH bắt buộc</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Biết đến BHXH tự nguyện nhưng chưa rõ cách đăng ký, mức đóng bao nhiêu</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Dùng MoMo hàng ngày để thanh toán — trust MoMo cao</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: familiar UX + thanh toán tiền BHXH 1-chạm từ ví</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header">
+        <span style="font-size:20px;">👩‍🍼</span>
+        <div class="persona-title">Phụ nữ nghỉ thai sản / Tạm hoãn HĐ (Mới từ 01/7/2025)</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Đang tạm hoãn HĐLĐ, muốn duy trì liên tục thời gian đóng BHXH</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Quan tâm đến chế độ thai sản của BHXH tự nguyện (quyền lợi mới 2025)</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: hướng dẫn rõ, đóng tiếp BHXH không bị gián đoạn</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header">
+        <span style="font-size:20px;">🔄</span>
+        <div class="persona-title">Người muốn "cộng nối" thời gian đóng (Retention)</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Đã từng đóng BHXH bắt buộc, nghỉ việc, muốn đóng tiếp tự nguyện để không mất thâm niên</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Cần hiểu rõ điều kiện cộng nối và mức đóng tối thiểu</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: content MOFU + CTA đóng tiếp ngay</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 1. KEYWORD & MARKET RESEARCH              -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-market">
+  <div class="page-header">
+    <div class="page-eyebrow">Keyword & Market Research — momo.vn/bao-hiem-xa-hoi</div>
+    <div class="page-title">Thị trường từ khóa BHXH Tự nguyện</div>
+    <div class="page-desc">Phân tích addressable keyword market, search intent clustering, và cơ hội cạnh tranh của MoMo trong vertical BHXH tự nguyện — lĩnh vực có <strong>volume lớn, intent nghiên cứu kỹ, YMYL cao</strong>.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">~30K</div>
+      <div class="stat-lbl">SV/tháng — Head term</div>
+      <div class="stat-sub">"tra cứu bhxh theo cccd"</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">~120K</div>
+      <div class="stat-lbl">Total addressable SV</div>
+      <div class="stat-sub">Toàn bộ keyword cluster BHXH TN</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">330K</div>
+      <div class="stat-lbl">Mức đóng tối thiểu/tháng</div>
+      <div class="stat-sub">22% × 1.500.000đ (2026)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">TB</div>
+      <div class="stat-lbl">Mức độ cạnh tranh</div>
+      <div class="stat-sub">TVPL, BHXH.gov.vn dẫn đầu</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">🎯 Strategic Positioning — Tại sao MoMo có lợi thế</div>
+    Đối thủ top SERP hiện tại (thuvienphapluat.vn, baohiemxahoi.gov.vn, các blog pháp luật) <strong>chỉ cung cấp thông tin, không có CTA đóng tiền ngay</strong>. User phải tự tìm cách nộp tại cơ quan BHXH hoặc qua ngân hàng. MoMo là điểm kết thúc duy nhất có thể giải quyết toàn bộ hành trình: <em>tìm hiểu → đăng ký → thanh toán → lưu lịch sử</em> — trong một app. Đây là Product-Led moat không đối thủ thông tin nào có thể replicate.
+  </div>
+
+  <h2 class="sh">🔑 Keyword Clusters — Phân tầng theo Intent</h2>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>🔍 Cluster 1 — TOFU: Awareness & Định nghĩa</span>
+      <span class="tag" style="background:rgba(255,255,255,0.15);color:white;">~45K SV</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">bhxh tự nguyện là gì</span><span class="kw-meta"><span class="kw-vol">8.000–12.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">bảo hiểm xã hội tự nguyện có những chế độ nào</span><span class="kw-meta"><span class="kw-vol">4.000–6.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">ai được tham gia bhxh tự nguyện</span><span class="kw-meta"><span class="kw-vol">2.000–4.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">bhxh tự nguyện có được hưởng thai sản không 2025</span><span class="kw-meta"><span class="kw-vol">3.000–5.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">freelancer có được đóng bhxh không</span><span class="kw-meta"><span class="kw-vol">1.500–2.500/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">bhxh tự nguyện khác bhxh bắt buộc như thế nào</span><span class="kw-meta"><span class="kw-vol">2.000–3.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+    </div>
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>💰 Cluster 2 — MOFU: Mức đóng & Quyền lợi (Highest Volume)</span>
+      <span class="tag" style="background:rgba(255,255,255,0.15);color:white;">~50K SV</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">mức đóng bhxh tự nguyện 2025 2026</span><span class="kw-meta"><span class="kw-vol">10.000–18.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">bhxh tự nguyện bao nhiêu tiền một tháng</span><span class="kw-meta"><span class="kw-vol">5.000–8.000/tháng</span><span class="kw-intent kw-intent-comm">Commercial</span></span></div>
+      <div class="kw-item"><span class="kw-text">tính lương hưu bhxh tự nguyện</span><span class="kw-meta"><span class="kw-vol">4.000–6.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">hỗ trợ đóng bhxh tự nguyện nhà nước bao nhiêu</span><span class="kw-meta"><span class="kw-vol">2.000–4.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">rút bhxh 1 lần điều kiện 2025 2026</span><span class="kw-meta"><span class="kw-vol">8.000–12.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+      <div class="kw-item"><span class="kw-text">cộng nối bhxh bắt buộc và tự nguyện</span><span class="kw-meta"><span class="kw-vol">1.500–3.000/tháng</span><span class="kw-intent kw-intent-info">Informational</span></span></div>
+    </div>
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>⚡ Cluster 3 — BOFU: Transactional (Đăng ký & Tra cứu)</span>
+      <span class="tag" style="background:rgba(255,255,255,0.15);color:white;">~25K SV</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">tra cứu bhxh theo cccd</span><span class="kw-meta"><span class="kw-vol">8.000–12.000/tháng</span><span class="kw-intent kw-intent-trans">Transactional</span></span></div>
+      <div class="kw-item"><span class="kw-text">đóng bhxh tự nguyện online ở đâu</span><span class="kw-meta"><span class="kw-vol">3.000–5.000/tháng</span><span class="kw-intent kw-intent-trans">Transactional</span></span></div>
+      <div class="kw-item"><span class="kw-text">đăng ký bhxh tự nguyện lần đầu</span><span class="kw-meta"><span class="kw-vol">2.000–4.000/tháng</span><span class="kw-intent kw-intent-trans">Transactional</span></span></div>
+      <div class="kw-item"><span class="kw-text">đóng bhxh tự nguyện trên momo</span><span class="kw-meta"><span class="kw-vol">1.000–2.500/tháng</span><span class="kw-intent kw-intent-nav">Branded</span></span></div>
+      <div class="kw-item"><span class="kw-text">kiểm tra quá trình đóng bhxh</span><span class="kw-meta"><span class="kw-vol">2.000–3.000/tháng</span><span class="kw-intent kw-intent-trans">Transactional</span></span></div>
+      <div class="kw-item"><span class="kw-text">đóng bhxh tự nguyện hàng tháng qua ứng dụng</span><span class="kw-meta"><span class="kw-vol">800–1.500/tháng</span><span class="kw-intent kw-intent-trans">Transactional</span></span></div>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Ghi chú số liệu SV</div>
+    Volume ước tính từ Google Trends + Keyword Planner tham chiếu (không có quyền truy cập real-time). Cần verify lại bằng GSC impression data của momo.vn và tool Ahrefs/Semrush trước khi phân bổ content priority. Ưu tiên làm Cluster 2 (MOFU — volume cao nhất) song song với Cluster 3 (BOFU — conversion intent rõ).
+  </div>
+
+  <h2 class="sh">🏆 Competitive Landscape — SERP hiện tại</h2>
+  <table class="data-table">
+    <thead><tr><th>Domain</th><th>Chiến lược</th><th>Điểm yếu → Cơ hội MoMo</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:700">thuvienphapluat.vn</td><td>Legal Q&A, cập nhật luật mới, DA rất cao</td><td>Không có CTA đóng tiền — user phải rời đi tìm nơi nộp. MoMo có thể capture click bằng trang chuyển đổi cao hơn.</td></tr>
+      <tr><td style="font-weight:700">baohiemxahoi.gov.vn</td><td>Official source, E-E-A-T tuyệt đối</td><td>UX cũ, không mobile-optimized, không tích hợp thanh toán. MoMo vượt trội về UX và convenience.</td></tr>
+      <tr><td style="font-weight:700">luatvietnam.vn / ebh.vn</td><td>Content blog pháp luật, update nhanh</td><td>Không có payment integration. MoMo có thể rank cạnh bằng content chất lượng + có CTA hành động ngay.</td></tr>
+      <tr class="row-highlight"><td style="font-weight:700">momo.vn/bao-hiem-xa-hoi</td><td>Trang sản phẩm hiện tại — chưa tối ưu content</td><td><strong>Gap cần lấp:</strong> YMYL content đủ chiều sâu, structured data FAQ/HowTo, internal linking, GEO-ready answers.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 2. TRENDLINE & BEHAVIOR                   -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-trend">
+  <div class="page-header">
+    <div class="page-eyebrow">Trendline & Search Behavior</div>
+    <div class="page-title">Xu hướng tìm kiếm & Hành vi người dùng</div>
+    <div class="page-desc">Các catalyst tăng search demand, seasonality, và behavior shift quan trọng cần cân nhắc khi lên content plan.</div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">📈 Catalyst lớn nhất — Luật BHXH 2024 (hiệu lực 01/7/2025)</div>
+    Từ 01/7/2025, Luật BHXH 2024 mở rộng BHXH tự nguyện thêm <strong>2 chế độ mới: thai sản và tai nạn lao động</strong> — trước đây chỉ có hưu trí và tử tuất. Đây là thay đổi lớn nhất trong hơn 10 năm, tạo làn sóng tìm kiếm từ nhóm phụ nữ lao động tự do, freelancer. Kết hợp với Nghị định 159/2025/NĐ-CP tăng mức hỗ trợ từ ngân sách (lên 50% cho hộ nghèo), thị trường tiếp cận BHXH tự nguyện đang mở rộng đáng kể. MoMo cần publish và index trước khi search demand đạt đỉnh vào Q3/2025.
+  </div>
+
+  <h2 class="sh">📅 Seasonality Map — Khi nào search spike</h2>
+  <table class="data-table">
+    <thead><tr><th>Thời điểm</th><th>Trigger</th><th>Search spike</th><th>Content angle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Tháng 1–3 (đầu năm)</strong></td><td>Người lao động tự kiểm tra quyền lợi sau năm mới; quyết định tham gia mới</td><td>+25–35%</td><td>"Năm 2026 đóng BHXH tự nguyện bao nhiêu?", mức đóng mới</td></tr>
+      <tr><td><strong>Tháng 6–7/2025</strong></td><td>Luật BHXH 2024 có hiệu lực — truyền thông tràn lan, search spike lớn</td><td>+60–80% (event-driven)</td><td>"Thai sản BHXH tự nguyện được hưởng gì?", "Quyền lợi mới 2025"</td></tr>
+      <tr class="row-highlight"><td><strong>Hàng tháng (steady)</strong></td><td>Đến hạn đóng BHXH tháng; reminder tự động từ cơ quan BHXH</td><td>Baseline</td><td>CTA "Đóng BHXH tháng này" — retention flow</td></tr>
+      <tr><td><strong>Tháng 9–11</strong></td><td>Người lao động kiểm tra để rút BHXH một lần cuối năm</td><td>+20–30%</td><td>"Điều kiện rút BHXH 1 lần 2025"</td></tr>
+      <tr><td><strong>Gần tuổi nghỉ hưu</strong></td><td>Người 50+ tính toán thâm niên còn thiếu, muốn đóng bù</td><td>Long-tail steady</td><td>"Còn thiếu bao nhiêu năm đóng BHXH để được hưởng lương hưu?"</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">🔄 Key Behavior Shifts — 3 xu hướng quan trọng</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">📱 Mobile + App-first</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">
+        User tìm kiếm trên mobile, kỳ vọng thực hiện ngay trên điện thoại. "Đóng BHXH online" đang thay thế "đến cơ quan BHXH". MoMo nằm đúng trend này — cần bắt đúng intent bằng Web page rồi hand-off sang App seamlessly.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">👩‍💻 Freelancer Economy tăng mạnh</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">
+        Làn sóng gig economy, remote work, content creator. Nhóm này chủ động tìm hiểu BHXH tự nguyện hơn thế hệ trước. Search query dài hơn, cụ thể hơn: "freelancer đóng bhxh tự nguyện như thế nào", "content creator có nên tham gia bhxh".
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🤖 AI Search tăng tốc</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">
+        User đang hỏi ChatGPT / Google AI Mode về BHXH ngày càng nhiều. Content cần format Answer-first, có số liệu cụ thể, cite nguồn luật rõ ràng để AI có thể extract và attribute cho MoMo — tạo branded mentions gián tiếp.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 3. GEO / AEO INTELLIGENCE                 -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-geo">
+  <div class="page-header">
+    <div class="page-eyebrow">GEO / AEO Intelligence</div>
+    <div class="page-title">GEO & AEO cho BHXH Tự nguyện</div>
+    <div class="page-desc">Structured answers và content format để được Google AI Overviews, ChatGPT, và các AI search engine extract và cite khi user hỏi về đóng BHXH tự nguyện.</div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🤖 Tại sao BHXH tự nguyện rất phù hợp cho AI Overviews</div>
+    Vertical này có đặc điểm lý tưởng cho AI Overviews: (1) câu hỏi có câu trả lời xác định từ luật, (2) số liệu cụ thể (22%, 330.000đ/tháng, 50% hỗ trợ), (3) quy trình có bước rõ ràng, (4) user cần thông tin chính xác cao (YMYL). Google AI ưu tiên extract từ các trang cite nguồn pháp lý chính thống và có structured markup. MoMo cần trở thành nguồn được cite khi user hỏi bất kỳ câu nào liên quan BHXH tự nguyện online.
+  </div>
+
+  <h2 class="sh">🤖 Top AEO Queries — Câu hỏi AI thường được hỏi nhất</h2>
+
+  <div class="geo-block">
+    <div class="geo-block-label">📖 AEO Query 1 — Definitional (Volume cao nhất)</div>
+    <div class="geo-block-q">"BHXH tự nguyện là gì? Ai được tham gia?"</div>
+    <div class="geo-block-a">
+      <strong>AI-ready Answer cần có trên page:</strong> BHXH tự nguyện (Bảo hiểm xã hội tự nguyện) là loại hình bảo hiểm xã hội do Nhà nước tổ chức, dành cho người lao động <strong>không thuộc diện BHXH bắt buộc</strong>. Người tham gia tự chọn mức đóng và phương thức đóng phù hợp với thu nhập, được Nhà nước hỗ trợ một phần tiền đóng. Theo Điều 2 Luật BHXH 2024, đối tượng tham gia gồm: công dân Việt Nam từ đủ 15 tuổi trở lên không thuộc diện BHXH bắt buộc và không đang hưởng lương hưu/trợ cấp BHXH. Từ 01/7/2025, bổ sung thêm nhóm người đang tạm hoãn thực hiện HĐLĐ.
+    </div>
+  </div>
+
+  <div class="geo-block">
+    <div class="geo-block-label">💰 AEO Query 2 — Pricing (Search volume lớn nhất)</div>
+    <div class="geo-block-q">"Đóng BHXH tự nguyện bao nhiêu tiền một tháng năm 2026?"</div>
+    <div class="geo-block-a">
+      <strong>AI-ready Answer:</strong> Theo Điều 36 Luật BHXH 2024, mức đóng BHXH tự nguyện = <strong>22% × mức thu nhập tháng tự chọn</strong>. Trong đó:<br>
+      • Mức thu nhập tối thiểu: 1.500.000đ/tháng (chuẩn hộ nghèo nông thôn năm 2026) → <strong>mức đóng tối thiểu: 330.000đ/tháng</strong><br>
+      • Mức thu nhập tối đa: 20 lần mức tham chiếu → ~46.800.000đ/tháng<br>
+      • Nhà nước hỗ trợ thêm: 50% (hộ nghèo), 40% (hộ cận nghèo), 20% (các đối tượng khác theo NĐ 159/2025) — hỗ trợ tối đa 10 năm<br>
+      Người không thuộc diện hỗ trợ tự đóng 330.000đ/tháng trở lên tùy mức thu nhập chọn.
+    </div>
+  </div>
+
+  <div class="geo-block">
+    <div class="geo-block-label">🎁 AEO Query 3 — Benefits (Mới từ 2025, search tăng mạnh)</div>
+    <div class="geo-block-q">"BHXH tự nguyện 2025 có những quyền lợi gì mới?"</div>
+    <div class="geo-block-a">
+      <strong>AI-ready Answer:</strong> Từ 01/7/2025, Luật BHXH 2024 bổ sung <strong>2 chế độ mới</strong> cho BHXH tự nguyện (trước đây chỉ có hưu trí và tử tuất):<br>
+      1. <strong>Trợ cấp thai sản</strong> — người tham gia BHXH tự nguyện có con được hưởng trợ cấp một lần khi sinh con (áp dụng từ 01/7/2025)<br>
+      2. <strong>Bảo hiểm tai nạn lao động</strong> — bảo vệ trong trường hợp tai nạn lao động, bệnh nghề nghiệp<br>
+      Tổng cộng từ 2025: BHXH tự nguyện có <strong>4 chế độ</strong>: hưu trí · tử tuất · thai sản · tai nạn lao động.
+    </div>
+  </div>
+
+  <div class="geo-block">
+    <div class="geo-block-label">📱 AEO Query 4 — Process (High-value for MoMo)</div>
+    <div class="geo-block-q">"Làm thế nào để đóng BHXH tự nguyện online? Đóng qua MoMo được không?"</div>
+    <div class="geo-block-a">
+      <strong>AI-ready Answer:</strong> Có thể đóng BHXH tự nguyện online qua ứng dụng MoMo. Quy trình gồm 5 bước: (1) Mở app MoMo → Tài chính → BHXH tự nguyện; (2) Nhập CCCD để tra cứu thông tin đóng BHXH; (3) Chọn mức thu nhập và phương thức đóng (hàng tháng / 3 tháng / 6 tháng / 12 tháng / một lần); (4) Xác nhận và thanh toán từ ví MoMo; (5) Nhận xác nhận giao dịch, lịch sử đóng cập nhật vào hệ thống BHXH Việt Nam. Phương thức đóng online đã được Cổng thông tin điện tử BHXH Việt Nam xác nhận hợp lệ.
+    </div>
+  </div>
+
+  <div class="geo-block">
+    <div class="geo-block-label">⚠️ AEO Query 5 — High-volume concern</div>
+    <div class="geo-block-q">"Rút BHXH một lần điều kiện 2025 2026 — có được không?"</div>
+    <div class="geo-block-a">
+      <strong>AI-ready Answer (tone trung lập, không khuyến khích rút):</strong> Theo Luật BHXH 2024, điều kiện hưởng BHXH một lần: người không đủ điều kiện hưởng lương hưu và đã đủ tuổi nghỉ hưu, hoặc ra nước ngoài định cư, hoặc mắc bệnh hiểm nghèo theo quy định. <strong>Lưu ý:</strong> Rút BHXH một lần đồng nghĩa với mất toàn bộ thâm niên tích lũy. Thay vì rút, người lao động có thể <em>đóng tiếp BHXH tự nguyện</em> để duy trì quyền lợi hưu trí — đây là lựa chọn MoMo hỗ trợ.
+    </div>
+  </div>
+
+  <h2 class="sh">📐 GEO Requirements — Để được AI cite</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">✅ Structural Requirements</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);line-height:1.9;padding-left:16px;">
+        <li>Direct Answer Block đầu mỗi section chính (1–2 câu trả lời thẳng)</li>
+        <li>Số liệu pháp lý cite inline: (Điều X Luật BHXH 2024), (NĐ 159/2025)</li>
+        <li>Bảng mức đóng là HTML table thật — không dùng ảnh</li>
+        <li>FAQPage Schema markup cho 10+ câu hỏi</li>
+        <li>HowTo Schema cho quy trình đóng 5 bước</li>
+        <li>Ngày cập nhật rõ ràng trên page (freshness)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🏆 E-E-A-T Signals</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);line-height:1.9;padding-left:16px;">
+        <li>Link out đến văn bản luật gốc (baohiemxahoi.gov.vn, chinhphu.vn)</li>
+        <li>Cite đúng tên luật: Luật BHXH 2024, NĐ 159/2025/NĐ-CP</li>
+        <li>Số lượng giao dịch BHXH qua MoMo thực tế (nếu có data)</li>
+        <li>Tên reviewer / expert check cho nội dung YMYL</li>
+        <li>Không có disclaimer mơ hồ — cam kết tính chính xác</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 3.5 CONTENT STRATEGY                      -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-content-strategy">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Strategy — Dựa trên tài liệu chính thức BHXH Việt Nam</div>
+    <div class="page-title">Chiến lược Content từ Tờ gấp BHXH Tự nguyện</div>
+    <div class="page-desc">Mapping từng chính sách trong tài liệu chính thức BHXH Việt Nam → Content angle phù hợp → SEO/GEO target tương ứng. Đây là foundation để viết content đúng thực tế, không suy diễn.</div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">📄 Nguồn tài liệu gốc</div>
+    Toàn bộ chiến lược content dưới đây dựa trên <strong>Tờ gấp "Những điều cần biết về BHXH Tự nguyện" — BHXH Việt Nam</strong>, phiên bản cập nhật theo Luật BHXH số 41/2024/QH15 (hiệu lực 01/7/2025) và NĐ 159/2025/NĐ-CP. Đây là nguồn chính thống duy nhất được phép cite làm E-E-A-T signal.
+  </div>
+
+  <h2 class="sh">🗺 Policy → Content Mapping</h2>
+  <table class="data-table">
+    <thead>
+      <tr><th>Chính sách / Quy định</th><th>Số liệu chính xác</th><th>Content Angle</th><th>Target Keyword</th><th>Funnel</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:700">Đối tượng tham gia</td>
+        <td>Công dân VN từ đủ 15 tuổi · Không thuộc BHXH BB · HĐLĐ xác định thời hạn từ 01 tháng · Viên chức tạm hoãn HĐ</td>
+        <td>"Freelancer, lao động tự do, người có HĐLĐ ngắn hạn — đều được tham gia"</td>
+        <td>freelancer đóng bhxh tự nguyện như thế nào</td>
+        <td><span class="tag tag-tofu">TOFU</span></td>
+      </tr>
+      <tr class="row-highlight">
+        <td style="font-weight:700">Mức đóng hàng tháng</td>
+        <td>22% × thu nhập tự chọn · Tối thiểu 1.500.000đ → <strong>330.000đ/tháng</strong> · Tối đa 20× mức tham chiếu</td>
+        <td>Utility Calculator (đã build) + Bảng minh họa theo mức thu nhập</td>
+        <td>mức đóng bhxh tự nguyện 2025 2026</td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Hỗ trợ Nhà nước</td>
+        <td>50% (hộ nghèo, đảo/đặc khu) · 40% (cận nghèo) · 30% (DTTS) · 20% (khác) · Tối đa 120 tháng</td>
+        <td>"Nhà nước đóng cùng bạn" — Hero differentiator · Tính vào calculator</td>
+        <td>nhà nước hỗ trợ bhxh tự nguyện bao nhiêu</td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+      </tr>
+      <tr class="row-highlight">
+        <td style="font-weight:700">Phương thức đóng</td>
+        <td>Hàng tháng · 3 tháng · 6 tháng · 12 tháng · Một lần cho thời gian còn thiếu (≤60 tháng/lần) · Một lần cho nhiều năm về sau (≤60 tháng)</td>
+        <td>"5 hình thức đóng — linh hoạt theo dòng tiền của bạn" → MoMo hỗ trợ tất cả</td>
+        <td>đóng bhxh tự nguyện một lần cho nhiều năm</td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Trợ cấp thai sản <span class="tag tag-new" style="font-size:9px;margin-left:4px;">Mới 01/7/2025</span></td>
+        <td><strong>2.000.000đ/mỗi con</strong> · Điều kiện: ≥6 tháng đóng TN hoặc BB trong 12 tháng trước sinh · Cả LĐ nam có vợ sinh con</td>
+        <td>"Thai sản mới — BHXH tự nguyện nay cũng được hưởng" · Phá bỏ misconception cũ</td>
+        <td>bhxh tự nguyện có được hưởng thai sản không 2025</td>
+        <td><span class="tag tag-tofu">TOFU</span></td>
+      </tr>
+      <tr class="row-highlight">
+        <td style="font-weight:700">Chế độ hưu trí</td>
+        <td>Điều kiện: ≥15 năm đóng + đủ tuổi · Nam 2026: 61t3th · Nữ 2026: 56t8th · Tỷ lệ: 45% + 2%/năm thêm · Tối đa 75%</td>
+        <td>Calculator lương hưu — xem ước tính theo mức đóng · "Đóng càng nhiều, hưu càng cao"</td>
+        <td>tính lương hưu bhxh tự nguyện · bao nhiêu năm được hưởng lương hưu</td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Trợ cấp 1 lần khi nghỉ hưu (đóng dư)</td>
+        <td>Nam >35 năm / Nữ >30 năm: Trợ cấp thêm = 0,5 × bình quân thu nhập × số năm đóng cao hơn mốc</td>
+        <td>Content niche cho người lâu năm — "đóng dài hơn, nhận thêm khi nghỉ hưu"</td>
+        <td>trợ cấp một lần khi nghỉ hưu bhxh tự nguyện</td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+      </tr>
+      <tr class="row-highlight">
+        <td style="font-weight:700">Trợ cấp hằng tháng (chưa đủ hưu)</td>
+        <td>Đủ tuổi hưu, chưa đủ 15 năm, đã bảo lưu, không rút 1 lần → hưởng trợ cấp hằng tháng + được NSNN đóng BHYT</td>
+        <td>"Lối ra thứ 3 ngoài rút 1 lần" → giảm rút BHXH → dẫn sang đóng tiếp</td>
+        <td>trợ cấp hằng tháng bhxh chưa đủ năm</td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">BHXH một lần</td>
+        <td>Điều kiện (a)–(đ): đủ tuổi chưa đủ 15 năm + không tiếp tục; ra nước ngoài; bệnh hiểm nghèo; suy giảm LĐ ≥81%; sau 12 tháng chưa đủ 20 năm (áp dụng NLĐ trước 01/7/2025)</td>
+        <td>Content trung lập + redirect sang đóng tiếp · Không khuyến khích rút</td>
+        <td>rút bhxh 1 lần điều kiện 2025 2026</td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+      </tr>
+      <tr class="row-highlight">
+        <td style="font-weight:700">Chế độ tử tuất</td>
+        <td>Mai táng: 10 lần mức tham chiếu · Tuất 1 lần: 1,5 lần bình quân thu nhập × số năm (trước 2014) / 2 lần (từ 2014)</td>
+        <td>Completeness signal — "gia đình bạn được bảo vệ khi có chuyện"</td>
+        <td>chế độ tử tuất bhxh tự nguyện</td>
+        <td><span class="tag tag-tofu">TOFU</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Được cấp thẻ BHYT miễn phí</td>
+        <td>Người hưởng lương hưu BHXH TN → BHXH cấp thẻ BHYT không mất phí</td>
+        <td>Quyền lợi ẩn thường bị bỏ sót — "hưu trí + BHYT miễn phí = combo bảo vệ toàn diện"</td>
+        <td>hưởng lương hưu bhxh tự nguyện có bhyt không</td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+      </tr>
+      <tr class="row-highlight">
+        <td style="font-weight:700">Nơi đăng ký — Online</td>
+        <td>BHXH tỉnh/cơ sở · Tổ chức dịch vụ thu · Cổng dịch vụ công quốc gia · App VssID · <strong>MoMo</strong></td>
+        <td><strong>MoMo là kênh thuận tiện nhất</strong> — đóng ngay trong app, không cần giấy tờ</td>
+        <td>đóng bhxh tự nguyện online ở đâu · đóng bhxh tự nguyện qua momo</td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">🎯 Content Priority Matrix</h2>
+  <div class="grid-2">
+    <div class="card" style="border-top:3px solid var(--pink);">
+      <div class="card-title">🔥 P1 — Viết ngay (BOFU + High Volume)</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);line-height:1.9;padding-left:16px;">
+        <li><strong>Bảng mức đóng đầy đủ</strong> — 22% × các mức thu nhập, cột hỗ trợ NN 4 mức</li>
+        <li><strong>Utility Calculator</strong> — tính mức đóng + lương hưu ước tính (đã build xong)</li>
+        <li><strong>HowTo 5 bước đóng qua MoMo</strong> — AEO query quan trọng nhất</li>
+        <li><strong>Direct answer:</strong> "Đóng bao nhiêu 1 tháng?" → 330.000đ tối thiểu</li>
+        <li><strong>Section BHXH một lần — trung lập</strong>, redirect sang đóng tiếp</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">📅 P2 — Bổ sung (TOFU + Emerging)</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);line-height:1.9;padding-left:16px;">
+        <li><strong>Thai sản mới 2025</strong> — 2 triệu/con, điều kiện 6 tháng</li>
+        <li><strong>Freelancer angle</strong> — không HĐLĐ vẫn tham gia được</li>
+        <li><strong>Đóng một lần nhiều năm</strong> — 5 hình thức linh hoạt</li>
+        <li><strong>Trợ cấp hằng tháng</strong> — "chưa đủ 15 năm, không cần rút 1 lần"</li>
+        <li><strong>Được cấp thẻ BHYT miễn phí</strong> khi hưởng lương hưu</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ 3 số liệu cần verify lại kỹ nhất trước publish</div>
+    <strong>(1) Tuổi nghỉ hưu:</strong> Theo lộ trình NĐ 135/2020: Nam 2026 = 61t3th (đạt 62 tuổi năm 2028); Nữ 2026 = 56t8th (đạt 60 tuổi năm 2035) — cần update mỗi năm.<br>
+    <strong>(2) Mức tham chiếu:</strong> Hiện = mức lương cơ sở = 2.340.000đ — có thể điều chỉnh theo Nghị quyết Quốc hội hàng năm.<br>
+    <strong>(3) Hỗ trợ 30% DTTS:</strong> Tờ gấp ghi 30% — cần xác nhận lại trong NĐ 159/2025/NĐ-CP xem còn giữ nguyên không.
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 4. CONTENT STRUCTURE                      -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-structure">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure — Page Architecture</div>
+    <div class="page-title">Cấu trúc nội dung trang</div>
+    <div class="page-desc">Anatomy chi tiết trang <code class="url">momo.vn/bao-hiem-xa-hoi</code> — thứ tự sections tối ưu theo BOFU funnel, conversion logic và GEO/AEO requirements. <strong>Đây là trang duy nhất trong scope.</strong></div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">🎯 Định vị trang — Product + Content Hybrid</div>
+    Trang này phải đồng thời: (1) <strong>Giải thích đủ</strong> để người chưa biết gì về BHXH tự nguyện hiểu và tin tưởng, (2) <strong>Convert ngay</strong> người đã sẵn sàng đóng tiền — không phải 2 trang khác nhau. Bố cục: Above-the-fold là trust + CTA, below-the-fold là education → GEO content → FAQ → cross-sell.
+  </div>
+
+  <h2 class="sh">📐 Page Anatomy — Thứ tự sections tối ưu</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">momo.vn/bao-hiem-xa-hoi — Page anatomy chi tiết (trang duy nhất)</div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">①</div>
+      <div class="anatomy-section-name">Hero — Value Prop + CTA</div>
+      <div class="anatomy-section-desc">"Đóng BHXH tự nguyện dễ dàng ngay trên MoMo — Không cần đến cơ quan BHXH." H1 chứa keyword chính. CTA chính: [Đóng BHXH ngay] + phụ: [Tra cứu quá trình đóng của tôi]. Trust badge: "Thanh toán vào hệ thống BHXH Việt Nam · Xác nhận ngay · Bảo mật SSL". Above-the-fold hoàn toàn.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-conv">CONV</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">②</div>
+      <div class="anatomy-section-name">Widget tra cứu quá trình đóng BHXH</div>
+      <div class="anatomy-section-desc">Nhập CCCD → hiển thị: tình trạng đóng, số tháng đã đóng, quỹ hiện tại, nút "Đóng tháng này" → link vào app. Không lưu CCCD sau query, có SSL. Đây là PLG hook mạnh nhất — user thấy data của mình ngay, CTA contextual (chưa đóng → "Đăng ký", đang đóng → "Đóng tiếp").</div>
+      <div class="anatomy-section-tag"><span class="tag tag-conv">PLG</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">③</div>
+      <div class="anatomy-section-name">BHXH tự nguyện là gì — Định nghĩa & Đối tượng</div>
+      <div class="anatomy-section-desc">Direct Answer Block: 2–3 câu định nghĩa theo Luật BHXH 2024. Đối tượng được tham gia (công dân VN từ 15+, không thuộc BHXH bắt buộc, người tạm hoãn HĐ từ 01/7/2025). Đây là section TOFU — capture traffic "bhxh tự nguyện là gì". Cite: Điều 2, Khoản 4 Luật BHXH 2024.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-tofu">TOFU</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">④</div>
+      <div class="anatomy-section-name">Quyền lợi — 4 chế độ (incl. mới 2025)</div>
+      <div class="anatomy-section-desc">4 cards: (1) Lương hưu hàng tháng — điều kiện 15 năm đóng + đủ tuổi, (2) Tử tuất — trợ cấp thân nhân, (3) Thai sản ★ MỚI từ 01/7/2025 — trợ cấp một lần khi sinh, (4) Tai nạn lao động ★ MỚI — bảo vệ TNLĐ-BNN. Label rõ "Mới 2025" để capture search intent. Cite: Điều 4, Khoản 3 Luật BHXH 2024.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-mofu">MOFU</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">⑤</div>
+      <div class="anatomy-section-name">Bảng mức đóng chi tiết — AEO Optimized</div>
+      <div class="anatomy-section-desc">HTML table: Mức thu nhập chọn | Mức đóng/tháng (22%) | Sau hỗ trợ NN (hộ nghèo 50%, cận nghèo 40%, khác 20%) | Lương hưu ước tính. Rows ít nhất: 1.500.000 · 3.000.000 · 5.000.000 · 10.000.000đ. Footer note: Hỗ trợ tối đa 10 năm, mức hỗ trợ tính trên mức đóng chuẩn nghèo nông thôn. Cite: NĐ 159/2025/NĐ-CP.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-geo" style="background:#EDE8FF;color:#4B1DB8;border:1.5px solid #BDB0F5;">GEO</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">⑥</div>
+      <div class="anatomy-section-name">Hướng dẫn đóng BHXH qua MoMo — 5 bước (HowTo)</div>
+      <div class="anatomy-section-desc">Numbered steps với action verbs: 1. Mở app MoMo → 2. Chọn BHXH tự nguyện → 3. Nhập CCCD xác minh → 4. Chọn mức thu nhập + phương thức đóng → 5. Thanh toán & nhận xác nhận. Phương thức đóng: hàng tháng / 3 tháng / 6 tháng / 12 tháng / một lần. HowTo Schema markup. CTA sau mỗi bước hoặc cuối section.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span></div>
+    </div>
+
+    <div class="anatomy-row" style="background:#F5F2FF;">
+      <div class="anatomy-order" style="background:var(--blue);">⑦</div>
+      <div class="anatomy-section-name">★ Utility Tool — Calculator Lương Hưu</div>
+      <div class="anatomy-section-desc">
+        <strong style="color:var(--blue);">Công cụ tính lương hưu BHXH tự nguyện</strong> — đã build, nhúng vào trang dưới dạng iframe hoặc component.<br>
+        <strong>Inputs:</strong> Giới tính (Nam/Nữ) · Tuổi hiện tại (slider) · Mức thu nhập chọn đóng (slider 1,5–20 triệu) · Mức hỗ trợ NN (50%/40%/30%/20%)<br>
+        <strong>Outputs:</strong> Mức đóng/tháng (22% × thu nhập) · Mức thực trả sau hỗ trợ NN · Số năm đóng đến tuổi hưu · Lương hưu ước tính/tháng · Tỷ lệ hưởng · Tổng hỗ trợ NN nhận được<br>
+        <strong>Công thức áp dụng (Luật BHXH 2024):</strong> Tỷ lệ hưởng = 45% (mốc tối thiểu) + 2%/năm đóng thêm (max 75%) · Lương hưu = Tỷ lệ × Bình quân thu nhập đóng<br>
+        <strong>Disclaimer bắt buộc:</strong> "Chỉ mang tính tham khảo · Mức thực tế phụ thuộc chính sách điều chỉnh hàng năm · Kiểm tra tại baohiemxahoi.gov.vn"
+      </div>
+      <div class="anatomy-section-tag"><span class="tag" style="background:var(--blue-light);color:var(--blue);">TOOL</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">⑧</div>
+      <div class="anatomy-section-name">Section "Rút BHXH 1 lần" — Neutral, dẫn sang đóng tiếp</div>
+      <div class="anatomy-section-desc">Content trung lập: điều kiện hưởng BHXH một lần theo Luật BHXH 2024. Sau đó: "Nếu bạn chưa đủ điều kiện rút — cân nhắc đóng tiếp để bảo vệ quyền lợi hưu trí". CTA: [Đóng tiếp BHXH tự nguyện]. Không khuyến khích rút, nhưng cung cấp thông tin đầy đủ (YMYL compliance). Volume keyword "rút bhxh 1 lần" ~8-12K/tháng.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-mofu">MOFU</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">⑨</div>
+      <div class="anatomy-section-name">FAQ — 10 câu — AEO Optimized</div>
+      <div class="anatomy-section-desc">FAQPage Schema. 10 câu: (1) BHXH TN là gì? (2) Ai được tham gia? (3) Đóng bao nhiêu 1 tháng? (4) Có được hưởng thai sản không? (5) Bao nhiêu năm được lương hưu? (6) Đóng qua MoMo có hợp lệ không? (7) Có thể đóng một lần cho nhiều năm không? (8) Nghỉ đóng rồi đóng lại có mất thâm niên không? (9) Freelancer đóng BHXH TN thế nào? (10) Nhà nước hỗ trợ bao nhiêu? Mỗi câu ≤150 từ, direct answer đầu.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-geo" style="background:#EDE8FF;color:#4B1DB8;border:1.5px solid #BDB0F5;">GEO</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">⑩</div>
+      <div class="anatomy-section-name">Cross-sell — BHYT song hành</div>
+      <div class="anatomy-section-desc">Người đóng BHXH tự nguyện cần biết: BHXH tự nguyện không bao gồm BHYT. Nếu muốn có thẻ BHYT cần đăng ký riêng. CTA sang trang BHYT (nếu MoMo có tích hợp) hoặc hướng dẫn đăng ký qua cổng dịch vụ công. Cross-sell tự nhiên, không hard-push.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-conv">CROSS-SELL</span></div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-order">⑪</div>
+      <div class="anatomy-section-name">Web-to-App CTA — Deep Link cuối trang</div>
+      <div class="anatomy-section-desc">Smart App Banner (iOS/Android). CTA: "Chưa có app MoMo? Tải xuống — đóng BHXH ngay hôm nay". Deep link → mở thẳng màn hình BHXH tự nguyện trong app. GA4 event: bhxhtn_app_download. Sticky bottom bar trên mobile khi scroll qua Hero.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-conv">WEB→APP</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 Content Depth Requirements</h2>
+  <table class="data-table">
+    <thead><tr><th>Section</th><th>Word count (VI)</th><th>Priority</th><th>YMYL Level</th></tr></thead>
+    <tbody>
+      <tr><td>Hero + Widget tra cứu</td><td>80–120 chữ</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-ymyl">Cao</span></td></tr>
+      <tr><td>Định nghĩa & Đối tượng</td><td>200–300 chữ</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-ymyl">Cao</span></td></tr>
+      <tr><td>Quyền lợi 4 chế độ</td><td>300–400 chữ</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-ymyl">Cao</span></td></tr>
+      <tr><td>Bảng mức đóng chi tiết</td><td>150–200 chữ + table</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-ymyl">Cao</span></td></tr>
+      <tr><td>Hướng dẫn 5 bước MoMo</td><td>300–400 chữ + UI screenshots</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-ymyl">TB</span></td></tr>
+      <tr><td>Section rút BHXH 1 lần</td><td>250–350 chữ</td><td><span class="tag tag-p2">P2</span></td><td><span class="tag tag-ymyl">Cao</span></td></tr>
+      <tr><td>FAQ 10 câu</td><td>1.000–1.200 chữ</td><td><span class="tag tag-p1">P1</span></td><td><span class="tag tag-ymyl">Cao</span></td></tr>
+      <tr class="row-total"><td colspan="2"><strong>Tổng trang</strong></td><td colspan="2"><strong>2.800–3.500 chữ</strong> (không tính calculator UI)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 5. CONTENT DIRECTION                      -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-direction">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Direction — Tone, Copy & Messaging</div>
+    <div class="page-title">Định hướng nội dung</div>
+    <div class="page-desc">Tone of voice, messaging framework, và copy mẫu cho từng section — đảm bảo content vừa convert user vừa đủ E-E-A-T để được AI cite.</div>
+  </div>
+
+  <h2 class="sh">🎙 Tone of Voice — Nguyên tắc viết</h2>
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <div class="card-title">✅ Nên làm</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);line-height:1.9;padding-left:16px;">
+        <li><strong>Empowering, không paternalistic:</strong> "Bạn có thể tự bảo vệ tương lai tài chính của mình" — không "bạn nên..."</li>
+        <li><strong>Số cụ thể trước, giải thích sau:</strong> "330.000đ/tháng — đây là mức tối thiểu theo công thức 22% × 1,5 triệu đồng"</li>
+        <li><strong>Cite luật ngắn gọn inline:</strong> "(Điều 36 Luật BHXH 2024)" — không trích dài</li>
+        <li><strong>Phân biệt rõ thực tế vs estimate:</strong> "Ước tính lương hưu" vs "Lương hưu bạn sẽ nhận"</li>
+        <li><strong>Freelancer-friendly:</strong> Dùng "lao động tự do", "công việc tự do" thay vì chỉ "người lao động"</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title">❌ Không làm</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);line-height:1.9;padding-left:16px;">
+        <li>Fluff mở đầu: "BHXH tự nguyện là một trong những chính sách quan trọng..."</li>
+        <li>Số liệu không nguồn hoặc trích sai Nghị định — fatal error YMYL</li>
+        <li>Khuyến khích rút BHXH 1 lần — vi phạm tinh thần chính sách</li>
+        <li>Dùng từ mơ hồ: "có thể được hưởng", "tùy trường hợp" mà không giải thích điều kiện</li>
+        <li>Hard-sell quá mức — người dùng đang tìm thông tin, không phải mua sản phẩm</li>
+        <li>Bỏ qua nhóm đã từng đóng BHXH bắt buộc muốn đóng tiếp — đây là high-intent segment</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sh">📝 Copy mẫu — Từng section quan trọng</h2>
+
+  <div class="card">
+    <div class="card-title">① Hero Headline</div>
+    <div style="font-size:13px;color:var(--ink-2);line-height:1.7;">
+      <strong>H1 draft:</strong> "Đóng BHXH Tự nguyện trên MoMo — Không cần đến cơ quan, nhận xác nhận ngay"<br>
+      <strong>Meta title:</strong> "Đóng BHXH Tự nguyện Online — MoMo | Nhanh, An toàn, Hợp lệ" (≤60 ký tự)<br>
+      <strong>Meta description:</strong> "Đóng Bảo hiểm Xã hội Tự nguyện trực tiếp qua app MoMo — mức đóng từ 330.000đ/tháng. Freelancer, lao động tự do tham gia ngay. Xác nhận tức thì." (~155 ký tự)
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">② Trust Tiles — Copy mẫu (3 tiles)</div>
+    <div class="grid-3" style="margin-top:10px;margin-bottom:0;">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:12px;font-size:12.5px;">
+        <div style="font-size:20px;margin-bottom:6px;">🏛️</div>
+        <div style="font-weight:700;margin-bottom:3px;">Giao dịch hợp lệ 100%</div>
+        <div style="color:var(--ink-2);">Tiền đóng vào thẳng hệ thống BHXH Việt Nam qua cổng thanh toán quốc gia.</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:12px;font-size:12.5px;">
+        <div style="font-size:20px;margin-bottom:6px;">⚡</div>
+        <div style="font-weight:700;margin-bottom:3px;">Xác nhận ngay trong app</div>
+        <div style="color:var(--ink-2);">Không cần chờ. Lịch sử đóng cập nhật vào hệ thống BHXH VN ngay sau giao dịch.</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:12px;font-size:12.5px;">
+        <div style="font-size:20px;margin-bottom:6px;">🔒</div>
+        <div style="font-weight:700;margin-bottom:3px;">Bảo mật CCCD</div>
+        <div style="color:var(--ink-2);">Không lưu thông tin CCCD sau khi tra cứu. Mã hóa SSL 256-bit toàn giao dịch.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">③ CTA Framework — Phân tầng theo funnel</div>
+    <table class="data-table" style="margin-bottom:0;">
+      <thead><tr><th>Stage</th><th>CTA Text</th><th>Vị trí</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-bofu">BOFU</span></td><td>"Đóng BHXH tháng này"</td><td>Hero, Sticky bar mobile</td><td>Deep link → App BHXH tự nguyện flow</td></tr>
+        <tr><td><span class="tag tag-bofu">BOFU</span></td><td>"Tra cứu quá trình đóng của tôi"</td><td>Hero (CTA phụ)</td><td>Widget tra cứu CCCD trên trang</td></tr>
+        <tr><td><span class="tag tag-mofu">MOFU</span></td><td>"Tính lương hưu của tôi"</td><td>Sau section quyền lợi</td><td>Scroll to Calculator</td></tr>
+        <tr><td><span class="tag tag-mofu">MOFU</span></td><td>"Đóng tiếp BHXH thay vì rút"</td><td>Section rút BHXH 1 lần</td><td>Deep link → App đóng tiếp</td></tr>
+        <tr><td><span class="tag tag-tofu">TOFU</span></td><td>"Tải app MoMo — Bắt đầu ngay"</td><td>Cuối trang</td><td>App Store / Smart Banner</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-red">
+    <div class="callout-title">⚠️ YMYL Obligation — Bắt buộc tuân thủ</div>
+    Nội dung BHXH ảnh hưởng trực tiếp đến tài chính dài hạn của người dùng (lương hưu, quyền lợi gia đình). Mọi số liệu về mức đóng, quyền lợi, điều kiện hưởng PHẢI được xác minh theo văn bản pháp lý hiện hành trước khi publish. Khi luật thay đổi (Nghị định, Thông tư mới), cần update trong vòng 48h. Ghi rõ ngày cập nhật và nguồn cite trên trang.
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 6. INTERNAL LINKING                       -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-interlinking">
+  <div class="page-header">
+    <div class="page-eyebrow">Internal Linking Strategy</div>
+    <div class="page-title">Chiến lược Internal Linking</div>
+    <div class="page-desc">Hub-and-spoke từ Insurance Hub → trang BHXH tự nguyện, cross-sell sang các sản phẩm tài chính liên quan của MoMo.</div>
+  </div>
+
+  <h2 class="sh">🗺 Link Architecture</h2>
+  <div class="link-tree">
+    <div class="link-tree-header">momo.vn — Internal Link Map cho /bao-hiem-xa-hoi</div>
+    <div class="link-node level-0">
+      <span>🏠</span>
+      <span class="link-node-url">/bao-hiem</span>
+      <span style="font-size:13px;font-weight:700;">Insurance Hub (Parent)</span>
+      <span class="link-node-desc">Truyền link equity xuống</span>
+    </div>
+    <div class="link-node level-1">
+      <span class="link-arrow">└─</span>
+      <span style="font-size:18px">🏛️</span>
+      <span class="link-node-url">/bao-hiem-xa-hoi</span>
+      <span style="font-weight:700;font-size:13px;color:var(--pink);">★ TRANG CHÍNH (trong scope)</span>
+    </div>
+    <div class="link-node level-1">
+      <span class="link-arrow">└─</span>
+      <span style="font-size:18px">🏥</span>
+      <span class="link-node-url">/bao-hiem-y-te</span>
+      <span style="font-size:13px;">BHYT (Sibling link)</span>
+      <span class="link-node-desc">Cross-sell tự nhiên</span>
+    </div>
+    <div class="link-node level-1">
+      <span class="link-arrow">└─</span>
+      <span style="font-size:18px">🏍️</span>
+      <span class="link-node-url">/bao-hiem-xe-may</span>
+      <span style="font-size:13px;">BH Xe Máy (Sibling)</span>
+      <span class="link-node-desc">Cross-category awareness</span>
+    </div>
+  </div>
+
+  <h2 class="sh">🔗 Internal Link Matrix</h2>
+  <table class="data-table">
+    <thead><tr><th>Trang nguồn</th><th>Anchor text</th><th>Trang đích</th><th>Mục tiêu</th></tr></thead>
+    <tbody>
+      <tr><td><code class="url">/bao-hiem</code> (Hub)</td><td>"Đóng BHXH tự nguyện qua MoMo"</td><td><code class="url">/bao-hiem-xa-hoi</code></td><td>Link equity từ Hub xuống trang chính</td></tr>
+      <tr><td><code class="url">/bao-hiem-y-te</code> (BHYT)</td><td>"BHXH tự nguyện — bảo vệ hưu trí"</td><td><code class="url">/bao-hiem-xa-hoi</code></td><td>Cross-insurance journey (user thường quan tâm cả hai)</td></tr>
+      <tr class="row-highlight"><td><code class="url">/bao-hiem-xa-hoi</code></td><td>"Bảo hiểm y tế tự nguyện"</td><td><code class="url">/bao-hiem-y-te</code></td><td>BHXH TN không bao gồm BHYT → cross-sell tự nhiên</td></tr>
+      <tr><td><code class="url">/bao-hiem-xa-hoi</code></td><td>"Vay tiền nhanh MoMo"</td><td><code class="url">/vay-nhanh</code></td><td>Freelancer có thể cần vốn ngắn hạn khi đóng một lần</td></tr>
+      <tr><td>Blog / Tin tức MoMo</td><td>"Hướng dẫn đóng BHXH tự nguyện"</td><td><code class="url">/bao-hiem-xa-hoi</code></td><td>Topical authority từ blog → tăng authority trang chính</td></tr>
+      <tr><td>Homepage MoMo (nếu có shortcut)</td><td>"BHXH Tự nguyện"</td><td><code class="url">/bao-hiem-xa-hoi</code></td><td>Direct equity từ homepage — high-value link</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-green">
+    <div class="callout-title">💡 Cross-sell Loop — BHXH TN ↔ Vay Nhanh</div>
+    Người lao động tự do muốn đóng BHXH một lần cho nhiều năm (để đủ điều kiện hưu trí nhanh hơn) có thể cần vốn ngắn hạn → Vay Nhanh. Ngược lại, user đang tìm hiểu Vay Nhanh có thể là freelancer → cross-link sang BHXH TN để awareness. Đây là ecosystem loop MoMo có lợi thế độc quyền so với bất kỳ đối thủ nào.
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 7. PUBLISH CHECKLIST                      -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-checklist">
+  <div class="page-header">
+    <div class="page-eyebrow">Publish Checklist — Trước khi go-live</div>
+    <div class="page-title">Checklist Publish — /bao-hiem-xa-hoi</div>
+    <div class="page-desc">Đảm bảo 100% trước khi trang live. YMYL content — không publish khi còn item chưa check. PIC verify: <strong>Hien.ho</strong>.</div>
+  </div>
+
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">📝</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Content — Trang chính /bao-hiem-xa-hoi</div>
+        <div class="cl-product-sub">Hero · Widget · Quyền lợi · Bảng phí · HowTo · FAQ · Cross-sell</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--red-light);color:var(--red)">YMYL — Review bắt buộc</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📋 Metadata & Hero</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">H1 chứa keyword "đóng BHXH tự nguyện" hoặc "bảo hiểm xã hội tự nguyện" (≤70 ký tự)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Meta title ≤60 ký tự, có keyword + brand "MoMo"</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Meta description 150–160 ký tự có keyword + mức đóng cụ thể + CTA</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">3 trust tiles đúng thực tế, không hứa hẹn quá mức</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">CTA Hero deep link hoạt động → đúng flow BHXH tự nguyện trong app</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Canonical URL: momo.vn/bao-hiem-xa-hoi (không có duplicate hoặc trailing slash)</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">💰 Số liệu pháp lý — Verify bắt buộc trước publish</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Mức đóng tối thiểu: 22% × 1.500.000đ = 330.000đ/tháng (2026) — đúng Luật BHXH 2024 + Điều 31</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Hỗ trợ NN: 50% (hộ nghèo), 40% (cận nghèo), 20% (khác) — đúng NĐ 159/2025/NĐ-CP</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Thời gian hỗ trợ tối đa 10 năm (120 tháng) — đúng NĐ 159/2025</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">4 chế độ BHXH TN từ 01/7/2025: hưu trí, tử tuất, thai sản, TNLĐ — đúng Điều 4 Luật BHXH 2024</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Điều kiện hưởng lương hưu: đủ tuổi + ≥15 năm đóng — đúng Điều 98 Luật BHXH 2024</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Đối tượng mới từ 01/7/2025: người tạm hoãn HĐ — đúng Khoản 4 Điều 2 Luật BHXH 2024</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">❓ FAQ — 10 câu AEO</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">10 câu FAQ đầy đủ, mỗi câu direct answer ≤150 từ</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Câu thai sản — nêu rõ "mới từ 01/7/2025" và điều kiện hưởng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Câu rút BHXH 1 lần — trung lập, không khuyến khích, dẫn sang đóng tiếp</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Câu freelancer — address rõ đối tượng không có HĐLĐ</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Câu đóng qua MoMo hợp lệ không — confirm và giải thích cơ chế</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Tất cả số liệu trong FAQ sync với bảng mức đóng chính</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔗 Internal Links</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Link đến /bao-hiem (Hub) với breadcrumb + contextual anchor</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Cross-sell link đến /bao-hiem-y-te với anchor "Bảo hiểm y tế tự nguyện"</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Link đến /vay-nhanh (contextual — cho user muốn đóng một lần)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">/bao-hiem Hub đã cập nhật link trỏ vào trang này</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không có broken link — kiểm tra bằng tool trước publish</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Breadcrumb: Trang chủ > Bảo Hiểm > BHXH Tự nguyện</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>⚠️ Review obligation:</strong> Mọi số liệu pháp lý (mức đóng, hỗ trợ NN, quyền lợi, điều kiện hưởng) phải được verify theo văn bản luật gốc bởi Hien.ho TRƯỚC KHI PUBLISH. Không delegate cho AI hoặc suy diễn. Khi Luật/Nghị định thay đổi → update trong 48h.</div>
+    </div>
+  </div>
+
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">🔧</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Technical SEO — Schema, Performance & Tracking</div>
+        <div class="cl-product-sub">Structured Data · Core Web Vitals · Widget CCCD · GA4 Events</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--blue-light);color:var(--blue)">Dev review</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">🏗 Structured Data / Schema</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQPage Schema: 10 câu FAQ được markup, validate Google Rich Results Test</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">HowTo Schema: 5 bước quy trình đóng BHXH qua MoMo, đủ name + text</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">BreadcrumbList Schema: 3 cấp (Trang chủ > Bảo Hiểm > BHXH Tự nguyện)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FinancialProduct hoặc Service Schema cho tính năng đóng BHXH</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Organization Schema trỏ về momo.vn reference đúng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không có duplicate schema conflict trên cùng URL</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">⚡ Performance & Technical</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">LCP ≤2.5s trên mobile (widget tra cứu không block render)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">CLS ≤0.1 — calculator kết quả load không gây layout shift</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Widget tra cứu CCCD: không lưu CCCD sau query, SSL, rate limiting chống scrape</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Calculator lương hưu: kết quả real-time (không cần submit form), disclaimer rõ</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Smart App Banner hoạt động trên Safari iOS + Chrome Android</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Submit URL vào GSC + request indexing ngay sau publish</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">📊 GA4 Events & Tracking</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 event: bhxhtn_cta_dong_ngay (Hero CTA)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 event: bhxhtn_tracuu_cccd (widget tra cứu)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 event: bhxhtn_calculator_result (lương hưu calculator)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 event: bhxhtn_faq_expand (FAQ nào được click nhiều nhất)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 event: bhxhtn_app_download (CTA cuối trang)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">UTM tracking cho các inbound link từ blog, push notification, social</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">🤖</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">GEO / AEO Readiness</div>
+        <div class="cl-product-sub">AI Overview · Structured Answers · Entity Signals · E-E-A-T</div>
+      </div>
+      <span class="cl-product-badge" style="background:#EDE8FF;color:#4B1DB8">GEO Priority</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">🤖 AI-Readiness Content</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">5 AEO Queries đã có direct answer tương ứng trên trang</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Bảng mức đóng là HTML table thật (AI có thể extract)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Số liệu pháp lý có inline citation (Luật BHXH 2024, NĐ 159/2025)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Ngày cập nhật hiển thị rõ trên page header</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">HowTo steps có action verbs cụ thể (Mở, Chọn, Nhập, Thanh toán, Nhận)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Section "Mới từ 01/7/2025" label cho 2 chế độ mới (thai sản, TNLĐ)</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🏆 E-E-A-T Signals</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Link out đến baohiemxahoi.gov.vn và chinhphu.vn cho văn bản luật gốc</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Cite đúng tên luật đầy đủ: "Luật Bảo hiểm xã hội số 41/2024/QH15"</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Số giao dịch BHXH qua MoMo (nếu có data thực tế — không fabricate)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Reviewer name: xác nhận nội dung được verify bởi Hien.ho</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>💡 Post-publish (4–6 tuần):</strong> Monitor GSC xem trang có appear trong AI Overviews cho queries "bhxh tự nguyện là gì", "mức đóng bhxh tự nguyện 2026". Nếu chưa → review Direct Answer Block và structured data markup.</div>
+    </div>
+  </div>
+
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">📱</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Web-to-App Conversion</div>
+        <div class="cl-product-sub">Deep Links · Smart Banner · PLG Widget · Attribution</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--pink-light);color:var(--pink)">Core Goal</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📱 Deep Link & App Handoff</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Deep link Hero CTA → mở đúng màn hình BHXH tự nguyện trong app (không chỉ open app)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Fallback nếu chưa có app: App Store / Google Play với deep link sau khi install</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sticky bottom CTA bar mobile — dismiss-able, không che nội dung</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Widget tra cứu CCCD: kết quả contextual CTA ("chưa đóng → Đăng ký" / "đang đóng → Đóng tiếp")</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">AppsFlyer attribution: web → app flow tracking hoạt động đúng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Test end-to-end: Web → App → Đăng ký BHXH TN → Thanh toán → Xác nhận (iOS + Android)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- CALCULATOR — Lương Hưu BHXH Tự nguyện   -->
+<!-- ══════════════════════════════════════════ -->
+<section class="section" id="s-calculator">
+  <div class="page-header">
+    <div class="page-eyebrow">Utility Tool — momo.vn/bao-hiem-xa-hoi</div>
+    <div class="page-title">Calculator Lương Hưu BHXH Tự nguyện</div>
+    <div class="page-desc">Công cụ tính mức đóng và lương hưu ước tính theo công thức Luật BHXH 2024. Nhúng trực tiếp vào trang <code class="url">/bao-hiem-xa-hoi</code> dưới dạng interactive component.</div>
+  </div>
+
+  <div class="calc-wrap">
+
+    <!-- HEADER -->
+    <div class="calc-header">
+      <div class="calc-header-deco"></div>
+      <div class="calc-header-top">
+        <span class="calc-brand-pill">MoMo</span>
+        <span class="calc-header-badge">Công cụ tính toán · BHXH Tự nguyện</span>
+      </div>
+      <h2>Tính <span>Lương Hưu</span> BHXH Tự Nguyện</h2>
+      <p class="calc-header-sub">Nhập thông tin của bạn — xem ngay mức đóng hàng tháng và lương hưu ước tính khi về già theo Luật BHXH 2024.</p>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="calc-disclaimer">
+      <span class="calc-disclaimer-icon">⚠️</span>
+      <div>
+        <strong>Lưu ý quan trọng:</strong> Kết quả chỉ mang tính <strong>tham khảo ước tính</strong> dựa trên công thức Luật BHXH 2024 và mức tham chiếu hiện hành (2.340.000đ/tháng). Mức lương hưu thực tế phụ thuộc vào <em>mức đóng thực tế từng năm, chính sách điều chỉnh hàng năm của Nhà nước, và chỉ số CPI</em>. Chính sách có thể cập nhật mỗi năm — kiểm tra tại <a href="https://baohiemxahoi.gov.vn" target="_blank" style="color:#C05000;font-weight:700;">baohiemxahoi.gov.vn</a>.
+      </div>
+    </div>
+
+    <!-- CALCULATOR CARD -->
+    <div class="calc-card">
+      <div class="calc-tab-bar">
+        <button class="calc-tab-btn active" onclick="calcSwitchTab('monthly')">📅 Tính từ mức đóng hàng tháng</button>
+        <button class="calc-tab-btn" onclick="calcSwitchTab('income')">💰 Tính từ lương hưu mục tiêu</button>
+      </div>
+
+      <!-- TAB 1 -->
+      <div class="calc-tab-panel active" id="calc-tab-monthly">
+        <div class="calc-form-body">
+          <div class="calc-form-row">
+            <label class="calc-form-label">Giới tính</label>
+            <div class="calc-select-grid">
+              <div class="calc-select-option active" id="c-opt-male" onclick="calcSetGender('male',this)">
+                <span class="calc-opt-label">👨 Nam</span>
+                <span class="calc-opt-sub">Đóng 20 năm đủ điều kiện hưu trí</span>
+              </div>
+              <div class="calc-select-option" id="c-opt-female" onclick="calcSetGender('female',this)">
+                <span class="calc-opt-label">👩 Nữ</span>
+                <span class="calc-opt-sub">Đóng 15 năm đủ điều kiện hưu trí</span>
+              </div>
+            </div>
+          </div>
+          <div class="calc-form-row">
+            <label class="calc-form-label">Tuổi bắt đầu đóng <span class="calc-form-label-sub">— Bạn bắt đầu tham gia BHXH TN năm bao nhiêu tuổi?</span></label>
+            <div class="calc-value-display"><span class="cv" id="c-age-display">30</span><span class="cu">tuổi</span></div>
+            <input type="range" class="calc-slider" id="c-slider-age" min="18" max="50" value="30" oninput="calcOnAgeChange(this)" style="--pct:36.4%">
+            <div class="calc-slider-labels"><span>18 tuổi</span><span>30 tuổi</span><span>40 tuổi</span><span>50 tuổi</span></div>
+            <div class="calc-input-hint" id="c-hint-period">💡 Bắt đầu lúc 30 tuổi → đóng đủ 20 năm (nam) đến năm 50 tuổi, sau đó chờ đủ tuổi hưu.</div>
+          </div>
+          <div class="calc-form-row">
+            <label class="calc-form-label">Mức thu nhập làm căn cứ đóng <span class="calc-form-label-sub">— Tự chọn từ 1.500.000đ</span></label>
+            <div class="calc-value-display"><span class="cv" id="c-income-display">3.000.000</span><span class="cu">đ/tháng</span></div>
+            <input type="range" class="calc-slider" id="c-slider-income" min="1500000" max="20000000" step="500000" value="3000000" oninput="calcOnIncomeChange(this)" style="--pct:8%">
+            <div class="calc-slider-labels"><span>1,5 tr</span><span>5 tr</span><span>10 tr</span><span>20 tr</span></div>
+            <div class="calc-input-hint">💡 Tối thiểu: 1.500.000đ (mức chuẩn hộ nghèo NT) · Tối đa: ~46.800.000đ</div>
+          </div>
+          <div class="calc-form-row">
+            <label class="calc-form-label">Hỗ trợ từ Nhà nước <span class="calc-form-label-sub">— Theo đối tượng (tối đa 10 năm)</span></label>
+            <div class="calc-support-grid">
+              <div class="calc-support-opt" id="c-sup-50" onclick="calcSetSupport(50,this)"><span class="cs-pct">50%</span><span class="cs-lbl">Hộ nghèo · Đảo/đặc khu</span></div>
+              <div class="calc-support-opt" id="c-sup-40" onclick="calcSetSupport(40,this)"><span class="cs-pct">40%</span><span class="cs-lbl">Hộ cận nghèo</span></div>
+              <div class="calc-support-opt" id="c-sup-30" onclick="calcSetSupport(30,this)"><span class="cs-pct">30%</span><span class="cs-lbl">Dân tộc thiểu số</span></div>
+              <div class="calc-support-opt active" id="c-sup-20" onclick="calcSetSupport(20,this)"><span class="cs-pct">20%</span><span class="cs-lbl">Các đối tượng khác</span></div>
+            </div>
+            <div class="calc-input-hint" style="margin-top:7px;">Hỗ trợ tính trên mức đóng chuẩn: 22% × 1.500.000đ = 330.000đ/tháng · Tối đa 120 tháng (10 năm)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2 -->
+      <div class="calc-tab-panel" id="calc-tab-income">
+        <div class="calc-form-body">
+          <div class="calc-form-row">
+            <label class="calc-form-label">Giới tính</label>
+            <div class="calc-select-grid">
+              <div class="calc-select-option active" id="c-opt2-male" onclick="calcSetGender2('male',this)">
+                <span class="calc-opt-label">👨 Nam</span><span class="calc-opt-sub">Đóng 20 năm đủ điều kiện hưu trí</span>
+              </div>
+              <div class="calc-select-option" id="c-opt2-female" onclick="calcSetGender2('female',this)">
+                <span class="calc-opt-label">👩 Nữ</span><span class="calc-opt-sub">Đóng 15 năm đủ điều kiện hưu trí</span>
+              </div>
+            </div>
+          </div>
+          <div class="calc-form-row">
+            <label class="calc-form-label">Tuổi bắt đầu đóng <span class="calc-form-label-sub">— Bắt đầu tham gia năm bao nhiêu tuổi?</span></label>
+            <div class="calc-value-display"><span class="cv" id="c-age2-display">30</span><span class="cu">tuổi</span></div>
+            <input type="range" class="calc-slider" id="c-slider-age2" min="18" max="50" value="30" oninput="calcOnAge2Change(this)" style="--pct:36.4%">
+            <div class="calc-slider-labels"><span>18 tuổi</span><span>30 tuổi</span><span>40 tuổi</span><span>50 tuổi</span></div>
+            <div class="calc-input-hint" id="c-hint-period2">💡 Bắt đầu lúc 30 tuổi → đóng đủ 20 năm (nam) đến năm 50 tuổi, sau đó chờ đủ tuổi hưu.</div>
+          </div>
+          <div class="calc-form-row">
+            <label class="calc-form-label">Lương hưu mục tiêu <span class="calc-form-label-sub">— Muốn nhận bao nhiêu/tháng khi về hưu?</span></label>
+            <div class="calc-input-num-wrap">
+              <input type="number" class="calc-input-num" id="c-target-pension" value="5000000" min="1000000" max="50000000" step="500000" oninput="calcFromPensionTarget()">
+              <span class="calc-input-unit">đ/tháng</span>
+            </div>
+            <div class="calc-input-hint">Ví dụ: 5.000.000đ/tháng — tương đương mức sống cơ bản tại đô thị</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="calc-result-section" id="c-result-box">
+      <div class="calc-result-deco"></div>
+      <div class="calc-result-deco2"></div>
+      <div class="calc-result-label">— KẾT QUẢ ƯỚC TÍNH —</div>
+      <div class="calc-result-grid">
+        <div>
+          <div class="calc-result-item-label">Mức đóng / tháng</div>
+          <div class="calc-result-item-value cri-main"><span id="c-r-contribution">660.000</span><span class="calc-result-item-unit">đ</span></div>
+        </div>
+        <div>
+          <div class="calc-result-item-label">Thực trả / tháng (sau MoMo trợ giá)</div>
+          <div class="calc-result-item-value cri-accent"><span id="c-r-after-support">594.000</span><span class="calc-result-item-unit">đ</span></div>
+        </div>
+        <div>
+          <div class="calc-result-item-label">Tổng tiền đóng trong <span id="c-r-period-label">20 năm</span></div>
+          <div class="calc-result-item-value cri-neutral"><span id="c-r-total-cost">158.400.000</span><span class="calc-result-item-unit">đ</span></div>
+        </div>
+        <div>
+          <div class="calc-result-item-label">Lương hưu ước tính / tháng</div>
+          <div class="calc-result-item-value cri-gold"><span id="c-r-pension">660.000</span><span class="calc-result-item-unit">đ</span></div>
+        </div>
+      </div>
+      <div class="calc-result-divider"></div>
+      <div class="calc-breakdown">
+        <div class="calc-breakdown-row"><span class="calc-breakdown-key">Tỷ lệ hưởng lương hưu</span><span class="calc-breakdown-val cbv-hi" id="c-r-ratio">45%</span></div>
+        <div class="calc-breakdown-row"><span class="calc-breakdown-key">Hỗ trợ từ Nhà nước / tháng</span><span class="calc-breakdown-val cbv-pos" id="c-r-support-amt">—</span></div>
+        <div class="calc-breakdown-row"><span class="calc-breakdown-key">Tổng hỗ trợ NN (tối đa 10 năm)</span><span class="calc-breakdown-val cbv-pos" id="c-r-total-support">—</span></div>
+        <div class="calc-result-divider" style="margin:8px 0;"></div>
+        <div class="calc-breakdown-row" style="background:rgba(255,213,90,0.1);border-radius:5px;padding:6px 8px;margin:0 -8px;">
+          <span class="calc-breakdown-key" style="color:rgba(255,213,90,0.9);font-weight:700;">🏷 MoMo trợ giá / tháng</span>
+          <span class="calc-breakdown-val" style="color:#FFD55A;font-size:15px;font-weight:900;" id="c-r-momo-subsidy">−66.000đ</span>
+        </div>
+        <div class="calc-breakdown-row">
+          <span class="calc-breakdown-key" style="font-size:11px;color:rgba(255,255,255,0.4);">Tổng tiết kiệm từ MoMo trợ giá (<span id="c-r-period-months">240</span> tháng)</span>
+          <span class="calc-breakdown-val cbv-pos" id="c-r-momo-total">15.840.000đ</span>
+        </div>
+        <div class="calc-result-divider" style="margin:8px 0;"></div>
+        <div class="calc-breakdown-row"><span class="calc-breakdown-key">Số năm đóng (theo luật)</span><span class="calc-breakdown-val" id="c-r-min-cond">20 năm (nam)</span></div>
+        <div class="calc-breakdown-row"><span class="calc-breakdown-key">Trạng thái</span><span class="calc-breakdown-val" id="c-r-status">✅ Đủ điều kiện hưởng lương hưu</span></div>
+      </div>
+    </div>
+
+    <!-- FORMULA -->
+    <div class="calc-formula-box">
+      <div class="calc-formula-title">📐 Công thức áp dụng (Luật BHXH 2024)</div>
+      <div class="calc-formula-line">
+        <strong>Mức đóng/tháng</strong><span style="color:var(--ink-3)">=</span>
+        <span class="calc-formula-eq">22%</span>
+        <span style="color:var(--ink-3)">×</span>
+        <span class="calc-formula-eq">Mức thu nhập tự chọn</span>
+      </div>
+      <div class="calc-formula-line">
+        <strong>Tỷ lệ hưởng</strong><span style="color:var(--ink-3)">=</span>
+        <span class="calc-formula-eq">45%</span>
+        <span style="color:var(--ink-3)">+</span>
+        <span class="calc-formula-eq">2% × số năm đóng thêm</span>
+        <span style="color:var(--ink-3);font-size:11px">(tối đa 75%)</span>
+      </div>
+      <div class="calc-formula-line">
+        <strong>Lương hưu/tháng</strong><span style="color:var(--ink-3)">=</span>
+        <span class="calc-formula-eq">Tỷ lệ hưởng</span>
+        <span style="color:var(--ink-3)">×</span>
+        <span class="calc-formula-eq">Bình quân thu nhập đóng BHXH</span>
+      </div>
+    </div>
+
+    <!-- BAR CHART -->
+    <div class="calc-chart-section">
+      <div class="calc-chart-title">📊 So sánh lương hưu theo mức thu nhập chọn đóng <span id="c-chart-sub"></span></div>
+      <div class="calc-bar-chart" id="c-bar-chart"></div>
+    </div>
+
+    <!-- INFO CARDS -->
+    <div class="calc-info-grid">
+      <div class="calc-info-card">
+        <div class="calc-info-card-icon">🏥</div>
+        <div class="calc-info-card-label">Quyền lợi thêm khi nghỉ hưu</div>
+        <div class="calc-info-card-value">Được cấp thẻ BHYT miễn phí</div>
+        <div class="calc-info-card-sub">Người hưởng lương hưu BHXH TN được BHXH cấp thẻ BHYT — tiết kiệm chi phí y tế đáng kể</div>
+      </div>
+      <div class="calc-info-card">
+        <div class="calc-info-card-icon">👶</div>
+        <div class="calc-info-card-label">Trợ cấp thai sản (Mới từ 01/7/2025)</div>
+        <div class="calc-info-card-value">2.000.000đ / mỗi con</div>
+        <div class="calc-info-card-sub">Điều kiện: ≥ 6 tháng đóng trong 12 tháng trước sinh. Áp dụng cả lao động nam có vợ sinh con.</div>
+      </div>
+      <div class="calc-info-card">
+        <div class="calc-info-card-icon">📅</div>
+        <div class="calc-info-card-label">Phương thức đóng linh hoạt</div>
+        <div class="calc-info-card-value">Hàng tháng / 3–6–12 tháng / Một lần</div>
+        <div class="calc-info-card-sub">Có thể đóng một lần cho nhiều năm còn thiếu (≤ 60 tháng/lần) để đủ điều kiện hưởng lương hưu nhanh hơn.</div>
+      </div>
+      <div class="calc-info-card">
+        <div class="calc-info-card-icon">🔗</div>
+        <div class="calc-info-card-label">Cộng nối thời gian đóng</div>
+        <div class="calc-info-card-value">BHXH bắt buộc + Tự nguyện</div>
+        <div class="calc-info-card-sub">Thời gian đóng BHXH bắt buộc (khi đi làm công ty) cộng nối với thời gian tự nguyện để tính lương hưu.</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="calc-cta-bar">
+      <div>
+        <div class="calc-cta-title">Bắt đầu đóng BHXH tự nguyện trên MoMo</div>
+        <div class="calc-cta-sub">Không cần đến cơ quan BHXH · Xác nhận ngay · Mức đóng từ 330.000đ/tháng</div>
+      </div>
+      <button class="calc-cta-btn" onclick="window.location.href='momo://bhxh-tu-nguyen'">Đóng ngay →</button>
+    </div>
+
+    <div class="calc-source-note">
+      Nguồn: <a href="https://baohiemxahoi.gov.vn" target="_blank">BHXH Việt Nam</a> · Luật BHXH số 41/2024/QH15 · NĐ 159/2025/NĐ-CP · Mức tham chiếu: 2.340.000đ/tháng<br>
+      Cập nhật: Tháng 3/2026 — Kiểm tra chính sách mới nhất tại baohiemxahoi.gov.vn
+    </div>
+
+  </div><!-- /.calc-wrap -->
+</section>
+
+</main>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+function toggleCL(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.cl-product-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+/* ═══════════════════════════════════
+   CALCULATOR JS — Luật BHXH 2024
+   ═══════════════════════════════════ */
+const cState = {
+  gender: 'male', gender2: 'male',
+  age: 30,  age2: 30,
+  income: 3000000,
+  supportPct: 20,
+  activeTab: 'monthly',
+  // Luật BHXH 2024
+  CONTRIBUTION_RATE: 0.22,
+  BASE_POVERTY: 1500000,
+  SUPPORT_BASE: 330000,        // 22% × 1.500.000đ — căn cứ tính hỗ trợ NN
+  MAX_SUPPORT_MONTHS: 120,     // Tối đa 10 năm hỗ trợ NN
+  MIN_YEARS_M: 20,             // Nam: 20 năm đủ điều kiện hưu trí cơ bản
+  MIN_YEARS_F: 15,             // Nữ: 15 năm đủ điều kiện hưu trí cơ bản
+  MAX_PENSION_RATIO: 0.75,
+  // MoMo trợ giá cố định
+  MOMO_SUBSIDY: 66000,         // MoMo trợ giá 66.000đ/tháng cố định
+};
+
+function cFmt(n) { return Math.round(n).toLocaleString('vi-VN'); }
+
+// Số năm đóng theo luật (cố định theo giới tính)
+function cGetMinYears(gender) {
+  return gender === 'male' ? cState.MIN_YEARS_M : cState.MIN_YEARS_F;
+}
+
+// Tổng số tháng đóng = MIN_YEARS × 12 (cố định)
+function cGetTotalMonths(gender) {
+  return cGetMinYears(gender) * 12;
+}
+
+// Tính tỷ lệ hưởng lương hưu
+// Nam: 45% tại 20 năm + 2%/năm thêm (tối đa 75%)
+// Nữ: 45% tại 15 năm + 2%/năm thêm (tối đa 75%)
+// Nam 15–19 năm: 40% + 1%/năm
+function cCalcRatio(years, gender) {
+  if (gender === 'female') {
+    if (years < 15) return 0;
+    return Math.min(0.45 + (years - 15) * 0.02, cState.MAX_PENSION_RATIO);
+  } else {
+    if (years < 15) return 0;
+    if (years < 20) return 0.40 + (years - 15) * 0.01;
+    return Math.min(0.45 + (years - 20) * 0.02, cState.MAX_PENSION_RATIO);
+  }
+}
+
+function cCalcContribution(income) {
+  return Math.round(income * cState.CONTRIBUTION_RATE);
+}
+
+function cCalcSupportAmt(pct) {
+  return Math.round(cState.SUPPORT_BASE * pct / 100);
+}
+
+function cBuildPeriodHint(age, gender) {
+  const years = cGetMinYears(gender);
+  const endAge = age + years;
+  const gLabel = gender === 'male' ? `nam, ${years} năm` : `nữ, ${years} năm`;
+  return `💡 Bắt đầu lúc ${age} tuổi → đóng đủ ${years} năm (${gLabel}) đến năm ${endAge} tuổi, sau đó chờ đủ tuổi hưu để nhận lương hưu.`;
+}
+
+function cRender() {
+  const isT1    = cState.activeTab === 'monthly';
+  const gender  = isT1 ? cState.gender  : cState.gender2;
+  const age     = isT1 ? cState.age     : cState.age2;
+  const income  = cState.income;
+  const suppPct = cState.supportPct;
+
+  const years       = cGetMinYears(gender);             // Số năm đóng cố định theo luật
+  const totalMonths = cGetTotalMonths(gender);           // Tổng tháng = years × 12
+  const contribution = cCalcContribution(income);        // Mức đóng/tháng = 22% × income
+  const supportAmt   = cCalcSupportAmt(suppPct);         // Hỗ trợ NN/tháng (trên mức chuẩn)
+  const momoSubsidy  = cState.MOMO_SUBSIDY;              // MoMo trợ giá cố định 66.000đ/tháng
+  const afterMoMo    = Math.max(0, contribution - momoSubsidy); // Thực trả sau MoMo trợ giá
+  const ratio        = cCalcRatio(years, gender);
+  const pension      = Math.round(income * ratio);       // Lương hưu ước tính
+  const totalCost    = afterMoMo * totalMonths;          // Tổng tiền thực trả trong N năm
+  const supportMonths = Math.min(cState.MAX_SUPPORT_MONTHS, totalMonths);
+  const totalSupport  = supportAmt * supportMonths;      // Tổng hỗ trợ NN
+  const momoTotal     = momoSubsidy * totalMonths;       // Tổng MoMo trợ giá trong N năm
+  const minCond       = gender === 'male' ? `${years} năm (nam)` : `${years} năm (nữ)`;
+
+  // Update hint
+  const hintEl = document.getElementById(isT1 ? 'c-hint-period' : 'c-hint-period2');
+  if (hintEl) hintEl.textContent = cBuildPeriodHint(age, gender);
+
+  // Update result grid
+  document.getElementById('c-r-contribution').textContent  = cFmt(contribution);
+  document.getElementById('c-r-after-support').textContent = cFmt(afterMoMo);
+  document.getElementById('c-r-period-label').textContent  = `${years} năm`;
+  document.getElementById('c-r-total-cost').textContent    = cFmt(totalCost);
+  document.getElementById('c-r-pension').textContent       = cFmt(pension);
+
+  // Update breakdown
+  document.getElementById('c-r-ratio').textContent         = ratio > 0 ? Math.round(ratio * 100) + '%' : '0%';
+  document.getElementById('c-r-support-amt').textContent   = suppPct > 0 ? '+' + cFmt(supportAmt) + 'đ' : '—';
+  document.getElementById('c-r-total-support').textContent = suppPct > 0 ? cFmt(totalSupport) + 'đ' : '—';
+  document.getElementById('c-r-momo-subsidy').textContent  = '−' + cFmt(momoSubsidy) + 'đ';
+  document.getElementById('c-r-period-months').textContent = totalMonths;
+  document.getElementById('c-r-momo-total').textContent    = cFmt(momoTotal) + 'đ';
+  document.getElementById('c-r-min-cond').textContent      = minCond;
+
+  const statusEl = document.getElementById('c-r-status');
+  if (ratio > 0) {
+    statusEl.textContent = '✅ Đủ điều kiện hưởng lương hưu';
+    statusEl.style.color = '#7DFFBE';
+  } else {
+    statusEl.textContent = '⚠️ Chưa đủ điều kiện';
+    statusEl.style.color = '#FFB347';
+  }
+
+  // Bar chart — so sánh lương hưu theo mức thu nhập
+  const levels = [1500000, 3000000, 5000000, 10000000];
+  const labels = ['1.500.000đ', '3.000.000đ', '5.000.000đ', '10.000.000đ'];
+  const maxP = Math.round(10000000 * cCalcRatio(years, gender));
+  document.getElementById('c-bar-chart').innerHTML = levels.map((lvl, i) => {
+    const p    = Math.round(lvl * cCalcRatio(years, gender));
+    const c2   = cCalcContribution(lvl);
+    const pct  = maxP > 0 ? Math.max(Math.round((p / maxP) * 100), 8) : 8;
+    const active = Math.abs(lvl - income) < 250000;
+    return `<div class="calc-bar-row" style="opacity:${active ? 1 : 0.5}">
+      <span class="calc-bar-label">${labels[i]}</span>
+      <div class="calc-bar-track"><div class="calc-bar-fill" style="width:${pct}%">
+        <span class="calc-bar-val">${cFmt(p)}đ/th</span>
+      </div></div>
+      <span class="calc-bar-val-out">${cFmt(c2)}đ đóng</span>
+    </div>`;
+  }).join('');
+  document.getElementById('c-chart-sub').textContent =
+    `(${years} năm đóng · ${gender === 'male' ? 'Nam' : 'Nữ'})`;
+}
+
+function cUpdateSlider(el) {
+  const min = parseInt(el.min), max = parseInt(el.max), val = parseInt(el.value);
+  el.style.setProperty('--pct', ((val - min) / (max - min) * 100) + '%');
+}
+
+function calcOnAgeChange(el) {
+  cState.age = parseInt(el.value);
+  document.getElementById('c-age-display').textContent = cState.age;
+  cUpdateSlider(el); cRender();
+}
+function calcOnAge2Change(el) {
+  cState.age2 = parseInt(el.value);
+  document.getElementById('c-age2-display').textContent = cState.age2;
+  cUpdateSlider(el); cRender();
+}
+function calcOnIncomeChange(el) {
+  cState.income = parseInt(el.value);
+  document.getElementById('c-income-display').textContent = cFmt(cState.income);
+  cUpdateSlider(el); cRender();
+}
+function calcSetGender(g, el) {
+  cState.gender = g;
+  document.querySelectorAll('#calc-tab-monthly .calc-select-option').forEach(e => e.classList.remove('active'));
+  el.classList.add('active'); cRender();
+}
+function calcSetGender2(g, el) {
+  cState.gender2 = g;
+  document.querySelectorAll('#calc-tab-income .calc-select-option').forEach(e => e.classList.remove('active'));
+  el.classList.add('active'); cRender();
+}
+function calcSetSupport(pct, el) {
+  cState.supportPct = pct;
+  document.querySelectorAll('.calc-support-opt').forEach(e => e.classList.remove('active'));
+  el.classList.add('active'); cRender();
+}
+function calcSwitchTab(tab) {
+  cState.activeTab = tab;
+  document.querySelectorAll('.calc-tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && tab === 'monthly') || (i === 1 && tab === 'income'));
+  });
+  document.querySelectorAll('.calc-tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('calc-tab-' + tab).classList.add('active');
+  cRender();
+}
+function calcFromPensionTarget() {
+  const target = parseInt(document.getElementById('c-target-pension').value) || 5000000;
+  const years  = cGetMinYears(cState.gender2);
+  const ratio  = cCalcRatio(years, cState.gender2);
+  if (ratio > 0) {
+    cState.income = Math.max(cState.BASE_POVERTY, Math.min(Math.round(target / ratio), 46800000));
+    const sl = document.getElementById('c-slider-income');
+    if (sl) { sl.value = cState.income; cUpdateSlider(sl); document.getElementById('c-income-display').textContent = cFmt(cState.income); }
+  }
+  cRender();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.calc-slider').forEach(cUpdateSlider);
+  cRender();
+});
+</script>
+</body>
+</html>

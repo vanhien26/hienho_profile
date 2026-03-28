@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects } from './data/projects'
+import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen } from 'lucide-react'
 
 const statusStyle: Record<string, { bg: string; text: string; label: string }> = {
   live: { bg: '#E0F5EA', text: '#00663A', label: 'LIVE' },
@@ -57,9 +58,7 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
       className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-lg"
       style={{ background: '#18120E', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-        <path d="M3 12h18M3 6h18M3 18h18" />
-      </svg>
+      <Menu size={18} color="white" />
     </button>
   )
 }
@@ -101,10 +100,10 @@ export default function HomePage() {
             }}
           />
 
-          <div className="relative px-6 sm:px-12 pt-8 sm:pt-10 pb-0 flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-8">
+          <div className="relative px-6 sm:px-12 pt-8 sm:pt-10 pb-0 flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-8">
             {/* Avatar */}
             <div
-              className="flex-shrink-0 rounded-full mb-0 sm:mb-[-32px] z-10 overflow-hidden"
+              className="flex-shrink-0 rounded-full mb-0 z-10 overflow-hidden"
               style={{
                 width: 88,
                 height: 88,
@@ -138,11 +137,11 @@ export default function HomePage() {
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-3">
                 <span className="text-white/50 text-xs flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                  <Phone size={12} />
                   090 6973942
                 </span>
                 <span className="text-white/50 text-xs flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <Mail size={12} />
                   hien.ho@momo.vn
                 </span>
                 <a
@@ -152,7 +151,7 @@ export default function HomePage() {
                   className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all hover:opacity-80"
                   style={{ background: '#AE2070', color: '#fff' }}
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                  <MessageCircle size={12} />
                   Chat
                 </a>
               </div>
@@ -182,7 +181,9 @@ export default function HomePage() {
           {/* Use Case Section */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-xl">📋</span>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#F5E0EC' }}>
+                <FileText size={16} style={{ color: '#AE2070' }} />
+              </div>
               <div>
                 <h2 className="text-lg font-black tracking-tight" style={{ color: 'var(--ink)' }}>
                   Use Case Document
@@ -268,7 +269,9 @@ export default function HomePage() {
           {/* Knowledge Section */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-xl">🧠</span>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#EDE8FF' }}>
+                <BookOpen size={16} style={{ color: '#4B1DB8' }} />
+              </div>
               <div>
                 <h2 className="text-lg font-black tracking-tight" style={{ color: 'var(--ink)' }}>
                   Knowledge & Guideline

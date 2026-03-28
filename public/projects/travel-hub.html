@@ -1,0 +1,2770 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo Du Lịch — Travel Ecosystem Master Strategy v1.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #AE2070;
+  --pink-light: #F5E0EC;
+  --green: #00A64F;
+  --green-light: #E0F5EA;
+  --blue: #1848B8;
+  --blue-light: #E6EEFF;
+  --amber: #C05000;
+  --amber-light: #FFF0E0;
+  --red: #C42020;
+  --red-light: #FFE8E8;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --teal: #0E7490;
+  --teal-light: #E0F7FA;
+  --orange: #D97706;
+  --orange-light: #FEF3C7;
+  --ink: #18120E;
+  --ink-2: #4A3F38;
+  --ink-3: #8C7D74;
+  --bg: #F6F3EF;
+  --surface: #FFFFFF;
+  --border: #E4DDD6;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --r: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+
+/* ─── LAYOUT ─── */
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:252px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
+.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
+.nav-section { padding:16px 0 0; }
+.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; }
+.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
+.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
+.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+
+/* ─── CONTENT ─── */
+.content { flex:1; overflow-y:auto; min-width:0; }
+.section { display:none; padding:40px 48px; }
+.section.active { display:block; }
+
+/* ─── HEADER ─── */
+.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
+.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
+.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+
+/* ─── STATS ─── */
+.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
+.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+/* ─── HEADINGS ─── */
+h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
+h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+
+/* ─── TAGS ─── */
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
+.tag-tofu { background:#E0F4E8; color:#0B6130; }
+.tag-mofu { background:var(--blue-light); color:var(--blue); }
+.tag-bofu { background:var(--pink-light); color:var(--pink); }
+.tag-crisis { background:#FFE8E8; color:#B01010; }
+.tag-p1 { background:var(--pink-light); color:var(--pink); }
+.tag-p2 { background:#FFF3DC; color:#8B5800; }
+.tag-p3 { background:#F0EDE8; color:var(--ink-3); }
+.tag-content { background:var(--blue-light); color:var(--blue); }
+.tag-trans { background:var(--amber-light); color:var(--amber); }
+.tag-template { background:var(--green-light); color:#006B30; }
+.tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
+.tag-review { background:#FFF0E0; color:#C05000; border:1.5px dashed #C05000; }
+.tag-purple { background:var(--purple-light); color:var(--purple); }
+.tag-teal { background:var(--teal-light); color:var(--teal); }
+.tag-orange { background:var(--orange-light); color:var(--orange); }
+
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+
+/* ─── TABLE ─── */
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-new { background:#F0FFF6; }
+.data-table tbody tr.row-new:hover { background:#E0F5EA; }
+
+/* ─── FUNNEL ─── */
+.funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
+.funnel-stage:last-child { border-right:none; }
+.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
+.funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
+.fs-tofu { border-top:3px solid var(--green); }
+.fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); }
+.fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); }
+.fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+.fs-purple { border-top:3px solid var(--purple); }
+.fs-purple .funnel-stage-label { color:var(--purple); }
+
+/* ─── TREE ─── */
+.tree-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:36px; }
+.tree-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:36px; }
+.tree-grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px; margin-bottom:36px; }
+.tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.tree-box-header { padding:14px 18px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+.tree-box-title { font-size:14px; font-weight:800; }
+.tree-box-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-top:1px; }
+.tree-body { padding:14px 18px; }
+.tree-item { font-size:12px; color:var(--ink-2); padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+.tree-item:last-child { border-bottom:none; }
+.tree-item-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--blue); flex-shrink:0; }
+.tree-item-label { flex:1; }
+.tree-item-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
+
+.divider { height:1px; background:var(--border); margin:32px 0; }
+
+/* ─── CALLOUT ─── */
+.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
+.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:var(--purple-light); border:1px solid #D8B4FE; color:#4C1D95; }
+.callout-teal { background:var(--teal-light); border:1px solid #A5F3FC; color:#0E4A5A; }
+.callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+
+/* ─── VERDICT ─── */
+.verdict-bar { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:22px 28px; margin-bottom:28px; display:flex; align-items:center; gap:24px; }
+.verdict-score { width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:28px; font-weight:900; letter-spacing:-1px; }
+.verdict-text { flex:1; }
+.verdict-title { font-size:16px; font-weight:800; margin-bottom:4px; }
+.verdict-desc { font-size:13px; color:var(--ink-2); line-height:1.6; }
+
+/* ─── CARDS ─── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.card-title { font-size:14px; font-weight:700; margin-bottom:4px; color:var(--ink); }
+
+/* ─── PRODUCT CARD ─── */
+.product-cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:28px; }
+.product-cards-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.product-card { background:var(--surface); border:2px solid var(--border); border-radius:12px; overflow:hidden; }
+.product-card-header { padding:20px 20px 16px; }
+.product-card-icon { font-size:28px; margin-bottom:10px; }
+.product-card-title { font-size:16px; font-weight:900; letter-spacing:-0.3px; margin-bottom:4px; }
+.product-card-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
+.product-card-body { padding:0 20px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.product-card-footer { padding:12px 20px; border-top:1px solid var(--border); display:flex; gap:6px; flex-wrap:wrap; }
+.pc-ota { border-color:#1848B8; }
+.pc-ota .product-card-header { background:linear-gradient(135deg,#E6EEFF,#F0F4FF); }
+.pc-esim { border-color:#0E7490; }
+.pc-esim .product-card-header { background:linear-gradient(135deg,#E0F7FA,#F0FEFF); }
+.pc-intl { border-color:#AE2070; }
+.pc-intl .product-card-header { background:linear-gradient(135deg,#F5E0EC,#FFF0F6); }
+.pc-hub { border-color:#00A64F; }
+.pc-hub .product-card-header { background:linear-gradient(135deg,#E0F5EA,#F0FFF4); }
+
+/* ─── CONTENT STRUCTURE ─── */
+.cs-page { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
+.cs-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cs-header:hover { background:var(--bg); }
+.cs-header-left { display:flex; align-items:center; gap:12px; }
+.cs-page-title { font-size:14px; font-weight:700; }
+.cs-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; }
+.cs-toggle.open { transform:rotate(90deg); }
+.cs-body { display:none; border-top:1px solid var(--border); }
+.cs-body.open { display:block; }
+.cs-section { border-bottom:1px solid var(--border); padding:16px 20px; }
+.cs-section:last-child { border-bottom:none; }
+.cs-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
+.cs-keyword-row { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11.5px; padding:2px 8px; border-radius:4px; }
+.cs-component { display:inline-flex; align-items:center; gap:4px; background:var(--amber-light); color:var(--amber); border:1px solid #FFD0A0; font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:4px; margin:2px; }
+.cs-content-block { background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:10px 14px; margin-bottom:8px; font-size:12.5px; }
+.cs-block-title { font-weight:700; margin-bottom:3px; }
+.cs-block-desc { color:var(--ink-2); line-height:1.5; }
+.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
+
+/* ─── PRIORITY ─── */
+.priority-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.priority-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.priority-col-header { padding:11px 16px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.priority-col-body { padding:12px; background:var(--surface); }
+.priority-item { font-size:12px; padding:7px 10px; border-radius:6px; margin-bottom:5px; border:1px solid var(--border); background:var(--bg); line-height:1.4; }
+.priority-item b { display:block; font-weight:700; color:var(--ink); }
+.priority-item span { color:var(--ink-3); font-size:11px; }
+.priority-item.new-item { border:1.5px dashed var(--green); background:#F0FFF6; }
+
+/* ─── ACTION ITEMS ─── */
+.action-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; margin-bottom:8px; display:flex; align-items:flex-start; gap:14px; }
+.action-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; color:white; }
+.action-body { flex:1; }
+.action-title { font-size:13px; font-weight:700; margin-bottom:2px; }
+.action-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.action-meta { display:flex; gap:8px; margin-top:6px; }
+
+/* ─── URL STRATEGY ─── */
+.url-strategy { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.url-strategy-header { padding:14px 20px; background:var(--ink); color:white; display:flex; align-items:center; gap:10px; }
+.url-strategy-title { font-size:14px; font-weight:800; }
+.url-row { display:flex; border-bottom:1px solid var(--border); font-size:12.5px; }
+.url-row:last-child { border-bottom:none; }
+.url-row-type { width:140px; flex-shrink:0; padding:10px 14px; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.3px; background:var(--bg); color:var(--ink-3); border-right:1px solid var(--border); }
+.url-row-url { padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--blue); flex:1; }
+.url-row-note { padding:10px 14px; color:var(--ink-3); font-size:12px; width:220px; border-left:1px solid var(--border); }
+
+/* ─── GRID ─── */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+
+/* ─── KW PILL ─── */
+.kw-group { margin-bottom:16px; }
+.kw-group-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:var(--ink-3); margin-bottom:8px; }
+.kw-pills { display:flex; flex-wrap:wrap; gap:6px; }
+.kw-pill { background:var(--bg); border:1px solid var(--border); border-radius:20px; padding:4px 12px; font-size:12px; color:var(--ink-2); display:flex; align-items:center; gap:6px; }
+.kw-pill .sv { font-size:10px; font-weight:700; color:var(--ink-3); }
+.kw-pill.high { background:#E0F5EA; border-color:#A0DEB8; color:#0B5020; }
+.kw-pill.mid { background:var(--blue-light); border-color:#B0C8FF; color:#0D3080; }
+.kw-pill.low { background:#F0EDE8; border-color:var(--border); color:var(--ink-3); }
+
+/* ─── KPI ─── */
+.kpi-card { background:var(--surface); border:2px solid var(--border); border-radius:14px; padding:24px 28px; margin-bottom:16px; position:relative; overflow:hidden; }
+.kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+.kpi-blue::before { background:var(--blue); }
+.kpi-green::before { background:var(--green); }
+.kpi-pink::before { background:var(--pink); }
+.kpi-teal::before { background:var(--teal); }
+.kpi-amber::before { background:var(--amber); }
+.kpi-purple::before { background:var(--purple); }
+.kpi-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; }
+.kpi-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:4px; }
+.kpi-title { font-size:15px; font-weight:800; color:var(--ink); }
+.kpi-target { font-size:28px; font-weight:900; letter-spacing:-1px; }
+.kpi-baseline { font-size:12px; color:var(--ink-3); margin-top:2px; }
+.kpi-body { font-size:12.5px; color:var(--ink-2); line-height:1.7; }
+.kpi-milestones { display:flex; gap:12px; margin-top:14px; }
+.kpi-ms { flex:1; background:var(--bg); border-radius:8px; padding:10px 12px; text-align:center; border:1px solid var(--border); }
+.kpi-ms-q { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); margin-bottom:3px; }
+.kpi-ms-val { font-size:16px; font-weight:900; }
+
+/* ─── ROADMAP ─── */
+.roadmap-row { display:flex; gap:16px; margin-bottom:20px; }
+.roadmap-q { width:90px; flex-shrink:0; }
+.roadmap-q-label { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; padding:6px 12px; border-radius:6px; text-align:center; }
+.roadmap-items { flex:1; }
+.roadmap-item { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px 16px; margin-bottom:8px; font-size:13px; }
+.roadmap-item-title { font-weight:700; margin-bottom:3px; }
+.roadmap-item-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+
+/* ─── ECO ─── */
+.eco-center { border-radius:16px; padding:24px 28px; text-align:center; margin-bottom:20px; }
+.eco-center-title { font-size:22px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; }
+.eco-center-sub { font-size:13px; opacity:0.8; }
+.eco-arrows { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.eco-arrow { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 18px; position:relative; }
+.eco-arrow::before { content:"↑"; position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--surface); padding:0 4px; color:var(--ink-3); font-size:16px; font-weight:700; }
+.eco-product-title { font-size:13px; font-weight:800; margin-bottom:8px; }
+.eco-product-list { font-size:12px; color:var(--ink-2); line-height:1.8; list-style:none; }
+.eco-product-list li::before { content:"→ "; color:var(--ink-3); }
+
+/* ─── BLOG CARD ─── */
+.blog-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.blog-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 18px; }
+.blog-card-cat { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px; }
+.blog-card-title { font-size:13px; font-weight:700; margin-bottom:6px; color:var(--ink); line-height:1.4; }
+.blog-card-kw { font-size:11px; color:var(--ink-3); font-family:'JetBrains Mono',monospace; }
+.blog-card-meta { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+
+@media (max-width:1100px) {
+  .sidebar { width:200px; }
+  .section { padding:28px; }
+  .stat-row { grid-template-columns:repeat(2,1fr); }
+  .tree-grid,.tree-grid-2,.grid-2,.grid-3 { grid-template-columns:1fr; }
+  .priority-grid { grid-template-columns:1fr; }
+  .funnel-flow { flex-direction:column; }
+  .funnel-stage { border-right:none; border-bottom:1px solid var(--border); }
+  .product-cards,.product-cards-4 { grid-template-columns:1fr; }
+  .eco-arrows { grid-template-columns:1fr 1fr; }
+  .blog-grid,.tree-grid-4 { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══════ SIDEBAR ══════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-sub">Du Lịch · Travel Ecosystem<br>Master Strategy v1.0</div>
+  </div>
+  <nav>
+    <div class="nav-section">
+      <div class="nav-label">Tổng Quan</div>
+      <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">✈️</span> Travel Ecosystem</div>
+      <div class="nav-item" onclick="go('sitemap')"><span class="nav-icon">🗺</span> Sitemap & IA</div>
+      <div class="nav-item" onclick="go('funnel')"><span class="nav-icon">↗</span> User Journey Funnel</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Content Structure</div>
+      <div class="nav-item" onclick="go('cs-hub')"><span class="nav-icon">🏠</span> CS: Hub /du-lich-di-lai</div>
+      <div class="nav-item" onclick="go('cs-ota')"><span class="nav-icon">🎫</span> CS: OTA (Vé & Khách Sạn)</div>
+      <div class="nav-item" onclick="go('cs-esim')"><span class="nav-icon">📱</span> CS: eSIM Du Lịch</div>
+      <div class="nav-item" onclick="go('cs-intl')"><span class="nav-icon">💳</span> CS: Thanh Toán Quốc Tế</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">SEO & Blog</div>
+      <div class="nav-item" onclick="go('keyword')"><span class="nav-icon">🔍</span> Keyword Research</div>
+      <div class="nav-item" onclick="go('blog')"><span class="nav-icon">🧱</span> Pillar & Cluster Blog</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Components & Conversion</div>
+      <div class="nav-item" onclick="go('components')"><span class="nav-icon">⚡</span> Travel Components</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">KPI & Roadmap</div>
+      <div class="nav-item" onclick="go('kpi')"><span class="nav-icon">🎯</span> KPI 2026</div>
+      <div class="nav-item" onclick="go('roadmap')"><span class="nav-icon">📅</span> Roadmap Thực Thi</div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="version-tag">v1.0 · March 2026</div>
+    <div class="version-tag">Travel Ecosystem Strategy</div>
+  </div>
+</aside>
+
+<main class="content">
+
+<!-- ═══════════════════════════════════ -->
+<!-- 1. OVERVIEW -->
+<!-- ═══════════════════════════════════ -->
+<section class="section active" id="s-overview">
+  <div class="page-header">
+    <div class="page-eyebrow">Travel Ecosystem · Master Strategy</div>
+    <div class="page-title">MoMo Du Lịch — Travel Ecosystem Hub</div>
+    <div class="page-desc">Chiến lược xây dựng Travel Ecosystem tập trung hóa 4 sản phẩm: OTA (vé máy bay, xe khách, tàu hoả, khách sạn) · eSIM Du Lịch · Thanh Toán Quốc Tế — kết nối qua Hub page <code class="url">/du-lich-di-lai</code> để biến MoMo thành siêu ứng dụng du lịch toàn diện cho người Việt.</div>
+  </div>
+
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,#E0F7FA,#B2EBF2);color:var(--teal)">✈️</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Chiến lược: Travel Ecosystem — "Plan, Book, Pay, Connect" Toàn Hành Trình</div>
+      <div class="verdict-desc">Người dùng có thể hoàn thành toàn bộ vòng lặp du lịch trên MoMo: <b>Lên kế hoạch</b> (blog, tra cứu) → <b>Đặt chỗ</b> (vé + khách sạn) → <b>Kết nối</b> (eSIM nước ngoài) → <b>Thanh toán</b> tại điểm đến. Hub <code class="url">/du-lich-di-lai</code> là điểm neo SEO + UX, cross-link đến tất cả sản phẩm.</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">4</div>
+      <div class="stat-lbl">Nhóm Sản Phẩm Du Lịch</div>
+      <div class="stat-sub">OTA · eSIM · Intl Pay · Hub</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--teal)">100+</div>
+      <div class="stat-lbl">Sub-pages mục tiêu</div>
+      <div class="stat-sub">OTA (70+) · eSIM (25+) · Hub (10+)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">150+</div>
+      <div class="stat-lbl">Bài Blog Content Cluster</div>
+      <div class="stat-sub">TOFU 70 · MOFU 50 · BOFU 30</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">800K+</div>
+      <div class="stat-lbl">Organic Traffic/năm</div>
+      <div class="stat-sub">Mục tiêu cuối 2026</div>
+    </div>
+  </div>
+
+  <!-- 4 PRODUCTS -->
+  <h2 class="sh">📦 4 Nhóm Sản Phẩm Du Lịch — Hiện Trạng & Định Hướng</h2>
+  <div class="product-cards-4">
+    <div class="product-card pc-hub">
+      <div class="product-card-header">
+        <div class="product-card-icon">🏖️</div>
+        <div class="product-card-title" style="color:var(--green)">Travel Hub</div>
+        <div class="product-card-url">momo.vn/du-lich-di-lai</div>
+      </div>
+      <div class="product-card-body">
+        Trang Hub trung tâm chưa tồn tại. Cần xây dựng như "cổng du lịch" cross-link đến toàn bộ sản phẩm. SEO anchor cho từ khoá umbrella "du lịch MoMo".
+      </div>
+      <div class="product-card-footer">
+        <span class="tag tag-crisis">Chưa có — Cần tạo mới</span>
+        <span class="tag tag-new">Ưu tiên #1</span>
+      </div>
+    </div>
+    <div class="product-card pc-ota">
+      <div class="product-card-header">
+        <div class="product-card-icon">🎫</div>
+        <div class="product-card-title" style="color:var(--blue)">OTA — Đặt Vé & Khách Sạn</div>
+        <div class="product-card-url">momo.vn/ve-may-bay · /ve-xe · /ve-tau-hoa · /dat-khach-san</div>
+      </div>
+      <div class="product-card-body">
+        4 sản phẩm đặt vé đã có trang landing. Cần mở rộng sub-pages theo tuyến đường cụ thể (A→B), nhà xe, hãng tàu, thành phố để capture long-tail SEO cực lớn.
+      </div>
+      <div class="product-card-footer">
+        <span class="tag tag-mofu">Đã có landing</span>
+        <span class="tag tag-new">Mở rộng sub-pages mạnh</span>
+      </div>
+    </div>
+    <div class="product-card pc-esim">
+      <div class="product-card-header">
+        <div class="product-card-icon">📱</div>
+        <div class="product-card-title" style="color:var(--teal)">eSIM Du Lịch</div>
+        <div class="product-card-url">momo.vn/esim-du-lich</div>
+      </div>
+      <div class="product-card-body">
+        Đã có landing chính và các sub-page theo quốc gia/châu lục. Cần mở rộng thêm nội dung hướng dẫn, so sánh gói cước và tối ưu SEO từng quốc gia phổ biến.
+      </div>
+      <div class="product-card-footer">
+        <span class="tag tag-mofu">Có sub-pages quốc gia</span>
+        <span class="tag tag-review">Cần tối ưu thêm</span>
+      </div>
+    </div>
+    <div class="product-card pc-intl">
+      <div class="product-card-header">
+        <div class="product-card-icon">💳</div>
+        <div class="product-card-title" style="color:var(--pink)">Thanh Toán Quốc Tế</div>
+        <div class="product-card-url">momo.vn/thanh-toan-quoc-te</div>
+      </div>
+      <div class="product-card-body">
+        Hiện có trang giới thiệu chung. Cần sub-pages theo từng quốc gia hỗ trợ (Thái Lan, Nhật, Hàn...) và use-case cụ thể để đáp ứng ý định tìm kiếm trước khi đi du lịch.
+      </div>
+      <div class="product-card-footer">
+        <span class="tag tag-crisis">Single page hiện tại</span>
+        <span class="tag tag-new">Tiềm năng SEO cao</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECOSYSTEM MAP -->
+  <h2 class="sh">🔗 Travel Ecosystem Architecture — "Plan → Book → Connect → Pay"</h2>
+  <div class="eco-center" style="background:linear-gradient(135deg,#0E7490,#1848B8);color:white;">
+    <div class="eco-center-title">🏖️ momo.vn/du-lich-di-lai — Travel Hub Page</div>
+    <div class="eco-center-sub">SEO Anchor · Cross-link Hub · "Đi du lịch cần gì? — Momo lo hết"</div>
+  </div>
+  <div class="eco-arrows">
+    <div class="eco-arrow">
+      <div class="eco-product-title" style="color:var(--blue)">✈️ Vé Máy Bay</div>
+      <ul class="eco-product-list">
+        <li>Sub-pages tuyến bay HAN-SGN, SGN-DAD...</li>
+        <li>Blog: so sánh hãng bay, tips đặt vé rẻ</li>
+        <li>Target: "vé máy bay MoMo"</li>
+      </ul>
+    </div>
+    <div class="eco-arrow">
+      <div class="eco-product-title" style="color:var(--amber)">🚌 Vé Xe & Tàu</div>
+      <ul class="eco-product-list">
+        <li>Sub-pages tuyến, nhà xe, ga tàu</li>
+        <li>Blog: du lịch bụi, lịch trình xe khách</li>
+        <li>Target: "vé xe khách online MoMo"</li>
+      </ul>
+    </div>
+    <div class="eco-arrow">
+      <div class="eco-product-title" style="color:var(--pink)">🏨 Khách Sạn</div>
+      <ul class="eco-product-list">
+        <li>Sub-pages theo thành phố, loại hình</li>
+        <li>Blog: review điểm đến, tips tiết kiệm</li>
+        <li>Target: "đặt khách sạn MoMo"</li>
+      </ul>
+    </div>
+    <div class="eco-arrow">
+      <div class="eco-product-title" style="color:var(--teal)">📱 eSIM + 💳 Intl Pay</div>
+      <ul class="eco-product-list">
+        <li>Sub-pages theo quốc gia du lịch</li>
+        <li>Blog: cách dùng eSIM, thanh toán ở nước ngoài</li>
+        <li>Target: "eSIM du lịch Thái Lan"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-title">🔑 Insight chiến lược: Travel Loop</div>
+    Người dùng lên kế hoạch đi Thái Lan → đọc blog → đặt vé máy bay MoMo → đặt khách sạn → mua eSIM Thái Lan → tới nơi quét QR thanh toán bằng MoMo. Toàn bộ hành trình du lịch đều có thể thực hiện trên MoMo — đây là lợi thế siêu app mà OTA thuần tuý không có được.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 2. SITEMAP & IA -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-sitemap">
+  <div class="page-header">
+    <div class="page-eyebrow">Information Architecture</div>
+    <div class="page-title">Sitemap & URL Architecture — Travel Ecosystem</div>
+    <div class="page-desc">Toàn bộ cấu trúc URL cho Hub, OTA (4 loại), eSIM, và Thanh toán quốc tế. Thiết kế flat-to-deep: landing chính → sub-pages theo tuyến / quốc gia → blog cluster liên kết ngược.</div>
+  </div>
+
+  <!-- HUB -->
+  <h2 class="sh">🏖️ Hub Page & Sub-pages</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>🌐</span>
+      <div class="url-strategy-title">momo.vn/du-lich-di-lai — Travel Hub + Điểm Đến (Tạo Mới)</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:var(--green);color:white">HUB CHÍNH</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai</div>
+      <div class="url-row-note">Cổng Du Lịch MoMo · SEO anchor · CTA vào 4 sản phẩm</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--green)">Hub — Sub</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/trong-nuoc</div>
+      <div class="url-row-note">Du lịch trong nước · aggregator page</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--green)">Hub — Sub</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/nuoc-ngoai</div>
+      <div class="url-row-note">Du lịch nước ngoài · eSIM + Intl Pay CTA</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:#0E7490;color:white">ĐIỂM ĐẾN HUB</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den</div>
+      <div class="url-row-note">Thư mục tất cả điểm đến · index tỉnh/thành + quốc gia</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/da-nang</div>
+      <div class="url-row-note">Hub Đà Nẵng: vé + khách sạn + địa danh + blog · SV cao nhất</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/phu-quoc</div>
+      <div class="url-row-note">Hub Phú Quốc: resort + vé máy bay + hoạt động biển</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/da-lat</div>
+      <div class="url-row-note">Hub Đà Lạt: vé xe/bay + homestay + địa danh</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/ho-chi-minh</div>
+      <div class="url-row-note">Hub TP.HCM: nội thành + vùng lân cận</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/ha-noi</div>
+      <div class="url-row-note">Hub Hà Nội: phố cổ + điểm đến lân cận</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/hoi-an</div>
+      <div class="url-row-note">Hub Hội An: phố cổ + biển Cửa Đại</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/nha-trang</div>
+      <div class="url-row-note">Hub Nha Trang: biển + đảo + vé tàu/xe</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Tỉnh/Thành</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/sapa</div>
+      <div class="url-row-note">Hub Sapa: trekking + homestay + vé xe Hà Nội</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Quốc Gia QT</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/thai-lan</div>
+      <div class="url-row-note">Hub Thái Lan: vé bay + eSIM + Intl Pay · full cross-sell</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Quốc Gia QT</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/nhat-ban</div>
+      <div class="url-row-note">Hub Nhật Bản: vé + eSIM Nhật + tips thanh toán</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Quốc Gia QT</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/han-quoc</div>
+      <div class="url-row-note">Hub Hàn Quốc: K-trip · vé + eSIM Hàn + địa danh</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Địa Danh</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/ho-chi-minh/pho-di-bo</div>
+      <div class="url-row-note">Phố đi bộ Nguyễn Huệ · địa danh chi tiết trong thành phố</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Địa Danh</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/da-nang/cau-rong</div>
+      <div class="url-row-note">Cầu Rồng Đà Nẵng · check-in spot · điểm đặt vé nearby</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Địa Danh</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/da-nang/ba-na-hills</div>
+      <div class="url-row-note">Bà Nà Hills · vé tham quan + khách sạn gần + tips</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Địa Danh</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/ha-noi/ho-hoan-kiem</div>
+      <div class="url-row-note">Hồ Hoàn Kiếm · trung tâm · khách sạn lân cận</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Địa Danh</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/phu-quoc/vinwonders</div>
+      <div class="url-row-note">VinWonders Phú Quốc · vé tham quan + combo resort</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Template</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/[tinh-thanh]</div>
+      <div class="url-row-note">~20 tỉnh/thành + 10 quốc gia · template chuẩn hoá</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Template</div>
+      <div class="url-row-url">momo.vn/du-lich-di-lai/diem-den/[tinh-thanh]/[dia-danh]</div>
+      <div class="url-row-note">~100+ địa danh cụ thể · long-tail SEO · gắn vé + khách sạn</div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-title">📐 Logic trang Điểm Đến & Địa Danh</div>
+    <strong>Level 1</strong> — <code class="url">/diem-den/[tinh-thanh]</code>: Tổng quan tỉnh/thành, widget tìm vé đến đó, danh sách khách sạn nổi bật, địa danh nổi tiếng, blog liên quan. <strong>Level 2</strong> — <code class="url">/diem-den/[tinh-thanh]/[dia-danh]</code>: Giới thiệu địa danh cụ thể (vị trí, giờ mở cửa, giá vé nếu có, tips), CTA đặt khách sạn gần nhất, internal link về trang đặt vé đến thành phố đó và blog điểm đến. Đây là lớp long-tail SEO mạnh nhất — người tìm "phố đi bộ Nguyễn Huệ" có intent du lịch rõ ràng, MoMo capture và dẫn vào funnel đặt vé/phòng.
+  </div>
+
+  <!-- OTA: VÉ MÁY BAY -->
+  <h2 class="sh">✈️ Vé Máy Bay — Sub-pages</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>✈️</span>
+      <div class="url-strategy-title">momo.vn/ve-may-bay + Sub-pages</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:var(--blue);color:white">LANDING</div>
+      <div class="url-row-url">momo.vn/ve-may-bay</div>
+      <div class="url-row-note">Trang chính · đã có</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">Tuyến Bay Hot</div>
+      <div class="url-row-url">momo.vn/ve-may-bay/ha-noi-ho-chi-minh</div>
+      <div class="url-row-note">SV lớn nhất · 30K+/tháng</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">Tuyến Bay Hot</div>
+      <div class="url-row-url">momo.vn/ve-may-bay/ho-chi-minh-da-nang</div>
+      <div class="url-row-note">Top tuyến mùa hè</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">Tuyến Bay Hot</div>
+      <div class="url-row-url">momo.vn/ve-may-bay/ha-noi-da-lat</div>
+      <div class="url-row-note">Trending 2025-2026</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">Tuyến Bay Hot</div>
+      <div class="url-row-url">momo.vn/ve-may-bay/ho-chi-minh-phu-quoc</div>
+      <div class="url-row-note">Du lịch biển phổ biến</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">Quốc Tế</div>
+      <div class="url-row-url">momo.vn/ve-may-bay/ho-chi-minh-bangkok</div>
+      <div class="url-row-note">Tuyến quốc tế top 1</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">Quốc Tế</div>
+      <div class="url-row-url">momo.vn/ve-may-bay/ha-noi-tokyo</div>
+      <div class="url-row-note">Tuyến Nhật Bản hot 2026</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">Template</div>
+      <div class="url-row-url">momo.vn/ve-may-bay/[thanh-pho-a]-[thanh-pho-b]</div>
+      <div class="url-row-note">~40 tuyến bay · tự động hoá template</div>
+    </div>
+  </div>
+
+  <!-- OTA: VÉ XE KHÁCH -->
+  <h2 class="sh">🚌 Vé Xe Khách — Sub-pages</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>🚌</span>
+      <div class="url-strategy-title">momo.vn/ve-xe + Sub-pages</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:var(--amber);color:white">LANDING</div>
+      <div class="url-row-url">momo.vn/ve-xe</div>
+      <div class="url-row-note">Trang chính · đã có</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Tuyến Xe</div>
+      <div class="url-row-url">momo.vn/ve-xe/ho-chi-minh-da-lat</div>
+      <div class="url-row-note">Tuyến phổ biến nhất miền Nam</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Tuyến Xe</div>
+      <div class="url-row-url">momo.vn/ve-xe/ha-noi-sapa</div>
+      <div class="url-row-note">Tuyến du lịch núi phổ biến</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Tuyến Xe</div>
+      <div class="url-row-url">momo.vn/ve-xe/ho-chi-minh-vung-tau</div>
+      <div class="url-row-note">Tuyến biển cuối tuần</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Nhà Xe</div>
+      <div class="url-row-url">momo.vn/ve-xe/nha-xe/phuong-trang</div>
+      <div class="url-row-note">Top 1 nhà xe VN · brand keyword</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Nhà Xe</div>
+      <div class="url-row-url">momo.vn/ve-xe/nha-xe/thanh-buoi</div>
+      <div class="url-row-note">Nhà xe miền Nam phổ biến</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Nhà Xe</div>
+      <div class="url-row-url">momo.vn/ve-xe/nha-xe/hoang-long</div>
+      <div class="url-row-note">Nhà xe miền Bắc lớn nhất</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Nhà Xe đi AB</div>
+      <div class="url-row-url">momo.vn/ve-xe/nha-xe/[ten-nha-xe]/[tuyen-duong]</div>
+      <div class="url-row-note">Trang nhà xe theo tuyến cụ thể</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--amber)">Template</div>
+      <div class="url-row-url">momo.vn/ve-xe/[thanh-pho-a]-[thanh-pho-b]</div>
+      <div class="url-row-note">~30 tuyến xe · template chuẩn SEO</div>
+    </div>
+  </div>
+
+  <!-- OTA: VÉ TÀU HỎA -->
+  <h2 class="sh">🚂 Vé Tàu Hoả — Sub-pages</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>🚂</span>
+      <div class="url-strategy-title">momo.vn/ve-tau-hoa + Sub-pages</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:#5B21B6;color:white">LANDING</div>
+      <div class="url-row-url">momo.vn/ve-tau-hoa</div>
+      <div class="url-row-note">Trang chính · đã có</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--purple)">Tuyến Tàu</div>
+      <div class="url-row-url">momo.vn/ve-tau-hoa/ha-noi-ho-chi-minh</div>
+      <div class="url-row-note">Tàu Thống Nhất · SV cao</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--purple)">Tuyến Tàu</div>
+      <div class="url-row-url">momo.vn/ve-tau-hoa/ha-noi-da-nang</div>
+      <div class="url-row-note">Tuyến tàu miền Trung phổ biến</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--purple)">Tuyến Tàu</div>
+      <div class="url-row-url">momo.vn/ve-tau-hoa/ho-chi-minh-nha-trang</div>
+      <div class="url-row-note">Tuyến biển hot nhất miền Nam</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--purple)">Loại Tàu</div>
+      <div class="url-row-url">momo.vn/ve-tau-hoa/tau-nhanh</div>
+      <div class="url-row-note">SE trains · giải thích loại vé, giá</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--purple)">Template</div>
+      <div class="url-row-url">momo.vn/ve-tau-hoa/[ga-di]-[ga-den]</div>
+      <div class="url-row-note">~20 tuyến tàu phổ biến</div>
+    </div>
+  </div>
+
+  <!-- OTA: KHÁCH SẠN -->
+  <h2 class="sh">🏨 Đặt Khách Sạn — Sub-pages</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>🏨</span>
+      <div class="url-strategy-title">momo.vn/dat-khach-san + Sub-pages</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:var(--pink);color:white">LANDING</div>
+      <div class="url-row-url">momo.vn/dat-khach-san</div>
+      <div class="url-row-note">Trang chính · đã có</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Thành Phố</div>
+      <div class="url-row-url">momo.vn/dat-khach-san/da-nang</div>
+      <div class="url-row-note">Điểm đến hot nhất 2026</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Thành Phố</div>
+      <div class="url-row-url">momo.vn/dat-khach-san/phu-quoc</div>
+      <div class="url-row-note">Resort đảo · SV cao</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Thành Phố</div>
+      <div class="url-row-url">momo.vn/dat-khach-san/ho-chi-minh</div>
+      <div class="url-row-note">Business travel + weekend</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Thành Phố</div>
+      <div class="url-row-url">momo.vn/dat-khach-san/ha-noi</div>
+      <div class="url-row-note">MICE + leisure</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Loại Hình</div>
+      <div class="url-row-url">momo.vn/dat-khach-san/resort</div>
+      <div class="url-row-note">Nghỉ dưỡng cao cấp</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Template</div>
+      <div class="url-row-url">momo.vn/dat-khach-san/[thanh-pho]</div>
+      <div class="url-row-note">~20 thành phố/điểm đến phổ biến</div>
+    </div>
+  </div>
+
+  <!-- eSIM -->
+  <h2 class="sh">📱 eSIM Du Lịch — Sub-pages</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>📱</span>
+      <div class="url-strategy-title">momo.vn/esim-du-lich + Sub-pages Quốc Gia / Châu Lục</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:var(--teal);color:white">LANDING</div>
+      <div class="url-row-url">momo.vn/esim-du-lich</div>
+      <div class="url-row-note">Trang chính · đã có</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Châu Lục</div>
+      <div class="url-row-url">momo.vn/esim-du-lich/chau-a</div>
+      <div class="url-row-note">Aggregator tất cả quốc gia Châu Á</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Châu Lục</div>
+      <div class="url-row-url">momo.vn/esim-du-lich/chau-au</div>
+      <div class="url-row-note">Europe Schengen · SV tăng mạnh</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Quốc Gia Hot</div>
+      <div class="url-row-url">momo.vn/esim-du-lich/thai-lan</div>
+      <div class="url-row-note">Top 1 điểm đến nước ngoài của người Việt</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Quốc Gia Hot</div>
+      <div class="url-row-url">momo.vn/esim-du-lich/nhat-ban</div>
+      <div class="url-row-note">SV tăng mạnh 2025-2026</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Quốc Gia Hot</div>
+      <div class="url-row-url">momo.vn/esim-du-lich/han-quoc</div>
+      <div class="url-row-note">K-pop tour · lifestyle travel</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Quốc Gia Hot</div>
+      <div class="url-row-url">momo.vn/esim-du-lich/singapore</div>
+      <div class="url-row-note">Transit hub · business travel</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--teal)">Template</div>
+      <div class="url-row-url">momo.vn/esim-du-lich/[quoc-gia]</div>
+      <div class="url-row-note">~25 quốc gia · template chuẩn hóa</div>
+    </div>
+  </div>
+
+  <!-- INTL PAY -->
+  <h2 class="sh">💳 Thanh Toán Quốc Tế — Sub-pages</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>💳</span>
+      <div class="url-strategy-title">momo.vn/thanh-toan-quoc-te + Sub-pages Quốc Gia</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:var(--pink);color:white">LANDING</div>
+      <div class="url-row-url">momo.vn/thanh-toan-quoc-te</div>
+      <div class="url-row-note">Trang chính · đã có · cần làm giàu nội dung</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Quốc Gia</div>
+      <div class="url-row-url">momo.vn/thanh-toan-quoc-te/thai-lan</div>
+      <div class="url-row-note">Nơi hỗ trợ nhiều nhất · PromptPay, QR</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Quốc Gia</div>
+      <div class="url-row-url">momo.vn/thanh-toan-quoc-te/malaysia</div>
+      <div class="url-row-note">DuitNow QR · growing market</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Quốc Gia</div>
+      <div class="url-row-url">momo.vn/thanh-toan-quoc-te/nhat-ban</div>
+      <div class="url-row-note">Hướng dẫn dùng MoMo tại Nhật</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Use Case</div>
+      <div class="url-row-url">momo.vn/thanh-toan-quoc-te/mua-sam</div>
+      <div class="url-row-note">Thanh toán mua sắm tại nước ngoài</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">Template</div>
+      <div class="url-row-url">momo.vn/thanh-toan-quoc-te/[quoc-gia]</div>
+      <div class="url-row-note">~10 quốc gia hỗ trợ thanh toán QR</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📐 Nguyên tắc thiết kế URL</div>
+    Tất cả URL dùng tiếng Việt không dấu (slug), viết thường, ngăn cách bằng dấu gạch ngang. Sub-pages tuyến đường dùng format <code class="url">[diem-di]-[diem-den]</code>. Sub-pages quốc gia dùng tên quốc gia đầy đủ có thể nhận dạng (không viết tắt). Template page cho phép tạo hàng loạt bằng CMS với nội dung động.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 3. USER JOURNEY FUNNEL -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-funnel">
+  <div class="page-header">
+    <div class="page-eyebrow">User Journey</div>
+    <div class="page-title">Funnel Du Lịch — Từ Ý Định Đến Hành Động</div>
+    <div class="page-desc">Mapping toàn bộ hành trình người dùng — từ khi nảy ý định đi du lịch đến khi thanh toán tại điểm đến — theo mô hình TOFU-MOFU-BOFU-Convert-Retain.</div>
+  </div>
+
+  <h2 class="sh">✈️ Journey 1: Du Lịch Trong Nước</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Khám Phá</div>
+      <div class="funnel-stage-title">Lên Kế Hoạch</div>
+      <ul class="funnel-stage-items">
+        <li>Đà Nẵng tháng mấy đẹp?</li>
+        <li>Lịch trình Phú Quốc 3 ngày</li>
+        <li>Chi phí đi Đà Lạt hết bao nhiêu?</li>
+        <li>Địa điểm du lịch gần Sài Gòn</li>
+        <li>Review resort Mũi Né 2026</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — So Sánh</div>
+      <div class="funnel-stage-title">Chọn Phương Tiện</div>
+      <ul class="funnel-stage-items">
+        <li>Vé máy bay vs xe khách đi Đà Lạt</li>
+        <li>Nhà xe Phương Trang hay Thành Bưởi?</li>
+        <li>So sánh khách sạn Da Nang 4 sao</li>
+        <li>Đặt tàu hoả đi Huế ở đâu?</li>
+        <li>Khách sạn gần biển Vũng Tàu</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Quyết Định</div>
+      <div class="funnel-stage-title">Đặt Vé & Phòng</div>
+      <ul class="funnel-stage-items">
+        <li>Đặt vé máy bay HCM–Đà Nẵng MoMo</li>
+        <li>Mua vé xe Phương Trang online</li>
+        <li>Đặt phòng khách sạn Da Nang giá rẻ</li>
+        <li>Vé tàu HCM–Nha Trang còn chỗ?</li>
+        <li>Combo vé + phòng tiết kiệm</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT — Mua</div>
+      <div class="funnel-stage-title">Thanh Toán MoMo</div>
+      <ul class="funnel-stage-items">
+        <li>Thanh toán vé trong app</li>
+        <li>Dùng MoMo Pay ví trả sau</li>
+        <li>Nhận ưu đãi hoàn tiền</li>
+        <li>Nhận e-ticket qua app</li>
+        <li>Quản lý chuyến đi trong MoMo</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-purple">
+      <div class="funnel-stage-label">RETAIN — Trở Lại</div>
+      <div class="funnel-stage-title">Cross-sell & Loyalty</div>
+      <ul class="funnel-stage-items">
+        <li>Gợi ý điểm đến tiếp theo</li>
+        <li>Deal khách sạn ngày thường</li>
+        <li>Tích điểm chuyến đi</li>
+        <li>Push notification giá vé rẻ</li>
+        <li>Upsell bảo hiểm chuyến đi</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sh">🌏 Journey 2: Du Lịch Nước Ngoài</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Khám Phá</div>
+      <div class="funnel-stage-title">Lên Kế Hoạch QT</div>
+      <ul class="funnel-stage-items">
+        <li>Lịch trình Thái Lan 5 ngày 4 đêm</li>
+        <li>Chi phí đi Nhật Bản tự túc</li>
+        <li>Visa Hàn Quốc cần gì?</li>
+        <li>Đổi tiền Thái Baht ở đâu?</li>
+        <li>Mạng di động ở Nhật ra sao?</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Chuẩn Bị</div>
+      <div class="funnel-stage-title">So Sánh Dịch Vụ</div>
+      <ul class="funnel-stage-items">
+        <li>eSIM vs SIM vật lý khi đi nước ngoài</li>
+        <li>MoMo thanh toán ở Thái được không?</li>
+        <li>Vé máy bay SGN–BKK hãng nào rẻ?</li>
+        <li>Khách sạn Bangkok trung tâm</li>
+        <li>So sánh gói eSIM Nhật Bản</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Quyết Định</div>
+      <div class="funnel-stage-title">Đặt & Mua</div>
+      <ul class="funnel-stage-items">
+        <li>Vé máy bay HCM–Bangkok MoMo</li>
+        <li>Mua eSIM Thái Lan 7 ngày</li>
+        <li>Đặt khách sạn Bangkok 4 sao</li>
+        <li>Kích hoạt thanh toán QR quốc tế</li>
+        <li>Combo eSIM + vé bay tiết kiệm</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT — Tại Điểm Đến</div>
+      <div class="funnel-stage-title">Dùng MoMo Ở Nước Ngoài</div>
+      <ul class="funnel-stage-items">
+        <li>Quét QR PromptPay tại Thái</li>
+        <li>Dùng eSIM ngay sau khi hạ cánh</li>
+        <li>Thanh toán tại nhà hàng, cửa hàng</li>
+        <li>Chia sẻ chi phí nhóm bạn</li>
+        <li>Tra tỉ giá thời gian thực</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-purple">
+      <div class="funnel-stage-label">RETAIN — Sau Chuyến Đi</div>
+      <div class="funnel-stage-title">Gắn Kết Dài Hạn</div>
+      <ul class="funnel-stage-items">
+        <li>Review chuyến đi · chia sẻ bạn bè</li>
+        <li>Gia hạn eSIM cho chuyến sau</li>
+        <li>Gợi ý điểm đến tương tự</li>
+        <li>Tích lũy MoMo Rewards</li>
+        <li>Early bird deal chuyến tiếp theo</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">💡 Điểm khác biệt MoMo vs OTA thuần</div>
+    MoMo không chỉ là nơi đặt vé — mà đồng hành toàn bộ hành trình. Người dùng dùng MoMo <b>trước</b> khi đi (đặt vé + phòng), <b>trong lúc chuẩn bị</b> (mua eSIM), và <b>khi đang đi</b> (thanh toán QR). Đây là lợi thế mà Traveloka, Agoda hay Booking.com không thể replicate.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 4. CONTENT STRUCTURE: HUB -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-hub">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure</div>
+    <div class="page-title">CS: Hub Page — momo.vn/du-lich-di-lai</div>
+    <div class="page-desc">Trang Hub trung tâm của Travel Ecosystem. Mục tiêu: capture người dùng ở mọi giai đoạn, cross-link đến tất cả sản phẩm, target từ khoá umbrella "du lịch MoMo" và các từ khoá ý định cao.</div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span class="tag tag-p1">P1</span>
+        <div class="cs-page-title">🏖️ Trang Hub: "Du Lịch Với MoMo — Đặt Vé, Mua eSIM, Thanh Toán Khắp Nơi"</div>
+      </div>
+      <span class="cs-toggle open">▶</span>
+    </div>
+    <div class="cs-body open">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">du lịch MoMo</span><span class="cs-kw">đặt vé du lịch online</span><span class="cs-kw">ứng dụng du lịch Việt Nam</span><span class="cs-kw">MoMo đặt vé máy bay</span><span class="cs-kw">du lịch giá rẻ 2026</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Hero Section — "MoMo Lo Trọn Gói Chuyến Đi"</div>
+          <div class="cs-block-desc">Headline chính: "Đặt vé · Đặt phòng · Mua eSIM · Thanh toán quốc tế — Tất cả trên MoMo". Visual: bản đồ Việt Nam + icon 4 sản phẩm. CTA chính: "Tìm vé ngay" + "Mua eSIM" dẫn vào app deeplink.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Quick Access Cards — 4 Sản Phẩm</div>
+          <div class="cs-block-desc">4 card lớn: ✈️ Vé máy bay · 🚌 Vé xe & tàu · 🏨 Khách sạn · 📱 eSIM Quốc tế. Mỗi card có: icon, mô tả 1 dòng, CTA và giá tiêu biểu (tạo urgency). Hiển thị deal đang hot realtime.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Section: Điểm Đến Nổi Bật — Trong Nước & Quốc Tế</div>
+          <div class="cs-block-desc">Grid điểm đến: hiển thị ảnh + tên tỉnh/quốc gia + CTA "Khám phá". Click dẫn vào sub-page <code class="url">/du-lich-di-lai/diem-den/[tinh-thanh]</code>. Tabs: Trong nước / Nước ngoài / Theo mùa (Hè · Tết · Thu Đông). SEO anchor cho từ khoá "du lịch [điểm đến]".</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Section: Du Lịch Trong Nước vs Nước Ngoài</div>
+          <div class="cs-block-desc">2 tabs hoặc 2 section: Trong nước (vé + khách sạn focus) vs Nước ngoài (vé + eSIM + Intl Pay bundle). Gợi ý điểm đến theo mùa, trending và ngân sách.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Social Proof & Trust Signals</div>
+          <div class="cs-block-desc">Số liệu: "X triệu vé đã được đặt qua MoMo", "Y triệu người dùng MoMo du lịch mỗi năm". Logo các hãng bay, nhà xe, khách sạn đối tác. Rating và review ngắn từ người dùng thực.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Blog Nổi Bật — Travel Tips</div>
+          <div class="cs-block-desc">Grid 3–4 bài blog mới nhất/hot nhất. Filter theo: Trong nước / Nước ngoài / Budget / Luxury. Internal link đến blog cluster du lịch.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">FAQ Schema — SEO Rich Snippet</div>
+          <div class="cs-block-desc">"MoMo có đặt vé máy bay không?" · "eSIM MoMo dùng ở những nước nào?" · "Thanh toán bằng MoMo ở nước ngoài được không?" · "Có hoàn tiền khi đặt vé qua MoMo không?" Markup FAQ Schema JSON-LD.</div>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">WebPage</span>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">BreadcrumbList</span>
+        <span class="cs-schema">SiteLinksSearchBox</span>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">UI Components</div>
+        <span class="cs-component">🔍 Search box vé + khách sạn</span>
+        <span class="cs-component">🎴 Deal cards realtime</span>
+        <span class="cs-component">🗺️ Bản đồ điểm đến</span>
+        <span class="cs-component">📰 Blog feed</span>
+        <span class="cs-component">⭐ Review widget</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 5. CONTENT STRUCTURE: OTA -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-ota">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure</div>
+    <div class="page-title">CS: OTA — Vé Máy Bay · Vé Xe · Tàu Hoả · Khách Sạn</div>
+    <div class="page-desc">Content structure cho 4 loại trang OTA: Landing chính + Sub-pages tuyến đường/điểm đến. Template chuẩn hóa để scale hàng chục sub-pages mà không cần viết lại từ đầu.</div>
+  </div>
+
+  <!-- Landing Vé Máy Bay -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span class="tag tag-p1">P1</span>
+        <div class="cs-page-title">✈️ Landing: momo.vn/ve-may-bay</div>
+      </div>
+      <span class="cs-toggle open">▶</span>
+    </div>
+    <div class="cs-body open">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">đặt vé máy bay MoMo</span><span class="cs-kw">vé máy bay giá rẻ online</span><span class="cs-kw">mua vé máy bay qua ứng dụng</span><span class="cs-kw">vé máy bay khuyến mãi 2026</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Hero + Search Widget</div>
+          <div class="cs-block-desc">Form tìm vé: chọn điểm đi/đến, ngày bay, số người. Hiển thị deal flash, giá thấp nhất hôm nay. CTA "Tìm vé ngay" → deeplink app.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Tuyến Bay Phổ Biến</div>
+          <div class="cs-block-desc">Grid 8–12 tuyến hot nhất: hiển thị ảnh thành phố, giá từ (từ X.XXX đ), thời gian bay. Link đến sub-page tuyến tương ứng.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Ưu Đãi & Lợi Ích Đặt Qua MoMo</div>
+          <div class="cs-block-desc">Hoàn tiền MoMo Rewards, thanh toán ví trả sau, không phí ẩn, xuất hoá đơn dễ dàng, quản lý vé trong app. Social proof: X vé bán/ngày.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Hãng Bay Đối Tác</div>
+          <div class="cs-block-desc">Logo Vietnam Airlines, VietJet, Bamboo, Pacific Airlines. Brief mô tả từng hãng + link đặt vé. Tạo trust signal với brand.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Hướng Dẫn Đặt Vé + FAQ</div>
+          <div class="cs-block-desc">4 bước đặt vé trên MoMo (visual step-by-step). FAQ: hoàn/đổi vé, chính sách hành lý, thanh toán. Schema FAQ markup.</div>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">WebPage</span><span class="cs-schema">FAQPage</span><span class="cs-schema">BreadcrumbList</span><span class="cs-schema">Product</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sub-page Tuyến Bay Template -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span class="tag tag-p2">P2</span>
+        <div class="cs-page-title">✈️ Template Sub-page: momo.vn/ve-may-bay/[diem-di]-[diem-den]</div>
+      </div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Ví dụ áp dụng</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">ha-noi-ho-chi-minh</span><span class="cs-kw">ho-chi-minh-da-nang</span><span class="cs-kw">ha-noi-da-lat</span><span class="cs-kw">ho-chi-minh-bangkok</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Template</div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">H1: "Vé máy bay [Thành Phố A] – [Thành Phố B] — Đặt ngay trên MoMo"</div>
+          <div class="cs-block-desc">Title động theo tuyến. Meta description cá nhân hoá theo mùa. Breadcrumb: Trang chủ > Vé máy bay > [Tuyến bay].</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Lịch Giá Thấp + Search Widget</div>
+          <div class="cs-block-desc">Calendar view hiển thị giá từng ngày (màu xanh = rẻ, đỏ = cao). Search widget pre-fill điểm đi/đến. CTA "Đặt vé với giá này".</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Thông Tin Tuyến Bay</div>
+          <div class="cs-block-desc">Khoảng cách bay, thời gian bay trung bình, hãng bay phục vụ tuyến, tần suất chuyến bay/ngày, thông tin sân bay hai đầu (địa chỉ, terminal, giao thông).</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Tips Du Lịch [Điểm Đến]</div>
+          <div class="cs-block-desc">Thời điểm du lịch tốt nhất, 3–5 điểm check-in nổi bật, ẩm thực đặc trưng, gợi ý khách sạn ở [điểm đến]. Internal link đến sub-page khách sạn + blog điểm đến.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Cross-sell Block</div>
+          <div class="cs-block-desc">"Cũng đặt thêm khách sạn tại [điểm đến]?" + card khách sạn đề xuất. Nếu là tuyến quốc tế: "Đừng quên mua eSIM [quốc gia]" + link eSIM page.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Landing Khách Sạn -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span class="tag tag-p1">P1</span>
+        <div class="cs-page-title">🏨 Landing: momo.vn/dat-khach-san + Template Sub-page Thành Phố</div>
+      </div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">đặt khách sạn MoMo</span><span class="cs-kw">khách sạn giá rẻ online</span><span class="cs-kw">đặt phòng khách sạn qua app</span><span class="cs-kw">khách sạn [thành phố] MoMo</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Landing + Sub-page</div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Landing: Search + Điểm Đến Nổi Bật</div>
+          <div class="cs-block-desc">Search form (địa điểm, check-in/out, số người). Grid điểm đến: Đà Nẵng, Phú Quốc, Đà Lạt, Hà Nội, TP.HCM, Hội An... Deals khách sạn giảm giá. Social proof: Y nghìn khách sạn đang có sẵn.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Sub-page Template: /dat-khach-san/[thanh-pho]</div>
+          <div class="cs-block-desc">H1 cá nhân hoá. Map điểm đến. List khách sạn theo khu vực (trung tâm / bãi biển / sân bay). Filter giá, sao, loại phòng. Tips du lịch tại thành phố đó. Bài viết blog liên quan.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 6. CONTENT STRUCTURE: eSIM -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-esim">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure</div>
+    <div class="page-title">CS: eSIM Du Lịch — momo.vn/esim-du-lich</div>
+    <div class="page-desc">Content structure cho trang eSIM Landing và sub-pages theo quốc gia/châu lục. Người dùng tìm kiếm eSIM thường có intent cao ngay trước chuyến đi — cần content đủ thuyết phục để convert nhanh.</div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span class="tag tag-p1">P1</span>
+        <div class="cs-page-title">📱 Landing: momo.vn/esim-du-lich</div>
+      </div>
+      <span class="cs-toggle open">▶</span>
+    </div>
+    <div class="cs-body open">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">eSIM du lịch nước ngoài</span><span class="cs-kw">mua eSIM MoMo</span><span class="cs-kw">eSIM quốc tế giá rẻ</span><span class="cs-kw">sim du lịch nước ngoài không cần đổi sim</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Hero: "Có Mạng Ngay Khi Hạ Cánh — Không Cần Đổi SIM"</div>
+          <div class="cs-block-desc">Giải thích eSIM là gì trong 2 câu. CTA: "Chọn gói eSIM theo quốc gia". Hightlight: Kích hoạt ngay trên MoMo · Không cần rút SIM · Hỗ trợ X+ quốc gia.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Chọn Quốc Gia / Châu Lục</div>
+          <div class="cs-block-desc">Grid hoặc dropdown theo châu lục. Quốc gia hot: Thái Lan, Nhật, Hàn, Singapore, Mỹ... Hiển thị giá từ và thời hạn ngắn. Link đến sub-page từng quốc gia.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">eSIM hoạt động thế nào? (3 bước)</div>
+          <div class="cs-block-desc">1. Chọn gói + mua trên MoMo → 2. Nhận QR code kích hoạt → 3. Scan QR / nhập mã trên điện thoại → Có mạng. Video hướng dẫn ngắn 60 giây. FAQ tương thích thiết bị.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">So Sánh eSIM vs SIM Vật Lý vs Roaming</div>
+          <div class="cs-block-desc">Bảng so sánh 3 cột rõ ràng: tiện lợi, giá cả, phủ sóng, hỗ trợ. eSIM thắng hầu hết criteria. Thêm testimonial ngắn từ người dùng thực.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Điện Thoại Hỗ Trợ eSIM</div>
+          <div class="cs-block-desc">Checklist các dòng iPhone, Samsung, Google Pixel hỗ trợ eSIM. Tool kiểm tra: nhập model điện thoại → kết quả có/không. Giảm barrier và lo ngại của người dùng.</div>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">Product</span><span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span><span class="cs-schema">BreadcrumbList</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span class="tag tag-p2">P2</span>
+        <div class="cs-page-title">📱 Template Sub-page: momo.vn/esim-du-lich/[quoc-gia]</div>
+      </div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Template</div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">H1: "eSIM [Quốc Gia] — Có Mạng Ngay Khi Đến [Tên Nước]"</div>
+          <div class="cs-block-desc">Meta title + description cá nhân hoá. Intro: tại sao cần eSIM khi đi [quốc gia], tốc độ mạng, vùng phủ sóng.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Bảng Gói Cước eSIM</div>
+          <div class="cs-block-desc">3–5 gói theo dung lượng và thời hạn. Recommend "Gói phổ biến nhất". Giá rõ ràng, CTA mua ngay. Tự động cập nhật qua API MoMo.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Tips Dùng Mạng Tại [Quốc Gia]</div>
+          <div class="cs-block-desc">App cần cài trước (Maps offline, dịch, taxi...), wifi spots phổ biến, tiết kiệm data khi đi, các app local quan trọng (Grab Thái, Line Nhật...). Liên kết đến blog chuyến đi.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Cross-sell: Thanh Toán Tại [Quốc Gia]</div>
+          <div class="cs-block-desc">"Ngoài eSIM, bạn có thể dùng MoMo để thanh toán tại [quốc gia]". Link đến trang Thanh Toán Quốc Tế tương ứng. Bundle deal nếu có.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 7. CONTENT STRUCTURE: INTL PAY -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-intl">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure</div>
+    <div class="page-title">CS: Thanh Toán Quốc Tế — momo.vn/thanh-toan-quoc-te</div>
+    <div class="page-desc">Trang thanh toán quốc tế nhắm đến người dùng chuẩn bị đi du lịch Châu Á và muốn biết cách dùng MoMo tại nước ngoài. Content cần giải đáp rõ ràng: dùng ở đâu, dùng như thế nào.</div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span class="tag tag-p1">P1</span>
+        <div class="cs-page-title">💳 Landing: momo.vn/thanh-toan-quoc-te</div>
+      </div>
+      <span class="cs-toggle open">▶</span>
+    </div>
+    <div class="cs-body open">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">thanh toán bằng MoMo ở nước ngoài</span><span class="cs-kw">MoMo dùng được ở đâu nước ngoài</span><span class="cs-kw">quét QR nước ngoài bằng MoMo</span><span class="cs-kw">MoMo Thái Lan thanh toán</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Hero: "Quét QR — Thanh Toán Mọi Nơi Ở Châu Á"</div>
+          <div class="cs-block-desc">Highlight tính năng: quét QR PromptPay, DuitNow, PayNow... Bản đồ Châu Á với các quốc gia hỗ trợ highlight. CTA "Kích hoạt ngay trong app".</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Danh Sách Quốc Gia Hỗ Trợ</div>
+          <div class="cs-block-desc">Grid quốc gia: Thái Lan, Malaysia, Singapore, Nhật Bản, Hàn Quốc... Mỗi quốc gia: quốc kỳ, tên, hệ thống QR được hỗ trợ. Link đến sub-page quốc gia chi tiết.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Hướng Dẫn Sử Dụng (4 bước)</div>
+          <div class="cs-block-desc">1. Mở MoMo, chọn Quét QR → 2. Quét mã QR tại điểm thanh toán → 3. Xác nhận số tiền + tỉ giá → 4. Hoàn tất. Lưu ý: cần tài khoản đã xác thực, số dư đủ.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">Lợi Ích So Với Đổi Tiền Mặt</div>
+          <div class="cs-block-desc">Tỉ giá cạnh tranh, không mang tiền mặt nhiều, bảo mật cao, lịch sử chi tiêu rõ ràng, không cần đổi tiền trước khi đi. Bảng so sánh trực quan.</div>
+        </div>
+        <div class="cs-content-block">
+          <div class="cs-block-title">FAQ</div>
+          <div class="cs-block-desc">"Hạn mức thanh toán quốc tế là bao nhiêu?" · "Tỉ giá được tính như thế nào?" · "Có mất phí khi thanh toán nước ngoài không?" · "Tôi cần làm gì để kích hoạt?"</div>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">Service</span><span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 8. KEYWORD RESEARCH -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-keyword">
+  <div class="page-header">
+    <div class="page-eyebrow">SEO Research</div>
+    <div class="page-title">Keyword Research — Travel Ecosystem</div>
+    <div class="page-desc">Phân tích từ khoá theo nhóm sản phẩm và theo giai đoạn funnel. Ưu tiên từ khoá có SV cao + intent rõ ràng + cạnh tranh vừa phải. SV = Search Volume ước tính/tháng tại Việt Nam.</div>
+  </div>
+
+  <h2 class="sh">✈️ Nhóm: Vé Máy Bay</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🟢 TOFU — Intent Thông Tin & Khám Phá</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">vé máy bay giá rẻ <span class="sv">90K</span></div>
+      <div class="kw-pill high">kinh nghiệm đặt vé máy bay giá rẻ <span class="sv">22K</span></div>
+      <div class="kw-pill high">hãng bay nội địa Việt Nam <span class="sv">18K</span></div>
+      <div class="kw-pill mid">vé máy bay tháng mấy rẻ nhất <span class="sv">12K</span></div>
+      <div class="kw-pill mid">đặt vé máy bay trước bao lâu thì rẻ <span class="sv">9K</span></div>
+      <div class="kw-pill mid">hãng bay giá rẻ việt nam <span class="sv">16K</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🔵 MOFU — Tuyến Cụ Thể & So Sánh (SV Long-tail Cao)</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">vé máy bay hà nội hồ chí minh <span class="sv">74K</span></div>
+      <div class="kw-pill high">vé máy bay sài gòn đà nẵng <span class="sv">45K</span></div>
+      <div class="kw-pill high">vé máy bay hà nội đà lạt <span class="sv">33K</span></div>
+      <div class="kw-pill high">vé máy bay sài gòn phú quốc <span class="sv">30K</span></div>
+      <div class="kw-pill mid">vé máy bay sài gòn bangkok <span class="sv">28K</span></div>
+      <div class="kw-pill mid">vé máy bay hà nội tokyo <span class="sv">22K</span></div>
+      <div class="kw-pill mid">so sánh vé máy bay VietJet Vietnam Airlines <span class="sv">15K</span></div>
+      <div class="kw-pill mid">vé máy bay hồ chí minh seoul <span class="sv">19K</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🔴 BOFU — Mua & Brand Intent</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">đặt vé máy bay MoMo <span class="sv">18K</span></div>
+      <div class="kw-pill mid">mua vé máy bay online <span class="sv">35K</span></div>
+      <div class="kw-pill mid">đặt vé máy bay qua app <span class="sv">12K</span></div>
+      <div class="kw-pill low">vé máy bay MoMo có rẻ không <span class="sv">5K</span></div>
+      <div class="kw-pill low">đặt vé máy bay MoMo hoàn tiền <span class="sv">3K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="sh">🚌 Nhóm: Vé Xe Khách & Tàu Hoả</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🟢 Từ Khoá Umbrella</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">vé xe khách online <span class="sv">40K</span></div>
+      <div class="kw-pill high">đặt vé tàu hoả online <span class="sv">35K</span></div>
+      <div class="kw-pill high">nhà xe Phương Trang <span class="sv">29K</span></div>
+      <div class="kw-pill high">nhà xe Hoàng Long <span class="sv">18K</span></div>
+      <div class="kw-pill mid">đặt vé xe khách qua điện thoại <span class="sv">11K</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🔵 MOFU — Tuyến Đường Cụ Thể</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">vé xe sài gòn đà lạt <span class="sv">22K</span></div>
+      <div class="kw-pill high">xe khách hà nội sapa <span class="sv">14K</span></div>
+      <div class="kw-pill mid">vé xe sài gòn vũng tàu <span class="sv">17K</span></div>
+      <div class="kw-pill mid">vé tàu hà nội đà nẵng <span class="sv">19K</span></div>
+      <div class="kw-pill mid">vé tàu hồ chí minh nha trang <span class="sv">15K</span></div>
+      <div class="kw-pill mid">giá vé tàu hà nội huế <span class="sv">12K</span></div>
+      <div class="kw-pill low">xe Phương Trang sài gòn đà lạt <span class="sv">9K</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🔴 BOFU — Brand + Đặt Qua MoMo</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">đặt vé xe Phương Trang MoMo <span class="sv">7K</span></div>
+      <div class="kw-pill low">mua vé tàu hoả MoMo <span class="sv">5K</span></div>
+      <div class="kw-pill low">đặt vé xe khách MoMo <span class="sv">4K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="sh">🏨 Nhóm: Đặt Khách Sạn</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🟢 TOFU — Tìm Kiếm Chỗ Ở</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">đặt khách sạn giá rẻ <span class="sv">55K</span></div>
+      <div class="kw-pill high">khách sạn đà nẵng <span class="sv">48K</span></div>
+      <div class="kw-pill high">khách sạn phú quốc <span class="sv">42K</span></div>
+      <div class="kw-pill high">resort đà nẵng <span class="sv">38K</span></div>
+      <div class="kw-pill high">resort phú quốc <span class="sv">30K</span></div>
+      <div class="kw-pill mid">homestay đà lạt <span class="sv">26K</span></div>
+      <div class="kw-pill mid">khách sạn đà lạt <span class="sv">28K</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🔵 MOFU — Chi Tiết & Lọc</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">khách sạn gần biển đà nẵng giá rẻ <span class="sv">18K</span></div>
+      <div class="kw-pill mid">resort phú quốc 4 sao <span class="sv">14K</span></div>
+      <div class="kw-pill mid">khách sạn hội an gần phố cổ <span class="sv">12K</span></div>
+      <div class="kw-pill low">phòng khách sạn đà lạt view đẹp <span class="sv">9K</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🔴 BOFU — Đặt Phòng Qua MoMo</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">đặt phòng khách sạn qua app MoMo <span class="sv">6K</span></div>
+      <div class="kw-pill low">đặt khách sạn MoMo có hoàn tiền không <span class="sv">3K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="sh">🗺️ Nhóm: Điểm Đến & Địa Danh (Long-tail Hub)</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🟢 TOFU — Thông Tin Điểm Đến (Rất Cao SV, Intent Du Lịch Rõ)</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">du lịch đà nẵng <span class="sv">110K</span></div>
+      <div class="kw-pill high">du lịch phú quốc <span class="sv">90K</span></div>
+      <div class="kw-pill high">du lịch đà lạt <span class="sv">85K</span></div>
+      <div class="kw-pill high">du lịch hội an <span class="sv">70K</span></div>
+      <div class="kw-pill high">du lịch hà nội <span class="sv">65K</span></div>
+      <div class="kw-pill high">du lịch sapa <span class="sv">55K</span></div>
+      <div class="kw-pill mid">phố đi bộ nguyễn huệ <span class="sv">28K</span></div>
+      <div class="kw-pill mid">bà nà hills đà nẵng <span class="sv">24K</span></div>
+      <div class="kw-pill mid">cầu vàng đà nẵng <span class="sv">22K</span></div>
+      <div class="kw-pill mid">vinwonders phú quốc <span class="sv">19K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="sh">📱 Nhóm: eSIM Du Lịch</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🟢 SV Cao + Intent Mua Rõ</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">esim du lịch nước ngoài <span class="sv">28K</span></div>
+      <div class="kw-pill high">sim du lịch thái lan <span class="sv">22K</span></div>
+      <div class="kw-pill high">esim nhật bản <span class="sv">19K</span></div>
+      <div class="kw-pill high">esim hàn quốc <span class="sv">17K</span></div>
+      <div class="kw-pill mid">esim singapore <span class="sv">13K</span></div>
+      <div class="kw-pill mid">sim 4g du lịch nước ngoài <span class="sv">14K</span></div>
+      <div class="kw-pill mid">esim châu âu <span class="sv">11K</span></div>
+      <div class="kw-pill mid">esim MoMo có tốt không <span class="sv">8K</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🔵 MOFU — So Sánh & Lựa Chọn</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">esim vs sim vật lý khi đi nước ngoài <span class="sv">9K</span></div>
+      <div class="kw-pill mid">esim thái lan loại nào tốt nhất <span class="sv">7K</span></div>
+      <div class="kw-pill mid">mua esim thái lan ở đâu tốt nhất <span class="sv">6K</span></div>
+      <div class="kw-pill low">esim có cần đổi sim không <span class="sv">5K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2 class="sh">💳 Nhóm: Thanh Toán Quốc Tế</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🔵 Intent Thông Tin + Xác Nhận</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">MoMo dùng được ở nước ngoài không <span class="sv">12K</span></div>
+      <div class="kw-pill mid">thanh toán bằng MoMo ở Thái Lan <span class="sv">9K</span></div>
+      <div class="kw-pill mid">quét QR nước ngoài bằng ví điện tử Việt Nam <span class="sv">7K</span></div>
+      <div class="kw-pill mid">promptpay là gì <span class="sv">8K</span></div>
+      <div class="kw-pill low">MoMo thanh toán quốc tế phí bao nhiêu <span class="sv">4K</span></div>
+      <div class="kw-pill low">ví MoMo có dùng ở nhật được không <span class="sv">5K</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 9. BLOG — PILLAR & CLUSTER -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-blog">
+  <div class="page-header">
+    <div class="page-eyebrow">SEO & Blog Strategy</div>
+    <div class="page-title">Content Pillar & Cluster — Travel Blog Ecosystem</div>
+    <div class="page-desc">200+ bài được tổ chức thành 6 Pillar chính, mỗi pillar có nhiều cluster con. Mô hình Hub-Spoke: Pillar Page là trung tâm, cluster bài viết xoay quanh → nội lực SEO tập trung, authority lan tỏa theo chủ đề. Mỗi bài PHẢI internal link về sản phẩm MoMo liên quan.</div>
+  </div>
+
+  <!-- ARCHITECTURE OVERVIEW -->
+  <div class="callout callout-blue">
+    <div class="callout-title">🏗️ Kiến Trúc Pillar & Cluster</div>
+    <strong>6 Pillar Page</strong> → mỗi pillar tương ứng 1 chủ đề du lịch lớn, target từ khoá umbrella SV cao. <strong>Cluster bài viết</strong> → bài blog dài 1.200–2.500 từ, target long-tail, liên kết 2 chiều với pillar. <strong>Content Templates</strong> → cho phép scale hàng chục bài theo công thức cố định, tiết kiệm thời gian sản xuất. <strong>Internal link logic</strong>: Cluster → Pillar → Trang sản phẩm MoMo → App deeplink.
+  </div>
+
+  <!-- PILLAR MAP -->
+  <h2 class="sh">🗂️ Bản Đồ 6 Content Pillar</h2>
+  <table class="data-table">
+    <thead><tr><th>#</th><th>Pillar Page</th><th>URL Đề Xuất</th><th>Từ Khoá Chính</th><th>SV</th><th>Sản Phẩm Gắn</th></tr></thead>
+    <tbody>
+      <tr><td><strong>P1</strong></td><td>Du Lịch Trong Nước Toàn Diện</td><td><code class="url">/blog/du-lich-trong-nuoc</code></td><td>du lịch trong nước</td><td class="tag tag-new">180K</td><td>Vé bay · Xe · Tàu · KS</td></tr>
+      <tr><td><strong>P2</strong></td><td>Du Lịch Nước Ngoài Từ A–Z</td><td><code class="url">/blog/du-lich-nuoc-ngoai</code></td><td>du lịch nước ngoài</td><td class="tag tag-new">120K</td><td>Vé bay · eSIM · Intl Pay</td></tr>
+      <tr><td><strong>P3</strong></td><td>Cẩm Nang Đặt Vé Tiết Kiệm</td><td><code class="url">/blog/kinh-nghiem-dat-ve</code></td><td>kinh nghiệm đặt vé máy bay</td><td class="tag tag-new">55K</td><td>Vé bay · Xe · Tàu</td></tr>
+      <tr><td><strong>P4</strong></td><td>eSIM & Kết Nối Khi Du Lịch</td><td><code class="url">/blog/esim-du-lich</code></td><td>esim du lịch nước ngoài</td><td class="tag tag-new">35K</td><td>eSIM</td></tr>
+      <tr><td><strong>P5</strong></td><td>Thanh Toán Thông Minh Khi Du Lịch</td><td><code class="url">/blog/thanh-toan-khi-du-lich</code></td><td>thanh toán khi đi du lịch nước ngoài</td><td class="tag tag-new">22K</td><td>Intl Pay · eSIM</td></tr>
+      <tr><td><strong>P6</strong></td><td>Budget Travel — Du Lịch Tiết Kiệm</td><td><code class="url">/blog/du-lich-tiet-kiem</code></td><td>du lịch tiết kiệm</td><td class="tag tag-new">48K</td><td>Vé bay · KS · Xe</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- PILLAR 1 -->
+  <h2 class="sh">🇻🇳 Pillar 1: Du Lịch Trong Nước — 55 bài cluster</h2>
+  <div class="callout callout-green">
+    <div class="callout-title">🎯 Pillar Page: <code class="url">/blog/du-lich-trong-nuoc</code></div>
+    Bài viết dài 3.000–4.000 từ, tổng hợp toàn bộ kiến thức du lịch nội địa. Section chính: Tổng quan các vùng · Top điểm đến theo mùa · Phương tiện di chuyển · Chi phí · Khách sạn theo loại · CTA MoMo đặt vé. Link ra tất cả bài cluster bên dưới.
+  </div>
+
+  <h3 class="sh3">📍 Cluster 1A: Điểm Đến Theo Tỉnh/Thành (~20 bài) — Template: <code class="url">/blog/du-lich-[tinh-thanh]-tu-a-den-z</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TEMPLATE · Điểm Đến</div>
+      <div class="blog-card-title">Du lịch Đà Nẵng từ A đến Z — Cẩm nang đầy đủ nhất 2026</div>
+      <div class="blog-card-kw">/blog/du-lich-da-nang-tu-a-den-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 45K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TEMPLATE · Điểm Đến</div>
+      <div class="blog-card-title">Du lịch Phú Quốc từ A đến Z — Lịch trình, chi phí, ăn ở 2026</div>
+      <div class="blog-card-kw">/blog/du-lich-phu-quoc-tu-a-den-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 38K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TEMPLATE · Điểm Đến</div>
+      <div class="blog-card-title">Du lịch Đà Lạt từ A đến Z — Tất cả bạn cần biết trước khi đi</div>
+      <div class="blog-card-kw">/blog/du-lich-da-lat-tu-a-den-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 35K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TEMPLATE · Điểm Đến</div>
+      <div class="blog-card-title">Du lịch Hội An từ A đến Z — Phố cổ, biển, ẩm thực</div>
+      <div class="blog-card-kw">/blog/du-lich-hoi-an-tu-a-den-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 28K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TEMPLATE · Điểm Đến</div>
+      <div class="blog-card-title">Du lịch Nha Trang từ A đến Z — Biển, đảo, nightlife 2026</div>
+      <div class="blog-card-kw">/blog/du-lich-nha-trang-tu-a-den-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 32K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · Áp Dụng Thêm</div>
+      <div class="blog-card-title">+ Sapa, Hà Giang, Huế, Vũng Tàu, Mũi Né, Quy Nhơn, Côn Đảo, Hà Nội, TP.HCM...</div>
+      <div class="blog-card-kw">/blog/du-lich-[tinh-thanh]-tu-a-den-z · ~15 bài thêm</div>
+      <div class="blog-card-meta"><span class="tag tag-template">TEMPLATE ×15</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">📋 Template: <code class="url">/blog/du-lich-[tinh-thanh]-tu-a-den-z</code></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-top:8px;">
+      <strong>H1:</strong> "Du lịch [Tỉnh/Thành] từ A đến Z — Cẩm nang [năm] đầy đủ nhất" &nbsp;|&nbsp;
+      <strong>Section 1:</strong> Tổng quan điểm đến + thời điểm đi tốt nhất &nbsp;|&nbsp;
+      <strong>Section 2:</strong> Cách di chuyển đến [điểm đến] (máy bay/xe/tàu → deeplink vé MoMo) &nbsp;|&nbsp;
+      <strong>Section 3:</strong> Ở đâu — gợi ý khách sạn từng ngân sách (→ deeplink đặt phòng MoMo) &nbsp;|&nbsp;
+      <strong>Section 4:</strong> Ăn gì — đặc sản địa phương &nbsp;|&nbsp;
+      <strong>Section 5:</strong> Đi đâu — địa danh + hoạt động must-do &nbsp;|&nbsp;
+      <strong>Section 6:</strong> Chi phí ước tính theo ngân sách (thấp/trung/cao) &nbsp;|&nbsp;
+      <strong>Section 7:</strong> Bản đồ + FAQ &nbsp;|&nbsp;
+      <strong>CTA cuối:</strong> "Đặt vé đi [điểm đến] ngay trên MoMo"
+    </div>
+  </div>
+
+  <h3 class="sh3">🗓️ Cluster 1B: Lịch Trình Cụ Thể (~15 bài) — Template: <code class="url">/blog/lich-trinh-[diem-den]-[so-ngay]-ngay</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Lịch Trình</div>
+      <div class="blog-card-title">Lịch trình Đà Nẵng 3 ngày 2 đêm — Đi đâu, ăn gì, ở đâu?</div>
+      <div class="blog-card-kw">/blog/lich-trinh-da-nang-3-ngay-2-dem</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 28K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Lịch Trình</div>
+      <div class="blog-card-title">Lịch trình Phú Quốc 4 ngày 3 đêm — Hành trình hoàn hảo</div>
+      <div class="blog-card-kw">/blog/lich-trinh-phu-quoc-4-ngay-3-dem</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 22K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Lịch Trình</div>
+      <div class="blog-card-title">Lịch trình Đà Lạt 2 ngày 1 đêm — Du lịch cuối tuần từ Sài Gòn</div>
+      <div class="blog-card-kw">/blog/lich-trinh-da-lat-2-ngay-1-dem</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 18K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+  </div>
+
+  <h3 class="sh3">💰 Cluster 1C: Chi Phí & Budget (~10 bài) — Template: <code class="url">/blog/chi-phi-du-lich-[diem-den]</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Chi Phí</div>
+      <div class="blog-card-title">Chi phí du lịch Đà Nẵng bao nhiêu? Tính đủ từng khoản 2026</div>
+      <div class="blog-card-kw">/blog/chi-phi-du-lich-da-nang</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 16K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Chi Phí</div>
+      <div class="blog-card-title">Chi phí đi Phú Quốc hết bao nhiêu? Budget từ 3 triệu đến 15 triệu</div>
+      <div class="blog-card-kw">/blog/chi-phi-du-lich-phu-quoc</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 14K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">+ Thêm</div>
+      <div class="blog-card-title">Áp dụng cho: Đà Lạt, Hội An, Nha Trang, Sapa, Hà Nội, Vũng Tàu...</div>
+      <div class="blog-card-kw">/blog/chi-phi-du-lich-[diem-den] · ~8 bài thêm</div>
+      <div class="blog-card-meta"><span class="tag tag-template">TEMPLATE ×8</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PILLAR 2 -->
+  <h2 class="sh">🌏 Pillar 2: Du Lịch Nước Ngoài — 50 bài cluster</h2>
+  <div class="callout callout-teal">
+    <div class="callout-title">🎯 Pillar Page: <code class="url">/blog/du-lich-nuoc-ngoai</code></div>
+    Tổng quan du lịch quốc tế dành cho người Việt: các điểm đến hot · visa · ngân sách trung bình · eSIM · thanh toán · checklist chuẩn bị. Cross-link toàn bộ cluster quốc gia bên dưới.
+  </div>
+
+  <h3 class="sh3">🗺️ Cluster 2A: Cẩm Nang Quốc Gia (~15 bài) — Template: <code class="url">/blog/du-lich-[quoc-gia]-tu-a-z</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · Quốc Gia</div>
+      <div class="blog-card-title">Du lịch Thái Lan từ A–Z — Visa, lịch trình, eSIM, thanh toán MoMo</div>
+      <div class="blog-card-kw">/blog/du-lich-thai-lan-tu-a-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 55K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · Quốc Gia</div>
+      <div class="blog-card-title">Du lịch Nhật Bản từ A–Z — Visa, mùa hoa anh đào, JR Pass, eSIM</div>
+      <div class="blog-card-kw">/blog/du-lich-nhat-ban-tu-a-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 48K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · Quốc Gia</div>
+      <div class="blog-card-title">Du lịch Hàn Quốc từ A–Z — Seoul, Busan, Jeju, K-food, eSIM Hàn</div>
+      <div class="blog-card-kw">/blog/du-lich-han-quoc-tu-a-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 42K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · Quốc Gia</div>
+      <div class="blog-card-title">Du lịch Singapore từ A–Z — Marina Bay, Universal, eSIM Singapore</div>
+      <div class="blog-card-kw">/blog/du-lich-singapore-tu-a-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 35K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · Quốc Gia</div>
+      <div class="blog-card-title">Du lịch Đài Loan từ A–Z — Visa miễn phí, ẩm thực, eSIM Đài Loan</div>
+      <div class="blog-card-kw">/blog/du-lich-dai-loan-tu-a-z</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 30K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">+ Thêm</div>
+      <div class="blog-card-title">Malaysia · Indonesia · Campuchia · Pháp · Ý · Mỹ · Úc · Thụy Sĩ...</div>
+      <div class="blog-card-kw">/blog/du-lich-[quoc-gia]-tu-a-z · ~10 bài thêm</div>
+      <div class="blog-card-meta"><span class="tag tag-template">TEMPLATE ×10</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">📋 Template: <code class="url">/blog/du-lich-[quoc-gia]-tu-a-z</code></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-top:8px;">
+      <strong>H1:</strong> "Du lịch [Quốc gia] từ A–Z — Cẩm nang [năm] cho người Việt" &nbsp;|&nbsp;
+      <strong>S1:</strong> Tổng quan [quốc gia] — nên đi mùa nào, bao nhiêu ngày &nbsp;|&nbsp;
+      <strong>S2:</strong> Visa — cần không, xin ở đâu, bao lâu &nbsp;|&nbsp;
+      <strong>S3:</strong> Vé máy bay đi [quốc gia] — hãng bay, giá trung bình, đặt trên MoMo (→ deeplink) &nbsp;|&nbsp;
+      <strong>S4:</strong> eSIM [quốc gia] — cài thế nào, gói nào tốt (→ deeplink eSIM MoMo) &nbsp;|&nbsp;
+      <strong>S5:</strong> Thanh toán tại [quốc gia] — dùng MoMo được chưa, tips đổi tiền (→ deeplink Intl Pay) &nbsp;|&nbsp;
+      <strong>S6:</strong> Khách sạn gợi ý + đặt phòng &nbsp;|&nbsp;
+      <strong>S7:</strong> Lịch trình + địa danh nổi tiếng &nbsp;|&nbsp;
+      <strong>S8:</strong> Chi phí trung bình &nbsp;|&nbsp;
+      <strong>FAQ + Schema</strong>
+    </div>
+  </div>
+
+  <h3 class="sh3">✈️ Cluster 2B: Lịch Trình Quốc Tế (~15 bài) — Template: <code class="url">/blog/lich-trinh-[quoc-gia]-[so-ngay]-ngay</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Lịch Trình QT</div>
+      <div class="blog-card-title">Lịch trình Thái Lan 5 ngày 4 đêm — Bangkok + Pattaya hoặc Chiang Mai</div>
+      <div class="blog-card-kw">/blog/lich-trinh-thai-lan-5-ngay-4-dem</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 25K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Lịch Trình QT</div>
+      <div class="blog-card-title">Lịch trình Nhật Bản 7 ngày 6 đêm — Tokyo · Kyoto · Osaka</div>
+      <div class="blog-card-kw">/blog/lich-trinh-nhat-ban-7-ngay-6-dem</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 20K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Lịch Trình QT</div>
+      <div class="blog-card-title">Lịch trình Hàn Quốc 6 ngày 5 đêm — Seoul · Busan · Nami Island</div>
+      <div class="blog-card-kw">/blog/lich-trinh-han-quoc-6-ngay-5-dem</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 18K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+  </div>
+
+  <h3 class="sh3">💰 Cluster 2C: Chi Phí Quốc Tế (~10 bài) — Template: <code class="url">/blog/chi-phi-du-lich-[quoc-gia]-tu-tuc</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Chi Phí QT</div>
+      <div class="blog-card-title">Chi phí du lịch Nhật Bản tự túc 2026 — Tính từng đồng, tiết kiệm tối đa</div>
+      <div class="blog-card-kw">/blog/chi-phi-du-lich-nhat-ban-tu-tuc</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 20K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">TEMPLATE · Chi Phí QT</div>
+      <div class="blog-card-title">Chi phí du lịch Thái Lan 5 ngày — Budget từ 8 triệu đến 25 triệu</div>
+      <div class="blog-card-kw">/blog/chi-phi-du-lich-thai-lan-tu-tuc</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 17K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">+ Thêm</div>
+      <div class="blog-card-title">Áp dụng: Hàn Quốc, Singapore, Đài Loan, Malaysia, Châu Âu...</div>
+      <div class="blog-card-kw">/blog/chi-phi-du-lich-[quoc-gia]-tu-tuc · ~8 bài thêm</div>
+      <div class="blog-card-meta"><span class="tag tag-template">TEMPLATE ×8</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PILLAR 3 -->
+  <h2 class="sh">🎫 Pillar 3: Cẩm Nang Đặt Vé — 30 bài cluster</h2>
+
+  <h3 class="sh3">✈️ Cluster 3A: Mẹo Vé Máy Bay (~10 bài)</h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TOFU · Tips</div>
+      <div class="blog-card-title">10 mẹo đặt vé máy bay giá rẻ — Bí kíp từ dân đi nhiều</div>
+      <div class="blog-card-kw">meo dat ve may bay gia re</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 25K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">MOFU · So Sánh</div>
+      <div class="blog-card-title">VietJet vs Vietnam Airlines vs Bamboo: So sánh chi tiết 2026</div>
+      <div class="blog-card-kw">so sanh vietjet vietnam airlines bamboo</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 18K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">BOFU · Hướng Dẫn</div>
+      <div class="blog-card-title">Cách đặt vé máy bay trên MoMo — Hướng dẫn từng bước, nhanh 2 phút</div>
+      <div class="blog-card-kw">cach dat ve may bay tren momo</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 12K</span></div>
+    </div>
+  </div>
+
+  <h3 class="sh3">🚌 Cluster 3B: Vé Xe & Tàu (~10 bài)</h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--amber)">TOFU · So Sánh</div>
+      <div class="blog-card-title">Đi Đà Lạt bằng máy bay hay xe khách? Phân tích chi tiết 2026</div>
+      <div class="blog-card-kw">di da lat bang may bay hay xe khach</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 11K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--amber)">MOFU · Review</div>
+      <div class="blog-card-title">Nhà xe Phương Trang có tốt không? Review chi tiết tuyến Sài Gòn–Đà Lạt</div>
+      <div class="blog-card-kw">nha xe phuong trang co tot khong</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 9K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">BOFU · Hướng Dẫn</div>
+      <div class="blog-card-title">Cách mua vé tàu hoả trên MoMo — Từng bước, không mất công xếp hàng</div>
+      <div class="blog-card-kw">mua ve tau hoa tren momo</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 8K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PILLAR 4 -->
+  <h2 class="sh">📱 Pillar 4: eSIM & Kết Nối — 35 bài cluster</h2>
+
+  <h3 class="sh3">🎓 Cluster 4A: Giáo Dục eSIM (~8 bài)</h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TOFU · Giáo Dục</div>
+      <div class="blog-card-title">eSIM là gì? Tất cả điều bạn cần biết trước khi đi du lịch nước ngoài</div>
+      <div class="blog-card-kw">esim la gi can biet khi di nuoc ngoai</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 30K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">MOFU · So Sánh</div>
+      <div class="blog-card-title">eSIM vs SIM vật lý vs Roaming quốc tế — Cái nào tốt hơn cho du lịch?</div>
+      <div class="blog-card-kw">esim vs sim vat ly vs roaming</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 18K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TOFU · Kiểm Tra</div>
+      <div class="blog-card-title">Điện thoại nào hỗ trợ eSIM? Danh sách iPhone, Samsung, Google Pixel</div>
+      <div class="blog-card-kw">dien thoai nao ho tro esim</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 14K</span></div>
+    </div>
+  </div>
+
+  <h3 class="sh3">🌍 Cluster 4B: eSIM Theo Quốc Gia (~15 bài) — Template: <code class="url">/blog/esim-[quoc-gia]-review-so-sanh</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · eSIM QG</div>
+      <div class="blog-card-title">eSIM Thái Lan — Review, so sánh gói cước, cách kích hoạt trên MoMo</div>
+      <div class="blog-card-kw">/blog/esim-thai-lan-review-so-sanh</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 14K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">TEMPLATE · eSIM QG</div>
+      <div class="blog-card-title">eSIM Nhật Bản — Gói nào tốt nhất 2026? Tốc độ, vùng phủ, giá</div>
+      <div class="blog-card-kw">/blog/esim-nhat-ban-review-so-sanh</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 12K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">+ Thêm</div>
+      <div class="blog-card-title">Hàn Quốc · Singapore · Đài Loan · Malaysia · Mỹ · Châu Âu · Úc...</div>
+      <div class="blog-card-kw">/blog/esim-[quoc-gia]-review-so-sanh · ~13 bài thêm</div>
+      <div class="blog-card-meta"><span class="tag tag-template">TEMPLATE ×13</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">📋 Template: <code class="url">/blog/esim-[quoc-gia]-review-so-sanh</code></div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;margin-top:8px;">
+      <strong>H1:</strong> "eSIM [Quốc gia] — Review, So sánh Gói, Cách Mua trên MoMo [năm]" &nbsp;|&nbsp;
+      <strong>S1:</strong> Tại sao cần eSIM khi đi [quốc gia] (mạng địa phương, roaming đắt) &nbsp;|&nbsp;
+      <strong>S2:</strong> Các gói eSIM MoMo cho [quốc gia] — bảng so sánh dung lượng/giá/thời hạn (→ CTA mua) &nbsp;|&nbsp;
+      <strong>S3:</strong> Cách kích hoạt eSIM bước-by-bước &nbsp;|&nbsp;
+      <strong>S4:</strong> Mạng di động tại [quốc gia] — tốc độ, vùng phủ, app local cần cài &nbsp;|&nbsp;
+      <strong>S5:</strong> Mẹo tiết kiệm data khi du lịch &nbsp;|&nbsp;
+      <strong>Cross-sell:</strong> "Dùng MoMo thanh toán tại [quốc gia]" + link Intl Pay page
+    </div>
+  </div>
+
+  <h3 class="sh3">🔧 Cluster 4C: Hướng Dẫn Kỹ Thuật (~8 bài)</h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">BOFU · Hướng Dẫn</div>
+      <div class="blog-card-title">Cách mua và cài đặt eSIM MoMo trên iPhone — Từng bước chi tiết</div>
+      <div class="blog-card-kw">mua cai dat esim momo tren iphone</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 10K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">BOFU · Hướng Dẫn</div>
+      <div class="blog-card-title">Cách cài eSIM trên Android — Samsung, Google Pixel, Oppo... từng bước</div>
+      <div class="blog-card-kw">cach cai esim android samsung</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 8K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TOFU · App</div>
+      <div class="blog-card-title">Top 10 app cần cài trước khi đi nước ngoài — Google Maps, Grab, dịch...</div>
+      <div class="blog-card-kw">app can cai truoc khi di nuoc ngoai</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 22K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PILLAR 5 -->
+  <h2 class="sh">💳 Pillar 5: Thanh Toán Thông Minh Khi Du Lịch — 25 bài cluster</h2>
+
+  <h3 class="sh3">🌏 Cluster 5A: Thanh Toán Theo Quốc Gia (~10 bài) — Template: <code class="url">/blog/thanh-toan-momo-tai-[quoc-gia]</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">TEMPLATE · TT QG</div>
+      <div class="blog-card-title">Dùng MoMo thanh toán tại Thái Lan — Hướng dẫn quét QR PromptPay</div>
+      <div class="blog-card-kw">/blog/thanh-toan-momo-tai-thai-lan</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 9K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">TEMPLATE · TT QG</div>
+      <div class="blog-card-title">MoMo có dùng được ở Nhật không? Hướng dẫn thanh toán tại Nhật 2026</div>
+      <div class="blog-card-kw">/blog/thanh-toan-momo-tai-nhat-ban</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 7K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">+ Thêm</div>
+      <div class="blog-card-title">Malaysia · Singapore · Hàn Quốc · Campuchia · Indonesia...</div>
+      <div class="blog-card-kw">/blog/thanh-toan-momo-tai-[quoc-gia] · ~8 bài</div>
+      <div class="blog-card-meta"><span class="tag tag-template">TEMPLATE ×8</span></div>
+    </div>
+  </div>
+
+  <h3 class="sh3">💡 Cluster 5B: Tài Chính Du Lịch (~10 bài)</h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TOFU · Giáo Dục</div>
+      <div class="blog-card-title">Đổi tiền hay dùng ví điện tử khi đi nước ngoài? So sánh toàn diện</div>
+      <div class="blog-card-kw">doi tien hay dung vi dien tu nuoc ngoai</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 12K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">MOFU · Chuẩn Bị</div>
+      <div class="blog-card-title">Checklist tài chính trước chuyến đi nước ngoài — Đừng để thiếu tiền ở xứ lạ</div>
+      <div class="blog-card-kw">checklist tai chinh truoc khi di nuoc ngoai</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 8K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">BOFU · Bundle</div>
+      <div class="blog-card-title">Tất cả việc cần làm trên MoMo trước khi xuất ngoại — Checklist đầy đủ</div>
+      <div class="blog-card-kw">can lam gi tren momo truoc khi di nuoc ngoai</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 13K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PILLAR 6 -->
+  <h2 class="sh">💰 Pillar 6: Du Lịch Tiết Kiệm — 25 bài cluster</h2>
+
+  <h3 class="sh3">🪙 Cluster 6A: Budget Travel Tips (~10 bài)</h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TOFU · Budget</div>
+      <div class="blog-card-title">Đi du lịch Đông Nam Á với 15 triệu — Kế hoạch chi tiết từng khoản</div>
+      <div class="blog-card-kw">di du lich dong nam a 15 trieu</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 14K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--green)">TOFU · Budget</div>
+      <div class="blog-card-title">Du lịch Đà Nẵng 3 ngày chỉ 3 triệu — Có thể không? Breakdown chi tiết</div>
+      <div class="blog-card-kw">du lich da nang 3 ngay 3 trieu co the khong</div>
+      <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="tag tag-new">SV: 11K</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--blue)">MOFU · MoMo Tips</div>
+      <div class="blog-card-title">Tiết kiệm bao nhiêu khi đặt vé và phòng qua MoMo? Hoàn tiền + deal</div>
+      <div class="blog-card-kw">tiet kiem khi dat ve phong qua momo</div>
+      <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="tag tag-new">SV: 7K</span></div>
+    </div>
+  </div>
+
+  <h3 class="sh3">🎯 Cluster 6B: Combo & Deal (~8 bài) — Template: <code class="url">/blog/combo-du-lich-[diem-den]-momo</code></h3>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">TEMPLATE · Combo</div>
+      <div class="blog-card-title">Combo du lịch Thái Lan hoàn hảo: Vé MoMo + eSIM + Thanh toán QR</div>
+      <div class="blog-card-kw">/blog/combo-du-lich-thai-lan-momo</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 8K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--pink)">TEMPLATE · Combo</div>
+      <div class="blog-card-title">Chuẩn bị đi Nhật Bản: Combo vé MoMo + eSIM Nhật + tips thanh toán</div>
+      <div class="blog-card-kw">/blog/combo-du-lich-nhat-ban-momo</div>
+      <div class="blog-card-meta"><span class="tag tag-bofu">BOFU</span><span class="tag tag-new">SV: 6K</span><span class="tag tag-template">TEMPLATE</span></div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-cat" style="color:var(--teal)">+ Thêm</div>
+      <div class="blog-card-title">Hàn Quốc · Singapore · Đà Nẵng · Phú Quốc + điểm đến nội địa hot</div>
+      <div class="blog-card-kw">/blog/combo-du-lich-[diem-den]-momo · ~6 bài</div>
+      <div class="blog-card-meta"><span class="tag tag-template">TEMPLATE ×6</span></div>
+    </div>
+  </div>
+
+  <!-- TỔNG KẾT TEMPLATES -->
+  <div class="divider"></div>
+  <h2 class="sh">📋 Tổng Hợp Content Templates</h2>
+  <table class="data-table">
+    <thead><tr><th>Template URL</th><th>Áp Dụng Cho</th><th>Số Bài Scale</th><th>SV Avg/Bài</th><th>Sản Phẩm CTA</th></tr></thead>
+    <tbody>
+      <tr class="row-new"><td><code class="url">/blog/du-lich-[tinh-thanh]-tu-a-den-z</code></td><td>20 tỉnh/thành nội địa</td><td>20 bài</td><td>20–45K</td><td>Vé bay/xe/tàu + KS</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/du-lich-[quoc-gia]-tu-a-z</code></td><td>15 quốc gia nước ngoài</td><td>15 bài</td><td>25–55K</td><td>Vé bay + eSIM + Intl Pay</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/lich-trinh-[diem-den]-[X]-ngay</code></td><td>Nội địa + quốc tế</td><td>30 bài</td><td>10–28K</td><td>Vé + KS deeplink</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/chi-phi-du-lich-[diem-den]</code></td><td>Nội địa + quốc tế</td><td>20 bài</td><td>10–20K</td><td>Vé + KS + eSIM</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/esim-[quoc-gia]-review-so-sanh</code></td><td>15+ quốc gia eSIM</td><td>15 bài</td><td>6–14K</td><td>eSIM deeplink</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/thanh-toan-momo-tai-[quoc-gia]</code></td><td>10 quốc gia Intl Pay</td><td>10 bài</td><td>5–9K</td><td>Intl Pay kích hoạt</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/combo-du-lich-[diem-den]-momo</code></td><td>Điểm đến trong + ngoài nước</td><td>10 bài</td><td>6–12K</td><td>Bundle: Vé + eSIM + Pay</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">📊 Tổng Số Bài Dự Kiến — Theo Pillar</div>
+    P1 Du Lịch Trong Nước: 55 bài · P2 Du Lịch Nước Ngoài: 50 bài · P3 Cẩm Nang Đặt Vé: 30 bài · P4 eSIM & Kết Nối: 35 bài · P5 Thanh Toán: 25 bài · P6 Budget Travel: 25 bài = <strong>220 bài tổng</strong>. Trong đó 110 bài theo content template (scale nhanh) + 110 bài viết tay chiến lược.
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚙️ Quy Trình Sản Xuất Nội Dung Template</div>
+    Mỗi template được xây dựng như 1 "bản thiết kế": điền [biến] vào các section cố định, dữ liệu được lấy tự động từ: Google Maps API (địa danh), MoMo API (giá vé/eSIM realtime), Google Flights data (giá bay tham khảo), Content writer chỉ cần viết phần review cá nhân + insight địa phương. Mục tiêu: 1 template bài → 3–5 ngày/bài (thay vì 7–10 ngày viết từ đầu).
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 10. TRAVEL COMPONENTS -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-components">
+  <div class="page-header">
+    <div class="page-eyebrow">Components & Conversion Strategy</div>
+    <div class="page-title">Travel Components & Simulation Tools</div>
+    <div class="page-desc">Các component tương tác nhúng vào trang web & blog nhằm tăng năng lực mua hàng, kích hoạt cross-sell tự nhiên và gợi ý dịch vụ liên quan đúng lúc. Lấy cảm hứng từ mô hình Klook (K.AI), Traveloka (Smart Trip Planner, Price Alert), Trip.com (contextual upsell) — nhưng được thiết kế đặc thù cho hệ sinh thái MoMo: vé + eSIM + thanh toán QR.</div>
+  </div>
+
+  <!-- PHILOSOPHY -->
+  <div class="callout callout-blue">
+    <div class="callout-title">💡 Triết Lý: "Từ Tool → Intent → Mua Hàng"</div>
+    Người dùng dùng tool <em>vì lợi ích ngay lập tức</em> (tỉ giá, chi phí, thời tiết...) → component phát hiện intent du lịch → gợi ý sản phẩm MoMo đúng ngữ cảnh → đặt hàng không cần rời trang. <strong>Traveloka</strong> tăng 15% booking completion với Trip Planner bundling. <strong>Klook K.AI</strong> dùng AI để gợi ý activities theo destination, đạt 30% conversion boost. <strong>Trip.com</strong> nhúng cross-sell hotel ngay trong trang flight results. MoMo có lợi thế hơn: kiểm soát cả vé + eSIM + thanh toán QR trong cùng 1 nền tảng.
+  </div>
+
+  <!-- COMPETITIVE REFERENCE -->
+  <h2 class="sh">🔎 Tham Chiếu Từ Đối Thủ</h2>
+  <table class="data-table">
+    <thead><tr><th>Platform</th><th>Component / Feature</th><th>Cơ Chế Cross-sell</th><th>Bài Học Cho MoMo</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Traveloka</strong></td><td>Smart Trip Planner — nhập điểm đến + budget → gợi ý flight + hotel + activity bundle</td><td>Bundle click-through tăng 15% booking completion</td><td>Bundle vé + khách sạn + eSIM ngay khi user chọn điểm đến</td></tr>
+      <tr class="row-new"><td><strong>Traveloka</strong></td><td>Price Alert — cài ngưỡng giá, nhận push khi vé giảm</td><td>Giữ user ở lại hệ sinh thái, intent cao → conversion dễ hơn</td><td>MoMo Price Alert: vé + phòng; push đúng thời điểm</td></tr>
+      <tr><td><strong>Klook K.AI</strong></td><td>AI chatbot gợi ý activity theo destination, tích hợp ngay trong trang điểm đến</td><td>30% conversion boost; "inspiration → booking" trong 1 flow</td><td>MoMo Travel Assistant: gợi ý eSIM + thanh toán khi user xem điểm đến QT</td></tr>
+      <tr class="row-new"><td><strong>Klook</strong></td><td>TikTok in-app booking — discover content → đặt vé không rời TikTok</td><td>Social → conversion; loại bỏ friction</td><td>MoMo nhúng deeplink từ blog content / Reels vào app booking</td></tr>
+      <tr><td><strong>Trip.com</strong></td><td>Contextual cross-sell: sau khi đặt bay → hiện gợi ý khách sạn tại điểm đến, insurance, transfer</td><td>Upsell ngay sau conversion, intent lúc này cao nhất</td><td>Sau đặt vé trên MoMo: gợi ý eSIM + QR payment kích hoạt</td></tr>
+      <tr class="row-new"><td><strong>Trip.com</strong></td><td>Real-time currency rate ngay trong trang điểm đến quốc tế</td><td>User dùng tool → thấy giá trị → tiếp tục booking</td><td>Currency Converter MoMo gắn cross-sell đúng quốc gia</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- COMPONENT LIST -->
+  <h2 class="sh">⚙️ Danh Sách 8 Travel Components — MoMo</h2>
+  <div class="callout callout-amber">
+    <div class="callout-title">📐 Phân Loại Components</div>
+    <strong>Loại A — Simulation Tool:</strong> User nhập dữ liệu → nhận output hữu ích → context cross-sell xuất hiện tự nhiên. &nbsp;|&nbsp; <strong>Loại B — Smart Widget:</strong> Hiển thị thông tin real-time (giá, thời tiết, visa...) → kích thích intent. &nbsp;|&nbsp; <strong>Loại C — AI-powered:</strong> Cá nhân hoá gợi ý dựa trên hành vi, điểm đến, lịch sử.
+  </div>
+
+  <!-- C1: CURRENCY CONVERTER -->
+  <div class="kpi-card kpi-teal" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #1 · Loại A — Simulation</div>
+        <div class="kpi-title">💱 Currency Converter — Quy Đổi Tiền Tệ Du Lịch</div>
+      </div>
+      <span class="tag tag-new">Ưu tiên CAO</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> User nhập số tiền VND → chọn ngoại tệ đích (THB, JPY, KRW, SGD, MYR, USD, EUR...) → nhận tỉ giá realtime + ước tính chi tiêu tại điểm đến.<br><br>
+      <strong>Cross-sell trigger:</strong> Khi user quy đổi VND → THB, component tự động hiện ra:
+      <div style="background:var(--teal-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;">
+        ✈️ <strong>Vé máy bay HCM → Bangkok từ 1.2 triệu đồng</strong> — Đặt ngay trên MoMo &nbsp;·&nbsp;
+        🏨 <strong>Khách sạn Bangkok 4 sao từ 800K/đêm</strong> &nbsp;·&nbsp;
+        📱 <strong>eSIM Thái Lan 7 ngày — 99K</strong> &nbsp;·&nbsp;
+        💳 <strong>Thanh toán bằng MoMo tại Thái Lan — kích hoạt miễn phí</strong>
+      </div>
+      <strong>Đặt ở đâu:</strong> Trang <code class="url">/thanh-toan-quoc-te</code> · <code class="url">/du-lich-di-lai/diem-den/[quoc-gia]</code> · Blog "Du lịch [quốc gia] từ A–Z" · Trang eSIM quốc gia. <br>
+      <strong>Tham chiếu:</strong> Trip.com nhúng tỉ giá realtime trong trang điểm đến QT → giữ user ở lại và kích intent booking cao hơn.
+    </div>
+  </div>
+
+  <!-- C2: BUDGET ESTIMATOR -->
+  <div class="kpi-card kpi-green" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #2 · Loại A — Simulation</div>
+        <div class="kpi-title">💰 Trip Budget Estimator — Ước Tính Chi Phí Chuyến Đi</div>
+      </div>
+      <span class="tag tag-new">Ưu tiên CAO</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> User chọn: Điểm đến + Số ngày + Số người + Phong cách (Tiết kiệm / Trung bình / Sang trọng) → nhận breakdown chi phí ước tính: vé đi lại, khách sạn, ăn uống, tham quan, data điện thoại, chi tiêu phát sinh.<br><br>
+      <strong>Cross-sell trigger:</strong> Mỗi dòng chi phí trong bảng là một CTA có thể click:
+      <div style="background:var(--green-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;line-height:2;">
+        ✈️ Chi phí vé máy bay: <strong>~2.400.000đ/người</strong> → <u>Đặt vé ngay trên MoMo</u><br>
+        🏨 Chi phí khách sạn 4 đêm: <strong>~3.200.000đ</strong> → <u>Tìm phòng khách sạn MoMo</u><br>
+        📱 Data điện thoại: <strong>~99.000đ</strong> → <u>Mua eSIM Thái Lan trên MoMo</u><br>
+        💳 Thanh toán tại điểm đến: <strong>Miễn phí nếu dùng MoMo QR</strong> → <u>Kích hoạt ngay</u>
+      </div>
+      <strong>Đặt ở đâu:</strong> Hub <code class="url">/du-lich-di-lai</code> · Blog "Chi phí du lịch [điểm đến]" · Trang điểm đến Level 1. <br>
+      <strong>Tham chiếu:</strong> Traveloka Smart Trip Planner — cho phép nhập budget → gợi ý flight + hotel bundle, tăng booking completion 15%.
+    </div>
+  </div>
+
+  <!-- C3: ESIM RECOMMENDER -->
+  <div class="kpi-card kpi-blue" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #3 · Loại B — Smart Widget</div>
+        <div class="kpi-title">📱 eSIM Package Recommender — Gợi Ý Gói eSIM Phù Hợp</div>
+      </div>
+      <span class="tag tag-new">Ưu tiên CAO</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> User chọn: Quốc gia đến + Số ngày + Mục đích dùng mạng (lướt mạng thường / làm việc remote / stream video / gọi điện nhiều) → Hiện ngay top 2–3 gói eSIM phù hợp nhất kèm so sánh dung lượng, tốc độ, giá.<br><br>
+      <strong>Cross-sell trigger:</strong> Sau khi user chọn gói eSIM:
+      <div style="background:var(--blue-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;">
+        🎁 <strong>"Combo tiết kiệm: eSIM Nhật + Vé bay HCM–Tokyo — tiết kiệm hơn đặt riêng lẻ"</strong><br>
+        💳 <strong>"Đến Nhật rồi, dùng MoMo quét QR thanh toán nhé — kích hoạt trước khi đi"</strong>
+      </div>
+      <strong>Đặt ở đâu:</strong> Trang <code class="url">/esim-du-lich/[quoc-gia]</code> · Blog "eSIM [quốc gia] review so sánh" · Trang điểm đến quốc tế.
+    </div>
+  </div>
+
+  <!-- C4: VISA CHECKER -->
+  <div class="kpi-card kpi-purple" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #4 · Loại B — Smart Widget</div>
+        <div class="kpi-title">🛂 Visa & Entry Checker — Kiểm Tra Điều Kiện Nhập Cảnh</div>
+      </div>
+      <span class="tag tag-mofu">Ưu tiên TRUNG</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> User chọn quốc gia muốn đến → component hiện: Có cần visa không? Miễn thị thực mấy ngày? Xin online hay tại đại sứ quán? Chi phí? Thời gian xử lý?<br><br>
+      <strong>Cross-sell trigger:</strong> Tự động kích hoạt sau khi kiểm tra visa:
+      <div style="background:var(--purple-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;">
+        ✈️ <strong>"[Quốc gia] miễn visa 30 ngày — Đặt vé ngay trước khi hết quota!"</strong> → link đặt vé bay<br>
+        📱 <strong>"Đừng quên eSIM — có mạng ngay khi hạ cánh"</strong> → link eSIM quốc gia<br>
+        💳 <strong>"Chuẩn bị thanh toán bằng MoMo tại [quốc gia]"</strong> → link Intl Pay
+      </div>
+      <strong>Đặt ở đâu:</strong> Blog "Du lịch [quốc gia] từ A–Z" · <code class="url">/du-lich-di-lai/diem-den/[quoc-gia]</code> · Trang Hub /nuoc-ngoai.
+    </div>
+  </div>
+
+  <!-- C5: WEATHER WIDGET -->
+  <div class="kpi-card kpi-amber" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #5 · Loại B — Smart Widget</div>
+        <div class="kpi-title">🌤️ Best Time to Go — Lịch Thời Tiết & Mùa Du Lịch</div>
+      </div>
+      <span class="tag tag-mofu">Ưu tiên TRUNG</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> Heatmap 12 tháng theo điểm đến — hiển thị: nhiệt độ trung bình, lượng mưa, mùa cao điểm/thấp điểm, lễ hội địa phương. User chọn tháng đi → component tính "điểm phù hợp" (weather score) và suggest tháng tốt nhất.<br><br>
+      <strong>Cross-sell trigger:</strong> Khi user chọn tháng đi:
+      <div style="background:var(--orange-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;">
+        ✈️ <strong>"Tháng 11 là mùa đẹp nhất ở Đà Nẵng — Vé tháng 11 còn từ 890K"</strong> → CTA đặt vé<br>
+        🏨 <strong>"Đặt phòng sớm tháng 11 — cao điểm, phòng đẹp cháy nhanh"</strong> → CTA đặt phòng
+      </div>
+      <strong>Đặt ở đâu:</strong> Blog "Lịch trình [điểm đến] [X] ngày" · Trang điểm đến Level 1 &amp; Level 2 · Blog "Du lịch [quốc gia] từ A–Z".
+    </div>
+  </div>
+
+  <!-- C6: PACKING LIST -->
+  <div class="kpi-card kpi-pink" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #6 · Loại A — Simulation</div>
+        <div class="kpi-title">🧳 Smart Packing List — Checklist Hành Lý Thông Minh</div>
+      </div>
+      <span class="tag tag-mofu">Ưu tiên TRUNG</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> User nhập: Điểm đến + Số ngày + Thời tiết + Loại chuyến đi (biển / núi / thành phố / công tác) → Tạo checklist hành lý cá nhân hoá. Có thể tick-off từng mục, chia sẻ với bạn đồng hành.<br><br>
+      <strong>Cross-sell trigger:</strong> Trong checklist, các mục liên quan đến MoMo được highlight:
+      <div style="background:var(--pink-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;line-height:2.1;">
+        ☑ <strong>SIM / data điện thoại</strong> → <u>"Mua eSIM [quốc gia] ngay trên MoMo — có mạng khi vừa hạ cánh"</u><br>
+        ☑ <strong>Vé máy bay</strong> → <u>"Đặt vé qua MoMo — hoàn tiền lên đến 10%"</u><br>
+        ☑ <strong>Phương thức thanh toán tại điểm đến</strong> → <u>"Quét QR bằng MoMo — không cần đổi tiền mặt"</u><br>
+        ☑ <strong>Đặt chỗ ở</strong> → <u>"Tìm khách sạn / resort trên MoMo"</u>
+      </div>
+      <strong>Đặt ở đâu:</strong> Blog "Checklist chuẩn bị đi [quốc gia]" · Hub /nuoc-ngoai · Trang điểm đến quốc tế.
+    </div>
+  </div>
+
+  <!-- C7: FLIGHT PRICE CALENDAR -->
+  <div class="kpi-card kpi-blue" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #7 · Loại B — Smart Widget</div>
+        <div class="kpi-title">📅 Flight Price Calendar — Lịch Giá Vé Rẻ Nhất</div>
+      </div>
+      <span class="tag tag-new">Ưu tiên CAO</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> Widget lịch 30 ngày hiển thị giá vé thấp nhất mỗi ngày cho 1 tuyến cụ thể (via MoMo API). Màu sắc theo mức giá: xanh = rẻ, vàng = trung bình, đỏ = đắt. Tham chiếu: <em>Traveloka "Find Lowest Price Estimates"</em> — tính năng được đánh giá yêu thích nhất của platform.<br><br>
+      <strong>Cross-sell trigger:</strong> Khi user click ngày vé rẻ:
+      <div style="background:var(--blue-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;">
+        🏨 <strong>"Đặt ngay — khách sạn Đà Nẵng dịp này còn phòng đẹp từ 650K/đêm"</strong><br>
+        📱 <strong>Nếu là chuyến QT: "Đừng quên eSIM — mua kèm để tiết kiệm hơn"</strong>
+      </div>
+      <strong>Đặt ở đâu:</strong> Trang sub-page tuyến bay <code class="url">/ve-may-bay/[city-a]-[city-b]</code> · Landing /ve-may-bay · Trang điểm đến Level 1.
+    </div>
+  </div>
+
+  <!-- C8: AI TRIP ASSISTANT -->
+  <div class="kpi-card kpi-purple" style="margin-bottom:20px;">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">Component #8 · Loại C — AI-powered</div>
+        <div class="kpi-title">🤖 MoMo Travel Assistant — Gợi Ý Chuyến Đi AI</div>
+      </div>
+      <span class="tag" style="background:#F3E8FF;color:#6B21A8">Roadmap Q3–Q4</span>
+    </div>
+    <div class="kpi-body">
+      <strong>Cơ chế:</strong> Chatbot gắn trên Hub page & trang điểm đến. User nhập: "Tôi có 5 ngày, budget 15 triệu, muốn đi biển" → assistant gợi ý 3 gợi ý (Đà Nẵng · Phú Quốc · Nha Trang) kèm vé rẻ nhất, khách sạn phù hợp, tips địa phương. Tham chiếu: <em>Klook K.AI</em> — chatbot tích hợp vào trang điểm đến, tăng 30% conversion.<br><br>
+      <strong>Cross-sell trigger:</strong> Mỗi gợi ý trong kết quả đều đính kèm CTA sản phẩm MoMo:
+      <div style="background:var(--purple-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:12.5px;">
+        🧠 Gợi ý AI: <strong>"Đà Nẵng 5 ngày — Vé từ 950K, phòng 4 sao từ 650K/đêm, tổng ~11 triệu"</strong><br>
+        → [Đặt vé ngay] [Xem khách sạn] [Xem lịch trình chi tiết]<br>
+        📱 Nếu chọn QT: <strong>"Cần eSIM không? Mua kèm hôm nay để kịp chuyến"</strong>
+      </div>
+      <strong>Đặt ở đâu:</strong> Hub <code class="url">/du-lich-di-lai</code> · Trang điểm đến · Modal popup sau khi đọc blog >2 phút (exit-intent). <br>
+      <strong>Note:</strong> Phase 1 có thể dùng logic rule-based đơn giản, không cần AI thực sự — cải tiến sang LLM trong Q4.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- COMPONENT PLACEMENT MAP -->
+  <h2 class="sh">🗺️ Bản Đồ Gắn Components Theo Trang</h2>
+  <table class="data-table">
+    <thead><tr><th>Trang / URL</th><th>Components Phù Hợp</th><th>Primary Cross-sell</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Hub /du-lich-di-lai</strong></td><td>Budget Estimator · AI Travel Assistant · Best Time to Go</td><td>Mọi sản phẩm theo intent người dùng</td></tr>
+      <tr class="row-new"><td><strong>/du-lich-di-lai/diem-den/[quoc-gia]</strong></td><td>Currency Converter · Visa Checker · eSIM Recommender · Packing List</td><td>Vé bay QT + eSIM + Intl Pay</td></tr>
+      <tr><td><strong>/du-lich-di-lai/diem-den/[tinh-thanh]</strong></td><td>Budget Estimator · Flight Price Calendar · Best Time to Go</td><td>Vé bay/xe/tàu + Khách sạn</td></tr>
+      <tr class="row-new"><td><strong>/ve-may-bay/[city-a]-[city-b]</strong></td><td>Flight Price Calendar · Budget Estimator</td><td>Khách sạn điểm đến + eSIM (nếu QT)</td></tr>
+      <tr><td><strong>/esim-du-lich/[quoc-gia]</strong></td><td>eSIM Recommender · Currency Converter · Packing List</td><td>Vé bay QT + Intl Pay</td></tr>
+      <tr class="row-new"><td><strong>/thanh-toan-quoc-te/[quoc-gia]</strong></td><td>Currency Converter · Visa Checker</td><td>eSIM cùng quốc gia + Vé bay</td></tr>
+      <tr><td><strong>Blog "Du lịch [quốc gia] từ A–Z"</strong></td><td>Currency Converter · Visa Checker · Best Time to Go · Packing List · AI Assistant</td><td>Full cross-sell: vé + KS + eSIM + Intl Pay</td></tr>
+      <tr class="row-new"><td><strong>Blog "Lịch trình [điểm đến] [X] ngày"</strong></td><td>Flight Price Calendar · Budget Estimator · Best Time to Go</td><td>Vé + Khách sạn</td></tr>
+      <tr><td><strong>Blog "Chi phí du lịch [điểm đến]"</strong></td><td>Budget Estimator · Currency Converter</td><td>Vé + Khách sạn + eSIM</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- CROSS-SELL LOGIC -->
+  <h2 class="sh">🔗 Bảng Cross-sell Logic — Trigger → Gợi Ý</h2>
+  <div class="callout callout-green">
+    <div class="callout-title">⚙️ Nguyên Tắc: Gợi ý đúng ngữ cảnh, không spam</div>
+    Mỗi component chỉ hiển thị cross-sell khi có đủ context (biết quốc gia/điểm đến). Gợi ý tối đa 3 sản phẩm mỗi lần. Ưu tiên sản phẩm cao nhất theo funnel stage của user (đã đặt vé → gợi eSIM; chưa đặt vé → gợi vé trước).
+  </div>
+  <table class="data-table">
+    <thead><tr><th>Trigger — User Action</th><th>Gợi Ý Xuất Hiện</th><th>Logic</th></tr></thead>
+    <tbody>
+      <tr><td>Quy đổi VND → THB</td><td>Vé bay → Bangkok · KS Bangkok · eSIM Thái · Intl Pay Thái</td><td>Quốc gia = Thái Lan → full travel stack Thái</td></tr>
+      <tr class="row-new"><td>Quy đổi VND → JPY</td><td>Vé bay → Tokyo/Osaka · eSIM Nhật · Tips thanh toán Nhật</td><td>Nhật = cash heavy → nhấn mạnh tips thanh toán</td></tr>
+      <tr><td>Nhập budget estimator chọn "Thái Lan 5 ngày"</td><td>Vé HCM→BKK + KS Bangkok + eSIM 7 ngày + Intl Pay kích hoạt</td><td>Bundle đầy đủ, giảm friction</td></tr>
+      <tr class="row-new"><td>Kiểm tra visa Nhật Bản (miễn visa)</td><td>"Còn miễn visa — đặt vé ngay! eSIM Nhật sẵn sàng"</td><td>Urgency + intent cao sau khi biết không cần visa</td></tr>
+      <tr><td>eSIM Recommender chọn Hàn Quốc</td><td>Vé bay → Seoul · KS Seoul từ... · "Dùng MoMo quét QR tại Hàn"</td><td>Sau eSIM → upsell vé + Intl Pay</td></tr>
+      <tr class="row-new"><td>Packing List chọn điểm đến QT</td><td>Highlight mục eSIM + mục thanh toán QR + mục vé</td><td>Checklist = intent planning → CTA sản phẩm tự nhiên</td></tr>
+      <tr><td>Flight Price Calendar click ngày rẻ (tuyến QT)</td><td>eSIM quốc gia đó · KS đề xuất · Intl Pay kích hoạt</td><td>Đã có vé → cần eSIM + phòng</td></tr>
+      <tr class="row-new"><td>Best Time to Go chọn tháng đi cao điểm</td><td>Urgency: "Vé + phòng đang cháy — đặt ngay kẻo hết"</td><td>Scarcity message khi mùa cao điểm</td></tr>
+      <tr><td>AI Assistant gợi ý điểm đến QT</td><td>Bundle: Vé + KS + eSIM + Intl Pay theo gói</td><td>AI hiểu full context → gợi ý trọn gói</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- IMPLEMENTATION PHASES -->
+  <h2 class="sh">🚀 Lộ Trình Triển Khai Components</h2>
+  <div class="roadmap-row">
+    <div class="roadmap-q">
+      <div class="roadmap-q-label" style="background:var(--blue-light);color:var(--blue)">Q1–Q2</div>
+    </div>
+    <div class="roadmap-items">
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">💱 Currency Converter + 📅 Flight Price Calendar</div>
+        <div class="roadmap-item-desc">Hai component có impact cao nhất, xây dựng đơn giản. Currency Converter dùng ExchangeRate API; Flight Calendar dùng MoMo internal API. Nhúng vào: /thanh-toan-quoc-te, /esim-du-lich/[quoc-gia], sub-pages tuyến bay QT.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">💰 Budget Estimator (rule-based, không AI)</div>
+        <div class="roadmap-item-desc">Dùng dữ liệu tĩnh theo điểm đến, cập nhật thủ công mỗi quý. Đủ dùng cho phase 1. Nhúng vào Hub và blog chi phí. Cross-sell logic: mỗi dòng chi phí = CTA deeplink MoMo.</div>
+      </div>
+    </div>
+  </div>
+  <div class="roadmap-row">
+    <div class="roadmap-q">
+      <div class="roadmap-q-label" style="background:var(--teal-light);color:var(--teal)">Q2–Q3</div>
+    </div>
+    <div class="roadmap-items">
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🛂 Visa Checker + 🌤️ Best Time to Go</div>
+        <div class="roadmap-item-desc">Visa Checker: database 30+ quốc gia phổ biến với người Việt, data tĩnh cập nhật 3 tháng/lần. Best Time to Go: heatmap dựa trên OpenWeatherMap historical data. Nhúng vào blog "du lịch [quốc gia] từ A–Z".</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">📱 eSIM Recommender + 🧳 Smart Packing List</div>
+        <div class="roadmap-item-desc">eSIM Recommender: gắn trực tiếp với product catalog MoMo, hiển thị gói realtime. Packing List: template theo điểm đến, seasonal, trip type — với CTA MoMo highlight 3 mục chính.</div>
+      </div>
+    </div>
+  </div>
+  <div class="roadmap-row">
+    <div class="roadmap-q">
+      <div class="roadmap-q-label" style="background:var(--purple-light);color:var(--purple)">Q3–Q4</div>
+    </div>
+    <div class="roadmap-items">
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🤖 MoMo Travel Assistant (AI-powered)</div>
+        <div class="roadmap-item-desc">Phase 1: rule-based chatbot với intent detection đơn giản (destination + budget + days). Phase 2 (Q4): tích hợp LLM, personalization theo lịch sử đặt vé của user MoMo. Gắn vào Hub và trang điểm đến lớn. Tham khảo kiến trúc Klook K.AI: 8 ngôn ngữ, gắn trong "Things To Do" page.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">📊 KPI Riêng Cho Travel Components</div>
+    <strong>Component Engagement Rate:</strong> % user tương tác với ít nhất 1 component / lượt vào trang · Target Q4: 25%+ &nbsp;|&nbsp;
+    <strong>Component → CTA Click-through:</strong> % user nhấn CTA sau khi dùng component · Target: 12–18% &nbsp;|&nbsp;
+    <strong>Component → App Conversion:</strong> % dẫn thành công vào app đặt hàng · Target: 4–6% &nbsp;|&nbsp;
+    Đo bằng GA4 custom events: <code class="url">component_interact</code> · <code class="url">component_cta_click</code> · <code class="url">component_deeplink_open</code>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 11. KPI 2026 (số được đổi từ 10) -->
+<!-- ═══════════════════════════════════ -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-kpi">
+  <div class="page-header">
+    <div class="page-eyebrow">KPI Framework 2026</div>
+    <div class="page-title">KPI Du Lịch 2026 — Mục Tiêu & Milestone Theo Quý</div>
+    <div class="page-desc">KPI được thiết lập dựa trên: (1) Baseline hiện tại của MoMo trong mảng OTA + eSIM, (2) Tốc độ tăng trưởng du lịch Việt Nam 2025-2026, (3) Benchmarks từ các OTA dẫn đầu. Mục tiêu tham vọng nhưng có cơ sở.</div>
+  </div>
+
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,#E0F7FA,#B2EBF2);color:var(--teal)">🎯</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Mục Tiêu Tổng Thể 2026: Trở Thành Top 3 Super App Du Lịch Việt Nam</div>
+      <div class="verdict-desc">MoMo từ "ví điện tử có đặt vé" trở thành "siêu app du lịch hàng đầu" — nơi người dùng nghĩ đến đầu tiên khi lên kế hoạch chuyến đi trong nước và quốc tế.</div>
+    </div>
+  </div>
+
+  <!-- KPI 1: TRAFFIC -->
+  <div class="kpi-card kpi-blue">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">KPI #1 · SEO & Traffic</div>
+        <div class="kpi-title">🔍 Organic Traffic Du Lịch</div>
+      </div>
+      <div style="text-align:right">
+        <div class="kpi-target" style="color:var(--blue)">800K</div>
+        <div class="kpi-baseline">Lượt/tháng · Cuối Q4 2026</div>
+      </div>
+    </div>
+    <div class="kpi-body">
+      Tổng organic traffic đến các trang du lịch (Hub + OTA + eSIM + Intl Pay + Blog). Baseline ước tính hiện tại ~80K lượt/tháng. Mục tiêu tăng trưởng 10x trong 12 tháng thông qua: sub-page expansion, blog cluster 150+ bài, và tối ưu On-page SEO toàn hệ thống.
+    </div>
+    <div class="kpi-milestones">
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q1 2026</div>
+        <div class="kpi-ms-val" style="color:var(--blue)">150K</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q2 2026</div>
+        <div class="kpi-ms-val" style="color:var(--blue)">300K</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q3 2026</div>
+        <div class="kpi-ms-val" style="color:var(--blue)">550K</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q4 2026</div>
+        <div class="kpi-ms-val" style="color:var(--blue)">800K</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI 2: KEYWORD RANKINGS -->
+  <div class="kpi-card kpi-green">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">KPI #2 · SEO Rankings</div>
+        <div class="kpi-title">📊 Keyword Rankings — Top 3 Google</div>
+      </div>
+      <div style="text-align:right">
+        <div class="kpi-target" style="color:var(--green)">50+</div>
+        <div class="kpi-baseline">Từ khoá · Top 3 · Cuối 2026</div>
+      </div>
+    </div>
+    <div class="kpi-body">
+      Số lượng từ khoá quan trọng đạt vị trí Top 3 Google tại Việt Nam. Tập trung vào 3 nhóm: (1) Brand keywords "MoMo + sản phẩm du lịch", (2) Tuyến đường cụ thể (vé HAN-SGN, xe Phương Trang...), (3) Từ khoá eSIM theo quốc gia. Đây là KPI chất lượng, không chỉ số lượng.
+    </div>
+    <div class="kpi-milestones">
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q1 — Top 3</div>
+        <div class="kpi-ms-val" style="color:var(--green)">5 KW</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q2 — Top 3</div>
+        <div class="kpi-ms-val" style="color:var(--green)">15 KW</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q3 — Top 3</div>
+        <div class="kpi-ms-val" style="color:var(--green)">30 KW</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q4 — Top 3</div>
+        <div class="kpi-ms-val" style="color:var(--green)">50 KW</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI 3: CONVERSION -->
+  <div class="kpi-card kpi-pink">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">KPI #3 · Conversion</div>
+        <div class="kpi-title">💰 Tỷ Lệ Chuyển Đổi Web → App</div>
+      </div>
+      <div style="text-align:right">
+        <div class="kpi-target" style="color:var(--pink)">4.5%</div>
+        <div class="kpi-baseline">CVR trung bình · Q4 2026</div>
+      </div>
+    </div>
+    <div class="kpi-body">
+      Tỷ lệ người dùng vào trang web du lịch → click deeplink/CTA → mở app MoMo và hoàn thành giao dịch. Bao gồm: đặt vé, mua eSIM, kích hoạt thanh toán quốc tế. Baseline ước tính ~1.5%. Cải thiện qua: UX tối ưu CTA, A/B test landing page, personalisation theo điểm đến.
+    </div>
+    <div class="kpi-milestones">
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q1 CVR</div>
+        <div class="kpi-ms-val" style="color:var(--pink)">2.0%</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q2 CVR</div>
+        <div class="kpi-ms-val" style="color:var(--pink)">2.8%</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q3 CVR</div>
+        <div class="kpi-ms-val" style="color:var(--pink)">3.5%</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q4 CVR</div>
+        <div class="kpi-ms-val" style="color:var(--pink)">4.5%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI 4: CONTENT -->
+  <div class="kpi-card kpi-teal">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">KPI #4 · Content Production</div>
+        <div class="kpi-title">✍️ Bài Blog & Sub-pages Xuất Bản</div>
+      </div>
+      <div style="text-align:right">
+        <div class="kpi-target" style="color:var(--teal)">250+</div>
+        <div class="kpi-baseline">Trang/Bài · Cả Năm 2026</div>
+      </div>
+    </div>
+    <div class="kpi-body">
+      Tổng số trang mới được tạo ra trong năm 2026: Sub-pages OTA (100+) + Sub-pages eSIM/Intl (35+) + Blog (150+). Mỗi trang phải đạt chuẩn: 1,200+ từ, 1 keyword chính, internal links, schema markup, CTA deeplink app.
+    </div>
+    <div class="kpi-milestones">
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q1 Trang</div>
+        <div class="kpi-ms-val" style="color:var(--teal)">50</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q2 Trang</div>
+        <div class="kpi-ms-val" style="color:var(--teal)">70</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q3 Trang</div>
+        <div class="kpi-ms-val" style="color:var(--teal)">80</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q4 Trang</div>
+        <div class="kpi-ms-val" style="color:var(--teal)">50</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI 5: ESIM GROWTH -->
+  <div class="kpi-card kpi-amber">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">KPI #5 · eSIM & Intl Pay</div>
+        <div class="kpi-title">📱 Lượt Mua eSIM Từ Organic Channel</div>
+      </div>
+      <div style="text-align:right">
+        <div class="kpi-target" style="color:var(--amber)">+200%</div>
+        <div class="kpi-baseline">Tăng trưởng YoY · Q4 2026</div>
+      </div>
+    </div>
+    <div class="kpi-body">
+      Tăng trưởng lượt mua eSIM và kích hoạt thanh toán quốc tế đến từ kênh organic (Google Search → Web → App). Đo bằng UTM tracking từ trang web. Đây là KPI đo lường trực tiếp hiệu quả chiến lược content eSIM và Intl Pay. Baseline 2025 được dùng làm gốc so sánh.
+    </div>
+    <div class="kpi-milestones">
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q1 tăng</div>
+        <div class="kpi-ms-val" style="color:var(--amber)">+40%</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q2 tăng</div>
+        <div class="kpi-ms-val" style="color:var(--amber)">+80%</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q3 tăng</div>
+        <div class="kpi-ms-val" style="color:var(--amber)">+140%</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q4 tăng</div>
+        <div class="kpi-ms-val" style="color:var(--amber)">+200%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI 6: BRAND -->
+  <div class="kpi-card kpi-purple">
+    <div class="kpi-header">
+      <div>
+        <div class="kpi-label">KPI #6 · Brand Awareness</div>
+        <div class="kpi-title">🏆 Brand Search Volume "MoMo Du Lịch"</div>
+      </div>
+      <div style="text-align:right">
+        <div class="kpi-target" style="color:var(--purple)">3x</div>
+        <div class="kpi-baseline">Brand SV Tăng · vs. 2025</div>
+      </div>
+    </div>
+    <div class="kpi-body">
+      Tăng 3x lượng tìm kiếm thương hiệu liên quan đến du lịch: "MoMo đặt vé", "MoMo du lịch", "MoMo eSIM", "thanh toán MoMo nước ngoài"... Đây là KPI đo lường mức độ nhận diện MoMo = nền tảng du lịch trong tâm trí người dùng, đo qua Google Search Console + Google Trends.
+    </div>
+    <div class="kpi-milestones">
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q1 Brand SV</div>
+        <div class="kpi-ms-val" style="color:var(--purple)">1.3x</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q2 Brand SV</div>
+        <div class="kpi-ms-val" style="color:var(--purple)">1.8x</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q3 Brand SV</div>
+        <div class="kpi-ms-val" style="color:var(--purple)">2.3x</div>
+      </div>
+      <div class="kpi-ms">
+        <div class="kpi-ms-q">Q4 Brand SV</div>
+        <div class="kpi-ms-val" style="color:var(--purple)">3x</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">📏 Cách Đo Lường & Báo Cáo</div>
+    Dashboard KPI cập nhật hàng tuần qua Google Search Console (traffic + rankings) + Google Analytics 4 (CVR, hành vi người dùng) + UTM Tracking (conversion từng trang về app). Báo cáo tháng gửi team, báo cáo quý trình bộ phận lãnh đạo. Mỗi KPI có "cảnh báo đỏ" nếu dưới 70% milestone theo quý.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 11. ROADMAP -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-roadmap">
+  <div class="page-header">
+    <div class="page-eyebrow">Roadmap 2026</div>
+    <div class="page-title">Roadmap Thực Thi — Theo Quý 2026</div>
+    <div class="page-desc">Kế hoạch triển khai chi tiết theo từng quý, từ xây dựng nền móng (Q1) → mở rộng content (Q2) → tối ưu và scale (Q3) → đẩy mạnh chuyển đổi (Q4).</div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="roadmap-row">
+    <div class="roadmap-q">
+      <div class="roadmap-q-label" style="background:#E6EEFF;color:var(--blue)">Q1 2026</div>
+    </div>
+    <div class="roadmap-items">
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🏗️ Xây Dựng Hub Page /du-lich-di-lai</div>
+        <div class="roadmap-item-desc">Thiết kế + develop Hub Page từ đầu. Nội dung đầy đủ, search widget, 4 product cards, blog feed, FAQ schema. Deploy và submit sitemap Google.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">📄 Tạo 20 Sub-pages Tuyến Bay Đầu Tiên</div>
+        <div class="roadmap-item-desc">Template tuyến bay chuẩn hóa. 20 tuyến nội địa hot nhất. Nội dung 1,200+ từ, lịch giá, tips điểm đến. Internal linking về Hub + Khách sạn.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">✍️ 40 Bài Blog TOFU Điểm Đến Trong Nước</div>
+        <div class="roadmap-item-desc">Lịch trình + chi phí các điểm đến phổ biến. Ưu tiên: Đà Nẵng, Phú Quốc, Đà Lạt, Hội An, Nha Trang, Sapa, Hà Giang. CTA về vé máy bay + khách sạn.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🔍 Technical SEO Audit & On-page Optimization</div>
+        <div class="roadmap-item-desc">Audit toàn bộ trang OTA hiện có. Thêm schema markup (FAQPage, BreadcrumbList). Tối ưu meta title/description. Cải thiện Core Web Vitals trên mobile.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="roadmap-row">
+    <div class="roadmap-q">
+      <div class="roadmap-q-label" style="background:#E0F5EA;color:var(--green)">Q2 2026</div>
+    </div>
+    <div class="roadmap-items">
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🚌 Sub-pages Xe Khách & Tàu Hoả (30 trang)</div>
+        <div class="roadmap-item-desc">Template tuyến xe + template nhà xe. 20 tuyến xe hot, 5 nhà xe lớn nhất, 10 tuyến tàu. Bao gồm sub-page nhà xe đi từng tuyến cụ thể.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🏨 Sub-pages Khách Sạn 15 Thành Phố</div>
+        <div class="roadmap-item-desc">Template thành phố chuẩn hóa. 15 điểm đến nội địa phổ biến. Nội dung: khu vực ở, loại hình, giá, tips du lịch địa phương.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">📱 Tối Ưu eSIM Pages + 10 Sub-pages Quốc Gia Đầu</div>
+        <div class="roadmap-item-desc">Refresh landing eSIM. Tạo 10 sub-pages quốc gia hot nhất: Thái Lan, Nhật, Hàn, Singapore, Malaysia, Đài Loan, Pháp, Anh, Mỹ, Úc.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">✍️ 50 Bài Blog MOFU + Nước Ngoài</div>
+        <div class="roadmap-item-desc">So sánh phương tiện, tips tiết kiệm, lịch trình nước ngoài (Thái, Nhật, Hàn). Blog eSIM giáo dục. 20 bài MOFU nội địa. Chiến dịch mùa hè 2026.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="roadmap-row">
+    <div class="roadmap-q">
+      <div class="roadmap-q-label" style="background:#FFF0E0;color:var(--amber)">Q3 2026</div>
+    </div>
+    <div class="roadmap-items">
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">✈️ Mở Rộng Tuyến Bay Quốc Tế (20 tuyến)</div>
+        <div class="roadmap-item-desc">Sub-pages 20 tuyến bay quốc tế từ Việt Nam: Bangkok, Tokyo, Seoul, Singapore, KL, Paris, London, Sydney... Template tích hợp cross-sell eSIM quốc gia đích.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">💳 Build Sub-pages Thanh Toán Quốc Tế 10 Nước</div>
+        <div class="roadmap-item-desc">Sub-pages chi tiết 10 quốc gia hỗ trợ QR. Nội dung: hướng dẫn step-by-step, điểm chấp nhận, tips dùng. Cross-link với eSIM page cùng quốc gia.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🔄 A/B Test CTA & Landing Page Optimization</div>
+        <div class="roadmap-item-desc">Test 3 biến thể CTA text + design trên các trang traffic cao nhất. Test vị trí đặt deeplink app. Target: tăng CVR từ 2.8% → 3.5%.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">✍️ 40 Bài Blog BOFU + Hướng Dẫn Cụ Thể</div>
+        <div class="roadmap-item-desc">Hướng dẫn đặt từng loại vé trên MoMo, cài eSIM step-by-step, thanh toán QR nước ngoài. Bài combo "Chuẩn bị đi [quốc gia] với MoMo". Chiến dịch Tết + cuối năm.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="roadmap-row">
+    <div class="roadmap-q">
+      <div class="roadmap-q-label" style="background:#F3E8FF;color:var(--purple)">Q4 2026</div>
+    </div>
+    <div class="roadmap-items">
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🎯 Push Chiến Dịch Tết 2027 & Year-end Travel</div>
+        <div class="roadmap-item-desc">Content series "Du lịch Tết 2027 với MoMo". Landing pages theo gói combo Tết (vé + phòng + eSIM). Email/push notification retargeting từ traffic web.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">📊 Tổng Kết, Phân Tích & Lập Kế Hoạch 2027</div>
+        <div class="roadmap-item-desc">Audit toàn bộ 250+ trang: traffic, ranking, CVR. Refresh và update nội dung các bài viết 2026. Xác định top/low performer. Lập chiến lược 2027 dựa trên dữ liệu thực.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">🔗 Tích Hợp Travel Ecosystem Với Credit Ecosystem</div>
+        <div class="roadmap-item-desc">Cross-link giữa /du-lich-di-lai và /tin-dung: "Đặt vé và trả sau với Ví Trả Sau MoMo", "Vay nhanh để du lịch". Banner cross-sell trên landing vé máy bay và khách sạn.</div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-item-title">✍️ 20 Bài Blog Cuối Năm + Tổng Hợp 2026</div>
+        <div class="roadmap-item-desc">Top điểm đến Tết 2027, review năm du lịch 2026, dự báo xu hướng 2027. Content "nhìn lại" tạo TOFU authority và được chia sẻ nhiều cuối năm.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">🔑 Yếu Tố Thành Công Quan Trọng</div>
+    <strong>Nhanh:</strong> Sub-pages tuyến đường cần live trong Q1 để capture traffic mùa hè. <strong>Đủ:</strong> Mỗi trang phải có đủ nội dung (1,200+ từ), không tạo "thin content" chỉ để tăng số lượng. <strong>Liên kết chặt:</strong> Internal linking phải được kiểm tra kỹ — mỗi trang sub phải link về Hub và trang landing chính. <strong>Đo lường:</strong> GA4 + GSC phải được setup đúng UTM từ ngày đầu để đo ROI chính xác.
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('s-' + id);
+  if (el) el.classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+
+function toggleCS(header) {
+  const toggle = header.querySelector('.cs-toggle');
+  const body = header.nextElementSibling;
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    toggle.classList.remove('open');
+  } else {
+    body.classList.add('open');
+    toggle.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo Viễn Thông — Growth Strategy & Content Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #AE2070;
+  --pink-light: #F5E0EC;
+  --green: #00A64F;
+  --green-light: #E0F5EA;
+  --blue: #1848B8;
+  --blue-light: #E6EEFF;
+  --amber: #C05000;
+  --amber-light: #FFF0E0;
+  --red: #C42020;
+  --red-light: #FFE8E8;
+  --purple: #6B30C0;
+  --purple-light: #EFE6FF;
+  --teal: #007B7F;
+  --teal-light: #E0F5F5;
+  --ink: #18120E;
+  --ink-2: #4A3F38;
+  --ink-3: #8C7D74;
+  --bg: #F6F3EF;
+  --surface: #FFFFFF;
+  --border: #E4DDD6;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --r: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+
+/* ─── LAYOUT ─── */
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:260px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
+.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
+.nav-section { padding:16px 0 0; }
+.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; user-select:none; }
+.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
+.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
+.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+
+/* ─── CONTENT ─── */
+.content { flex:1; overflow-y:auto; min-width:0; }
+.section { display:none; padding:40px 48px; }
+.section.active { display:block; }
+
+/* ─── HEADER ─── */
+.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
+.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
+.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+
+/* ─── STATS ─── */
+.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
+.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+/* ─── HEADINGS ─── */
+h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
+h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+h4.sh4 { font-size:13px; font-weight:700; margin-bottom:8px; color:var(--ink-2); }
+
+/* ─── TAGS ─── */
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
+.tag-tofu { background:#E0F4E8; color:#0B6130; }
+.tag-mofu { background:var(--blue-light); color:var(--blue); }
+.tag-bofu { background:var(--pink-light); color:var(--pink); }
+.tag-p1 { background:var(--pink-light); color:var(--pink); }
+.tag-p2 { background:#FFF3DC; color:#8B5800; }
+.tag-p3 { background:#F0EDE8; color:var(--ink-3); }
+.tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
+.tag-pseo { background:var(--purple-light); color:var(--purple); }
+.tag-seo { background:var(--blue-light); color:var(--blue); }
+.tag-ux { background:var(--green-light); color:var(--green); }
+.tag-conv { background:var(--pink-light); color:var(--pink); }
+.tag-trust { background:#FFF3DC; color:#8B5800; }
+.tag-template { background:var(--teal-light); color:var(--teal); }
+.tag-ai { background:var(--purple-light); color:var(--purple); border:1.5px dashed var(--purple); }
+
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+
+/* ─── TABLE ─── */
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-new { background:#F0FFF6; }
+.data-table tbody tr.row-new:hover { background:#E0F5EA; }
+.data-table tbody tr.row-highlight { background:var(--pink-light); }
+
+/* ─── FUNNEL ─── */
+.funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
+.funnel-stage:last-child { border-right:none; }
+.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
+.funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
+.fs-tofu { border-top:3px solid var(--green); }
+.fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); }
+.fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); }
+.fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+.fs-pseo { border-top:3px solid var(--purple); }
+.fs-pseo .funnel-stage-label { color:var(--purple); }
+
+/* ─── TREE ─── */
+.tree-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:36px; }
+.tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.tree-box-header { padding:14px 18px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+.tree-box-title { font-size:14px; font-weight:800; }
+.tree-box-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-top:1px; }
+.tree-body { padding:14px 18px; }
+.tree-item { font-size:12.5px; padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+.tree-item:last-child { border-bottom:none; }
+.tree-depth-0 { font-weight:800; color:var(--ink); }
+.tree-depth-1 { padding-left:14px; color:var(--ink-2); }
+.tree-depth-2 { padding-left:28px; color:var(--ink-3); font-size:11.5px; }
+.tree-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
+.tree-badge { font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; flex-shrink:0; }
+
+/* ─── DIVIDER ─── */
+.divider { height:1px; background:var(--border); margin:32px 0; }
+
+/* ─── CALLOUT ─── */
+.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
+.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:var(--purple-light); border:1px solid #C0A0FF; color:#4A1A90; }
+.callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+
+/* ─── VERDICT ─── */
+.verdict-bar { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:22px 28px; margin-bottom:28px; display:flex; align-items:center; gap:24px; }
+.verdict-score { width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:22px; font-weight:900; letter-spacing:-1px; }
+.verdict-text { flex:1; }
+.verdict-title { font-size:16px; font-weight:800; margin-bottom:4px; }
+.verdict-desc { font-size:13px; color:var(--ink-2); line-height:1.6; }
+
+/* ─── CARDS ─── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.card-title { font-size:14px; font-weight:700; margin-bottom:8px; color:var(--ink); }
+
+/* ─── GRID ─── */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+
+/* ─── CONTENT STRUCTURE ─── */
+.cs-page { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
+.cs-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cs-header:hover { background:var(--bg); }
+.cs-header-left { display:flex; align-items:center; gap:12px; }
+.cs-page-title { font-size:14px; font-weight:700; }
+.cs-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; }
+.cs-toggle.open { transform:rotate(90deg); }
+.cs-body { display:none; border-top:1px solid var(--border); }
+.cs-body.open { display:block; }
+.cs-section { border-bottom:1px solid var(--border); padding:16px 20px; }
+.cs-section:last-child { border-bottom:none; }
+.cs-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
+.cs-keyword-row { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11.5px; padding:2px 8px; border-radius:4px; }
+.cs-component { display:inline-flex; align-items:center; gap:4px; background:var(--amber-light); color:var(--amber); border:1px solid #FFD0A0; font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:4px; margin:2px; }
+.cs-content-block { background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:10px 14px; margin-bottom:8px; font-size:12.5px; }
+.cs-block-title { font-weight:700; margin-bottom:3px; }
+.cs-block-desc { color:var(--ink-2); line-height:1.5; }
+.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
+.cs-ai { display:inline-block; background:var(--purple-light); color:var(--purple); border:1px solid #C0A0FF; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; }
+
+/* ─── PRIORITY ─── */
+.priority-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.priority-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.priority-col-header { padding:11px 16px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.priority-col-body { padding:12px; background:var(--surface); }
+.priority-item { font-size:12px; padding:7px 10px; border-radius:6px; margin-bottom:5px; border:1px solid var(--border); background:var(--bg); line-height:1.4; }
+.priority-item b { display:block; font-weight:700; color:var(--ink); }
+.priority-item span { color:var(--ink-3); font-size:11px; }
+.priority-item.new-item { border:1.5px dashed var(--green); background:#F0FFF6; }
+.priority-item.pseo-item { border:1.5px dashed var(--purple); background:var(--purple-light); }
+
+/* ─── ACTION ITEMS ─── */
+.action-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; margin-bottom:8px; display:flex; align-items:flex-start; gap:14px; }
+.action-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; color:white; }
+.action-body { flex:1; }
+.action-title { font-size:13px; font-weight:700; margin-bottom:2px; }
+.action-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.action-meta { display:flex; gap:8px; margin-top:6px; }
+
+/* ─── CROSS-SELL MATRIX ─── */
+.matrix-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.matrix-table { width:100%; border-collapse:collapse; font-size:12px; }
+.matrix-table th { padding:10px 12px; background:#F0EDE8; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-3); border-bottom:1px solid var(--border); border-right:1px solid var(--border); text-align:center; }
+.matrix-table th:first-child { text-align:left; }
+.matrix-table td { padding:10px 12px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); vertical-align:middle; line-height:1.4; text-align:center; }
+.matrix-table td:first-child { text-align:left; }
+.matrix-table td:last-child, .matrix-table th:last-child { border-right:none; }
+.matrix-table tbody tr:last-child td { border-bottom:none; }
+.matrix-table .row-label { font-weight:700; font-size:12px; background:var(--bg); white-space:nowrap; text-align:left; }
+.matrix-has { color:var(--green); font-weight:600; font-size:13px; }
+.matrix-no { color:var(--ink-3); font-size:11px; }
+.matrix-cond { color:var(--blue); font-size:11px; font-weight:500; }
+.matrix-ai { color:var(--purple); font-size:11px; font-weight:700; }
+
+/* ─── SCENARIO ─── */
+.scenario-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.scenario-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.scenario-header { padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.scenario-title { font-size:13px; font-weight:800; }
+.scenario-body { padding:14px 18px; }
+.scenario-step { display:flex; gap:10px; margin-bottom:10px; align-items:flex-start; }
+.step-num { min-width:22px; height:22px; background:var(--ink); color:white; border-radius:50%; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.step-text { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+.scenario-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:8px 12px; font-size:12px; color:#0B5020; font-weight:600; margin-top:4px; }
+
+/* ─── KPI CARDS ─── */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:28px; }
+.kpi-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; text-align:center; }
+.kpi-icon { font-size:24px; margin-bottom:8px; }
+.kpi-value { font-size:26px; font-weight:900; letter-spacing:-1px; margin-bottom:3px; }
+.kpi-label { font-size:12px; color:var(--ink-3); font-weight:500; }
+.kpi-note { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+/* ─── ROADMAP ─── */
+.roadmap-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.roadmap-col-header { padding:12px 16px; display:flex; align-items:center; gap:10px; }
+.roadmap-col-body { padding:12px 16px; background:var(--surface); }
+.roadmap-item { font-size:12px; color:var(--ink-2); padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:6px; line-height:1.4; }
+.roadmap-item:last-child { border-bottom:none; }
+.roadmap-item::before { content:"✓"; color:var(--green); font-size:11px; flex-shrink:0; margin-top:1px; }
+
+/* ─── CHECKLIST ─── */
+.cl-product { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
+.cl-product-header { display:flex; align-items:center; gap:14px; padding:16px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cl-product-header:hover { background:var(--bg); }
+.cl-product-icon { font-size:22px; flex-shrink:0; }
+.cl-product-meta { flex:1; }
+.cl-product-name { font-size:14px; font-weight:800; }
+.cl-product-sub { font-size:11.5px; color:var(--ink-3); margin-top:2px; }
+.cl-product-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; flex-shrink:0; }
+.cl-product-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
+.cl-product-toggle.open { transform:rotate(90deg); }
+.cl-product-body { display:none; border-top:1px solid var(--border); }
+.cl-product-body.open { display:block; }
+.cl-group { padding:16px 20px; border-bottom:1px solid var(--border); }
+.cl-group:last-child { border-bottom:none; }
+.cl-group-title { font-size:12px; font-weight:700; color:var(--ink-2); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px; }
+.cl-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.cl-item { display:flex; gap:8px; align-items:flex-start; padding:5px 0; }
+.cl-check { width:14px; height:14px; border:1.5px solid var(--border); border-radius:3px; flex-shrink:0; margin-top:2px; }
+.cl-item-text { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.cl-note { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; font-size:12px; padding:10px 14px; border-radius:7px; margin:12px 20px 16px; line-height:1.6; }
+
+/* ─── ANATOMY ─── */
+.anatomy-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.anatomy-header-row { padding:12px 18px; background:#F0EDE8; border-bottom:1px solid var(--border); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); }
+.anatomy-row { display:flex; align-items:flex-start; gap:0; border-bottom:1px solid var(--border); font-size:13px; }
+.anatomy-row:last-child { border-bottom:none; }
+.anatomy-section { width:200px; flex-shrink:0; padding:12px 16px; background:var(--bg); border-right:1px solid var(--border); font-weight:700; font-size:12px; color:var(--ink); }
+.anatomy-content { flex:1; padding:12px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.anatomy-note { width:180px; flex-shrink:0; padding:12px 16px; border-left:1px solid var(--border); font-size:11.5px; color:var(--ink-3); line-height:1.5; }
+
+/* ─── HUB CARD ─── */
+.hub-product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:28px; }
+.hub-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px 22px; position:relative; overflow:hidden; }
+.hub-card::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; }
+.hub-card.sim::before { background:var(--pink); }
+.hub-card.data::before { background:var(--blue); }
+.hub-card.esim::before { background:var(--teal); }
+.hub-card.nap::before { background:var(--amber); }
+.hub-card-icon { font-size:28px; margin-bottom:10px; }
+.hub-card-title { font-size:15px; font-weight:800; margin-bottom:4px; }
+.hub-card-url { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-3); margin-bottom:10px; }
+.hub-card-desc { font-size:12.5px; color:var(--ink-2); line-height:1.6; margin-bottom:12px; }
+.hub-card-items { list-style:none; font-size:12px; color:var(--ink-2); }
+.hub-card-items li { padding:3px 0; display:flex; gap:6px; align-items:flex-start; line-height:1.4; }
+.hub-card-items li::before { content:"→"; flex-shrink:0; }
+
+/* ─── PSEO BLOCK ─── */
+.pseo-wrap { background:linear-gradient(135deg,var(--purple-light),#F8F4FF); border:1.5px solid #C0A0FF; border-radius:var(--r); padding:20px 24px; margin-bottom:20px; }
+.pseo-title { font-size:14px; font-weight:800; color:var(--purple); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.pseo-desc { font-size:12.5px; color:var(--ink-2); line-height:1.6; margin-bottom:12px; }
+.pseo-template-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.pseo-template { background:white; border:1px solid #C0A0FF; border-radius:7px; padding:10px 14px; font-size:12px; }
+.pseo-template-label { font-weight:700; color:var(--purple); margin-bottom:3px; font-size:11px; text-transform:uppercase; }
+.pseo-template-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-bottom:5px; }
+.pseo-template-vol { font-size:11px; color:var(--ink-3); }
+
+/* ─── OPERATOR BADGE ─── */
+.op-grid { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.op-badge { display:flex; align-items:center; gap:6px; padding:5px 12px; border-radius:6px; font-size:12px; font-weight:700; border:1.5px solid; }
+.op-viettel { background:#FFF0F0; color:#C00000; border-color:#FFB0B0; }
+.op-mobi { background:#FFF8E0; color:#9B6000; border-color:#FFD880; }
+.op-vina { background:#E8F0FF; color:#1040C0; border-color:#A0C0FF; }
+.op-vietnamobile { background:#F0FFF0; color:#007040; border-color:#80D080; }
+.op-reddi { background:#F8F0FF; color:#7000B0; border-color:#C080FF; }
+.op-itelecom { background:#F0FFFE; color:#007070; border-color:#80D0D0; }
+
+/* ─── PHONG THUY BLOCK ─── */
+.pt-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:20px; }
+.pt-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center; }
+.pt-icon { font-size:24px; margin-bottom:6px; }
+.pt-name { font-size:13px; font-weight:700; margin-bottom:3px; }
+.pt-desc { font-size:11px; color:var(--ink-3); line-height:1.4; }
+
+/* ─── ESIM FLAG ─── */
+.region-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+.region-card { background:var(--surface); border:1px solid var(--border); border-radius:7px; padding:12px; text-align:center; }
+.region-icon { font-size:20px; margin-bottom:4px; }
+.region-name { font-size:11px; font-weight:700; color:var(--ink); }
+.region-count { font-size:10px; color:var(--ink-3); }
+
+/* ─── PROGRESS ─── */
+.progress-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 22px; margin-bottom:28px; }
+.progress-label { display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:8px; }
+.progress-track { height:12px; background:#F0EDE8; border-radius:7px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:7px; }
+
+/* ─── TELECOM HUB ─── */
+.th-section-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.th-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.th-section-title { font-size:15px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.th-section-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
+
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══════ SIDEBAR ═══════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-sub">Viễn Thông — Growth Strategy<br>Content Architecture v1.0</div>
+  </div>
+  <nav>
+    <div class="nav-section">
+      <div class="nav-label">Tổng quan</div>
+      <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">🗺</span> Overview & Funnel</div>
+      <div class="nav-item" onclick="go('kpi')"><span class="nav-icon">📊</span> KPI & Mục tiêu</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Telecom Hub</div>
+      <div class="nav-item" onclick="go('hub')"><span class="nav-icon">⚡</span> Telecom Hub /vien-thong</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Sitemap & Sub-pages</div>
+      <div class="nav-item" onclick="go('sim')"><span class="nav-icon">📱</span> Sim Số Đẹp + pSEO</div>
+      <div class="nav-item" onclick="go('data')"><span class="nav-icon">📶</span> Nạp Data</div>
+      <div class="nav-item" onclick="go('esim')"><span class="nav-icon">🌍</span> eSIM Du Lịch</div>
+      <div class="nav-item" onclick="go('nap')"><span class="nav-icon">💳</span> Nạp Tiền ĐT</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Content Plan</div>
+      <div class="nav-item" onclick="go('content')"><span class="nav-icon">🧩</span> Content Structure</div>
+      <div class="nav-item" onclick="go('blog')"><span class="nav-icon">✍️</span> Blog Strategy</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Ecosystem</div>
+      <div class="nav-item" onclick="go('crosssell')"><span class="nav-icon">🔗</span> Cross-sell Ecosystem</div>
+      <div class="nav-item" onclick="go('checklist')"><span class="nav-icon">✅</span> Publish Checklist</div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="version-tag">v1.0 · March 2026</div>
+    <div class="version-tag">Telecom Growth — momo.vn/vien-thong</div>
+  </div>
+</aside>
+
+<main class="content">
+
+<!-- ═══════════════════════════════════ -->
+<!-- 1. OVERVIEW -->
+<!-- ═══════════════════════════════════ -->
+<section class="section active" id="s-overview">
+  <div class="page-header">
+    <div class="page-eyebrow">Growth Strategy — Viễn Thông MoMo</div>
+    <div class="page-title">Thống Lĩnh Thị Trường Telecom Việt Nam</div>
+    <div class="page-desc">Kiến trúc nội dung toàn diện, chiến lược SEO đa tầng và hệ sinh thái cross-sell cho 4 dòng sản phẩm viễn thông trên <code class="url">momo.vn/vien-thong</code> — bao gồm pSEO Phong Thủy Sim, eSIM 200+ quốc gia và programmatic content engine.</div>
+  </div>
+
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,var(--pink-light),#FFD0E8);color:var(--pink)">4 SP</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Chiến lược toàn diện cho 4 sản phẩm Telecom + 1 Telecom Hub</div>
+      <div class="verdict-desc">Bao gồm: Sitemap 200+ sub-pages, Programmatic SEO Engine cho Sim Phong Thủy (tên × năm sinh × nhà mạng), eSIM 200+ quốc gia với URL riêng từng nước, Content Structure chi tiết từng tầng, Cross-sell Ecosystem và Publish Checklist. <strong>Hub /vien-thong là trang trung tâm điều phối 4 sản phẩm</strong>, xây dựng trust và maximize conversion. Các trang <span class="tag tag-new">MỚI</span> là đề xuất mở rộng. Các trang <span class="tag tag-pseo">pSEO</span> là programmatic content engine.</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">4</div>
+      <div class="stat-lbl">Dòng sản phẩm Telecom</div>
+      <div class="stat-sub">Sim · Data · eSIM · Nạp tiền</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--purple)">10K+</div>
+      <div class="stat-lbl">pSEO pages tiềm năng</div>
+      <div class="stat-sub">Sim phong thủy × tên × năm sinh</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--teal)">200+</div>
+      <div class="stat-lbl">Quốc gia eSIM</div>
+      <div class="stat-sub">URL riêng từng quốc gia/khu vực</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">6</div>
+      <div class="stat-lbl">Nhà mạng hỗ trợ</div>
+      <div class="stat-sub">Viettel · Vinaphone · MobiFone · +3</div>
+    </div>
+  </div>
+
+  <h2 class="sh">↗ Inbound Funnel Architecture — Toàn Hệ Thống Telecom</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Nhận Thức</div>
+      <div class="funnel-stage-title">Giáo dục & Khám phá</div>
+      <ul class="funnel-stage-items">
+        <li>Blog tra cứu sim phong thủy</li>
+        <li>Hướng dẫn chọn gói data</li>
+        <li>eSIM là gì? So sánh sim vật lý</li>
+        <li>Cách nạp tiền điện thoại online</li>
+        <li>FAQ Schema — rich snippets</li>
+        <li style="color:var(--green);font-weight:600">★ Telecom Hub /vien-thong</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Cân Nhắc</div>
+      <div class="funnel-stage-title">So sánh & Tính toán</div>
+      <ul class="funnel-stage-items">
+        <li>So sánh gói data các nhà mạng</li>
+        <li>Tra cứu ý nghĩa sim phong thủy</li>
+        <li>Giải luận sim theo tên & năm sinh</li>
+        <li>So sánh eSIM theo quốc gia/giá</li>
+        <li>Bảng giá nạp tiền tất cả nhà mạng</li>
+        <li style="color:var(--green);font-weight:600">★ AI Sim Advisor (giải luận)</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Quyết Định</div>
+      <div class="funnel-stage-title">Landing theo nhu cầu</div>
+      <ul class="funnel-stage-items">
+        <li>Sim theo nhà mạng (Viettel/Mobi...)</li>
+        <li>Sim theo loại phong thủy (thần tài, lộc...)</li>
+        <li>Data gói theo mệnh giá/thời hạn</li>
+        <li>eSIM theo điểm đến du lịch</li>
+        <li style="color:var(--purple);font-weight:600">★ pSEO: sim phong thủy × tên</li>
+        <li style="color:var(--teal);font-weight:600">★ pSEO: eSIM /khu-vuc/[quoc-gia]</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-pseo">
+      <div class="funnel-stage-label">pSEO ENGINE</div>
+      <div class="funnel-stage-title">Programmatic Pages</div>
+      <ul class="funnel-stage-items">
+        <li>Sim theo tên (10K+ trang)</li>
+        <li>Sim theo năm sinh (100 trang)</li>
+        <li>Sim theo mệnh (5 mệnh × nhà mạng)</li>
+        <li>eSIM theo quốc gia (200 trang)</li>
+        <li>Gói data theo nhà mạng × loại</li>
+        <li style="color:var(--purple);font-weight:600">★ AI-powered giải luận unique</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT — Mua</div>
+      <div class="funnel-stage-title">Thanh toán MoMo</div>
+      <ul class="funnel-stage-items">
+        <li>Chọn sim → thanh toán MoMo Pay</li>
+        <li>Mua gói data → kích hoạt ngay</li>
+        <li>Mua eSIM → nhận QR code email</li>
+        <li>Nạp tiền → real-time confirmation</li>
+        <li>Cross-sell bảo hiểm SIM + data</li>
+        <li>Loyalty: MoMo Điểm thưởng</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sh">🏗 Kiến Trúc URL Tổng Thể</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Sản phẩm</th><th>URL Cha</th><th>Số sub-pages</th><th>pSEO</th><th>Priority</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-highlight">
+        <td><strong>Telecom Hub</strong></td>
+        <td><code class="url">/vien-thong</code></td>
+        <td>1 trang cha + 4 widget</td>
+        <td>—</td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sim Số Đẹp</strong></td>
+        <td><code class="url">/sim-so-dep</code></td>
+        <td>20+ static pages</td>
+        <td><span class="tag tag-pseo">10K+ trang</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Nạp Data</strong></td>
+        <td><code class="url">/nap-data</code></td>
+        <td>30+ static pages</td>
+        <td><span class="tag tag-pseo">200+ trang</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>eSIM Du Lịch</strong></td>
+        <td><code class="url">/esim-du-lich</code></td>
+        <td>10 trang hub khu vực</td>
+        <td><span class="tag tag-pseo">200+ quốc gia</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Nạp Tiền ĐT</strong></td>
+        <td><code class="url">/nap-tien-dien-thoai</code></td>
+        <td>15+ static pages</td>
+        <td><span class="tag tag-pseo">50+ trang</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🤖 AI Competitive Advantage — Giải Luận Sim Phong Thủy</div>
+    MoMo có lợi thế độc nhất: tính năng <strong>giải luận sim theo tên + năm sinh/giờ sinh</strong> tạo ra content unique cho mỗi user query. Mỗi trang pSEO có thể có đoạn giải luận AI-generated khác nhau cho mỗi tên người, không bị duplicate content. Đây là moat cạnh tranh mạnh nhất trong segment sim số đẹp — không đối thủ nào dễ dàng replicate.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 2. KPI -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-kpi">
+  <div class="page-header">
+    <div class="page-eyebrow">Performance Targets — Roll-out từ Q1/2026</div>
+    <div class="page-title">KPI Framework: Top of Mind → Ranking → Traffic → CR</div>
+    <div class="page-desc">Giả định dự án <strong>vừa roll out đầu Q1/2026</strong>. KPI được thiết kế theo chuỗi nhân quả: <strong>Top of Mind</strong> (brand recall) → <strong>Ranking</strong> (SEO visibility) → <strong>Organic Traffic</strong> (lượng user) → <strong>Click-to-Buy / CR</strong> (conversion). Mỗi quý tập trung vào 1 tầng chiến lược chính.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">💡 Logic chuỗi nhân quả KPI</div>
+    <strong>Top of Mind</strong> → user nhớ "cần sim/data thì vào MoMo" → tăng branded search → <strong>Ranking</strong> cao hơn vì CTR tốt + brand authority → <strong>Organic Traffic</strong> tăng từ cả branded + non-branded → <strong>CR</strong> tăng vì user đã có intent cao. <em>Mỗi lớp là tiền đề cho lớp tiếp theo — không thể đốt cháy giai đoạn.</em>
+  </div>
+
+  <h2 class="sh">🔗 Chuỗi KPI 4 Tầng — Mô Hình Tổng Thể 2026</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:28px;">
+    <div style="padding:18px 16px;border-right:1px solid var(--border);border-top:3px solid var(--green);">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--green);margin-bottom:6px;">Tầng 1</div>
+      <div style="font-size:16px;font-weight:900;margin-bottom:8px;">Top of Mind</div>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">Brand recall khi nhắc đến sim/data/esim tại VN. Đo qua branded search volume + survey unaided recall.</div>
+      <div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--green);">Metric: Branded search %MoM</div>
+    </div>
+    <div style="padding:18px 16px;border-right:1px solid var(--border);border-top:3px solid var(--blue);">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--blue);margin-bottom:6px;">Tầng 2</div>
+      <div style="font-size:16px;font-weight:900;margin-bottom:8px;">Ranking</div>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">Vị trí SERP cho từng nhóm từ khóa chiến lược. Đo qua Average Position (GSC) và Top-3 keyword count.</div>
+      <div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--blue);">Metric: # KW Top-3 / Avg Position</div>
+    </div>
+    <div style="padding:18px 16px;border-right:1px solid var(--border);border-top:3px solid var(--amber);">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--amber);margin-bottom:6px;">Tầng 3</div>
+      <div style="font-size:16px;font-weight:900;margin-bottom:8px;">Organic Traffic</div>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">Lượng user organic từ Google + Bing đến trang sản phẩm. Đo theo session, tách branded vs non-branded.</div>
+      <div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--amber);">Metric: Monthly Organic Sessions</div>
+    </div>
+    <div style="padding:18px 16px;border-top:3px solid var(--pink);">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--pink);margin-bottom:6px;">Tầng 4</div>
+      <div style="font-size:16px;font-weight:900;margin-bottom:8px;">Click-to-Buy (CR)</div>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">Tỷ lệ user organic hoàn thành mua hàng. Đo bằng (đơn hàng từ organic / organic sessions) × 100.</div>
+      <div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--pink);">Metric: Organic CR % per product</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 KPI Theo Quý — 2026 (Roll-out từ Q1)</h2>
+
+  <!-- Q1 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;">
+    <div style="padding:14px 20px;background:linear-gradient(135deg,#E8F5EE,#D8F0E4);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">
+      <span style="font-size:18px;">🌱</span>
+      <div>
+        <div style="font-size:15px;font-weight:900;">Q1/2026 — Foundation & Indexing</div>
+        <div style="font-size:12px;color:var(--ink-3);">Tháng 1–3 · Mục tiêu chính: Crawl & Index tất cả trang · Build nền tảng ranking</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div style="font-size:11px;font-weight:700;color:var(--green);">FOCUS: RANKING</div>
+        <div style="font-size:10px;color:var(--ink-3);">Top of Mind: Brand awareness campaign</div>
+      </div>
+    </div>
+    <div style="padding:0;">
+      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+        <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target</th></tr></thead>
+        <tbody>
+          <tr><td><strong>📱 Sim Số Đẹp</strong></td><td>Launch brand recall — "MoMo bán sim số đẹp"</td><td>Top 10 cho 20 KW core<br><span style="font-size:11px;color:var(--ink-3);">sim số đẹp, sim phong thủy, sim viettel đẹp...</span></td><td><strong style="color:var(--amber);">5,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">Baseline từ trang cha + 6 nhà mạng</span></td><td><strong style="color:var(--pink);">1.5–2%</strong><br><span style="font-size:11px;color:var(--ink-3);">Warm-up CR, optimize funnel</span></td></tr>
+          <tr><td><strong>📶 Nạp Data</strong></td><td>"MoMo mua được gói data" — awareness</td><td>Top 5 "mua gói data online"<br><span style="font-size:11px;color:var(--ink-3);">Defend vị trí nếu đã có</span></td><td><strong style="color:var(--amber);">8,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">3–4%</strong><br><span style="font-size:11px;color:var(--ink-3);">High intent — CTA rõ ràng</span></td></tr>
+          <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>"MoMo có eSIM du lịch" — introduce</td><td>Top 10 "esim du lịch"<br><span style="font-size:11px;color:var(--ink-3);">20 quốc gia hot nhất live</span></td><td><strong style="color:var(--amber);">2,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">New product — ramp-up phase</span></td><td><strong style="color:var(--pink);">2–3%</strong></td></tr>
+          <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend mindshare "nạp tiền qua MoMo"</td><td>Top 3 "nạp tiền điện thoại" (defend)</td><td><strong style="color:var(--amber);">30,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">Established product — maintain</span></td><td><strong style="color:var(--pink);">8–10%</strong><br><span style="font-size:11px;color:var(--ink-3);">High intent + easy checkout</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;">
+    <div style="padding:14px 20px;background:linear-gradient(135deg,var(--blue-light),#D0DCFF);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">
+      <span style="font-size:18px;">🚀</span>
+      <div>
+        <div style="font-size:15px;font-weight:900;">Q2/2026 — pSEO Launch & Traffic Ramp-up</div>
+        <div style="font-size:12px;color:var(--ink-3);">Tháng 4–6 · Mục tiêu chính: pSEO index 1K+ trang · Traffic tăng 3x Q1</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div style="font-size:11px;font-weight:700;color:var(--blue);">FOCUS: ORGANIC TRAFFIC</div>
+        <div style="font-size:10px;color:var(--ink-3);">pSEO sim phong thủy × tên bắt đầu index</div>
+      </div>
+    </div>
+    <div style="padding:0;">
+      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+        <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target</th></tr></thead>
+        <tbody>
+          <tr><td><strong>📱 Sim Số Đẹp</strong></td><td>Branded search "sim MoMo" tăng 50% vs Q1</td><td><strong>Top 3</strong> "sim số đẹp", "sim phong thủy"<br><span style="font-size:11px;color:var(--ink-3);">500 pSEO tên × nhà mạng live</span></td><td><strong style="color:var(--amber);">25,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">5x Q1 — pSEO bắt đầu đóng góp</span></td><td><strong style="color:var(--pink);">2.5–3%</strong><br><span style="font-size:11px;color:var(--ink-3);">Personalized pages → higher intent</span></td></tr>
+          <tr><td><strong>📶 Nạp Data</strong></td><td>Top-of-mind "mua gói data không cần vào app nhà mạng"</td><td><strong>Top 3</strong> 80% từ khóa gói nhà mạng<br><span style="font-size:11px;color:var(--ink-3);">100+ landing gói cụ thể live</span></td><td><strong style="color:var(--amber);">20,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">4–5%</strong></td></tr>
+          <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>"MoMo bán eSIM rẻ nhất" — positioning</td><td><strong>Top 5</strong> "esim [quốc gia]" cho 20 nước P1</td><td><strong style="color:var(--amber);">8,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">100 quốc gia live → long-tail kéo traffic</span></td><td><strong style="color:var(--pink);">3–4%</strong></td></tr>
+          <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend #1 share of mind</td><td><strong>Top 1–2</strong> cho tất cả 6 nhà mạng</td><td><strong style="color:var(--amber);">40,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">9–11%</strong><br><span style="font-size:11px;color:var(--ink-3);">Post-purchase data cross-sell active</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;">
+    <div style="padding:14px 20px;background:linear-gradient(135deg,var(--purple-light),#E4DCFF);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">
+      <span style="font-size:18px;">⚡</span>
+      <div>
+        <div style="font-size:15px;font-weight:900;">Q3/2026 — Scale & CR Optimization</div>
+        <div style="font-size:12px;color:var(--ink-3);">Tháng 7–9 · Mục tiêu chính: pSEO 5K trang · Optimize CR từng funnel · Cross-sell active</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div style="font-size:11px;font-weight:700;color:var(--purple);">FOCUS: CR OPTIMIZATION</div>
+        <div style="font-size:10px;color:var(--ink-3);">A/B test CTA · Personalization · Cross-sell</div>
+      </div>
+    </div>
+    <div style="padding:0;">
+      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+        <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target</th></tr></thead>
+        <tbody>
+          <tr><td><strong>📱 Sim Số Đẹp</strong></td><td>"MoMo = nền tảng sim phong thủy số 1" — category leader</td><td><strong>#1 Featured Snippet</strong> nhóm sim phong thủy<br><span style="font-size:11px;color:var(--ink-3);">5,000 pSEO tên indexed</span></td><td><strong style="color:var(--amber);">80,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">pSEO tên đóng góp 60%+ organic</span></td><td><strong style="color:var(--pink);">3.5–4%</strong><br><span style="font-size:11px;color:var(--ink-3);">AI giải luận → personalized path → high CR</span></td></tr>
+          <tr><td><strong>📶 Nạp Data</strong></td><td>"So sánh gói data → vào MoMo" reflex</td><td><strong>#1</strong> "so sánh gói data" các nhà mạng</td><td><strong style="color:var(--amber);">35,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">5–6%</strong><br><span style="font-size:11px;color:var(--ink-3);">Recommendation engine reduce friction</span></td></tr>
+          <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>"Đi nước ngoài → mua eSIM MoMo" — TOM travel segment</td><td><strong>Top 3</strong> "esim [quốc gia]" cho 50+ nước</td><td><strong style="color:var(--amber);">20,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">4–5%</strong><br><span style="font-size:11px;color:var(--ink-3);">Travel context → cross-sell BH du lịch +AOV</span></td></tr>
+          <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend + upsell mindshare → data</td><td>Maintain #1 toàn nhà mạng</td><td><strong style="color:var(--amber);">50,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">10–12%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:28px;">
+    <div style="padding:14px 20px;background:linear-gradient(135deg,var(--amber-light),#FFE8C0);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">
+      <span style="font-size:18px;">🏆</span>
+      <div>
+        <div style="font-size:15px;font-weight:900;">Q4/2026 — Dominate & Defend</div>
+        <div style="font-size:12px;color:var(--ink-3);">Tháng 10–12 · Mục tiêu chính: 10K pSEO indexed · Market leader position · Ecosystem full-cycle</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div style="font-size:11px;font-weight:700;color:var(--amber);">FOCUS: DOMINATE & DEFEND</div>
+        <div style="font-size:10px;color:var(--ink-3);">Full ecosystem · Seasonal campaigns · LTV</div>
+      </div>
+    </div>
+    <div style="padding:0;">
+      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+        <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target (EOY)</th></tr></thead>
+        <tbody>
+          <tr class="row-highlight"><td><strong>📱 Sim Số Đẹp</strong></td><td><strong>#1 Unaided Recall</strong> "mua sim số đẹp online" market</td><td><strong>#1</strong> cho 50+ từ khóa sim · 10K pSEO indexed</td><td><strong style="color:var(--pink);font-size:15px;">150,000+ sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">pSEO engine full speed · blog amplify</span></td><td><strong style="color:var(--pink);font-size:15px;">4–5%</strong><br><span style="font-size:11px;color:var(--ink-3);">~6,000–7,500 sim/tháng từ organic</span></td></tr>
+          <tr><td><strong>📶 Nạp Data</strong></td><td>#1 "mua gói data nhanh nhất"</td><td><strong>#1</strong> phần lớn từ khóa gói cụ thể</td><td><strong style="color:var(--amber);">55,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">6–7%</strong></td></tr>
+          <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>#1 eSIM provider tại VN (survey)</td><td><strong>Top 1–3</strong> cho 100+ quốc gia</td><td><strong style="color:var(--amber);">35,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">5–6%</strong></td></tr>
+          <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend #1 + upsell "nạp + gói data"</td><td>#1 tất cả nhà mạng · Featured snippet</td><td><strong style="color:var(--amber);">60,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">11–13%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="sh">📐 Dashboard KPI — Tracking Template</h2>
+  <table class="data-table">
+    <thead><tr><th>Metric</th><th>Tool đo</th><th>Tần suất review</th><th>Owner</th><th>Alert threshold</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Branded Search Volume</strong></td><td>Google Search Console · Google Trends</td><td>Hàng tuần</td><td>SEO Lead</td><td>Giảm &gt;15% WoW → investigate</td></tr>
+      <tr><td><strong># Keywords Top 3</strong></td><td>GSC · Ahrefs / SEMrush</td><td>2 tuần/lần</td><td>SEO Lead</td><td>Dưới target Q → action plan</td></tr>
+      <tr><td><strong>Organic Sessions / product</strong></td><td>GA4 (segment organic)</td><td>Hàng tuần</td><td>Growth PM</td><td>Giảm &gt;20% WoW không lý do</td></tr>
+      <tr><td><strong>Organic CR % / product</strong></td><td>GA4 (goal: purchase) / funnel</td><td>Hàng tuần</td><td>Product PM</td><td>CR giảm &gt;1pp MoM → UX audit</td></tr>
+      <tr><td><strong>pSEO Indexed Pages</strong></td><td>GSC Coverage report</td><td>Hàng tháng</td><td>Tech SEO</td><td>Index rate &lt;70% → schema/tech fix</td></tr>
+      <tr><td><strong>Core Web Vitals</strong></td><td>PageSpeed Insights · GSC</td><td>Hàng tháng</td><td>Tech Lead</td><td>LCP &gt;2.5s trên mobile → hotfix</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">🏁 Lộ Trình Triển Khai — 4 Quý 2026</h2>
+  <div class="grid-4">
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,#E0F4E8,#D0F0E0);">
+        <span>🌱</span><strong style="font-size:13px;">Q1 · Foundation</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">Hub /vien-thong live + schema đầy đủ</div>
+        <div class="roadmap-item">Sim: trang cha + 6 nhà mạng + 8 phong thủy</div>
+        <div class="roadmap-item">Data: trang cha + 6 nhà mạng + tabs gói</div>
+        <div class="roadmap-item">eSIM: 20 quốc gia P1 live đầy đủ</div>
+        <div class="roadmap-item">Nạp tiền: trang cha + 6 nhà mạng</div>
+        <div class="roadmap-item">Blog: 20 bài TOFU launch (momo.vn/blog)</div>
+        <div class="roadmap-item">GA4 events tracking toàn bộ funnel</div>
+      </div>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,var(--blue-light),#D0E0FF);">
+        <span>🚀</span><strong style="font-size:13px;">Q2 · pSEO Launch</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">Sim pSEO: 500 trang tên phổ biến nhất</div>
+        <div class="roadmap-item">Sim pSEO: 50 trang năm sinh × mệnh</div>
+        <div class="roadmap-item">AI giải luận: validate engine + UX test</div>
+        <div class="roadmap-item">eSIM: 100 quốc gia live</div>
+        <div class="roadmap-item">Data: 100 landing gói cụ thể</div>
+        <div class="roadmap-item">Blog: 30 bài MOFU + pSEO-support</div>
+        <div class="roadmap-item">Internal link mesh tất cả cluster</div>
+      </div>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,var(--purple-light),#E8E0FF);">
+        <span>⚡</span><strong style="font-size:13px;">Q3 · Scale</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">Sim pSEO: 5,000 trang (scale AI engine)</div>
+        <div class="roadmap-item">eSIM: 200 quốc gia hoàn chỉnh</div>
+        <div class="roadmap-item">Data: 200+ landing gói live</div>
+        <div class="roadmap-item">A/B test CTA toàn funnel</div>
+        <div class="roadmap-item">Cross-sell engine: telecom → BH active</div>
+        <div class="roadmap-item">Blog: 40 bài BOFU + seasonal</div>
+        <div class="roadmap-item">Review system sim + eSIM live</div>
+      </div>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,var(--amber-light),#FFE8C0);">
+        <span>🏆</span><strong style="font-size:13px;">Q4 · Dominate</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">Sim pSEO: 10,000 trang indexed</div>
+        <div class="roadmap-item">eSIM travel planner AI itinerary</div>
+        <div class="roadmap-item">Full SEO audit + content consolidation</div>
+        <div class="roadmap-item">Loyalty: MoMo Điểm telecom hub</div>
+        <div class="roadmap-item">Seasonal: Tết / Lễ campaigns</div>
+        <div class="roadmap-item">Blog: 100+ bài tổng — pillar cluster</div>
+        <div class="roadmap-item">Year-end ranking report & 2027 plan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 3. TELECOM HUB -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-hub">
+  <div class="page-header">
+    <div class="page-eyebrow">Trang trung tâm — momo.vn/vien-thong</div>
+    <div class="page-title">Telecom Hub — Cổng Vào Dịch Vụ Viễn Thông MoMo</div>
+    <div class="page-desc">Hub /vien-thong là trang điều phối trung tâm: giới thiệu đầy đủ 4 dịch vụ, tạo trust qua số liệu ấn tượng, và dẫn user đến đúng sản phẩm qua smart routing. Không yêu cầu đăng nhập để browse.</div>
+  </div>
+
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,#E6EEFF,#D0DCFF);color:var(--blue)">HUB</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Vai trò: Centralize + Trust Building + Smart Routing</div>
+      <div class="verdict-desc">Mục tiêu #1: User mở /vien-thong và <strong>biết ngay MoMo có 4 dịch vụ viễn thông gì</strong>. Mục tiêu #2: Dẫn user đến đúng sub-product trong <strong>dưới 2 click</strong>. Mục tiêu #3: Trust signals đủ mạnh để user prefer MoMo over ứng dụng nhà mạng trực tiếp. SEO target: rank cho "mua sim online", "nạp data online", "esim du lịch việt nam".</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🏗 Cấu Trúc Trang Hub — Anatomy</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Anatomy — /vien-thong (scroll order từ trên xuống)</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">1. Hero Section</div>
+      <div class="anatomy-content"><strong>Headline:</strong> "Mọi dịch vụ viễn thông — một ứng dụng MoMo" · Search bar thông minh tìm sim/gói data · 4 CTA nổi bật: Tìm sim số đẹp / Nạp data / Mua eSIM du lịch / Nạp điện thoại · Trust badge: "30 triệu người dùng tin tưởng"</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Smart search routing dẫn thẳng đến sub-product</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">2. Stats Bar</div>
+      <div class="anatomy-content">4 stat cards ngang: Sim số đẹp từ 6 nhà mạng · 500+ gói data · 200+ quốc gia eSIM · Nạp tiền 24/7 tức thì</div>
+      <div class="anatomy-note"><span class="tag tag-trust">TRUST</span> Social proof ngay above-the-fold</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">3. Product Grid</div>
+      <div class="anatomy-content">4 product cards lớn với icon, mô tả ngắn, và CTA chính. Mỗi card có mini-feature list 3 bullet. Hover effect reveal thêm chi tiết. Card Sim có badge "AI Giải Luận".</div>
+      <div class="anatomy-note"><span class="tag tag-ux">UX</span> Card layout 2×2 trên desktop, scroll horizontal mobile</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">4. Quick Actions</div>
+      <div class="anatomy-content">Shortcuts phổ biến nhất: Tìm sim Viettel · Mua gói 4G/tháng · eSIM Nhật Bản · Nạp 50k Vinaphone · Mỗi action là deep link trực tiếp đến kết quả.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Reduce friction, bypass browse</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">5. Operator Strip</div>
+      <div class="anatomy-content">Logo strip 6 nhà mạng: Viettel · MobiFone · Vinaphone · Vietnamobile · Reddi · iTelecom. Click vào nhà mạng → filter tất cả sản phẩm theo nhà mạng đó.</div>
+      <div class="anatomy-note"><span class="tag tag-ux">UX</span> Dẫn dắt user có intent "nhà mạng cụ thể"</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">6. Sim Phong Thủy Widget</div>
+      <div class="anatomy-content">Mini tool ngay trên Hub: input Tên + Năm sinh → nhận gợi ý SỐ CUỐI và ý nghĩa sơ bộ → CTA "Xem đầy đủ" → /sim-so-dep với filter pre-filled. Đây là hook unique không đối thủ nào có.</div>
+      <div class="anatomy-note"><span class="tag tag-ai">AI</span> Viral mechanism — user share kết quả</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">7. Trust & Security</div>
+      <div class="anatomy-content">Section: Tại sao chọn MoMo? · Thanh toán bảo mật 256-bit SSL · Giấy tờ giao ngay (sim/eSIM) · Hoàn tiền trong 24h nếu lỗi · Hỗ trợ 24/7</div>
+      <div class="anatomy-note"><span class="tag tag-trust">TRUST</span> Giải tỏa lo ngại mua online</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">8. Cross-sell Telecom</div>
+      <div class="anatomy-content">Combo đề xuất: Mua sim + Nạp data ngay · Du lịch Nhật? eSIM + BH du lịch · Đổi số mới → bảo hiểm thiết bị. Kết nối sang /bao-hiem khi relevant.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Eco-system entry point</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">9. FAQ</div>
+      <div class="anatomy-content">10 câu FAQ chung về telecom MoMo: mua sim online có an toàn không · cách cài eSIM · gói data nào tốt nhất · ... FAQ Schema markup cho rich snippet.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> FAQ Schema → featured snippet</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">10. Internal Links</div>
+      <div class="anatomy-content">Grid link đến tất cả sub-pages quan trọng nhất: top sim hot tuần · gói data bán chạy · eSIM quốc gia được search nhiều nhất. Dynamic, update theo tuần.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Crawl budget + PageRank distribution</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📦 4 Sản Phẩm Viễn Thông — Overview Cards</h2>
+  <div class="hub-product-grid">
+    <div class="hub-card sim">
+      <div class="hub-card-icon">📱</div>
+      <div class="hub-card-title">Sim Số Đẹp / Sim Chính Chủ</div>
+      <div class="hub-card-url">momo.vn/sim-so-dep</div>
+      <div class="hub-card-desc">Tra cứu & mua sim số đẹp từ 6 nhà mạng. Bộ lọc phong thủy: thần tài, lộc phát, tứ quý, ngũ quý. Tính năng độc quyền: AI giải luận sim theo tên & năm sinh.</div>
+      <ul class="hub-card-items">
+        <li>Lọc theo nhà mạng, loại số, đầu số</li>
+        <li>Giải luận phong thủy cá nhân hóa</li>
+        <li>pSEO: 10K+ trang sim theo tên người</li>
+        <li>Chuyển số giữ nguyên (MNP support)</li>
+      </ul>
+    </div>
+    <div class="hub-card data">
+      <div class="hub-card-icon">📶</div>
+      <div class="hub-card-title">Nạp Data — Gói Cước Internet</div>
+      <div class="hub-card-url">momo.vn/nap-data</div>
+      <div class="hub-card-desc">Mua tất cả gói cước data của 6 nhà mạng. So sánh giá, dung lượng, thời hạn. Kích hoạt tức thì sau khi thanh toán MoMo.</div>
+      <ul class="hub-card-items">
+        <li>Tất cả gói nhà mạng: ngày/tuần/tháng/năm</li>
+        <li>So sánh gói cùng mệnh giá các nhà mạng</li>
+        <li>Gợi ý gói theo usage pattern user</li>
+        <li>pSEO: 200+ landing trang gói cụ thể</li>
+      </ul>
+    </div>
+    <div class="hub-card esim">
+      <div class="hub-card-icon">🌍</div>
+      <div class="hub-card-title">eSIM Du Lịch Quốc Tế</div>
+      <div class="hub-card-url">momo.vn/esim-du-lich</div>
+      <div class="hub-card-desc">Mua eSIM cho 200+ quốc gia. Cài trên điện thoại trong 5 phút. Không cần ra đại lý, không cần chờ ship. Lý tưởng cho du lịch & công tác nước ngoài.</div>
+      <ul class="hub-card-items">
+        <li>200+ quốc gia, mỗi nước có trang riêng</li>
+        <li>Gói theo ngày / lượng data / tốc độ</li>
+        <li>Hướng dẫn cài eSIM từng dòng máy</li>
+        <li>So sánh eSIM vs sim vật lý du lịch</li>
+      </ul>
+    </div>
+    <div class="hub-card nap">
+      <div class="hub-card-icon">💳</div>
+      <div class="hub-card-title">Nạp Tiền Điện Thoại</div>
+      <div class="hub-card-url">momo.vn/nap-tien-dien-thoai</div>
+      <div class="hub-card-desc">Nạp tiền điện thoại cho tất cả nhà mạng tại Việt Nam. Nhanh nhất, không phí phụ thu, nạp 24/7 kể cả ngày lễ Tết.</div>
+      <ul class="hub-card-items">
+        <li>6 nhà mạng: Viettel, Mobi, Vina, Reddi...</li>
+        <li>Mệnh giá từ 10k đến 500k</li>
+        <li>Nạp hộ người thân không cần biết số PIN</li>
+        <li>Lịch sử nạp tiền, hóa đơn điện tử</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sh">🏷 Nhà Mạng Được Hỗ Trợ</h2>
+  <div class="op-grid">
+    <div class="op-badge op-viettel">🔴 Viettel <span style="font-weight:400;font-size:11px">· Đầu 032-039, 086, 096-098</span></div>
+    <div class="op-badge op-mobi">🟡 MobiFone <span style="font-weight:400;font-size:11px">· Đầu 070, 079, 077, 076, 089, 090, 093</span></div>
+    <div class="op-badge op-vina">🔵 Vinaphone <span style="font-weight:400;font-size:11px">· Đầu 081-086, 091, 094</span></div>
+    <div class="op-badge op-vietnamobile">🟢 Vietnamobile <span style="font-weight:400;font-size:11px">· Đầu 052, 056, 058, 092</span></div>
+    <div class="op-badge op-reddi">🟣 Reddi <span style="font-weight:400;font-size:11px">· Đầu 055, 099</span></div>
+    <div class="op-badge op-itelecom">🩵 iTelecom <span style="font-weight:400;font-size:11px">· Đầu 087</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 4. SIM SỐ ĐẸP -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-sim">
+  <div class="page-header">
+    <div class="page-eyebrow">Sitemap — momo.vn/sim-so-dep</div>
+    <div class="page-title">Sim Số Đẹp — Sitemap, Sub-pages & pSEO Engine</div>
+    <div class="page-desc">Kiến trúc URL hoàn chỉnh cho /sim-so-dep. Tầng tĩnh phủ intent thị trường, tầng pSEO với 10K+ trang phong thủy × tên × nhà mạng tạo organic moat không thể copy.</div>
+  </div>
+
+  <h2 class="sh">🗂 Sitemap Tổng Thể — Sim Số Đẹp</h2>
+  <div class="tree-grid">
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">📱</span>
+        <div>
+          <div class="tree-box-title">Trang Cha & Lọc Nhà Mạng</div>
+          <div class="tree-box-url">/sim-so-dep → /sim-so-dep/[nha-mang]</div>
+        </div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-p1">P1</span>/sim-so-dep — Tìm kiếm & lọc tổng hợp</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge" style="background:#FFF0F0;color:#C00000;font-size:10px;padding:1px 5px;border-radius:3px">VTT</span>/sim-so-dep/viettel</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge" style="background:#FFF8E0;color:#9B6000;font-size:10px;padding:1px 5px;border-radius:3px">MBF</span>/sim-so-dep/mobifone</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge" style="background:#E8F0FF;color:#1040C0;font-size:10px;padding:1px 5px;border-radius:3px">VNP</span>/sim-so-dep/vinaphone</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge" style="background:#F0FFF0;color:#007040;font-size:10px;padding:1px 5px;border-radius:3px">VNM</span>/sim-so-dep/vietnamobile</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge" style="background:#F8F0FF;color:#7000B0;font-size:10px;padding:1px 5px;border-radius:3px">RDD</span>/sim-so-dep/reddi</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge" style="background:#F0FFFE;color:#007070;font-size:10px;padding:1px 5px;border-radius:3px">ITC</span>/sim-so-dep/itelecom</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">☯️</span>
+        <div>
+          <div class="tree-box-title">Phân loại theo Phong Thủy</div>
+          <div class="tree-box-url">/sim-so-dep/phong-thuy/[loai]</div>
+        </div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-tofu">TOFU</span>/sim-so-dep/phong-thuy — Hub phong thủy</div>
+        <div class="tree-item tree-depth-1">📿 /phong-thuy/than-tai</div>
+        <div class="tree-item tree-depth-1">💰 /phong-thuy/loc-phat</div>
+        <div class="tree-item tree-depth-1">🔢 /phong-thuy/tu-quy</div>
+        <div class="tree-item tree-depth-1">5️⃣ /phong-thuy/ngu-quy</div>
+        <div class="tree-item tree-depth-1">🌸 /phong-thuy/lien-hoa</div>
+        <div class="tree-item tree-depth-1">⚡ /phong-thuy/tam-hoa</div>
+        <div class="tree-item tree-depth-1"><span class="tag tag-new" style="font-size:10px;">MỚI</span> /phong-thuy/bach-nhat-hung-vuong</div>
+        <div class="tree-item tree-depth-1"><span class="tag tag-new" style="font-size:10px;">MỚI</span> /phong-thuy/song-bac</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">🌊</span>
+        <div>
+          <div class="tree-box-title">Phân loại theo Mệnh Ngũ Hành</div>
+          <div class="tree-box-url">/sim-so-dep/menh/[menh]</div>
+        </div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-tofu">TOFU</span>/sim-so-dep/menh — Hub mệnh</div>
+        <div class="tree-item tree-depth-1">🔥 /menh/hoa</div>
+        <div class="tree-item tree-depth-1">💧 /menh/thuy</div>
+        <div class="tree-item tree-depth-1">🌱 /menh/moc</div>
+        <div class="tree-item tree-depth-1">⛏ /menh/kim</div>
+        <div class="tree-item tree-depth-1">🌍 /menh/tho</div>
+        <div class="tree-item tree-depth-2">→ Mỗi mệnh có sub theo nhà mạng</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">📅</span>
+        <div>
+          <div class="tree-box-title">Phân loại theo Năm Sinh</div>
+          <div class="tree-box-url">/sim-so-dep/nam-sinh/[nam]</div>
+        </div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-pseo">pSEO</span>/sim-so-dep/nam-sinh — Landing năm sinh</div>
+        <div class="tree-item tree-depth-1">🐉 /nam-sinh/1988 (Mậu Thìn)</div>
+        <div class="tree-item tree-depth-1">🐍 /nam-sinh/1989 (Kỷ Tỵ)</div>
+        <div class="tree-item tree-depth-1">... 100 trang (1960–2010)</div>
+        <div class="tree-item tree-depth-2">→ Mỗi trang có: mệnh, cung, số hợp</div>
+        <div class="tree-item tree-depth-2">→ Gợi ý sim nhà mạng phù hợp</div>
+        <div class="tree-item tree-depth-2">→ Internal link tới /menh/[menh]</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🤖 pSEO Engine — Sim Phong Thủy × Tên Người</h2>
+  <div class="pseo-wrap">
+    <div class="pseo-title">
+      <span>🤖</span> Programmatic SEO: Sim Theo Tên — 10,000+ trang
+    </div>
+    <div class="pseo-desc">
+      Mỗi trang pSEO target query dạng <strong>"sim phong thủy cho tên [Tên]"</strong> hoặc <strong>"sim số đẹp hợp với người tên [Tên] năm [năm sinh]"</strong>. Content được AI generate unique cho mỗi tên dựa trên âm Hán-Nôm, số nét, cung mệnh → đảm bảo không duplicate content. Volume: ~50K–200K searches/tháng từ long-tail.
+    </div>
+    <div class="pseo-template-row">
+      <div class="pseo-template">
+        <div class="pseo-template-label">Template A — Tên đơn</div>
+        <div class="pseo-template-url">/sim-so-dep/ten/[ten-don]</div>
+        <div style="font-size:12px;color:var(--ink-2);margin:4px 0;">VD: /sim-so-dep/ten/an, /ten/binh, /ten/cuong...</div>
+        <div class="pseo-template-vol">~5,000 trang · volume tổng: 500K/tháng</div>
+      </div>
+      <div class="pseo-template">
+        <div class="pseo-template-label">Template B — Tên đầy đủ</div>
+        <div class="pseo-template-url">/sim-so-dep/ten/[ho-ten]</div>
+        <div style="font-size:12px;color:var(--ink-2);margin:4px 0;">VD: /ten/nguyen-van-an, /ten/tran-thi-mai...</div>
+        <div class="pseo-template-vol">~3,000 trang · volume tổng: 300K/tháng</div>
+      </div>
+      <div class="pseo-template">
+        <div class="pseo-template-label">Template C — Tên × Năm sinh</div>
+        <div class="pseo-template-url">/sim-so-dep/ten/[ten]/[nam-sinh]</div>
+        <div style="font-size:12px;color:var(--ink-2);margin:4px 0;">VD: /ten/an/1990, /ten/mai/1995...</div>
+        <div class="pseo-template-vol">~2,000 trang · volume tổng: 150K/tháng</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📄 Anatomy Trang pSEO Sim Phong Thủy — /sim-so-dep/ten/[ten]</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Content sections từ trên xuống — Template Sim Phong Thủy theo Tên</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">H1 + Intro</div>
+      <div class="anatomy-content"><strong>Sim Số Đẹp Hợp Tên [Tên]</strong> — Giới thiệu 2–3 câu về ý nghĩa phong thủy của tên [Tên], âm Hán-Nôm, số nét bộ thủ. AI-generated unique mỗi tên.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> H1 chứa keyword "sim phong thủy tên [Tên]"</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Input Widget — Cá nhân hóa</div>
+      <div class="anatomy-content">Form: Họ tên đầy đủ + Năm sinh + Giờ sinh (tùy chọn) → AI phân tích và hiển thị: Mệnh ngũ hành · Cung phi · Số may mắn · Đầu số hợp theo nhà mạng</div>
+      <div class="anatomy-note"><span class="tag tag-ai">AI</span> Hook conversion chính — user nhập info → highly personalized</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Kết quả Sim Gợi Ý</div>
+      <div class="anatomy-content">Grid sim phù hợp đã được filter theo kết quả phân tích. Mỗi sim card: số điện thoại · nhà mạng · loại số · giá · giải thích ngắn vì sao hợp với [Tên]. Nút "Mua ngay".</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Primary CTA — direct path to purchase</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Giải Luận Chi Tiết</div>
+      <div class="anatomy-content">Phân tích đầy đủ: Ý nghĩa số cuối hợp với tên · Cát số theo từng nhà mạng · Số nên tránh · Kết hợp ngày giờ sinh nếu user đã nhập</div>
+      <div class="anatomy-note"><span class="tag tag-trust">TRUST</span> Depth content → E-E-A-T signal</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Sim Tương Tự</div>
+      <div class="anatomy-content">Gợi ý các trang pSEO liên quan: tên cùng mệnh · tên cùng số nét · tên phổ biến gần giống. Internal link mesh.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Internal linking cluster</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">FAQ Schema</div>
+      <div class="anatomy-content">5 câu FAQ về sim phong thủy tên [Tên]: Số đuôi nào hợp với tên [Tên]? · Nhà mạng nào có sim hợp với mệnh [Mệnh]? · ...</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> FAQ schema → People Also Ask</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🗃 Sub-pages Tĩnh Ưu Tiên — /sim-so-dep</h2>
+  <table class="data-table">
+    <thead><tr><th>URL</th><th>Mục tiêu</th><th>Target keyword</th><th>Tầng funnel</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td><code class="url">/sim-so-dep/sim-dau-so-dep</code></td><td>Lọc theo đầu số (032, 090...)</td><td>"sim đầu 032 đẹp", "sim đầu 090"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/sim-so-dep/huong-dan-mua-sim-online</code></td><td>TOFU giáo dục, build trust</td><td>"mua sim online có an toàn không"</td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/sim-so-dep/chuyen-mang-giu-so</code></td><td>MNP intent capture</td><td>"chuyển mạng giữ nguyên số", "MNP"</td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">/sim-so-dep/so-dep-gia-re</code></td><td>Price-sensitive segment</td><td>"sim số đẹp giá rẻ", "sim đẹp dưới 500k"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/sim-so-dep/sim-kinh-doanh</code></td><td>B2B segment (doanh nghiệp)</td><td>"sim số đẹp cho kinh doanh"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/sim-so-dep/sim-so-noi-bat</code></td><td>Easy-to-remember segment</td><td>"sim số dễ nhớ", "sim số nổi bật"</td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/sim-so-dep/tang-sim-so-dep</code></td><td>Gift occasion segment</td><td>"tặng sim số đẹp", "sim quà tặng"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p3">P3</span></td></tr>
+      <tr class="row-new"><td><code class="url">/sim-so-dep/so-dep-theo-nghe-nghiep</code></td><td>Nghề nghiệp segment</td><td>"sim hợp bác sĩ/giáo viên/kỹ sư"</td><td><span class="tag tag-pseo">pSEO</span></td><td><span class="tag tag-p3">P3</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🤖 Kỹ thuật triển khai pSEO Sim Phong Thủy</div>
+    <strong>Bước 1:</strong> Build data layer: bảng tên tiếng Việt phổ biến (10K tên) × mệnh ngũ hành × số nét × cung phi. <strong>Bước 2:</strong> Xây template page với slots AI-generated cho phần giải luận (unique per page). <strong>Bước 3:</strong> Generate 500 trang đầu tiên cho 500 tên phổ biến nhất, validate indexing + CTR. <strong>Bước 4:</strong> Scale lên 10K trang sau khi validate. <strong>Lưu ý critical:</strong> Mỗi trang phải có ít nhất 200 chữ content unique (phần giải luận AI) để tránh thin content penalty.
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sh">☯️ Deep-Dive: Nhóm Giải Luận Sim Phong Thủy Theo Năm — Tuổi</h2>
+
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,var(--purple-light),#E0D8FF);color:var(--purple)">📅</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Cluster Năm Sinh / Tuổi — pSEO moat mạnh nhất</div>
+      <div class="verdict-desc">Query dạng <strong>"sim số đẹp hợp tuổi [năm sinh]"</strong> có volume cao đều đặn vì mỗi năm có hàng triệu người sinh ra, và tất cả đều có intent mua sim mới vào các dịp: sinh nhật, khai trương, chuyển mạng, đổi số may mắn. Mỗi trang năm sinh = 1 audience segment rõ ràng với cùng mệnh, cùng cung phi, cùng số hợp.</div>
+    </div>
+  </div>
+
+  <h3 class="sh3">📐 Kiến Trúc URL — Cluster Năm Sinh</h3>
+  <div class="tree-grid">
+    <div class="tree-box">
+      <div class="tree-box-header"><span style="font-size:18px">📅</span>
+        <div><div class="tree-box-title">Tầng 1 — Hub Năm Sinh</div><div class="tree-box-url">/sim-so-dep/nam-sinh</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-tofu">HUB</span>/sim-so-dep/nam-sinh</div>
+        <div class="tree-item tree-depth-2">→ Giới thiệu khái niệm mệnh × sim</div>
+        <div class="tree-item tree-depth-2">→ Input năm sinh → redirect đến trang năm</div>
+        <div class="tree-item tree-depth-2">→ Grid 12 con giáp → link trang năm</div>
+        <div class="tree-item tree-depth-2">→ Bảng tóm tắt: năm → mệnh → số hợp</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header"><span style="font-size:18px">🐉</span>
+        <div><div class="tree-box-title">Tầng 2 — Trang Năm Sinh Cụ Thể</div><div class="tree-box-url">/sim-so-dep/nam-sinh/[nam]</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-pseo">pSEO</span>100 trang · năm 1960–2009</div>
+        <div class="tree-item tree-depth-1">/nam-sinh/1985 (Ất Sửu · Mệnh Kim)</div>
+        <div class="tree-item tree-depth-1">/nam-sinh/1990 (Canh Ngọ · Mệnh Thổ)</div>
+        <div class="tree-item tree-depth-1">/nam-sinh/1995 (Ất Hợi · Mệnh Hỏa)</div>
+        <div class="tree-item tree-depth-1">/nam-sinh/2000 (Canh Thìn · Mệnh Kim)</div>
+        <div class="tree-item tree-depth-2">→ Mỗi trang: đầy đủ content theo template bên dưới</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header"><span style="font-size:18px">🌊</span>
+        <div><div class="tree-box-title">Tầng 3 — Năm Sinh × Nhà Mạng</div><div class="tree-box-url">/sim-so-dep/nam-sinh/[nam]/[nha-mang]</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-pseo">pSEO</span>600 trang · 100 năm × 6 nhà mạng</div>
+        <div class="tree-item tree-depth-1">/1990/viettel</div>
+        <div class="tree-item tree-depth-1">/1990/mobifone</div>
+        <div class="tree-item tree-depth-1">/1990/vinaphone</div>
+        <div class="tree-item tree-depth-2">→ Pre-filter sim theo mệnh + nhà mạng</div>
+        <div class="tree-item tree-depth-2">→ Deep-link CTA mua ngay</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header"><span style="font-size:18px">⏰</span>
+        <div><div class="tree-box-title">Tầng Mở Rộng — Tuổi × Năm × Giờ</div><div class="tree-box-url">/sim-so-dep/tuoi/[can-chi]</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-new">MỚI</span>/sim-so-dep/tuoi — Hub can chi</div>
+        <div class="tree-item tree-depth-1">/tuoi/giap-ty (Giáp Tý 1984, 2044)</div>
+        <div class="tree-item tree-depth-1">/tuoi/at-suu (Ất Sửu 1985...)</div>
+        <div class="tree-item tree-depth-2">→ 60 can chi × 6 nhà mạng = 360 trang</div>
+        <div class="tree-item tree-depth-2">→ Content chuyên sâu hơn năm đơn thuần</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sh3">📄 Anatomy — Trang Năm Sinh /sim-so-dep/nam-sinh/[nam]</h3>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Content structure đầy đủ — Template năm sinh (VD: /sim-so-dep/nam-sinh/1990)</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">H1 + Định Danh Năm</div>
+      <div class="anatomy-content"><strong>Sim Số Đẹp Hợp Tuổi 1990 — Canh Ngọ · Mệnh Thổ</strong><br>Dòng sub: "Người sinh năm 1990 tuổi Canh Ngọ mệnh Thổ nên chọn sim có đuôi [X, Y, Z]. Dưới đây là những số điện thoại đẹp, hợp phong thủy nhất trên MoMo dành cho bạn."</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> H1 chứa "sim năm 1990", "sim tuổi Canh Ngọ"</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Bảng Tóm Tắt Phong Thủy</div>
+      <div class="anatomy-content">Table nhanh 2 cột: Can Chi · Canh Ngọ | Mệnh · Thổ | Cung phi · [tính toán] | Con số hợp · 2, 5, 8 | Con số kỵ · 3, 4 | Màu may mắn · Vàng, Nâu | Nhà mạng gợi ý · Viettel (086), Vina (094)</div>
+      <div class="anatomy-note"><span class="tag tag-trust">TRUST</span> Data table → nhanh, scannable</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Giải Thích Mệnh Thổ & Sim</div>
+      <div class="anatomy-content">300–400 chữ giải thích: Mệnh Thổ có đặc điểm gì · Tại sao số đuôi 2, 5, 8 hợp mệnh Thổ · Số nào nên tránh (Mộc khắc Thổ → tránh đuôi 3, 4, 9) · Tại sao đầu số 086/094 gợi ý được. Nội dung AI-generated unique, không copy.</div>
+      <div class="anatomy-note"><span class="tag tag-ai">AI</span> 400 chữ unique per năm → EEAT + no thin content</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Widget Giải Luận Cá Nhân</div>
+      <div class="anatomy-content">Input bổ sung tên + giờ sinh (tùy chọn) → Output cá nhân hóa sâu hơn: "Với tên [Tên], sinh giờ [Giờ], năm 1990, sim lý tưởng nhất là..." + gợi ý 3 sim cụ thể có nút mua. Widget là conversion hook chính.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Personalized path → high CR</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Grid Sim Hợp Tuổi 1990</div>
+      <div class="anatomy-content">Danh sách sim đã pre-filter theo mệnh Thổ + số cát. Mỗi sim card: số · nhà mạng · đuôi X · giá · badge "Hợp tuổi 1990" · nút Mua Ngay. Sort theo: Đề xuất / Giá tăng / Giá giảm. Tab nhanh: Viettel / Mobi / Vina.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Primary purchase CTA</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">So Sánh Năm Sinh Lân Cận</div>
+      <div class="anatomy-content">Section: "Người thân sinh năm nào hợp mua sim gì?" · Grid 5 năm lân cận (1988–1992) → quick-link tới trang năm tương ứng. Internal linking cluster.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Internal link + time-on-page</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Con Giáp Liên Quan</div>
+      <div class="anatomy-content">"Tuổi Canh Ngọ hợp với tuổi nào?" → link sang /nam-sinh/[năm hợp] · "Tuổi nào kỵ Canh Ngọ?" → note khi chọn sim cho người thân. Deepens topical authority.</div>
+      <div class="anatomy-note"><span class="tag tag-tofu">TOFU</span> Topical depth → E-E-A-T</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">FAQ Năm Sinh Cụ Thể</div>
+      <div class="anatomy-content">8 câu FAQ unique cho năm 1990: "Người tuổi Canh Ngọ hợp số điện thoại đuôi mấy?" · "Sim Viettel hay Vinaphone hợp mệnh Thổ hơn?" · "Năm 1990 là mệnh gì?" · "Số 086 có hợp tuổi 1990 không?"...</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> FAQ schema → People Also Ask box</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Blog Related từ momo.vn/blog</div>
+      <div class="anatomy-content">3 bài blog liên quan: "Cách chọn sim hợp mệnh Thổ 2025" · "Sim số đẹp cho người tuổi Ngọ" · "Giải thích ý nghĩa các đuôi số phong thủy". Đây là internal link từ /blog/slug → /sim-so-dep/nam-sinh/[nam].</div>
+      <div class="anatomy-note"><span class="tag tag-tofu">TOFU</span> Blog → product page link juice</div>
+    </div>
+  </div>
+
+  <h3 class="sh3">📊 Matrix Năm Sinh × Mệnh × Số Hợp — Reference Data</h3>
+  <table class="data-table">
+    <thead><tr><th>Nhóm năm sinh</th><th>Can Chi</th><th>Mệnh</th><th>Số cát (đuôi)</th><th>Số kỵ (đuôi)</th><th>Nhà mạng gợi ý</th><th>Volume ước tính</th></tr></thead>
+    <tbody>
+      <tr><td>1984, 2044</td><td>Giáp Tý</td><td>Kim</td><td>1, 6, 7</td><td>2, 3, 8</td><td>Viettel 086, 096</td><td>~2,000 searches/tháng</td></tr>
+      <tr><td>1985, 2045</td><td>Ất Sửu</td><td>Kim</td><td>1, 6, 7</td><td>2, 3, 8</td><td>Viettel 086, Vina 094</td><td>~2,000 searches/tháng</td></tr>
+      <tr><td>1986, 2046</td><td>Bính Dần</td><td>Hỏa</td><td>2, 7, 9</td><td>1, 6, 4</td><td>MobiFone 090, 089</td><td>~1,800 searches/tháng</td></tr>
+      <tr><td>1987, 2047</td><td>Đinh Mão</td><td>Hỏa</td><td>2, 7, 9</td><td>1, 6, 4</td><td>MobiFone 093, Reddi 055</td><td>~1,800 searches/tháng</td></tr>
+      <tr><td>1988, 2048</td><td>Mậu Thìn</td><td>Mộc</td><td>3, 4, 8</td><td>1, 6, 7</td><td>Vina 081, Vietnamobile 052</td><td>~2,200 searches/tháng</td></tr>
+      <tr><td>1989, 2049</td><td>Kỷ Tỵ</td><td>Mộc</td><td>3, 4, 8</td><td>1, 6, 7</td><td>Vina 082, 083</td><td>~2,000 searches/tháng</td></tr>
+      <tr class="row-highlight"><td>1990, 2050</td><td>Canh Ngọ</td><td>Thổ</td><td>2, 5, 8</td><td>3, 4, 9</td><td>Viettel 086, Vina 094</td><td>~2,500 searches/tháng ⬆</td></tr>
+      <tr><td>1991, 2051</td><td>Tân Mùi</td><td>Thổ</td><td>2, 5, 8</td><td>3, 4, 9</td><td>Viettel 032, MobiFone 070</td><td>~2,300 searches/tháng</td></tr>
+      <tr><td>1992, 2052</td><td>Nhâm Thân</td><td>Kim</td><td>1, 6, 7</td><td>2, 3, 8</td><td>Viettel 096, 097</td><td>~2,100 searches/tháng</td></tr>
+      <tr><td>1995, 2055</td><td>Ất Hợi</td><td>Hỏa</td><td>2, 7, 9</td><td>1, 6, 4</td><td>MobiFone 079, Viettel 038</td><td>~2,000 searches/tháng</td></tr>
+      <tr><td>2000, 2060</td><td>Canh Thìn</td><td>Kim</td><td>1, 6, 7</td><td>2, 3, 8</td><td>Viettel 032, 033</td><td>~1,600 searches/tháng</td></tr>
+      <tr><td>2003, 2063</td><td>Quý Mùi</td><td>Mộc</td><td>3, 4, 8</td><td>1, 6, 7</td><td>Viettel 035, MobiFone 076</td><td>~1,400 searches/tháng</td></tr>
+    </tbody>
+  </table>
+  <div style="font-size:11.5px;color:var(--ink-3);margin-top:-20px;margin-bottom:20px;">* Volume ước tính per năm sinh. Tổng 100 năm ≈ 180,000–220,000 searches/tháng từ cluster này.</div>
+
+  <h3 class="sh3">🎯 Kịch Bản Người Dùng — Giải Luận Năm Sinh</h3>
+  <div class="scenario-grid">
+    <div class="scenario-card">
+      <div class="scenario-header"><span>🔍</span><div class="scenario-title">Google Intent: Năm sinh đơn giản</div></div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User Google: <strong>"sim số đẹp hợp tuổi 1990"</strong> hoặc <strong>"sim hợp mệnh thổ"</strong></div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Rank #1: /sim-so-dep/nam-sinh/1990 → user đọc bảng phong thủy, thấy số cát 2, 5, 8</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">User nhập tên vào widget → AI personalize gợi ý 3 sim cụ thể đuôi 8, 88, 888</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">User click "Mua Ngay" → checkout MoMo Pay</div></div>
+        <div class="scenario-result">✓ Organic acquisition · Zero CAC · pSEO engine</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header"><span>🎂</span><div class="scenario-title">Tặng sim sinh nhật người thân</div></div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User Google: <strong>"sim đẹp tặng người tuổi 1988"</strong></div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Vào /nam-sinh/1988 → Mậu Thìn · Mệnh Mộc → số hợp 3, 4, 8</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">Nhập tên người được tặng → AI giải luận riêng</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Mua sim + gói data combo → tặng kèm</div></div>
+        <div class="scenario-result">✓ Gift intent → higher AOV (combo sim + data)</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header"><span>🏢</span><div class="scenario-title">Chủ doanh nghiệp mua số kinh doanh</div></div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User: <strong>"sim kinh doanh hợp tuổi giáp tý 1984"</strong></div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">/tuoi/giap-ty → Mệnh Kim → số hợp 1, 6, 7 · Đặc biệt: đuôi 168, 999, 666 cho kinh doanh</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">AI gợi ý sim số đẹp cao cấp (giá 2–10 triệu) phù hợp hơn segment phổ thông</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><td>Mua sim số đẹp cao cấp · High AOV</td></div>
+        <div class="scenario-result">✓ B2B segment · Premium pricing power</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header"><span>🔄</span><div class="scenario-title">Chuyển mạng giữ số / đổi sim mới</div></div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User: <strong>"chuyển mạng đổi sim mới hợp năm 1995"</strong></div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">/nam-sinh/1995 → Ất Hợi · Mệnh Hỏa → đầu số hợp 090, 089 (MobiFone)</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">Link sang /sim-so-dep/chuyen-mang-giu-so để hướng dẫn MNP</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Mua sim MobiFone + đăng ký MNP qua MoMo</div></div>
+        <div class="scenario-result">✓ MNP funnel → premium sim + high engagement</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🤖 AI Engine — Logic Giải Luận Năm Sinh</div>
+    Input: năm sinh + (tùy chọn) tên, giờ sinh. <strong>Layer 1 — Can Chi:</strong> Map năm → can chi (60 năm chu kỳ). <strong>Layer 2 — Nạp Âm Mệnh:</strong> Xác định mệnh theo cặp năm (VD: 1984–1985 = Kim). <strong>Layer 3 — Tứ Trụ cơ bản:</strong> Nếu có giờ sinh → tính cung phi → số cát cụ thể hơn. <strong>Layer 4 — Đầu số Mapping:</strong> Map số cát → đầu số nhà mạng phù hợp. <strong>Layer 5 — Content Generation:</strong> Tạo đoạn giải thích 300–400 chữ unique cho tổ hợp (năm × tên × giờ) → tránh thin content, ensure EEAT. Output: top 5 số điện thoại với giải thích tại sao phù hợp.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 5. NẠP DATA -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-data">
+  <div class="page-header">
+    <div class="page-eyebrow">Sitemap — momo.vn/nap-data</div>
+    <div class="page-title">Nạp Data — Sitemap & pSEO Gói Cước Theo Nhà Mạng</div>
+    <div class="page-desc">Kiến trúc URL 2 tầng: <strong>Hub → Nhà mạng → Gói cước cụ thể</strong>. pSEO tập trung 100% vào landing từng gói của từng nhà mạng — đây là nơi user có search intent cao nhất ("gói D90N Viettel là gì", "đăng ký MAX Mobifone"). Benchmark: TGDD dùng pattern <code class="url">thegioididong.com/sim-so-dep/goi-cuoc/[ten-goi]</code> — MoMo cần đánh sâu hơn theo URL nhà mạng để cluster authority tốt hơn.</div>
+  </div>
+
+  <div class="callout callout-blue" style="margin-bottom:28px;">
+    <div class="callout-title">📌 Quyết định thiết kế Sitemap — Tại sao bỏ trang mệnh giá/thời hạn</div>
+    Các trang dạng <strong>/nap-data/goi-100k</strong> hay <strong>/nap-data/goi-thang</strong> không có search intent rõ ràng — user không search "gói data 100k" mà search tên gói cụ thể như <strong>"gói D90N"</strong> hoặc <strong>"gói MAX Mobifone"</strong>. Trang mệnh giá/thời hạn chỉ phù hợp làm <em>filter/tab trên trang nhà mạng</em>, không cần URL riêng. Tập trung toàn bộ pSEO budget vào <strong>/nap-data/[nha-mang]/[ten-goi]</strong> — nơi có intent mua cao nhất, volume dài hạn ổn định, và TGDD đang thống trị để MoMo cần cạnh tranh trực tiếp.
+  </div>
+
+  <h2 class="sh">🗂 Sitemap Tổng Thể — Nạp Data</h2>
+
+  <!-- Tier 1: Trang cha -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;">
+    <div style="padding:12px 18px;background:#F0EDE8;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+      <span style="font-size:16px;">📶</span>
+      <strong style="font-size:13px;">Tầng 1 — Hub Tổng</strong>
+      <code class="url" style="margin-left:auto;">/nap-data</code>
+      <span class="tag tag-p1">P1 · LAUNCH</span>
+    </div>
+    <div style="padding:14px 18px;font-size:13px;color:var(--ink-2);">
+      Trang cha tổng hợp: tất cả nhà mạng · bộ lọc nhanh · gói bán chạy tuần này · recommendation widget. Không chia sub theo thời hạn hay mệnh giá — filter/tab ở frontend thay thế. Internal link to 6 trang nhà mạng.
+    </div>
+  </div>
+
+  <!-- Tier 2: Trang nhà mạng -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;">
+    <div style="padding:12px 18px;background:#EEF2FF;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+      <span style="font-size:16px;">🏢</span>
+      <strong style="font-size:13px;">Tầng 2 — Landing Nhà Mạng</strong>
+      <code class="url" style="margin-left:auto;">/nap-data/[nha-mang]</code>
+      <span class="tag tag-p1">P1 · 6 trang</span>
+    </div>
+    <div style="padding:0;">
+      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+        <thead><tr><th>URL</th><th>Target keyword chính</th><th>Số gói hiện tại</th><th>Volume ước tính</th></tr></thead>
+        <tbody>
+          <tr><td><code class="url">/nap-data/viettel</code></td><td>"gói data Viettel 2026", "đăng ký 4G Viettel"</td><td>~80–100 gói đang bán</td><td>~15,000 searches/tháng</td></tr>
+          <tr><td><code class="url">/nap-data/mobifone</code></td><td>"gói data Mobifone", "gói 4G Mobifone mới nhất"</td><td>~60–80 gói</td><td>~10,000 searches/tháng</td></tr>
+          <tr><td><code class="url">/nap-data/vinaphone</code></td><td>"gói cước Vinaphone", "gói data Vina"</td><td>~50–70 gói</td><td>~8,000 searches/tháng</td></tr>
+          <tr><td><code class="url">/nap-data/vietnamobile</code></td><td>"gói data Vietnamobile"</td><td>~20–30 gói</td><td>~2,000 searches/tháng</td></tr>
+          <tr><td><code class="url">/nap-data/reddi</code></td><td>"gói data Reddi", "gói Reddi Network"</td><td>~15–20 gói</td><td>~800 searches/tháng</td></tr>
+          <tr><td><code class="url">/nap-data/itelecom</code></td><td>"gói data iTelecom"</td><td>~10–15 gói</td><td>~400 searches/tháng</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tier 3: pSEO gói cụ thể -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:28px;">
+    <div style="padding:12px 18px;background:var(--purple-light);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+      <span style="font-size:16px;">🤖</span>
+      <strong style="font-size:13px;">Tầng 3 — pSEO: Landing Từng Gói Cước</strong>
+      <code class="url" style="margin-left:auto;">/nap-data/[nha-mang]/[ten-goi]</code>
+      <span class="tag tag-pseo">pSEO · 300–500 trang</span>
+    </div>
+    <div style="padding:14px 18px 0;">
+      <div class="callout callout-purple" style="margin-bottom:16px;">
+        <div class="callout-title">⚡ Đây là pSEO core của Nạp Data</div>
+        Mỗi gói cước có trang riêng với URL theo tên gói chính thức của nhà mạng. Query target rất cụ thể → high intent → CR cao. Benchmark TGDD dùng pattern tương tự tại <code class="url">/sim-so-dep/goi-cuoc/[ten-goi]</code> và đang rank top cho hầu hết query tên gói. MoMo cần đánh cùng pattern nhưng thêm lớp nhà mạng trong URL để cluster authority tốt hơn và tránh duplicate.
+      </div>
+    </div>
+    <div style="padding:0 18px 18px;">
+      <table class="data-table" style="margin-bottom:16px;">
+        <thead><tr><th>Nhà mạng</th><th>Pattern URL</th><th>Ví dụ gói thực tế</th><th>Số trang dự kiến</th><th>Volume tổng cluster</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>🔴 Viettel</strong></td>
+            <td><code class="url">/nap-data/viettel/[ten-goi]</code></td>
+            <td>
+              <code class="url">/viettel/d90n</code> · <code class="url">/viettel/max1gb</code><br>
+              <code class="url">/viettel/st15</code> · <code class="url">/viettel/dk5gb</code><br>
+              <code class="url">/viettel/mdk100</code> · <code class="url">/viettel/3fb30</code>
+            </td>
+            <td><span class="tag tag-pseo">~120 trang</span></td>
+            <td>~40,000 searches/tháng</td>
+          </tr>
+          <tr>
+            <td><strong>🟡 Mobifone</strong></td>
+            <td><code class="url">/nap-data/mobifone/[ten-goi]</code></td>
+            <td>
+              <code class="url">/mobifone/c90n</code> · <code class="url">/mobifone/ed60</code><br>
+              <code class="url">/mobifone/hd70</code> · <code class="url">/mobifone/max70</code><br>
+              <code class="url">/mobifone/ag60</code> · <code class="url">/mobifone/4g90</code>
+            </td>
+            <td><span class="tag tag-pseo">~90 trang</span></td>
+            <td>~28,000 searches/tháng</td>
+          </tr>
+          <tr>
+            <td><strong>🔵 Vinaphone</strong></td>
+            <td><code class="url">/nap-data/vinaphone/[ten-goi]</code></td>
+            <td>
+              <code class="url">/vinaphone/big90</code> · <code class="url">/vinaphone/yolo125v</code><br>
+              <code class="url">/vinaphone/dinh90</code> · <code class="url">/vinaphone/hd90</code><br>
+              <code class="url">/vinaphone/big120</code> · <code class="url">/vinaphone/max100</code>
+            </td>
+            <td><span class="tag tag-pseo">~70 trang</span></td>
+            <td>~20,000 searches/tháng</td>
+          </tr>
+          <tr>
+            <td><strong>🟢 Vietnamobile</strong></td>
+            <td><code class="url">/nap-data/vietnamobile/[ten-goi]</code></td>
+            <td><code class="url">/vietnamobile/may69s</code> · <code class="url">/vietnamobile/kt3gb</code></td>
+            <td><span class="tag tag-p2">~25 trang</span></td>
+            <td>~5,000 searches/tháng</td>
+          </tr>
+          <tr>
+            <td><strong>🟣 Reddi</strong></td>
+            <td><code class="url">/nap-data/reddi/[ten-goi]</code></td>
+            <td><code class="url">/reddi/local-a79s</code> · <code class="url">/reddi/local-a89</code></td>
+            <td><span class="tag tag-p2">~15 trang</span></td>
+            <td>~2,000 searches/tháng</td>
+          </tr>
+          <tr>
+            <td><strong>🩵 iTelecom</strong></td>
+            <td><code class="url">/nap-data/itelecom/[ten-goi]</code></td>
+            <td><code class="url">/itelecom/itel-may69s</code> · <code class="url">/itelecom/it89</code></td>
+            <td><span class="tag tag-p3">~10 trang</span></td>
+            <td>~800 searches/tháng</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-bottom:8px;">* Tên gói trong URL slug lowercase, bỏ ký tự đặc biệt. VD: "D90N" → <code class="url">d90n</code>, "MAX+1GB" → <code class="url">max-1gb</code>. Tổng ~330 trang pSEO, volume tích lũy ~95,000 searches/tháng.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 So Sánh Approach: MoMo vs TGDD</h2>
+  <table class="data-table">
+    <thead><tr><th>Tiêu chí</th><th>TGDD (benchmark)</th><th>MoMo (đề xuất)</th><th>MoMo advantage</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Pattern URL gói</td>
+        <td><code class="url">/sim-so-dep/goi-cuoc/[ten-goi]</code><br><span style="font-size:11px;color:var(--ink-3)">Không phân cấp nhà mạng trong URL</span></td>
+        <td><code class="url">/nap-data/[nha-mang]/[ten-goi]</code><br><span style="font-size:11px;color:var(--ink-3)">Nhà mạng là tầng trung gian</span></td>
+        <td>Cluster authority theo nhà mạng tốt hơn · breadcrumb rõ hơn · internal linking sạch hơn</td>
+      </tr>
+      <tr>
+        <td>Phân loại filter</td>
+        <td>URL riêng cho thời hạn/mệnh giá</td>
+        <td>Filter/tab frontend, không URL riêng</td>
+        <td>Tránh thin content pages · tập trung crawl budget vào gói cụ thể</td>
+      </tr>
+      <tr>
+        <td>Content gói</td>
+        <td>Thông tin gói cơ bản + cú pháp</td>
+        <td>Thông tin gói + so sánh cross-carrier + HowTo MoMo + FAQ</td>
+        <td>Content dày hơn → E-E-A-T + HowTo schema → rich snippet</td>
+      </tr>
+      <tr>
+        <td>Cross-sell</td>
+        <td>Không (TGDD chủ yếu bán sim vật lý)</td>
+        <td>Sau mua gói → gợi ý nạp tiền / combo sim + data</td>
+        <td>Ecosystem advantage — TGDD không có payment app tích hợp</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">📄 Anatomy — Trang Landing Gói Cụ Thể</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Content structure đầy đủ — /nap-data/viettel/d90n (áp dụng cho tất cả ~330 trang pSEO)</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">H1 + Hero Card</div>
+      <div class="anatomy-content">
+        <strong>H1:</strong> "Gói D90N Viettel — 2GB/Ngày, 30 Ngày, Giá 70.000đ"<br>
+        Hero card nổi bật: Badge nhà mạng Viettel · Giá 70,000đ · Data 2GB/ngày (60GB tổng) · Hiệu lực 30 ngày · Nút <strong>"Đăng Ký Qua MoMo"</strong> màu hồng nổi · Badge "Kích hoạt tức thì"
+      </div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Above-the-fold — CTA ngay không cần scroll</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Bảng Thông Tin Gói</div>
+      <div class="anatomy-content">
+        Table 2 cột đầy đủ:<br>
+        Tên gói · D90N | Nhà mạng · Viettel | Giá · 70.000đ | Data tốc độ cao · 2GB/ngày | Tổng data · 60GB | Thời hạn · 30 ngày | Tốc độ sau hết data · 64Kbps (hoặc dừng) | Gia hạn tự động · Có | Đối tượng · Tất cả thuê bao Viettel trả trước | Cú pháp USSD · *098*6*90# | Cú pháp SMS · DK D90N gửi 191
+      </div>
+      <div class="anatomy-note"><span class="tag tag-trust">TRUST</span> Product schema markup · dữ liệu rõ ràng = trust</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Đăng Ký Qua MoMo (HowTo)</div>
+      <div class="anatomy-content">
+        <strong>Tab primary: Qua MoMo (3 bước)</strong><br>
+        1. Mở MoMo → Nạp Data · 2. Chọn Viettel → nhập SĐT · 3. Chọn D90N → Thanh toán<br>
+        Tab phụ: Qua USSD (*098*6*90#) / Qua SMS (DK D90N → 191)<br>
+        Lưu ý: Cần đủ số dư tài khoản Viettel để đăng ký USSD/SMS
+      </div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> HowTo schema → rich snippet Steps · Ưu tiên push MoMo là kênh primary</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">So Sánh Gói Cùng Mệnh Giá</div>
+      <div class="anatomy-content">
+        Bảng so sánh: D90N Viettel (70k · 60GB) vs C90N Mobifone (90k · đã dừng đk mới) vs BIG90 Vinaphone (90k · 7GB/tháng)<br>
+        Highlight: "D90N Viettel đang có value tốt nhất trong tầm 70–90k" · Không diss đối thủ, chỉ so sánh data khách quan<br>
+        CTA per row: nút mua từng gói
+      </div>
+      <div class="anatomy-note"><span class="tag tag-mofu">MOFU</span> Giúp user tự confirm lựa chọn → giảm bounce</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Các Gói Khác Của Viettel</div>
+      <div class="anatomy-content">
+        Grid 4–6 gói liên quan: ST15 (15k · 300MB · 1 ngày) · MAX1GB (20k · 1GB · 1 ngày) · MDK100 (100k · 4GB/ngày · 30 ngày) · DK5GB (50k · 5GB · 7 ngày)<br>
+        Mỗi gói: tên · data · giá · nút xem chi tiết → link tới trang gói đó<br>
+        Internal link cluster Viettel: tất cả gói link qua lại
+      </div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Internal link mesh + giữ user trong cluster Viettel</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">FAQ Gói D90N</div>
+      <div class="anatomy-content">
+        6 câu FAQ unique: "Gói D90N hết 2GB/ngày có bị dừng mạng không?" · "D90N có tự gia hạn không, hủy như thế nào?" · "Đăng ký D90N qua MoMo có mất thêm phí không?" · "Gói D90N có dùng được khi đi tỉnh khác không?" · "Gói D90N có dùng được roaming quốc tế không?" · "Tôi đang dùng gói khác, đăng ký D90N có bị hủy gói cũ không?"
+      </div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> FAQ schema · People Also Ask capture</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Cross-sell + Blog</div>
+      <div class="anatomy-content">
+        <strong>Cross-sell:</strong> "Chưa có tiền Viettel? Nạp tiền trước →" link /nap-tien-dien-thoai/viettel<br>
+        "Mua sim Viettel mới →" link /sim-so-dep/viettel<br>
+        <strong>Blog related:</strong> /blog/goi-data-viettel-tot-nhat · /blog/so-sanh-goi-data-70k-nha-mang
+      </div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Ecosystem funnel completion</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🗃 Inventory Gói — Ưu Tiên Build Trang</h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">📋 Thứ tự build pSEO theo volume</div>
+    <strong>Batch 1 (Q1–Q2):</strong> 50 gói Viettel volume cao nhất + 30 gói Mobifone + 20 gói Vinaphone = 100 trang đầu. Validate CTR + index rate trước khi scale. <strong>Batch 2 (Q2–Q3):</strong> Toàn bộ gói còn lại của Viettel/Mobi/Vina (~180 trang). <strong>Batch 3 (Q3–Q4):</strong> Vietnamobile + Reddi + iTelecom (~50 trang). Tổng: ~330 trang, mỗi trang có content unique tối thiểu 400 chữ.
+  </div>
+  <table class="data-table">
+    <thead><tr><th>Gói Viettel</th><th>Gói Mobifone</th><th>Gói Vinaphone</th><th>Volume/tháng</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td><code class="url">d90n</code> — 2GB/ngày · 30 ngày · 70k</td><td><code class="url">c90n</code> — đã dừng đk mới</td><td><code class="url">big90</code> — 7GB · 30 ngày · 90k</td><td>2,000–5,000</td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">max1gb</code> — 1GB/ngày · 30 ngày · 70k</td><td><code class="url">hd70</code> — 6GB · 30 ngày · 70k</td><td><code class="url">yolo125v</code> — không giới hạn · 125k</td><td>1,500–3,000</td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">mdk100</code> — 4GB/ngày · 30 ngày · 100k</td><td><code class="url">ed60</code> — 2GB/ngày · 30 ngày · 60k</td><td><code class="url">dinh90</code> — 4GB/ngày · 30 ngày · 90k</td><td>1,000–2,500</td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">dk5gb</code> — 5GB · 7 ngày · 50k</td><td><code class="url">max70</code> — data khủng · 70k</td><td><code class="url">hd90</code> — data tháng · 90k</td><td>800–2,000</td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">st15</code> — 300MB · 1 ngày · 15k</td><td><code class="url">m70</code> — gói tháng · 70k</td><td><code class="url">big120</code> — data lớn · 120k</td><td>500–1,500</td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr><td><code class="url">3fb30</code> — 4G/5G · 30 ngày · 30k</td><td><code class="url">4g90</code> — tháng · 90k</td><td><code class="url">max100</code> — tháng · 100k</td><td>400–1,200</td><td><span class="tag tag-p2">P2</span></td></tr>
+    </tbody>
+  </table>
+  <div style="font-size:11.5px;color:var(--ink-3);margin-top:-20px;margin-bottom:28px;">* Tên gói và giá là ước tính dựa trên thông tin công khai, cần verify lại với API nhà mạng trước khi publish. Gói có thể thay đổi theo thời gian — cần cơ chế update tự động.</div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">⚠️ Vấn đề kỹ thuật quan trọng — Content freshness</div>
+    Nhà mạng thường xuyên <strong>thêm/sửa/dừng gói cước</strong> (VD: Mobifone dừng C90N từ 15/6/2023). Nếu trang landing gói đã dừng vẫn live mà không update → thin content + mislead user → ảnh hưởng E-E-A-T. <strong>Giải pháp:</strong> (1) Build pipeline sync gói từ API nhà mạng hoặc scrape định kỳ. (2) Trang gói dừng chuyển sang noindex hoặc redirect về trang nhà mạng. (3) Thêm timestamp "Cập nhật lần cuối" visible để user và Google biết data đang được maintain.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 6. ESIM DU LỊCH -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-esim">
+  <div class="page-header">
+    <div class="page-eyebrow">Sitemap — momo.vn/esim-du-lich</div>
+    <div class="page-title">eSIM Du Lịch — 200+ Quốc Gia, URL Riêng Từng Nước</div>
+    <div class="page-desc">Kiến trúc URL cho /esim-du-lich với 3 tầng: Hub → Khu vực → Quốc gia. Mỗi quốc gia có trang riêng tối ưu cho query "esim [tên nước]" + kết hợp travel content để capture user trong planning phase.</div>
+  </div>
+
+  <h2 class="sh">🗂 Kiến Trúc URL — 3 Tầng</h2>
+  <div class="tree-grid">
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">🌏</span>
+        <div><div class="tree-box-title">Tầng 1: Hub + Khu Vực</div><div class="tree-box-url">/esim-du-lich → /esim-du-lich/khu-vuc/[khu]</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-p1">P1</span>/esim-du-lich — Hub tổng</div>
+        <div class="tree-item tree-depth-1">🌏 /khu-vuc/chau-a</div>
+        <div class="tree-item tree-depth-1">🌍 /khu-vuc/chau-au</div>
+        <div class="tree-item tree-depth-1">🌎 /khu-vuc/chau-my</div>
+        <div class="tree-item tree-depth-1">🌑 /khu-vuc/chau-phi</div>
+        <div class="tree-item tree-depth-1">🌊 /khu-vuc/chau-dai-duong</div>
+        <div class="tree-item tree-depth-1"><span class="tag tag-new" style="font-size:10px">MỚI</span> /khu-vuc/dong-nam-a — SEA focused</div>
+        <div class="tree-item tree-depth-1"><span class="tag tag-new" style="font-size:10px">MỚI</span> /khu-vuc/toan-cau — Gói global</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">🗾</span>
+        <div><div class="tree-box-title">Tầng 2: Quốc Gia Hot (Châu Á)</div><div class="tree-box-url">/esim-du-lich/khu-vuc/[quoc-gia]</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-1">🇯🇵 /khu-vuc/nhat-ban <span style="color:var(--pink);font-size:10px">hot</span></div>
+        <div class="tree-item tree-depth-1">🇰🇷 /khu-vuc/han-quoc <span style="color:var(--pink);font-size:10px">hot</span></div>
+        <div class="tree-item tree-depth-1">🇹🇭 /khu-vuc/thai-lan <span style="color:var(--pink);font-size:10px">hot</span></div>
+        <div class="tree-item tree-depth-1">🇸🇬 /khu-vuc/singapore</div>
+        <div class="tree-item tree-depth-1">🇨🇳 /khu-vuc/trung-quoc</div>
+        <div class="tree-item tree-depth-1">🇮🇩 /khu-vuc/indonesia</div>
+        <div class="tree-item tree-depth-1">🇲🇾 /khu-vuc/malaysia</div>
+        <div class="tree-item tree-depth-1">🇭🇰 /khu-vuc/hong-kong</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">🌐</span>
+        <div><div class="tree-box-title">Quốc Gia Hot (Châu Âu + Mỹ)</div><div class="tree-box-url">/esim-du-lich/khu-vuc/[quoc-gia]</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-1">🇫🇷 /khu-vuc/phap</div>
+        <div class="tree-item tree-depth-1">🇩🇪 /khu-vuc/duc</div>
+        <div class="tree-item tree-depth-1">🇬🇧 /khu-vuc/anh</div>
+        <div class="tree-item tree-depth-1">🇮🇹 /khu-vuc/y</div>
+        <div class="tree-item tree-depth-1">🇺🇸 /khu-vuc/my <span style="color:var(--pink);font-size:10px">hot</span></div>
+        <div class="tree-item tree-depth-1">🇦🇺 /khu-vuc/uc</div>
+        <div class="tree-item tree-depth-1">🇦🇪 /khu-vuc/uae</div>
+        <div class="tree-item tree-depth-2">+ 180 quốc gia còn lại...</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header">
+        <span style="font-size:18px;">✨</span>
+        <div><div class="tree-box-title">Sub-pages Bổ Sung</div><div class="tree-box-url">/esim-du-lich/[topic]</div></div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-new">MỚI</span>/esim-du-lich/esim-la-gi — Giáo dục TOFU</div>
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-new">MỚI</span>/esim-du-lich/huong-dan-cai-esim — How-to</div>
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-new">MỚI</span>/esim-du-lich/esim-vs-sim-du-lich — Comparison</div>
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-new">MỚI</span>/esim-du-lich/dien-thoai-ho-tro-esim — Device list</div>
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-new">MỚI</span>/esim-du-lich/goi-toan-cau — Global plans</div>
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-new">MỚI</span>/esim-du-lich/mua-esim-truoc-khi-di — Checklist</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📄 Anatomy — Trang Quốc Gia eSIM (/esim-du-lich/khu-vuc/nhat-ban)</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Content structure — Template cho 200 trang quốc gia</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">H1 + Hero</div>
+      <div class="anatomy-content"><strong>eSIM [Tên Nước] — Mua & Kích Hoạt Ngay</strong> · Giá từ X.000đ · Phủ sóng đến [Toàn quốc/X tỉnh] · Thời hạn từ 3 ngày · Nút CTA "Mua eSIM Ngay" nổi bật.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> CTA above-the-fold</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Bảng Các Gói eSIM</div>
+      <div class="anatomy-content">Table: Tên gói · Dung lượng · Thời hạn · Tốc độ · Giá · Nút mua. Sort mặc định theo giá. Filter: thời hạn / dung lượng / giá. Highlight gói "Best Value".</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Primary conversion element</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Thông Tin Mạng Tại [Nước]</div>
+      <div class="anatomy-content">Nhà mạng local partner · Tốc độ 4G/5G · Phủ sóng bản đồ · Khu vực phủ sóng tốt · Điểm yếu (nếu có)</div>
+      <div class="anatomy-note"><span class="tag tag-trust">TRUST</span> Specific local info</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Hướng Dẫn Cài eSIM</div>
+      <div class="anatomy-content">Step-by-step theo iOS / Android. Lưu ý đặc thù cho [Nước]: timezone, khi nào kích hoạt... Video embed nếu có.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> HowTo schema</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Travel Context Block</div>
+      <div class="anatomy-content"><span class="tag tag-new">MỚI</span> Section: "Chuẩn bị gì trước khi du lịch [Nước]?" — Visa · Tiền tệ · Tip dùng mạng · App cần thiết. Phối hợp với MoMo BH du lịch cross-sell.</div>
+      <div class="anatomy-note"><span class="tag tag-tofu">TOFU</span> Travel intent capture, cross-sell BH du lịch</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Phần Hỏi Đáp</div>
+      <div class="anatomy-content">FAQ 5–8 câu: eSIM [Nước] cài được không · Có dùng được ở vùng nông thôn không · Có thoại được không · Gói nào phù hợp 7 ngày...</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> FAQ schema → PAA</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">eSIM Nước Lân Cận</div>
+      <div class="anatomy-content">Grid "Đang đi tour? Ghé thêm:" với eSIM các nước lân cận. VD: Nhật Bản → Hàn Quốc, Đài Loan, Hồng Kông. Internal link cluster.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Topical cluster + cross-sell</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🌍 Phân Vùng & Độ Ưu Tiên Launch</h2>
+  <div class="region-grid">
+    <div class="region-card" style="border-color:var(--pink);background:var(--pink-light);">
+      <div class="region-icon">🏆</div>
+      <div class="region-name">Priority 1</div>
+      <div class="region-count" style="color:var(--pink);font-weight:700">20 quốc gia</div>
+      <div class="region-count">JP · KR · TH · SG · US · AU · FR · DE · MY · ID · TW · HK · UK · IT · AE · CN · PH · IN · VN(roam) · EU</div>
+    </div>
+    <div class="region-card" style="border-color:var(--blue);">
+      <div class="region-icon">🚀</div>
+      <div class="region-name">Priority 2</div>
+      <div class="region-count" style="color:var(--blue);font-weight:700">50 quốc gia</div>
+      <div class="region-count">Châu Á còn lại · Châu Âu Tây · Châu Mỹ · Middle East</div>
+    </div>
+    <div class="region-card" style="border-color:var(--teal);">
+      <div class="region-icon">🌱</div>
+      <div class="region-name">Priority 3</div>
+      <div class="region-count" style="color:var(--teal);font-weight:700">80 quốc gia</div>
+      <div class="region-count">Đông Âu · Nam Mỹ · Châu Phi Bắc · Nam Á</div>
+    </div>
+    <div class="region-card">
+      <div class="region-icon">📝</div>
+      <div class="region-name">Priority 4</div>
+      <div class="region-count">50+ quốc gia</div>
+      <div class="region-count">Phần còn lại, auto-generate template</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 7. NẠP TIỀN ĐIỆN THOẠI -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-nap">
+  <div class="page-header">
+    <div class="page-eyebrow">Sitemap — momo.vn/nap-tien-dien-thoai</div>
+    <div class="page-title">Nạp Tiền Điện Thoại — Sitemap & Sub-pages</div>
+    <div class="page-desc">Đơn giản hóa luồng nạp tiền nhưng maximize SEO coverage với landing page riêng cho từng nhà mạng và mệnh giá phổ biến.</div>
+  </div>
+
+  <h2 class="sh">🗂 Sitemap — Nạp Tiền Điện Thoại</h2>
+  <table class="data-table">
+    <thead><tr><th>URL</th><th>Mục tiêu</th><th>Target keyword</th><th>Funnel</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td><code class="url">/nap-tien-dien-thoai</code></td><td>Hub tổng + form nạp nhanh</td><td>"nạp tiền điện thoại online", "nạp điện thoại"</td><td><span class="tag tag-conv">CONV</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">/nap-tien-dien-thoai/viettel</code></td><td>Nhà mạng lớn nhất</td><td>"nạp tiền Viettel", "nạp card Viettel"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">/nap-tien-dien-thoai/mobifone</code></td><td>—</td><td>"nạp tiền MobiFone online"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">/nap-tien-dien-thoai/vinaphone</code></td><td>—</td><td>"nạp tiền Vinaphone"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">/nap-tien-dien-thoai/vietnamobile</code></td><td>—</td><td>"nạp tiền Vietnamobile"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr><td><code class="url">/nap-tien-dien-thoai/reddi</code></td><td>—</td><td>"nạp tiền Reddi"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/nap-tien-dien-thoai/nap-ho-nguoi-than</code></td><td>Gift/family use case</td><td>"nạp tiền hộ điện thoại người khác"</td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/nap-tien-dien-thoai/nap-theo-menh-gia</code></td><td>Grid mệnh giá 10k–500k</td><td>"nạp 50k điện thoại", "nạp 100k Viettel"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/nap-tien-dien-thoai/khuyen-mai</code></td><td>Ưu đãi, cashback MoMo</td><td>"nạp tiền điện thoại được hoàn tiền"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/nap-tien-dien-thoai/huong-dan</code></td><td>How-to TOFU</td><td>"cách nạp tiền điện thoại qua MoMo"</td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p3">P3</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">📄 Anatomy — Trang Nhà Mạng (/nap-tien-dien-thoai/viettel)</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Content structure — Template cho trang nhà mạng</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Form Nạp Tiền</div>
+      <div class="anatomy-content"><strong>Primary CTA ngay đầu trang</strong>: Input số điện thoại → Chọn mệnh giá (10k / 20k / 50k / 100k / 200k / 500k) → Thanh toán MoMo. Pre-fill nhà mạng từ URL slug. Realtime xác nhận số hợp lệ.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Above-the-fold, zero friction</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Ưu đãi & Cashback</div>
+      <div class="anatomy-content">Banner ưu đãi hiện tại: Nạp X nhận Y MoMo Xu · Cashback % · Combo nạp nhiều lần. Dynamic section update theo campaign.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Reason to choose MoMo over direct</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Tốc Độ & Tin Cậy</div>
+      <div class="anatomy-content">Stat badge: Nạp thành công trong 5 giây · 99.9% uptime · 30 triệu lần nạp thành công. Testimonial ngắn.</div>
+      <div class="anatomy-note"><span class="tag tag-trust">TRUST</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Cross-sell</div>
+      <div class="anatomy-content">Sau khi nạp xong: Banner gợi ý đăng ký gói data → /nap-data/[nha-mang]. "Bạn có muốn mua luôn gói data?" — giảm friction, tăng AOV.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Post-purchase upsell</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 8. CONTENT STRUCTURE -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-content">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Plan — Chi Tiết Từng Trang</div>
+    <div class="page-title">Content Structure — 4 Sản Phẩm Viễn Thông</div>
+    <div class="page-desc">Blueprint nội dung, từ khóa, schema markup và interactive components cho từng trang chính.</div>
+  </div>
+
+  <!-- SIM SO DEP -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">📱</span>
+        <div>
+          <div class="cs-page-title">Sim Số Đẹp — /sim-so-dep (Trang Cha)</div>
+          <div style="font-size:11px;color:var(--ink-3)">Hub tìm kiếm & lọc sim · AI Giải Luận · Phong Thủy</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="tag tag-p1">P1 · LAUNCH</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">sim số đẹp</span><span class="cs-kw">mua sim số đẹp online</span><span class="cs-kw">sim viettel số đẹp</span><span class="cs-kw">sim phong thủy</span><span class="cs-kw">sim thần tài</span><span class="cs-kw">sim ngũ quý</span><span class="cs-kw">tra cứu sim số đẹp</span><span class="cs-kw">sim chính chủ MoMo</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Interactive Components</div>
+        <span class="cs-component">🔍 Search & Filter Engine</span>
+        <span class="cs-component">🤖 AI Giải Luận Widget</span>
+        <span class="cs-component">☯️ Bộ lọc phong thủy</span>
+        <span class="cs-component">💰 Bộ lọc giá</span>
+        <span class="cs-component">📊 Sort: Giá / Phong thủy / Hot</span>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">Hero: Search Engine + AI Intro</div><div class="cs-block-desc">Thanh tìm kiếm sim lớn + CTA AI giải luận. Tagline "Tìm sim hợp mệnh với AI MoMo". Tin cậy: "500,000 sim đã được chọn".</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Grid Sim với filter nâng cao</div><div class="cs-block-desc">Hiển thị sim theo filter. Mỗi sim card: số · nhà mạng · loại · giá · badge phong thủy · nút mua. Infinite scroll hoặc pagination.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Widget Giải Luận Phong Thủy</div><div class="cs-block-desc">Input: tên + năm sinh + giờ sinh (tùy chọn). Output: mệnh · cung phi · số hợp · đầu số gợi ý. CTA: "Xem sim phù hợp với bạn →"</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Guide: Ý Nghĩa Các Loại Số Đẹp</div><div class="cs-block-desc">Infographic giải thích 8 loại số phong thủy phổ biến. Mỗi loại: ý nghĩa · ai hợp · ví dụ số.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ 10 câu về sim số đẹp</div><div class="cs-block-desc">Các câu hỏi phổ biến: mua sim online có cần đổi sim vật lý không · thời gian giao sim · cam kết chính chủ.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">ItemList</span>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">Product (từng sim)</span>
+        <span class="cs-schema">SoftwareApplication (AI tool)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAP DATA -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">📶</span>
+        <div>
+          <div class="cs-page-title">Nạp Data — /nap-data (Trang Cha + Nhà Mạng)</div>
+          <div style="font-size:11px;color:var(--ink-3)">So sánh gói · Recommendation Engine · Landing gói cụ thể</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="tag tag-p1">P1 · LAUNCH</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">mua gói data online</span><span class="cs-kw">đăng ký gói 4G Viettel</span><span class="cs-kw">gói data tháng rẻ nhất</span><span class="cs-kw">nạp data MobiFone</span><span class="cs-kw">gói 4G/5G tốt nhất 2025</span><span class="cs-kw">so sánh gói data các mạng</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Interactive Components</div>
+        <span class="cs-component">🤖 Gợi Ý Gói Thông Minh</span>
+        <span class="cs-component">📊 So sánh gói cùng giá</span>
+        <span class="cs-component">🔍 Filter: nhà mạng / giá / thời hạn</span>
+        <span class="cs-component">⚡ Kích hoạt tức thì</span>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">Hero: Recommendation Quiz</div><div class="cs-block-desc">3 câu hỏi nhanh: Nhà mạng bạn đang dùng? Ngân sách/tháng? Nhu cầu chính? → Gợi ý top 3 gói. Tăng personalization từ đầu.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Tab Nhà Mạng + Bảng Gói</div><div class="cs-block-desc">6 tab nhà mạng. Mỗi tab: bảng tất cả gói với filter nhanh. Highlight gói "Best Seller" và "Best Value". CTA mua ngay từng gói.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Comparison Table Cross-carrier</div><div class="cs-block-desc">Chọn mệnh giá (50k/100k/...) → Hiện bảng so sánh tất cả gói cùng giá của 6 nhà mạng: dung lượng / tốc độ / thời hạn / điểm MoMo.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Hướng dẫn đăng ký gói data qua MoMo</div><div class="cs-block-desc">Step-by-step 4 bước: Mở MoMo → Chọn Nạp Data → Chọn nhà mạng & gói → Thanh toán. HowTo Schema.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">ItemList</span>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">Product (từng gói)</span>
+        <span class="cs-schema">HowTo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESIM -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">🌍</span>
+        <div>
+          <div class="cs-page-title">eSIM Du Lịch — /esim-du-lich (Hub + Quốc Gia)</div>
+          <div style="font-size:11px;color:var(--ink-3)">200 quốc gia · Travel Context · Device Compatibility</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="tag tag-p1">P1 · LAUNCH</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">esim du lịch</span><span class="cs-kw">mua esim nhật bản</span><span class="cs-kw">esim hàn quốc giá rẻ</span><span class="cs-kw">sim data du lịch nước ngoài</span><span class="cs-kw">esim là gì</span><span class="cs-kw">cách cài esim iphone</span><span class="cs-kw">esim toàn cầu</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Interactive Components</div>
+        <span class="cs-component">🌍 Country Picker + Search</span>
+        <span class="cs-component">📱 Device Compatibility Checker</span>
+        <span class="cs-component">📅 Travel Date → Gợi ý gói phù hợp</span>
+        <span class="cs-component">🗺 Coverage Map</span>
+        <span class="cs-component">⭐ Review system</span>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks — Hub /esim-du-lich</div>
+        <div class="cs-content-block"><div class="cs-block-title">Hero: Destination Search</div><div class="cs-block-desc">Search "Bạn đi đâu?" với autocomplete 200 nước. Hoặc browse khu vực. Hiện ngay top gói phổ biến cho điểm đến đó.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Trending Destinations Grid</div><div class="cs-block-desc">12 điểm đến hot nhất: Nhật, Hàn, Thái, Mỹ... Mỗi card: quốc kỳ · giá từ X.000đ · gói bán chạy nhất · rating.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">eSIM vs Sim Vật Lý — Comparison</div><div class="cs-block-desc">Bảng so sánh: tiện lợi / giá / tốc độ set up / coverage. eSIM thắng phần lớn — CTA "Xem eSIM của bạn →"</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Hướng Dẫn Cài eSIM (iOS + Android)</div><div class="cs-block-desc">Collapsible theo OS. Mỗi phần có ảnh chụp màn hình. Lưu ý: cài trước khi đi để tránh roaming data.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Kiểm Tra Điện Thoại Hỗ Trợ eSIM</div><div class="cs-block-desc">Input model điện thoại → Check ngay có hỗ trợ eSIM không. Danh sách 100+ model phổ biến tại VN.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">ItemList</span>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">HowTo (cài eSIM)</span>
+        <span class="cs-schema">Product (từng eSIM gói)</span>
+        <span class="cs-schema">Review / AggregateRating</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAP TIEN -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">💳</span>
+        <div>
+          <div class="cs-page-title">Nạp Tiền Điện Thoại — /nap-tien-dien-thoai</div>
+          <div style="font-size:11px;color:var(--ink-3)">6 nhà mạng · Ưu đãi cashback · Cross-sell data</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="tag tag-p1">P1 · LAUNCH</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">nạp tiền điện thoại online</span><span class="cs-kw">nạp thẻ điện thoại</span><span class="cs-kw">nạp tiền Viettel nhanh nhất</span><span class="cs-kw">nạp điện thoại qua MoMo</span><span class="cs-kw">nạp tiền MobiFone không cần thẻ</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Interactive Components</div>
+        <span class="cs-component">⚡ Form nạp tiền ultra-fast</span>
+        <span class="cs-component">📞 Input số ĐT + detect nhà mạng</span>
+        <span class="cs-component">💵 Quick-select mệnh giá</span>
+        <span class="cs-component">🎁 Hiển thị ưu đãi theo nhà mạng</span>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">Above-the-fold: Form Nạp + Ưu đãi</div><div class="cs-block-desc">Form 3 bước: Nhập số → Chọn mệnh giá → Thanh toán. Hiện ngay ưu đãi "Nạp 100k hoàn 5k MoMo Xu". Real-time detect nhà mạng từ đầu số.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Quick Actions — Nạp gần đây</div><div class="cs-block-desc">Cho user đã đăng nhập: hiện lịch sử nạp gần đây với nút "Nạp lại" 1 click. Reduce friction tối đa cho repeat users.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Post-purchase Cross-sell</div><div class="cs-block-desc">Sau khi nạp tiền thành công: popup/banner "Muốn đăng ký thêm gói data?" → Direct link tới /nap-data/[nha-mang]. +15–20% AOV tiềm năng.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">Service</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sh">📋 Content Structure — Child Pages</h2>
+
+  <!-- CHILD: SIM NHA MANG -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:18px">🔴</span>
+        <div><div class="cs-page-title">Child: /sim-so-dep/viettel (Template × 6 nhà mạng)</div>
+        <div style="font-size:11px;color:var(--ink-3)">Trang nhà mạng sim · Lọc + sort · Trust nhà mạng</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-p1">P1 · Template</span><span class="cs-toggle">▶</span></div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row"><span class="cs-kw">sim số đẹp Viettel</span><span class="cs-kw">mua sim Viettel online</span><span class="cs-kw">sim Viettel đẹp giá rẻ</span><span class="cs-kw">sim đầu 086 đẹp</span><span class="cs-kw">sim Viettel phong thủy</span></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">H1 + Intro nhà mạng</div><div class="cs-block-desc">"Sim Số Đẹp Viettel — Mua Ngay, Giao Nhanh" · 2–3 câu giới thiệu: Viettel phủ sóng tốt nhất, 6 đầu số, ~X triệu sim đang lưu thông. Trust signal: nhà mạng #1 VN.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Bộ lọc + Grid Sim</div><div class="cs-block-desc">Filter theo: đầu số (032/033/.../086/096/097/098) · Giá (dưới 200k / 200–500k / trên 500k) · Loại số (thần tài / ngũ quý / lộc phát / số đẹp thông thường). Sort: Mới nhất / Giá tăng / Giá giảm / Phổ biến nhất.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Đầu Số Viettel — Giới Thiệu</div><div class="cs-block-desc">Grid 6 đầu số: 032, 033, 034, 035, 036, 037, 038, 039, 086, 096, 097, 098. Mỗi đầu số: ý nghĩa phong thủy (nếu có) + CTA lọc theo đầu số đó. VD: "Đầu 086 — số đẹp, có vibe cao cấp, phổ biến làm SIM hotline."</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">So sánh nhanh vs nhà mạng khác</div><div class="cs-block-desc">Row nhanh 3 cột: Viettel vs MobiFone vs Vinaphone — phủ sóng / giá sim trung bình / thời gian giao. Không diss đối thủ — chỉ trình bày khách quan.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ 5 câu về Sim Viettel</div><div class="cs-block-desc">Sim Viettel mua online có chính chủ không? · Giao trong bao lâu? · Có cần CCCD không? · Chuyển sang số Viettel có giữ nguyên được không?</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Internal Links</div><div class="cs-block-desc">→ /sim-so-dep/phong-thuy/[loai] · → /sim-so-dep/nam-sinh/[nam] (từ widget) · → /nap-data/viettel (cross-sell). Blog related: /blog/sim-viettel-so-dep-la-gi</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">ItemList</span><span class="cs-schema">FAQPage</span><span class="cs-schema">BreadcrumbList</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHILD: PHONG THUY HUB -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:18px">☯️</span>
+        <div><div class="cs-page-title">Child: /sim-so-dep/phong-thuy/than-tai (Template × 8 loại)</div>
+        <div style="font-size:11px;color:var(--ink-3)">Sim theo loại phong thủy · Giải thích ý nghĩa · Filter nhà mạng</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-p1">P1 · Template</span><span class="cs-toggle">▶</span></div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row"><span class="cs-kw">sim thần tài</span><span class="cs-kw">số điện thoại thần tài</span><span class="cs-kw">sim thần tài Viettel</span><span class="cs-kw">đuôi số thần tài là gì</span><span class="cs-kw">mua sim thần tài online</span></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">H1 + Định nghĩa loại số</div><div class="cs-block-desc">"Sim Thần Tài — Số Điện Thoại Mang Lộc Vượng" · Giải thích: Sim thần tài là sim có đuôi [X, XX, XXX]. Theo phong thủy, đuôi số này mang ý nghĩa... 200 chữ unique.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Đặc điểm nhận dạng số thần tài</div><div class="cs-block-desc">Infographic dạng list: đuôi 68, 86, 168, 888, 8686... + giải thích ý nghĩa từng pattern. Chia theo "cấp độ": thường / đẹp / cực đẹp (theo giá thị trường).</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Grid sim thần tài với tab nhà mạng</div><div class="cs-block-desc">6 tab nhà mạng · Mỗi tab: grid sim đã pre-filter theo loại thần tài. Mỗi sim: số · nhà mạng · pattern (VD: đuôi 68) · giá · nút Mua.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Ai hợp dùng sim thần tài?</div><div class="cs-block-desc">Section 150 chữ: Sim thần tài hợp với người mệnh [X], làm kinh doanh, sinh năm [X, Y, Z]. Link sang /menh/[menh] và /nam-sinh/[nam] tương ứng.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Các loại số đẹp khác</div><div class="cs-block-desc">Grid 7 loại còn lại: lộc phát / tứ quý / ngũ quý / liên hoa / tam hoa / bạch nhật / song bạc. Mỗi loại: icon + mô tả 30 chữ + link sang trang loại đó. Internal link cluster.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">ItemList</span><span class="cs-schema">FAQPage</span><span class="cs-schema">Article</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHILD: NAM SINH -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:18px">📅</span>
+        <div><div class="cs-page-title">Child: /sim-so-dep/nam-sinh/1990 (Template × 100 năm)</div>
+        <div style="font-size:11px;color:var(--ink-3)">pSEO trang năm sinh · AI giải luận · Grid sim pre-filtered</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-pseo">pSEO · 100 trang</span><span class="cs-toggle">▶</span></div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row"><span class="cs-kw">sim số đẹp tuổi 1990</span><span class="cs-kw">sim hợp năm sinh 1990</span><span class="cs-kw">sim Canh Ngọ</span><span class="cs-kw">số điện thoại đẹp mệnh thổ</span><span class="cs-kw">sim may mắn người sinh 1990</span></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks (xem anatomy chi tiết ở section Sim Số Đẹp)</div>
+        <div class="cs-content-block"><div class="cs-block-title">H1 + Định danh Can Chi + Mệnh</div><div class="cs-block-desc">Sim Số Đẹp Tuổi 1990 — Canh Ngọ · Mệnh Thổ. Bảng tóm tắt phong thủy: can chi / mệnh / số cát / số kỵ / nhà mạng gợi ý.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">AI Giải Luận Widget</div><div class="cs-block-desc">Input tên + giờ sinh → Output: mệnh cụ thể · số hợp cá nhân · đầu số recommended · 3 sim gợi ý với nút mua.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Giải Thích Mệnh Thổ (300 chữ unique)</div><div class="cs-block-desc">AI-generated: Đặc điểm mệnh Thổ · Tại sao số đuôi 2, 5, 8 hợp · Số nên tránh · Nhà mạng nào phù hợp.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Grid Sim Đã Filter theo Mệnh</div><div class="cs-block-desc">Danh sách sim đuôi 2/5/8 từ tất cả nhà mạng. Tab nhanh: Tất cả / Viettel / Mobi / Vina. Badge "Hợp tuổi 1990".</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Năm sinh lân cận + Blog Related</div><div class="cs-block-desc">Grid 5 năm xung quanh · 3 bài blog từ /blog/slug về sim phong thủy mệnh Thổ.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">FAQPage</span><span class="cs-schema">Article</span><span class="cs-schema">BreadcrumbList</span><span class="cs-schema">ItemList (sim grid)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHILD: NAP DATA NHA MANG -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:18px">📶</span>
+        <div><div class="cs-page-title">Child: /nap-data/viettel (Template × 6 nhà mạng)</div>
+        <div style="font-size:11px;color:var(--ink-3)">Tất cả gói Viettel · Sort/filter · Gói nổi bật · HowTo</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-p1">P1 · Template</span><span class="cs-toggle">▶</span></div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row"><span class="cs-kw">gói data Viettel 2025</span><span class="cs-kw">đăng ký gói 4G Viettel</span><span class="cs-kw">gói Viettel rẻ nhất</span><span class="cs-kw">gói Viettel 1 tháng</span><span class="cs-kw">gói Viettel tốt nhất</span></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">H1 + Hero</div><div class="cs-block-desc">"Tất Cả Gói Data Viettel 2025 — Mua Ngay Qua MoMo" · Sub: X gói cập nhật mới nhất, kích hoạt tức thì, cashback MoMo Xu.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Tab Phân Loại Gói</div><div class="cs-block-desc">Tab: Tất cả / Gói ngày / Gói tuần / Gói tháng / Gói năm / 4G / 5G. Mỗi tab: bảng gói với cột: Tên · Data · Thời hạn · Giá · Cú pháp · Nút mua. Badge "Bán chạy" / "Best value".</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Top 3 Gói Được Chọn Nhiều Nhất</div><div class="cs-block-desc">Card highlight 3 gói phổ biến nhất: 70k D90N / 120k D60G / 200k MAX+. Lý do recommend ngắn gọn. Nút mua nổi bật.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Hướng Dẫn Đăng Ký Qua MoMo</div><div class="cs-block-desc">4 bước: Mở MoMo → Chọn Nạp Data → Chọn Viettel → Chọn gói → Thanh toán. HowTo Schema. Video embed nếu có.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">So sánh gói Viettel vs MobiFone vs Vinaphone</div><div class="cs-block-desc">Bảng so sánh top 3 gói cùng mệnh giá của 3 nhà mạng lớn. Objective — không bias. CTA cho từng nhà mạng.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ + Blog Related</div><div class="cs-block-desc">5 FAQ về gói Viettel. Blog: /blog/goi-data-viettel-tot-nhat, /blog/huong-dan-dang-ky-goi-viettel-momo.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">ItemList</span><span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span><span class="cs-schema">Product (top gói)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHILD: GOI DATA CU THE -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:18px">📦</span>
+        <div><div class="cs-page-title">Child: /nap-data/viettel/goi-d90n (pSEO Template × 200+ gói)</div>
+        <div style="font-size:11px;color:var(--ink-3)">Landing gói cụ thể · Chi tiết · So sánh ngang · HowTo</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-pseo">pSEO · 200+ trang</span><span class="cs-toggle">▶</span></div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row"><span class="cs-kw">gói D90N Viettel</span><span class="cs-kw">gói D90N bao nhiêu tiền</span><span class="cs-kw">đăng ký D90N</span><span class="cs-kw">D90N Viettel có gì</span></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">Hero Card — Thông tin gói</div><div class="cs-block-desc">Box nổi bật: Tên gói D90N · Nhà mạng Viettel · Giá 70.000đ · Data 2GB/ngày (60GB tổng) · Thời hạn 30 ngày · Cú pháp: *098*6*90# · Nút "Đăng Ký Ngay Qua MoMo".</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Bảng Chi Tiết Gói</div><div class="cs-block-desc">Data chính / Data đêm (nếu có) / Tốc độ 4G/5G / Vùng phủ / Có roaming không / Gia hạn tự động hay không / Đối tượng áp dụng.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">So Sánh Gói Cùng Giá</div><div class="cs-block-desc">70k từ MobiFone là gói gì? · 70k từ Vinaphone là gì? → 3-column comparison. Highlight gói nào value nhất.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Hướng Dẫn Đăng Ký</div><div class="cs-block-desc">Tab: Qua MoMo (primary, 3 bước) / Qua USSD (*098*6*90#) / Qua SMS (soạn D90N gửi 9084). HowTo schema cho cả 3 cách.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">Product</span><span class="cs-schema">HowTo</span><span class="cs-schema">FAQPage</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHILD: ESIM QUOC GIA -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:18px">🇯🇵</span>
+        <div><div class="cs-page-title">Child: /esim-du-lich/khu-vuc/nhat-ban (Template × 200 quốc gia)</div>
+        <div style="font-size:11px;color:var(--ink-3)">Landing quốc gia · Bảng gói · Travel context · Device guide</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-pseo">pSEO · 200 trang</span><span class="cs-toggle">▶</span></div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row"><span class="cs-kw">esim nhật bản</span><span class="cs-kw">mua esim đi nhật</span><span class="cs-kw">esim nhật bản giá rẻ</span><span class="cs-kw">sim data nhật bản</span><span class="cs-kw">esim japan 7 ngày</span></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">Hero + CTA</div><div class="cs-block-desc">H1: "eSIM Nhật Bản — Giá Từ 99.000đ, Nhận QR Code Ngay" · Badge: phủ sóng NTT DoCoMo + SoftBank · Nút mua nổi bật · Trust: "5,000+ khách đã mua eSIM Nhật qua MoMo".</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Bảng Gói eSIM Nhật</div><div class="cs-block-desc">Table: Tên gói · Data · Thời hạn · Tốc độ · Giá · Nút mua. Filter: thời hạn / dung lượng. Highlight "Best Seller" và "Best Value". Sort giá tăng dần.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Thông Tin Mạng Tại Nhật</div><div class="cs-block-desc">Nhà mạng local: NTT DoCoMo / SoftBank / Rakuten. Phủ sóng: rất tốt ở thành phố, khá tốt vùng nông thôn. 5G có ở Tokyo, Osaka, Nagoya. Ghi chú: không có thoại — chỉ data.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Hướng Dẫn Cài eSIM Nhật</div><div class="cs-block-desc">Tab iOS / Android. Lưu ý: cài trước khi lên máy bay · Kích hoạt sau khi đến Nhật · Giữ sim VN active để nhận OTP. HowTo Schema.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Travel Context Block</div><div class="cs-block-desc">Section: "Chuẩn bị gì trước khi đến Nhật?" · Visa e-gate · Đổi tiền Yen · App cần tải: Google Maps, Google Translate, Suica · Tip dùng mạng: tải bản đồ offline trước. Cross-sell: BH du lịch MoMo.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">eSIM Nước Lân Cận + Blog</div><div class="cs-block-desc">Grid: Hàn Quốc / Đài Loan / Hồng Kông / Trung Quốc. Blog: /blog/kinh-nghiem-dung-esim-o-nhat, /blog/nhung-thu-can-chuan-bi-khi-di-nhat.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">Product</span><span class="cs-schema">HowTo</span><span class="cs-schema">FAQPage</span><span class="cs-schema">AggregateRating</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHILD: NAP TIEN NHA MANG -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:18px">💳</span>
+        <div><div class="cs-page-title">Child: /nap-tien-dien-thoai/viettel (Template × 6 nhà mạng)</div>
+        <div style="font-size:11px;color:var(--ink-3)">Form nạp nhanh · Ưu đãi · Quick history · Cross-sell data</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-p1">P1 · Template</span><span class="cs-toggle">▶</span></div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row"><span class="cs-kw">nạp tiền Viettel online</span><span class="cs-kw">nạp card Viettel</span><span class="cs-kw">nạp tiền Viettel qua MoMo</span><span class="cs-kw">nạp 100k Viettel</span><span class="cs-kw">nạp tiền Viettel nhanh nhất</span></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Content Blocks</div>
+        <div class="cs-content-block"><div class="cs-block-title">Form Nạp Tiền — Above-the-fold</div><div class="cs-block-desc">Input số ĐT (pre-detect Viettel từ URL) · Quick-select mệnh giá: 10k / 20k / 50k / 100k / 200k / 500k · Nút "Nạp Ngay" · Badge: "Nạp thành công trong 5 giây".</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Banner Ưu Đãi Dynamic</div><div class="cs-block-desc">Nạp 100k hoàn 5k MoMo Xu · Nạp liên tiếp 3 lần trong tháng tặng thêm 10k · Banner update theo campaign hiện tại (dynamic component).</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Tại Sao Nạp Qua MoMo?</div><div class="cs-block-desc">4 điểm: Không phí phụ thu · Nạp 24/7 kể cả ngày lễ · Hoàn tiền trong 24h nếu lỗi · Hóa đơn điện tử tự động.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Cross-sell: Mua Thêm Gói Data</div><div class="cs-block-desc">Banner sau khi nạp: "Đang dùng Viettel? Mua thêm gói data — từ 20k/7 ngày" → link /nap-data/viettel. Personalized nếu biết đầu số user.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">HowTo + FAQ</div><div class="cs-block-desc">3 bước nạp qua MoMo. FAQ: Nạp Viettel qua MoMo có mất phí không? · Nạp nhầm số phải làm gì? · Nạp xong bao lâu nhận tiền?</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">HowTo</span><span class="cs-schema">FAQPage</span><span class="cs-schema">Service</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- BLOG STRATEGY -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-blog">
+  <div class="page-header">
+    <div class="page-eyebrow">Blog Strategy — momo.vn/blog/[slug]</div>
+    <div class="page-title">Blog Content Plan — Viễn Thông</div>
+    <div class="page-desc">Blog MoMo nằm tại <code class="url">momo.vn/blog/[slug]</code> — không routing riêng cho từng sản phẩm. Mỗi bài blog phải có <strong>internal link rõ ràng về trang sản phẩm</strong> (<code class="url">/sim-so-dep</code>, <code class="url">/nap-data</code>...) để truyền link juice và dẫn traffic. Blog đóng vai trò TOFU — educate, thu hút organic — rồi chuyển người dùng sang trang sản phẩm để convert.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">⚠️ Lưu ý quan trọng về cấu trúc Blog</div>
+    Blog tại <strong>momo.vn/blog/[slug]</strong> là domain path chung — không phải subdomain hay subfolder riêng cho telecom. Điều này có nghĩa: (1) Mỗi bài phải được tag rõ category "Viễn Thông" để cluster authority. (2) <strong>Internal link từ /blog → /sim-so-dep (hoặc product page khác) là bắt buộc</strong> — đây là cầu nối SEO quan trọng nhất. (3) Blog cũng nhận internal link ngược từ product pages (trong section "Bài viết liên quan") để tăng authority cho cả 2 phía.
+  </div>
+
+  <h2 class="sh">🗂 Blog Category Structure — Viễn Thông</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📱 Category: Sim Số Đẹp · Phong Thủy</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Tag blog trong category này link về <code class="url">/sim-so-dep</code> và các sub-pages. Đây là category blog quan trọng nhất vì hỗ trợ pSEO engine — mỗi bài về "sim mệnh X" đều link về <code class="url">/sim-so-dep/menh/[menh]</code>.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📶 Category: Gói Cước · Data</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Bài so sánh gói, review gói mới nhất → link về <code class="url">/nap-data/[nha-mang]</code>. Update liên tục khi nhà mạng ra gói mới — tốc độ update là lợi thế cạnh tranh vs blog đối thủ.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🌍 Category: Du Lịch · eSIM</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Travel content kéo traffic du lịch → link về <code class="url">/esim-du-lich/khu-vuc/[quoc-gia]</code>. Dạng: kinh nghiệm, cẩm nang, so sánh sim/esim. Mùa du lịch (T6–T8, T12–T1) đẩy mạnh.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">💳 Category: Tiết Kiệm · Ưu Đãi</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Bài về cashback, ưu đãi, combo → link về <code class="url">/nap-tien-dien-thoai/khuyen-mai</code> và <code class="url">/nap-data</code>. Seasonal: Tết, 10/10, Black Friday tạo traffic spike.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📝 Content Plan — 100 Bài Blog Telecom 2026</h2>
+  <table class="data-table">
+    <thead><tr><th>Quý</th><th>Chủ đề bài</th><th>URL Blog (ví dụ)</th><th>Target keyword</th><th>Internal Link về</th><th>Funnel</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="6" style="font-weight:800;background:var(--green-light);vertical-align:top;">Q1<br><span style="font-size:10px;font-weight:400;color:var(--ink-3)">20 bài<br>TOFU</span></td>
+        <td>Sim số đẹp là gì? Phân loại đầy đủ</td><td><code class="url">/blog/sim-so-dep-la-gi</code></td><td>"sim số đẹp là gì"</td><td>/sim-so-dep</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
+      <tr><td>Cách chọn sim hợp phong thủy 2025</td><td><code class="url">/blog/cach-chon-sim-hop-phong-thuy</code></td><td>"chọn sim phong thủy"</td><td>/sim-so-dep/phong-thuy</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
+      <tr><td>eSIM là gì? Có nên dùng không?</td><td><code class="url">/blog/esim-la-gi</code></td><td>"esim là gì"</td><td>/esim-du-lich/esim-la-gi</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
+      <tr><td>Cách nạp tiền điện thoại qua MoMo nhanh nhất</td><td><code class="url">/blog/nap-tien-dien-thoai-momo</code></td><td>"nạp tiền điện thoại MoMo"</td><td>/nap-tien-dien-thoai</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
+      <tr><td>5 gói data Viettel tốt nhất tháng 1/2026</td><td><code class="url">/blog/goi-data-viettel-tot-nhat-2026</code></td><td>"gói data Viettel tốt nhất"</td><td>/nap-data/viettel</td><td><span class="tag tag-mofu">MOFU</span></td></tr>
+      <tr><td>Cẩm nang mua eSIM đi Nhật Bản</td><td><code class="url">/blog/esim-di-nhat-ban</code></td><td>"esim nhật bản"</td><td>/esim-du-lich/khu-vuc/nhat-ban</td><td><span class="tag tag-mofu">MOFU</span></td></tr>
+
+      <tr><td rowspan="6" style="font-weight:800;background:var(--blue-light);vertical-align:top;">Q2<br><span style="font-size:10px;font-weight:400;color:var(--ink-3)">30 bài<br>MOFU</span></td>
+        <td>Sim số đẹp hợp mệnh Kim — danh sách đầy đủ</td><td><code class="url">/blog/sim-hop-menh-kim</code></td><td>"sim hợp mệnh kim"</td><td>/sim-so-dep/menh/kim</td><td><span class="tag tag-mofu">MOFU</span></td></tr>
+      <tr><td>Sim số đẹp hợp mệnh Hỏa — gợi ý từ MoMo</td><td><code class="url">/blog/sim-hop-menh-hoa</code></td><td>"sim hợp mệnh hỏa"</td><td>/sim-so-dep/menh/hoa</td><td><span class="tag tag-mofu">MOFU</span></td></tr>
+      <tr><td>So sánh gói data 100k của 3 nhà mạng lớn</td><td><code class="url">/blog/so-sanh-goi-data-100k</code></td><td>"so sánh gói data 100k"</td><td>/nap-data/goi-100k</td><td><span class="tag tag-mofu">MOFU</span></td></tr>
+      <tr><td>Kinh nghiệm dùng eSIM khi đi Hàn Quốc</td><td><code class="url">/blog/esim-han-quoc-kinh-nghiem</code></td><td>"esim hàn quốc có tốt không"</td><td>/esim-du-lich/khu-vuc/han-quoc</td><td><span class="tag tag-mofu">MOFU</span></td></tr>
+      <tr><td>Chuyển mạng giữ nguyên số — hướng dẫn A-Z</td><td><code class="url">/blog/chuyen-mang-giu-so-huong-dan</code></td><td>"chuyển mạng giữ số"</td><td>/sim-so-dep/chuyen-mang-giu-so</td><td><span class="tag tag-mofu">MOFU</span></td></tr>
+      <tr><td>Gói data nào rẻ nhất cho sinh viên 2026</td><td><code class="url">/blog/goi-data-re-nhat-cho-sinh-vien</code></td><td>"gói data rẻ nhất sinh viên"</td><td>/nap-data/goi-sinh-vien</td><td><span class="tag tag-bofu">BOFU</span></td></tr>
+
+      <tr><td rowspan="5" style="font-weight:800;background:var(--purple-light);vertical-align:top;">Q3<br><span style="font-size:10px;font-weight:400;color:var(--ink-3)">30 bài<br>BOFU</span></td>
+        <td>Sim phong thủy tuổi 1990 — Top sim được chọn nhiều nhất</td><td><code class="url">/blog/sim-phong-thuy-tuoi-1990</code></td><td>"sim tuổi 1990 nên dùng số gì"</td><td>/sim-so-dep/nam-sinh/1990</td><td><span class="tag tag-bofu">BOFU</span></td></tr>
+      <tr><td>Review gói eSIM MoMo cho 5 điểm đến hot nhất</td><td><code class="url">/blog/review-esim-momo-5-nuoc</code></td><td>"review esim momo"</td><td>/esim-du-lich</td><td><span class="tag tag-bofu">BOFU</span></td></tr>
+      <tr><td>Sim thần tài là gì? Top 10 số hot nhất hiện tại</td><td><code class="url">/blog/sim-than-tai-la-gi</code></td><td>"sim thần tài"</td><td>/sim-so-dep/phong-thuy/than-tai</td><td><span class="tag tag-bofu">BOFU</span></td></tr>
+      <tr><td>Mua sim online có an toàn không? Giải đáp thắc mắc</td><td><code class="url">/blog/mua-sim-online-co-an-toan</code></td><td>"mua sim online có an toàn không"</td><td>/sim-so-dep/huong-dan-mua-sim-online</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
+      <tr><td>[Seasonal] eSIM du lịch Tết — chuẩn bị gì?</td><td><code class="url">/blog/esim-du-lich-tet</code></td><td>"esim du lịch tết"</td><td>/esim-du-lich</td><td><span class="tag tag-bofu">BOFU</span></td></tr>
+
+      <tr><td rowspan="4" style="font-weight:800;background:var(--amber-light);vertical-align:top;">Q4<br><span style="font-size:10px;font-weight:400;color:var(--ink-3)">20 bài<br>Scale</span></td>
+        <td>Sim số đẹp theo 12 con giáp 2027 — chuẩn bị đón năm mới</td><td><code class="url">/blog/sim-12-con-giap-2027</code></td><td>"sim đẹp năm 2027"</td><td>/sim-so-dep/nam-sinh</td><td><span class="tag tag-bofu">BOFU</span></td></tr>
+      <tr><td>Top gói data tháng 12 — ưu đãi Tết tốt nhất</td><td><code class="url">/blog/goi-data-thang-12-uu-dai-tet</code></td><td>"gói data ưu đãi tết"</td><td>/nap-data/khuyen-mai</td><td><span class="tag tag-bofu">BOFU</span></td></tr>
+      <tr><td>Pillar: Hướng dẫn toàn diện mua sim phong thủy qua MoMo</td><td><code class="url">/blog/huong-dan-mua-sim-phong-thuy-momo</code></td><td>"hướng dẫn mua sim phong thủy"</td><td>/sim-so-dep</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
+      <tr><td>Pillar: Tất cả về eSIM — Q&A toàn diện 2026</td><td><code class="url">/blog/esim-qa-toan-dien</code></td><td>"esim faq"</td><td>/esim-du-lich</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">🔗 Internal Link Blueprint — Blog ↔ Product Page</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Quy tắc internal link bắt buộc cho mọi bài blog Viễn Thông</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Rule 1 — CTA Link</div>
+      <div class="anatomy-content">Mỗi bài blog <strong>phải có ít nhất 1 CTA button hoặc link nổi bật</strong> dẫn về product page liên quan. VD: bài "Sim thần tài là gì" → CTA "Xem sim thần tài tại MoMo →" link về <code class="url">/sim-so-dep/phong-thuy/than-tai</code>.</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Primary traffic driver</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Rule 2 — Contextual Links</div>
+      <div class="anatomy-content">Trong nội dung bài, mỗi khi nhắc đến sản phẩm (sim, gói data, esim, nạp tiền) → anchor text link về trang tương ứng. VD: "...bạn có thể <u>mua sim thần tài Viettel</u>..." → link /sim-so-dep/viettel.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Link juice + topical relevance</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Rule 3 — Related Products</div>
+      <div class="anatomy-content">Cuối bài: section "Xem thêm từ MoMo" với 3 product card link về 3 trang liên quan. Tương tự "Bài viết liên quan" nhưng là product pages.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> PageRank distribution</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Rule 4 — Reverse Links</div>
+      <div class="anatomy-content">Product pages link ngược lại blog: section "Bài viết liên quan" ở cuối trang /sim-so-dep/nam-sinh/1990 dẫn về /blog/sim-phong-thuy-tuoi-1990 và 2 bài cùng chủ đề. Tạo link cluster 2 chiều.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Bidirectional authority</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Rule 5 — Category Tags</div>
+      <div class="anatomy-content">Mỗi bài PHẢI có tag category "Sim Số Đẹp", "Nạp Data", "eSIM Du Lịch", hoặc "Nạp Tiền" — đây là cơ chế cluster authority cho từng sản phẩm dù tất cả blog cùng nằm ở /blog/.</div>
+      <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Topical clustering</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 9. CROSS-SELL ECOSYSTEM -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-crosssell">
+  <div class="page-header">
+    <div class="page-eyebrow">Ecosystem Design</div>
+    <div class="page-title">Cross-sell Ecosystem — Viễn Thông × Viễn Thông × Bảo Hiểm</div>
+    <div class="page-desc">Thiết kế hệ thống cross-sell thông minh giữa 4 sản phẩm telecom với nhau, và từ telecom dẫn sang hệ sinh thái bảo hiểm MoMo.</div>
+  </div>
+
+  <h2 class="sh">🔗 Ma Trận Cross-sell — Telecom Internal</h2>
+  <div class="matrix-wrap">
+    <table class="matrix-table">
+      <thead><tr>
+        <th>Đang ở trang →</th>
+        <th>Sim Số Đẹp</th>
+        <th>Nạp Data</th>
+        <th>eSIM Du Lịch</th>
+        <th>Nạp Tiền ĐT</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="row-label">📱 Sim Số Đẹp</td>
+          <td>—</td>
+          <td><span class="matrix-has">✓ Cao</span><br><span style="font-size:11px;color:var(--ink-3)">Mua sim → Gợi ý gói data nhà mạng đó</span></td>
+          <td><span class="matrix-cond">Có điều kiện</span><br><span style="font-size:11px;color:var(--ink-3)">Chỉ khi sim có hỗ trợ eSIM</span></td>
+          <td><span class="matrix-has">✓ Cao</span><br><span style="font-size:11px;color:var(--ink-3)">Sim mới cần nạp tiền lần đầu</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">📶 Nạp Data</td>
+          <td><span class="matrix-cond">Có điều kiện</span><br><span style="font-size:11px;color:var(--ink-3)">User xem gói data = có thể đang cần sim mới</span></td>
+          <td>—</td>
+          <td><span class="matrix-has">✓ Trung bình</span><br><span style="font-size:11px;color:var(--ink-3)">Gói data du lịch → eSIM cross-promote</span></td>
+          <td><span class="matrix-has">✓ Cao</span><br><span style="font-size:11px;color:var(--ink-3)">Mua data → gợi ý nạp tiền dự phòng</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">🌍 eSIM Du Lịch</td>
+          <td><span class="matrix-no">—</span></td>
+          <td><span class="matrix-cond">Có điều kiện</span><br><span style="font-size:11px;color:var(--ink-3)">Mua eSIM ngắn ngày → cần data nội địa</span></td>
+          <td>—</td>
+          <td><span class="matrix-no">—</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">💳 Nạp Tiền ĐT</td>
+          <td><span class="matrix-no">—</span></td>
+          <td><span class="matrix-has">✓ Rất cao</span><br><span style="font-size:11px;color:var(--ink-3)">Post-purchase: "Mua thêm gói data?" — best moment</span></td>
+          <td><span class="matrix-no">—</span></td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🏥 Cross-sell Telecom → Bảo Hiểm</h2>
+  <div class="matrix-wrap">
+    <table class="matrix-table">
+      <thead><tr>
+        <th>Trigger từ Telecom</th>
+        <th>Sản phẩm BH gợi ý</th>
+        <th>Thông điệp</th>
+        <th>Vị trí hiển thị</th>
+        <th>Conversion tiềm năng</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Mua eSIM Du Lịch</strong></td>
+          <td><span class="tag tag-p1">BH Du Lịch</span></td>
+          <td>"Đã có eSIM cho chuyến đi — thêm bảo hiểm du lịch để an tâm hơn?"</td>
+          <td>Bước confirm sau mua eSIM</td>
+          <td><span style="color:var(--green);font-weight:700">⬆ Rất cao</span></td>
+        </tr>
+        <tr>
+          <td><strong>Mua Sim Số Đẹp</strong></td>
+          <td><span class="tag tag-p2">BH Thiết Bị</span></td>
+          <td>"Sim mới đẹp rồi — bảo vệ điện thoại của bạn nữa nhé!"</td>
+          <td>Order confirmation page</td>
+          <td><span style="color:var(--blue);font-weight:700">⬆ Trung bình</span></td>
+        </tr>
+        <tr>
+          <td><strong>Mua Gói Data tháng</strong></td>
+          <td><span class="tag tag-p2">BH Sức Khỏe</span></td>
+          <td>"Bạn đang dùng MoMo chăm chỉ — đã có BH sức khỏe chưa?"</td>
+          <td>Banner sidebar + post-purchase</td>
+          <td><span style="color:var(--amber);font-weight:700">→ Thấp-trung</span></td>
+        </tr>
+        <tr>
+          <td><strong>Nạp Tiền ĐT nhiều lần</strong></td>
+          <td><span class="tag">BH Nhân Thọ</span></td>
+          <td>"Bạn dùng MoMo thường xuyên — đã nghĩ đến bảo vệ dài hạn chưa?"</td>
+          <td>Segment email/push notification</td>
+          <td><span style="color:var(--amber);font-weight:700">→ Thấp</span></td>
+        </tr>
+        <tr>
+          <td><strong>eSIM nhiều lần/năm</strong></td>
+          <td><span class="tag tag-p1">BH Du Lịch toàn cầu</span></td>
+          <td>"Frequent traveler? Gói BH du lịch năm cho bạn."</td>
+          <td>Personalized banner sau lần 3</td>
+          <td><span style="color:var(--green);font-weight:700">⬆ Cao</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🎭 Kịch Bản Cross-sell Thực Tế</h2>
+  <div class="scenario-grid">
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span>✈️</span><div class="scenario-title">User mua eSIM Nhật Bản</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User vào /esim-du-lich/khu-vuc/nhat-ban, xem gói, mua eSIM 7 ngày 150k</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Order confirmation page hiện banner: "Chuyến đi Nhật an toàn hơn với BH du lịch MoMo — từ 49k/chuyến"</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">User click → /bao-hiem/du-lich với pre-fill: điểm đến Japan, thời gian 7 ngày</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">User mua thêm BH du lịch 89k</div></div>
+        <div class="scenario-result">✓ AOV tăng 59% · 1 session = 2 sản phẩm</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span>📱</span><div class="scenario-title">User mua Sim Viettel Số Đẹp</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User tìm sim qua /sim-so-dep/ten/minh, AI gợi ý số đuôi 39, chọn sim 500k</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Checkout hiện combo: "+ Gói data Viettel D90N (90k) để kích hoạt ngay"</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">User chọn combo → tổng giỏ hàng 590k · Thanh toán 1 lần</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">7 ngày sau: push notification "Gói data sắp hết — nạp thêm?"</div></div>
+        <div class="scenario-result">✓ Combo sale + LTV tăng qua retention</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span>💳</span><div class="scenario-title">User nạp tiền ĐT thường xuyên</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User nạp 100k Viettel lần thứ 3 trong tháng qua MoMo</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Post-purchase: "Nạp nhiều lần thế này — gói tháng 70k dùng thả ga hơn nhé!"</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">User chuyển sang /nap-data/viettel · Chọn gói tháng</div></div>
+        <div class="scenario-result">✓ Upgrade từ nạp tiền → mua gói data · Higher margin</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span>🔍</span><div class="scenario-title">User tra cứu sim phong thủy từ Google</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">User Google "sim số đẹp hợp tên Linh" → rank #1 /sim-so-dep/ten/linh</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">User nhập năm sinh 1995 → AI giải luận: Mệnh Kim · Số hợp 6,8 · Đầu số 086 Vinaphone</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">User thấy sim 0862.xxx.xxx 280k phù hợp · Click mua ngay</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Conversion từ pSEO organic → zero paid acquisition cost</div></div>
+        <div class="scenario-result">✓ Organic acquisition · CAC = 0 · Pure pSEO power</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🧭 Telecom Hub → Ecosystem Map</h2>
+  <div class="callout callout-green">
+    <div class="callout-title">🎯 Centralization Strategy — /vien-thong như "Telecom Super Hub"</div>
+    <strong>/vien-thong</strong> không chỉ là landing page — nó là điểm khởi đầu cho toàn bộ journey telecom của user trên MoMo. Từ đây, user được routing đến đúng sản phẩm (sim/data/esim/nạp tiền). Sau khi hoàn thành, cross-sell sang /bao-hiem (travel, thiết bị) và các sản phẩm tài chính MoMo khác. <strong>Mục tiêu cuối cùng: user nhớ "cần gì về điện thoại/internet thì vào MoMo"</strong> — tương tự cách người ta nhớ "cần gọi xe thì dùng Grab".
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- 10. CHECKLIST -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-checklist">
+  <div class="page-header">
+    <div class="page-eyebrow">Launch Readiness</div>
+    <div class="page-title">Publish Checklist — 4 Sản Phẩm Telecom</div>
+    <div class="page-desc">Danh sách kiểm tra đầy đủ trước khi publish từng trang. Click để mở/đóng từng sản phẩm.</div>
+  </div>
+
+  <!-- SIM SO DEP -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">📱</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Sim Số Đẹp — /sim-so-dep + pSEO Engine</div>
+        <div class="cl-product-sub">Search Engine · AI Giải Luận · 10K+ pSEO pages · 6 nhà mạng</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--pink-light);color:var(--pink)">Revenue Driver</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Trang Cha /sim-so-dep — Content</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Search engine filter hoạt động: nhà mạng · loại số · phong thủy · giá</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sim card hiển thị đủ: số · nhà mạng · loại · giá · badge phong thủy</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">AI Giải Luận widget: input tên + năm sinh → output mệnh · số hợp · gợi ý sim</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">6 trang nhà mạng con live (/viettel, /mobifone, /vinaphone, /vietnamobile, /reddi, /itelecom)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">8 trang phong thủy live (/than-tai, /loc-phat, /tu-quy, /ngu-quy, /lien-hoa, /tam-hoa + 2 mới)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">5 trang mệnh ngũ hành live (/hoa, /thuy, /moc, /kim, /tho)</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🤖 pSEO Engine — Sim Phong Thủy × Tên</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Data layer hoàn chỉnh: 10K tên tiếng Việt × mệnh × số nét × cung phi</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">AI content engine: generate đoạn giải luận unique ≥200 chữ per tên</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">500 trang đầu tiên (500 tên phổ biến nhất) validated trước khi scale</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Template 3 loại: tên đơn / tên đầy đủ / tên × năm sinh đều hoạt động</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Internal link mesh: tên → mệnh → phong thủy → nhà mạng đầy đủ</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không có trang nào bị noindex trong pSEO cluster</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Schema: ItemList + Product + FAQPage + SoftwareApplication</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: sim_search, filter_apply, ai_giailuan, sim_purchase, crosssell_data</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Mobile UX: filter drawer hoạt động tốt trên iOS/Android</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sitemap XML include tất cả pSEO pages (max 50K URLs/sitemap)</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>⚠️ Thứ tự publish pSEO:</strong> Publish 500 trang tên phổ biến nhất trước (An, Bình, Cường, Dũng, Em, Giang, Hải, Hùng, Khánh, Linh...) → đo CTR/CTR trong 30 ngày → tối ưu template → scale 10K trang. Không publish toàn bộ khi chưa validate chất lượng AI content.</div>
+    </div>
+  </div>
+
+  <!-- NAP DATA -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">📶</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Nạp Data — /nap-data + gói cụ thể</div>
+        <div class="cl-product-sub">6 nhà mạng · Recommendation Engine · 200+ landing gói · So sánh cross-carrier</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--blue-light);color:var(--blue)">High Frequency</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Trang Cha + Nhà Mạng — Content</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Recommendation quiz 3 bước hoạt động và gợi ý đúng gói</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">6 tab nhà mạng · Bảng gói đầy đủ với filter: giá / thời hạn / dung lượng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Comparison tool: chọn mệnh giá → hiện bảng so sánh 6 nhà mạng hoạt động</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Data gói được sync real-time với backend (không static cứng)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sub-pages theo thời hạn (/goi-ngay, /goi-tuan, /goi-thang, /goi-nam) live</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sub-pages theo mệnh giá (/goi-20k đến /goi-200k) live với data đầy đủ</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🤖 pSEO — Gói Data Cụ Thể</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Template landing gói cụ thể (/nap-data/[nha-mang]/goi-[ten]) hoạt động</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Tất cả gói Viettel (~150) có trang landing riêng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Tất cả gói MobiFone (~120) có trang landing riêng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Product Schema + HowTo Schema trên tất cả trang gói</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Schema: ItemList + Product + HowTo + FAQPage</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: filter_apply, goi_select, nhamang_tab, muadata_click, crosssell_naptien</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Gói "best seller" và "best value" badge tự động từ data sales</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESIM -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">🌍</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">eSIM Du Lịch — /esim-du-lich + 200 quốc gia</div>
+        <div class="cl-product-sub">200 country pages · Travel context · Device checker · Cross-sell BH du lịch</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--teal-light);color:var(--teal)">Growth Priority</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Hub + Khu Vực — Content</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Hub /esim-du-lich: destination search + trending grid + device checker live</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">7 trang khu vực (/chau-a, /chau-au, /chau-my, /chau-phi, /chau-dai-duong, /dong-nam-a, /toan-cau)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">20 trang quốc gia Priority 1 live và đầy đủ nội dung</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sub-pages giáo dục: /esim-la-gi · /huong-dan-cai-esim · /esim-vs-sim · /dien-thoai-ho-tro-esim</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🗺 200 Trang Quốc Gia — Template</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Template quốc gia có đủ: bảng gói · network info · hướng dẫn cài · travel context · FAQ</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Data gói eSIM mỗi nước sync từ provider API (không cứng)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Cross-sell BH du lịch hiển thị đúng trên tất cả trang quốc gia</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Internal link: quốc gia → khu vực → nước lân cận đầy đủ</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">AggregateRating Schema khi đủ 5+ review</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không có trang quốc gia nào thiếu data gói (nodata = noindex tạm thời)</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Schema: Product + HowTo + FAQPage + AggregateRating</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: country_select, plan_compare, buy_esim, crosssell_bh_dulich</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">QR code download sau mua hoạt động trên mobile</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>⚠️ Launch priority:</strong> 20 nước P1 phải live đầy đủ trước. 50 nước P2 trong 60 ngày. 80 nước P3 trong 90 ngày. Các nước P4 dùng auto-generated template, có thể có ít nội dung travel context hơn nhưng vẫn có bảng gói đầy đủ.</div>
+    </div>
+  </div>
+
+  <!-- NAP TIEN -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">💳</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Nạp Tiền Điện Thoại — /nap-tien-dien-thoai</div>
+        <div class="cl-product-sub">6 nhà mạng · Fast form · Cashback · Post-purchase cross-sell data</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--amber-light);color:var(--amber)">Volume Highest</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content & UX</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Form nạp tiền: input số ĐT → auto-detect nhà mạng → chọn mệnh giá → thanh toán ≤ 3 steps</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">6 trang nhà mạng (/viettel, /mobifone, /vinaphone, /vietnamobile, /reddi, /itelecom) live</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Banner ưu đãi cashback dynamic (update theo campaign)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Post-purchase cross-sell: sau nạp thành công hiện banner mua gói data</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Trang /nap-ho-nguoi-than và /khuyen-mai live</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Quick-nap cho logged-in users: lịch sử nạp gần đây + nút "Nạp lại" 1 click</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Schema: HowTo + FAQPage + Service</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: nhamang_detect, menh_gia_select, nap_success, crosssell_data_click</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Core Web Vitals: LCP < 2s (form above-the-fold = critical)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Realtime confirmation: SMS/notification sau nạp thành công ≤ 5 giây</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function toggleCL(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.cl-product-toggle');
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+  </script>
+</section>
+
+</main>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+function toggleCS(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.cs-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+</script>
+</body>
+</html>

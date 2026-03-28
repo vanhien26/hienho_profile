@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo Tín Dụng — Credit Ecosystem Master Strategy v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #AE2070;
+  --pink-light: #F5E0EC;
+  --green: #00A64F;
+  --green-light: #E0F5EA;
+  --blue: #1848B8;
+  --blue-light: #E6EEFF;
+  --amber: #C05000;
+  --amber-light: #FFF0E0;
+  --red: #C42020;
+  --red-light: #FFE8E8;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --teal: #0E7490;
+  --teal-light: #E0F7FA;
+  --ink: #18120E;
+  --ink-2: #4A3F38;
+  --ink-3: #8C7D74;
+  --bg: #F6F3EF;
+  --surface: #FFFFFF;
+  --border: #E4DDD6;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --r: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+
+/* ─── LAYOUT ─── */
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:252px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
+.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
+.nav-section { padding:16px 0 0; }
+.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; }
+.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
+.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
+.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+
+/* ─── CONTENT ─── */
+.content { flex:1; overflow-y:auto; min-width:0; }
+.section { display:none; padding:40px 48px; }
+.section.active { display:block; }
+
+/* ─── HEADER ─── */
+.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
+.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
+.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+
+/* ─── STATS ─── */
+.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
+.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+/* ─── HEADINGS ─── */
+h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
+h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+
+/* ─── TAGS ─── */
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
+.tag-tofu { background:#E0F4E8; color:#0B6130; }
+.tag-mofu { background:var(--blue-light); color:var(--blue); }
+.tag-bofu { background:var(--pink-light); color:var(--pink); }
+.tag-crisis { background:#FFE8E8; color:#B01010; }
+.tag-p1 { background:var(--pink-light); color:var(--pink); }
+.tag-p2 { background:#FFF3DC; color:#8B5800; }
+.tag-p3 { background:#F0EDE8; color:var(--ink-3); }
+.tag-content { background:var(--blue-light); color:var(--blue); }
+.tag-trans { background:var(--amber-light); color:var(--amber); }
+.tag-template { background:var(--green-light); color:#006B30; }
+.tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
+.tag-review { background:#FFF0E0; color:#C05000; border:1.5px dashed #C05000; }
+.tag-purple { background:var(--purple-light); color:var(--purple); }
+.tag-teal { background:var(--teal-light); color:var(--teal); }
+
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+
+/* ─── TABLE ─── */
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-new { background:#F0FFF6; }
+.data-table tbody tr.row-new:hover { background:#E0F5EA; }
+
+/* ─── FUNNEL ─── */
+.funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
+.funnel-stage:last-child { border-right:none; }
+.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
+.funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
+.fs-tofu { border-top:3px solid var(--green); }
+.fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); }
+.fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); }
+.fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+.fs-purple { border-top:3px solid var(--purple); }
+.fs-purple .funnel-stage-label { color:var(--purple); }
+
+/* ─── TREE ─── */
+.tree-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:36px; }
+.tree-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:36px; }
+.tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.tree-box-header { padding:14px 18px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+.tree-box-title { font-size:14px; font-weight:800; }
+.tree-box-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-top:1px; }
+.tree-body { padding:14px 18px; }
+
+.divider { height:1px; background:var(--border); margin:32px 0; }
+
+/* ─── CALLOUT ─── */
+.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
+.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:var(--purple-light); border:1px solid #D8B4FE; color:#4C1D95; }
+.callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+
+/* ─── VERDICT ─── */
+.verdict-bar { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:22px 28px; margin-bottom:28px; display:flex; align-items:center; gap:24px; }
+.verdict-score { width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:28px; font-weight:900; letter-spacing:-1px; }
+.verdict-text { flex:1; }
+.verdict-title { font-size:16px; font-weight:800; margin-bottom:4px; }
+.verdict-desc { font-size:13px; color:var(--ink-2); line-height:1.6; }
+
+/* ─── CARDS ─── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.card-title { font-size:14px; font-weight:700; margin-bottom:4px; color:var(--ink); }
+
+/* ─── PRODUCT CARD ─── */
+.product-cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:28px; }
+.product-card { background:var(--surface); border:2px solid var(--border); border-radius:12px; overflow:hidden; }
+.product-card-header { padding:20px 20px 16px; }
+.product-card-icon { font-size:28px; margin-bottom:10px; }
+.product-card-title { font-size:16px; font-weight:900; letter-spacing:-0.3px; margin-bottom:4px; }
+.product-card-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
+.product-card-body { padding:0 20px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.product-card-footer { padding:12px 20px; border-top:1px solid var(--border); display:flex; gap:6px; flex-wrap:wrap; }
+.pc-vay { border-color:#1848B8; }
+.pc-vay .product-card-header { background:linear-gradient(135deg,#E6EEFF,#F0F4FF); }
+.pc-vts { border-color:#AE2070; }
+.pc-vts .product-card-header { background:linear-gradient(135deg,#F5E0EC,#FFF0F6); }
+.pc-cic { border-color:#00A64F; }
+.pc-cic .product-card-header { background:linear-gradient(135deg,#E0F5EA,#F0FFF4); }
+
+/* ─── CONTENT STRUCTURE ─── */
+.cs-page { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
+.cs-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cs-header:hover { background:var(--bg); }
+.cs-header-left { display:flex; align-items:center; gap:12px; }
+.cs-page-title { font-size:14px; font-weight:700; }
+.cs-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; }
+.cs-toggle.open { transform:rotate(90deg); }
+.cs-body { display:none; border-top:1px solid var(--border); }
+.cs-body.open { display:block; }
+.cs-section { border-bottom:1px solid var(--border); padding:16px 20px; }
+.cs-section:last-child { border-bottom:none; }
+.cs-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
+.cs-keyword-row { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11.5px; padding:2px 8px; border-radius:4px; }
+.cs-component { display:inline-flex; align-items:center; gap:4px; background:var(--amber-light); color:var(--amber); border:1px solid #FFD0A0; font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:4px; margin:2px; }
+.cs-content-block { background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:10px 14px; margin-bottom:8px; font-size:12.5px; }
+.cs-block-title { font-weight:700; margin-bottom:3px; }
+.cs-block-desc { color:var(--ink-2); line-height:1.5; }
+.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
+
+/* ─── PRIORITY ─── */
+.priority-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.priority-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.priority-col-header { padding:11px 16px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.priority-col-body { padding:12px; background:var(--surface); }
+.priority-item { font-size:12px; padding:7px 10px; border-radius:6px; margin-bottom:5px; border:1px solid var(--border); background:var(--bg); line-height:1.4; }
+.priority-item b { display:block; font-weight:700; color:var(--ink); }
+.priority-item span { color:var(--ink-3); font-size:11px; }
+.priority-item.new-item { border:1.5px dashed var(--green); background:#F0FFF6; }
+
+/* ─── ACTION ITEMS ─── */
+.action-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; margin-bottom:8px; display:flex; align-items:flex-start; gap:14px; }
+.action-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; color:white; }
+.action-body { flex:1; }
+.action-title { font-size:13px; font-weight:700; margin-bottom:2px; }
+.action-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.action-meta { display:flex; gap:8px; margin-top:6px; }
+
+/* ─── COMP SPEC ─── */
+.comp-spec { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
+.comp-spec-header { padding:16px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); }
+.comp-spec-title { font-size:15px; font-weight:800; }
+.comp-spec-type { font-size:11px; color:var(--ink-3); margin-top:2px; }
+.comp-spec-body { padding:0; }
+.comp-spec-row { display:flex; border-bottom:1px solid var(--border); font-size:13px; }
+.comp-spec-row:last-child { border-bottom:none; }
+.comp-spec-key { width:160px; flex-shrink:0; padding:10px 16px; font-weight:700; color:var(--ink-3); font-size:11px; text-transform:uppercase; letter-spacing:0.3px; background:var(--bg); }
+.comp-spec-val { padding:10px 16px; color:var(--ink-2); flex:1; }
+
+/* ─── ECOSYSTEM MAP ─── */
+.eco-center { background:linear-gradient(135deg,#1848B8,#AE2070); color:white; border-radius:16px; padding:24px 28px; text-align:center; margin-bottom:20px; }
+.eco-center-title { font-size:22px; font-weight:900; letter-spacing:-0.5px; margin-bottom:6px; }
+.eco-center-sub { font-size:13px; opacity:0.8; }
+.eco-arrows { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.eco-arrow { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 18px; position:relative; }
+.eco-arrow::before { content:"↑"; position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--surface); padding:0 4px; color:var(--ink-3); font-size:16px; font-weight:700; }
+.eco-product-title { font-size:13px; font-weight:800; margin-bottom:8px; }
+.eco-product-list { font-size:12px; color:var(--ink-2); line-height:1.8; list-style:none; }
+.eco-product-list li::before { content:"→ "; color:var(--ink-3); }
+
+/* ─── URL STRATEGY ─── */
+.url-strategy { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.url-strategy-header { padding:14px 20px; background:var(--ink); color:white; display:flex; align-items:center; gap:10px; }
+.url-strategy-title { font-size:14px; font-weight:800; }
+.url-row { display:flex; border-bottom:1px solid var(--border); font-size:12.5px; }
+.url-row:last-child { border-bottom:none; }
+.url-row-type { width:130px; flex-shrink:0; padding:10px 14px; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.3px; background:var(--bg); color:var(--ink-3); border-right:1px solid var(--border); }
+.url-row-url { padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--blue); flex:1; }
+.url-row-note { padding:10px 14px; color:var(--ink-3); font-size:12px; width:200px; }
+
+/* ─── GRID ─── */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+
+/* ─── KW PILL ─── */
+.kw-group { margin-bottom:16px; }
+.kw-group-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:var(--ink-3); margin-bottom:8px; }
+.kw-pills { display:flex; flex-wrap:wrap; gap:6px; }
+.kw-pill { background:var(--bg); border:1px solid var(--border); border-radius:20px; padding:4px 12px; font-size:12px; color:var(--ink-2); display:flex; align-items:center; gap:6px; }
+.kw-pill .sv { font-size:10px; font-weight:700; color:var(--ink-3); }
+.kw-pill.high { background:#E0F5EA; border-color:#A0DEB8; color:#0B5020; }
+.kw-pill.mid { background:var(--blue-light); border-color:#B0C8FF; color:#0D3080; }
+.kw-pill.low { background:#F0EDE8; border-color:var(--border); color:var(--ink-3); }
+
+@media (max-width:1100px) {
+  .sidebar { width:200px; }
+  .section { padding:28px; }
+  .stat-row { grid-template-columns:repeat(2,1fr); }
+  .tree-grid,.tree-grid-2,.dp-grid,.grid-2 { grid-template-columns:1fr; }
+  .priority-grid { grid-template-columns:1fr; }
+  .funnel-flow { flex-direction:column; }
+  .funnel-stage { border-right:none; border-bottom:1px solid var(--border); }
+  .product-cards { grid-template-columns:1fr; }
+  .eco-arrows { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══════ SIDEBAR ══════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-sub">Tín Dụng · Credit Ecosystem<br>Master Strategy v2.0</div>
+  </div>
+  <nav>
+    <div class="nav-section">
+      <div class="nav-label">Tổng Quan</div>
+      <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">🌐</span> Credit Ecosystem</div>
+      <div class="nav-item" onclick="go('strategy')"><span class="nav-icon">🗺</span> URL & IA Strategy</div>
+      <div class="nav-item" onclick="go('funnel')"><span class="nav-icon">↗</span> Funnel Chi Tiết × 3</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Content Structure</div>
+      <div class="nav-item" onclick="go('cs-hub')"><span class="nav-icon">🏠</span> CS: Hub /tin-dung</div>
+      <div class="nav-item" onclick="go('cs-vay')"><span class="nav-icon">💸</span> CS: Vay Nhanh</div>
+      <div class="nav-item" onclick="go('cs-vts')"><span class="nav-icon">💳</span> CS: Ví Trả Sau</div>
+      <div class="nav-item" onclick="go('cs-cic')"><span class="nav-icon">📊</span> CS: Điểm Tín Dụng</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">3 Sản Phẩm</div>
+      <div class="nav-item" onclick="go('vaynhanh')"><span class="nav-icon">💸</span> Vay Nhanh</div>
+      <div class="nav-item" onclick="go('vts')"><span class="nav-icon">💳</span> Ví Trả Sau</div>
+      <div class="nav-item" onclick="go('cic')"><span class="nav-icon">📊</span> Tra Cứu CIC</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">SEO & Content</div>
+      <div class="nav-item" onclick="go('keyword')"><span class="nav-icon">🔍</span> Keyword Research</div>
+      <div class="nav-item" onclick="go('pillar')"><span class="nav-icon">🧱</span> Content Pillar & Cluster</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Thiết Kế Hub</div>
+      <div class="nav-item" onclick="go('hubdesign')"><span class="nav-icon">🎨</span> Hub Page Design</div>
+      <div class="nav-item" onclick="go('subpage')"><span class="nav-icon">📋</span> Sub-Page Templates</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Roadmap</div>
+      <div class="nav-item" onclick="go('roadmap')"><span class="nav-icon">📅</span> Roadmap & Sprint</div>
+      <div class="nav-item" onclick="go('actions')"><span class="nav-icon">✅</span> Action Items</div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="version-tag">v2.0 · March 2026</div>
+    <div class="version-tag">Credit Ecosystem Strategy</div>
+  </div>
+</aside>
+
+<main class="content">
+
+<!-- ═══════════════════════════════════ -->
+<!-- 1. OVERVIEW — CREDIT ECOSYSTEM -->
+<!-- ═══════════════════════════════════ -->
+<section class="section active" id="s-overview">
+  <div class="page-header">
+    <div class="page-eyebrow">Credit Ecosystem · Master Strategy</div>
+    <div class="page-title">MoMo Tín Dụng — Credit Ecosystem Hub</div>
+    <div class="page-desc">Chiến lược xây dựng Credit Ecosystem tập trung hóa 3 sản phẩm Vay Nhanh · Ví Trả Sau · Tra Cứu CIC — không đồng nhất URL path, mỗi sản phẩm giữ URL độc lập dưới <code class="url">momo.vn/</code>, nhưng kết nối thông qua Hub page và content ecosystem để đạt Top 1 Google mảng tài chính - tín dụng.</div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,#E6EEFF,#D0E0FF);color:var(--blue)">🎯</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Chiến lược Credit Ecosystem của MoMo</div>
+      <div class="verdict-desc">3 sản phẩm giữ URL riêng (<code class="url">/vay-nhanh</code> · <code class="url">/vi-tra-sau</code> · <code class="url">/diem-tin-dung</code>). Thêm 1 Hub Page <code class="url">/tin-dung</code> làm điểm tập trung SEO + user navigation — không phải parent URL mà là <b>cross-linking hub</b>. Blog content ecosystem link về cả 4 trang.</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">3</div>
+      <div class="stat-lbl">Sản phẩm Tín Dụng</div>
+      <div class="stat-sub">Vay Nhanh · VTS · CIC</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">80+</div>
+      <div class="stat-lbl">Sub-pages mục tiêu</div>
+      <div class="stat-sub">Vay (50+) · VTS (20+) · CIC (10+)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">120+</div>
+      <div class="stat-lbl">Bài blog Content Cluster</div>
+      <div class="stat-sub">40 Vay · 50 VTS · 30 CIC</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">500K+</div>
+      <div class="stat-lbl">Traffic/năm mục tiêu</div>
+      <div class="stat-sub">Organic search + App deeplink</div>
+    </div>
+  </div>
+
+  <!-- 3 PRODUCTS -->
+  <h2 class="sh">📦 3 Sản Phẩm Tín Dụng — Hiện Trạng & Định Hướng</h2>
+  <div class="product-cards">
+    <div class="product-card pc-vay">
+      <div class="product-card-header">
+        <div class="product-card-icon">💸</div>
+        <div class="product-card-title" style="color:var(--blue)">Vay Nhanh</div>
+        <div class="product-card-url">momo.vn/vay-nhanh</div>
+      </div>
+      <div class="product-card-body">
+        Hiện có sub-pages theo số tiền vay. Cần mở rộng theo đối tượng, mục đích vay, và khu vực. Potential cao nhất trong 3 sản phẩm về traffic SEO.
+      </div>
+      <div class="product-card-footer">
+        <span class="tag tag-mofu">Sub-pages: CÓ</span>
+        <span class="tag tag-new">Mở rộng nhiều nhất</span>
+      </div>
+    </div>
+    <div class="product-card pc-vts">
+      <div class="product-card-header">
+        <div class="product-card-icon">💳</div>
+        <div class="product-card-title" style="color:var(--pink)">Ví Trả Sau</div>
+        <div class="product-card-url">momo.vn/vi-tra-sau</div>
+      </div>
+      <div class="product-card-body">
+        Đang là single page giới thiệu. Cần phát triển sub-pages theo merchant, danh mục mua sắm, hướng dẫn sử dụng. Cạnh tranh với thẻ tín dụng ngân hàng và BNPL.
+      </div>
+      <div class="product-card-footer">
+        <span class="tag tag-crisis">Single page hiện tại</span>
+        <span class="tag tag-new">Cần build sub-pages</span>
+      </div>
+    </div>
+    <div class="product-card pc-cic">
+      <div class="product-card-header">
+        <div class="product-card-icon">📊</div>
+        <div class="product-card-title" style="color:var(--green)">Điểm Tín Dụng (CIC)</div>
+        <div class="product-card-url">momo.vn/diem-tin-dung</div>
+      </div>
+      <div class="product-card-body">
+        Đang là single page giới thiệu. Nhu cầu tra cứu tín dụng tăng mạnh sau 2023. Cần content pillar về điểm tín dụng, cách cải thiện CIC để giáo dục + capture traffic.
+      </div>
+      <div class="product-card-footer">
+        <span class="tag tag-crisis">Single page hiện tại</span>
+        <span class="tag tag-new">SEO potential cao</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECOSYSTEM MAP -->
+  <h2 class="sh">🔗 Credit Ecosystem Architecture</h2>
+  <div class="eco-center">
+    <div class="eco-center-title">💡 momo.vn/tin-dung — Credit Hub Page</div>
+    <div class="eco-center-sub">Không phải parent URL · Là Cross-linking Hub + SEO anchor cho từ khóa umbrella "vay tiền online", "tài chính cá nhân MoMo"</div>
+  </div>
+
+  <div class="eco-arrows">
+    <div class="eco-arrow">
+      <div class="eco-product-title" style="color:var(--blue)">💸 Vay Nhanh</div>
+      <ul class="eco-product-list">
+        <li>50+ sub-pages theo số tiền, đối tượng, mục đích</li>
+        <li>Blog cluster: điều kiện, lãi suất, so sánh</li>
+        <li>Tool: tính lãi suất vay online</li>
+        <li>Target: Top 1 "vay tiền nhanh online"</li>
+      </ul>
+    </div>
+    <div class="eco-arrow">
+      <div class="eco-product-title" style="color:var(--pink)">💳 Ví Trả Sau</div>
+      <ul class="eco-product-list">
+        <li>20+ sub-pages theo merchant, danh mục</li>
+        <li>Blog cluster: BNPL vs thẻ tín dụng, tips</li>
+        <li>Tool: tính hạn mức trả sau</li>
+        <li>Target: Top 1 "ví trả sau MoMo"</li>
+      </ul>
+    </div>
+    <div class="eco-arrow">
+      <div class="eco-product-title" style="color:var(--green)">📊 Tra Cứu CIC</div>
+      <ul class="eco-product-list">
+        <li>10+ sub-pages: giải thích điểm, cải thiện CIC</li>
+        <li>Blog cluster: nợ xấu, vay khi CIC thấp</li>
+        <li>Tool: giải thích điểm CIC</li>
+        <li>Target: Top 1 "tra cứu lịch sử tín dụng"</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sh">↗ User Journey Funnel — Toàn Credit Ecosystem</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Nhận Thức</div>
+      <div class="funnel-stage-title">Giáo Dục Tài Chính</div>
+      <ul class="funnel-stage-items">
+        <li>Vay tiền online là gì?</li>
+        <li>Điểm CIC là gì?</li>
+        <li>BNPL vs thẻ tín dụng</li>
+        <li>Lãi suất vay nhanh 2026</li>
+        <li>Nợ xấu ảnh hưởng thế nào?</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Cân Nhắc</div>
+      <div class="funnel-stage-title">So Sánh & Tìm Hiểu</div>
+      <ul class="funnel-stage-items">
+        <li>Vay MoMo vs ngân hàng</li>
+        <li>VTS vs thẻ tín dụng</li>
+        <li>Calculator lãi suất vay</li>
+        <li>Điều kiện vay đủ không?</li>
+        <li>CIC bao nhiêu điểm là tốt?</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Quyết Định</div>
+      <div class="funnel-stage-title">Theo Nhu Cầu Cụ Thể</div>
+      <ul class="funnel-stage-items">
+        <li>Vay 5 triệu nhanh nhất</li>
+        <li>Mua trả sau Shopee/Lazada</li>
+        <li>Tra cứu CIC ngay</li>
+        <li>Landing theo đối tượng</li>
+        <li>Cải thiện điểm CIC trước khi vay</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT — Hành Động</div>
+      <div class="funnel-stage-title">App MoMo</div>
+      <ul class="funnel-stage-items">
+        <li>Deeplink mở app vay</li>
+        <li>Kích hoạt VTS trong app</li>
+        <li>Tra cứu CIC 1 click</li>
+        <li>Thanh toán qua MoMo Pay</li>
+        <li>Nhận tiền / hạn mức ngay</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-purple">
+      <div class="funnel-stage-label">RETAIN — Giữ Chân</div>
+      <div class="funnel-stage-title">Cross-sell & Loyalty</div>
+      <ul class="funnel-stage-items">
+        <li>Từ CIC → gợi ý Vay Nhanh</li>
+        <li>Từ Vay → upsell VTS</li>
+        <li>Tăng hạn mức theo lịch sử</li>
+        <li>Nhắc nhở thanh toán đúng hạn</li>
+        <li>Cross-sell bảo hiểm, tiết kiệm</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">🔑 Insight chiến lược: Ecosystem Loop</div>
+    Người dùng tra CIC → hiểu điểm tín dụng → học cách cải thiện → vay Vay Nhanh → trả đúng hạn → điểm CIC tăng → dùng VTS hạn mức cao. MoMo là platform duy nhất đang nắm cả 3 mắt xích này — đây là lợi thế không đối thủ nào có.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 2. URL & IA STRATEGY -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-strategy">
+  <div class="page-header">
+    <div class="page-eyebrow">Information Architecture</div>
+    <div class="page-title">URL Strategy & IA — Không Cần Parent URL Chung</div>
+    <div class="page-desc">Mỗi sản phẩm giữ URL riêng. Hub <code class="url">/tin-dung</code> là cross-linking layer, không phải parent trong hierarchy. Internal linking + content ecosystem tạo cluster authority.</div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Ràng buộc kỹ thuật cần hiểu</div>
+    Không có parent URL chung (không thể làm <code class="url">/tin-dung/vay-nhanh</code> hay redirect). 3 sản phẩm tồn tại độc lập under <code class="url">momo.vn/</code>. Giải pháp: xây Hub page như một "thư viện tài chính" cross-link đến cả 3, không phải một trang danh mục cứng.
+  </div>
+
+  <h2 class="sh">🗂 URL Architecture Map</h2>
+  <div class="url-strategy">
+    <div class="url-strategy-header">
+      <span>🌐</span>
+      <div class="url-strategy-title">Toàn bộ URL hiện tại & đề xuất thêm mới</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:#1848B8;color:white">HUB MỚI</div>
+      <div class="url-row-url">momo.vn/tin-dung</div>
+      <div class="url-row-note">Cross-linking Hub · SEO anchor · không phải parent</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">VAY NHANH</div>
+      <div class="url-row-url">momo.vn/vay-nhanh</div>
+      <div class="url-row-note">Landing chính · đã có</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue)">VAY — Sub</div>
+      <div class="url-row-url">momo.vn/vay-nhanh/[so-tien]</div>
+      <div class="url-row-note">Đã có: 1tr, 2tr, 5tr, 10tr... Mở rộng thêm</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue);background:#F0F4FF">VAY — Mới</div>
+      <div class="url-row-url">momo.vn/vay-nhanh/[doi-tuong]</div>
+      <div class="url-row-note">sinh-vien, noi-tro, khong-co-luong-co-dinh...</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--blue);background:#F0F4FF">VAY — Mới</div>
+      <div class="url-row-url">momo.vn/vay-nhanh/[muc-dich]</div>
+      <div class="url-row-note">sua-xe, hoc-phi, vay-gap, du-lich...</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink)">VTS</div>
+      <div class="url-row-url">momo.vn/vi-tra-sau</div>
+      <div class="url-row-note">Landing chính · đang single page</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink);background:#FFF5F9">VTS — Mới</div>
+      <div class="url-row-url">momo.vn/vi-tra-sau/[danh-muc]</div>
+      <div class="url-row-note">mua-sam, an-uong, du-lich, the-thao...</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--pink);background:#FFF5F9">VTS — Mới</div>
+      <div class="url-row-url">momo.vn/vi-tra-sau/[merchant]</div>
+      <div class="url-row-note">shopee, lazada, tiki, grab, foody...</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--green)">CIC</div>
+      <div class="url-row-url">momo.vn/diem-tin-dung</div>
+      <div class="url-row-note">Landing chính · đang single page</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--green);background:#F0FFF4">CIC — Mới</div>
+      <div class="url-row-url">momo.vn/diem-tin-dung/diem-tin-dung</div>
+      <div class="url-row-note">Giải thích hệ thống điểm CIC</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="color:var(--green);background:#F0FFF4">CIC — Mới</div>
+      <div class="url-row-url">momo.vn/diem-tin-dung/no-xau</div>
+      <div class="url-row-note">Hướng xử lý nợ xấu nhóm 1-5</div>
+    </div>
+    <div class="url-row">
+      <div class="url-row-type" style="background:#6B21A8;color:white">BLOG HUB</div>
+      <div class="url-row-url">momo.vn/blog/[slug]</div>
+      <div class="url-row-note">Content cluster blog toàn tín dụng</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🔗 Internal Linking Strategy</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="color:var(--blue)">Hub → Products (Hub out)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;margin-top:8px">
+        Hub <code class="url">/tin-dung</code> link đến cả 3 landing chính với CTA rõ ràng. Mỗi sản phẩm có 1 card hero với brief benefit + primary CTA "Tìm hiểu thêm" hoặc "Vay ngay / Kích hoạt ngay".
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--pink)">Products → Hub (Product back)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;margin-top:8px">
+        Mỗi trang sản phẩm có breadcrumb/anchor về Hub: "Xem thêm sản phẩm tài chính MoMo". Cross-sell widget: "Đã vay? Tăng tốc với Ví Trả Sau →".
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--green)">Blog → Products (Content → Convert)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;margin-top:8px">
+        Mỗi bài blog có 1 inline CTA box và 1 sticky CTA. Blog về nợ xấu → link CIC → link Vay Nhanh sau khi cải thiện. Blog về mua sắm → link VTS.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--amber)">Cross-product linking (Ecosystem loop)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;margin-top:8px">
+        CIC page → "Điểm tốt rồi? Vay ngay" → Vay Nhanh. Vay Nhanh → "Mua sắm không cần tiền mặt" → VTS. VTS → "Kiểm tra hạn mức & tín dụng" → CIC.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">✅ Lý do không cần parent URL</div>
+    Google không yêu cầu URL chung để nhận biết topical authority. Điều quan trọng là: (1) Hub page được index và rank cho từ khóa umbrella, (2) Internal linking đủ chặt giữa 3 sản phẩm, (3) Blog content cluster link về cả 4 trang. Nhiều brand lớn (VPBank, TPBank) cũng dùng flat URL cho từng sản phẩm tín dụng.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 3. VAY NHANH -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-vaynhanh">
+  <div class="page-header">
+    <div class="page-eyebrow">Sản Phẩm 1 · momo.vn/vay-nhanh</div>
+    <div class="page-title">Vay Nhanh — Sub-Page Plan & Content Cluster</div>
+    <div class="page-desc">Mở rộng từ các sub-page theo số tiền hiện có → thêm sub-pages theo đối tượng, mục đích, khu vực. Xây content pillar "vay tiền nhanh online" để Top 1 Google.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">50+</div>
+      <div class="stat-lbl">Sub-pages mục tiêu</div>
+      <div class="stat-sub">Hiện có: ~10 · Thêm: 40+</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">40</div>
+      <div class="stat-lbl">Bài blog cluster</div>
+      <div class="stat-sub">Pillar 1 + 6 clusters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">246K</div>
+      <div class="stat-lbl">Tổng SV top keywords</div>
+      <div class="stat-sub">"vay tiền nhanh" 90K SV/tháng</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">4</div>
+      <div class="stat-lbl">Template cần Dev</div>
+      <div class="stat-sub">Số tiền · Đối tượng · Mục đích · Khu vực</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📐 Sub-Page Architecture — Vay Nhanh</h2>
+  <table class="data-table">
+    <thead><tr><th>URL Pattern</th><th>Ví dụ cụ thể</th><th>Target Keyword</th><th>Stage</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px;letter-spacing:0.5px">CLUSTER A — THEO SỐ TIỀN (Đã có, mở rộng thêm)</td></tr>
+      <tr><td><code class="url">/vay-nhanh/1-trieu</code></td><td style="font-weight:600">Vay 1 triệu nhanh</td><td><span class="cs-kw">vay 1 triệu</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">/vay-nhanh/5-trieu</code></td><td style="font-weight:600">Vay 5 triệu nhanh</td><td><span class="cs-kw">vay 5 triệu</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td><code class="url">/vay-nhanh/10-trieu</code></td><td style="font-weight:600">Vay 10 triệu nhanh</td><td><span class="cs-kw">vay 10 triệu nhanh</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/20-trieu</code></td><td style="font-weight:600">Vay 20 triệu <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay 20 triệu online</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/50-trieu</code></td><td style="font-weight:600">Vay 50 triệu <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay 50 triệu nhanh</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px;letter-spacing:0.5px">CLUSTER B — THEO ĐỐI TƯỢNG (Mới hoàn toàn)</td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/sinh-vien</code></td><td style="font-weight:600">Vay tiền nhanh cho sinh viên <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền sinh viên</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/noi-tro</code></td><td style="font-weight:600">Vay nhanh cho người nội trợ <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền nội trợ không có thu nhập</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/lao-dong-tu-do</code></td><td style="font-weight:600">Vay nhanh cho lao động tự do <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền lao động tự do freelance</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/nguoi-di-lam</code></td><td style="font-weight:600">Vay nhanh cho người đi làm <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền đi làm nhanh nhất</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/kinh-doanh-nho</code></td><td style="font-weight:600">Vay vốn kinh doanh nhỏ <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay vốn kinh doanh online</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px;letter-spacing:0.5px">CLUSTER C — THEO MỤC ĐÍCH VAY (Mới hoàn toàn)</td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/sua-xe</code></td><td style="font-weight:600">Vay tiền sửa xe khẩn cấp <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền sửa xe nhanh</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/vay-gap</code></td><td style="font-weight:600">Vay tiền gấp trong ngày <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền gấp trong ngày</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/hoc-phi</code></td><td style="font-weight:600">Vay tiền đóng học phí <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền đóng học phí</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/chuyen-tien-gap</code></td><td style="font-weight:600">Vay chuyển tiền khẩn cho người thân <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền chuyển về quê gấp</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/du-lich</code></td><td style="font-weight:600">Vay tiền du lịch trả sau <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền du lịch online</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p3">P3</span></td></tr>
+
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px;letter-spacing:0.5px">CLUSTER D — THEO KHU VỰC (pSEO — Pha 2)</td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/ho-chi-minh</code></td><td style="font-weight:600">Vay tiền nhanh tại TP.HCM <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền nhanh tphcm</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/ha-noi</code></td><td style="font-weight:600">Vay tiền nhanh tại Hà Nội <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền nhanh hà nội</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vay-nhanh/da-nang</code></td><td style="font-weight:600">Vay tiền nhanh tại Đà Nẵng <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền nhanh đà nẵng</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p3">P3</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">📚 Content Cluster — Vay Nhanh (40 bài)</h2>
+  <table class="data-table">
+    <thead><tr><th>URL</th><th>Tiêu Đề</th><th>Keyword Chính</th><th>Stage</th><th>P</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px">PILLAR — 1 bài trọng tâm</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-nhanh-online</code></td><td style="font-weight:600">Vay Tiền Nhanh Online 2026 — Hướng dẫn A-Z <span class="tag tag-new">PILLAR</span></td><td><span class="cs-kw">vay tiền nhanh online</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px">CLUSTER 1 — Điều Kiện & Hồ Sơ (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/dieu-kien-vay-tien-momo</code></td><td style="font-weight:600">Điều kiện vay tiền MoMo 2026 — Cần những gì? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">điều kiện vay tiền momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-khong-can-chung-minh-thu-nhap</code></td><td style="font-weight:600">Vay tiền không cần chứng minh thu nhập được không? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền không cần chứng minh thu nhập</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-tien-cic-xau</code></td><td style="font-weight:600">Vay tiền khi CIC xấu — Có được không? Làm thế nào? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền khi cic xấu</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/han-muc-vay-toi-da</code></td><td style="font-weight:600">Hạn mức vay MoMo tối đa là bao nhiêu? Cách tăng hạn mức <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">hạn mức vay momo tối đa</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/lai-suat-vay-nhanh-momo</code></td><td style="font-weight:600">Lãi suất vay MoMo 2026 — Bảng chi tiết & so sánh <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">lãi suất vay momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-momo-bao-lau-co-tien</code></td><td style="font-weight:600">Vay MoMo bao lâu thì có tiền? Review thực tế 2026 <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay momo bao lâu có tiền</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px">CLUSTER 2 — So Sánh & Review (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-momo-vs-ngan-hang</code></td><td style="font-weight:600">Vay MoMo vs Ngân hàng — Cái nào nhanh hơn & phí thấp hơn? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay momo hay vay ngân hàng</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-momo-vs-home-credit</code></td><td style="font-weight:600">MoMo vs Home Credit — So sánh chi tiết 2026 <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">momo hay home credit</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/top-app-vay-tien-nhanh</code></td><td style="font-weight:600">Top 10 app vay tiền nhanh uy tín 2026 — So sánh toàn bộ <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">app vay tiền nhanh uy tín</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/review-vay-momo-thuc-te</code></td><td style="font-weight:600">Review vay MoMo thực tế 2026 — Ưu & nhược điểm thật <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">review vay tiền momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px">CLUSTER 3 — Hướng Dẫn & Tips (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/huong-dan-vay-tien-momo</code></td><td style="font-weight:600">Hướng dẫn vay tiền MoMo từ A-Z trong 5 phút <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">hướng dẫn vay tiền momo</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/cach-tang-han-muc-vay-momo</code></td><td style="font-weight:600">7 cách tăng hạn mức vay MoMo nhanh nhất 2026 <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">tăng hạn mức vay momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/tra-no-vay-momo-truoc-han</code></td><td style="font-weight:600">Trả nợ vay MoMo trước hạn có bị phạt không? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">trả nợ vay momo trước hạn</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/bi-tu-choi-vay-momo-phai-lam-gi</code></td><td style="font-weight:600">Bị từ chối vay MoMo — 5 nguyên nhân và cách xử lý <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">bị từ chối vay momo</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px">CLUSTER 4 — Tình Huống Khẩn Cấp (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-tien-gap-cuoi-thang</code></td><td style="font-weight:600">Vay tiền gấp cuối tháng — giải pháp 15 phút có tiền ngay <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền gấp cuối tháng</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-tien-dem-khuya</code></td><td style="font-weight:600">Vay tiền đêm khuya — App nào duyệt 24/7? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền đêm khuya</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vay-tien-ngay-tet</code></td><td style="font-weight:600">Vay tiền ngày Tết — App nào hoạt động, duyệt nhanh? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">vay tiền ngày tết</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 4. VÍ TRẢ SAU -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-vts">
+  <div class="page-header">
+    <div class="page-eyebrow">Sản Phẩm 2 · momo.vn/vi-tra-sau</div>
+    <div class="page-title">Ví Trả Sau — Sub-Page Plan & Content Cluster</div>
+    <div class="page-desc">Chuyển đổi từ single page giới thiệu → hệ thống landing theo merchant, danh mục mua sắm, hướng dẫn dùng. Cạnh tranh với BNPL và thẻ tín dụng ngân hàng.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">20+</div>
+      <div class="stat-lbl">Sub-pages mục tiêu</div>
+      <div class="stat-sub">Hiện có: 1 · Thêm: 20+</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">50</div>
+      <div class="stat-lbl">Bài blog cluster</div>
+      <div class="stat-sub">Pillar 1 + 5 clusters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">180K</div>
+      <div class="stat-lbl">Tổng SV top keywords</div>
+      <div class="stat-sub">"ví trả sau" 40K · "mua trước trả sau" 60K SV</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">3</div>
+      <div class="stat-lbl">Template cần Dev</div>
+      <div class="stat-sub">Merchant · Danh mục · How-to</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📐 Sub-Page Architecture — Ví Trả Sau</h2>
+  <table class="data-table">
+    <thead><tr><th>URL Pattern</th><th>Ví dụ cụ thể</th><th>Target Keyword</th><th>Stage</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">CLUSTER A — THEO MERCHANT (Cao nhất)</td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/shopee</code></td><td style="font-weight:600">Mua trả sau Shopee qua VTS MoMo <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">ví trả sau momo mua shopee</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/grab</code></td><td style="font-weight:600">Đặt Grab trả sau bằng MoMo VTS <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">đặt grab trả sau momo</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/lazada</code></td><td style="font-weight:600">Mua Lazada trả sau MoMo <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">mua lazada trả sau momo</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/tiki</code></td><td style="font-weight:600">Tiki trả sau MoMo Ví Trả Sau <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">mua tiki trả sau</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/foody-baemin</code></td><td style="font-weight:600">Đặt đồ ăn trả sau qua MoMo VTS <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">đặt đồ ăn trả sau</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">CLUSTER B — THEO DANH MỤC MUA SẮM</td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/mua-sam-thoi-trang</code></td><td style="font-weight:600">Mua thời trang trả sau MoMo <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">mua thời trang trả sau</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/du-lich</code></td><td style="font-weight:600">Đặt vé, khách sạn trả sau bằng MoMo <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">đặt vé máy bay trả sau momo</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/giao-duc</code></td><td style="font-weight:600">Đóng học phí trả sau bằng MoMo <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">đóng học phí trả sau</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">CLUSTER C — HƯỚNG DẪN & TÍNH NĂNG</td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/kich-hoat</code></td><td style="font-weight:600">Cách kích hoạt Ví Trả Sau MoMo <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">kích hoạt ví trả sau momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/han-muc</code></td><td style="font-weight:600">Hạn mức Ví Trả Sau MoMo — Tối đa bao nhiêu? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">hạn mức ví trả sau momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/vi-tra-sau/cach-thanh-toan</code></td><td style="font-weight:600">Cách thanh toán Ví Trả Sau MoMo đúng hạn <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">thanh toán ví trả sau momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">📚 Content Cluster — Ví Trả Sau (50 bài)</h2>
+  <table class="data-table">
+    <thead><tr><th>URL</th><th>Tiêu Đề</th><th>Keyword Chính</th><th>Stage</th><th>P</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">PILLAR — 1 bài trọng tâm</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vi-tra-sau-la-gi</code></td><td style="font-weight:600">Ví Trả Sau MoMo là gì? Hướng dẫn dùng A-Z 2026 <span class="tag tag-new">PILLAR</span></td><td><span class="cs-kw">ví trả sau momo là gì</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">CLUSTER 1 — BNPL Education (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/bnpl-la-gi</code></td><td style="font-weight:600">BNPL là gì? Mua trước trả sau — lợi ích và rủi ro <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">bnpl là gì mua trước trả sau</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vi-tra-sau-vs-the-tin-dung</code></td><td style="font-weight:600">Ví Trả Sau MoMo vs Thẻ Tín Dụng — Cái nào tốt hơn? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">ví trả sau hay thẻ tín dụng</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/mua-truoc-tra-sau-co-an-toan</code></td><td style="font-weight:600">Mua trước trả sau có an toàn không? Rủi ro cần biết <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">mua trước trả sau có an toàn</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">CLUSTER 2 — How-to & Tips (10 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/cach-su-dung-vi-tra-sau-hieu-qua</code></td><td style="font-weight:600">5 cách dùng Ví Trả Sau MoMo thông minh để tiết kiệm tiền <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">cách dùng ví trả sau momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/tang-han-muc-vi-tra-sau</code></td><td style="font-weight:600">Cách tăng hạn mức Ví Trả Sau MoMo lên tối đa <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">tăng hạn mức ví trả sau</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vi-tra-sau-tra-cham-bi-gi</code></td><td style="font-weight:600">Ví Trả Sau MoMo trả chậm bị phạt bao nhiêu? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">ví trả sau momo trả chậm</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/mua-shopee-tra-sau-momo</code></td><td style="font-weight:600">Hướng dẫn mua Shopee trả sau bằng MoMo từng bước <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">mua shopee trả sau momo</span></td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">CLUSTER 3 — So Sánh VTS vs Đối Thủ (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/momo-vs-kredivo-vs-home-pay-later</code></td><td style="font-weight:600">So sánh Ví Trả Sau MoMo vs Kredivo vs Home Pay Later <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">so sánh ví trả sau</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/vi-tra-sau-vs-vay-nhanh</code></td><td style="font-weight:600">Ví Trả Sau vs Vay Nhanh MoMo — Khi nào dùng cái nào? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">ví trả sau hay vay nhanh momo</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 5. TRA CỨU CIC -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cic">
+  <div class="page-header">
+    <div class="page-eyebrow">Sản Phẩm 3 · momo.vn/diem-tin-dung</div>
+    <div class="page-title">Tra Cứu CIC — Sub-Page Plan & Content Cluster</div>
+    <div class="page-desc">Đây là sản phẩm có potential content SEO lớn nhất: người dùng tìm hiểu CIC rất nhiều trước khi vay. Xây dựng content hub giáo dục → capture intent → convert sang Vay Nhanh & VTS.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">10+</div>
+      <div class="stat-lbl">Sub-pages mục tiêu</div>
+      <div class="stat-sub">Hiện có: 1 · Thêm: 10+</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">30</div>
+      <div class="stat-lbl">Bài blog cluster</div>
+      <div class="stat-sub">Pillar 1 + 4 clusters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">320K</div>
+      <div class="stat-lbl">Tổng SV top keywords</div>
+      <div class="stat-sub">"tra cứu CIC" 110K · "điểm tín dụng" 80K SV</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">🔗</div>
+      <div class="stat-lbl">Cross-sell cao nhất</div>
+      <div class="stat-sub">CIC → Vay Nhanh: conversion tự nhiên nhất</div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">💡 CIC là "cửa ngõ" của Credit Ecosystem</div>
+    Người dùng tra CIC thường đang chuẩn bị vay hoặc đang lo lắng về khả năng vay. Đây là intent signal cực mạnh. Bài viết về CIC → link sang Vay Nhanh = conversion rate tự nhiên cao nhất trong cả 3 sản phẩm.
+  </div>
+
+  <h2 class="sh">📐 Sub-Page Architecture — CIC</h2>
+  <table class="data-table">
+    <thead><tr><th>URL</th><th>Nội dung</th><th>Target Keyword</th><th>Stage</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr class="row-new"><td><code class="url">/diem-tin-dung/diem-tin-dung</code></td><td style="font-weight:600">Giải thích điểm tín dụng CIC — thang điểm, ý nghĩa <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">điểm tín dụng cic là gì</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/diem-tin-dung/no-xau</code></td><td style="font-weight:600">Nợ xấu nhóm 1-5 là gì? Ảnh hưởng & cách xử lý <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">nợ xấu nhóm mấy là nguy hiểm</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/diem-tin-dung/cai-thien-cic</code></td><td style="font-weight:600">Cách cải thiện điểm CIC — lộ trình 3-6-12 tháng <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">cách cải thiện điểm cic</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/diem-tin-dung/huong-dan-tra-cuu</code></td><td style="font-weight:600">Hướng dẫn tra cứu CIC qua MoMo từng bước <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">tra cứu cic qua momo</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/diem-tin-dung/lich-su-vay</code></td><td style="font-weight:600">Xem lịch sử vay tiền — Những thứ hiển thị trên CIC <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">lịch sử vay tiền cic hiển thị gì</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">📚 Content Cluster — CIC (30 bài)</h2>
+  <table class="data-table">
+    <thead><tr><th>URL</th><th>Tiêu Đề</th><th>Keyword Chính</th><th>Stage</th><th>P</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:var(--green-light);font-size:11px;font-weight:700;color:var(--green);padding:8px 14px">PILLAR — 1 bài trọng tâm</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/lich-su-tin-dung-la-gi</code></td><td style="font-weight:600">Lịch Sử Tín Dụng CIC — Hướng Dẫn Tra Cứu & Cải Thiện A-Z <span class="tag tag-new">PILLAR</span></td><td><span class="cs-kw">lịch sử tín dụng là gì</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td colspan="5" style="background:var(--green-light);font-size:11px;font-weight:700;color:var(--green);padding:8px 14px">CLUSTER 1 — Giáo dục CIC cơ bản (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/cic-la-gi</code></td><td style="font-weight:600">CIC là gì? Trung tâm thông tin tín dụng hoạt động thế nào? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">cic là gì</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/diem-tin-dung-bao-nhieu-la-tot</code></td><td style="font-weight:600">Điểm tín dụng bao nhiêu là tốt? Thang điểm CIC giải thích chi tiết <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">điểm tín dụng bao nhiêu là tốt</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/tai-sao-nen-tra-cuu-cic</code></td><td style="font-weight:600">Tại sao nên tra CIC định kỳ? 5 lý do cần biết <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">tại sao cần tra cứu cic</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr><td colspan="5" style="background:var(--green-light);font-size:11px;font-weight:700;color:var(--green);padding:8px 14px">CLUSTER 2 — Nợ Xấu & Xử Lý (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/no-xau-la-gi</code></td><td style="font-weight:600">Nợ xấu là gì? Nợ nhóm 1-2-3-4-5 khác nhau thế nào? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">nợ xấu là gì nhóm mấy</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/no-xau-bao-lau-thi-het</code></td><td style="font-weight:600">Nợ xấu bao lâu thì xóa? Quy định CIC 2026 <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">nợ xấu bao lâu thì hết</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/cach-xoa-no-xau-cic</code></td><td style="font-weight:600">Cách xóa nợ xấu CIC — Có thật sự xóa được không? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">xóa nợ xấu cic</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/bi-no-xau-co-vay-duoc-khong</code></td><td style="font-weight:600">Bị nợ xấu có vay tiền được không? Giải pháp thực tế <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">bị nợ xấu có vay tiền được không</span></td><td><span class="tag tag-crisis">CRISIS</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td colspan="5" style="background:var(--green-light);font-size:11px;font-weight:700;color:var(--green);padding:8px 14px">CLUSTER 3 — Cải Thiện & Xây Dựng Tín Dụng (8 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/cach-cai-thien-diem-tin-dung</code></td><td style="font-weight:600">7 cách cải thiện điểm tín dụng CIC nhanh nhất 2026 <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">cách cải thiện điểm tín dụng</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/xay-dung-lich-su-tin-dung-tu-dau</code></td><td style="font-weight:600">Xây dựng lịch sử tín dụng từ đầu — Dành cho người chưa có CIC <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">xây dựng lịch sử tín dụng từ đầu</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p2">P2</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/cic-anh-huong-den-vay-the-nao</code></td><td style="font-weight:600">Điểm CIC ảnh hưởng đến khả năng vay tiền như thế nào? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">cic ảnh hưởng đến vay tiền</span></td><td><span class="tag tag-mofu">MOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr><td colspan="5" style="background:var(--green-light);font-size:11px;font-weight:700;color:var(--green);padding:8px 14px">CLUSTER 4 — Hướng Dẫn Tra Cứu & FAQ (5 bài)</td></tr>
+      <tr class="row-new"><td><code class="url">/blog/tra-cuu-cic-o-dau</code></td><td style="font-weight:600">Tra cứu CIC ở đâu? 3 cách đơn giản nhất 2026 <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">tra cứu cic ở đâu</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+      <tr class="row-new"><td><code class="url">/blog/tra-cuu-cic-mien-phi</code></td><td style="font-weight:600">Tra cứu CIC miễn phí — Được không? Bao nhiêu lần/năm? <span class="tag tag-new">MỚI</span></td><td><span class="cs-kw">tra cứu cic miễn phí</span></td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 6. KEYWORD RESEARCH -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-keyword">
+  <div class="page-header">
+    <div class="page-eyebrow">SEO Strategy · Keyword Research</div>
+    <div class="page-title">Keyword Universe — 3 Sản Phẩm Tín Dụng</div>
+    <div class="page-desc">Tổng hợp keyword potential theo sản phẩm. Phân cấp theo search volume và difficulty để lên kế hoạch content ưu tiên.</div>
+  </div>
+
+  <h2 class="sh" style="color:var(--blue)">💸 Vay Nhanh Keywords</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🔥 Pillar Keywords (SV cao, khó — xây dài hạn)</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">vay tiền nhanh <span class="sv">90K/tháng</span></div>
+      <div class="kw-pill high">vay tiền online <span class="sv">74K/tháng</span></div>
+      <div class="kw-pill high">app vay tiền <span class="sv">60K/tháng</span></div>
+      <div class="kw-pill high">vay tiền nhanh online <span class="sv">49K/tháng</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">⚡ Mid-tail Keywords (SV trung bình — ưu tiên Q1)</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">vay tiền momo <span class="sv">33K/tháng</span></div>
+      <div class="kw-pill mid">lãi suất vay nhanh <span class="sv">22K/tháng</span></div>
+      <div class="kw-pill mid">điều kiện vay tiền <span class="sv">18K/tháng</span></div>
+      <div class="kw-pill mid">vay tiền gấp <span class="sv">27K/tháng</span></div>
+      <div class="kw-pill mid">vay tiền sinh viên <span class="sv">15K/tháng</span></div>
+      <div class="kw-pill mid">vay tiền không cần chứng minh thu nhập <span class="sv">12K/tháng</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🎯 Long-tail (SV thấp, dễ rank, conversion cao)</div>
+    <div class="kw-pills">
+      <div class="kw-pill low">vay 5 triệu momo trong ngày <span class="sv">3.5K</span></div>
+      <div class="kw-pill low">vay tiền gấp đêm khuya <span class="sv">2.8K</span></div>
+      <div class="kw-pill low">bị từ chối vay momo <span class="sv">1.9K</span></div>
+      <div class="kw-pill low">tăng hạn mức vay momo <span class="sv">4.1K</span></div>
+      <div class="kw-pill low">momo vs home credit vay tiền <span class="sv">2.2K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sh" style="color:var(--pink)">💳 Ví Trả Sau Keywords</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🔥 Pillar Keywords</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">mua trước trả sau <span class="sv">60K/tháng</span></div>
+      <div class="kw-pill high">ví trả sau <span class="sv">40K/tháng</span></div>
+      <div class="kw-pill high">bnpl việt nam <span class="sv">22K/tháng</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">⚡ Mid-tail Keywords</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">ví trả sau momo <span class="sv">29K/tháng</span></div>
+      <div class="kw-pill mid">ví trả sau là gì <span class="sv">18K/tháng</span></div>
+      <div class="kw-pill mid">kích hoạt ví trả sau momo <span class="sv">11K/tháng</span></div>
+      <div class="kw-pill mid">hạn mức ví trả sau momo <span class="sv">8.5K/tháng</span></div>
+      <div class="kw-pill mid">ví trả sau vs thẻ tín dụng <span class="sv">7.2K/tháng</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🎯 Long-tail Merchant Keywords</div>
+    <div class="kw-pills">
+      <div class="kw-pill low">mua shopee trả sau momo <span class="sv">5.8K</span></div>
+      <div class="kw-pill low">đặt grab trả sau momo <span class="sv">3.4K</span></div>
+      <div class="kw-pill low">ví trả sau momo trả chậm phạt <span class="sv">2.1K</span></div>
+      <div class="kw-pill low">tăng hạn mức ví trả sau <span class="sv">4.3K</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sh" style="color:var(--green)">📊 CIC Keywords</h2>
+  <div class="kw-group">
+    <div class="kw-group-title">🔥 Pillar Keywords (CIC có volume cực cao!)</div>
+    <div class="kw-pills">
+      <div class="kw-pill high">tra cứu CIC <span class="sv">110K/tháng</span></div>
+      <div class="kw-pill high">điểm tín dụng <span class="sv">80K/tháng</span></div>
+      <div class="kw-pill high">lịch sử tín dụng <span class="sv">55K/tháng</span></div>
+      <div class="kw-pill high">nợ xấu <span class="sv">70K/tháng</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">⚡ Mid-tail Keywords — CIC giáo dục</div>
+    <div class="kw-pills">
+      <div class="kw-pill mid">cic là gì <span class="sv">45K/tháng</span></div>
+      <div class="kw-pill mid">nợ xấu là gì <span class="sv">38K/tháng</span></div>
+      <div class="kw-pill mid">điểm tín dụng bao nhiêu là tốt <span class="sv">26K/tháng</span></div>
+      <div class="kw-pill mid">nợ xấu bao lâu thì hết <span class="sv">20K/tháng</span></div>
+      <div class="kw-pill mid">cách cải thiện điểm tín dụng <span class="sv">15K/tháng</span></div>
+    </div>
+  </div>
+  <div class="kw-group">
+    <div class="kw-group-title">🎯 Long-tail Crisis Keywords (conversion cao nhất)</div>
+    <div class="kw-pills">
+      <div class="kw-pill low">bị nợ xấu có vay tiền được không <span class="sv">8.3K</span></div>
+      <div class="kw-pill low">xóa nợ xấu CIC được không <span class="sv">6.7K</span></div>
+      <div class="kw-pill low">tra cứu CIC miễn phí ở đâu <span class="sv">5.2K</span></div>
+      <div class="kw-pill low">cic xấu vay momo được không <span class="sv">4.1K</span></div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🏆 CIC là goldmine SEO của toàn ecosystem</div>
+    Tổng search volume CIC-related keywords (~320K/tháng) lớn hơn Vay Nhanh (~246K) và VTS (~180K). Người tìm CIC đang ở đúng intent point để convert sang Vay Nhanh. Đây là nơi cần đầu tư content mạnh nhất trong giai đoạn 1.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 7. CONTENT PILLAR & CLUSTER -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-pillar">
+  <div class="page-header">
+    <div class="page-eyebrow">SEO · Content Strategy</div>
+    <div class="page-title">Content Pillar & Cluster — 3 Sản Phẩm + Hub</div>
+    <div class="page-desc">Kiến trúc content theo mô hình Topic Cluster: 1 Pillar Page lớn → nhiều Cluster pages → liên kết 2 chiều. Mỗi sản phẩm có pillar riêng, plus 1 pillar chung cho Hub Page.</div>
+  </div>
+
+  <!-- PILLAR MAP -->
+  <h2 class="sh">🧱 Sơ Đồ 4 Content Pillars</h2>
+  <div class="tree-grid">
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:linear-gradient(135deg,#E6EEFF,#F0F4FF)">
+        <span style="font-size:20px">💡</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--blue)">PILLAR 0 — Hub Umbrella</div>
+          <div class="tree-box-url">momo.vn/tin-dung</div>
+        </div>
+        <span class="tag tag-new" style="margin-left:auto">MỚI</span>
+      </div>
+      <div class="tree-body" style="font-size:12.5px;color:var(--ink-2);line-height:1.7">
+        <b>Target keyword:</b> "tài chính cá nhân MoMo" · "sản phẩm vay MoMo" · "credit MoMo"<br><br>
+        <b>Nội dung:</b> Giới thiệu toàn ecosystem 3 sản phẩm, so sánh use case, công cụ chọn sản phẩm phù hợp (quiz/tool), links đến 3 sản phẩm, trust signals.
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:linear-gradient(135deg,#E6EEFF,#F0F4FF)">
+        <span style="font-size:20px">💸</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--blue)">PILLAR 1 — Vay Nhanh</div>
+          <div class="tree-box-url">/blog/vay-nhanh-online-2026</div>
+        </div>
+      </div>
+      <div class="tree-body" style="font-size:12.5px;color:var(--ink-2);line-height:1.7">
+        <b>Target keyword:</b> "vay tiền nhanh online" — 49K SV/tháng<br><br>
+        <b>Cấu trúc:</b> 4.000-6.000 chữ · Table of contents · Các loại vay · So sánh app · Calculator · FAQ 15+ · Internal links đến tất cả cluster<br><br>
+        <b>Clusters:</b> Điều kiện · Lãi suất · So sánh · Hướng dẫn · Tình huống · Đối tượng
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:linear-gradient(135deg,#FFF0F6,#F5E0EC)">
+        <span style="font-size:20px">💳</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--pink)">PILLAR 2 — Ví Trả Sau</div>
+          <div class="tree-box-url">/blog/vi-tra-sau-momo-la-gi</div>
+        </div>
+      </div>
+      <div class="tree-body" style="font-size:12.5px;color:var(--ink-2);line-height:1.7">
+        <b>Target keyword:</b> "ví trả sau MoMo" — 29K SV/tháng<br><br>
+        <b>Cấu trúc:</b> 3.500-5.000 chữ · Giải thích BNPL · Cách dùng · Merchant list · So sánh thẻ tín dụng · FAQ 10+ · Liên kết cluster<br><br>
+        <b>Clusters:</b> Education BNPL · Merchant · How-to · So sánh đối thủ
+      </div>
+    </div>
+  </div>
+  <div class="tree-grid-2" style="margin-top:-10px">
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:linear-gradient(135deg,#E0F5EA,#F0FFF4)">
+        <span style="font-size:20px">📊</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--green)">PILLAR 3 — CIC</div>
+          <div class="tree-box-url">/blog/lich-su-tin-dung-la-gi</div>
+        </div>
+      </div>
+      <div class="tree-body" style="font-size:12.5px;color:var(--ink-2);line-height:1.7">
+        <b>Target keyword:</b> "lịch sử tín dụng là gì" · "tra cứu CIC" — 110K SV<br><br>
+        <b>Cấu trúc:</b> 5.000-8.000 chữ · Giải thích CIC · Thang điểm · Cải thiện · FAQ 20+ · Infographic điểm CIC · Schema: FAQ + HowTo<br><br>
+        <b>Clusters:</b> CIC cơ bản · Nợ xấu · Cải thiện điểm · Hướng dẫn tra cứu
+      </div>
+    </div>
+    <div class="tree-box" style="border:2px dashed var(--green)">
+      <div class="tree-box-header" style="background:var(--green-light)">
+        <span style="font-size:20px">🔗</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--green)">Cross-Ecosystem Content</div>
+          <div class="tree-box-url">/blog/[tai-chinh-ca-nhan-*]</div>
+        </div>
+        <span class="tag tag-new" style="margin-left:auto">NEW</span>
+      </div>
+      <div class="tree-body" style="font-size:12.5px;color:var(--ink-2);line-height:1.7">
+        <b>Ý tưởng:</b> Các bài link cả 3 sản phẩm — target từ khóa umbrella<br><br>
+        <b>Ví dụ bài:</b> "Quản lý tài chính cá nhân 2026 với MoMo" · "Vay — Trả sau — Tín dụng: Khi nào dùng cái nào?" · "Tài chính thông minh dành cho Gen Z"<br><br>
+        <b>Mục tiêu:</b> Brand authority · Trang Hub capture · Long-tail tổng hợp
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🔄 Content → Product Mapping</h2>
+  <table class="data-table">
+    <thead><tr><th>Loại Content</th><th>Sản phẩm chính</th><th>Cross-sell tự nhiên</th><th>CTA chính</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:600">Bài về nợ xấu / CIC xấu</td><td><span class="tag tag-teal">CIC</span></td><td><span class="tag tag-mofu">Vay Nhanh</span></td><td>"Tra CIC ngay → Vay khi CIC đủ điều kiện"</td></tr>
+      <tr><td style="font-weight:600">Bài về vay tiền gấp / cuối tháng</td><td><span class="tag tag-content">Vay Nhanh</span></td><td><span class="tag tag-bofu">VTS</span></td><td>"Vay ngay" hoặc "Dùng VTS mua sắm không cần vay"</td></tr>
+      <tr><td style="font-weight:600">Bài về mua sắm online / BNPL</td><td><span class="tag tag-bofu">VTS</span></td><td><span class="tag tag-teal">CIC</span></td><td>"Kích hoạt VTS ngay" + "Xem điểm tín dụng"</td></tr>
+      <tr><td style="font-weight:600">Bài so sánh lãi suất vay</td><td><span class="tag tag-content">Vay Nhanh</span></td><td><span class="tag tag-bofu">VTS</span></td><td>"Vay MoMo — Lãi thấp nhất" + Calculator</td></tr>
+      <tr><td style="font-weight:600">Bài hướng dẫn quản lý tài chính</td><td><span class="tag tag-purple">Hub</span></td><td>Cả 3 sản phẩm</td><td>"Khám phá công cụ tài chính MoMo"</td></tr>
+      <tr><td style="font-weight:600">Bài review, so sánh đối thủ</td><td>Phụ thuộc đối thủ</td><td>Phụ thuộc nội dung</td><td>"Thử MoMo ngay — Duyệt trong 5 phút"</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📌 Schema Markup Priority</div>
+    <b>FAQ Schema</b> — bắt buộc cho tất cả bài blog có Q&A (giúp chiếm featured snippet) · <b>HowTo Schema</b> — cho tất cả bài "hướng dẫn từng bước" · <b>Article + Breadcrumb</b> — tất cả bài blog · <b>FinancialProduct Schema</b> — cho các landing page sản phẩm · <b>Organization + SiteLinks</b> — Hub page và trang chủ
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 8. HUB PAGE DESIGN -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-hubdesign">
+  <div class="page-header">
+    <div class="page-eyebrow">UX / Design · Hub Page</div>
+    <div class="page-title">Hub Page Design — momo.vn/tin-dung</div>
+    <div class="page-desc">Thiết kế Hub page <code class="url">/tin-dung</code> như một "Credit Dashboard" — không phải trang danh mục thông thường. Giúp user chọn đúng sản phẩm ngay lần đầu, tối ưu SEO umbrella keywords.</div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">🎯 Design Philosophy: "Financial GPS" không phải "Product Catalog"</div>
+    Hub page không liệt kê sản phẩm như một trang danh mục. Thay vào đó, hub page dẫn dắt user qua 1 câu hỏi đơn giản: "Bạn muốn làm gì hôm nay?" → gợi ý đúng sản phẩm → deeplink vào app. UX như một GPS tài chính cá nhân.
+  </div>
+
+  <h2 class="sh">📐 Hub Page Structure (trên xuống dưới)</h2>
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">1️⃣</span><div class="cs-page-title">Hero Section — "MoMo Credit Suite"</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Mục tiêu</div>
+        <p style="font-size:13px;color:var(--ink-2)">Capture keyword umbrella, tạo trust ngay lần đầu. Không bán sản phẩm — giới thiệu ecosystem.</p>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Nội dung chính</div>
+        <div class="cs-content-block"><div class="cs-block-title">Headline (H1)</div><div class="cs-block-desc">"Tài Chính Cá Nhân — MoMo Credit Suite" · Subtext: "Vay nhanh · Mua trả sau · Kiểm tra tín dụng — Tất cả trong 1 ứng dụng"</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Trust Bar</div><div class="cs-block-desc">30 triệu người dùng · Duyệt trong 5 phút · Lãi suất minh bạch · Bảo mật 3FA</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Smart Selector</div><div class="cs-block-desc">Widget 3 nút: "Tôi cần vay tiền" → Vay Nhanh · "Tôi muốn mua sắm trả sau" → VTS · "Tôi muốn biết điểm tín dụng" → CIC</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">2️⃣</span><div class="cs-page-title">3 Product Cards — Quick Compare</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Thiết kế mỗi card</div>
+        <div class="cs-content-block"><div class="cs-block-title">Vay Nhanh Card</div><div class="cs-block-desc">Icon · Headline benefit · Key specs (hạn mức tối đa, thời gian duyệt, lãi suất từ) · CTA "Vay ngay" deeplink app · Tag: "Nhận tiền trong 5 phút"</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Ví Trả Sau Card</div><div class="cs-block-desc">Icon · Headline benefit · Key specs (hạn mức tối đa, merchant được hỗ trợ, phí 0% tháng đầu) · CTA "Kích hoạt ngay" deeplink · Tag: "Không cần thẻ ngân hàng"</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Tra Cứu CIC Card</div><div class="cs-block-desc">Icon · Headline benefit · Key specs (tra cứu miễn phí, kết quả ngay lập tức, tần suất) · CTA "Tra cứu ngay" deeplink · Tag: "Chính xác · Cập nhật hàng ngày"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Components</div>
+        <span class="cs-component">⚡ Comparison toggle</span>
+        <span class="cs-component">🔗 Deeplink to app</span>
+        <span class="cs-component">✅ Trust badges</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">3️⃣</span><div class="cs-page-title">Ecosystem Loop Visual — "Vòng Tín Dụng Khép Kín"</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Concept</div>
+        <p style="font-size:13px;color:var(--ink-2)">Visual infographic dạng vòng tròn hoặc flow: CIC → biết điểm → đủ điều kiện → Vay Nhanh → trả đúng hạn → điểm tín dụng tăng → mở VTS hạn mức cao → mua sắm thông minh → lặp lại. Tạo cảm giác "MoMo đi cùng hành trình tài chính của bạn".</p>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema cho section này</div>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">VideoObject</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">4️⃣</span><div class="cs-page-title">Use Case Scenarios — "Bạn đang ở đâu?"</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Scenario Cards (4-6 tình huống)</div>
+        <div class="cs-content-block"><div class="cs-block-title">🆘 "Cần tiền gấp cuối tháng"</div><div class="cs-block-desc">→ Giới thiệu Vay Nhanh + deeplink</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">🛍 "Muốn mua sắm nhưng chưa có tiền"</div><div class="cs-block-desc">→ Giới thiệu Ví Trả Sau + deeplink</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">📋 "Chuẩn bị hồ sơ vay ngân hàng"</div><div class="cs-block-desc">→ Giới thiệu Tra Cứu CIC + deeplink</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">📈 "Muốn nâng hạn mức tín dụng"</div><div class="cs-block-desc">→ Flow: CIC → cải thiện → Vay/VTS</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">5️⃣</span><div class="cs-page-title">Social Proof + FAQ + Recent Blog Posts</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Elements</div>
+        <div class="cs-content-block"><div class="cs-block-title">Social Proof</div><div class="cs-block-desc">Reviews thực tế từ user MoMo · Stats: X triệu giao dịch / tháng · Media mentions · App store ratings</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ Section (cho SEO)</div><div class="cs-block-desc">10-15 câu hỏi phổ biến về cả 3 sản phẩm. Ưu tiên featured snippet. Schema FAQPage.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Blog Preview Widget</div><div class="cs-block-desc">3-4 bài blog mới nhất từ cả 3 cluster — giữ user engagement và link juice ra blog.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">Organization</span>
+        <span class="cs-schema">BreadcrumbList</span>
+        <span class="cs-schema">FinancialService</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 9. SUB-PAGE TEMPLATES -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-subpage">
+  <div class="page-header">
+    <div class="page-eyebrow">Design System · Sub-Page Templates</div>
+    <div class="page-title">5 Template Types cần Dev</div>
+    <div class="page-desc">Mỗi template phục vụ 1 loại sub-page cụ thể. Thiết kế scalable để 1 template dev là có thể populate hàng chục trang bằng content.</div>
+  </div>
+
+  <div class="comp-spec">
+    <div class="comp-spec-header">
+      <div>
+        <div class="comp-spec-title">Template A — Vay Theo Số Tiền</div>
+        <div class="comp-spec-type">Dùng cho: /vay-nhanh/[so-tien] · Ví dụ: vay-5-trieu, vay-10-trieu</div>
+      </div>
+      <span class="tag tag-p1">P1 — Dev sớm nhất</span>
+    </div>
+    <div class="comp-spec-body">
+      <div class="comp-spec-row"><div class="comp-spec-key">Hero</div><div class="comp-spec-val">H1: "Vay [số tiền] qua MoMo — Duyệt trong 5 phút" · Calculator inline (chọn kỳ hạn → tính phí lãi) · CTA deeplink app</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Benefit Strip</div><div class="comp-spec-val">4 benefit icons: Không cần thế chấp · Duyệt nhanh · Lãi minh bạch · Nhận tiền ngay</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Payment Table</div><div class="comp-spec-val">Bảng kỳ hạn 1/2/3/6 tháng với số tiền trả mỗi tháng (dynamic)</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Eligibility</div><div class="comp-spec-key-val">Điều kiện cụ thể cho số tiền đó · Giấy tờ cần thiết</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">How-to Steps</div><div class="comp-spec-val">3 bước vay: Mở app → Chọn khoản vay → Nhận tiền · Schema: HowTo</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">FAQ</div><div class="comp-spec-val">7-10 câu hỏi về số tiền cụ thể đó · Schema: FAQPage</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Cross-sell</div><div class="comp-spec-val">Widget nhỏ: "Cần thêm? Xem Ví Trả Sau" + "Kiểm tra điểm tín dụng trước khi vay"</div></div>
+    </div>
+  </div>
+
+  <div class="comp-spec">
+    <div class="comp-spec-header">
+      <div>
+        <div class="comp-spec-title">Template B — Vay Theo Đối Tượng / Mục Đích</div>
+        <div class="comp-spec-type">Dùng cho: /vay-nhanh/sinh-vien · /vay-nhanh/vay-gap · v.v.</div>
+      </div>
+      <span class="tag tag-p1">P1</span>
+    </div>
+    <div class="comp-spec-body">
+      <div class="comp-spec-row"><div class="comp-spec-key">Hero</div><div class="comp-spec-val">H1: "Vay tiền nhanh cho [đối tượng] — Không cần [pain point của đối tượng]" · Empathy headline · CTA app</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Pain → Solution</div><div class="comp-spec-val">Section: Tình huống phổ biến của [đối tượng] → MoMo giải quyết thế nào → Steps đơn giản</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Điều kiện</div><div class="comp-spec-val">Điều kiện cụ thể + "Không cần [item phổ biến người lo]" — trust builder quan trọng</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Testimonials</div><div class="comp-spec-val">2-3 review từ đối tượng tương tự (có ảnh, tên, nghề nghiệp)</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">FAQ</div><div class="comp-spec-val">FAQ tailored cho đối tượng (ví dụ sinh viên: "Sinh viên năm 1 có vay được không?")</div></div>
+    </div>
+  </div>
+
+  <div class="comp-spec">
+    <div class="comp-spec-header">
+      <div>
+        <div class="comp-spec-title">Template C — VTS Merchant Page</div>
+        <div class="comp-spec-type">Dùng cho: /vi-tra-sau/shopee · /vi-tra-sau/grab · v.v.</div>
+      </div>
+      <span class="tag tag-p1">P1</span>
+    </div>
+    <div class="comp-spec-body">
+      <div class="comp-spec-row"><div class="comp-spec-key">Hero</div><div class="comp-spec-val">H1: "Mua [Merchant] trả sau với Ví Trả Sau MoMo" · Logo merchant + MoMo · CTA "Mua ngay"</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Step-by-step</div><div class="comp-spec-val">Ảnh screenshot từng bước chọn MoMo VTS tại checkout của merchant đó</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Benefit</div><div class="comp-spec-val">Lợi ích đặc thù khi dùng VTS tại merchant đó (ưu đãi riêng nếu có)</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">FAQ Merchant</div><div class="comp-spec-val">7 câu hỏi về merchant cụ thể: "Mua Shopee hàng bao nhiêu được trả sau?" v.v.</div></div>
+    </div>
+  </div>
+
+  <div class="comp-spec">
+    <div class="comp-spec-header">
+      <div>
+        <div class="comp-spec-title">Template D — CIC Education Pages</div>
+        <div class="comp-spec-type">Dùng cho: /diem-tin-dung/diem-tin-dung · /no-xau · /cai-thien-cic</div>
+      </div>
+      <span class="tag tag-p1">P1</span>
+    </div>
+    <div class="comp-spec-body">
+      <div class="comp-spec-row"><div class="comp-spec-key">Hero</div><div class="comp-spec-val">H1 dạng câu hỏi hoặc statement · Breadcrumb: Trang chủ → Tra Cứu CIC → [Topic] · Intro 100-150 chữ</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Content</div><div class="comp-spec-val">Long-form 1.500-3.000 chữ · Headings H2/H3 rõ ràng · Infographic · Bảng so sánh nếu có</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">CTA Box</div><div class="comp-spec-val">Sticky CTA hoặc inline box: "Tra CIC ngay để biết điểm của bạn" → deeplink app</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Cross-sell</div><div class="comp-spec-val">Bottom section: "Điểm tốt rồi? Vay ngay với Vay Nhanh MoMo" → link + CTA</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">Schema</div><div class="comp-spec-val">Article · FAQPage · HowTo (nếu hướng dẫn) · BreadcrumbList</div></div>
+    </div>
+  </div>
+
+  <div class="comp-spec">
+    <div class="comp-spec-header">
+      <div>
+        <div class="comp-spec-title">Template E — Hub Page (dùng 1 lần)</div>
+        <div class="comp-spec-type">Dùng cho: momo.vn/tin-dung</div>
+      </div>
+      <span class="tag tag-new">Mới hoàn toàn</span>
+    </div>
+    <div class="comp-spec-body">
+      <div class="comp-spec-row"><div class="comp-spec-key">Sections</div><div class="comp-spec-val">Hero → Smart Selector → 3 Product Cards → Ecosystem Loop → Use Cases → Social Proof → FAQ → Blog Preview</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">UX Priority</div><div class="comp-spec-val">Mobile-first · Tab navigation giữa 3 sản phẩm · Sticky "Mở app" button · Scroll depth tracking</div></div>
+      <div class="comp-spec-row"><div class="comp-spec-key">SEO Focus</div><div class="comp-spec-val">H1: "MoMo Credit Suite — Giải Pháp Tài Chính Cá Nhân" · Target umbrella keywords · 2.000+ chữ total content · FAQPage schema</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 10. ROADMAP -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-roadmap">
+  <div class="page-header">
+    <div class="page-eyebrow">Execution Roadmap</div>
+    <div class="page-title">Roadmap 3 Sprint — Q1 đến Q3 2026</div>
+    <div class="page-desc">Ưu tiên theo impact × effort. Sprint 1 tập trung foundation, Sprint 2 mở rộng pSEO, Sprint 3 tối ưu và scale.</div>
+  </div>
+
+  <div class="priority-grid">
+    <div class="priority-col">
+      <div class="priority-col-header" style="background:var(--red-light);color:var(--red)">🔴 Sprint 1 — Tháng 1–2 (Foundation)</div>
+      <div class="priority-col-body">
+        <div class="priority-item"><b>Hub Page /tin-dung</b><span>Build + dev Template E</span></div>
+        <div class="priority-item"><b>Pillar Pages × 3</b><span>Vay Nhanh · VTS · CIC pillar blog</span></div>
+        <div class="priority-item"><b>Sub-pages CIC</b><span>5 sub-pages diem-tin-dung, no-xau, cai-thien-cic...</span></div>
+        <div class="priority-item"><b>Sub-pages Vay Cluster A+B</b><span>Số tiền mở rộng + 5 đối tượng</span></div>
+        <div class="priority-item"><b>VTS: Kích hoạt + Hạn mức</b><span>2 sub-pages how-to quan trọng nhất</span></div>
+        <div class="priority-item new-item"><b>★ Internal linking audit</b><span>Map và implement cross-links cả 3 sản phẩm</span></div>
+        <div class="priority-item new-item"><b>★ Blog P1 × 15 bài</b><span>Crisis + Comparison top priority</span></div>
+      </div>
+    </div>
+    <div class="priority-col">
+      <div class="priority-col-header" style="background:var(--amber-light);color:var(--amber)">🟡 Sprint 2 — Tháng 3–5 (Expand)</div>
+      <div class="priority-col-body">
+        <div class="priority-item"><b>VTS Merchant Pages × 5</b><span>Shopee · Grab · Lazada · Tiki · Foody</span></div>
+        <div class="priority-item"><b>Vay Cluster C</b><span>Mục đích vay: sửa xe, học phí, vay gấp...</span></div>
+        <div class="priority-item"><b>CIC Sub-pages còn lại</b><span>lịch-su-vay, huong-dan-tra-cuu</span></div>
+        <div class="priority-item"><b>Blog P1 còn lại × 20 bài</b><span>Full cluster Vay + CIC</span></div>
+        <div class="priority-item"><b>Calculator Tools</b><span>Tính lãi vay · Tính hạn mức VTS</span></div>
+        <div class="priority-item new-item"><b>★ Schema Implementation</b><span>FAQPage · HowTo · FinancialService tất cả trang</span></div>
+        <div class="priority-item new-item"><b>★ CWV optimization</b><span>LCP &lt;2.5s · Hub + 3 landing chính</span></div>
+      </div>
+    </div>
+    <div class="priority-col">
+      <div class="priority-col-header" style="background:var(--green-light);color:var(--green)">🟢 Sprint 3 — Tháng 6–9 (Scale)</div>
+      <div class="priority-col-body">
+        <div class="priority-item"><b>pSEO Geo — Vay Nhanh</b><span>TPHCM · HN · ĐN · HP · CT — 5+ trang</span></div>
+        <div class="priority-item"><b>VTS Merchant mở rộng</b><span>+10 merchants · Danh mục mua sắm</span></div>
+        <div class="priority-item"><b>Blog VTS cluster đầy đủ × 30 bài</b><span>BNPL education · Comparison · Tips</span></div>
+        <div class="priority-item"><b>AEO/GEO optimization</b><span>Featured snippet · AI citation target</span></div>
+        <div class="priority-item new-item"><b>★ Cross-ecosystem blog × 10</b><span>Nội dung liên kết cả 3 sản phẩm</span></div>
+        <div class="priority-item new-item"><b>★ UGC Review system</b><span>Verified reviews từ MoMo users</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 KPI Targets</h2>
+  <table class="data-table">
+    <thead><tr><th>Metric</th><th>Baseline (Now)</th><th>T3 (Sprint 1)</th><th>T6 (Sprint 2)</th><th>T9 (Sprint 3)</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:600">Total Organic Traffic / tháng</td><td>—</td><td>15K</td><td>40K</td><td>80K+</td></tr>
+      <tr><td style="font-weight:600">Vay Nhanh organic traffic</td><td>—</td><td>8K</td><td>20K</td><td>35K</td></tr>
+      <tr><td style="font-weight:600">VTS organic traffic</td><td>—</td><td>3K</td><td>10K</td><td>25K</td></tr>
+      <tr><td style="font-weight:600">CIC organic traffic</td><td>—</td><td>4K</td><td>10K</td><td>20K</td></tr>
+      <tr><td style="font-weight:600">Total URLs live</td><td>~5</td><td>~40</td><td>~100</td><td>~180+</td></tr>
+      <tr><td style="font-weight:600">Blog articles published</td><td>0</td><td>15</td><td>55</td><td>120</td></tr>
+      <tr><td style="font-weight:600">Keywords Top 10</td><td>—</td><td>10 KW</td><td>40 KW</td><td>100+ KW</td></tr>
+      <tr class="row-new"><td style="font-weight:600;color:var(--green)">★ Traffic/năm mục tiêu</td><td>—</td><td>—</td><td>—</td><td style="color:var(--green);font-weight:700">500K+ organic</td></tr>
+    </tbody>
+  </table>
+
+  <div class="verdict-bar" style="border-color:var(--green);background:linear-gradient(135deg,#F6FFF6,var(--surface))">
+    <div class="verdict-score" style="background:linear-gradient(135deg,var(--green-light),#C0F0D0);color:var(--green)">✓</div>
+    <div class="verdict-text">
+      <div class="verdict-title" style="color:var(--green)">500K Traffic/Năm = Achievable với Credit Ecosystem Model</div>
+      <div class="verdict-desc">CIC keywords (~320K SV) + Vay Nhanh (~246K SV) + VTS (~180K SV) = Total addressable ~750K SV/tháng. Với execution tốt, chiếm 5-10% market share = 37K-75K traffic/tháng = 450K-900K/năm. Rủi ro lớn nhất: không xây blog CIC đủ sớm vì đây là goldmine lớn nhất.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- 11. ACTION ITEMS -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-actions">
+  <div class="page-header">
+    <div class="page-eyebrow">Action Items</div>
+    <div class="page-title">12 Actions — Sắp Theo Ưu Tiên</div>
+    <div class="page-desc">Impact × Effort. Bắt đầu từ #1 ngay hôm nay.</div>
+  </div>
+
+  <h2 class="sh"><span style="color:var(--red)">🔴</span> Ngay Lập Tức (Tuần 1)</h2>
+  <div class="action-item"><div class="action-num" style="background:var(--red)">#1</div><div class="action-body"><div class="action-title">Confirm & lock URL structure cho 3 sản phẩm</div><div class="action-desc">Xác nhận URL chính xác của từng sản phẩm. Map existing sub-pages Vay Nhanh. Confirm không có redirect hoặc canonical conflict. Đây là nền tảng trước khi làm bất kỳ thứ gì khác.</div><div class="action-meta"><span class="tag tag-crisis">Impact: Cao</span><span class="tag tag-tofu">Effort: Rất thấp</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--red)">#2</div><div class="action-body"><div class="action-title">Register domain path /tin-dung — Hub Page</div><div class="action-desc">Tạo landing page /tin-dung với content tối thiểu (Hero + 3 product cards + FAQ) để index sớm. Ngay cả bản đơn giản cũng bắt đầu tích lũy authority trong khi dev full version.</div><div class="action-meta"><span class="tag tag-crisis">Impact: Cao</span><span class="tag tag-tofu">Effort: Thấp</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--red)">#3</div><div class="action-body"><div class="action-title">Viết 3 Pillar Pages — 1 cho mỗi sản phẩm</div><div class="action-desc">3 bài blog 4.000-6.000 chữ: "Vay tiền nhanh online A-Z" · "Ví trả sau MoMo là gì A-Z" · "Lịch sử tín dụng CIC A-Z". Đây là anchor của toàn bộ content ecosystem.</div><div class="action-meta"><span class="tag tag-crisis">Impact: Cao</span><span class="tag tag-p2">Effort: TB</span></div></div></div>
+
+  <h2 class="sh" style="margin-top:24px"><span style="color:var(--amber)">🟡</span> Sprint 1 — Tháng 1–2</h2>
+  <div class="action-item"><div class="action-num" style="background:var(--amber)">#4</div><div class="action-body"><div class="action-title">Build 5 Sub-pages CIC (Template D)</div><div class="action-desc">CIC có keyword volume cao nhất (~320K SV) nhưng hiện là single page — ROI xây sub-pages CIC là cao nhất. Ưu tiên: điểm-tin-dung → no-xau → cai-thien-cic → huong-dan-tra-cuu → lich-su-vay.</div><div class="action-meta"><span class="tag tag-crisis">Impact: Rất cao</span><span class="tag tag-p2">Effort: TB</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--amber)">#5</div><div class="action-body"><div class="action-title">Build Template A (Vay theo số tiền) + mở rộng thêm mức vay</div><div class="action-desc">Template A dùng cho nhiều trang nhất — dev 1 lần dùng mãi. Sau khi có template, populate thêm: 20tr, 50tr, 100tr. Integrate calculator tính lãi suất + kỳ hạn.</div><div class="action-meta"><span class="tag tag-crisis">Impact: Cao</span><span class="tag tag-p2">Effort: TB</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--amber)">#6</div><div class="action-body"><div class="action-title">Publish 15 blog bài P1 — Ưu tiên CIC + Vay Crisis</div><div class="action-desc">"Bị nợ xấu có vay được không?" · "Nợ xấu bao lâu thì hết?" · "Xóa nợ xấu CIC được không?" · "Vay tiền gấp cuối tháng" · "Bị từ chối vay MoMo phải làm gì?" — Những bài này có intent cao nhất, conversion tốt nhất.</div><div class="action-meta"><span class="tag tag-crisis">Impact: Cao</span><span class="tag tag-p2">Effort: TB</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--amber)">#7</div><div class="action-body"><div class="action-title">Implement Internal Linking Map đầy đủ</div><div class="action-desc">Xây bảng internal linking: CIC blog → Vay Nhanh landing · Vay blog → VTS · VTS blog → CIC. Mỗi trang sản phẩm cross-link sang 2 sản phẩm còn lại qua widget "Xem thêm". Implement breadcrumb Schema.</div><div class="action-meta"><span class="tag tag-crisis">Impact: Cao</span><span class="tag tag-tofu">Effort: Thấp</span></div></div></div>
+
+  <h2 class="sh" style="margin-top:24px"><span style="color:var(--green)">🟢</span> Sprint 2–3</h2>
+  <div class="action-item"><div class="action-num" style="background:var(--green)">#8</div><div class="action-body"><div class="action-title">Build VTS Merchant Pages × 5 (Template C)</div><div class="action-desc">Shopee · Grab · Lazada · Tiki · Foody — mỗi trang target exact keyword "mua [merchant] trả sau momo". Long-tail intent rất cụ thể = conversion cao. Screenshot how-to từng bước.</div><div class="action-meta"><span class="tag tag-p2">Impact: TB-Cao</span><span class="tag tag-tofu">Effort: Thấp</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--green)">#9</div><div class="action-body"><div class="action-title">Build Vay Nhanh Sub-pages Đối Tượng (Template B)</div><div class="action-desc">sinh-vien · noi-tro · lao-dong-tu-do — Target persona keyword có conversion ý định rõ ràng. Thêm empathy copy và tailored FAQ cho từng đối tượng.</div><div class="action-meta"><span class="tag tag-p2">Impact: TB</span><span class="tag tag-tofu">Effort: Thấp</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--green)">#10</div><div class="action-body"><div class="action-title">FAQPage + HowTo Schema toàn bộ trang</div><div class="action-desc">Implement FAQPage Schema cho mọi trang có FAQ. HowTo schema cho bài hướng dẫn. FinancialProduct cho landing trang sản phẩm. Đây là "free SEO" — thêm featured snippet chance.</div><div class="action-meta"><span class="tag tag-p2">Impact: Cao</span><span class="tag tag-tofu">Effort: Rất thấp</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--green)">#11</div><div class="action-body"><div class="action-title">pSEO Geo Expansion — Vay Nhanh theo TP</div><div class="action-desc">5 TP × template = 5 trang đầu. HCM · HN · ĐN · HP · CT. "Vay tiền nhanh tại TPHCM" — local intent kết hợp với service intent, ít cạnh tranh hơn keyword chung.</div><div class="action-meta"><span class="tag tag-p2">Impact: TB</span><span class="tag tag-tofu">Effort: Thấp (pSEO)</span></div></div></div>
+  <div class="action-item"><div class="action-num" style="background:var(--green)">#12</div><div class="action-body"><div class="action-title">AEO Layer — Tối ưu cho AI Search (Google AI Overview, ChatGPT)</div><div class="action-desc">Viết "answer snippet" 40-60 chữ ở đầu mỗi bài. Cite nguồn uy tín (NHNN, Thông tư ngân hàng). Tổ chức FAQ định dạng Q&A rõ ràng. Tối ưu cho cả Google AI Overview và ChatGPT citation.</div><div class="action-meta"><span class="tag tag-p2">Impact: Tăng dần</span><span class="tag tag-tofu">Effort: Thấp</span></div></div></div>
+
+  <div class="divider"></div>
+  <div class="verdict-bar" style="border-color:var(--blue);background:linear-gradient(135deg,#F0F4FF,var(--surface))">
+    <div class="verdict-score" style="background:linear-gradient(135deg,var(--blue-light),#C0D4FF);color:var(--blue)">🚀</div>
+    <div class="verdict-text">
+      <div class="verdict-title" style="color:var(--blue)">MoMo có lợi thế cạnh tranh độc nhất trong mảng này</div>
+      <div class="verdict-desc">Là nền tảng duy nhất nắm đồng thời: vay tiền (Vay Nhanh) + mua trả sau (VTS) + biết điểm tín dụng (CIC). Không đối thủ nào trong thị trường VN đang làm đủ cả 3. Credit Ecosystem content strategy biến lợi thế sản phẩm thành lợi thế SEO bền vững. Bắt đầu từ #1 ngay hôm nay.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- NEW: FUNNEL CHI TIẾT × 3 + HUB    -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-funnel">
+  <div class="page-header">
+    <div class="page-eyebrow">User Journey · Deep Dive</div>
+    <div class="page-title">Funnel Chi Tiết — 4 Use Case (Hub + 3 Sản Phẩm)</div>
+    <div class="page-desc">Mỗi sản phẩm có user journey và content angle riêng biệt. Ngoài funnel chung, đây là breakdown chi tiết từng touch point, intent signal và niche angle để bổ sung content không ai đang làm.</div>
+  </div>
+
+  <!-- HUB FUNNEL -->
+  <h2 class="sh">🌐 Funnel 0 — Hub <code class="url" style="font-size:14px">/tin-dung</code></h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">Mục tiêu Hub Funnel: Phân loại user, không phải chuyển đổi trực tiếp</div>
+    Hub page nhắm đến user chưa biết mình cần gì — hoặc biết mình cần "tài chính" nhưng chưa chọn sản phẩm. Goal là phân loại đúng trong 5 giây và routing đến đúng trang.
+  </div>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">AWARENESS</div>
+      <div class="funnel-stage-title">Biết MoMo Có Credit</div>
+      <ul class="funnel-stage-items">
+        <li>"MoMo có cho vay không?"</li>
+        <li>"Tài chính cá nhân MoMo"</li>
+        <li>"Sản phẩm tín dụng MoMo"</li>
+        <li>Organic blog dẫn về Hub</li>
+        <li>Brand search + app navigation</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Credit suite fintech VN"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">COMPARE</div>
+      <div class="funnel-stage-title">Chọn Đúng Sản Phẩm</div>
+      <ul class="funnel-stage-items">
+        <li>Smart Selector: Bạn cần gì?</li>
+        <li>So sánh 3 sản phẩm side-by-side</li>
+        <li>"Vay vs Trả sau — khác gì?"</li>
+        <li>Use case scenarios trực quan</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Khi nào dùng VTS thay vay?"</li>
+        <li style="color:var(--green);font-weight:600">★ Quiz: "Sản phẩm nào phù hợp bạn?"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">ROUTE</div>
+      <div class="funnel-stage-title">Chuyển Đến Sản Phẩm</div>
+      <ul class="funnel-stage-items">
+        <li>CTA "Vay ngay" → /vay-nhanh</li>
+        <li>CTA "Kích hoạt VTS" → /vi-tra-sau</li>
+        <li>CTA "Tra điểm tín dụng" → /diem-tin-dung</li>
+        <li>Deeplink direct vào app</li>
+        <li style="color:var(--green);font-weight:600">★ Personalized CTA theo hành vi scroll</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CROSS-SELL</div>
+      <div class="funnel-stage-title">Ecosystem Upsell</div>
+      <ul class="funnel-stage-items">
+        <li>User từ Vay → gợi ý VTS</li>
+        <li>User từ CIC tốt → mời dùng Vay</li>
+        <li>Blog recommendation engine</li>
+        <li style="color:var(--green);font-weight:600">★ "Đã dùng Vay? Mở VTS tiết kiệm lãi"</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VAY NHANH FUNNEL -->
+  <div class="divider"></div>
+  <h2 class="sh">💸 Funnel 1 — Vay Nhanh <code class="url" style="font-size:14px">/vay-nhanh</code></h2>
+  <div class="callout callout-blue" style="background:var(--blue-light);border-color:#B0C8FF">
+    <div class="callout-title">Đặc điểm intent: High urgency · Short decision window · Sensitive topic</div>
+    User Vay Nhanh thường có nhu cầu cụ thể, gấp. Họ so sánh nhiều app cùng lúc. Trust và tốc độ là yếu tố quyết định — không phải tính năng. Content cần đánh vào cảm giác "an toàn, nhanh, không bẫy".
+  </div>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Nhận Thức</div>
+      <div class="funnel-stage-title">Giáo dục & Khám phá</div>
+      <ul class="funnel-stage-items">
+        <li>"Vay tiền online có an toàn không?"</li>
+        <li>"Lãi suất vay nhanh bao nhiêu là cao?"</li>
+        <li>"App vay tiền uy tín 2026"</li>
+        <li>"Phân biệt app vay uy tín vs tín dụng đen"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Vay tiền khi không có CCCD 2 mặt"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Tín dụng đen vs fintech — nhận biết"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Thu nhập không ổn định có vay được?"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Cân Nhắc</div>
+      <div class="funnel-stage-title">So Sánh & Tính Toán</div>
+      <ul class="funnel-stage-items">
+        <li>"MoMo vs TPBank iLink vs VPBank"</li>
+        <li>Calculator: vay 5tr × 3 tháng = trả bao nhiêu?</li>
+        <li>"Điều kiện vay — tôi có đủ không?"</li>
+        <li>"Vay trả góp hay vay 1 lần?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Chi phí thực sự của khoản vay 5 triệu"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "APR vs lãi tháng — đọc hiểu hợp đồng"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Vay bao nhiêu là đủ — tránh over-borrowing"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Quyết Định</div>
+      <div class="funnel-stage-title">Tìm Đúng Sản Phẩm</div>
+      <ul class="funnel-stage-items">
+        <li>"Vay 5 triệu nhanh nhất hôm nay"</li>
+        <li>Landing theo đối tượng: sinh viên, nội trợ</li>
+        <li>Landing theo mục đích: sửa xe, học phí</li>
+        <li>"Vay tiền không cần gặp mặt"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Vay tiền cho phụ nữ kinh doanh nhỏ"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Công nhân KCN vay nhanh"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Vay tiền khi vừa mất việc"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT</div>
+      <div class="funnel-stage-title">Đăng Ký & Nhận Tiền</div>
+      <ul class="funnel-stage-items">
+        <li>Deeplink → App MoMo → Vay Nhanh</li>
+        <li>Bước 1: Chọn số tiền & kỳ hạn</li>
+        <li>Bước 2: Xác thực CCCD + selfie</li>
+        <li>Bước 3: Duyệt tự động &lt;5 phút</li>
+        <li>Nhận tiền vào ví MoMo ngay</li>
+        <li style="color:var(--green);font-weight:600">★ Re-engagement: Push nhắc hạn trả</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-purple">
+      <div class="funnel-stage-label">RETAIN & UPSELL</div>
+      <div class="funnel-stage-title">Tăng Hạn Mức & Cross</div>
+      <ul class="funnel-stage-items">
+        <li>Trả đúng hạn → tăng hạn mức tự động</li>
+        <li>"Vay lần 2 duyệt nhanh hơn"</li>
+        <li>Cross: "Dùng VTS — không cần vay tiền mặt"</li>
+        <li>Cross: "Tra CIC để biết hạn mức tối đa"</li>
+        <li style="color:var(--green);font-weight:600">★ Lifecycle: Email/notif tái vay sau 3 tháng</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VTS FUNNEL -->
+  <div class="divider"></div>
+  <h2 class="sh">💳 Funnel 2 — Ví Trả Sau <code class="url" style="font-size:14px">/vi-tra-sau</code></h2>
+  <div class="callout callout-amber" style="background:#FFF8F0;border-color:#FFD0A0">
+    <div class="callout-title">Đặc điểm intent: Shopping-triggered · Impulse + Planned · Merchant-specific</div>
+    User VTS thường được trigger bởi merchant hoặc nhu cầu mua sắm cụ thể, không phải vì thiếu tiền. Đây là sản phẩm "upgrade lifestyle" không phải "giải quyết khủng hoảng". Content tone: aspirational, smart spending.
+  </div>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Nhận Thức</div>
+      <div class="funnel-stage-title">Giáo dục BNPL</div>
+      <ul class="funnel-stage-items">
+        <li>"BNPL là gì? Có nên dùng không?"</li>
+        <li>"Mua trước trả sau có lãi không?"</li>
+        <li>"Thẻ tín dụng vs ví trả sau — nên dùng gì?"</li>
+        <li>"Mua sắm thông minh với BNPL"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Gen Z quản lý tài chính với VTS"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Trả sau có ảnh hưởng điểm CIC không?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "5 thói quen mua sắm người giàu áp dụng"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Cân Nhắc</div>
+      <div class="funnel-stage-title">Tìm Hiểu & So Sánh</div>
+      <ul class="funnel-stage-items">
+        <li>"VTS MoMo vs Kredivo vs Akulaku"</li>
+        <li>"Hạn mức VTS bao nhiêu tối đa?"</li>
+        <li>"Phí trả chậm VTS bao nhiêu?"</li>
+        <li>"Kích hoạt VTS cần điều kiện gì?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Dùng VTS để không cần mở thẻ tín dụng ngân hàng"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Sinh viên không có thu nhập dùng VTS được không?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Phân tích: nên trả hết hay trả tối thiểu?"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Merchant Intent</div>
+      <div class="funnel-stage-title">Tìm Theo Merchant/Danh Mục</div>
+      <ul class="funnel-stage-items">
+        <li>"Mua Shopee trả sau MoMo"</li>
+        <li>"Đặt Grab bằng VTS"</li>
+        <li>"Mua iPhone trả góp qua MoMo"</li>
+        <li>"Khóa học online trả sau"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Đặt tour du lịch trả sau"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Mua thuốc, dịch vụ y tế trả sau"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Mua đồ cho bé trả sau — tiết kiệm tiền"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT</div>
+      <div class="funnel-stage-title">Kích Hoạt & Mua</div>
+      <ul class="funnel-stage-items">
+        <li>Kích hoạt VTS trong app (1 lần)</li>
+        <li>Chọn merchant → chọn VTS khi checkout</li>
+        <li>Xác nhận kỳ hạn trả (1/2/3 tháng)</li>
+        <li>Mua xong → nhận hàng trước</li>
+        <li style="color:var(--green);font-weight:600">★ Trigger: Nhắc trả trước 3 ngày</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-purple">
+      <div class="funnel-stage-label">RETAIN & UPSELL</div>
+      <div class="funnel-stage-title">Tăng Hạn Mức & Loop</div>
+      <ul class="funnel-stage-items">
+        <li>Trả đúng → hạn mức tăng dần</li>
+        <li>Merchant ưu đãi riêng cho VTS user</li>
+        <li>Cashback/voucher tích lũy</li>
+        <li>Cross: "Cần tiền mặt? Dùng Vay Nhanh"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "VTS Premium: unlock merchant độc quyền"</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CIC FUNNEL -->
+  <div class="divider"></div>
+  <h2 class="sh">📊 Funnel 3 — Điểm Tín Dụng <code class="url" style="font-size:14px">/diem-tin-dung</code></h2>
+  <div class="callout callout-green">
+    <div class="callout-title">Đặc điểm intent: Anxiety-driven · Research-heavy · Long decision cycle</div>
+    User CIC thường có 2 profile: (1) Sắp vay và muốn kiểm tra trước, (2) Bị từ chối vay và đang tìm hiểu lý do. Cả hai đều có intent vay cao nhưng cần content giáo dục sâu. Đây là funnel dài nhất nhưng conversion quality cao nhất.
+  </div>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Khám Phá</div>
+      <div class="funnel-stage-title">Tìm Hiểu Tín Dụng</div>
+      <ul class="funnel-stage-items">
+        <li>"CIC là gì? Hoạt động thế nào?"</li>
+        <li>"Điểm tín dụng ảnh hưởng gì?"</li>
+        <li>"Vì sao bị từ chối vay mà không biết lý do?"</li>
+        <li>"Thông tin nào lưu trong CIC của tôi?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "CIC có lưu lịch sử BNPL/VTS không?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Bảo lãnh cho người khác vay — CIC tôi có bị ảnh hưởng?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "CIC ở VN vs credit score ở nước ngoài"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Phân Tích</div>
+      <div class="funnel-stage-title">Hiểu Điểm Của Mình</div>
+      <ul class="funnel-stage-items">
+        <li>"Điểm bao nhiêu mới vay được?"</li>
+        <li>"Tôi đang ở nhóm nợ mấy?"</li>
+        <li>"Nợ cũ từ 5 năm trước có còn hiện không?"</li>
+        <li>"Điểm CIC tốt nhưng vẫn bị từ chối — tại sao?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Checklist kiểm tra CIC trước khi nộp hồ sơ vay"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Tại sao điểm CIC của tôi giảm đột ngột?"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Sai sót dữ liệu CIC — quyền khiếu nại"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Hành Động</div>
+      <div class="funnel-stage-title">Cải Thiện & Chuẩn Bị</div>
+      <ul class="funnel-stage-items">
+        <li>"Lộ trình cải thiện CIC 6 tháng"</li>
+        <li>"Trả hết nợ xấu nhóm 3 — CIC tốt lại bao lâu?"</li>
+        <li>"Mở thẻ tín dụng để build credit score"</li>
+        <li>"Điểm CIC đủ rồi — vay ngay MoMo"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Kế hoạch 30-60-90 ngày cải thiện CIC"</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Dùng VTS để xây credit score"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT</div>
+      <div class="funnel-stage-title">Tra Cứu & Kết Nối</div>
+      <ul class="funnel-stage-items">
+        <li>Tra CIC miễn phí qua MoMo</li>
+        <li>Xem điểm ngay trong app</li>
+        <li>Nhận đề xuất cải thiện từ AI</li>
+        <li>"Điểm đủ → Vay Nhanh ngay" deeplink</li>
+        <li style="color:var(--green);font-weight:600">★ Alert: Thông báo khi điểm thay đổi</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-purple">
+      <div class="funnel-stage-label">RETAIN</div>
+      <div class="funnel-stage-title">Theo Dõi & Cải Thiện</div>
+      <ul class="funnel-stage-items">
+        <li>Monthly CIC monitoring reminder</li>
+        <li>"Điểm tăng 50pts — nâng hạn mức vay"</li>
+        <li>CIC journey: từ xấu → tốt cùng MoMo</li>
+        <li>Ecosystem: Vay → trả → CIC tốt → VTS</li>
+        <li style="color:var(--green);font-weight:600">★ Niche: "Credit health dashboard trong app"</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- NICHE CONTENT ANGLES -->
+  <div class="divider"></div>
+  <h2 class="sh">💡 Niche Content Angles — Deep Dive Opportunities</h2>
+  <div class="callout callout-purple">
+    <div class="callout-title">Đây là vùng trắng mà đối thủ chưa khai thác — cơ hội Top 1 nhanh nhất</div>
+    Các từ khóa mainstream ("vay tiền nhanh", "lãi suất vay") đã bị ngân hàng và fintech lớn chiếm. Niche angles dưới đây ít cạnh tranh hơn nhưng conversion intent cao hơn.
+  </div>
+  <table class="data-table">
+    <thead><tr><th>Angle / Niche</th><th>Ví dụ URL</th><th>Insight</th><th>Sản phẩm</th><th>Độ khó</th></tr></thead>
+    <tbody>
+      <tr><td colspan="5" style="background:#E6EEFF;font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px">PERSONA NICHES — Đối Tượng Chưa Ai Phục Vụ</td></tr>
+      <tr class="row-new"><td style="font-weight:600">Phụ nữ đơn thân có con nhỏ</td><td><code class="url">/blog/vay-tien-cho-me-don-than</code></td><td>Pain point rất rõ, stigma cao → content cảm thông + thực tế convert tốt</td><td><span class="tag tag-content">Vay</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Công nhân xuất khẩu lao động về nước</td><td><code class="url">/blog/vay-tien-lao-dong-xuat-khau-ve-nuoc</code></td><td>Có tiết kiệm nhưng CIC blank → niche intent rõ ràng</td><td><span class="tag tag-content">Vay + CIC</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Người vừa ra tù, muốn làm lại</td><td><code class="url">/blog/vay-tien-khi-co-tien-an</code></td><td>Không ai làm content này — SEO gần như 0 cạnh tranh, intent cực cao</td><td><span class="tag tag-content">Vay + CIC</span></td><td><span class="tag tag-tofu">Rất thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Người cao tuổi (55-65) vay hỗ trợ con</td><td><code class="url">/blog/nguoi-cao-tuoi-vay-tien-duoc-khong</code></td><td>Demographic bị bỏ quên trong fintech content</td><td><span class="tag tag-content">Vay</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+      <tr><td colspan="5" style="background:var(--pink-light);font-size:11px;font-weight:700;color:var(--pink);padding:8px 14px">ANXIETY CONTENT — Chủ Đề Người Dùng Lo Nhất</td></tr>
+      <tr class="row-new"><td style="font-weight:600">Vay xong không trả được phải làm gì</td><td><code class="url">/blog/vay-momo-khong-tra-duoc</code></td><td>High-anxiety query → content bình tĩnh, hướng dẫn → trust builder cực mạnh</td><td><span class="tag tag-content">Vay + CIC</span></td><td><span class="tag tag-tofu">Rất thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">App vay tiền nào đang bẫy người dùng?</td><td><code class="url">/blog/app-vay-tien-gia-mao-canh-bao</code></td><td>Warning content → MoMo positioned as trusted contrast</td><td><span class="tag tag-content">Vay</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Dữ liệu CIC của tôi bị sai — phải làm gì?</td><td><code class="url">/blog/cic-sai-khieu-nai-the-nao</code></td><td>Rare but high-intent · Builds authority về CIC expertise</td><td><span class="tag tag-content">CIC</span></td><td><span class="tag tag-tofu">Rất thấp</span></td></tr>
+      <tr><td colspan="5" style="background:var(--green-light);font-size:11px;font-weight:700;color:var(--green);padding:8px 14px">FINANCIAL EDUCATION — Xây Dựng Credit Literacy</td></tr>
+      <tr class="row-new"><td style="font-weight:600">Bài học tài chính từ người đã trả hết nợ</td><td><code class="url">/blog/chuyen-thoat-no-thanh-cong</code></td><td>Storytelling format → viral potential + trust</td><td><span class="tag tag-content">CIC + Hub</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Credit score VN vs FICO (Mỹ) — giống và khác</td><td><code class="url">/blog/credit-score-viet-nam-vs-quoc-te</code></td><td>Unique angle, high shareability, international SEO crossover</td><td><span class="tag tag-content">CIC</span></td><td><span class="tag tag-tofu">Rất thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Tài chính cá nhân tuổi 22 vs tuổi 35 vs tuổi 50</td><td><code class="url">/blog/tai-chinh-ca-nhan-theo-do-tuoi</code></td><td>Lifecycle content → relevant to huge audience segments</td><td><span class="tag tag-content">Hub</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+      <tr><td colspan="5" style="background:var(--amber-light);font-size:11px;font-weight:700;color:var(--amber);padding:8px 14px">VTS LIFESTYLE — Tone Khác Biệt</td></tr>
+      <tr class="row-new"><td style="font-weight:600">Trả sau có đang làm bạn mua nhiều hơn không?</td><td><code class="url">/blog/bnpl-co-lam-ban-chi-nhieu-hon</code></td><td>Counter-intuitive angle → shareability cao, brand trust</td><td><span class="tag tag-bofu">VTS</span></td><td><span class="tag tag-tofu">Rất thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Nghiên cứu: Người dùng BNPL quản lý tiền tốt hơn</td><td><code class="url">/blog/bnpl-nguoi-dung-quan-ly-tien-tot-hon</code></td><td>Research-backed content → media pickup, backlinks tự nhiên</td><td><span class="tag tag-bofu">VTS</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+      <tr class="row-new"><td style="font-weight:600">Tháng lương 13 — đầu tư hay trả nợ VTS?</td><td><code class="url">/blog/thang-luong-13-tra-no-hay-dau-tu</code></td><td>Seasonal content · High search mỗi tháng 12</td><td><span class="tag tag-bofu">VTS + Vay</span></td><td><span class="tag tag-tofu">Thấp</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- NEW: CONTENT STRUCTURE — HUB PAGE -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-hub">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure · Hub Page</div>
+    <div class="page-title">Content Structure — <code class="url" style="font-size:20px">/tin-dung</code></div>
+    <div class="page-desc">Thiết kế nội dung chi tiết cho Hub Page. Trang này là điểm tập trung SEO umbrella — cần đủ dày để rank nhưng đủ clear để user routing nhanh.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">2.500+</div><div class="stat-lbl">Từ mục tiêu</div><div class="stat-sub">Đủ để Google coi là authoritative</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--pink)">H1 + 6 H2</div><div class="stat-lbl">Cấu trúc heading</div><div class="stat-sub">+ H3 trong mỗi product section</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green)">4</div><div class="stat-lbl">Schema cần implement</div><div class="stat-sub">FAQ · Organization · FinancialService · BreadcrumbList</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber)">15+</div><div class="stat-lbl">FAQ items</div><div class="stat-sub">Target featured snippet umbrella KW</div></div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">📌</span><div class="cs-page-title">Meta & SEO Setup</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Target Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">tài chính cá nhân MoMo</span><span class="cs-kw">sản phẩm tín dụng MoMo</span><span class="cs-kw">vay và trả sau MoMo</span><span class="cs-kw">MoMo credit</span><span class="cs-kw">giải pháp tài chính MoMo</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Title Tag</div>
+        <div class="cs-content-block"><div class="cs-block-desc">MoMo Credit Suite — Vay Nhanh · Ví Trả Sau · Điểm Tín Dụng | MoMo (≤60 ký tự)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Meta Description</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Khám phá 3 sản phẩm tài chính của MoMo: Vay Nhanh duyệt trong 5 phút, Ví Trả Sau mua sắm 0% lãi tháng đầu, và Tra Cứu Điểm Tín Dụng miễn phí. Tất cả trong 1 ứng dụng. (≤155 ký tự)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">Organization</span><span class="cs-schema">FAQPage</span><span class="cs-schema">FinancialService</span><span class="cs-schema">BreadcrumbList</span><span class="cs-schema">SiteLinksSearchBox</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🦸</span><div class="cs-page-title">Hero Section — H1 + Smart Selector</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H1</div>
+        <div class="cs-content-block"><div class="cs-block-desc"><b>"Tài Chính Thông Minh — MoMo Credit Suite"</b><br>Subheadline: "Vay tiền · Mua trả sau · Kiểm tra điểm tín dụng — Duyệt tự động, nhận kết quả trong 5 phút"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Smart Selector Widget</div>
+        <div class="cs-content-block"><div class="cs-block-title">3 nút lớn</div><div class="cs-block-desc">🙋 "Tôi cần vay tiền" → scroll đến Vay Nhanh section → CTA deeplink · 🛍 "Tôi muốn mua sắm trả sau" → VTS section · 📊 "Tôi muốn kiểm tra điểm tín dụng" → CIC section</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Trust Strip</div>
+        <div class="cs-content-block"><div class="cs-block-desc">30 triệu người dùng · Duyệt tự động AI · Bảo mật ngân hàng · Được cấp phép NHNN</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Components cần dev</div>
+        <span class="cs-component">🎯 Smart Selector 3 options</span><span class="cs-component">🛡 Trust badge row</span><span class="cs-component">📱 App Store links</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">📦</span><div class="cs-page-title">3 Product Sections — H2 mỗi sản phẩm</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Vay Nhanh — Vay Tiền Không Thế Chấp, Duyệt Trong 5 Phút</div>
+        <div class="cs-content-block"><div class="cs-block-title">Nội dung</div><div class="cs-block-desc">150-200 chữ giải thích ngắn gọn Vay Nhanh là gì · Key benefits (3-4 bullet) · Hạn mức từ X - Y triệu · Thời hạn từ 1-12 tháng · CTA "Vay ngay" deeplink app</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">H3 Keywords trong section</div><div class="cs-block-desc">vay tiền nhanh không cần thế chấp · duyệt tự động · vay online MoMo</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Ví Trả Sau — Mua Sắm Ngay, Thanh Toán Sau Khi Có Tiền</div>
+        <div class="cs-content-block"><div class="cs-block-title">Nội dung</div><div class="cs-block-desc">150-200 chữ giải thích VTS · Key merchants (icon list Shopee, Grab, Lazada) · 0% lãi tháng đầu · Hạn mức từ X triệu · CTA "Kích hoạt ngay"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Điểm Tín Dụng — Biết Điểm CIC, Vay Dễ Dàng Hơn</div>
+        <div class="cs-content-block"><div class="cs-block-title">Nội dung</div><div class="cs-block-desc">150-200 chữ giải thích CIC là gì, tại sao cần biết điểm · Tra cứu miễn phí · Nhận gợi ý cải thiện · CTA "Tra cứu ngay"</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🔄</span><div class="cs-page-title">Ecosystem Loop Visual + Use Case Scenarios</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Hành Trình Tài Chính Cùng MoMo</div>
+        <div class="cs-content-block"><div class="cs-block-title">Infographic vòng tròn</div><div class="cs-block-desc">Visual: Tra CIC → hiểu điểm → Vay Nhanh → trả đúng hạn → điểm tăng → VTS hạn mức cao → mua sắm thông minh. Copy ngắn ở mỗi bước ~20 chữ.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Bạn Đang Trong Tình Huống Nào? (4 scenarios)</div>
+        <div class="cs-content-block"><div class="cs-block-title">Scenario Cards</div><div class="cs-block-desc">🆘 Cần tiền gấp · 🛍 Muốn mua sắm thông minh · 📋 Chuẩn bị hồ sơ vay · 📈 Muốn tăng hạn mức — mỗi card 50-80 chữ + CTA routing đúng sản phẩm</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">❓</span><div class="cs-page-title">FAQ Section (15 câu) + Social Proof + Blog Preview</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Câu Hỏi Thường Gặp Về Tín Dụng MoMo</div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ items (15 câu — Schema FAQPage)</div><div class="cs-block-desc">MoMo có sản phẩm vay tiền không? · Vay MoMo có cần thế chấp? · Ví Trả Sau khác gì thẻ tín dụng? · Điểm CIC bao nhiêu mới dùng được VTS? · Tra cứu CIC có mất phí? · Hạn mức Vay Nhanh tối đa bao nhiêu? · Kích hoạt VTS mất bao lâu? · Nợ xấu có dùng sản phẩm MoMo được không? · MoMo có được cấp phép tín dụng? · 3 sản phẩm có độc lập nhau không? · ... (đến 15 câu)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Người Dùng Nói Gì Về MoMo Credit</div>
+        <div class="cs-content-block"><div class="cs-block-desc">3-4 verified reviews · Tên + ảnh đại diện + nghề nghiệp · 1 review cho mỗi sản phẩm · App Store rating badge</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Đọc Thêm — Kiến Thức Tài Chính</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Grid 4 bài blog mới nhất từ 3 cluster · Tag: Vay Nhanh / VTS / Điểm Tín Dụng · Thumbnail + tiêu đề + thời gian đọc</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- NEW: CONTENT STRUCTURE — VAY NHANH -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-vay">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure · Landing Page</div>
+    <div class="page-title">Content Structure — <code class="url" style="font-size:20px">/vay-nhanh</code></div>
+    <div class="page-desc">Trang landing chính cho sản phẩm Vay Nhanh. Mục tiêu kép: rank cho keyword "vay tiền nhanh online" + convert user thành đăng ký vay. Cần balance giữa SEO depth và UX clarity.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">3.000+</div><div class="stat-lbl">Từ mục tiêu</div><div class="stat-sub">Dày hơn Hub vì cạnh tranh cao hơn</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green)">H1 + 8 H2</div><div class="stat-lbl">Cấu trúc heading</div><div class="stat-sub">+ Calculator interactive</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber)">20+</div><div class="stat-lbl">FAQ items</div><div class="stat-sub">Đây là trang có FAQ dày nhất</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--pink)">5</div><div class="stat-lbl">Schema types</div><div class="stat-sub">FAQ · HowTo · LoanOrCredit · Breadcrumb · Review</div></div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">📌</span><div class="cs-page-title">Meta & SEO Setup — Vay Nhanh</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Primary Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">vay tiền nhanh</span><span class="cs-kw">vay tiền nhanh online</span><span class="cs-kw">vay nhanh momo</span><span class="cs-kw">vay tiền online uy tín</span><span class="cs-kw">app vay tiền nhanh</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Title Tag</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Vay Tiền Nhanh Online — Duyệt Trong 5 Phút | MoMo (≤60 ký tự)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Meta Description</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Vay tiền nhanh từ 1-50 triệu qua MoMo. Không cần thế chấp, duyệt tự động trong 5 phút, nhận tiền vào ví ngay. Lãi suất minh bạch, không phí ẩn.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">LoanOrCredit</span><span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span><span class="cs-schema">AggregateRating</span><span class="cs-schema">BreadcrumbList</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🦸</span><div class="cs-page-title">Hero — H1 + Calculator + Primary CTA</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H1</div>
+        <div class="cs-content-block"><div class="cs-block-desc"><b>"Vay Tiền Nhanh — Nhận Tiền Trong 5 Phút, Không Cần Thế Chấp"</b></div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Calculator (interactive widget)</div>
+        <div class="cs-content-block"><div class="cs-block-title">Slider A: Số tiền muốn vay (1tr — 50tr)</div><div class="cs-block-desc">Kết quả hiển thị realtime: Số tiền trả mỗi tháng · Tổng lãi phải trả · APR quy đổi</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Slider B: Kỳ hạn (1 / 3 / 6 / 12 tháng)</div><div class="cs-block-desc">Bảng so sánh kỳ hạn ngay dưới slider</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">CTA Primary</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Button lớn: "Vay Ngay — Mở App MoMo" (deeplink) · Secondary: "Tải MoMo nếu chưa có"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Components cần dev</div>
+        <span class="cs-component">📊 Loan Calculator realtime</span><span class="cs-component">📱 Deeplink detection</span><span class="cs-component">⭐ Rating snippet</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">✅</span><div class="cs-page-title">Điều Kiện · Hồ Sơ · Lãi Suất (H2 × 3)</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Điều Kiện Vay Tiền MoMo — Ai Được Vay?</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Checklist dạng visual: ✅ Công dân Việt Nam từ 18 tuổi · ✅ Có tài khoản MoMo đã xác thực · ✅ CCCD/CMND còn hiệu lực · ✅ Không cần sao kê lương · ✅ Không cần thế chấp tài sản</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Callout "Không cần"</div><div class="cs-block-desc">❌ Không cần thế chấp · ❌ Không cần sao kê ngân hàng · ❌ Không cần gặp mặt nhân viên</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Lãi Suất & Phí — Minh Bạch Hoàn Toàn</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Bảng lãi suất theo kỳ hạn · APR quy đổi · So sánh brief với "vay ngân hàng thông thường" · Không có phí ẩn statement</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Hướng Dẫn Vay 3 Bước — Schema HowTo</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Bước 1: Mở MoMo → Chọn Vay Nhanh → Nhập số tiền và kỳ hạn (30 giây) · Bước 2: Xác thực CCCD + chụp selfie AI (2 phút) · Bước 3: Ký hợp đồng điện tử → Nhận tiền vào ví (2 phút)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🔗</span><div class="cs-page-title">Sub-page Navigation + Cross-sell + FAQ</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Vay Theo Nhu Cầu Của Bạn (link to sub-pages)</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Grid các sub-page: Vay 1tr · 2tr · 5tr · 10tr · 20tr · 50tr — Theo đối tượng: Sinh viên · Nội trợ · Lao động tự do — Theo mục đích: Sửa xe · Vay gấp · Học phí</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: FAQ (20 câu) — Target long-tail featured snippets</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Vay MoMo có cần thế chấp không? · Hạn mức vay tối đa là bao nhiêu? · Vay bị từ chối vì lý do gì? · Trả nợ trước hạn có phí không? · Vay CIC xấu có được không? · Nếu không trả được thì sao? · ... (20 câu)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cross-sell Widget — Bottom of page</div>
+        <div class="cs-content-block"><div class="cs-block-desc">"Không muốn vay tiền mặt? Thử Ví Trả Sau — mua sắm ngay, trả sau 0% lãi tháng đầu" · "Chưa biết điểm tín dụng của mình? Tra cứu miễn phí ngay"</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- NEW: CONTENT STRUCTURE — VTS       -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-vts">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure · Landing Page</div>
+    <div class="page-title">Content Structure — <code class="url" style="font-size:20px">/vi-tra-sau</code></div>
+    <div class="page-desc">Trang landing chính cho Ví Trả Sau. Tone khác với Vay Nhanh: aspirational, smart-spending, không phải crisis-solving. Target người dùng muốn mua sắm thông minh hơn, không phải người đang khó khăn tài chính.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--pink)">2.500+</div><div class="stat-lbl">Từ mục tiêu</div><div class="stat-sub">Nhẹ hơn Vay vì merchant pages đảm nhận phần còn lại</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green)">H1 + 7 H2</div><div class="stat-lbl">Cấu trúc heading</div><div class="stat-sub">+ Merchant showcase widget</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber)">15+</div><div class="stat-lbl">FAQ items</div><div class="stat-sub">Focus: so sánh thẻ tín dụng + điều kiện</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">4</div><div class="stat-lbl">Schema types</div><div class="stat-sub">FAQ · HowTo · FinancialProduct · Breadcrumb</div></div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">📌</span><div class="cs-page-title">Meta & SEO Setup — Ví Trả Sau</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Primary Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">ví trả sau momo</span><span class="cs-kw">mua trước trả sau</span><span class="cs-kw">ví trả sau là gì</span><span class="cs-kw">kích hoạt ví trả sau</span><span class="cs-kw">BNPL việt nam</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Title Tag</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Ví Trả Sau MoMo — Mua Ngay, Trả Sau 0% Lãi Tháng Đầu (≤60 ký tự)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Meta Description</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Kích hoạt Ví Trả Sau MoMo — mua sắm tại Shopee, Grab, Lazada và 500+ đối tác. Hạn mức đến X triệu, 0% lãi tháng đầu. Không cần thẻ ngân hàng.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">FinancialProduct</span><span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span><span class="cs-schema">BreadcrumbList</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🦸</span><div class="cs-page-title">Hero — H1 + Merchant Logos + CTA</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H1</div>
+        <div class="cs-content-block"><div class="cs-block-desc"><b>"Ví Trả Sau MoMo — Mua Sắm Thông Minh, Thanh Toán Linh Hoạt"</b><br>Subheadline: "Mua trước, trả sau 0% lãi. Dùng ngay tại 500+ merchant yêu thích"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Merchant Showcase</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Logo grid: Shopee · Grab · Lazada · Tiki · Foody · Baemin · + "và 500+ đối tác" · Có thể click vào logo → đến merchant sub-page</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Key Benefits Strip</div>
+        <div class="cs-content-block"><div class="cs-block-desc">⚡ Kích hoạt trong 1 phút · 💰 0% lãi tháng đầu · 📱 Không cần thẻ ngân hàng · 🔐 Bảo mật 3FA · 📈 Tăng hạn mức tự động</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Components cần dev</div>
+        <span class="cs-component">🏪 Merchant logo grid (clickable)</span><span class="cs-component">💡 0% interest badge</span><span class="cs-component">📱 Deeplink to activation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">📋</span><div class="cs-page-title">Cách Hoạt Động · So Sánh · Điều Kiện (H2 × 3)</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: VTS Hoạt Động Như Thế Nào? — Schema HowTo</div>
+        <div class="cs-content-block"><div class="cs-block-desc">3 bước: 1. Kích hoạt VTS trong app MoMo (1 phút) → 2. Mua sắm tại merchant, chọn "MoMo Ví Trả Sau" khi thanh toán → 3. Hàng về tay, trả tiền sau theo kỳ hạn bạn chọn</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Ví Trả Sau vs Thẻ Tín Dụng — So Sánh Chi Tiết</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Bảng so sánh 2 cột: VTS MoMo vs Thẻ tín dụng ngân hàng — Điều kiện · Thời gian chờ · Phí thường niên · Hạn mức · Merchant được hỗ trợ · Quản lý chi tiêu</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Điều Kiện Kích Hoạt — Đơn Giản Hơn Bạn Nghĩ</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Checklist: ✅ Tài khoản MoMo đã xác thực · ✅ CCCD còn hiệu lực · ✅ Không cần sao kê · ✅ Không cần lịch sử tín dụng hoàn hảo · Điểm CIC tối thiểu (nếu có)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🔗</span><div class="cs-page-title">Sub-page Navigation + FAQ + Cross-sell</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Dùng VTS Ở Đâu? (links to merchant sub-pages)</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Card grid các merchant page: Shopee · Grab · Lazada · Tiki · Foody · + danh mục: Mua sắm · Du lịch · Giáo dục · Ăn uống · Sức khỏe</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: FAQ Ví Trả Sau (15 câu)</div>
+        <div class="cs-content-block"><div class="cs-block-desc">VTS khác thẻ tín dụng thế nào? · Kích hoạt VTS mất bao lâu? · Hạn mức VTS bao nhiêu? · Trả chậm bị phạt không? · VTS có ảnh hưởng CIC không? · Tắt VTS được không? · ... (15 câu)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cross-sell</div>
+        <div class="cs-content-block"><div class="cs-block-desc">"Cần tiền mặt thay vì mua sắm? Vay Nhanh duyệt trong 5 phút" · "Kiểm tra điểm tín dụng để unlock hạn mức VTS tối đa"</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- NEW: CONTENT STRUCTURE — CIC       -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-cs-cic">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure · Landing Page</div>
+    <div class="page-title">Content Structure — <code class="url" style="font-size:20px">/diem-tin-dung</code></div>
+    <div class="page-desc">Trang landing chính cho Điểm Tín Dụng / CIC. Đây là trang dày content nhất trong 3 sản phẩm vì user cần được giáo dục trước khi tra cứu. Nội dung cần balance giữa trust-building, education, và conversion sang Vay Nhanh/VTS.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--green)">4.000+</div><div class="stat-lbl">Từ mục tiêu</div><div class="stat-sub">Dày nhất vì edu content cần sâu</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">H1 + 9 H2</div><div class="stat-lbl">Cấu trúc heading</div><div class="stat-sub">+ Infographic điểm CIC</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber)">25+</div><div class="stat-lbl">FAQ items</div><div class="stat-sub">Nhiều nhất vì user anxiety cao</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--pink)">5</div><div class="stat-lbl">Schema types</div><div class="stat-sub">FAQ · HowTo · Article · AggregateRating · Breadcrumb</div></div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">📌</span><div class="cs-page-title">Meta & SEO Setup — Điểm Tín Dụng</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Primary Keywords</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">tra cứu CIC</span><span class="cs-kw">điểm tín dụng</span><span class="cs-kw">lịch sử tín dụng</span><span class="cs-kw">CIC là gì</span><span class="cs-kw">tra cứu lịch sử tín dụng miễn phí</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Title Tag</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Tra Cứu Điểm Tín Dụng CIC Miễn Phí — Xem Ngay Trong App MoMo (≤65 ký tự)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Meta Description</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Tra cứu điểm tín dụng CIC miễn phí qua MoMo. Xem lịch sử vay, điểm tín dụng, tình trạng nợ xấu ngay trong app. Kết quả tức thì, cập nhật hàng ngày.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema</div>
+        <span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span><span class="cs-schema">Article</span><span class="cs-schema">AggregateRating</span><span class="cs-schema">BreadcrumbList</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🦸</span><div class="cs-page-title">Hero — H1 + Reassurance + Primary CTA</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H1</div>
+        <div class="cs-content-block"><div class="cs-block-desc"><b>"Tra Cứu Điểm Tín Dụng CIC — Miễn Phí, Kết Quả Ngay Trong 1 Phút"</b><br>Subheadline: "Biết điểm tín dụng của bạn trước khi ngân hàng xem. Cập nhật thực tế từ CIC Việt Nam."</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Reassurance strip (quan trọng — giảm anxiety)</div>
+        <div class="cs-content-block"><div class="cs-block-desc">🔒 Dữ liệu chính thức từ CIC · ✅ Tra cứu KHÔNG ảnh hưởng điểm · 🆓 Miễn phí lần đầu · 📱 Kết quả ngay trong app MoMo</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">CTA Primary</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Button lớn: "Tra Cứu Điểm Ngay" (deeplink app) · Secondary note: "Lần đầu miễn phí · Tra cứu không ảnh hưởng điểm CIC của bạn"</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">📊</span><div class="cs-page-title">Education Sections — H2 × 5 (Core Content)</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Điểm Tín Dụng CIC Là Gì? Tại Sao Quan Trọng?</div>
+        <div class="cs-content-block"><div class="cs-block-desc">300-400 chữ giải thích CIC, lịch sử hình thành, ai dùng dữ liệu CIC, tại sao user cần biết điểm của mình trước khi vay</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Thang Điểm CIC — Điểm Bao Nhiêu Là Tốt?</div>
+        <div class="cs-content-block"><div class="cs-block-title">Infographic bắt buộc</div><div class="cs-block-desc">Visual thang điểm màu sắc: 🔴 Xấu (&lt;580) · 🟠 Cần cải thiện (580-669) · 🟡 Trung bình (670-739) · 🟢 Tốt (740-799) · 💚 Xuất sắc (800+) · Ý nghĩa từng band với khả năng vay</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Nợ Xấu Nhóm 1-5 Là Gì? Ảnh Hưởng Thế Nào?</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Bảng 5 nhóm nợ với định nghĩa, thời gian lưu trong CIC, ảnh hưởng đến khả năng vay từng nhóm · Link đến sub-page /diem-tin-dung/no-xau chi tiết hơn</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Cách Tra Cứu CIC Qua MoMo — 3 Bước (HowTo Schema)</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Bước 1: Mở app MoMo → Tìm "Điểm Tín Dụng" · Bước 2: Xác thực danh tính (CCCD + OTP) · Bước 3: Xem kết quả chi tiết: điểm số, lịch sử vay, gợi ý cải thiện</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Cải Thiện Điểm Tín Dụng — Lộ Trình 3 Tháng</div>
+        <div class="cs-content-block"><div class="cs-block-desc">5-7 hành động cụ thể: Trả đúng hạn · Không để quá hạn · Đa dạng hóa loại tín dụng · Không mở quá nhiều tài khoản mới · Link sang sub-page /diem-tin-dung/cai-thien-cic</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left"><span style="font-size:16px">🔗</span><div class="cs-page-title">Sub-page Navigation + FAQ + Cross-sell</div></div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">H2: Tìm Hiểu Sâu Hơn (link sub-pages)</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Card links: 📊 Điểm tín dụng chi tiết · ❌ Nợ xấu nhóm 1-5 · 📈 Cách cải thiện CIC · 📖 Hướng dẫn tra cứu · 📋 Lịch sử vay của tôi</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">H2: FAQ (25 câu — nhiều nhất trong 3 sản phẩm)</div>
+        <div class="cs-content-block"><div class="cs-block-desc">Tra cứu CIC có mất phí không? · Tra cứu CIC có ảnh hưởng điểm không? · CIC cập nhật bao lâu 1 lần? · Điểm bao nhiêu mới vay được MoMo? · Nợ xấu bao lâu mới xóa? · Tôi có thể khiếu nại dữ liệu CIC sai không? · Bảo lãnh cho người khác có ảnh hưởng CIC tôi không? · ... (25 câu)</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cross-sell — Sau khi biết điểm</div>
+        <div class="cs-content-block"><div class="cs-block-desc">"Điểm tốt? Vay ngay với Vay Nhanh MoMo — duyệt trong 5 phút" · "Muốn dùng hạn mức linh hoạt hơn? Kích hoạt Ví Trả Sau"</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+function toggleCS(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.cs-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+</script>
+</body>
+</html>

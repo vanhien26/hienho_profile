@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo Bảo Hiểm Xe Máy — Web Growth Strategy</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #AE2070;
+  --pink-light: #F5E0EC;
+  --green: #00A64F;
+  --green-light: #E0F5EA;
+  --blue: #1848B8;
+  --blue-light: #E6EEFF;
+  --amber: #C05000;
+  --amber-light: #FFF0E0;
+  --red: #C42020;
+  --red-light: #FFE8E8;
+  --ink: #18120E;
+  --ink-2: #4A3F38;
+  --ink-3: #8C7D74;
+  --bg: #F6F3EF;
+  --surface: #FFFFFF;
+  --border: #E4DDD6;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --r: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:252px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
+.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
+.nav-section { padding:16px 0 0; }
+.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; user-select:none; }
+.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
+.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
+.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+
+.content { flex:1; overflow-y:auto; min-width:0; }
+.section { display:none; padding:40px 48px; }
+.section.active { display:block; }
+
+.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
+.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
+.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+
+.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
+.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
+h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
+.tag-tofu { background:#E0F4E8; color:#0B6130; }
+.tag-mofu { background:var(--blue-light); color:var(--blue); }
+.tag-bofu { background:var(--pink-light); color:var(--pink); }
+.tag-p1 { background:var(--pink-light); color:var(--pink); }
+.tag-p2 { background:#FFF3DC; color:#8B5800; }
+.tag-p3 { background:#F0EDE8; color:var(--ink-3); }
+.tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
+.tag-seo { background:var(--blue-light); color:var(--blue); }
+.tag-conv { background:var(--pink-light); color:var(--pink); }
+.tag-trend { background:#F3E8FF; color:#6B21A8; }
+.tag-geo { background:#E0F2FE; color:#0369A1; }
+
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-hi { background:#FFF8F5; }
+
+.funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
+.funnel-stage:last-child { border-right:none; }
+.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
+.funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
+.funnel-stage-items li.hi::before { content:"★  "; color:var(--pink); }
+.funnel-stage-items li.hi { color:var(--pink); font-weight:600; }
+.fs-tofu { border-top:3px solid var(--green); }
+.fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); }
+.fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); }
+.fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+
+.divider { height:1px; background:var(--border); margin:32px 0; }
+
+.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
+.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:#F3E8FF; border:1px solid #D8B4FE; color:#4C1D95; }
+.callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.card-title { font-size:14px; font-weight:700; margin-bottom:8px; color:var(--ink); }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+
+/* Sitemap tree */
+.sm-root { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.sm-root-header { padding:16px 20px; background:linear-gradient(135deg,var(--pink-light),#FDE8F0); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+.sm-root-icon { font-size:22px; }
+.sm-root-title { font-size:15px; font-weight:800; }
+.sm-root-url { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-3); }
+.sm-root-badge { margin-left:auto; }
+.sm-level1 { padding:0 20px 16px; }
+.sm-l1-item { margin-top:14px; }
+.sm-l1-label { display:flex; align-items:center; gap:8px; padding:9px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; font-weight:700; font-size:13px; margin-bottom:6px; }
+.sm-l1-url { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-3); font-weight:400; margin-left:auto; }
+.sm-l2-list { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; padding:0 4px; }
+.sm-l2-item { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:7px 12px; font-size:12px; }
+.sm-l2-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); display:block; margin-top:2px; }
+.sm-l2-item.new { border:1.5px dashed var(--green); background:#F5FFF8; }
+.sm-l2-item.priority { border-left:3px solid var(--pink); }
+
+/* Content structure */
+.cs-page { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+.cs-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cs-header:hover { background:var(--bg); }
+.cs-header-left { display:flex; align-items:center; gap:12px; }
+.cs-page-title { font-size:14px; font-weight:700; }
+.cs-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; }
+.cs-toggle.open { transform:rotate(90deg); }
+.cs-body { display:none; border-top:1px solid var(--border); }
+.cs-body.open { display:block; }
+.cs-section { border-bottom:1px solid var(--border); padding:16px 20px; }
+.cs-section:last-child { border-bottom:none; }
+.cs-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
+.cs-keyword-row { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11.5px; padding:2px 8px; border-radius:4px; }
+.cs-kw-hi { background:var(--pink-light); color:var(--pink); font-size:11.5px; padding:2px 8px; border-radius:4px; font-weight:600; }
+.cs-component { display:inline-flex; align-items:center; gap:4px; background:var(--amber-light); color:var(--amber); border:1px solid #FFD0A0; font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:4px; margin:2px; }
+.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
+.cs-content-block { background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:10px 14px; margin-bottom:8px; font-size:12.5px; }
+.cs-block-title { font-weight:700; margin-bottom:3px; }
+.cs-block-desc { color:var(--ink-2); line-height:1.5; }
+
+/* Checklist */
+.cl-product { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+.cl-product-header { display:flex; align-items:center; gap:14px; padding:16px 20px; cursor:pointer; transition:background 0.12s; }
+.cl-product-header:hover { background:var(--bg); }
+.cl-product-icon { font-size:22px; flex-shrink:0; }
+.cl-product-meta { flex:1; }
+.cl-product-name { font-size:14px; font-weight:800; }
+.cl-product-sub { font-size:11.5px; color:var(--ink-3); margin-top:2px; }
+.cl-product-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+.cl-product-toggle { color:var(--ink-3); font-size:11px; transition:transform 0.2s; }
+.cl-product-toggle.open { transform:rotate(90deg); }
+.cl-product-body { display:none; border-top:1px solid var(--border); padding:20px; }
+.cl-product-body.open { display:block; }
+.cl-group { margin-bottom:20px; }
+.cl-group-title { font-size:12px; font-weight:800; color:var(--ink); background:var(--bg); padding:7px 12px; border-radius:6px; margin-bottom:10px; }
+.cl-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.cl-item { display:flex; align-items:flex-start; gap:10px; background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:8px 12px; }
+.cl-check { width:16px; height:16px; border:2px solid var(--border); border-radius:3px; flex-shrink:0; margin-top:1px; cursor:pointer; transition:all 0.15s; }
+.cl-check.done { background:var(--green); border-color:var(--green); }
+.cl-check.done::after { content:"✓"; color:white; font-size:10px; display:flex; align-items:center; justify-content:center; height:100%; }
+.cl-item-text { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.cl-note { background:var(--amber-light); border:1px solid #FFD0A0; border-radius:7px; padding:10px 14px; font-size:12px; color:var(--amber); margin-top:8px; }
+
+/* GEO/AEO */
+.geo-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px; margin-bottom:14px; }
+.geo-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.geo-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.geo-title { font-size:14px; font-weight:800; }
+.geo-sub { font-size:12px; color:var(--ink-3); }
+.geo-row { display:flex; gap:8px; margin-bottom:6px; align-items:flex-start; }
+.geo-label { font-size:11px; font-weight:700; color:var(--ink-3); white-space:nowrap; min-width:90px; padding-top:2px; }
+.geo-val { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+
+/* Trend pill */
+.trend-up { display:inline-flex; align-items:center; gap:3px; background:#E0F5EA; color:#006B30; font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }
+.trend-spike { display:inline-flex; align-items:center; gap:3px; background:#FFE8E8; color:#B01010; font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }
+.trend-stable { display:inline-flex; align-items:center; gap:3px; background:#F0EDE8; color:var(--ink-3); font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }
+
+/* Content direction card */
+.dir-card { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
+.dir-header { padding:12px 18px; display:flex; align-items:center; gap:10px; background:var(--bg); border-bottom:1px solid var(--border); }
+.dir-intent { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; }
+.dir-title { font-size:14px; font-weight:800; }
+.dir-body { padding:14px 18px; background:var(--surface); }
+.dir-row { display:flex; gap:10px; margin-bottom:8px; font-size:12.5px; align-items:flex-start; }
+.dir-key { font-weight:700; min-width:110px; flex-shrink:0; color:var(--ink-3); font-size:11.5px; padding-top:2px; }
+.dir-val { color:var(--ink-2); line-height:1.5; flex:1; }
+
+/* ─── LINK BUILDING ─── */
+.lb-tier { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:18px; }
+.lb-tier-header { padding:13px 18px; display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); }
+.lb-tier-title { font-size:14px; font-weight:800; }
+.lb-tier-body { padding:16px 18px; background:var(--surface); }
+.lb-tactic { display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+.lb-tactic:last-child { border-bottom:none; }
+.lb-tactic-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.lb-tactic-body { flex:1; }
+.lb-tactic-title { font-size:13px; font-weight:700; margin-bottom:3px; }
+.lb-tactic-desc { font-size:12px; color:var(--ink-2); line-height:1.6; }
+.lb-tactic-meta { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+.effort-low { background:#E0F5EA; color:#006B30; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; }
+.effort-mid { background:#FFF3DC; color:#8B5800; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; }
+.effort-high { background:var(--pink-light); color:var(--pink); font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; display:inline-block; }
+
+/* ─── CROSS-SELL ─── */
+.xs-matrix { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.xs-matrix table { width:100%; border-collapse:collapse; font-size:12.5px; }
+.xs-matrix th { padding:10px 14px; background:#F0EDE8; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-3); border-bottom:1px solid var(--border); border-right:1px solid var(--border); }
+.xs-matrix th:last-child { border-right:none; }
+.xs-matrix td { padding:10px 14px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); vertical-align:top; line-height:1.5; }
+.xs-matrix td:last-child { border-right:none; }
+.xs-matrix tbody tr:last-child td { border-bottom:none; }
+.xs-matrix tbody tr:hover { background:#FAFAF8; }
+.xs-has { color:var(--green); font-weight:600; font-size:12px; }
+.xs-trigger { font-size:11px; color:var(--ink-3); display:block; margin-top:2px; }
+.xs-placement { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:14px; }
+.xs-placement-header { padding:11px 16px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; font-size:13px; font-weight:700; }
+.xs-placement-body { padding:14px 16px; background:var(--surface); font-size:12.5px; color:var(--ink-2); line-height:1.7; }
+
+/* ─── ADS BLOG ─── */
+.ads-preview { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:18px; }
+.ads-preview-label { padding:8px 14px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); background:#F0EDE8; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.ads-preview-body { padding:16px; background:var(--surface); }
+.ad-banner-mock { background:linear-gradient(135deg,#AE2070,#E8457A); border-radius:8px; padding:18px 24px; display:flex; align-items:center; justify-content:space-between; color:white; margin-bottom:8px; }
+.ad-banner-text h4 { font-size:15px; font-weight:900; letter-spacing:-0.3px; margin-bottom:3px; }
+.ad-banner-text p { font-size:12px; opacity:0.85; }
+.ad-banner-cta { background:white; color:var(--pink); font-size:12px; font-weight:800; padding:8px 18px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
+.ad-form-mock { border:1.5px solid var(--pink); border-radius:10px; overflow:hidden; }
+.ad-form-header { background:var(--pink-light); padding:12px 16px; border-bottom:1px solid #F5CDE0; display:flex; align-items:center; gap:8px; }
+.ad-form-header span { font-size:13px; font-weight:800; color:var(--pink); }
+.ad-form-body { padding:14px 16px; background:white; }
+.ad-form-row { display:flex; gap:8px; margin-bottom:8px; }
+.ad-form-select { flex:1; background:#F6F3EF; border:1px solid var(--border); border-radius:6px; padding:8px 12px; font-size:12.5px; color:var(--ink-2); font-family:'Be Vietnam Pro',sans-serif; }
+.ad-form-btn { background:var(--pink); color:white; border:none; border-radius:6px; padding:8px 20px; font-size:12.5px; font-weight:800; cursor:pointer; font-family:'Be Vietnam Pro',sans-serif; white-space:nowrap; }
+.ad-form-note { font-size:10.5px; color:var(--ink-3); }
+.ad-sticky-mock { background:var(--ink); border-radius:8px; padding:12px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.ad-sticky-text { color:white; font-size:12.5px; }
+.ad-sticky-text strong { color:white; font-weight:800; }
+.ad-sticky-cta-wrap { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+.ad-sticky-price { background:rgba(255,255,255,0.12); color:white; font-size:12px; font-weight:700; padding:5px 12px; border-radius:6px; }
+.ad-sticky-btn { background:var(--pink); color:white; font-size:12px; font-weight:800; padding:7px 16px; border-radius:6px; }
+.ads-spec-row { display:flex; gap:8px; margin-bottom:6px; font-size:12.5px; align-items:flex-start; }
+.ads-spec-key { font-weight:700; min-width:120px; flex-shrink:0; color:var(--ink-3); font-size:11.5px; padding-top:1px; }
+.ads-spec-val { color:var(--ink-2); line-height:1.5; }
+.ab-test-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+.ab-variant { border:1.5px solid var(--border); border-radius:8px; overflow:hidden; }
+.ab-variant-label { padding:7px 12px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--border); }
+.ab-variant-body { padding:10px 12px; font-size:12px; color:var(--ink-2); line-height:1.6; background:var(--surface); }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-sub">Bảo Hiểm Xe Máy<br>Web Growth Strategy</div>
+  </div>
+  <nav>
+    <div class="nav-section">
+      <div class="nav-label">Nghiên Cứu</div>
+      <div class="nav-item active" onclick="go('market')"><span class="nav-icon">📊</span> Market &amp; Keyword</div>
+      <div class="nav-item" onclick="go('trend')"><span class="nav-icon">📈</span> Trendline &amp; Seasonality</div>
+      <div class="nav-item" onclick="go('geo')"><span class="nav-icon">🤖</span> GEO / AEO Behavior</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Kiến Trúc Web</div>
+      <div class="nav-item" onclick="go('sitemap')"><span class="nav-icon">🗺</span> Sitemap</div>
+      <div class="nav-item" onclick="go('content-structure')"><span class="nav-icon">🧩</span> Content Structure</div>
+      <div class="nav-item" onclick="go('content-direction')"><span class="nav-icon">✍️</span> Content Direction</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Tăng Trưởng</div>
+      <div class="nav-item" onclick="go('linkbuilding')"><span class="nav-icon">🔗</span> Link Building</div>
+      <div class="nav-item" onclick="go('crosssell')"><span class="nav-icon">🔄</span> Cross-sell Ecosystem</div>
+      <div class="nav-item" onclick="go('ads-blog')"><span class="nav-icon">📣</span> Ads &amp; Blog Tactics</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Thực Thi</div>
+      <div class="nav-item" onclick="go('checklist')"><span class="nav-icon">✅</span> Publish Checklist</div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="version-tag">v1.1 · March 2026</div>
+    <div class="version-tag">BH Xe Máy — momo.vn</div>
+  </div>
+</aside>
+
+<main class="content">
+
+<!-- ═══════════ 1. MARKET & KEYWORD ═══════════ -->
+<section class="section active" id="s-market">
+  <div class="page-header">
+    <div class="page-eyebrow">SEO Data &amp; Insights — Nguồn: BHXM Inbound Plan 2026</div>
+    <div class="page-title">Market Intelligence &amp; Keyword Clusters</div>
+    <div class="page-desc">Dữ liệu keyword thực từ file SEO Data nội bộ — 519 keywords, tổng vol ~67,540/tháng (tháng 10/2025). Gom thành <strong>7 Pillar Clusters</strong> để thấy tổng quan ưu tiên đầu tư content và xây dựng sitemap.</div>
+  </div>
+
+  <!-- Organic traffic alert -->
+  <div class="callout callout-red">
+    <div class="callout-title">📉 Vấn đề cốt lõi: Traffic sụt 95% sau spike tháng 1</div>
+    Dữ liệu internal cho thấy: <strong>Tháng 1: 79K → Tháng 2: 16K → Tháng 3: 6.4K → Tháng 4: 5.1K → Tháng 5: 4K</strong>. Spike do Nghị định 168 nhưng không giữ được traffic sau đó — chứng tỏ thiếu evergreen content và cluster depth. Mục tiêu chiến lược: xây baseline <strong>15–25K/tháng quanh năm</strong>, spike 70–90K tháng 1.
+  </div>
+
+  <!-- Snapshot 2 tháng -->
+  <div class="grid-2" style="margin-bottom:28px">
+    <div class="card">
+      <div class="card-title">📊 Tháng 3/2025 — Snapshot đầu năm</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
+        <strong>475 keywords</strong> · Tổng vol: <strong>76,460</strong><br>
+        Trend TB: <span class="trend-up">▲ +69% trong 12 tháng</span><br>
+        Avg CPC: ₫2,117 · Competition: <strong>Low</strong><br>
+        <span style="font-size:11.5px;color:var(--ink-3)">Spike mạnh do NĐ 168 hiệu lực 1/1/2025. Keyword "mức phạt", "có bắt buộc không" tăng đột biến. Cơ hội: publish/refresh bài trước tháng 12 hàng năm để kịp catch spike.</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Tháng 10/2025 — Snapshot ngoài mùa</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
+        <strong>519 keywords</strong> · Tổng vol: <strong>67,540</strong><br>
+        Trend TB: <span class="trend-spike">▼ −21% so với đỉnh tháng 1</span><br>
+        Avg Top-of-Page Bid: ₫215–509 · Competition: <strong>Low</strong><br>
+        <span style="font-size:11.5px;color:var(--ink-3)">Baseline ổn định ~67K. CPC thấp = cơ hội organic lớn hơn paid. Nhiều keyword "2025" mới xuất hiện → cần update năm liên tục. Cluster "Phạt" có CPC = ₫0 → free organic traffic.</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🗂 7 Keyword Clusters — Pillar &amp; Tổng Quan</h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">📌 Cách đọc</div>
+    Mỗi cluster = 1 nhóm intent → 1 pillar page hoặc content group. <strong>Vol cluster</strong> = tổng vol keywords đại diện trong nhóm từ data thực. Số trong ngoặc <em>(n)</em> = search volume thực từ data tháng 3 hoặc tháng 10/2025.
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width:20%">Cluster / Pillar</th>
+        <th>Keywords đại diện từ data thực</th>
+        <th style="width:9%">Vol cluster</th>
+        <th style="width:7%">~KWs</th>
+        <th style="width:11%">Trend</th>
+        <th style="width:13%">Trang đích</th>
+        <th style="width:7%">Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-hi">
+        <td>
+          <strong>🛒 Mua / Giao dịch Online</strong>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:2px">Transactional · sẵn sàng mua</div>
+        </td>
+        <td style="font-size:12px;line-height:1.7">
+          mua bảo hiểm xe máy <em>(3,600)</em> · mua bảo hiểm xe máy ở đâu <em>(3,600)</em> · mua bảo hiểm xe máy online <em>(2,900)</em> · cách mua bảo hiểm xe máy online <em>(170)</em> · mua bảo hiểm xe máy online được không <em>(170)</em> · đăng ký bảo hiểm xe máy online <em>(70–50)</em> · bán bảo hiểm xe máy online <em>(20)</em>
+        </td>
+        <td><strong style="color:var(--pink)">~15,000</strong></td>
+        <td>~45</td>
+        <td><span class="trend-up">▲ +41–125%</span></td>
+        <td><code class="url">/bao-hiem-xe-may</code><div style="font-size:10px;color:var(--ink-3);margin-top:2px">Hero form + CTA</div></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr class="row-hi">
+        <td>
+          <strong>⚖️ Phạt / Bắt buộc / Pháp lý</strong>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:2px">FOMO · CPC = ₫0 tháng 10</div>
+        </td>
+        <td style="font-size:12px;line-height:1.7">
+          bảo hiểm xe máy có bắt buộc không <em>(2,400)</em> · không có bảo hiểm xe máy phạt bao nhiêu <em>(1,900)</em> · ko có bảo hiểm xe máy phạt bao nhiêu <em>(1,900)</em> · mức phạt bảo hiểm xe máy <em>(480)</em> · lỗi không có bảo hiểm xe máy 2025 <em>(480)</em> · không bảo hiểm xe máy phạt bao nhiêu 2025 <em>(590)</em> · nghị định 168 bảo hiểm xe máy <em>(30)</em>
+        </td>
+        <td><strong style="color:var(--pink)">~12,000</strong></td>
+        <td>~60</td>
+        <td><span class="trend-spike">▲ Spike T1 · Vol=0 T10</span></td>
+        <td><code class="url">/blog/muc-phat-2026</code><div style="font-size:10px;color:var(--ink-3);margin-top:2px">Pillar FOMO</div></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr class="row-hi">
+        <td>
+          <strong>💰 Giá / Chi phí / Bao nhiêu tiền</strong>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:2px">MOFU · so sánh giá trước mua</div>
+        </td>
+        <td style="font-size:12px;line-height:1.7">
+          bảo hiểm xe máy giá bao nhiêu <em>(1,900 → 1,600)</em> · giá bảo hiểm xe máy <em>(1,000 → 880)</em> · bảo hiểm xe máy bao nhiêu tiền <em>(720)</em> · bảo hiểm xe máy 1 năm bao nhiêu tiền <em>(110 → 1,100)</em> · bảo hiểm xe máy giá <em>(140)</em> · giá bảo hiểm xe máy 2 năm <em>(210)</em> · bảo hiểm xe máy 3 năm bao nhiêu tiền <em>(170)</em>
+        </td>
+        <td><strong style="color:var(--blue)">~8,500</strong></td>
+        <td>~55</td>
+        <td><span class="trend-up">▲ +33–69% stable</span></td>
+        <td><code class="url">/bao-hiem-xe-may/bang-gia</code><div style="font-size:10px;color:var(--ink-3);margin-top:2px">Table + Calculator</div></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>
+          <strong>📍 Địa điểm mua / Kênh offline</strong>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:2px">Offline-intent → convert online</div>
+        </td>
+        <td style="font-size:12px;line-height:1.7">
+          điểm bán bảo hiểm xe máy <em>(880)</em> · bảo hiểm xe máy gần đây <em>(320)</em> · mua bảo hiểm xe máy ở cây xăng <em>(720 → 590)</em> · mua bảo hiểm xe máy ở bưu điện <em>(390)</em> · điểm bán bảo hiểm xe máy gần nhất <em>(170)</em> · bảo hiểm xe máy ở đâu <em>(110)</em> · bán bảo hiểm xe máy gần đây <em>(320 → 210)</em>
+        </td>
+        <td><strong style="color:var(--blue)">~4,000</strong></td>
+        <td>~40</td>
+        <td><span class="trend-up">▲ +46–88%</span></td>
+        <td><code class="url">/blog/mua-online-vs-offline</code><div style="font-size:10px;color:var(--ink-3);margin-top:2px">Bridge content</div></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>
+          <strong>🔍 Tra cứu / Kiểm tra hạn</strong>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:2px">Tool utility · high-intent</div>
+        </td>
+        <td style="font-size:12px;line-height:1.7">
+          tra cứu bảo hiểm xe máy <em>(390)</em> · tra cứu bảo hiểm xe máy online <em>(260)</em> · tra cứu bảo hiểm xe máy pti <em>(260 → 140)</em> · tra cứu bảo hiểm xe máy mic <em>(170–210)</em> · tra cứu bảo hiểm xe máy pvi <em>(140)</em> · tra cứu bảo hiểm xe máy bằng biển số xe <em>(110–90)</em>
+        </td>
+        <td><strong style="color:var(--green)">~2,500</strong></td>
+        <td>~20</td>
+        <td><span class="trend-up">▲ +24–129%</span></td>
+        <td><code class="url">/bao-hiem-xe-may/tra-cuu</code><div style="font-size:10px;color:var(--ink-3);margin-top:2px">Widget biển số</div></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>
+          <strong>🏦 Nhà bảo hiểm (Branded)</strong>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:2px">MOFU · so sánh nhà BH</div>
+        </td>
+        <td style="font-size:12px;line-height:1.7">
+          bảo hiểm xe máy pvi <em>(390)</em> · bảo hiểm xe máy mic <em>(260–320)</em> · bảo hiểm xe máy bảo việt <em>(210)</em> · bảo hiểm xe máy pti <em>(210 → 170)</em> · bảo hiểm xe máy bảo long <em>(110)</em> · bảo hiểm xe máy gic <em>(70 → 50)</em> · bảo hiểm xe máy vni <em>(70)</em> · bảo hiểm xe máy liberty <em>(30)</em>
+        </td>
+        <td><strong style="color:var(--green)">~2,000</strong></td>
+        <td>~25</td>
+        <td><span class="trend-stable">→ Stable</span></td>
+        <td><code class="url">/bao-hiem-xe-may/[nha-bh]</code><div style="font-size:10px;color:var(--ink-3);margin-top:2px">Landing per brand</div></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td>
+          <strong>📋 Kiến thức / Giải thích</strong>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:2px">TOFU · Evergreen trust-building</div>
+        </td>
+        <td style="font-size:12px;line-height:1.7">
+          bảo hiểm xe máy có tác dụng gì <em>(720)</em> · bảo hiểm xe máy bắt buộc là gì <em>(390–480)</em> · bảo hiểm xe máy điện tử <em>(480)</em> · cách xuất trình bảo hiểm xe máy online <em>(110)</em> · tích hợp bảo hiểm xe máy vào vneid <em>(140)</em> · bảo hiểm xe máy khi bị tai nạn <em>(90)</em> · bảo hiểm xe máy tự nguyện là gì <em>(40)</em>
+        </td>
+        <td><strong style="color:var(--amber)">~4,000</strong></td>
+        <td>~80</td>
+        <td><span class="trend-stable">→ Evergreen</span></td>
+        <td><code class="url">/blog/* + FAQ trang cha</code><div style="font-size:10px;color:var(--ink-3);margin-top:2px">Content hub</div></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">💡 3 Insight Chiến Lược Từ Data Thực</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">🆓 Cluster "Phạt" — CPC = ₫0, traffic free</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7">Nhóm "không có bảo hiểm xe máy phạt bao nhiêu" có CPC = <strong>₫0</strong> tháng 10/2025 — không ai bid, organic gần như free. Có hàng chục biến thể (ko có, không bảo hiểm, lỗi không có, 2025, 2026...) tổng vol ~12,000/tháng. <strong>Dễ rank nhất, conversion FOMO cao nhất</strong> — đây là bài nên publish đầu tiên.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📍 Cluster "Địa điểm" — 4K vol bị bỏ ngỏ</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7">Data thực: "điểm bán BH xe máy" <em>(880)</em>, "mua ở cây xăng" <em>(590)</em>, "ở bưu điện" <em>(390)</em> — họ muốn mua nhưng chưa biết có thể dùng MoMo. <strong>Tạo 1 landing page bridge</strong> "Không cần đi đâu — mua online 1 phút" capture toàn bộ offline-intent và redirect sang transaction.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">⬇️ Traffic rơi 95% — thiếu 7 clusters</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7">79K tháng 1 → 4K tháng 5 = mất <strong>95%</strong> chỉ sau 4 tháng. Nguyên nhân: chỉ có content spike "mức phạt", không có evergreen clusters (Giá, Tra cứu, Kiến thức, Địa điểm). Giải pháp: xây đủ cả 7 clusters → baseline 15–25K/tháng, spike 70–90K tháng 1 mỗi năm.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🏆 Phân Tích Cạnh Tranh SEO</h2>
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Đối thủ đang chiếm cluster nào của MoMo</div>
+    Data thực cho thấy: cluster "Địa điểm" (điểm bán BH xe máy 880/tháng) chưa có trang MoMo nào target. Cluster "Kiến thức" đang bị royalhelmet, ibaohiem chiếm phần lớn dù các trang này không bán được hàng. Cluster "Nhà BH" bị website của chính nhà BH (mic.vn, pvi.vn) rank trước.
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr><th>Đối thủ</th><th>Cluster đang chiếm</th><th>Điểm yếu</th><th>Cơ hội cho MoMo</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>royalhelmet.com.vn</strong></td>
+        <td>Phạt · Giá · Kiến thức — content dài rank tốt top 3–5</td>
+        <td>Không có sản phẩm — zero conversion value</td>
+        <td>Cùng content structure + inline form MoMo. Thắng bằng trust 2.3M hợp đồng</td>
+      </tr>
+      <tr>
+        <td><strong>ibaohiem.vn / tasco.vn / opes.com.vn</strong></td>
+        <td>Kiến thức · Tra cứu — domain authority tốt</td>
+        <td>UX kém, không mobile-first, không có widget tra cứu thực</td>
+        <td>Beat Core Web Vitals + widget tra cứu biển số thực tế trong trang MoMo</td>
+      </tr>
+      <tr>
+        <td><strong>Điện Máy Xanh / TGDĐ</strong></td>
+        <td>Cluster Mua + Địa điểm — brand awareness rất cao</td>
+        <td>BH chỉ là phụ trợ, không có cluster giá hay tra cứu</td>
+        <td>MoMo chuyên sâu hơn nhiều — tra cứu, tái tục, cluster giá 2/3 năm</td>
+      </tr>
+      <tr>
+        <td><strong>MIC / PVI / PTI trực tiếp</strong></td>
+        <td>Branded cluster của chính họ (mic, pvi, pti ~260–390/brand)</td>
+        <td>Chỉ push 1 nhà BH, không có trang so sánh đa bên trung lập</td>
+        <td>MoMo = trung lập đa nhà BH → trang so sánh capture toàn cluster branded</td>
+      </tr>
+      <tr>
+        <td><strong>ZaloPay / ViettelMoney</strong></td>
+        <td>Branded search nhỏ — "zalopay bảo hiểm", "viettel money bảo hiểm"</td>
+        <td>Web SEO rất yếu, không có content cluster, không có blog</td>
+        <td>Duy trì lợi thế content depth — không cần phòng thủ, chỉ cần tấn công</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ 2. TREND ═══════════ -->
+<section class="section" id="s-trend">
+  <div class="page-header">
+    <div class="page-eyebrow">Trendline &amp; Seasonality — Bảo Hiểm Xe Máy</div>
+    <div class="page-title">Xu Hướng Tìm Kiếm &amp; Thời Điểm Cao Điểm</div>
+    <div class="page-desc">Dữ liệu xu hướng tìm kiếm, mùa vụ và các event pháp lý tác động trực tiếp đến nhu cầu mua bảo hiểm xe máy online tại Việt Nam.</div>
+  </div>
+
+  <h2 class="sh">📈 Trendline Chính — 2024–2026</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🚨 Spike Nghị Định 168 — Từ 1/1/2025</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.6">Nghị định 168/2024/NĐ-CP tăng mức phạt từ 100–200K lên <strong>200–300K đồng</strong> khi không có BH TNDS. Spike tìm kiếm "bảo hiểm xe máy bắt buộc", "mức phạt 2025", "mua bảo hiểm xe máy online" <strong>tăng mạnh Q4/2024 và đỉnh điểm tháng 1/2025</strong>. Năm 2026 pattern tương tự dịp đầu năm.</p>
+      <div style="margin-top:10px"><span class="trend-spike">▲ Spike định kỳ mỗi đầu năm</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ Xe Máy Điện — Trend tăng trưởng 2025–2026</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.6">VinFast, Yamaha Neo, Honda Wave điện, Yadea… thúc đẩy cluster từ khoá mới: <strong>"xe máy điện có cần bảo hiểm không"</strong>, <strong>"bảo hiểm xe máy điện dưới 50cc"</strong>. Keyword volume tăng ~40% YoY. Đây là whitespace ít cạnh tranh mà MoMo có thể chiếm Top nhanh.</p>
+      <div style="margin-top:10px"><span class="trend-up">▲ +40% YoY — Whitespace</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📱 Shift sang Mobile-first Purchase</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.6">Tỷ lệ người mua BH online qua điện thoại ngày càng tăng. Search query ngày càng conversational hơn: <em>"mua bảo hiểm xe máy ở đâu nhanh nhất"</em>, <em>"mua bảo hiểm xe máy bằng MoMo được không"</em>. MoMo là Super App — lợi thế tự nhiên với mobile intent.</p>
+      <div style="margin-top:10px"><span class="trend-up">▲ Mobile-first dominates</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🤖 GCN Điện Tử — Trust đang được xây dựng</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.6">Sau Nghị định 03/2021, GCN điện tử hợp pháp 100% nhưng nhiều người vẫn nghi ngờ. Search "giấy chứng nhận điện tử có hợp lệ không" vẫn tăng đều. MoMo cần nội dung giải đáp trust rõ ràng để remove friction trước khi mua.</p>
+      <div style="margin-top:10px"><span class="trend-stable">→ Cần content trust-building</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh">📅 Lịch Nhu Cầu Theo Mùa — Content Calendar</h2>
+  <table class="data-table">
+    <thead>
+      <tr><th>Thời điểm</th><th>Event / Trigger</th><th>Từ khoá tăng mạnh</th><th>Nội dung cần chuẩn bị</th><th>Priority</th></tr>
+    </thead>
+    <tbody>
+      <tr class="row-hi">
+        <td><strong>Tháng 11–12</strong></td>
+        <td>Cuối năm — nhiều người biết BH sắp hết hạn</td>
+        <td>"gia hạn bảo hiểm xe máy", "tái tục online"</td>
+        <td>Trang /gia-han · Blog nhắc lịch tái tục · Push notification</td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr class="row-hi">
+        <td><strong>Tháng 1</strong></td>
+        <td>Nghị định mới có hiệu lực, CSGT tăng cường kiểm tra</td>
+        <td>"mức phạt 2026", "mua bảo hiểm xe máy gấp", "bị phạt không có bảo hiểm"</td>
+        <td>Blog mức phạt mới cập nhật ngay 1/1 · Push CTA mua ngay · Blog "5 điều cần làm sau Tết"</td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Tháng 4–5</strong></td>
+        <td>Mùa mưa bắt đầu — tai nạn tăng, awareness về BH tăng</td>
+        <td>"bảo hiểm xe máy mùa mưa", "bồi thường tai nạn giao thông"</td>
+        <td>Blog "Mùa mưa và bảo hiểm xe" · Content bồi thường step-by-step</td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Tháng 6–7</strong></td>
+        <td>Mùa học mới — học sinh/sinh viên mua xe → cần BH lần đầu</td>
+        <td>"sinh viên mua bảo hiểm xe máy", "bảo hiểm xe 50cc học sinh"</td>
+        <td>Blog "Hướng dẫn BH lần đầu cho sinh viên" · Landing page xe dưới 50cc</td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Quanh năm</strong></td>
+        <td>Mua xe mới — khách đến showroom Honda, Yamaha, VinFast</td>
+        <td>"mua xe Honda Wave cần BH ngay", "bảo hiểm xe mới mua"</td>
+        <td>Landing pages theo hãng xe · SEO anchor "sau khi mua xe cần làm gì"</td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Dịp Tết</strong></td>
+        <td>Về quê — xa lộ đông, tai nạn nhiều. Nhiều người kiểm tra BH</td>
+        <td>"bảo hiểm xe máy về quê Tết", "kiểm tra BH còn hạn không"</td>
+        <td>Blog "Checklist xe trước khi lên đường Tết" · Widget tra cứu hạn BH</td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-green">
+    <div class="callout-title">💡 Insight quan trọng về Trendline</div>
+    Từ khoá bảo hiểm xe máy có <strong>nhu cầu evergreen rất cao</strong> (do bắt buộc theo luật với 72M xe), nhưng có <strong>spike rõ ràng vào Q4–Q1</strong> mỗi năm. Chiến lược: Xây content hub chất lượng cao quanh năm, sau đó tăng tốc push và refresh nội dung vào tháng 11–12 để catch spike đầu năm. Từ khoá "xe máy điện + bảo hiểm" là <strong>growing keyword cluster</strong> với ít cạnh tranh nhất — nên ưu tiên chiếm trước đối thủ.
+  </div>
+</section>
+
+<!-- ═══════════ 3. GEO / AEO ═══════════ -->
+<section class="section" id="s-geo">
+  <div class="page-header">
+    <div class="page-eyebrow">GEO &amp; AEO — Generative &amp; Answer Engine Optimization</div>
+    <div class="page-title">Hành Vi Tìm Kiếm Thế Hệ Mới &amp; AI Answers</div>
+    <div class="page-desc">Phân tích cách người dùng Việt Nam tìm kiếm bảo hiểm xe máy qua Google AI Overview, ChatGPT, Gemini và các AI assistant — và chiến lược để MoMo xuất hiện trong kết quả AI.</div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🤖 GEO (Generative Engine Optimization) là gì trong context này?</div>
+    Khi người dùng hỏi AI (ChatGPT, Gemini, Google AI Overview, Perplexity): <em>"Mua bảo hiểm xe máy ở đâu uy tín?"</em> hay <em>"Bảo hiểm xe máy MoMo có tốt không?"</em> — AI sẽ kéo dữ liệu từ các trang web có E-E-A-T cao, nội dung structured rõ ràng, FAQ schema và review thực. MoMo cần xây dựng nội dung để <strong>được AI trích dẫn và recommend</strong>.
+  </div>
+
+  <h2 class="sh">🔍 Các Dạng Query AI Phổ Biến &amp; Cách Tối Ưu</h2>
+
+  <div class="geo-card">
+    <div class="geo-header">
+      <div class="geo-icon" style="background:var(--blue-light)">💬</div>
+      <div>
+        <div class="geo-title">Conversational Queries — Hỏi đáp tự nhiên</div>
+        <div class="geo-sub">Dạng query tăng mạnh với Google SGE, Gemini và ChatGPT</div>
+      </div>
+    </div>
+    <div class="geo-row"><div class="geo-label">Query ví dụ</div><div class="geo-val"><em>"Bảo hiểm xe máy MoMo có tốt không?", "Mua bảo hiểm xe máy online có an toàn không?", "Nên mua BH xe máy ở đâu rẻ nhất?"</em></div></div>
+    <div class="geo-row"><div class="geo-label">AI trả lời từ đâu</div><div class="geo-val">Kéo từ trang có Review section, AggregateRating Schema, câu FAQ ngắn trả lời trực tiếp trong 1–2 câu đầu, có dữ liệu cụ thể (2.3M hợp đồng, đối tác Bảo Việt/PVI/PTI)</div></div>
+    <div class="geo-row"><div class="geo-label">Chiến lược MoMo</div><div class="geo-val">Thêm <strong>FAQ Schema</strong> với câu hỏi conversational, block "Tại sao chọn MoMo" với số liệu cụ thể, <strong>AggregateRating Schema</strong> với đánh giá thực từ người dùng</div></div>
+  </div>
+
+  <div class="geo-card">
+    <div class="geo-header">
+      <div class="geo-icon" style="background:var(--green-light)">📋</div>
+      <div>
+        <div class="geo-title">Featured Snippet &amp; People Also Ask</div>
+        <div class="geo-sub">Google vẫn là kênh dominant — cần tối ưu cho Position 0</div>
+      </div>
+    </div>
+    <div class="geo-row"><div class="geo-label">Query cơ hội</div><div class="geo-val"><em>"Bảo hiểm xe máy bắt buộc là gì?", "Mức phạt không có bảo hiểm 2026?", "Giấy chứng nhận BH điện tử có hợp lệ không?"</em></div></div>
+    <div class="geo-row"><div class="geo-label">Format cần có</div><div class="geo-val">Paragraph snippet (câu trả lời trực tiếp &lt;50 từ ngay đầu trang), List snippet cho "Các bước mua BH xe máy", Table snippet cho bảng giá theo phân khối</div></div>
+    <div class="geo-row"><div class="geo-label">Schema cần implement</div><div class="geo-val"><code class="url">FAQPage</code> · <code class="url">HowTo</code> (quy trình mua) · <code class="url">Table</code> (bảng phí) · <code class="url">Product</code> + <code class="url">AggregateRating</code></div></div>
+  </div>
+
+  <div class="geo-card">
+    <div class="geo-header">
+      <div class="geo-icon" style="background:var(--pink-light)">📍</div>
+      <div>
+        <div class="geo-title">Local &amp; Near-me Intent</div>
+        <div class="geo-sub">Mua offline vẫn là thói quen — cần capture cả intent này</div>
+      </div>
+    </div>
+    <div class="geo-row"><div class="geo-label">Query ví dụ</div><div class="geo-val"><em>"Mua bảo hiểm xe máy ở đâu Hà Nội / HCM", "Bưu điện gần đây bán bảo hiểm không"</em></div></div>
+    <div class="geo-row"><div class="geo-label">Insight</div><div class="geo-val">Người dùng tìm offline nhưng thực ra có thể mua online ngay trên MoMo — cần content bridge: landing page tại sao không cần đi đâu, mua online an toàn hơn. Chuyển đổi intent offline → online là cơ hội lớn</div></div>
+    <div class="geo-row"><div class="geo-label">Chiến lược</div><div class="geo-val">Blog "Không cần ra bưu điện — mua BH xe máy 1 phút trên MoMo" · So sánh kênh mua · CTA mạnh cho mobile users</div></div>
+  </div>
+
+  <div class="geo-card">
+    <div class="geo-header">
+      <div class="geo-icon" style="background:var(--amber-light)">⚖️</div>
+      <div>
+        <div class="geo-title">YMYL &amp; E-E-A-T Requirements</div>
+        <div class="geo-sub">Bảo hiểm là lĩnh vực Your Money Your Life — Google yêu cầu cao về trust</div>
+      </div>
+    </div>
+    <div class="geo-row"><div class="geo-label">E-E-A-T cần có</div><div class="geo-val">Experience (2.3M hợp đồng đã phân phối) · Expertise (giải thích đúng luật, cite Nghị định) · Authoritativeness (brand MoMo, đối tác BH uy tín) · Trust (chứng nhận, đánh giá)</div></div>
+    <div class="geo-row"><div class="geo-label">Tín hiệu cần thêm</div><div class="geo-val">Author byline với chức danh (Chuyên gia bảo hiểm MoMo) · Ngày cập nhật visible · Cite đúng Nghị định số trong nội dung · "Last reviewed" date · Đường link tới văn bản pháp luật chính thức</div></div>
+    <div class="geo-row"><div class="geo-label">Nguy cơ</div><div class="geo-val">Số liệu pháp lý lỗi thời (mức phạt cũ, nghị định cũ) → Google penalize. Cần quy trình review content định kỳ mỗi khi có Nghị định mới</div></div>
+  </div>
+
+  <h2 class="sh">🧠 Zero-click &amp; AI Answer Strategy</h2>
+  <table class="data-table">
+    <thead><tr><th>Nền tảng AI</th><th>Behavior với query BH xe máy</th><th>Chiến lược tối ưu</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Google AI Overview (SGE)</strong></td>
+        <td>Tổng hợp câu trả lời từ 3–5 nguồn, hiển thị trước kết quả organic. Ưu tiên trang có FAQ Schema, structured content rõ ràng</td>
+        <td>FAQ Schema bắt buộc, câu trả lời direct trong 1 đoạn văn ngắn, cấu trúc H2/H3 rõ ràng</td>
+      </tr>
+      <tr>
+        <td><strong>ChatGPT / Copilot</strong></td>
+        <td>Không crawl real-time (trừ Bing plugin), nhưng cite từ training data — MoMo blog posts được index nhiều → tăng chance được mention</td>
+        <td>Volume content chất lượng cao, được index và chia sẻ nhiều. Tên thương hiệu xuất hiện trong context tích cực</td>
+      </tr>
+      <tr>
+        <td><strong>Gemini (Google)</strong></td>
+        <td>Real-time web access, ưu tiên nguồn authority. MoMo.vn được trust cao do domain authority và brand recognition</td>
+        <td>Cập nhật nội dung thường xuyên, đặc biệt sau các thay đổi pháp luật. Structured data đầy đủ</td>
+      </tr>
+      <tr>
+        <td><strong>TikTok / YouTube Search</strong></td>
+        <td>Gen Z tìm kiếm qua video: "cách mua bảo hiểm xe máy trên MoMo". MoMo có lợi thế nếu có video guide ngắn</td>
+        <td>Trang /huong-dan-mua cần embed video guide ngắn, transcript được index. Liên kết chéo web ↔ video</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ 4. SITEMAP ═══════════ -->
+<section class="section" id="s-sitemap">
+  <div class="page-header">
+    <div class="page-eyebrow">Kiến Trúc Thông Tin — Bảo Hiểm Xe Máy</div>
+    <div class="page-title">Sitemap — Cấu Trúc URL</div>
+    <div class="page-desc">Toàn bộ cấu trúc URL cho cluster Bảo Hiểm Xe Máy trên <code class="url">momo.vn</code> — thiết kế để tối ưu crawl, internal link equity và phủ sóng keyword toàn funnel.</div>
+  </div>
+
+  <!-- Root -->
+  <div class="sm-root">
+    <div class="sm-root-header">
+      <div class="sm-root-icon">🏍️</div>
+      <div>
+        <div class="sm-root-title">Trang Cha — Insurance Hub xe máy</div>
+        <div class="sm-root-url">momo.vn/bao-hiem-xe-may</div>
+      </div>
+      <div class="sm-root-badge"><span class="tag tag-p1">P1 — Trang trọng tâm</span></div>
+    </div>
+    <div class="sm-level1">
+
+      <!-- Block 1: Sản phẩm -->
+      <div class="sm-l1-item">
+        <div class="sm-l1-label">
+          <span>📦</span> Trang Sản Phẩm
+          <span class="sm-l1-url">/bao-hiem-xe-may/[slug]</span>
+        </div>
+        <div class="sm-l2-list">
+          <div class="sm-l2-item priority">
+            <strong>BH TNDS Bắt buộc</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/bat-buoc</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>BH Tự nguyện / Vật chất</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/tu-nguyen</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Gia hạn / Tái tục</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/gia-han</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI</span>
+          </div>
+          <div class="sm-l2-item">
+            <strong>Bồi thường</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/boi-thuong</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Tra cứu BH còn hạn</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/tra-cuu</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Bảng giá theo phân khối</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/bang-gia</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 2: Theo nhà BH -->
+      <div class="sm-l1-item">
+        <div class="sm-l1-label">
+          <span>🏦</span> Landing Page theo Nhà Bảo Hiểm
+          <span class="sm-l1-url">/bao-hiem-xe-may/[ten-nha-bh]</span>
+        </div>
+        <div class="sm-l2-list">
+          <div class="sm-l2-item priority">
+            <strong>Bảo Việt</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/bao-viet</span>
+          </div>
+          <div class="sm-l2-item priority">
+            <strong>PVI</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/pvi</span>
+          </div>
+          <div class="sm-l2-item priority">
+            <strong>PTI</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/pti</span>
+          </div>
+          <div class="sm-l2-item">
+            <strong>MIC (Quân đội)</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/mic</span>
+          </div>
+          <div class="sm-l2-item">
+            <strong>GIC (Toàn Cầu)</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/gic</span>
+          </div>
+          <div class="sm-l2-item">
+            <strong>Liberty</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/liberty</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 3: Theo loại xe -->
+      <div class="sm-l1-item">
+        <div class="sm-l1-label">
+          <span>🛵</span> Landing Page theo Loại Xe (pSEO)
+          <span class="sm-l1-url">/bao-hiem-xe-may/[loai-xe]</span>
+        </div>
+        <div class="sm-l2-list">
+          <div class="sm-l2-item new priority">
+            <strong>Xe máy điện</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/xe-may-dien</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI · Trend ↑</span>
+          </div>
+          <div class="sm-l2-item new priority">
+            <strong>Xe dưới 50cc</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/duoi-50cc</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Xe 50–175cc</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/50-175cc</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Xe trên 175cc</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/tren-175cc</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">MỚI</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Honda Wave / Air Blade</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/honda-wave</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">pSEO</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Yamaha Exciter / Sirius</strong>
+            <span class="sm-l2-url">/bao-hiem-xe-may/yamaha-exciter</span>
+            <span class="tag tag-new" style="font-size:10px;margin-top:4px;display:inline-block">pSEO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 4: Blog -->
+      <div class="sm-l1-item">
+        <div class="sm-l1-label">
+          <span>📝</span> Blog &amp; Cẩm Nang — Content Hub
+          <span class="sm-l1-url">/bao-hiem-xe-may/blog</span>
+        </div>
+        <div class="sm-l2-list">
+          <div class="sm-l2-item priority">
+            <strong>Mức phạt không có BH 2026</strong>
+            <span class="sm-l2-url">/blog/muc-phat-khong-bao-hiem-2026</span>
+          </div>
+          <div class="sm-l2-item priority">
+            <strong>GCN điện tử có hợp lệ không</strong>
+            <span class="sm-l2-url">/blog/gcn-bao-hiem-dien-tu</span>
+          </div>
+          <div class="sm-l2-item">
+            <strong>Hướng dẫn mua BH trên MoMo</strong>
+            <span class="sm-l2-url">/blog/huong-dan-mua-bao-hiem-xe-may</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>BH xe máy điện — có bắt buộc?</strong>
+            <span class="sm-l2-url">/blog/bao-hiem-xe-may-dien</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>So sánh BH bắt buộc vs tự nguyện</strong>
+            <span class="sm-l2-url">/blog/bh-bat-buoc-vs-tu-nguyen</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Checklist xe trước Tết</strong>
+            <span class="sm-l2-url">/blog/checklist-xe-truoc-tet</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Hướng dẫn nhận bồi thường</strong>
+            <span class="sm-l2-url">/blog/huong-dan-boi-thuong-tai-nan</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Sinh viên mua BH xe máy lần đầu</strong>
+            <span class="sm-l2-url">/blog/sinh-vien-mua-bao-hiem-lan-dau</span>
+          </div>
+          <div class="sm-l2-item new">
+            <strong>Không cần ra bưu điện — mua online</strong>
+            <span class="sm-l2-url">/blog/mua-bao-hiem-online-vs-offline</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📌 Nguyên tắc Internal Linking</div>
+    <strong>Hub → Spoke:</strong> Trang cha /bao-hiem-xe-may link ra tất cả trang sản phẩm, nhà BH, loại xe. Blog link về trang cha và trang sản phẩm liên quan. <strong>Spoke → Hub:</strong> Mỗi trang con đều có breadcrumb + CTA về trang cha. <strong>Spoke → Spoke:</strong> Trang xe máy điện link tới trang dưới 50cc, trang Bảo Việt link tới trang PVI (comparison). Không để trang nào bị orphan.
+  </div>
+</section>
+
+<!-- ═══════════ 5. CONTENT STRUCTURE ═══════════ -->
+<section class="section" id="s-content-structure">
+  <div class="page-header">
+    <div class="page-eyebrow">Kiến Trúc Nội Dung — Chi Tiết Từng Trang</div>
+    <div class="page-title">Content Structure</div>
+    <div class="page-desc">Cấu trúc nội dung chi tiết cho từng trang chính trong cluster Bảo Hiểm Xe Máy — components, từ khoá, schema và conversion elements.</div>
+  </div>
+
+  <!-- Trang cha -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:18px">🏠</span>
+        <div>
+          <div class="cs-page-title">Trang Cha — /bao-hiem-xe-may</div>
+          <div style="font-size:11.5px;color:var(--ink-3)">Trang trọng tâm · TOFU + Convert</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="tag tag-p1">P1</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Từ khoá mục tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw-hi">bảo hiểm xe máy</span>
+          <span class="cs-kw-hi">mua bảo hiểm xe máy online</span>
+          <span class="cs-kw">bảo hiểm xe máy bắt buộc</span>
+          <span class="cs-kw">bảo hiểm xe máy MoMo</span>
+          <span class="cs-kw">bảo hiểm TNDS xe máy</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu trúc trang (Above the fold trước)</div>
+        <div class="cs-content-block"><div class="cs-block-title">1. Hero Section</div><div class="cs-block-desc">H1: "Bảo hiểm xe máy — Có ngay trong 1 phút" · Sub: Chứng nhận hợp pháp, nhận điện tử ngay · Form chọn phân khối → CTA "Mua ngay" (hiện tại đang có — giữ nguyên, tối ưu UX copy)</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">2. Trust Bar</div><div class="cs-block-desc">2.3M hợp đồng đã phân phối · X nhà BH uy tín · Giấy tờ điện tử hợp pháp 100% · Nhắc gia hạn tự động · [Dạng icon row, không dùng text block dài]</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">3. So sánh CÓ vs KHÔNG mua BH</div><div class="cs-block-desc">2 cột: CÓ BH (tuân thủ pháp luật, bồi thường 150M, an toàn) vs KHÔNG BH (bị phạt 200–300K, tự đền bù). Hiện đang có — giữ nguyên, là content cực mạnh cho TOFU</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">4. Grid nhà BH uy tín</div><div class="cs-block-desc">Logo + tên 6+ nhà BH (Bảo Việt, PVI, PTI, MIC, GIC, Liberty) · Mỗi ô có CTA link tới trang riêng · Highlight "Chọn nhà BH phù hợp" để MOFU users so sánh</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">5. Hướng dẫn mua 3 bước (HowTo)</div><div class="cs-block-desc">Bước 1: Chọn phân khối xe → Bước 2: Chọn nhà BH → Bước 3: Thanh toán &amp; nhận GCN điện tử. HowTo Schema để hiển thị rich snippet</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">6. Hướng dẫn bồi thường 4 bước</div><div class="cs-block-desc">Hiện đang có — thêm CTA "Xem chi tiết quy trình bồi thường" → /bao-hiem-xe-may/boi-thuong</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">7. Blog Cẩm Nang (feed 6 bài mới nhất)</div><div class="cs-block-desc">Card grid · H2 "Cẩm nang bảo hiểm xe máy" · Link "Xem tất cả blog" → /bao-hiem-xe-may/blog</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">8. FAQ Section — 10 câu hỏi thường gặp</div><div class="cs-block-desc">Accordion format · FAQPage Schema bắt buộc · Câu hỏi map với long-tail keywords (xem danh sách trong Content Direction)</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">9. Review / Đánh giá khách hàng</div><div class="cs-block-desc">Minimum 10 reviews thực · AggregateRating Schema (4.8/5 sao với X reviews) · Ảnh thực nếu có. Quan trọng cho E-E-A-T và GEO signals</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">Product</span>
+        <span class="cs-schema">AggregateRating</span>
+        <span class="cs-schema">BreadcrumbList</span>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Components kỹ thuật cần có</div>
+        <span class="cs-component">⚡ Form chọn phân khối xe (hiện có)</span>
+        <span class="cs-component">🔍 Widget tra cứu hạn BH theo biển số</span>
+        <span class="cs-component">📊 Bảng giá theo phân khối (expand)</span>
+        <span class="cs-component">⭐ Rating widget</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trang bang gia -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:18px">💰</span>
+        <div>
+          <div class="cs-page-title">Bảng Giá — /bao-hiem-xe-may/bang-gia</div>
+          <div style="font-size:11.5px;color:var(--ink-3)">MỚI · MOFU — "giá bao nhiêu" queries</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="tag tag-new">MỚI</span><span class="tag tag-p1">P1</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Từ khoá mục tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw-hi">bảo hiểm xe máy giá bao nhiêu 2026</span>
+          <span class="cs-kw-hi">phí bảo hiểm xe máy bắt buộc</span>
+          <span class="cs-kw">bảo hiểm xe máy 50cc bao nhiêu tiền</span>
+          <span class="cs-kw">bảo hiểm xe máy điện giá bao nhiêu</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu trúc nội dung</div>
+        <div class="cs-content-block"><div class="cs-block-title">Bảng giá chính thức theo Nghị định 67/2023 (cite nguồn)</div><div class="cs-block-desc">Dưới 50cc / xe điện ≤50cc: 55,000đ/năm · 50–175cc: 66,000đ/năm · Trên 175cc: 135,000đ/năm · Xe 3 bánh: 219,000đ/năm. Thêm cột "Phí thực tế trên MoMo" + CTA mua ngay từng dòng</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">So sánh giá các nhà BH</div><div class="cs-block-desc">BH bắt buộc giá quy định → bằng nhau. Nhưng BH tự nguyện thì khác nhau — table so sánh gói tự nguyện. Điều này giúp MoMo trở thành destination so sánh</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Calculator phí bảo hiểm</div><div class="cs-block-desc">Input: chọn loại xe → Output: hiển thị phí chính xác + CTA "Mua ngay với giá này". Real-time, không cần submit form</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ về giá — 5 câu hỏi</div><div class="cs-block-desc">"BH xe máy điện giá bao nhiêu?", "Có phí ẩn không?", "Giá trên MoMo có đúng không?", "So sánh với mua ở đại lý?", "Được hoàn tiền nếu trùng hạn không?"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">Table</span>
+        <span class="cs-schema">Product</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trang tra cuu -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:18px">🔍</span>
+        <div>
+          <div class="cs-page-title">Tra Cứu BH — /bao-hiem-xe-may/tra-cuu</div>
+          <div style="font-size:11.5px;color:var(--ink-3)">MỚI · MOFU — Đầu phễu trực tiếp vào purchase</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="tag tag-new">MỚI</span><span class="tag tag-p2">P2</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Từ khoá mục tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw-hi">tra cứu bảo hiểm xe máy</span>
+          <span class="cs-kw">kiểm tra bảo hiểm xe máy còn hạn không</span>
+          <span class="cs-kw">tra cứu hạn bảo hiểm xe máy theo biển số</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu trúc nội dung</div>
+        <div class="cs-content-block"><div class="cs-block-title">Widget tra cứu biển số / số khung</div><div class="cs-block-desc">Input biển số hoặc số khung/máy → API trả kết quả (kết nối cơ sở dữ liệu BH). CTA contextual: Còn hạn → "Gia hạn ngay" · Hết hạn → "Mua ngay" · Không có → "Mua ngay"</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Hướng dẫn các cách tra cứu</div><div class="cs-block-desc">Qua app MoMo · Qua biển số trên web này · Qua website QDVR · Qua giấy chứng nhận giấy. SEO value: content dài, phủ nhiều query</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ tra cứu</div><div class="cs-block-desc">"Tra cứu bằng gì?" · "Không ra kết quả là sao?" · "Kết quả có chính xác không?" — FAQPage Schema</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Lưu ý kỹ thuật</div>
+        <div style="font-size:12.5px;color:var(--ink-2)">Không lưu biển số sau query · Có SSL · Hiển thị disclaimer về độ chính xác của kết quả · GA4 event: tracuu_bien_so, tracuu_result_hethạn, tracuu_result_conhan</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trang xe may dien -->
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:18px">⚡</span>
+        <div>
+          <div class="cs-page-title">Xe Máy Điện — /bao-hiem-xe-may/xe-may-dien</div>
+          <div style="font-size:11.5px;color:var(--ink-3)">MỚI · Trending keyword — ít cạnh tranh</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="tag tag-new">MỚI</span><span class="tag tag-trend">▲ Trend</span><span class="tag tag-p1">P1</span>
+        <span class="cs-toggle">▶</span>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Từ khoá mục tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw-hi">xe máy điện có cần bảo hiểm không</span>
+          <span class="cs-kw-hi">bảo hiểm xe máy điện bắt buộc 2026</span>
+          <span class="cs-kw">bảo hiểm VinFast xe máy điện</span>
+          <span class="cs-kw">xe đạp điện dưới 50cc có cần bảo hiểm</span>
+          <span class="cs-kw">mua bảo hiểm xe máy điện online</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu trúc nội dung</div>
+        <div class="cs-content-block"><div class="cs-block-title">Câu trả lời trực tiếp (Featured Snippet target)</div><div class="cs-block-desc">Đoạn mở đầu 50 từ: "Xe máy điện tương đương xe trên 50cc (công suất &gt;4kW hoặc tốc độ &gt;50km/h) BẮT BUỘC phải mua bảo hiểm TNDS. Xe điện dưới 50cc, tốc độ &lt;50km/h thì không bắt buộc." — Định dạng để target Featured Snippet</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Bảng phân loại xe điện</div><div class="cs-block-desc">2 cột: Xe điện bắt buộc BH (VinFast, Yamaha Neo, Yadea trên 50cc) vs Xe điện không bắt buộc (xe đạp điện học sinh, dưới 50cc). Table Schema</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">Hướng dẫn mua BH cho xe điện trên MoMo</div><div class="cs-block-desc">Step-by-step 3 bước với screenshot (hoặc illustration) từ app MoMo. HowTo Schema</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">CTA Primary</div><div class="cs-block-desc">"Mua bảo hiểm xe máy điện ngay — nhận GCN trong 1 phút" → form chọn phân khối pre-fill "xe máy điện"</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">FAQ 8 câu — xe điện specific</div><div class="cs-block-desc">Cite đúng Nghị định 03/2021 và Nghị định 67/2023. Bao gồm: "Xe điện VinFast có cần BH không?", "Học sinh đi xe đạp điện cần BH không?", "Giá BH xe điện bao nhiêu?", "BH xe điện ở đâu uy tín?"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">Table</span>
+        <span class="cs-schema">BreadcrumbList</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════ 6. CONTENT DIRECTION ═══════════ -->
+<section class="section" id="s-content-direction">
+  <div class="page-header">
+    <div class="page-eyebrow">Định Hướng Nội Dung — Bảo Hiểm Xe Máy</div>
+    <div class="page-title">Content Direction &amp; Editorial Guidelines</div>
+    <div class="page-desc">Định hướng sáng tạo nội dung cho từng dạng trang — tone of voice, key messages, differentiator so với đối thủ và những gì <strong>không nên làm</strong>.</div>
+  </div>
+
+  <h2 class="sh">🎯 Nguyên Tắc Biên Tập Toàn Tuyến</h2>
+
+  <div class="grid-2" style="margin-bottom:28px">
+    <div class="callout callout-green" style="margin-bottom:0">
+      <div class="callout-title">✅ MoMo nên làm</div>
+      Tone thực dụng, không hoa mỹ · Số liệu cụ thể (2.3M hợp đồng, 1 phút, 150M bồi thường) · Cite đúng nghị định với số hiệu · Cập nhật năm 2026 rõ ràng · Câu trả lời trực tiếp không vòng vo · Differentiate bằng "GCN điện tử lưu trên MoMo — không lo quên mang" · Nhấn mạnh convenience là competitive advantage chính
+    </div>
+    <div class="callout callout-red" style="margin-bottom:0">
+      <div class="callout-title">❌ MoMo không nên làm</div>
+      Copy nguyên văn từ competitor · Số liệu pháp lý cũ (phạt 100K, nghị định 100/2019) · "Bảo hiểm toàn diện nhất" — vague không có bằng chứng · Quá nhiều jargon bảo hiểm · Hình ảnh minh họa generic không liên quan · Blog chỉ để SEO — không có giá trị thực cho người đọc · Oversell: "Chỉ từ X đồng" khi không rõ điều kiện
+    </div>
+  </div>
+
+  <h2 class="sh">✍️ Direction Theo Từng Loại Trang</h2>
+
+  <div class="dir-card">
+    <div class="dir-header">
+      <div style="background:var(--pink-light);color:var(--pink);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700">TOFU — Informational</div>
+      <div class="dir-title" style="margin-left:8px">Blog Posts — Cẩm nang &amp; Giải đáp pháp lý</div>
+    </div>
+    <div class="dir-body">
+      <div class="dir-row"><div class="dir-key">Tone</div><div class="dir-val">Trung lập, chuyên gia, dễ hiểu. Như người bạn hiểu luật giải thích cho bạn — không giảng đạo, không bán hàng. Trust trước, convert sau.</div></div>
+      <div class="dir-row"><div class="dir-key">Key message</div><div class="dir-val">"Chúng tôi giúp bạn hiểu rõ quyền và nghĩa vụ của mình — không mơ hồ, không lách luật." Giá trị là <strong>clarity</strong> trong thế giới nhiều thông tin nhiễu loạn.</div></div>
+      <div class="dir-row"><div class="dir-key">Format</div><div class="dir-val">H1 câu hỏi trực tiếp → Câu trả lời ngắn trước (Featured Snippet) → Giải thích chi tiết → Bảng/Table → FAQ → CTA nhẹ. Dài 1,200–2,000 từ cho pillar posts. Cập nhật ngày rõ ràng.</div></div>
+      <div class="dir-row"><div class="dir-key">Differentiator</div><div class="dir-val">Cite đúng văn bản pháp lý (Nghị định, Điều khoản cụ thể) — đối thủ thường không làm. Điều này build E-E-A-T mạnh nhất trong lĩnh vực YMYL.</div></div>
+      <div class="dir-row"><div class="dir-key">CTA</div><div class="dir-val">Cuối bài: "Đã hiểu rõ → Mua bảo hiểm xe máy ngay trên MoMo" + link về trang cha. Trong bài: widget tra cứu inline hoặc "Tính phí BH cho xe của bạn"</div></div>
+    </div>
+  </div>
+
+  <div class="dir-card">
+    <div class="dir-header">
+      <div style="background:var(--blue-light);color:var(--blue);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700">MOFU — Comparative</div>
+      <div class="dir-title" style="margin-left:8px">Trang Nhà BH &amp; So Sánh</div>
+    </div>
+    <div class="dir-body">
+      <div class="dir-row"><div class="dir-key">Tone</div><div class="dir-val">Khách quan, data-driven. MoMo đóng vai "broker trung lập" giúp user so sánh — không thiên vị nhà BH nào. Trust được build bằng transparency.</div></div>
+      <div class="dir-row"><div class="dir-key">Key message</div><div class="dir-val">"MoMo không phải một nhà BH — chúng tôi là nơi bạn so sánh và chọn gói phù hợp nhất. Mua xong, quản lý luôn trên một chỗ."</div></div>
+      <div class="dir-row"><div class="dir-key">Format</div><div class="dir-val">Table so sánh quyền lợi · Review người dùng thực theo từng nhà BH · Pros/cons ngắn gọn · CTA riêng cho từng nhà BH. Tránh "đối tác X tốt hơn Y" — để data tự nói.</div></div>
+      <div class="dir-row"><div class="dir-key">Data cần có</div><div class="dir-val">Tỷ lệ bồi thường của từng nhà BH (lấy từ báo cáo Bộ Tài chính) · Thời gian giải quyết bồi thường · Hotline · Quy trình claim</div></div>
+    </div>
+  </div>
+
+  <div class="dir-card">
+    <div class="dir-header">
+      <div style="background:var(--amber-light);color:var(--amber);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700">BOFU — Transactional</div>
+      <div class="dir-title" style="margin-left:8px">Trang Sản Phẩm &amp; Landing Page theo loại xe</div>
+    </div>
+    <div class="dir-body">
+      <div class="dir-row"><div class="dir-key">Tone</div><div class="dir-val">Confident, action-oriented. "Bạn đã quyết định mua — chúng tôi giúp bạn làm nhanh nhất có thể." Loại bỏ mọi friction ngôn ngữ.</div></div>
+      <div class="dir-row"><div class="dir-key">Key message</div><div class="dir-val">"1 phút · 1 chạm · Có ngay GCN hợp pháp lưu trên điện thoại." Ba con số kỳ vọng phải nhất quán xuyên suốt mọi trang BOFU.</div></div>
+      <div class="dir-row"><div class="dir-key">Conversion elements</div><div class="dir-val">Form mua CTA phải Above-the-fold · Badge "2.3M hợp đồng đã phân phối" ngay cạnh CTA · Giá hiển thị trước form (không để user click rồi mới biết giá) · "Nhận GCN ngay sau thanh toán" — remove hesitation về delivery time</div></div>
+      <div class="dir-row"><div class="dir-key">Trust elements</div><div class="dir-val">Logo nhà BH uy tín · Security badge (SSL) · Disclaimer "GCN điện tử có giá trị pháp lý theo Nghị định 03/2021" · Testimonial ngắn (1–2 câu real user) gần CTA</div></div>
+    </div>
+  </div>
+
+  <h2 class="sh">💡 FAQ Master List — 15 Câu Hỏi Cần Có Trên Trang Cha</h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">📋 Danh sách FAQ — Target Featured Snippet &amp; AEO</div>
+    Các câu hỏi dưới đây được chọn dựa trên search volume và khả năng xuất hiện trong Google's People Also Ask, AI Overview, và GEO signals. Mỗi câu hỏi cần câu trả lời trong 1 đoạn văn &lt;60 từ trước khi giải thích thêm.
+  </div>
+  <table class="data-table">
+    <thead><tr><th>#</th><th>Câu hỏi FAQ</th><th>Intent</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Bảo hiểm xe máy có bắt buộc không? (2026)</td><td>Informational</td><td>Featured Snippet</td></tr>
+      <tr><td>2</td><td>Không có bảo hiểm xe máy bị phạt bao nhiêu tiền?</td><td>Informational (FOMO)</td><td>People Also Ask</td></tr>
+      <tr><td>3</td><td>Bảo hiểm xe máy giá bao nhiêu 2026?</td><td>Comparative</td><td>Featured Snippet</td></tr>
+      <tr><td>4</td><td>Giấy chứng nhận bảo hiểm điện tử có hợp lệ không?</td><td>Trust-building</td><td>AEO / GEO</td></tr>
+      <tr><td>5</td><td>Mua bảo hiểm xe máy trên MoMo như thế nào?</td><td>Transactional</td><td>People Also Ask</td></tr>
+      <tr><td>6</td><td>Xe máy điện có cần mua bảo hiểm bắt buộc không?</td><td>Informational</td><td>Growing query</td></tr>
+      <tr><td>7</td><td>Bảo hiểm xe máy bắt buộc bồi thường bao nhiêu?</td><td>Informational</td><td>AEO</td></tr>
+      <tr><td>8</td><td>Khi nào bảo hiểm xe máy bắt đầu có hiệu lực?</td><td>Trust / how-it-works</td><td>People Also Ask</td></tr>
+      <tr><td>9</td><td>Có thể mua bảo hiểm xe máy cho người khác không?</td><td>Practical</td><td>Conversational AEO</td></tr>
+      <tr><td>10</td><td>Bảo hiểm xe máy và bảo hiểm tự nguyện khác nhau như thế nào?</td><td>Comparative</td><td>MOFU</td></tr>
+      <tr><td>11</td><td>Bảo hiểm xe máy mua ở đâu uy tín nhất?</td><td>Navigational</td><td>GEO — AI recommend</td></tr>
+      <tr><td>12</td><td>Bảo hiểm xe máy hết hạn phải làm gì?</td><td>Transactional (gia hạn)</td><td>Retention traffic</td></tr>
+      <tr><td>13</td><td>Bị tai nạn, nhận bồi thường bảo hiểm xe máy như thế nào?</td><td>Post-purchase</td><td>AEO</td></tr>
+      <tr><td>14</td><td>Mua bảo hiểm xe máy online có an toàn không?</td><td>Trust</td><td>Conversational AEO</td></tr>
+      <tr><td>15</td><td>Bảo hiểm xe máy mua online giao giấy tờ thế nào?</td><td>Practical / Post-purchase</td><td>Long-tail</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ 7. CHECKLIST ═══════════ -->
+<section class="section" id="s-checklist">
+  <div class="page-header">
+    <div class="page-eyebrow">Publish Checklist — Bảo Hiểm Xe Máy</div>
+    <div class="page-title">Checklist Trước Khi Publish</div>
+    <div class="page-desc">Checklist đầy đủ cho từng nhóm trang trong cluster Bảo Hiểm Xe Máy. Click vào ô vuông để check item hoàn thành.</div>
+  </div>
+
+  <!-- Checklist: Trang cha -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">🏠</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Trang Cha — /bao-hiem-xe-may</div>
+        <div class="cl-product-sub">TOFU + Convert · Trang quan trọng nhất trong cluster</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--pink-light);color:var(--pink)">P1 — Ưu tiên cao nhất</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">H1 chứa primary keyword "bảo hiểm xe máy" và benefit "1 phút"</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Trust bar cập nhật số hợp đồng thực tế (≥ 2.3M)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Bảng so sánh CÓ BH vs KHÔNG BH — số liệu mức phạt 2026 đúng (200–300K)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Grid nhà BH: logo + tên đầy đủ + link tới trang riêng từng nhà BH</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Quy trình mua 3 bước rõ ràng, không dùng jargon</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Section bồi thường 4 bước + CTA link tới trang bồi thường</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Blog feed hiển thị 6 bài mới nhất, có link "Xem tất cả"</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">FAQ 10+ câu, accordion format, câu trả lời trong 60 từ</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Review/đánh giá: tối thiểu 10 reviews thực, có tên và rating</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Ngày cập nhật hiển thị visible trên trang (dd/mm/yyyy)</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật SEO</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Title tag: "Bảo Hiểm Xe Máy Bắt Buộc — Mua Online 1 Phút | MoMo" (≤60 ký tự)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Meta description: chứa keyword + số liệu + CTA (155–160 ký tự)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">FAQPage Schema: JSON-LD đầy đủ, validate bằng Rich Results Test</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">HowTo Schema cho quy trình mua 3 bước</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Product + AggregateRating Schema với rating thực</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">BreadcrumbList Schema: Home → Bảo hiểm → Bảo hiểm Xe máy</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Core Web Vitals: LCP &lt;2.5s, CLS &lt;0.1, FID &lt;100ms — test trên mobile</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Canonical URL set đúng (không duplicate với app deep link)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Alt text tất cả hình ảnh, bao gồm logo nhà BH</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Internal links: link ra tất cả trang con trong cluster</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">📊 Analytics &amp; Tracking</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">GA4 event: phankhoi_select, nhabh_select, muangay_click, tracuu_click</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Heatmap setup (Hotjar/Clarity) để phân tích scroll depth và click</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Search Console: verify page indexed, no coverage errors</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">✅ QA &amp; Compliance</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Tất cả số liệu pháp lý được review bởi team pháp chế — ký tắt reviewer</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Mobile responsiveness: test trên iPhone 14, Samsung A50 minimum</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Form mua BH: test end-to-end flow, thanh toán test mode</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Tất cả link internal/external working, no 404</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist: Blog TOFU -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">📝</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Blog Posts TOFU — Cẩm Nang &amp; Pháp Lý</div>
+        <div class="cl-product-sub">Pillar posts · Giải đáp pháp lý · Featured Snippet targets</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--green-light);color:var(--green)">TOFU — Organic Traffic</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content Quality</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">H1 là câu hỏi chính xác người dùng tìm kiếm (match search query)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Câu trả lời trực tiếp trong 50 từ đầu tiên (Target Featured Snippet)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Số Nghị định/Điều luật cụ thể, không viết chung chung "theo quy định"</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Ngày update "Cập nhật: [tháng/năm]" hiển thị gần H1</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Độ dài tối thiểu 1,200 từ cho pillar post, 700 từ cho blog thường</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Có ít nhất 1 bảng/table hoặc list rõ ràng (tăng chance Featured Snippet)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">FAQPage Schema với 5+ câu hỏi đuôi của topic chính</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Author byline: tên + chức danh "Chuyên gia Bảo hiểm MoMo"</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">CTA cuối bài: link về trang sản phẩm liên quan + anchor text rõ ràng</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Internal link: 3–5 link tới các bài blog liên quan + trang sản phẩm</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 SEO Technical</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">URL slug: tiếng Việt không dấu, ngắn, chứa keyword chính</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Meta title chứa keyword + năm 2026 (nếu relevant) + MoMo</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Open Graph image 1200×630px, text overlay rõ, không bị crop trên mobile</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Article Schema: datePublished, dateModified, author</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>⚠️ YMYL nghiêm ngặt:</strong> Mọi thông tin về mức phạt, mức bồi thường, điều kiện bắt buộc phải cite đúng Nghị định. Nếu có Nghị định mới → update trong vòng 7 ngày. Không publish thông tin pháp lý khi chưa qua review team pháp chế.</div>
+    </div>
+  </div>
+
+  <!-- Checklist: Landing page loai xe -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">⚡</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Landing Pages Loại Xe — /bao-hiem-xe-may/[loai-xe]</div>
+        <div class="cl-product-sub">Xe máy điện · Dưới 50cc · 50–175cc · Trên 175cc · pSEO theo model</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--blue-light);color:var(--blue)">P1 — pSEO Cluster</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">H1: "Bảo hiểm xe máy [loại xe] — Mua online 1 phút trên MoMo"</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Câu trả lời "Xe [loại] có bắt buộc mua BH không?" ngay đầu trang — target Featured Snippet</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Bảng phí cụ thể cho loại xe này theo Nghị định 67/2023</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Form mua BH: pre-fill phân khối tương ứng loại xe</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Content đặc thù loại xe ≥ 300 từ (không copy từ trang cha)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">FAQ 5–8 câu specific cho loại xe đó (xe điện: câu hỏi về công suất, điện áp)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">CTA: "Mua bảo hiểm [loại xe] ngay" — button màu hồng MoMo</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Section cross-link: "Xem thêm bảo hiểm xe máy [loại khác]"</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Không có trang nào bị noindex trong cluster loại xe</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Canonical: self-referential, không canonical về trang cha</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">FAQPage Schema + HowTo Schema cho quy trình mua</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">GA4 event: loaixe_[slug]_muangay, loaixe_[slug]_FAQ_expand</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>💡 Thứ tự publish pSEO:</strong> Bắt đầu với xe máy điện (trend) + dưới 50cc (học sinh) → đo CTR + conversion rate → tối ưu template → scale tiếp. Không publish tất cả cùng lúc khi template chưa validate.</div>
+    </div>
+  </div>
+
+  <!-- Checklist: Trang nha BH -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">🏦</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Landing Pages Nhà Bảo Hiểm — /bao-hiem-xe-may/[nha-bh]</div>
+        <div class="cl-product-sub">Bảo Việt · PVI · PTI · MIC · GIC · Liberty</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--amber-light);color:var(--amber)">MOFU — Branded SEO</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">H1: "Bảo hiểm xe máy [Tên nhà BH] trên MoMo — Mua nhanh, nhận GCN ngay"</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Giới thiệu nhà BH: năm thành lập, vốn điều lệ, rating (nếu có từ nguồn chính thức)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Quyền lợi cụ thể của gói BH [nhà BH] trên MoMo (data từ partner)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Quy trình bồi thường của nhà BH: hotline, thời gian, tài liệu cần</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Review người dùng thực đã mua BH nhà này qua MoMo (min 5 reviews)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">FAQ specific: "BH [nhà BH] xe máy có tốt không?", "Bồi thường [nhà BH] nhanh không?"</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Cross-link: "So sánh với [nhà BH khác]" → trang so sánh</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">CTA: "Mua BH xe máy [Tên nhà BH] ngay" — direct link vào form</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Schema &amp; Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">AggregateRating Schema (rating từ reviews thực)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">FAQPage Schema với câu hỏi specific về nhà BH đó</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">GA4 event: nhabh_[slug]_muangay, nhabh_[slug]_review_scroll</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Data nhà BH được confirm bởi partner — không tự ý viết specs</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist: Technical SEO Global -->
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">⚙️</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Technical SEO Toàn Cluster — Global Checklist</div>
+        <div class="cl-product-sub">Áp dụng cho toàn bộ cluster /bao-hiem-xe-may/*</div>
+      </div>
+      <span class="cl-product-badge" style="background:#F0EDE8;color:var(--ink-3)">Foundation</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">🗺 Crawlability &amp; Indexation</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">XML Sitemap cập nhật với tất cả URL trong cluster, submit lên Search Console</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Không trang nào bị noindex không có lý do (đặc biệt pSEO pages)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Robots.txt: không block CSS/JS assets của các trang quan trọng</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Internal link hierarchy rõ ràng: Hub → L1 → L2, không trang orphan</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🚀 Performance</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">PageSpeed Mobile score ≥ 85 cho trang cha và trang sản phẩm chính</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Image lazy loading trên tất cả hình ảnh below-the-fold</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">WebP format cho tất cả ảnh nội dung (trừ logo nhà BH nếu không có WebP)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">LCP element rõ ràng, không bị block bởi render-blocking resources</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">📋 Structured Data</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Validate toàn bộ Schema bằng Rich Results Test sau mỗi deploy</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Organization Schema trên tất cả trang (MoMo brand signals)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">WebSite Schema với SearchAction (sitelinks searchbox)</div></div>
+          <div class="cl-item"><div class="cl-check" onclick="toggleCheck(this)"></div><div class="cl-item-text">Không có Schema lỗi hoặc cảnh báo trong Search Console</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>📌 Quy trình cập nhật nội dung pháp lý:</strong> Khi có Nghị định/Thông tư mới → Assign cho content writer trong 48h → Legal review 48h → Deploy trong 7 ngày → Submit URL lên Search Console để re-crawl ngay. Tracking: spreadsheet theo dõi ngày hiệu lực vs ngày update trên web.</div>
+    </div>
+  </div>
+
+  <script>
+  function toggleCL(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.cl-product-toggle');
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+  }
+  </script>
+
+</section>
+
+<!-- ═══════════ 8. LINK BUILDING ═══════════ -->
+<section class="section" id="s-linkbuilding">
+  <div class="page-header">
+    <div class="page-eyebrow">Link Building Automation — Bảo Hiểm Xe Máy</div>
+    <div class="page-title">Chiến Lược Xây Dựng Backlink &amp; Tăng Authority</div>
+    <div class="page-desc">Các tactics link building có thể tự động hoá hoặc semi-automate cho cluster <code class="url">momo.vn/bao-hiem-xe-may</code> — ưu tiên chất lượng, phù hợp với domain authority MoMo và bối cảnh YMYL.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">DR</div>
+      <div class="stat-lbl">Domain Rating MoMo</div>
+      <div class="stat-sub">Fintech brand — lợi thế authority sẵn có</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">3</div>
+      <div class="stat-lbl">Tier chiến lược</div>
+      <div class="stat-sub">Automated · Semi-auto · Manual outreach</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">HARO</div>
+      <div class="stat-lbl">Media / PR links</div>
+      <div class="stat-sub">Báo chí trích dẫn → high-authority backlinks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">UGC</div>
+      <div class="stat-lbl">User-generated links</div>
+      <div class="stat-sub">Forum, review, community — natural profile</div>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Nguyên tắc Link Building cho YMYL</div>
+    Bảo hiểm là lĩnh vực YMYL — Google cực kỳ nhạy cảm với link spam. <strong>Không dùng PBN, link farm, guest post mass trên site rác.</strong> Mỗi backlink cần đến từ nguồn có liên quan thực (tài chính, xe cộ, pháp lý) hoặc có authority thực sự. Một backlink từ cafef.vn hoặc vnexpress.net giá trị hơn 500 link từ blog mới lập.
+  </div>
+
+  <!-- TIER 1: Automated -->
+  <div class="lb-tier">
+    <div class="lb-tier-header" style="background:linear-gradient(135deg,#E0F5EA,#F0FFF6)">
+      <span style="font-size:22px">🤖</span>
+      <div>
+        <div class="lb-tier-title">Tier 1 — Fully Automated / Always-on</div>
+        <div style="font-size:12px;color:var(--ink-3);margin-top:2px">Setup 1 lần, chạy liên tục — không cần human effort hàng ngày</div>
+      </div>
+      <span class="effort-low" style="margin-left:auto">Effort: Thấp</span>
+    </div>
+    <div class="lb-tier-body">
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">📋</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Schema &amp; Structured Data → Sitelinks &amp; Rich Snippets tự tạo authority signal</div>
+          <div class="lb-tactic-desc">FAQPage, HowTo, AggregateRating Schema → khi được Google hiển thị rich results, CTR tăng → implicit authority signal. Không phải backlink nhưng tăng brand visibility có thể trigger organic mentions từ content creators khác.</div>
+          <div class="lb-tactic-meta"><span class="effort-low">✓ Always-on</span><span class="tag tag-seo">Technical SEO</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">🔁</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Auto-submit trang mới lên Google Search Console &amp; Bing Webmaster sau mỗi publish</div>
+          <div class="lb-tactic-desc">Tích hợp vào CI/CD pipeline: mỗi khi deploy trang mới hoặc update nội dung → tự động ping Google Indexing API (via Search Console API). Đặc biệt quan trọng cho pSEO pages (loại xe, nhà BH) để được index trong vòng 24–48h thay vì chờ crawl tự nhiên.</div>
+          <div class="lb-tactic-meta"><span class="effort-low">✓ One-time setup</span><span class="tag tag-seo">Indexing API</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">🗺</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">XML Sitemap tự động cập nhật khi có trang mới + lastmod đúng</div>
+          <div class="lb-tactic-desc">Sitemap tự động regenerate mỗi khi có thay đổi content → Google Discover và Crawl budget được tối ưu. Lastmod chính xác (không fake) giúp Google ưu tiên crawl những trang đã cập nhật.</div>
+          <div class="lb-tactic-meta"><span class="effort-low">✓ Always-on</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">📰</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Google News Submit — Blog MoMo được index vào Google News</div>
+          <div class="lb-tactic-desc">Các bài blog cập nhật nhanh về mức phạt mới, nghị định mới → eligible cho Google News nếu domain đăng ký. Traffic spike từ News khi có sự kiện pháp lý (Nghị định mới, CSGT tăng cường) có thể mang về hàng chục nghìn session/ngày.</div>
+          <div class="lb-tactic-meta"><span class="effort-mid">Setup: Trung bình</span><span class="tag tag-seo">News SEO</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 2: Semi-automated -->
+  <div class="lb-tier">
+    <div class="lb-tier-header" style="background:linear-gradient(135deg,#FFF3DC,#FFFBF0)">
+      <span style="font-size:22px">⚙️</span>
+      <div>
+        <div class="lb-tier-title">Tier 2 — Semi-automated / Template-driven</div>
+        <div style="font-size:12px;color:var(--ink-3);margin-top:2px">Template setup sẵn, chỉ cần human review + 1 click deploy</div>
+      </div>
+      <span class="effort-mid" style="margin-left:auto">Effort: Trung bình</span>
+    </div>
+    <div class="lb-tier-body">
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">🔗</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Internal Link Automation — Script tự đề xuất internal links khi publish bài mới</div>
+          <div class="lb-tactic-desc">Build script (hoặc dùng plugin CMS) tự scan content mới → match với anchor text opportunities trong toàn bộ blog cluster → đề xuất list internal links cho editor review trước khi publish. Giảm 90% công sức internal linking thủ công. Ví dụ: khi publish bài "bảo hiểm xe máy điện", script tự đề xuất link ngược về /bao-hiem-xe-may, /bang-gia, blog "xe điện có bắt buộc không".</div>
+          <div class="lb-tactic-meta"><span class="effort-mid">Dev: ~2 ngày</span><span class="tag tag-seo">Internal Linking</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">📊</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Link Reclamation Automation — Monitor mentions không có link, tự tạo outreach email</div>
+          <div class="lb-tactic-desc">Setup Google Alerts + Ahrefs/Semrush alerts cho "MoMo bảo hiểm", "momo.vn bao hiem". Khi phát hiện mention không có backlink → tự động draft email outreach (template sẵn) → human chỉ cần review &amp; send. Target: báo, blog tài chính, diễn đàn xe cộ đã nhắc đến MoMo.</div>
+          <div class="lb-tactic-meta"><span class="effort-mid">Setup: 1 ngày</span><span class="tag">Link Reclamation</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">📱</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Social Auto-post — Blog mới → auto post Facebook Page, Zalo OA, LinkedIn với UTM tracking</div>
+          <div class="lb-tactic-desc">Mỗi bài blog publish → auto trigger post lên kênh social với snippet + link. Social links không phải dofollow nhưng tăng traffic → tăng engagement signals → indirect SEO boost. Quan trọng hơn: tăng khả năng người dùng/blogger khác share và tạo backlink tự nhiên.</div>
+          <div class="lb-tactic-meta"><span class="effort-low">Setup: Make.com / Zapier</span><span class="tag">Social Signals</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">🗣</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Q&amp;A Seeding — Template trả lời trên Reddit VN, Quora VN, Facebook Groups xe cộ</div>
+          <div class="lb-tactic-body">
+          <div class="lb-tactic-desc">Monitor các câu hỏi về bảo hiểm xe máy trên groups Facebook (Hội Mô Tô Xe Máy VN, nhóm Honda Wave, Yamaha...), Reddit /r/VietNam, Quora VN → Template trả lời hữu ích với link tự nhiên về blog MoMo. Không spam — chỉ trả lời khi câu hỏi thực sự relevant. Volume: 5–10 câu/tuần là đủ.</div>
+          </div>
+          <div class="lb-tactic-meta"><span class="effort-mid">1–2h/tuần</span><span class="tag">UGC Links</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">🏢</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Partner Page Exchange — Yêu cầu trang nhà BH (Bảo Việt, PVI, PTI) link ngược về MoMo</div>
+          <div class="lb-tactic-desc">MoMo đã là distribution channel của các nhà BH → có leverage để yêu cầu: trên trang "Kênh mua bảo hiểm" của Bảo Việt/PVI/PTI phải có link về momo.vn/bao-hiem-xe-may. Template email gửi cho partner manager. Đây là high-DA backlinks cực kỳ tự nhiên và liên quan.</div>
+          <div class="lb-tactic-meta"><span class="effort-low">Leverage sẵn có</span><span class="tag tag-p1">High DA</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 3: Manual / PR -->
+  <div class="lb-tier">
+    <div class="lb-tier-header" style="background:linear-gradient(135deg,var(--pink-light),#FDE8F0)">
+      <span style="font-size:22px">🎯</span>
+      <div>
+        <div class="lb-tier-title">Tier 3 — Manual Outreach &amp; Digital PR</div>
+        <div style="font-size:12px;color:var(--ink-3);margin-top:2px">Cao công nhưng mang lại backlinks chất lượng cao nhất</div>
+      </div>
+      <span class="effort-high" style="margin-left:auto">Effort: Cao</span>
+    </div>
+    <div class="lb-tier-body">
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">📰</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Data PR — Publish báo cáo "Thói quen mua bảo hiểm xe máy người Việt 2026" từ data MoMo</div>
+          <div class="lb-tactic-desc">MoMo có 2.3M+ hợp đồng BH xe máy — đây là data tài sản khổng lồ. Publish báo cáo thường niên với insights: tỉnh nào mua BH nhiều nhất, mức giá phổ biến, phân khối xe phổ biến, tháng nào spike... → pitch cho VnExpress, CafeF, Tuổi Trẻ, Thanh Niên. Mỗi bài báo = 1 high-DA backlink + brand awareness.</div>
+          <div class="lb-tactic-meta"><span class="effort-high">Quarterly</span><span class="tag tag-p1">High Value</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">🎓</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Expert Contribution — MoMo expert trả lời phỏng vấn báo chí về bảo hiểm / giao thông</div>
+          <div class="lb-tactic-desc">Khi báo viết về: mức phạt mới, tai nạn giao thông, xu hướng xe điện → pitch "Đại diện MoMo chia sẻ góc nhìn về bảo hiểm". Thường xuyên được trích dẫn → build E-E-A-T authority và backlinks từ báo lớn. Cần: 1 spokesperson được training, bank thông tin sẵn sàng.</div>
+          <div class="lb-tactic-meta"><span class="effort-mid">Ongoing</span><span class="tag">PR &amp; E-E-A-T</span></div>
+        </div>
+      </div>
+      <div class="lb-tactic">
+        <div class="lb-tactic-icon">🛵</div>
+        <div class="lb-tactic-body">
+          <div class="lb-tactic-title">Community Sponsorship — Tài trợ nội dung cho diễn đàn xe máy lớn (otofun, xe.tinhte, bikevn)</div>
+          <div class="lb-tactic-desc">otofun.net, xe.tinhte.vn, bikevn.com là các diễn đàn có DA cao và traffic lớn từ audience chính xác (chủ xe máy). Sponsored content (chia sẻ kiến thức bảo hiểm) + dofollow link về MoMo. Chi phí nhỏ hơn nhiều so với Google Ads nhưng backlink permanent và audience quality cao.</div>
+          <div class="lb-tactic-meta"><span class="effort-mid">Budget nhỏ</span><span class="tag">Community Links</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 Tracking &amp; KPI Link Building</h2>
+  <table class="data-table">
+    <thead><tr><th>Metric</th><th>Tool theo dõi</th><th>Target 6 tháng</th><th>Tần suất review</th></tr></thead>
+    <tbody>
+      <tr><td>Số referring domains mới</td><td>Ahrefs / Semrush</td><td>+30 domains/tháng</td><td>Hàng tuần</td></tr>
+      <tr><td>DA của backlinks mới</td><td>Ahrefs DR</td><td>≥ 30% links DR &gt; 40</td><td>Monthly</td></tr>
+      <tr><td>Link từ báo lớn (DA &gt; 60)</td><td>Ahrefs alerts</td><td>2–3 links/tháng</td><td>Monthly</td></tr>
+      <tr><td>Branded mentions (có + không có link)</td><td>Google Alerts + Ahrefs</td><td>Monitor 100% mentions</td><td>Hàng ngày</td></tr>
+      <tr><td>Internal link orphan pages</td><td>Screaming Frog</td><td>0 orphan pages</td><td>Quarterly</td></tr>
+      <tr><td>Toxic / spam backlinks</td><td>Google Search Console</td><td>Disavow kịp thời</td><td>Monthly</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ 9. CROSS-SELL ═══════════ -->
+<section class="section" id="s-crosssell">
+  <div class="page-header">
+    <div class="page-eyebrow">Cross-sell Ecosystem — MoMo Insurance</div>
+    <div class="page-title">Hệ Sinh Thái Cross-sell Giữa Các Sản Phẩm Bảo Hiểm</div>
+    <div class="page-desc">Chiến lược cross-sell giữa Bảo hiểm Xe máy và các sản phẩm bảo hiểm khác của MoMo — tối đa hoá LTV, tăng engagement và lượt quay lại trang.</div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">💡 Logic Cross-sell của MoMo</div>
+    Người vào trang Bảo hiểm Xe máy thường là <strong>chủ xe máy đang đi làm / đi học hàng ngày</strong> → có nhu cầu tiềm ẩn với Bảo hiểm Sức khỏe (tai nạn giao thông), Bảo hiểm Y tế (chi phí điều trị), và nếu có ô tô thì cần BH Ô tô. Cross-sell đúng lúc, đúng context sẽ tăng conversion mà không tăng ad spend.
+  </div>
+
+  <h2 class="sh">🔄 Ma Trận Cross-sell — Xe Máy × Các Sản Phẩm BH Khác</h2>
+  <div class="xs-matrix">
+    <table>
+      <thead>
+        <tr>
+          <th>Sản phẩm BH</th>
+          <th>Relevance với BH Xe máy</th>
+          <th>Trigger tốt nhất</th>
+          <th>Placement đề xuất</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>🏥 Bảo hiểm Sức khỏe</strong></td>
+          <td><span class="xs-has">★★★ Rất cao</span><span class="xs-trigger">Cùng 1 user · Lo tai nạn giao thông</span></td>
+          <td>Sau khi mua BH xe máy thành công, hoặc trang bồi thường</td>
+          <td>Post-purchase upsell · Banner dưới form · Section "Bảo vệ toàn diện hơn"</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>💊 Bảo hiểm Y tế</strong></td>
+          <td><span class="xs-has">★★★ Rất cao</span><span class="xs-trigger">Tai nạn giao thông → viện phí cao</span></td>
+          <td>Blog "hướng dẫn bồi thường tai nạn" · Trang bồi thường</td>
+          <td>Inline callout trong blog bồi thường · End-of-article CTA</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>🚗 Bảo hiểm Ô tô</strong></td>
+          <td><span class="xs-has">★★ Cao</span><span class="xs-trigger">User có xe máy nhiều khả năng có / sẽ mua ô tô</span></td>
+          <td>Trang cha BH xe máy · Blog so sánh · Post-purchase</td>
+          <td>Section "Cũng có ô tô?" · Banner sidebar · Trang bang-gia</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>🛡️ Bảo hiểm Xã hội</strong></td>
+          <td><span class="xs-has">★★ Cao</span><span class="xs-trigger">Freelancer / người tự kinh doanh mua BH xe máy</span></td>
+          <td>Landing page BH xe máy cho "freelancer" · Blog sinh viên</td>
+          <td>Cross-link nhẹ trong blog · Không push mạnh</td>
+          <td><span class="tag tag-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>🏠 Bảo hiểm Nhà / Tài sản</strong></td>
+          <td><span class="xs-has">★ Thấp</span><span class="xs-trigger">Không trực tiếp liên quan</span></td>
+          <td>Không cross-sell từ xe máy</td>
+          <td>Không đặt — làm loãng focus</td>
+          <td><span class="tag tag-p3">Skip</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📍 Cross-sell Placement — Vị Trí &amp; Format</h2>
+
+  <div class="xs-placement">
+    <div class="xs-placement-header">
+      <span style="font-size:18px">1️⃣</span>
+      Post-purchase Upsell — Ngay sau khi mua BH xe máy thành công
+    </div>
+    <div class="xs-placement-body">
+      <strong>Context:</strong> User vừa thanh toán, đang ở trang confirmation "Bạn đã mua thành công BH xe máy". Đây là <strong>moment cao nhất của trust và engagement</strong> — tỷ lệ click cross-sell lúc này cao gấp 3–5 lần bình thường.<br><br>
+      <strong>Format:</strong> Card "Bảo vệ thêm cho bản thân" — 2 options: (1) BH Sức khỏe "Lỡ tai nạn, viện phí lên đến X triệu — chỉ từ Xk/tháng" + CTA "Xem ngay", (2) BH Y tế "Khám chữa bệnh không lo chi phí" + CTA "Tìm hiểu". Không push mua ngay — dẫn sang trang tìm hiểu để không tạo friction.<br><br>
+      <strong>Tracking:</strong> GA4 event: postsale_crosssell_sk_click, postsale_crosssell_yt_click
+    </div>
+  </div>
+
+  <div class="xs-placement">
+    <div class="xs-placement-header">
+      <span style="font-size:18px">2️⃣</span>
+      Blog Bồi thường / Tai nạn — Inline Cross-sell
+    </div>
+    <div class="xs-placement-body">
+      <strong>Context:</strong> User đang đọc bài "Hướng dẫn nhận bồi thường BH xe máy" → họ đang lo về hậu quả tai nạn → đây là lúc tốt nhất để introduce BH Sức khỏe.<br><br>
+      <strong>Format:</strong> Inline callout box sau đoạn "chi phí điều trị sau tai nạn": <em>"💊 BH Sức khỏe MoMo — Chi trả viện phí, phẫu thuật, nằm viện. Chỉ từ X,000đ/tháng. [Xem chi tiết →]"</em> Màu xanh lá, không quá to, không làm gián đoạn reading flow.<br><br>
+      <strong>Quy tắc:</strong> Tối đa 1 cross-sell callout/bài blog. Không đặt ở đầu bài (disrupt UX). Đặt sau 30–40% nội dung.
+    </div>
+  </div>
+
+  <div class="xs-placement">
+    <div class="xs-placement-header">
+      <span style="font-size:18px">3️⃣</span>
+      Trang Cha /bao-hiem-xe-may — Section "MoMo Bảo Vệ Toàn Diện"
+    </div>
+    <div class="xs-placement-body">
+      <strong>Context:</strong> User đang browse trang cha — chưa quyết định mua. Cross-sell ở đây phục vụ mục đích <strong>brand building và awareness</strong>, không phải hard sell.<br><br>
+      <strong>Format:</strong> Section ở cuối trang (sau FAQ, trước footer): "Bảo vệ nhiều hơn cùng MoMo" — icon grid 3 sản phẩm: BH Sức khỏe · BH Y tế · BH Ô tô. Mỗi ô: icon + tên + 1 câu benefit + link. Thiết kế nhẹ, không cạnh tranh với CTA chính.<br><br>
+      <strong>Rule:</strong> Section này KHÔNG thay thế các section chính (hero, so sánh, nhà BH). Chỉ là footer enhancement.
+    </div>
+  </div>
+
+  <div class="xs-placement">
+    <div class="xs-placement-header">
+      <span style="font-size:18px">4️⃣</span>
+      Trang Xe Máy Điện — Cross-sell BH Ô tô theo audience logic
+    </div>
+    <div class="xs-placement-body">
+      <strong>Context:</strong> User tìm "bảo hiểm xe máy điện VinFast" → họ có thể là khách hàng VinFast → audience profile cao hơn → likelihood có hoặc sẽ mua ô tô cao hơn.<br><br>
+      <strong>Format:</strong> Cuối trang, sau FAQ: "Cũng đang có hoặc dự định mua ô tô VinFast? → Xem bảo hiểm ô tô VinFast trên MoMo" — anchor text liên quan, không generic. Đây là cross-sell thông minh theo audience intent thực.<br><br>
+      <strong>Note:</strong> Chỉ áp dụng cho landing pages liên quan đến xe VinFast/ô tô. Không đặt cross-sell ô tô trên trang "xe 50cc học sinh".
+    </div>
+  </div>
+
+  <div class="xs-placement">
+    <div class="xs-placement-header">
+      <span style="font-size:18px">5️⃣</span>
+      Email / Push Notification Re-engagement Cross-sell
+    </div>
+    <div class="xs-placement-body">
+      <strong>Trigger:</strong> 7 ngày sau khi user mua BH xe máy thành công → gửi email/push notification.<br><br>
+      <strong>Message logic:</strong> "Bạn đã bảo vệ xe rồi — còn bản thân thì sao?" → Link đến trang BH Sức khỏe. Sequence: ngày 7 (BH SK) → ngày 30 (BH Y tế nếu chưa click) → ngày 90 (BH Ô tô nếu user có xe). Không spam — tối đa 3 touchpoints/90 ngày.<br><br>
+      <strong>Tracking:</strong> UTM riêng cho mỗi touchpoint: utm_source=momo_email&amp;utm_campaign=xemay_crosssell_sk_d7
+    </div>
+  </div>
+
+  <h2 class="sh">📊 Cross-sell KPI</h2>
+  <table class="data-table">
+    <thead><tr><th>Metric</th><th>Baseline</th><th>Target 6 tháng</th><th>Tool đo</th></tr></thead>
+    <tbody>
+      <tr><td>Cross-sell click rate (post-purchase)</td><td>0% (chưa có)</td><td>8–12% CTR</td><td>GA4 events</td></tr>
+      <tr><td>Cross-sell conversion rate (BH SK từ XM)</td><td>0%</td><td>1.5–3%</td><td>GA4 funnel</td></tr>
+      <tr><td>Revenue from cross-sell (BH SK/YT từ XM users)</td><td>0</td><td>Đo sau 3 tháng</td><td>MoMo internal</td></tr>
+      <tr><td>Blog cross-sell click rate (inline callout)</td><td>0%</td><td>2–4% CTR</td><td>GA4 events</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ 10. ADS BLOG ═══════════ -->
+<section class="section" id="s-ads-blog">
+  <div class="page-header">
+    <div class="page-eyebrow">Ads &amp; Blog Tactics — Bảo Hiểm Xe Máy</div>
+    <div class="page-title">Banner Ads, Form Component &amp; Blog Monetization Tactics</div>
+    <div class="page-desc">Chiến lược đặt ads, form inline và các tactics tăng engagement trên trang blog &amp; landing page — chuyển đổi organic traffic thành purchase mà không làm hỏng trải nghiệm đọc.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📌 Nguyên tắc vàng: Ads không được làm hại UX</div>
+    Blog MoMo là content hub — người dùng đến để <strong>đọc và học</strong>. Ads/forms quá nhiều hoặc sai vị trí sẽ tăng bounce rate, giảm time-on-page → hại SEO. Quy tắc: <strong>tối đa 2 ad units/trang blog</strong> · Không interstitial · Không pop-up che nội dung · Form inline phải cảm giác như "trợ giúp", không phải "bán hàng".
+  </div>
+
+  <h2 class="sh">🎨 Ad Format Library — Mockup &amp; Specs</h2>
+
+  <!-- Banner Ad -->
+  <div class="ads-preview">
+    <div class="ads-preview-label">
+      <span>FORMAT 1 — Hero Banner Ad (Blog Top / Landing Page)</span>
+      <span style="color:var(--green);font-weight:700">Conversion intent cao nhất</span>
+    </div>
+    <div class="ads-preview-body">
+      <div class="ad-banner-mock">
+        <div class="ad-banner-text">
+          <h4>🏍️ Bảo hiểm xe máy — Có GCN trong 1 phút</h4>
+          <p>Mua online ngay trên MoMo · Hợp pháp 100% · Chỉ từ 55,000đ/năm</p>
+        </div>
+        <div class="ad-banner-cta">Mua ngay →</div>
+      </div>
+      <div style="margin-top:12px">
+        <div class="ads-spec-row"><div class="ads-spec-key">Kích thước</div><div class="ads-spec-val">Full-width (100%) · Height: 80–100px desktop / 120px mobile</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Vị trí</div><div class="ads-spec-val">Ngay sau H1 và intro paragraph (trước nội dung chính) · Hoặc cuối bài sau FAQ</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Design rule</div><div class="ads-spec-val">Background gradient hồng MoMo · Text trắng · CTA button trắng/hồng. Luôn có pricing ("chỉ từ 55,000đ") để remove hesitation</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">A/B test</div><div class="ads-spec-val">Test CTA copy: "Mua ngay →" vs "Tính phí xe của bạn →" vs "Nhận GCN ngay →"</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Tracking</div><div class="ads-spec-val">GA4: blog_banner_click · UTM: utm_source=blog&amp;utm_content=banner_top</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inline Form -->
+  <div class="ads-preview">
+    <div class="ads-preview-label">
+      <span>FORMAT 2 — Inline Form Component (Trong Blog)</span>
+      <span style="color:var(--blue);font-weight:700">Engagement cao · Friction thấp</span>
+    </div>
+    <div class="ads-preview-body">
+      <div class="ad-form-mock">
+        <div class="ad-form-header">
+          <span>🏍️ Tính phí bảo hiểm xe máy của bạn ngay</span>
+        </div>
+        <div class="ad-form-body">
+          <div class="ad-form-row">
+            <select class="ad-form-select"><option>Chọn phân khối xe...</option><option>Dưới 50cc (xe điện nhỏ)</option><option>50 – 175cc (phổ thông)</option><option>Trên 175cc (phân khối lớn)</option></select>
+            <button class="ad-form-btn">Xem phí →</button>
+          </div>
+          <div class="ad-form-note">✓ Nhận GCN điện tử ngay sau thanh toán · Hợp pháp theo NĐ 03/2021</div>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <div class="ads-spec-row"><div class="ads-spec-key">Vị trí tốt nhất</div><div class="ads-spec-val">Sau đoạn giải thích "bảo hiểm bắt buộc giá bao nhiêu" trong blog · Sau bảng giá · Sau mục "Kết luận"</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Trigger logic</div><div class="ads-spec-val">Hiển thị sau khi user scroll ≥ 40% trang (dùng Intersection Observer). Không hiển thị ngay khi vào trang.</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Flow</div><div class="ads-spec-val">Chọn phân khối → Click "Xem phí" → Modal hiện phí cụ thể + CTA "Mua ngay X,000đ" (không redirect ngay, giảm friction)</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Dùng trên</div><div class="ads-spec-val">Tất cả blog posts về giá, mức phạt, hướng dẫn mua · Trang /bang-gia · Trang /bat-buoc</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Tracking</div><div class="ads-spec-val">GA4: inline_form_phankhoi_select · inline_form_xemphi_click · inline_form_muangay_click</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky CTA -->
+  <div class="ads-preview">
+    <div class="ads-preview-label">
+      <span>FORMAT 3 — Sticky Bottom Bar (Mobile Blog)</span>
+      <span style="color:var(--amber);font-weight:700">Mobile-first · Always visible</span>
+    </div>
+    <div class="ads-preview-body">
+      <div class="ad-sticky-mock">
+        <div class="ad-sticky-text">
+          <strong>Bảo hiểm xe máy</strong>
+          <span> · Chỉ từ 55,000đ/năm</span>
+        </div>
+        <div class="ad-sticky-cta-wrap">
+          <div class="ad-sticky-price">Từ 55K/năm</div>
+          <div class="ad-sticky-btn">Mua ngay</div>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <div class="ads-spec-row"><div class="ads-spec-key">Hiển thị</div><div class="ads-spec-val">Chỉ trên <strong>mobile</strong> · Xuất hiện sau khi user scroll xuống 300px · Có nút X để dismiss</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Dismiss behavior</div><div class="ads-spec-val">Nếu user dismiss → hide cho phiên đó (không hiện lại mỗi scroll). Không annoying.</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Áp dụng</div><div class="ads-spec-val">Toàn bộ blog posts về bảo hiểm xe máy · Không dùng trên trang cha (đã có form hero)</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Tracking</div><div class="ads-spec-val">GA4: sticky_bar_show · sticky_bar_click · sticky_bar_dismiss</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exit Intent -->
+  <div class="ads-preview">
+    <div class="ads-preview-label">
+      <span>FORMAT 4 — Exit Intent Popup (Desktop)</span>
+      <span style="color:var(--pink);font-weight:700">Last chance · Không làm phiền</span>
+    </div>
+    <div class="ads-preview-body">
+      <div style="border:1.5px solid var(--pink); border-radius:10px; padding:20px; background:white; max-width:400px;">
+        <div style="font-size:13px;font-weight:800;margin-bottom:6px;color:var(--ink)">🏍️ Khoan đã — bảo hiểm xe máy của bạn còn hạn không?</div>
+        <div style="font-size:12px;color:var(--ink-2);margin-bottom:14px;line-height:1.6">Không mua bảo hiểm, bị CSGT phạt đến 300,000đ. Mua ngay trên MoMo — chỉ 1 phút, nhận GCN điện tử hợp pháp.</div>
+        <div style="display:flex;gap:8px">
+          <button style="flex:1;background:var(--pink);color:white;border:none;border-radius:6px;padding:9px;font-size:13px;font-weight:800;font-family:'Be Vietnam Pro',sans-serif">Mua ngay từ 55,000đ</button>
+          <button style="background:var(--bg);color:var(--ink-3);border:1px solid var(--border);border-radius:6px;padding:9px 14px;font-size:12px;font-family:'Be Vietnam Pro',sans-serif">Bỏ qua</button>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <div class="ads-spec-row"><div class="ads-spec-key">Trigger</div><div class="ads-spec-val">Mouse move lên trên (exit intent) trên desktop · Chỉ hiện 1 lần/session · Không hiện với user đã mua</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Áp dụng</div><div class="ads-spec-val">Blog posts TOFU (giải thích mức phạt, hướng dẫn) · Không dùng trên trang sản phẩm (đã có CTA rõ)</div></div>
+        <div class="ads-spec-row"><div class="ads-spec-key">Copy A/B</div><div class="ads-spec-val">A: FOMO ("bị phạt 300K") · B: Benefit ("GCN ngay trong 1 phút") · Test CTR + conversion</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📐 Blog Layout Blueprint — Vị Trí Đặt Ad Units</h2>
+  <div class="card">
+    <div class="card-title">📄 Anatomy of a Blog Post — Ad Placement Map</div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:12.5px;line-height:2;color:var(--ink-2)">
+      <div style="border-left:3px solid var(--ink-3);padding-left:12px;color:var(--ink-3)">📌 Breadcrumb + Ngày cập nhật + Author</div>
+      <div style="border-left:3px solid var(--ink);padding-left:12px;font-weight:700;color:var(--ink)">H1 — Tiêu đề bài blog</div>
+      <div style="border-left:3px solid var(--ink-3);padding-left:12px">Intro 2–3 câu · Featured Snippet paragraph</div>
+      <div style="border-left:3px solid var(--pink);padding-left:12px;background:var(--pink-light);border-radius:4px;font-weight:700;color:var(--pink)">🎯 [AD UNIT 1] — Banner MoMo BH Xe Máy (sau intro)</div>
+      <div style="border-left:3px solid var(--ink-3);padding-left:12px">Nội dung chính H2 → H3 → Table / List</div>
+      <div style="border-left:3px solid var(--ink-3);padding-left:12px">Nội dung chính (tiếp theo)</div>
+      <div style="border-left:3px solid var(--blue);padding-left:12px;background:var(--blue-light);border-radius:4px;font-weight:700;color:var(--blue)">💬 [AD UNIT 2] — Inline Form "Tính phí xe của bạn" (giữa bài, sau 40% scroll)</div>
+      <div style="border-left:3px solid var(--ink-3);padding-left:12px">Nội dung chính (phần cuối)</div>
+      <div style="border-left:3px solid var(--green);padding-left:12px">FAQ Section (FAQPage Schema)</div>
+      <div style="border-left:3px solid var(--amber);padding-left:12px;background:var(--amber-light);border-radius:4px;font-weight:700;color:var(--amber)">🔄 [CROSS-SELL] — "Bảo vệ thêm với BH Sức khỏe" (chỉ áp dụng bài về tai nạn/bồi thường)</div>
+      <div style="border-left:3px solid var(--ink-3);padding-left:12px">Internal links "Đọc thêm" · Author bio</div>
+    </div>
+    <div style="font-size:12px;color:var(--ink-3);margin-top:10px">⚠️ Tối đa 2 ad units/trang. Cross-sell KHÔNG tính là ad unit nhưng cũng chỉ dùng khi relevant.</div>
+  </div>
+
+  <h2 class="sh">🧪 A/B Testing Framework — Tăng Conversion Liên Tục</h2>
+  <table class="data-table">
+    <thead><tr><th>Element test</th><th>Variant A</th><th>Variant B</th><th>KPI đo</th><th>Duration</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Banner CTA copy</strong></td>
+        <td>"Mua ngay →"</td>
+        <td>"Tính phí xe của bạn →"</td>
+        <td>CTR · Conversion rate</td>
+        <td>2 tuần</td>
+      </tr>
+      <tr>
+        <td><strong>Banner placement</strong></td>
+        <td>Sau intro paragraph</td>
+        <td>Sau paragraph đầu tiên của H2</td>
+        <td>CTR · Bounce rate</td>
+        <td>2 tuần</td>
+      </tr>
+      <tr>
+        <td><strong>Inline form trigger</strong></td>
+        <td>Scroll 40%</td>
+        <td>Time on page ≥ 45s</td>
+        <td>Form interaction rate</td>
+        <td>3 tuần</td>
+      </tr>
+      <tr>
+        <td><strong>Exit intent copy</strong></td>
+        <td>FOMO: "Không mua → phạt 300K"</td>
+        <td>Benefit: "Mua 1 phút, GCN ngay"</td>
+        <td>Popup CTR · Conv rate</td>
+        <td>2 tuần</td>
+      </tr>
+      <tr>
+        <td><strong>Sticky bar pricing</strong></td>
+        <td>Hiện giá "Từ 55K/năm"</td>
+        <td>Không hiện giá, chỉ CTA</td>
+        <td>Click rate · Qualified sessions</td>
+        <td>2 tuần</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">📊 Engagement Metrics — Blog KPI Dashboard</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">📖 Content Engagement</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
+        Avg. Time on Page ≥ 2:30 phút<br>
+        Scroll Depth ≥ 60% bài blog<br>
+        Bounce Rate ≤ 65%<br>
+        Pages/Session ≥ 1.8
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 Ad Performance</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
+        Banner CTR ≥ 2.5%<br>
+        Inline Form interaction ≥ 5%<br>
+        Sticky bar CTR ≥ 3% (mobile)<br>
+        Exit intent CTR ≥ 4%
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">💰 Revenue Impact</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
+        Blog → Purchase conversion ≥ 0.8%<br>
+        Assisted conversions từ blog<br>
+        Cross-sell revenue attribution<br>
+        LTV uplift từ blog users
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+function toggleCS(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.cs-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+</script>
+</body>
+</html>

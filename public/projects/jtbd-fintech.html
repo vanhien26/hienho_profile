@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo JTBD-Led Execution Workflow</title>
+<style>
+  :root {
+    --momo-red: #AE2070;
+    --momo-pink: #D4307A;
+    --momo-light: #F8E8F0;
+    --momo-dark: #1A0A12;
+    --phase0: #7C3AED;
+    --phase1: #0EA5E9;
+    --phase2: #10B981;
+    --phase3: #F59E0B;
+    --phase4: #EF4444;
+    --bg: #0F0A14;
+    --card: #1A1020;
+    --card2: #231530;
+    --border: #3D2550;
+    --text: #F0E6F6;
+    --muted: #9B7FB0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1A0A20 0%, #2D0A3E 50%, #1A0A20 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(174,32,112,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(174,32,112,0.15);
+    border: 1px solid rgba(174,32,112,0.4);
+    color: #E879B0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+  }
+  .header h1 span { color: #E879B0; }
+  .header-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 600px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .meta-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* NORTH STAR */
+  .north-star {
+    margin: 32px 40px;
+    background: linear-gradient(135deg, rgba(174,32,112,0.12), rgba(124,58,237,0.08));
+    border: 1px solid rgba(174,32,112,0.3);
+    border-radius: 16px;
+    padding: 24px 28px;
+    position: relative;
+  }
+  .north-star::before {
+    content: '★ NORTH STAR';
+    position: absolute;
+    top: -10px; left: 20px;
+    background: var(--momo-red);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+  .north-star-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #E8D5F0;
+  }
+  .north-star-text strong { color: #F0AADA; }
+
+  /* MAIN LAYOUT */
+  .main { padding: 0 40px 60px; }
+
+  /* PHASE NAV */
+  .phase-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .phase-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    background: var(--card);
+    color: var(--muted);
+  }
+  .phase-btn:hover { transform: translateY(-1px); }
+  .phase-btn.active { color: white; }
+  .phase-btn[data-phase="0"].active { background: rgba(124,58,237,0.2); border-color: var(--phase0); color: #A78BFA; }
+  .phase-btn[data-phase="1"].active { background: rgba(14,165,233,0.15); border-color: var(--phase1); color: #38BDF8; }
+  .phase-btn[data-phase="2"].active { background: rgba(16,185,129,0.15); border-color: var(--phase2); color: #34D399; }
+  .phase-btn[data-phase="3"].active { background: rgba(245,158,11,0.15); border-color: var(--phase3); color: #FCD34D; }
+  .phase-btn[data-phase="4"].active { background: rgba(239,68,68,0.15); border-color: var(--phase4); color: #FCA5A5; }
+  .phase-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .phase-btn[data-phase="0"] .phase-num { background: var(--phase0); }
+  .phase-btn[data-phase="1"] .phase-num { background: var(--phase1); }
+  .phase-btn[data-phase="2"] .phase-num { background: var(--phase2); }
+  .phase-btn[data-phase="3"] .phase-num { background: var(--phase3); }
+  .phase-btn[data-phase="4"] .phase-num { background: var(--phase4); }
+
+  /* PHASE CONTENT */
+  .phase-content { display: none; }
+  .phase-content.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* PHASE HEADER */
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding: 24px 28px;
+    border-radius: 16px;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-header::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 200px; height: 100%;
+    background: linear-gradient(to left, transparent 0%, transparent 100%);
+  }
+  .ph-0 { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.3); }
+  .ph-1 { background: rgba(14,165,233,0.08); border-color: rgba(14,165,233,0.3); }
+  .ph-2 { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3); }
+  .ph-3 { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); }
+  .ph-4 { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.3); }
+
+  .phase-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .ph-0 .phase-icon { background: rgba(124,58,237,0.2); }
+  .ph-1 .phase-icon { background: rgba(14,165,233,0.2); }
+  .ph-2 .phase-icon { background: rgba(16,185,129,0.2); }
+  .ph-3 .phase-icon { background: rgba(245,158,11,0.2); }
+  .ph-4 .phase-icon { background: rgba(239,68,68,0.2); }
+
+  .phase-title-block h2 { font-size: 22px; font-weight: 700; color: white; }
+  .phase-title-block .phase-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .ph-0 .phase-label { color: #A78BFA; }
+  .ph-1 .phase-label { color: #38BDF8; }
+  .ph-2 .phase-label { color: #34D399; }
+  .ph-3 .phase-label { color: #FCD34D; }
+  .ph-4 .phase-label { color: #FCA5A5; }
+
+  .phase-question {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* GRID LAYOUTS */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content: '';
+    width: 4px; height: 14px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .ph-0 .card-title::before, .color-0 { background: var(--phase0); }
+  .ph-1 .card-title::before, .color-1 { background: var(--phase1); }
+  .ph-2 .card-title::before, .color-2 { background: var(--phase2); }
+  .ph-3 .card-title::before, .color-3 { background: var(--phase3); }
+  .ph-4 .card-title::before, .color-4 { background: var(--phase4); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #D0B8E0;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:hover { color: white; }
+  .check-box {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.2s;
+  }
+  .checklist li.done .check-box {
+    background: var(--phase2);
+    border-color: var(--phase2);
+  }
+  .checklist li.done .check-box::after {
+    content: '✓';
+    font-size: 11px;
+    color: white;
+    font-weight: 700;
+  }
+  .checklist li.done { color: var(--muted); text-decoration: line-through; }
+
+  /* NORTH STAR CARD */
+  .ns-card {
+    background: linear-gradient(135deg, rgba(174,32,112,0.12), rgba(124,58,237,0.08));
+    border: 1px solid rgba(174,32,112,0.25);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .ns-template {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #E8D5F0;
+    background: rgba(0,0,0,0.3);
+    padding: 14px 16px;
+    border-radius: 10px;
+    border-left: 3px solid var(--momo-red);
+    margin-top: 12px;
+  }
+  .ns-template .fill {
+    display: inline-block;
+    color: #F0AADA;
+    border-bottom: 1px dashed rgba(240,170,218,0.4);
+    padding: 0 4px;
+  }
+
+  /* OVERLAP DIAGRAM */
+  .overlap-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0 10px;
+  }
+  .circle-wrap {
+    position: relative;
+    width: 240px;
+    height: 120px;
+  }
+  .circle-A, .circle-B {
+    position: absolute;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    padding: 8px;
+  }
+  .circle-A { left: 0; background: rgba(174,32,112,0.2); border: 1.5px solid var(--momo-pink); color: #F0AADA; }
+  .circle-B { right: 0; background: rgba(124,58,237,0.2); border: 1.5px solid var(--phase0); color: #A78BFA; }
+  .overlap-label {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+  }
+
+  /* JOB TYPES */
+  .job-types { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .job-type-card {
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .job-type-card.functional { background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.3); }
+  .job-type-card.emotional { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); }
+  .job-type-card.social { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); }
+  .job-type-icon { font-size: 28px; margin-bottom: 8px; }
+  .job-type-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .functional .job-type-label { color: #38BDF8; }
+  .emotional .job-type-label { color: #FCD34D; }
+  .social .job-type-label { color: #34D399; }
+  .job-type-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .job-example {
+    font-size: 12px;
+    color: #C0A0D0;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 8px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* SYNTAX BLOCK */
+  .syntax-block {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #D0C0E0;
+  }
+  .syntax-block .kw { color: var(--muted); }
+  .syntax-block .val { color: #E879B0; font-weight: 600; }
+
+  /* JOURNEY MAP */
+  .journey-flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 12px 0;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .journey-step {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    position: relative;
+  }
+  .journey-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -12px;
+    top: 22px;
+    color: var(--border);
+    font-size: 18px;
+  }
+  .journey-bubble {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+  }
+  .journey-step.highlight .journey-bubble {
+    background: rgba(174,32,112,0.2);
+    border-color: var(--momo-pink);
+  }
+  .journey-label { font-size: 11px; font-weight: 600; color: white; margin-bottom: 4px; }
+  .journey-sub { font-size: 10px; color: var(--muted); line-height: 1.4; padding: 0 4px; }
+
+  /* MATRIX */
+  .matrix-wrap {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 240px;
+  }
+  .matrix-quadrant {
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .q-strike { background: rgba(16,185,129,0.12); border: 1.5px solid rgba(16,185,129,0.3); }
+  .q-maintain { background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2); }
+  .q-ignore { background: rgba(255,255,255,0.02); border: 1px dashed var(--border); }
+  .q-overserved { background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.15); }
+  .q-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .q-strike .q-label { color: #34D399; }
+  .q-maintain .q-label { color: #38BDF8; }
+  .q-ignore .q-label { color: var(--muted); }
+  .q-overserved .q-label { color: #FCD34D; }
+  .q-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .q-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .q-strike .q-badge { background: rgba(16,185,129,0.2); color: #34D399; }
+  .q-maintain .q-badge { background: rgba(14,165,233,0.15); color: #38BDF8; }
+  .matrix-axes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 0 4px;
+  }
+  .axis-label { font-size: 10px; color: var(--muted); }
+  .matrix-y-label {
+    position: absolute;
+    left: -32px;
+    top: 50%;
+    transform: rotate(-90deg) translateX(-50%);
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* COMPARE TABLE */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .compare-table th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #D0B8E0;
+    line-height: 1.5;
+  }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .compare-table .bad { color: #F87171; }
+  .compare-table .good { color: #34D399; }
+
+  /* BUILD ITEMS */
+  .build-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .build-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .tag-strategy { background: rgba(124,58,237,0.2); color: #A78BFA; }
+  .tag-arch { background: rgba(14,165,233,0.2); color: #38BDF8; }
+  .tag-ux { background: rgba(16,185,129,0.2); color: #34D399; }
+  .tag-tech { background: rgba(245,158,11,0.15); color: #FCD34D; }
+  .build-title { font-size: 15px; font-weight: 700; color: white; margin-bottom: 6px; }
+  .build-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* METRIC CARDS */
+  .metric-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .metric-icon { font-size: 24px; margin-bottom: 8px; }
+  .metric-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
+  .metric-val { font-size: 14px; font-weight: 700; color: white; }
+  .metric-bad { font-size: 12px; color: #F87171; margin-top: 4px; }
+  .metric-good { font-size: 12px; color: #34D399; margin-top: 4px; }
+
+  /* FAILURE ANALYSIS */
+  .failure-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid;
+    align-items: flex-start;
+  }
+  .f-functional { background: rgba(14,165,233,0.06); border-color: rgba(14,165,233,0.2); }
+  .f-usability { background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.2); }
+  .f-trust { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.2); }
+  .f-awareness { background: rgba(124,58,237,0.06); border-color: rgba(124,58,237,0.2); }
+  .failure-num {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .f-functional .failure-num { background: rgba(14,165,233,0.2); color: #38BDF8; }
+  .f-usability .failure-num { background: rgba(245,158,11,0.2); color: #FCD34D; }
+  .f-trust .failure-num { background: rgba(239,68,68,0.2); color: #FCA5A5; }
+  .f-awareness .failure-num { background: rgba(124,58,237,0.2); color: #A78BFA; }
+  .failure-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; }
+  .failure-solve { font-size: 12px; color: var(--muted); }
+  .failure-solve strong { color: #E8D5F0; }
+
+  /* HANDOFF DIAGRAM */
+  .handoff-flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+  .handoff-step {
+    flex: 1;
+    min-width: 120px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  .handoff-step.web { border-color: rgba(14,165,233,0.4); background: rgba(14,165,233,0.06); }
+  .handoff-step.bridge { border-color: rgba(174,32,112,0.4); background: rgba(174,32,112,0.08); }
+  .handoff-step.app { border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.06); }
+  .handoff-icon { font-size: 22px; margin-bottom: 6px; }
+  .handoff-label { font-size: 12px; font-weight: 700; color: white; }
+  .handoff-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .handoff-arrow { font-size: 20px; color: var(--border); flex-shrink: 0; }
+
+  /* DELIVERABLE BOX */
+  .deliverable {
+    background: rgba(0,0,0,0.3);
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 8px;
+  }
+  .deliverable-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .deliverable-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .del-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: #D0B8E0;
+  }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 20px; }
+  .timeline-dot {
+    position: absolute;
+    left: -24px;
+    top: 3px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+  }
+  .timeline-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; }
+  .timeline-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* FOOTER NAV */
+  .footer-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--momo-pink); color: white; }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .progress-dots { display: flex; gap: 6px; }
+  .progress-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .progress-dot.active { background: var(--momo-red); width: 20px; border-radius: 4px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .header, .main { padding-left: 20px; padding-right: 20px; }
+    .north-star { margin-left: 20px; margin-right: 20px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .job-types { grid-template-columns: 1fr; }
+    .handoff-flow { flex-direction: column; }
+    .handoff-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-tag">🎯 MoMo PLG · JTBD-Led Execution</div>
+  <h1>Web-to-App Growth <span>Workflow</span></h1>
+  <div class="header-sub">Framework triển khai dự án dựa trên Jobs-to-be-Done — từ Discovery đến Measurement, tối ưu cho bài toán Web-to-App Conversion của MoMo.</div>
+  <div class="header-meta">
+    <div class="meta-item"><div class="meta-dot" style="background:#A78BFA"></div> 5 Phases</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#38BDF8"></div> JTBD-First</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#34D399"></div> PLG Model</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#FCD34D"></div> Web-to-App Funnel</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#E879B0"></div> MoMo Fintech</div>
+  </div>
+</div>
+
+<!-- NORTH STAR -->
+<div class="north-star" style="margin: 28px 40px;">
+  <div style="font-size:12px;font-weight:700;color:#E879B0;letter-spacing:1px;margin-bottom:10px;">NORTH STAR STATEMENT — TEMPLATE</div>
+  <div class="ns-template">
+    Chúng ta đang giúp <span class="fill">[user segment cụ thể]</span> hoàn thành <span class="fill">[Job cụ thể theo cú pháp JTBD]</span> tốt hơn hiện tại,
+    đo bằng <span class="fill">[metric có thể đo được]</span>,
+    để đạt <span class="fill">[business outcome: MAU / Revenue / Retention]</span>.
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PHASE NAV -->
+  <div class="phase-nav">
+    <div class="phase-btn active" data-phase="0" onclick="switchPhase(0)">
+      <div class="phase-num" style="color:white">0</div> Anchor
+    </div>
+    <div class="phase-btn" data-phase="1" onclick="switchPhase(1)">
+      <div class="phase-num" style="color:white">1</div> Discover
+    </div>
+    <div class="phase-btn" data-phase="2" onclick="switchPhase(2)">
+      <div class="phase-num" style="color:white">2</div> Define
+    </div>
+    <div class="phase-btn" data-phase="3" onclick="switchPhase(3)">
+      <div class="phase-num" style="color:white">3</div> Build
+    </div>
+    <div class="phase-btn" data-phase="4" onclick="switchPhase(4)">
+      <div class="phase-num" style="color:white">4</div> Measure
+    </div>
+  </div>
+
+  <!-- ─────────── PHASE 0 ─────────── -->
+  <div class="phase-content active ph-0" id="phase-0">
+    <div class="phase-header ph-0">
+      <div class="phase-icon">⚓</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase 0 · Anchor</div>
+        <h2>Xác lập North Star</h2>
+        <div class="phase-question">💬 "Tại sao dự án này tồn tại? Và ai thực sự cần nó?"</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card ph-0">
+        <div class="card-title">3 Câu hỏi không thể bỏ qua</div>
+        <ul class="checklist" id="cl-0">
+          <li onclick="toggle(this)"><div class="check-box"></div><span><strong>Business Job là gì?</strong> — Mục tiêu business có thể đo được. Không phải "ra mắt trang mới" — mà là "+15% new user từ organic Q3."</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span><strong>User Job là gì?</strong> — Người dùng đang cố hoàn thành điều gì trong cuộc sống mà dự án này phục vụ?</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span><strong>Hai Job có overlap không?</strong> — Nếu không có vùng giao nhau, dự án sẽ fail dù execution tốt đến đâu.</span></li>
+        </ul>
+      </div>
+      <div class="card ph-0">
+        <div class="card-title">Business ↔ User Job Overlap</div>
+        <div class="overlap-wrap">
+          <div class="circle-wrap">
+            <div class="circle-A">Business<br>Job<br><span style="font-size:10px;opacity:0.7">MAU / Revenue</span></div>
+            <div class="circle-B">User<br>Job<br><span style="font-size:10px;opacity:0.7">Outcome cần đạt</span></div>
+            <div class="overlap-label">✦ STRIKE<br>ZONE</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px;">Chỉ làm những gì nằm trong vùng overlap này.</div>
+      </div>
+    </div>
+
+    <div class="section-title">3 Tầng của một JTBD</div>
+    <div class="job-types">
+      <div class="job-type-card functional">
+        <div class="job-type-icon">⚙️</div>
+        <div class="job-type-label">Functional</div>
+        <div class="job-type-desc">Nhiệm vụ thực tế, đo được. Người dùng muốn làm <em>gì</em> cụ thể.</div>
+        <div class="job-example">"Chuyển tiền cho bạn bè trong 30 giây."</div>
+      </div>
+      <div class="job-type-card emotional">
+        <div class="job-type-icon">💛</div>
+        <div class="job-type-label">Emotional</div>
+        <div class="job-type-desc">Cảm xúc muốn đạt được hoặc tránh khỏi trong quá trình đó.</div>
+        <div class="job-example">"Tôi muốn cảm thấy mình đang kiểm soát tài chính, không bị phán xét."</div>
+      </div>
+      <div class="job-type-card social">
+        <div class="job-type-icon">🌐</div>
+        <div class="job-type-label">Social</div>
+        <div class="job-type-desc">Cách muốn được nhìn nhận bởi người xung quanh.</div>
+        <div class="job-example">"Tôi muốn trông là người hiện đại, không phải người dùng tiền mặt."</div>
+      </div>
+    </div>
+
+    <div class="section-title">Cú pháp chuẩn</div>
+    <div class="syntax-block">
+      <span class="kw">Khi</span> <span class="val">[tình huống / context cụ thể]</span>,<br>
+      <span class="kw">tôi muốn</span> <span class="val">[hành động / motivation]</span>,<br>
+      <span class="kw">để</span> <span class="val">[kết quả / outcome mong muốn]</span>.
+    </div>
+
+    <div class="deliverable" style="margin-top:20px">
+      <div class="deliverable-label">📄 Deliverable Phase 0</div>
+      <div class="deliverable-items">
+        <div class="del-chip">📝 North Star Statement (1 trang A4)</div>
+        <div class="del-chip">🎯 3 Job statements (Functional / Emotional / Social)</div>
+        <div class="del-chip">✅ Business–User Overlap confirmed</div>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="nav-btn" disabled>← Trước</button>
+      <div class="progress-dots">
+        <div class="progress-dot active" onclick="switchPhase(0)"></div>
+        <div class="progress-dot" onclick="switchPhase(1)"></div>
+        <div class="progress-dot" onclick="switchPhase(2)"></div>
+        <div class="progress-dot" onclick="switchPhase(3)"></div>
+        <div class="progress-dot" onclick="switchPhase(4)"></div>
+      </div>
+      <button class="nav-btn" onclick="switchPhase(1)">Tiếp → Discover</button>
+    </div>
+  </div>
+
+  <!-- ─────────── PHASE 1 ─────────── -->
+  <div class="phase-content ph-1" id="phase-1">
+    <div class="phase-header ph-1">
+      <div class="phase-icon">🔍</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase 1 · Discover</div>
+        <h2>Khai thác Jobs thực sự</h2>
+        <div class="phase-question">💬 "Người dùng đang vật lộn với điều gì — không phải họ muốn gì?"</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card ph-1">
+        <div class="card-title">4 Nguồn khai thác Jobs</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:#38BDF8;border-color:#38BDF8"></div>
+            <div class="timeline-title">① Switch Interview (5–7 người)</div>
+            <div class="timeline-desc">Phỏng vấn người vừa chuyển sang hoặc rời bỏ sản phẩm. Focus vào struggling moment, không phải feature preference.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:#38BDF8;border-color:#38BDF8"></div>
+            <div class="timeline-title">② GSC + Ahrefs — Search Intent Cluster</div>
+            <div class="timeline-desc">Cluster queries theo Job type (informational / navigational / transactional). Map keyword → Job statement.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:#38BDF8;border-color:#38BDF8"></div>
+            <div class="timeline-title">③ Competitor Gap Analysis</div>
+            <div class="timeline-desc">Jobs đang được serve kém nhất trên thị trường = cơ hội lớn nhất. Scrape SERP thực tế trước khi kết luận.</div>
+          </div>
+          <div class="timeline-item" style="margin-bottom:0">
+            <div class="timeline-dot" style="background:#38BDF8;border-color:#38BDF8"></div>
+            <div class="timeline-title">④ GA4 Behavioral Data</div>
+            <div class="timeline-desc">Funnel drop-off bất thường cao = struggling moment. Heatmap + session recording để tìm anxiety signal.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card ph-1">
+        <div class="card-title">Switch Interview — Câu hỏi mẫu</div>
+        <ul class="checklist">
+          <li onclick="toggle(this)"><div class="check-box"></div><span>"Lần đầu bạn nhận ra mình cần tìm giải pháp khác là <strong>khi nào</strong>?"</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>"Bạn đang dùng gì trước đó? <strong>Điều gì</strong> khiến bạn không tiếp tục?"</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>"Trước khi quyết định, bạn còn <strong>cân nhắc lựa chọn nào</strong> khác?"</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>"Bạn cảm thấy thế nào <strong>ngay sau khi</strong> hoàn thành việc đó lần đầu?"</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>"Nếu sản phẩm này biến mất ngày mai, bạn sẽ <strong>dùng gì thay thế</strong>?"</span></li>
+        </ul>
+        <div style="margin-top:16px;padding:12px;background:rgba(14,165,233,0.08);border-radius:10px;border:1px solid rgba(14,165,233,0.2)">
+          <div style="font-size:12px;font-weight:700;color:#38BDF8;margin-bottom:6px;">⚡ Workaround Hunting</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">Tìm giải pháp tạm thời người dùng <em>tự tạo ra</em>. Nếu họ đang dùng Zalo để chia bill thay vì MoMo → đó là Job đang bị underserved.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Job Map Output</div>
+    <div class="card ph-1">
+      <div class="card-title">Opportunity Matrix — Prioritization Framework</div>
+      <div class="matrix-wrap" style="margin-bottom:0">
+        <div style="font-size:11px;color:var(--muted);text-align:right;margin-bottom:8px;">Importance →</div>
+        <div class="matrix-grid">
+          <div class="matrix-quadrant q-ignore">
+            <div class="q-label">Low Priority</div>
+            <div class="q-desc">Ít quan trọng, đang serve kém — không đủ ROI để đầu tư.</div>
+          </div>
+          <div class="matrix-quadrant q-strike">
+            <div class="q-badge">★ STRIKE ZONE</div>
+            <div class="q-label">Build Here First</div>
+            <div class="q-desc">Quan trọng với user + thị trường đang serve kém. Đây là content cluster ưu tiên #1.</div>
+          </div>
+          <div class="matrix-quadrant q-ignore">
+            <div class="q-label">Deprioritize</div>
+            <div class="q-desc">Ít quan trọng — dù satisfied hay không cũng không ảnh hưởng lớn.</div>
+          </div>
+          <div class="matrix-quadrant q-overserved">
+            <div class="q-label">Maintain</div>
+            <div class="q-desc">Quan trọng nhưng đang được serve tốt. Giữ nguyên, không over-invest.</div>
+          </div>
+        </div>
+        <div class="matrix-axes">
+          <div class="axis-label">Satisfaction thấp</div>
+          <div class="axis-label">Satisfaction cao</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="deliverable" style="margin-top:16px">
+      <div class="deliverable-label">📄 Deliverable Phase 1</div>
+      <div class="deliverable-items">
+        <div class="del-chip">📊 Job Map (stack-ranked)</div>
+        <div class="del-chip">🗺️ Opportunity Matrix</div>
+        <div class="del-chip">🔑 3–5 Jobs ưu tiên được chọn</div>
+        <div class="del-chip">📋 Search Intent Cluster per Job</div>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="nav-btn" onclick="switchPhase(0)">← Anchor</button>
+      <div class="progress-dots">
+        <div class="progress-dot" onclick="switchPhase(0)"></div>
+        <div class="progress-dot active" onclick="switchPhase(1)"></div>
+        <div class="progress-dot" onclick="switchPhase(2)"></div>
+        <div class="progress-dot" onclick="switchPhase(3)"></div>
+        <div class="progress-dot" onclick="switchPhase(4)"></div>
+      </div>
+      <button class="nav-btn" onclick="switchPhase(2)">Tiếp → Define</button>
+    </div>
+  </div>
+
+  <!-- ─────────── PHASE 2 ─────────── -->
+  <div class="phase-content ph-2" id="phase-2">
+    <div class="phase-header ph-2">
+      <div class="phase-icon">🏗️</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase 2 · Define</div>
+        <h2>Thiết kế giải pháp quanh Jobs</h2>
+        <div class="phase-question">💬 "Architecture này phục vụ Job hay phục vụ sitemap?"</div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card ph-2">
+        <div class="card-title">Tầng 1 — Strategy</div>
+        <ul class="checklist">
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Jobs nằm ở <strong>Strike Zone</strong> (quan trọng + underserved)?</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Có thể dẫn đến <strong>Business Outcome</strong> đo được không?</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Nằm trong <strong>khả năng thực thi</strong> của team hiện tại?</span></li>
+        </ul>
+      </div>
+      <div class="card ph-2">
+        <div class="card-title">Tầng 2 — Architecture</div>
+        <ul class="checklist">
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Map <strong>User Journey</strong> từ Trigger → Job Completion</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Xác định <strong>Entry Points</strong> từ Organic Search</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Thiết kế <strong>Content/Feature</strong> theo từng bước hành trình</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Define <strong>Web-to-App Handoff Points</strong> rõ ràng</span></li>
+        </ul>
+      </div>
+      <div class="card ph-2">
+        <div class="card-title">Tầng 3 — Specification</div>
+        <ul class="checklist">
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Viết <strong>Job Completion Criteria</strong> cho từng Job</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Define <strong>Anxiety Checklist</strong> (Emotional barriers)</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Xác nhận <strong>Schema Markup</strong> phù hợp theo intent</span></li>
+          <li onclick="toggle(this)"><div class="check-box"></div><span>Brief <strong>Contextual CTA</strong> theo từng Job milestone</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">User Journey Map — Web-to-App</div>
+    <div class="card ph-2" style="padding:24px">
+      <div class="journey-flow">
+        <div class="journey-step">
+          <div class="journey-bubble">🔍</div>
+          <div class="journey-label">Trigger</div>
+          <div class="journey-sub">Nhận ra vấn đề, bắt đầu search</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-bubble">📄</div>
+          <div class="journey-label">Awareness</div>
+          <div class="journey-sub">Landing trên Web (organic)</div>
+        </div>
+        <div class="journey-step highlight">
+          <div class="journey-bubble">💡</div>
+          <div class="journey-label">Consideration</div>
+          <div class="journey-sub">Web giải quyết Functional + Emotional Job</div>
+        </div>
+        <div class="journey-step highlight">
+          <div class="journey-bubble">✅</div>
+          <div class="journey-label">Decision</div>
+          <div class="journey-sub">Contextual CTA — reduce friction tối đa</div>
+        </div>
+        <div class="journey-step highlight">
+          <div class="journey-bubble">📱</div>
+          <div class="journey-label">Action</div>
+          <div class="journey-sub">Deep Link → App (Smart Banner)</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-bubble">🎉</div>
+          <div class="journey-label">Outcome</div>
+          <div class="journey-sub">Job Completed trong App</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px;">✦ Highlighted steps = điểm MoMo Web phải optimize mạnh nhất</div>
+    </div>
+
+    <div class="section-title">Feature vs. Job-based Design — So sánh</div>
+    <div class="card ph-2" style="overflow-x:auto">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Quyết định</th>
+            <th class="bad">❌ Feature-based</th>
+            <th class="good">✅ Job-based (MoMo)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Landing page</td><td class="bad">Giới thiệu sản phẩm vay</td><td class="good">Công cụ tính hạn mức ngay trên trang</td></tr>
+          <tr><td>CTA chính</td><td class="bad">"Đăng ký ngay"</td><td class="good">"Xem ngay bạn vay được bao nhiêu"</td></tr>
+          <tr><td>Content flow</td><td class="bad">Feature list → Điều kiện → Đăng ký</td><td class="good">Struggling scenario → Giải tỏa lo ngại → Proof → Action</td></tr>
+          <tr><td>SEO keyword</td><td class="bad">"vay tiền MoMo"</td><td class="good">"vay bao nhiêu tiền không cần thế chấp"</td></tr>
+          <tr><td>Schema</td><td class="bad">Organization schema chung chung</td><td class="good">FAQPage + FinancialProduct + HowTo theo intent</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="deliverable" style="margin-top:16px">
+      <div class="deliverable-label">📄 Deliverable Phase 2</div>
+      <div class="deliverable-items">
+        <div class="del-chip">🗺️ Solution Blueprint (Job-based Architecture)</div>
+        <div class="del-chip">🛤️ User Journey Map per Job</div>
+        <div class="del-chip">📋 Job Completion Criteria</div>
+        <div class="del-chip">⚠️ Anxiety Elimination Checklist</div>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="nav-btn" onclick="switchPhase(1)">← Discover</button>
+      <div class="progress-dots">
+        <div class="progress-dot" onclick="switchPhase(0)"></div>
+        <div class="progress-dot" onclick="switchPhase(1)"></div>
+        <div class="progress-dot active" onclick="switchPhase(2)"></div>
+        <div class="progress-dot" onclick="switchPhase(3)"></div>
+        <div class="progress-dot" onclick="switchPhase(4)"></div>
+      </div>
+      <button class="nav-btn" onclick="switchPhase(3)">Tiếp → Build</button>
+    </div>
+  </div>
+
+  <!-- ─────────── PHASE 3 ─────────── -->
+  <div class="phase-content ph-3" id="phase-3">
+    <div class="phase-header ph-3">
+      <div class="phase-icon">🚀</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase 3 · Build</div>
+        <h2>Ship đúng cách, đúng thứ tự</h2>
+        <div class="phase-question">💬 "Người dùng có thể hoàn thành Job end-to-end với những gì mình đang ship không?"</div>
+      </div>
+    </div>
+
+    <div class="build-item">
+      <div class="build-tag tag-strategy">① Job-based Prioritization</div>
+      <div class="build-title">Mỗi item trong backlog phải trả lời được: "Serve Job nào? Ở bước nào?"</div>
+      <div class="build-desc">Nếu không trả lời được → không nên làm. Loại bỏ tất cả backlog items không map được vào Job đã xác định trong Phase 1. Đây là cách duy nhất để giữ team focused.</div>
+    </div>
+
+    <div class="build-item">
+      <div class="build-tag tag-arch">② Minimum Viable Job (MVJ)</div>
+      <div class="build-title">MVJ ≠ MVP — Ship đủ để Job completion path không bị broken</div>
+      <div class="build-desc" style="margin-bottom:14px">MVP truyền thống có thể ship với tính năng thiếu nhưng vẫn functional. MVJ không thể launch nếu Job completion path bị broken ở bất kỳ bước nào trong hành trình.</div>
+      <div class="grid-2">
+        <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:14px">
+          <div style="font-size:11px;font-weight:700;color:#FCA5A5;margin-bottom:8px;">❌ MVP cũ</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5">"Trang vay có đủ tính năng cơ bản — launch thôi." → User đến, không biết vay được bao nhiêu, bỏ đi.</div>
+        </div>
+        <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:14px">
+          <div style="font-size:11px;font-weight:700;color:#34D399;margin-bottom:8px;">✅ MVJ đúng</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5">"User phải có thể: hiểu hạn mức → tin tưởng → apply → vào app để hoàn tất." Thiếu bước nào → chưa được ship.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="build-item">
+      <div class="build-tag tag-ux">③ Anxiety Elimination Checklist</div>
+      <div class="build-title">Trước khi ship mỗi page/feature — kiểm tra Emotional & Social Job</div>
+      <ul class="checklist" style="margin-top:10px">
+        <li onclick="toggle(this)"><div class="check-box"></div><span>Trang vay: Có hiển thị rõ lãi suất, timeline giải ngân, điều kiện vay không?</span></li>
+        <li onclick="toggle(this)"><div class="check-box"></div><span>Trang bảo hiểm: Có proof (số người đã mua, claim thành công) để giảm trust barrier không?</span></li>
+        <li onclick="toggle(this)"><div class="check-box"></div><span>CTA vào app: Có giải thích rõ "bước tiếp theo là gì" không? (tránh uncertainty anxiety)</span></li>
+        <li onclick="toggle(this)"><div class="check-box"></div><span>Deep link: Có fallback nếu app chưa cài không? (reduce friction)</span></li>
+        <li onclick="toggle(this)"><div class="check-box"></div><span>Mobile experience: Toàn bộ job completion path test trên mobile thực chưa?</span></li>
+      </ul>
+    </div>
+
+    <div class="build-item">
+      <div class="build-tag tag-tech">④ Web-to-App Handoff — Kỹ thuật tối ưu</div>
+      <div class="build-title">Deep Link + Smart Banner + Contextual CTA không phải optional</div>
+      <div class="handoff-flow">
+        <div class="handoff-step web">
+          <div class="handoff-icon">🌐</div>
+          <div class="handoff-label">Web (Organic)</div>
+          <div class="handoff-sub">Serve Functional + Emotional Job trên Web trước</div>
+        </div>
+        <div class="handoff-arrow">→</div>
+        <div class="handoff-step bridge">
+          <div class="handoff-icon">🔗</div>
+          <div class="handoff-label">Handoff Point</div>
+          <div class="handoff-sub">Contextual CTA → Deep Link → Smart Banner</div>
+        </div>
+        <div class="handoff-arrow">→</div>
+        <div class="handoff-step app">
+          <div class="handoff-icon">📱</div>
+          <div class="handoff-label">MoMo App</div>
+          <div class="handoff-sub">Job Completed — Transaction / Install</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px">
+        Deep link = cầu nối bắt buộc giữa Web Job và App Job. Smart Banner = signal rằng Job có thể tiếp tục ở môi trường tốt hơn. Không phải interruption — phải là <em>natural next step</em> trong hành trình.
+      </div>
+    </div>
+
+    <div class="deliverable">
+      <div class="deliverable-label">📄 Deliverable Phase 3</div>
+      <div class="deliverable-items">
+        <div class="del-chip">📱 MVJ — Job completion path tested end-to-end</div>
+        <div class="del-chip">🔗 Deep link + Smart Banner configured</div>
+        <div class="del-chip">✅ Anxiety checklist passed</div>
+        <div class="del-chip">🚦 QA: Mobile + Desktop</div>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="nav-btn" onclick="switchPhase(2)">← Define</button>
+      <div class="progress-dots">
+        <div class="progress-dot" onclick="switchPhase(0)"></div>
+        <div class="progress-dot" onclick="switchPhase(1)"></div>
+        <div class="progress-dot" onclick="switchPhase(2)"></div>
+        <div class="progress-dot active" onclick="switchPhase(3)"></div>
+        <div class="progress-dot" onclick="switchPhase(4)"></div>
+      </div>
+      <button class="nav-btn" onclick="switchPhase(4)">Tiếp → Measure</button>
+    </div>
+  </div>
+
+  <!-- ─────────── PHASE 4 ─────────── -->
+  <div class="phase-content ph-4" id="phase-4">
+    <div class="phase-header ph-4">
+      <div class="phase-icon">📊</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase 4 · Measure</div>
+        <h2>Đo Job Completion, không phải Vanity</h2>
+        <div class="phase-question">💬 "Mình đang đo thứ mình build hay đo thứ người dùng cần?"</div>
+      </div>
+    </div>
+
+    <div class="section-title">Vanity → Job-based Metrics Mapping</div>
+    <div class="grid-4">
+      <div class="metric-card">
+        <div class="metric-icon">👁️</div>
+        <div class="metric-label">Pageviews</div>
+        <div class="metric-bad">Vanity</div>
+        <div style="font-size:18px;color:var(--border);margin:4px 0">↓</div>
+        <div class="metric-good">Job Initiation Rate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">⏱️</div>
+        <div class="metric-label">Time on Page</div>
+        <div class="metric-bad">Vanity</div>
+        <div style="font-size:18px;color:var(--border);margin:4px 0">↓</div>
+        <div class="metric-good">Progress through Journey</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">🚪</div>
+        <div class="metric-label">Bounce Rate</div>
+        <div class="metric-bad">Vanity</div>
+        <div style="font-size:18px;color:var(--border);margin:4px 0">↓</div>
+        <div class="metric-good">Job Abandonment Rate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">🔁</div>
+        <div class="metric-label">Return Visits</div>
+        <div class="metric-bad">Partial signal</div>
+        <div style="font-size:18px;color:var(--border);margin:4px 0">↓</div>
+        <div class="metric-good">Job Re-hire Rate (Loyalty)</div>
+      </div>
+    </div>
+
+    <div class="section-title">GA4 Event Structure — Job Milestones</div>
+    <div class="card ph-4" style="margin-bottom:16px">
+      <div class="card-title">Event Tracking theo Job Journey</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px">
+        <div class="syntax-block">
+          <span class="kw">// Organic User vào trang vay</span><br>
+          <span class="val">job_started</span> { job_type: "loan", source: "organic" }<br><br>
+          <span class="kw">// Đọc xong phần giải quyết anxiety</span><br>
+          <span class="val">key_info_consumed</span> { section: "rate_transparency" }<br><br>
+          <span class="kw">// Click CTA vào app</span><br>
+          <span class="val">job_progressed</span> { cta_type: "deeplink", position: "hero" }<br><br>
+          <span class="kw">// Hoàn thành trong app (Appsflyer)</span><br>
+          <span class="val">job_completed</span> { channel: "organic_web", vertical: "loan" }
+        </div>
+        <div>
+          <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:14px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:#FCA5A5;margin-bottom:6px;">⚠️ Không làm</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5">Track page_view → scroll_depth → button_click rồi báo cáo "engagement tốt" mà không biết Job có được complete không.</div>
+          </div>
+          <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:14px">
+            <div style="font-size:11px;font-weight:700;color:#34D399;margin-bottom:6px;">✅ Cần làm</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5">Connect GA4 Web events với Appsflyer App events để close the loop: Organic Click → Install → First Transaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Job Failure Analysis — 4 Loại Failure</div>
+    <div class="failure-item f-functional">
+      <div class="failure-num">1</div>
+      <div>
+        <div class="failure-title">Functional Failure</div>
+        <div class="failure-solve">Sản phẩm <strong>không có tính năng</strong> cần thiết. → <strong>Fix:</strong> Build tính năng còn thiếu theo Job spec.</div>
+      </div>
+    </div>
+    <div class="failure-item f-usability">
+      <div class="failure-num">2</div>
+      <div>
+        <div class="failure-title">Usability Failure</div>
+        <div class="failure-solve">Có tính năng nhưng <strong>quá khó dùng</strong>. → <strong>Fix:</strong> UX/UI optimization, reduce steps, clearer copy.</div>
+      </div>
+    </div>
+    <div class="failure-item f-trust">
+      <div class="failure-num">3</div>
+      <div>
+        <div class="failure-title">Trust Failure</div>
+        <div class="failure-solve">Có tính năng, dễ dùng nhưng người dùng <strong>không tin tưởng</strong>. → <strong>Fix:</strong> Social proof, transparency, security signals.</div>
+      </div>
+    </div>
+    <div class="failure-item f-awareness">
+      <div class="failure-num">4</div>
+      <div>
+        <div class="failure-title">Awareness Failure</div>
+        <div class="failure-solve">Có tất cả nhưng người dùng <strong>không biết</strong>. → <strong>Fix:</strong> SEO content, GEO optimization, distribution.</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(174,32,112,0.08);border:1px solid rgba(174,32,112,0.25);border-radius:14px;padding:20px;margin-top:16px">
+      <div style="font-size:13px;font-weight:700;color:#E879B0;margin-bottom:12px;">⚡ Loop: Measure → Discover → Improve</div>
+      <div style="font-size:13px;color:#D0B8E0;line-height:1.8">
+        Jobs thay đổi theo context kinh tế, xã hội, và life stage của người dùng. Discovery không phải làm một lần — phải <strong style="color:white">loop lại định kỳ</strong> (quarterly minimum). Job Failure Analysis từ Phase 4 trở thành input trực tiếp cho Phase 1 của iteration tiếp theo.
+      </div>
+    </div>
+
+    <div class="deliverable" style="margin-top:16px">
+      <div class="deliverable-label">📄 Deliverable Phase 4</div>
+      <div class="deliverable-items">
+        <div class="del-chip">📈 Job Completion Rate dashboard (Looker Studio)</div>
+        <div class="del-chip">🔍 Job Failure Analysis report</div>
+        <div class="del-chip">🔄 Discovery loop trigger (nếu completion &lt; target)</div>
+        <div class="del-chip">📊 Web-to-App attribution (GA4 ↔ Appsflyer)</div>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="nav-btn" onclick="switchPhase(3)">← Build</button>
+      <div class="progress-dots">
+        <div class="progress-dot" onclick="switchPhase(0)"></div>
+        <div class="progress-dot" onclick="switchPhase(1)"></div>
+        <div class="progress-dot" onclick="switchPhase(2)"></div>
+        <div class="progress-dot" onclick="switchPhase(3)"></div>
+        <div class="progress-dot active" onclick="switchPhase(4)"></div>
+      </div>
+      <button class="nav-btn" onclick="switchPhase(0)">↩ Về Anchor</button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+let currentPhase = 0;
+
+function switchPhase(n) {
+  // Hide all
+  document.querySelectorAll('.phase-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.phase-btn').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.progress-dot').forEach((el, i) => {
+    el.classList.toggle('active', i === n);
+  });
+  // Show target
+  document.getElementById('phase-' + n).classList.add('active');
+  document.querySelector('[data-phase="' + n + '"]').classList.add('active');
+  currentPhase = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggle(el) {
+  el.classList.toggle('done');
+}
+</script>
+</body>
+</html>

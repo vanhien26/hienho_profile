@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Sidebar from '../../components/Sidebar'
 import Link from 'next/link'
 import { Project } from '../../data/projects'
+import { Menu, Home, FileText, Lightbulb } from 'lucide-react'
 
 const statusStyle: Record<string, { bg: string; text: string; label: string }> = {
   live: { bg: '#E0F5EA', text: '#00663A', label: 'LIVE' },
@@ -47,12 +48,10 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-lg"
+      className="fixed top-4 left-4 z-30 flex items-center justify-center w-10 h-10 rounded-lg"
       style={{ background: '#18120E', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-        <path d="M3 12h18M3 6h18M3 18h18" />
-      </svg>
+      <Menu size={18} color="white" />
     </button>
   )
 }
@@ -63,7 +62,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
   return (
     <div className="flex min-h-screen w-full">
-      <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} alwaysOverlay />
       <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
       <main className="flex-1 flex flex-col overflow-hidden w-full">
@@ -77,7 +76,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             className="text-xs font-medium flex items-center gap-1.5 hover:opacity-70 transition-opacity flex-shrink-0"
             style={{ color: 'var(--ink-3)' }}
           >
-            <span>🏠</span> Home
+            <Home size={12} /> Home
           </Link>
           <span style={{ color: 'var(--border)' }} className="flex-shrink-0">/</span>
           <span className="text-xs font-medium flex-shrink-0 hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
@@ -168,7 +167,9 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
               }}
             >
-              <div className="text-5xl mb-5">📄</div>
+              <div className="flex justify-center mb-5">
+                <FileText size={48} style={{ color: 'var(--ink-3)' }} strokeWidth={1} />
+              </div>
               <h1 className="text-xl font-black mb-1" style={{ color: 'var(--ink)' }}>
                 {project.title}
               </h1>
@@ -214,10 +215,11 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               </div>
 
               <div
-                className="mt-8 px-5 py-3 rounded-xl text-xs font-medium text-left"
+                className="mt-8 px-5 py-3 rounded-xl text-xs font-medium text-left flex items-start gap-2"
                 style={{ background: '#FFF3DC', color: '#8B5800' }}
               >
-                💡 <strong>Chưa có tài liệu HTML.</strong> Gửi file HTML cho dự án này để hiển thị nội dung chi tiết tại đây.
+                <Lightbulb size={14} className="flex-shrink-0 mt-0.5" />
+                <span><strong>Chưa có tài liệu HTML.</strong> Gửi file HTML cho dự án này để hiển thị nội dung chi tiết tại đây.</span>
               </div>
             </div>
           </div>
