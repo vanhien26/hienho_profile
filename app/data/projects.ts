@@ -43,6 +43,7 @@ export const projects: Project[] = [
     status: 'review',
     updatedAt: '2026-03-15',
     description: 'Kiến trúc thông tin và SEO cho sản phẩm BNPL: Trả Góp cluster, partner ecosystem tại momo.vn/doi-tac/{brand} với bidirectional linking.',
+    htmlFile: '/projects/vi-tra-sau-bnpl.html',
     metrics: [
       { label: 'Partner pages', value: '30+' },
       { label: 'Schema types', value: '4' },
