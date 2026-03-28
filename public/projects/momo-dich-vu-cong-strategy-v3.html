@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo Dịch Vụ Công — Growth Strategy & Content Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --pink: #AE2070;
+  --pink-light: #F5E0EC;
+  --green: #00A64F;
+  --green-light: #E0F5EA;
+  --blue: #1848B8;
+  --blue-light: #E6EEFF;
+  --amber: #C05000;
+  --amber-light: #FFF0E0;
+  --red: #C42020;
+  --red-light: #FFE8E8;
+  --purple: #6B30C0;
+  --purple-light: #EFE6FF;
+  --teal: #007B7F;
+  --teal-light: #E0F5F5;
+  --ink: #18120E;
+  --ink-2: #4A3F38;
+  --ink-3: #8C7D74;
+  --bg: #F6F3EF;
+  --surface: #FFFFFF;
+  --border: #E4DDD6;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --r: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+
+/* ─── LAYOUT ─── */
+.layout { display:flex; min-height:100vh; }
+.sidebar { width:260px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
+.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
+.nav-section { padding:16px 0 0; }
+.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; user-select:none; }
+.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
+.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
+.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+
+/* ─── CONTENT ─── */
+.content { flex:1; overflow-y:auto; min-width:0; }
+.section { display:none; padding:40px 48px; }
+.section.active { display:block; }
+
+/* ─── HEADER ─── */
+.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
+.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
+.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+
+/* ─── STATS ─── */
+.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
+.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+/* ─── HEADINGS ─── */
+h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
+h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+h4.sh4 { font-size:13px; font-weight:700; margin-bottom:8px; color:var(--ink-2); }
+
+/* ─── TAGS ─── */
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
+.tag-tofu { background:#E0F4E8; color:#0B6130; }
+.tag-mofu { background:var(--blue-light); color:var(--blue); }
+.tag-bofu { background:var(--pink-light); color:var(--pink); }
+.tag-p1 { background:var(--pink-light); color:var(--pink); }
+.tag-p2 { background:#FFF3DC; color:#8B5800; }
+.tag-p3 { background:#F0EDE8; color:var(--ink-3); }
+.tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
+.tag-pseo { background:var(--purple-light); color:var(--purple); }
+.tag-seo { background:var(--blue-light); color:var(--blue); }
+.tag-ux { background:var(--green-light); color:var(--green); }
+.tag-conv { background:var(--pink-light); color:var(--pink); }
+.tag-trust { background:#FFF3DC; color:#8B5800; }
+.tag-template { background:var(--teal-light); color:var(--teal); }
+.tag-ai { background:var(--purple-light); color:var(--purple); border:1.5px dashed var(--purple); }
+
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+
+/* ─── TABLE ─── */
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-new { background:#F0FFF6; }
+.data-table tbody tr.row-new:hover { background:#E0F5EA; }
+.data-table tbody tr.row-highlight { background:var(--pink-light); }
+
+/* ─── FUNNEL ─── */
+.funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
+.funnel-stage:last-child { border-right:none; }
+.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
+.funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
+.fs-tofu { border-top:3px solid var(--green); }
+.fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); }
+.fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); }
+.fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+.fs-pseo { border-top:3px solid var(--purple); }
+.fs-pseo .funnel-stage-label { color:var(--purple); }
+
+/* ─── TREE ─── */
+.tree-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:36px; }
+.tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.tree-box-header { padding:14px 18px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+.tree-box-title { font-size:14px; font-weight:800; }
+.tree-box-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-top:1px; }
+.tree-body { padding:14px 18px; }
+.tree-item { font-size:12.5px; padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+.tree-item:last-child { border-bottom:none; }
+.tree-depth-0 { font-weight:800; color:var(--ink); }
+.tree-depth-1 { padding-left:14px; color:var(--ink-2); }
+.tree-depth-2 { padding-left:28px; color:var(--ink-3); font-size:11.5px; }
+.tree-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
+.tree-badge { font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; flex-shrink:0; }
+
+/* ─── DIVIDER ─── */
+.divider { height:1px; background:var(--border); margin:32px 0; }
+
+/* ─── CALLOUT ─── */
+.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
+.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:var(--purple-light); border:1px solid #C0A0FF; color:#4A1A90; }
+.callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+
+/* ─── VERDICT ─── */
+.verdict-bar { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:22px 28px; margin-bottom:28px; display:flex; align-items:center; gap:24px; }
+.verdict-score { width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:22px; font-weight:900; letter-spacing:-1px; }
+.verdict-text { flex:1; }
+.verdict-title { font-size:16px; font-weight:800; margin-bottom:4px; }
+.verdict-desc { font-size:13px; color:var(--ink-2); line-height:1.6; }
+
+/* ─── CARDS ─── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.card-title { font-size:14px; font-weight:700; margin-bottom:8px; color:var(--ink); }
+
+/* ─── GRID ─── */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+
+/* ─── CONTENT STRUCTURE ─── */
+.cs-page { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
+.cs-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cs-header:hover { background:var(--bg); }
+.cs-header-left { display:flex; align-items:center; gap:12px; }
+.cs-page-title { font-size:14px; font-weight:700; }
+.cs-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; }
+.cs-toggle.open { transform:rotate(90deg); }
+.cs-body { display:none; border-top:1px solid var(--border); }
+.cs-body.open { display:block; }
+.cs-section { border-bottom:1px solid var(--border); padding:16px 20px; }
+.cs-section:last-child { border-bottom:none; }
+.cs-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
+.cs-keyword-row { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11.5px; padding:2px 8px; border-radius:4px; }
+.cs-component { display:inline-flex; align-items:center; gap:4px; background:var(--amber-light); color:var(--amber); border:1px solid #FFD0A0; font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:4px; margin:2px; }
+.cs-content-block { background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:10px 14px; margin-bottom:8px; font-size:12.5px; }
+.cs-block-title { font-weight:700; margin-bottom:3px; }
+.cs-block-desc { color:var(--ink-2); line-height:1.5; }
+.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
+.cs-ai { display:inline-block; background:var(--purple-light); color:var(--purple); border:1px solid #C0A0FF; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; }
+
+/* ─── PRIORITY ─── */
+.priority-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.priority-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.priority-col-header { padding:11px 16px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.priority-col-body { padding:12px; background:var(--surface); }
+.priority-item { font-size:12px; padding:7px 10px; border-radius:6px; margin-bottom:5px; border:1px solid var(--border); background:var(--bg); line-height:1.4; }
+.priority-item b { display:block; font-weight:700; color:var(--ink); }
+.priority-item span { color:var(--ink-3); font-size:11px; }
+.priority-item.new-item { border:1.5px dashed var(--green); background:#F0FFF6; }
+.priority-item.pseo-item { border:1.5px dashed var(--purple); background:var(--purple-light); }
+
+/* ─── ACTION ITEMS ─── */
+.action-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; margin-bottom:8px; display:flex; align-items:flex-start; gap:14px; }
+.action-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; color:white; }
+.action-body { flex:1; }
+.action-title { font-size:13px; font-weight:700; margin-bottom:2px; }
+.action-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.action-meta { display:flex; gap:8px; margin-top:6px; }
+
+/* ─── CROSS-SELL MATRIX ─── */
+.matrix-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.matrix-table { width:100%; border-collapse:collapse; font-size:12px; }
+.matrix-table th { padding:10px 12px; background:#F0EDE8; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-3); border-bottom:1px solid var(--border); border-right:1px solid var(--border); text-align:center; }
+.matrix-table th:first-child { text-align:left; }
+.matrix-table td { padding:10px 12px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); vertical-align:middle; line-height:1.4; text-align:center; }
+.matrix-table td:first-child { text-align:left; }
+.matrix-table td:last-child, .matrix-table th:last-child { border-right:none; }
+.matrix-table tbody tr:last-child td { border-bottom:none; }
+.matrix-table .row-label { font-weight:700; font-size:12px; background:var(--bg); white-space:nowrap; text-align:left; }
+.matrix-has { color:var(--green); font-weight:600; font-size:13px; }
+.matrix-no { color:var(--ink-3); font-size:11px; }
+.matrix-cond { color:var(--blue); font-size:11px; font-weight:500; }
+.matrix-ai { color:var(--purple); font-size:11px; font-weight:700; }
+
+/* ─── SCENARIO ─── */
+.scenario-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.scenario-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.scenario-header { padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.scenario-title { font-size:13px; font-weight:800; }
+.scenario-body { padding:14px 18px; }
+.scenario-step { display:flex; gap:10px; margin-bottom:10px; align-items:flex-start; }
+.step-num { min-width:22px; height:22px; background:var(--ink); color:white; border-radius:50%; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.step-text { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+.scenario-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:8px 12px; font-size:12px; color:#0B5020; font-weight:600; margin-top:4px; }
+
+/* ─── KPI CARDS ─── */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:28px; }
+.kpi-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; text-align:center; }
+.kpi-icon { font-size:24px; margin-bottom:8px; }
+.kpi-value { font-size:26px; font-weight:900; letter-spacing:-1px; margin-bottom:3px; }
+.kpi-label { font-size:12px; color:var(--ink-3); font-weight:500; }
+.kpi-note { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+
+/* ─── ROADMAP ─── */
+.roadmap-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.roadmap-col-header { padding:12px 16px; display:flex; align-items:center; gap:10px; }
+.roadmap-col-body { padding:12px 16px; background:var(--surface); }
+.roadmap-item { font-size:12px; color:var(--ink-2); padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:6px; line-height:1.4; }
+.roadmap-item:last-child { border-bottom:none; }
+.roadmap-item::before { content:"✓"; color:var(--green); font-size:11px; flex-shrink:0; margin-top:1px; }
+
+/* ─── CHECKLIST ─── */
+.cl-product { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
+.cl-product-header { display:flex; align-items:center; gap:14px; padding:16px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cl-product-header:hover { background:var(--bg); }
+.cl-product-icon { font-size:22px; flex-shrink:0; }
+.cl-product-meta { flex:1; }
+.cl-product-name { font-size:14px; font-weight:800; }
+.cl-product-sub { font-size:11.5px; color:var(--ink-3); margin-top:2px; }
+.cl-product-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; flex-shrink:0; }
+.cl-product-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
+.cl-product-toggle.open { transform:rotate(90deg); }
+.cl-product-body { display:none; border-top:1px solid var(--border); }
+.cl-product-body.open { display:block; }
+.cl-group { padding:16px 20px; border-bottom:1px solid var(--border); }
+.cl-group:last-child { border-bottom:none; }
+.cl-group-title { font-size:12px; font-weight:700; color:var(--ink-2); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px; }
+.cl-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.cl-item { display:flex; gap:8px; align-items:flex-start; padding:5px 0; }
+.cl-check { width:14px; height:14px; border:1.5px solid var(--border); border-radius:3px; flex-shrink:0; margin-top:2px; }
+.cl-item-text { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.cl-note { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; font-size:12px; padding:10px 14px; border-radius:7px; margin:12px 20px 16px; line-height:1.6; }
+
+/* ─── ANATOMY ─── */
+.anatomy-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.anatomy-header-row { padding:12px 18px; background:#F0EDE8; border-bottom:1px solid var(--border); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); }
+.anatomy-row { display:flex; align-items:flex-start; gap:0; border-bottom:1px solid var(--border); font-size:13px; }
+.anatomy-row:last-child { border-bottom:none; }
+.anatomy-section { width:200px; flex-shrink:0; padding:12px 16px; background:var(--bg); border-right:1px solid var(--border); font-weight:700; font-size:12px; color:var(--ink); }
+.anatomy-content { flex:1; padding:12px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.anatomy-note { width:180px; flex-shrink:0; padding:12px 16px; border-left:1px solid var(--border); font-size:11.5px; color:var(--ink-3); line-height:1.5; }
+
+/* ─── HUB CARD ─── */
+.hub-product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:28px; }
+.hub-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px 22px; position:relative; overflow:hidden; }
+.hub-card::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; }
+.hub-card.sim::before { background:var(--pink); }
+.hub-card.data::before { background:var(--blue); }
+.hub-card.esim::before { background:var(--teal); }
+.hub-card.nap::before { background:var(--amber); }
+.hub-card-icon { font-size:28px; margin-bottom:10px; }
+.hub-card-title { font-size:15px; font-weight:800; margin-bottom:4px; }
+.hub-card-url { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-3); margin-bottom:10px; }
+.hub-card-desc { font-size:12.5px; color:var(--ink-2); line-height:1.6; margin-bottom:12px; }
+.hub-card-items { list-style:none; font-size:12px; color:var(--ink-2); }
+.hub-card-items li { padding:3px 0; display:flex; gap:6px; align-items:flex-start; line-height:1.4; }
+.hub-card-items li::before { content:"→"; flex-shrink:0; }
+
+/* ─── PSEO BLOCK ─── */
+.pseo-wrap { background:linear-gradient(135deg,var(--purple-light),#F8F4FF); border:1.5px solid #C0A0FF; border-radius:var(--r); padding:20px 24px; margin-bottom:20px; }
+.pseo-title { font-size:14px; font-weight:800; color:var(--purple); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.pseo-desc { font-size:12.5px; color:var(--ink-2); line-height:1.6; margin-bottom:12px; }
+.pseo-template-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.pseo-template { background:white; border:1px solid #C0A0FF; border-radius:7px; padding:10px 14px; font-size:12px; }
+.pseo-template-label { font-weight:700; color:var(--purple); margin-bottom:3px; font-size:11px; text-transform:uppercase; }
+.pseo-template-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-bottom:5px; }
+.pseo-template-vol { font-size:11px; color:var(--ink-3); }
+
+/* ─── OPERATOR BADGE ─── */
+.op-grid { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.op-badge { display:flex; align-items:center; gap:6px; padding:5px 12px; border-radius:6px; font-size:12px; font-weight:700; border:1.5px solid; }
+.op-viettel { background:#FFF0F0; color:#C00000; border-color:#FFB0B0; }
+.op-mobi { background:#FFF8E0; color:#9B6000; border-color:#FFD880; }
+.op-vina { background:#E8F0FF; color:#1040C0; border-color:#A0C0FF; }
+.op-vietnamobile { background:#F0FFF0; color:#007040; border-color:#80D080; }
+.op-reddi { background:#F8F0FF; color:#7000B0; border-color:#C080FF; }
+.op-itelecom { background:#F0FFFE; color:#007070; border-color:#80D0D0; }
+
+/* ─── PHONG THUY BLOCK ─── */
+.pt-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:20px; }
+.pt-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center; }
+.pt-icon { font-size:24px; margin-bottom:6px; }
+.pt-name { font-size:13px; font-weight:700; margin-bottom:3px; }
+.pt-desc { font-size:11px; color:var(--ink-3); line-height:1.4; }
+
+/* ─── ESIM FLAG ─── */
+.region-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+.region-card { background:var(--surface); border:1px solid var(--border); border-radius:7px; padding:12px; text-align:center; }
+.region-icon { font-size:20px; margin-bottom:4px; }
+.region-name { font-size:11px; font-weight:700; color:var(--ink); }
+.region-count { font-size:10px; color:var(--ink-3); }
+
+/* ─── PROGRESS ─── */
+.progress-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 22px; margin-bottom:28px; }
+.progress-label { display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:8px; }
+.progress-track { height:12px; background:#F0EDE8; border-radius:7px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:7px; }
+
+/* ─── TELECOM HUB ─── */
+.th-section-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+.th-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.th-section-title { font-size:15px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.th-section-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
+
+
+
+.hub-card.phat::before { background:var(--pink); }
+.hub-card.dvc::before { background:var(--blue); }
+.hub-card.tien-ich::before { background:var(--teal); }
+.hub-card.bao-hiem::before { background:var(--green); }
+.tag-local { background:var(--amber-light); color:var(--amber); }
+.tag-faq { background:var(--purple-light); color:var(--purple); }
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:28px; }
+.matrix-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.matrix-table { width:100%; border-collapse:collapse; font-size:12px; }
+.matrix-table th { padding:10px 12px; background:#F0EDE8; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-3); border-bottom:1px solid var(--border); border-right:1px solid var(--border); text-align:center; }
+.matrix-table th:first-child { text-align:left; }
+.matrix-table td { padding:10px 12px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); vertical-align:middle; line-height:1.4; text-align:center; }
+.matrix-table td:first-child { text-align:left; font-weight:700; font-size:12px; background:var(--bg); }
+.matrix-table td:last-child, .matrix-table th:last-child { border-right:none; }
+.matrix-table tbody tr:last-child td { border-bottom:none; }
+.matrix-has { color:var(--green); font-weight:700; font-size:13px; }
+.matrix-no { color:var(--ink-3); font-size:11px; }
+.matrix-cond { color:var(--blue); font-size:11px; font-weight:500; }
+
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-sub">Dịch Vụ Công — Growth Strategy<br>Content Architecture v2.0</div>
+  </div>
+  <nav>
+    <div class="nav-section">
+      <div class="nav-label">Tổng quan</div>
+      <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">🗺</span> Overview & Funnel</div>
+      <div class="nav-item" onclick="go('kpi')"><span class="nav-icon">📊</span> KPI & Mục tiêu</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Governance Hub</div>
+      <div class="nav-item" onclick="go('hub')"><span class="nav-icon">🏛️</span> Hub /dich-vu-cong</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Sitemap & Sub-pages</div>
+      <div class="nav-item" onclick="go('phatnguoi')"><span class="nav-icon">🚗</span> Phạt Nguội + Local SEO</div>
+      <div class="nav-item" onclick="go('dvc')"><span class="nav-icon">📋</span> Dịch Vụ Công Online</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Content Plan</div>
+      <div class="nav-item" onclick="go('content')"><span class="nav-icon">🧩</span> Content Structure</div>
+      <div class="nav-item" onclick="go('seo')"><span class="nav-icon">🔍</span> SEO & Keywords</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Ecosystem</div>
+      <div class="nav-item" onclick="go('crosssell')"><span class="nav-icon">🔗</span> Cross-sell Matrix</div>
+      <div class="nav-item" onclick="go('roadmap')"><span class="nav-icon">🗓</span> Roadmap & Checklist</div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="version-tag">v2.0 · March 2026</div>
+    <div class="version-tag">DVC Growth — momo.vn/dich-vu-cong</div>
+  </div>
+</aside>
+
+<main class="content">
+
+<!-- ══════════════════════════════ -->
+<!-- 1. OVERVIEW                   -->
+<!-- ══════════════════════════════ -->
+<section class="section active" id="s-overview">
+  <div class="page-header">
+    <div class="page-eyebrow">Growth Strategy — Dịch Vụ Công MoMo</div>
+    <div class="page-title">Thống Lĩnh Thị Trường Dịch Vụ Công Số</div>
+    <div class="page-desc">Kiến trúc nội dung toàn diện, chiến lược SEO đa tầng và hệ sinh thái cross-sell cho 2 dòng sản phẩm trọng tâm trên <code class="url">momo.vn/dich-vu-cong</code> — Tra cứu &amp; đóng phạt nguội theo loại xe và toàn bộ thủ tục hành chính/dịch vụ công online. Governance Hub centralize toàn bộ người dùng.</div>
+  </div>
+
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,var(--pink-light),#FFD0E8);color:var(--pink)">2 SP</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Chiến lược toàn diện cho 2 sản phẩm DVC + 1 Governance Hub trung tâm</div>
+      <div class="verdict-desc">Bao gồm: Sitemap 30+ sub-pages, Content Structure chi tiết từng tầng funnel, Cross-sell Ecosystem và Publish Checklist. <strong>Hub /dich-vu-cong là trang trung tâm điều phối</strong>, giúp user biết MoMo có gì, tăng activation và cross-sell. Các trang <span class="tag tag-new">MỚI</span> là đề xuất mở rộng. </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">2</div>
+      <div class="stat-lbl">Sản phẩm trọng tâm</div>
+      <div class="stat-sub">Phạt Nguội · Dịch Vụ Công</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--teal)">30+</div>
+      <div class="stat-lbl">Static sub-pages</div>
+      <div class="stat-sub">Mỗi sản phẩm 10+ trang</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">500K</div>
+      <div class="stat-lbl">Organic visits/tháng</div>
+      <div class="stat-sub">Mục tiêu cuối năm 1</div>
+    </div>
+  </div>
+
+  <h2 class="sh">↗ Inbound Funnel Architecture — Toàn Hệ Thống DVC</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Nhận Thức</div>
+      <div class="funnel-stage-title">Giáo dục &amp; Khám phá</div>
+      <ul class="funnel-stage-items">
+        <li>Blog pháp luật giao thông</li>
+        <li>Hướng dẫn dịch vụ công online</li>
+        <li>FAQ Schema — rich snippets</li>
+        <li>Tin tức Nghị định 168 mới</li>
+        <li>Hướng dẫn sử dụng VNeID</li>
+        <li style="color:var(--green);font-weight:600">★ Governance Hub /dich-vu-cong</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Cân Nhắc</div>
+      <div class="funnel-stage-title">So sánh &amp; Tìm hiểu</div>
+      <ul class="funnel-stage-items">
+        <li>Bảng mức phạt vi phạm 2025</li>
+        <li>So sánh DVC online vs. trực tiếp</li>
+        <li>Tra cứu phạt nguội theo biển số</li>
+        <li>Hướng dẫn từng bước cụ thể</li>
+        <li>FAQ theo loại thủ tục</li>
+        <li style="color:var(--blue);font-weight:600">★ Sub-pages loại phương tiện</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Quyết Định</div>
+      <div class="funnel-stage-title">Landing theo nhu cầu cụ thể</div>
+      <ul class="funnel-stage-items">
+
+        <li>DVC theo loại thủ tục (CCCD, bằng lái...)</li>
+        <li>Đóng phạt nguội online ngay</li>
+        <li>Nộp thuế TNCN qua MoMo</li>
+
+
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT — Dùng dịch vụ</div>
+      <div class="funnel-stage-title">Thanh toán &amp; Kích hoạt</div>
+      <ul class="funnel-stage-items">
+        <li>Nộp phạt nguội qua MoMo Pay</li>
+        <li>Đóng lệ phí thủ tục online</li>
+        <li>Thanh toán điện nước tiện ích</li>
+        <li>Tải app MoMo — deep link</li>
+        <li>Cross-sell BHXH, BHYT</li>
+        <li>Loyalty: MoMo Điểm thưởng</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-pseo">
+      <div class="funnel-stage-label">CONTENT ENGINE</div>
+      <div class="funnel-stage-title">Sub-pages & Blog</div>
+      <ul class="funnel-stage-items">
+        <li>DVC × loại thủ tục (10+ trang)</li>
+        <li>Phạt nguội × loại xe (Blog + sub-pages)</li>
+        <li style="color:var(--blue);font-weight:600">★ Blog pháp luật giao thông</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sh">🏗 Kiến Trúc URL Tổng Thể</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Sản phẩm</th><th>URL Cha</th><th>Static sub-pages</th><th>pSEO</th><th>Priority</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-highlight">
+        <td><strong>Governance Hub</strong></td>
+        <td><code class="url">/dich-vu-cong</code></td>
+        <td>1 trang trung tâm + 8 widget nhóm</td>
+        <td>—</td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Phạt Nguội</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi</code></td>
+        <td>12+ static sub-pages</td>
+        <td>—</td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Dịch Vụ Công</strong></td>
+        <td><code class="url">/thu-tuc-hanh-chinh</code></td>
+        <td>12+ static sub-pages</td>
+        <td>—</td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Tiện Ích</strong></td>
+        <td><code class="url">/tien-ich</code></td>
+        <td>8 danh mục nhà cung cấp</td>
+        <td>—</td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>Bảo Hiểm XH</strong></td>
+        <td><code class="url">/bao-hiem-xa-hoi</code></td>
+        <td>4 sub-pages BHXH/BHYT</td>
+        <td>—</td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">🏛️ Governance Hub — Lợi Thế Cạnh Tranh</div>
+    MoMo có lợi thế độc nhất: <strong>Super App ecosystem</strong> với hàng chục triệu người dùng sẵn có. Governance Hub /dich-vu-cong là điểm tập trung duy nhất — người dùng vào 1 URL, biết ngay MoMo làm được gì, không phải tìm kiếm rời rạc. Đây là moat cạnh tranh mạnh nhất trong segment DVC số — không đối thủ fintech nào có hệ sinh thái Super App tương đương.
+  </div>
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 2. KPI                        -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-kpi">
+  <div class="page-header">
+    <div class="page-eyebrow">Performance Targets</div>
+    <div class="page-title">KPI &amp; Mục Tiêu Tăng Trưởng</div>
+    <div class="page-desc">Bộ KPI đo lường theo từng sản phẩm và từng tầng funnel. Review hàng quý với leadership team.</div>
+  </div>
+
+  <h2 class="sh">📈 KPI Tổng Thể — 12 Tháng</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon">🚗</div>
+      <div class="kpi-value" style="color:var(--pink)">Top 3</div>
+      <div class="kpi-label">Google — Phạt Nguội</div>
+      <div class="kpi-note">80% head keywords sau 6 tháng</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📋</div>
+      <div class="kpi-value" style="color:var(--blue)">Top 5</div>
+      <div class="kpi-label">Google — DVC Online</div>
+      <div class="kpi-note">Keyword chính sau Q2</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon">📱</div>
+      <div class="kpi-value" style="color:var(--teal)">15%</div>
+      <div class="kpi-label">Web → App Activation</div>
+      <div class="kpi-note">Benchmark ngành: 8–12%</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🎯 KPI Theo Sản Phẩm</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Sản phẩm</th><th>Metric chính</th><th>Q1 Target</th><th>Q2 Target</th><th>EOY Target</th><th>SEO KPI</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Phạt Nguội</strong></td>
+        <td>Lượt tra cứu/tháng</td>
+        <td>Top 10 "tra cứu phạt nguội"</td>
+        <td>Top 3 · 200K visits</td>
+        <td>500K visits/tháng</td>
+        <td>Rank #1–3 cho 30 từ khóa chính</td>
+      </tr>
+      <tr>
+        <td><strong>Đóng Phạt Online</strong></td>
+        <td>Số giao dịch/tháng</td>
+        <td>+50% MoM từ organic</td>
+        <td>CTA conversion 10%+</td>
+        <td>50K giao dịch/tháng</td>
+        <td>Rank #1 "đóng phạt nguội online"</td>
+      </tr>
+      <tr>
+        <td><strong>Dịch Vụ Công</strong></td>
+        <td>Lượt dùng DVC/tháng</td>
+        <td>+30% organic traffic</td>
+        <td>Cover 10 DVC phổ biến nhất</td>
+        <td>200K visits/tháng</td>
+        <td>Rank #1–5 cho 20 từ khóa DVC</td>
+      </tr>
+
+      <tr class="row-highlight">
+        <td><strong>Governance Hub</strong></td>
+        <td>Session depth + cross-sell</td>
+        <td>Bounce rate &lt;45%</td>
+        <td>Avg 2.5 pages/session</td>
+        <td>Cross-sell rate 20%+</td>
+        <td>Rank Top 3 "dịch vụ công online"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">📊 Progress Tracker — Phase Triển Khai</h2>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Phase 1 — Governance Hub + 2 Landing Pages chính + 4 DVC core</span><span style="color:var(--pink)">Tháng 1–3</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Phase 2 — 12 Static Sub-pages mỗi SP + FAQ + Blog Content</span><span style="color:var(--blue)">Tháng 4–6</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:65%;background:var(--blue)"></div></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Phase 3 — Calculator tools nâng cao + Content Authority + Cross-sell</span><span style="color:var(--purple)">Tháng 7–9</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:30%;background:var(--purple)"></div></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Phase 4 — Content Authority + PR + VNeID deep integration</span><span style="color:var(--amber)">Tháng 10–12</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:10%;background:var(--amber)"></div></div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">✅ Quick Wins — Ưu Tiên Ngay Tuần 1</div>
+    (1) Submit sitemap.xml lên Google Search Console · (2) Thêm FAQPage schema vào 2 landing pages chính · (3) Canonical &amp; redirect audit toàn bộ URL DVC hiện tại · (4) Internal link từ MoMo homepage về /dich-vu-cong · (5) Title/Meta optimization theo keyword map · (6) PageSpeed audit — LCP &lt;2.5s bắt buộc
+  </div>
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 3. GOVERNANCE HUB             -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-hub">
+  <div class="page-header">
+    <div class="page-eyebrow">Governance Hub — Trung Tâm DVC</div>
+    <div class="page-title">momo.vn/dich-vu-cong — Trang Hub Trung Tâm</div>
+    <div class="page-desc">Trang trung tâm duy nhất tập hợp toàn bộ dịch vụ công MoMo. Người dùng vào 1 điểm, biết ngay MoMo có gì, được điều hướng đúng nhu cầu. Maximize session depth và cross-sell toàn hệ sinh thái.</div>
+  </div>
+
+  <h2 class="sh">⚡ Mục Tiêu Hub Page</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">🔍 Centralize Discovery</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Người dùng không phải nhớ URL từng dịch vụ. 1 điểm vào → search bar thông minh → đến đúng dịch vụ cần dùng.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📱 App Activation</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">CTA tải MoMo với deep link thẳng vào tính năng. Mỗi service card link đến đúng màn hình trong app.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔗 Cross-sell Hub</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">User vào để đóng phạt nguội → thấy có thể đóng điện/nước/bảo hiểm → tăng session và GMV.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🗂 8 Nhóm Dịch Vụ — Hub Page</h2>
+  <div class="hub-product-grid">
+    <div class="hub-card phat">
+      <div class="hub-card-icon">🚗</div>
+      <div class="hub-card-title">Phạt Nguội</div>
+      <div class="hub-card-url">/tra-cuu-phat-nguoi</div>
+      <div class="hub-card-desc">Tra cứu &amp; nộp phạt giao thông nhanh nhất — miễn phí, hỗ trợ xe máy và ô tô toàn quốc.</div>
+      <ul class="hub-card-items">
+        <li>Tra cứu biển số xe máy / ô tô</li>
+        <li>Đóng phạt trực tiếp qua MoMo</li>
+        <li>Bảng mức phạt Nghị định 168</li>
+        
+      </ul>
+    </div>
+    <div class="hub-card dvc">
+      <div class="hub-card-icon">📋</div>
+      <div class="hub-card-title">Thủ Tục Hành Chính</div>
+      <div class="hub-card-url">/thu-tuc-hanh-chinh</div>
+      <div class="hub-card-desc">Dịch vụ công online toàn diện — không xếp hàng, tích hợp VNeID.</div>
+      <ul class="hub-card-items">
+        <li>Gia hạn CCCD, đổi bằng lái xe</li>
+        <li>Đăng ký khai sinh, kết hôn</li>
+        <li>Nộp thuế TNCN, lệ phí online</li>
+        <li>Đăng ký hộ kinh doanh cá thể</li>
+      </ul>
+    </div>
+    <div class="hub-card tien-ich">
+      <div class="hub-card-icon">💡</div>
+      <div class="hub-card-title">Tiện Ích Hàng Ngày</div>
+      <div class="hub-card-url">/tien-ich</div>
+      <div class="hub-card-desc">Điện, nước, internet, truyền hình — thanh toán 1 chạm không lo quên.</div>
+      <ul class="hub-card-items">
+        <li>EVN, VNPT, Viettel, FPT...</li>
+        <li>Nhắc hạn thanh toán tự động</li>
+        <li>Lịch sử giao dịch đầy đủ</li>
+      </ul>
+    </div>
+    <div class="hub-card bao-hiem">
+      <div class="hub-card-icon">🏥</div>
+      <div class="hub-card-title">Y Tế &amp; Bảo Hiểm</div>
+      <div class="hub-card-url">/bao-hiem-xa-hoi</div>
+      <div class="hub-card-desc">BHXH tự nguyện, BHYT, đặt lịch khám — kết nối VssID + MoMo.</div>
+      <ul class="hub-card-items">
+        <li>Đóng BHXH tự nguyện online</li>
+        <li>Gia hạn thẻ BHYT</li>
+        <li>Tra cứu lịch sử đóng BHXH</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sh">🧩 Anatomy — Cấu Trúc Trang Hub Chi Tiết</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Vị trí trang · Thành phần · Nội dung · Ghi chú kỹ thuật</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Hero Section</div>
+      <div class="anatomy-content"><strong>Search bar thông minh</strong> + tagline "Mọi dịch vụ công trong 1 ứng dụng". Auto-suggest theo keyword phổ biến. Trust counter: "X triệu lượt dùng". CTA tải app deep-link.</div>
+      <div class="anatomy-note">Auto-complete từ kho keyword. Deep link vào app theo dịch vụ search.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Quick Actions</div>
+      <div class="anatomy-content"><strong>6 icon quick-access</strong> dịch vụ dùng nhiều nhất: Tra cứu phạt · Đóng phạt · Đổi bằng lái · Gia hạn CCCD · Nộp thuế · BHXH. Personalized cho logged-in users.</div>
+      <div class="anatomy-note">Data từ analytics top 6 DVC theo click hàng tháng. Cập nhật định kỳ.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Service Grid</div>
+      <div class="anatomy-content"><strong>8 nhóm dịch vụ</strong> với icon, mô tả ngắn, số sub-dịch vụ. Trạng thái real-time: Hoạt động / Bảo trì.</div>
+      <div class="anatomy-note">Schema: Service + ItemList.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">App Download CTA</div>
+      <div class="anatomy-content"><strong>Banner sticky bottom</strong>: "Tải MoMo để dùng ngay" + QR code + App Store / Play Store. Deep link vào đúng dịch vụ user đang xem. Dismiss được, nhớ 30 ngày.</div>
+      <div class="anatomy-note">Firebase Dynamic Links. A/B test: sticky bottom vs. mid-page banner.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Tin Tức &amp; Blog</div>
+      <div class="anatomy-content"><strong>3 bài mới nhất</strong> từ blog DVC: pháp luật giao thông, hướng dẫn thủ tục, chính sách mới. Internal link mạnh đến sub-pages. Cập nhật 2 bài/tuần.</div>
+      <div class="anatomy-note">NewsArticle Schema. RSS feed tự động từ blog nội bộ.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Social Proof</div>
+      <div class="anatomy-content"><strong>Số liệu real-time</strong>: X lượt tra cứu hôm nay · Y giao dịch tuần này · Rating 4.8★ App Store. Testimonials ngắn từ user thực.</div>
+      <div class="anatomy-note">Counter API từ backend. AggregateRating Schema khi đủ 10+ reviews.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 4. PHẠT NGUỘI                 -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-phatnguoi">
+  <div class="page-header">
+    <div class="page-eyebrow">Sản Phẩm 1 — Sitemap &amp; Sub-pages</div>
+    <div class="page-title">Tra Cứu &amp; Đóng Phạt Nguội</div>
+    <div class="page-desc">Chiến lược thống lĩnh toàn bộ keyword phạt nguội — từ head term 90K/tháng đến long-tail theo loại phương tiện. Mục tiêu: Top 1–3 Google cho 30+ từ khóa, 300K+ organic visits/tháng cuối năm 1. Sub-pages tập trung vào loại xe và Blog — không tạo Local page theo tỉnh thành.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">90K</div>
+      <div class="stat-lbl">"Tra cứu phạt nguội"</div>
+      <div class="stat-sub">Search volume/tháng — head term</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">6+</div>
+      <div class="stat-lbl">Static sub-pages</div>
+      <div class="stat-sub">Xe máy · Ô tô · Đóng phạt · Blog · FAQ</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">P1</div>
+      <div class="stat-lbl">Priority triển khai</div>
+      <div class="stat-sub">Must-have trong Phase 1 (tháng 1–3)</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🗂 Sitemap Đầy Đủ — Static Sub-pages</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Trang / Sub-page</th><th>URL</th><th>Keyword Target</th><th>Content Type</th><th>Priority</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-highlight">
+        <td><strong>🏠 Landing Page Chính</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi</code></td>
+        <td>tra cứu phạt nguội · kiểm tra phạt nguội</td>
+        <td><span class="tag tag-conv">Landing Page</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>🏍️ Phạt Nguội Xe Máy</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/xe-may</code></td>
+        <td>tra cứu phạt nguội xe máy · kiểm tra lỗi xe máy</td>
+        <td><span class="tag tag-seo">Pillar Page</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>🚙 Phạt Nguội Ô Tô</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/o-to</code></td>
+        <td>tra cứu phạt nguội ô tô · phạt nguội biển số ô tô</td>
+        <td><span class="tag tag-seo">Pillar Page</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>💳 Đóng Phạt Online</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/dong-phat-online</code></td>
+        <td>đóng phạt nguội online · nộp phạt qua momo</td>
+        <td><span class="tag tag-conv">How-to Guide</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>📖 Mức Phạt 2025</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/muc-phat-2025</code></td>
+        <td>mức phạt vi phạm giao thông 2025 · nghị định 168</td>
+        <td><span class="tag tag-trust">Reference Table</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+
+
+
+      <tr>
+        <td><strong>❓ FAQ Phạt Nguội</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/faq</code></td>
+        <td>phạt nguội bao lâu thì xóa · không nộp phạt nguội có sao không</td>
+        <td><span class="tag tag-ux">FAQ Schema</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>📰 Blog Pháp Luật GT</strong></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/blog</code></td>
+        <td>luật giao thông mới nhất · quy định phạt nguội 2025</td>
+        <td><span class="tag tag-tofu">Blog/News</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  
+  </div>
+
+  <h2 class="sh">🧩 Anatomy — Landing Page Chính /tra-cuu-phat-nguoi</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Vị trí · Thành phần · Nội dung · Ghi chú SEO/UX</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Above the Fold</div>
+      <div class="anatomy-content"><strong>H1:</strong> "Tra Cứu Phạt Nguội Miễn Phí — Nhanh &amp; Chính Xác". Widget tra cứu biển số nhúng trực tiếp. Trust badge "Cập nhật từ hệ thống CSGT" + số lượt tra cứu hôm nay.</div>
+      <div class="anatomy-note">Widget load &lt;1s. LCP = widget. Keyword density ×3 above fold.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Quick Links</div>
+      <div class="anatomy-content">4 CTA: 🏍️ Xe Máy · 🚙 Ô Tô · 💳 Đóng Phạt Online · 📖 Bảng Mức Phạt. Internal link mạnh đến sub-pages.</div>
+      <div class="anatomy-note">Anchor text có keyword. Boost PageRank sub-pages.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">How It Works</div>
+      <div class="anatomy-content">3 bước: Nhập biển số → Xem kết quả → Nộp phạt qua MoMo. Video ngắn 60s demo nhúng. <strong>HowTo Schema</strong> + VideoObject Schema.</div>
+      <div class="anatomy-note">Rich results Google: HowTo + Video thumbnail.</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Bảng Mức Phạt Preview</div>
+      <div class="anatomy-content">5 loại vi phạm phổ biến nhất với mức phạt. CTA "Xem bảng đầy đủ" → /muc-phat-2025. Filter theo loại xe.</div>
+      <div class="anatomy-note">Table Schema. Theo NĐ 168/2024. Update khi có NĐ mới.</div>
+    </div>
+
+    <div class="anatomy-row">
+      <div class="anatomy-section">FAQ Schema</div>
+      <div class="anatomy-content">10 câu hỏi phổ biến: "Phạt nguội bao lâu thì xóa?", "Không nộp phạt có sao?", "Tra cứu có mất phí không?"... <strong>FAQPage Schema</strong> → People Also Ask.</div>
+      <div class="anatomy-note">Long-tail coverage. Rich snippets PAA Google.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 5. DVC                        -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-dvc">
+  <div class="page-header">
+    <div class="page-eyebrow">Sản Phẩm 2 — Sitemap &amp; Sub-pages</div>
+    <div class="page-title">Dịch Vụ Công &amp; Thủ Tục Hành Chính Online</div>
+    <div class="page-desc">Định vị MoMo là cổng dịch vụ công số toàn diện nhất Việt Nam — thay thế xếp hàng tại UBND. Bao phủ 10+ loại thủ tục hành chính phổ biến nhất.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">60K</div>
+      <div class="stat-lbl">"Dịch vụ công online"</div>
+      <div class="stat-sub">Search volume/tháng</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--teal)">12+</div>
+      <div class="stat-lbl">Static sub-pages</div>
+      <div class="stat-sub">CCCD · Bằng lái · Thuế · BHXH...</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">P1</div>
+      <div class="stat-lbl">Priority triển khai</div>
+      <div class="stat-sub">4 DVC chính trong Phase 1</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🗂 Sitemap Đầy Đủ — Static Sub-pages</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Trang / Sub-page</th><th>URL</th><th>Keyword Target</th><th>Content Type</th><th>Priority</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-highlight">
+        <td><strong>🏠 Hub DVC Chính</strong></td>
+        <td><code class="url">/dich-vu-cong</code></td>
+        <td>dịch vụ công online · thủ tục hành chính online</td>
+        <td><span class="tag tag-conv">Hub/Gateway</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>🪪 Gia Hạn CCCD</strong></td>
+        <td><code class="url">/dich-vu-cong/gia-han-cccd</code></td>
+        <td>gia hạn căn cước công dân online · đổi cmnd sang cccd</td>
+        <td><span class="tag tag-seo">Service Page</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>🚗 Đổi Bằng Lái Xe</strong></td>
+        <td><code class="url">/dich-vu-cong/doi-bang-lai-xe</code></td>
+        <td>đổi bằng lái xe online · gia hạn giấy phép lái xe</td>
+        <td><span class="tag tag-seo">Service Page</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>💰 Nộp Thuế TNCN</strong></td>
+        <td><code class="url">/dich-vu-cong/nop-thue</code></td>
+        <td>nộp thuế thu nhập cá nhân online · quyết toán thuế 2025</td>
+        <td><span class="tag tag-seo">Service + Tool</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>👶 Đăng Ký Khai Sinh</strong></td>
+        <td><code class="url">/dich-vu-cong/khai-sinh</code></td>
+        <td>đăng ký khai sinh online · làm giấy khai sinh cho con</td>
+        <td><span class="tag tag-seo">Service Page</span></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td><strong>🏥 BHXH &amp; BHYT</strong></td>
+        <td><code class="url">/dich-vu-cong/bao-hiem</code></td>
+        <td>đóng bảo hiểm xã hội online · tra cứu bhyt momo</td>
+        <td><span class="tag tag-seo">Service Page</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>💍 Đăng Ký Kết Hôn</strong></td>
+        <td><code class="url">/dich-vu-cong/ket-hon</code></td>
+        <td>đăng ký kết hôn online · hồ sơ đăng ký kết hôn cần gì</td>
+        <td><span class="tag tag-seo">Service Page</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>🏭 Đăng Ký Kinh Doanh</strong></td>
+        <td><code class="url">/dich-vu-cong/dang-ky-kinh-doanh</code></td>
+        <td>đăng ký hộ kinh doanh cá thể · mở hộ kinh doanh online</td>
+        <td><span class="tag tag-seo">Service Page</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr class="row-new">
+        <td><strong>🏠 Thủ Tục Đất Đai</strong></td>
+        <td><code class="url">/dich-vu-cong/dat-dai</code></td>
+        <td>thủ tục đất đai online · sổ đỏ thủ tục</td>
+        <td><span class="tag tag-new">MỚI</span></td>
+        <td><span class="tag tag-p3">P3</span></td>
+      </tr>
+      <tr>
+        <td><strong>❓ FAQ Dịch Vụ Công</strong></td>
+        <td><code class="url">/dich-vu-cong/faq</code></td>
+        <td>momo hỗ trợ dịch vụ công gì · tra cứu thủ tục hành chính</td>
+        <td><span class="tag tag-ux">FAQ Schema</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+      <tr>
+        <td><strong>📱 Hướng Dẫn VNeID</strong></td>
+        <td><code class="url">/dich-vu-cong/vneid-la-gi</code></td>
+        <td>vneid là gì · kết nối vneid với momo</td>
+        <td><span class="tag tag-ux">UX Guide</span></td>
+        <td><span class="tag tag-p2">P2</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 6. CONTENT STRUCTURE          -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-content">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Plan</div>
+    <div class="page-title">Content Structure — Chi Tiết Từng Trang</div>
+    <div class="page-desc">Cấu trúc nội dung chi tiết cho từng product page và sub-page quan trọng. Mỗi trang thiết kế theo search intent và yêu cầu SEO on-page.</div>
+  </div>
+
+  <h2 class="sh">🚗 Phạt Nguội — Content Pages</h2>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">🏍️</span>
+        <div>
+          <div class="cs-page-title">Phạt Nguội Xe Máy — <code class="url">/tra-cuu-phat-nguoi/xe-may</code></div>
+          <div style="margin-top:3px"><span class="tag tag-p1">P1</span> <span class="tag tag-seo">Pillar Page</span> <span class="tag tag-conv">High Convert</span></div>
+        </div>
+      </div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Keywords Mục Tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">tra cứu phạt nguội xe máy</span>
+          <span class="cs-kw">kiểm tra lỗi xe máy biển số</span>
+          <span class="cs-kw">phạt nguội xe máy bao nhiêu tiền</span>
+          <span class="cs-kw">tra cứu xe máy vi phạm giao thông</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block"><div class="cs-block-title">1. Hero + Widget Tra Cứu</div><div class="cs-block-desc">H1 keyword-rich. Widget nhập biển số xe máy → kết quả ngay. CTA đóng phạt qua MoMo. Trust counter lượt tra cứu hôm nay.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">2. Bảng Mức Phạt Xe Máy 2025</div><div class="cs-block-desc">Table theo NĐ 168: vượt đèn đỏ, không đội mũ, lạng lách, quá tốc độ, dùng điện thoại... Filter theo mức phạt. Table Schema.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">3. Hướng Dẫn 5 Bước Đóng Phạt Qua MoMo</div><div class="cs-block-desc">Screenshot từng bước + video nhúng 90s. HowTo Schema. CTA tải app sau mỗi bước.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">4. Các Vi Phạm Phổ Biến &amp; Giải Thích Pháp Lý</div><div class="cs-block-desc">10 lỗi thường gặp nhất, giải thích điều luật cụ thể. E-E-A-T cao, backlink nội bộ từ blog.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">5. FAQ Xe Máy (10 câu)</div><div class="cs-block-desc">"Đèn đỏ bị phạt bao nhiêu?", "Không đội mũ phạt mấy triệu 2025?", "Phạt nguội xe máy có bị trừ điểm bằng lái?"... FAQPage Schema.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">Table</span>
+        <span class="cs-schema">VideoObject</span>
+        <span class="cs-schema">BreadcrumbList</span>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">UI Components</div>
+        <span class="cs-component">🔍 Widget tra cứu biển số</span>
+        <span class="cs-component">📊 Bảng phạt có filter</span>
+        <span class="cs-component">🎬 Video embed YouTube</span>
+        <span class="cs-component">💳 CTA đóng phạt</span>
+        <span class="cs-component">📱 App download banner</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">💳</span>
+        <div>
+          <div class="cs-page-title">Đóng Phạt Nguội Online — <code class="url">/tra-cuu-phat-nguoi/dong-phat-online</code></div>
+          <div style="margin-top:3px"><span class="tag tag-p1">P1</span> <span class="tag tag-conv">High Convert</span> <span class="tag tag-ux">How-to Guide</span></div>
+        </div>
+      </div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Keywords Mục Tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">đóng phạt nguội online</span>
+          <span class="cs-kw">nộp phạt giao thông qua momo</span>
+          <span class="cs-kw">cách đóng phạt không cần ra cơ quan</span>
+          <span class="cs-kw">nộp phạt vi phạm giao thông online</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block"><div class="cs-block-title">1. Hero — Đóng Phạt Không Cần Ra Đường</div><div class="cs-block-desc">H1 + benefit: "Nộp phạt trong 2 phút, không xếp hàng". Trust signals: bảo mật, chính thức từ CSGT.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">2. So Sánh: Nộp Trực Tiếp vs. Qua MoMo</div><div class="cs-block-desc">Comparison table: thời gian, chi phí, thủ tục, tiện lợi. Rõ ràng lợi ích MoMo.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">3. Hướng Dẫn 5 Bước Chi Tiết</div><div class="cs-block-desc">B1: Tra cứu → B2: Xác nhận → B3: Chọn thanh toán → B4: Confirm → B5: Lưu biên lai. Video 90s + screenshot. HowTo Schema.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">4. Ưu Đãi &amp; Cashback</div><div class="cs-block-desc">Banner ưu đãi động: hoàn tiền khi nộp phạt qua MoMo. Điều kiện rõ ràng.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">VideoObject</span>
+        <span class="cs-schema">Service</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh" style="margin-top:36px">📋 Dịch Vụ Công — Content Pages</h2>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">🚗</span>
+        <div>
+          <div class="cs-page-title">Đổi / Gia Hạn Bằng Lái Xe — <code class="url">/dich-vu-cong/doi-bang-lai-xe</code></div>
+          <div style="margin-top:3px"><span class="tag tag-p1">P1</span> <span class="tag tag-seo">SEO High Vol</span> <span class="tag tag-ux">Service Page</span></div>
+        </div>
+      </div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Keywords Mục Tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">đổi bằng lái xe online</span>
+          <span class="cs-kw">gia hạn giấy phép lái xe 2025</span>
+          <span class="cs-kw">hạn bằng lái xe bao lâu</span>
+          <span class="cs-kw">hồ sơ đổi bằng lái xe cần gì</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block"><div class="cs-block-title">1. Bảng Thời Hạn Bằng Lái Theo Hạng</div><div class="cs-block-desc">B1/B2 (10 năm) · C/D/E/F (5 năm). Calculator: "Nhập ngày cấp bằng → xem hạn cần đổi".</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">2. Hồ Sơ Cần Thiết + Download Checklist PDF</div><div class="cs-block-desc">Danh sách theo hạng bằng. Phân biệt đổi bằng hết hạn vs. còn hạn vs. đổi hạng.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">3. Nộp Lệ Phí Qua MoMo</div><div class="cs-block-desc">Link nộp lệ phí đổi bằng lái qua MoMo. Mệnh giá lệ phí theo từng hạng. HowTo Schema.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">4. Địa Điểm Đổi Bằng — Hướng Dẫn Chung</div><div class="cs-block-desc">Hướng dẫn tìm Sở GTVT tại địa phương, giờ làm việc, các giấy tờ cần chuẩn bị. Link đến cổng GTVT quốc gia.</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema Markup</div>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">Service</span>
+        <span class="cs-schema">BreadcrumbList</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-page">
+    <div class="cs-header" onclick="toggleCS(this)">
+      <div class="cs-header-left">
+        <span style="font-size:20px">💰</span>
+        <div>
+          <div class="cs-page-title">Nộp Thuế TNCN Online — <code class="url">/dich-vu-cong/nop-thue</code></div>
+          <div style="margin-top:3px"><span class="tag tag-p1">P1</span> <span class="tag tag-seo">Seasonal High</span> <span class="tag tag-ux">Service + Tool</span></div>
+        </div>
+      </div>
+      <span class="cs-toggle">▶</span>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">Keywords Mục Tiêu</div>
+        <div class="cs-keyword-row">
+          <span class="cs-kw">nộp thuế thu nhập cá nhân online</span>
+          <span class="cs-kw">quyết toán thuế 2025</span>
+          <span class="cs-kw">hạn nộp thuế tncn 2025</span>
+          <span class="cs-kw">cách tính thuế tncn</span>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Cấu Trúc Nội Dung</div>
+        <div class="cs-content-block"><div class="cs-block-title">1. Calendar Deadline Thuế 2025</div><div class="cs-block-desc">Timeline: T3 (quyết toán), T4 (nộp tiền), T10 (tạm nộp Q3)... Reminder CTA đăng ký nhận thông báo qua MoMo.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">2. Calculator Thuế TNCN Nhúng</div><div class="cs-block-desc">Input: thu nhập brut, giảm trừ gia cảnh, BHXH → Output: thuế phải nộp. JavaScript, không cần login.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">3. Hướng Dẫn Nộp Qua MoMo</div><div class="cs-block-desc">Deep link vào app. Hướng dẫn từng bước. Các loại thuế hỗ trợ. HowTo Schema.</div></div>
+        <div class="cs-content-block"><div class="cs-block-title">4. FAQ Thuế TNCN</div><div class="cs-block-desc">"Ai phải quyết toán thuế?", "Không quyết toán có bị phạt?", "Hoàn thuế nhận khi nào?"</div></div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-label">Schema + Lưu Ý Seasonal</div>
+        <span class="cs-schema">FAQPage</span>
+        <span class="cs-schema">HowTo</span>
+        <span class="cs-schema">Service</span>
+        <div style="margin-top:8px;font-size:12px;color:var(--amber)">⚠️ Traffic tăng đột biến T3–T4. Cần publish trước Tết Âm Lịch để Google index kịp.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 7. SEO & KEYWORDS             -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-seo">
+  <div class="page-header">
+    <div class="page-eyebrow">SEO Strategy</div>
+    <div class="page-title">Keyword Universe &amp; SEO Playbook</div>
+    <div class="page-desc">Phân tầng keyword theo intent, volume, difficulty. Ưu tiên quick-win trước, build topical authority sau. Mục tiêu chiếm 80% search intent trong thị trường DVC số.</div>
+  </div>
+
+  <h2 class="sh">🔍 Keyword Universe — Phạt Nguội</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Keyword</th><th>Volume/tháng</th><th>Difficulty</th><th>Intent</th><th>Target Page</th><th>Priority</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-highlight">
+        <td><strong>tra cứu phạt nguội</strong></td>
+        <td>90,000</td>
+        <td><span style="color:var(--red);font-weight:700">Cao</span></td>
+        <td><span class="tag tag-tofu">TOFU</span></td>
+        <td><code class="url">/tra-cuu-phat-nguoi</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr class="row-highlight">
+        <td><strong>kiểm tra phạt nguội</strong></td>
+        <td>74,000</td>
+        <td><span style="color:var(--red);font-weight:700">Cao</span></td>
+        <td><span class="tag tag-tofu">TOFU</span></td>
+        <td><code class="url">/tra-cuu-phat-nguoi</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>mức phạt vi phạm giao thông 2025</td>
+        <td>35,000</td>
+        <td><span style="color:var(--green);font-weight:700">Thấp ✨</span></td>
+        <td><span class="tag tag-tofu">TOFU</span></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/muc-phat-2025</code></td>
+        <td><span class="tag tag-p1">P1 QW</span></td>
+      </tr>
+      <tr>
+        <td>tra cứu phạt nguội xe máy</td>
+        <td>40,000</td>
+        <td><span style="color:var(--amber);font-weight:700">Trung</span></td>
+        <td><span class="tag tag-mofu">MOFU</span></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/xe-may</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>đóng phạt nguội online</td>
+        <td>22,000</td>
+        <td><span style="color:var(--amber);font-weight:700">Trung</span></td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/dong-phat-online</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+
+
+      <tr>
+        <td>nộp phạt giao thông qua momo</td>
+        <td>12,000</td>
+        <td><span style="color:var(--green);font-weight:700">Thấp ✨</span></td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+        <td><code class="url">/tra-cuu-phat-nguoi/dong-phat-online</code></td>
+        <td><span class="tag tag-p1">P1 Brand</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">🔍 Keyword Universe — Dịch Vụ Công</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Keyword</th><th>Volume/tháng</th><th>Difficulty</th><th>Intent</th><th>Target Page</th><th>Priority</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-highlight">
+        <td><strong>dịch vụ công online</strong></td>
+        <td>60,000</td>
+        <td><span style="color:var(--red);font-weight:700">Cao</span></td>
+        <td><span class="tag tag-tofu">TOFU</span></td>
+        <td><code class="url">/dich-vu-cong</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>gia hạn bằng lái xe online</td>
+        <td>28,000</td>
+        <td><span style="color:var(--amber);font-weight:700">Trung</span></td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+        <td><code class="url">/dich-vu-cong/doi-bang-lai-xe</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>đổi cccd online</td>
+        <td>24,000</td>
+        <td><span style="color:var(--amber);font-weight:700">Trung</span></td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+        <td><code class="url">/dich-vu-cong/gia-han-cccd</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>nộp thuế thu nhập cá nhân online</td>
+        <td>20,000</td>
+        <td><span style="color:var(--amber);font-weight:700">Trung</span></td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+        <td><code class="url">/dich-vu-cong/nop-thue</code></td>
+        <td><span class="tag tag-p1">P1</span></td>
+      </tr>
+      <tr>
+        <td>đăng ký khai sinh online</td>
+        <td>15,000</td>
+        <td><span style="color:var(--green);font-weight:700">Thấp ✨</span></td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+        <td><code class="url">/dich-vu-cong/khai-sinh</code></td>
+        <td><span class="tag tag-p1">P1 QW</span></td>
+      </tr>
+      <tr class="row-new">
+        <td>đóng bảo hiểm xã hội online</td>
+        <td>10,000</td>
+        <td><span style="color:var(--green);font-weight:700">Thấp ✨</span></td>
+        <td><span class="tag tag-bofu">BOFU</span></td>
+        <td><code class="url">/dich-vu-cong/bao-hiem</code></td>
+        <td><span class="tag tag-p2">P2 QW</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <h2 class="sh">⚙️ On-Page SEO Checklist — Áp Dụng Mọi Trang</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📝 Meta &amp; Technical</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);list-style:none;line-height:1.9">
+        <li>✓ Title: Keyword chính + Brand | MoMo (&lt;60 ký tự)</li>
+        <li>✓ Meta desc: Keyword + CTA + benefit (&lt;155 ký tự)</li>
+        <li>✓ URL slug: ngắn, keyword, không dấu, gạch ngang</li>
+        <li>✓ Canonical URL đúng, không self-referencing sai</li>
+        <li>✓ Open Graph đầy đủ: title, desc, image 1200×630</li>
+        <li>✓ Hreflang nếu có bản vi/en</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🏗 Schema &amp; Structure</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);list-style:none;line-height:1.9">
+        <li>✓ BreadcrumbList Schema trên tất cả sub-pages</li>
+        <li>✓ FAQPage Schema (min 5 câu) — rich results PAA</li>
+        <li>✓ HowTo Schema cho trang hướng dẫn</li>
+        <li>✓ Service Schema trên landing page sản phẩm</li>
+        <li>✓ NewsArticle Schema trên blog posts</li>
+        <li>✓ Validate bằng Google Rich Results Test</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ Core Web Vitals</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);list-style:none;line-height:1.9">
+        <li>✓ LCP &lt;2.5s — ưu tiên above-fold widget/image</li>
+        <li>✓ CLS &lt;0.1 — reserve space cho dynamic content</li>
+        <li>✓ INP &lt;200ms — lazy load JS không critical</li>
+        <li>✓ Mobile-first: test Chrome DevTools mobile</li>
+        <li>✓ Image: WebP format, width/height attributes</li>
+        <li>✓ Preconnect Google Fonts, CDN resources</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🔗 Internal Linking</div>
+      <ul style="font-size:12.5px;color:var(--ink-2);list-style:none;line-height:1.9">
+        <li>✓ Min 3 internal links per page, anchor text keyword</li>
+        <li>✓ Hub → Product pages → Sub-pages (3 tầng)</li>
+        <li>✓ Breadcrumb navigation đúng hierarchy</li>
+        <li>✓ Related links cuối trang: 3–5 trang liên quan</li>
+        <li>✓ MoMo homepage link về /dich-vu-cong (boost PR)</li>
+        <li>✓ Footer link đến Governance Hub</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 8. CROSS-SELL                 -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-crosssell">
+  <div class="page-header">
+    <div class="page-eyebrow">Ecosystem Strategy</div>
+    <div class="page-title">Cross-sell Matrix — Tối Đa Hóa GMV</div>
+    <div class="page-desc">Mỗi điểm chạm trong hành trình DVC là cơ hội cross-sell sản phẩm MoMo liên quan. Thiết kế funnel liên tục từ DVC → Tiện ích → Bảo hiểm → Tài chính.</div>
+  </div>
+
+  <h2 class="sh">🔗 Ma Trận Cross-sell — Theo Điểm Chạm</h2>
+  <div class="matrix-wrap">
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>Người dùng đang ở</th>
+          <th>Tiện Ích Điện/Nước</th>
+          <th>BHXH/BHYT</th>
+          <th>Tài Khoản MoMo</th>
+          <th>Pay Later</th>
+          <th>Vay Tiêu Dùng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🚗 Trang Phạt Nguội</td>
+          <td><span class="matrix-cond">Banner "Đóng điện sau khi nộp phạt"</span></td>
+          <td><span class="matrix-no">—</span></td>
+          <td><span class="matrix-has">✓ CTA tạo tài khoản</span></td>
+          <td><span class="matrix-cond">Nếu phạt &gt;500K</span></td>
+          <td><span class="matrix-no">—</span></td>
+        </tr>
+        <tr>
+          <td>💳 Sau Đóng Phạt Thành Công</td>
+          <td><span class="matrix-has">✓ Post-purchase banner</span></td>
+          <td><span class="matrix-cond">Nhắc gia hạn BHYT sắp hết</span></td>
+          <td><span class="matrix-has">✓ Nếu chưa đăng ký</span></td>
+          <td><span class="matrix-no">—</span></td>
+          <td><span class="matrix-no">—</span></td>
+        </tr>
+        <tr>
+          <td>📋 DVC (CCCD/Bằng lái)</td>
+          <td><span class="matrix-no">—</span></td>
+          <td><span class="matrix-has">✓ Banner BHYT liên kết CCCD</span></td>
+          <td><span class="matrix-has">✓ CTA kết nối VNeID + MoMo</span></td>
+          <td><span class="matrix-no">—</span></td>
+          <td><span class="matrix-no">—</span></td>
+        </tr>
+        <tr>
+          <td>💰 Trang Nộp Thuế TNCN</td>
+          <td><span class="matrix-no">—</span></td>
+          <td><span class="matrix-cond">Nhắc đóng BHXH tự nguyện</span></td>
+          <td><span class="matrix-has">✓ Nộp thuế qua ví MoMo</span></td>
+          <td><span class="matrix-has">✓ Nếu thiếu số dư</span></td>
+          <td><span class="matrix-cond">Nếu thuế &gt;2 triệu</span></td>
+        </tr>
+        <tr>
+          <td>🏛️ Governance Hub</td>
+          <td><span class="matrix-has">✓ Quick access widget</span></td>
+          <td><span class="matrix-has">✓ Service card BHXH/BHYT</span></td>
+          <td><span class="matrix-has">✓ Sticky CTA tải app</span></td>
+          <td><span class="matrix-cond">User chưa kích hoạt</span></td>
+          <td><span class="matrix-cond">Banner Tax Season</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🎭 User Journey Scenarios</h2>
+  <div class="scenario-grid">
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span style="font-size:18px">🏍️</span>
+        <div class="scenario-title">Xe máy bị phạt nguội lần đầu</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">Google "tra cứu phạt nguội xe máy" → vào <code class="url">/tra-cuu-phat-nguoi/xe-may</code></div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Dùng widget tra cứu biển số, thấy bị phạt 800K đèn đỏ</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">Click "Đóng phạt ngay qua MoMo" → tải app nếu chưa có</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Sau nộp phạt thành công: banner "Đóng tiền điện cũng được!"</div></div>
+        <div class="scenario-result">✓ Kết quả: 1 user mới → Nộp phạt + Kích hoạt tiện ích</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span style="font-size:18px">👔</span>
+        <div class="scenario-title">Nhân viên cần quyết toán thuế</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">Google "nộp thuế TNCN online 2025" → vào <code class="url">/dich-vu-cong/nop-thue</code></div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Dùng calculator thuế nhúng, biết phải nộp 1.2 triệu</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">Click "Nộp thuế qua MoMo" → deep link vào app → xong 2 phút</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Banner: "Bạn đã đóng BHXH chưa?" → cross-sell BHXH tự nguyện</div></div>
+        <div class="scenario-result">✓ Kết quả: GMV thuế tăng + Activation BHXH mới</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span style="font-size:18px">🪪</span>
+        <div class="scenario-title">Cần đổi CCCD sắp hết hạn</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">Google "gia hạn căn cước công dân online" → vào <code class="url">/dich-vu-cong/gia-han-cccd</code></div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Đọc hướng dẫn, thấy kết hợp VNeID + MoMo tiện hơn</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">Nộp lệ phí CCCD qua MoMo. Banner: "Kết nối VNeID nhận 50K"</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Sau kết nối VNeID: upsell BHYT điện tử liên kết CCCD chip</div></div>
+        <div class="scenario-result">✓ Kết quả: VNeID linkage + BHYT activation + Lệ phí GMV</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════ -->
+<!-- 9. ROADMAP & CHECKLIST        -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s-roadmap">
+  <div class="page-header">
+    <div class="page-eyebrow">Triển Khai</div>
+    <div class="page-title">Roadmap 12 Tháng &amp; Publish Checklist</div>
+    <div class="page-desc">Lộ trình 4 phases từ Foundation đến Authority. Kèm checklist triển khai chi tiết accordion cho từng sản phẩm.</div>
+  </div>
+
+  <h2 class="sh">🗓 Roadmap — 4 Phases</h2>
+  <div class="grid-4">
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:var(--pink-light)">
+        <span style="font-size:16px">🏗</span>
+        <div><div style="font-size:12px;font-weight:800;color:var(--pink)">Phase 1 — Foundation</div><div style="font-size:10px;color:var(--ink-3)">Tháng 1–3</div></div>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">Governance Hub /dich-vu-cong live</div>
+        <div class="roadmap-item">Landing /tra-cuu-phat-nguoi + widget tra cứu</div>
+        <div class="roadmap-item">Landing /thu-tuc-hanh-chinh</div>
+        <div class="roadmap-item">Sub-page xe máy &amp; ô tô</div>
+        <div class="roadmap-item">Sub-page CCCD &amp; bằng lái xe</div>
+        <div class="roadmap-item">Sub-page nộp thuế TNCN</div>
+
+        <div class="roadmap-item">Schema FAQ + HowTo toàn bộ</div>
+        <div class="roadmap-item">Sitemap XML + Search Console</div>
+        <div class="roadmap-item">Core Web Vitals audit &amp; fix</div>
+      </div>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:var(--blue-light)">
+        <span style="font-size:16px">📈</span>
+        <div><div style="font-size:12px;font-weight:800;color:var(--blue)">Phase 2 — Expansion</div><div style="font-size:10px;color:var(--ink-3)">Tháng 4–6</div></div>
+      </div>
+      <div class="roadmap-col-body">
+
+        <div class="roadmap-item">Sub-page khai sinh, kết hôn, BHXH</div>
+        <div class="roadmap-item">FAQ pages đầy đủ (40+ câu)</div>
+        <div class="roadmap-item">Blog pháp luật giao thông 4 bài/tháng</div>
+        <div class="roadmap-item">Bảng mức phạt 2025 đầy đủ</div>
+        <div class="roadmap-item">Calculator thuế TNCN nhúng JS</div>
+        <div class="roadmap-item">Video hướng dẫn nhúng YouTube</div>
+        <div class="roadmap-item">Cross-sell matrix implement</div>
+        <div class="roadmap-item">A/B test CTA tải app</div>
+      </div>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:var(--purple-light)">
+        <span style="font-size:16px">🚀</span>
+        <div><div style="font-size:12px;font-weight:800;color:var(--purple)">Phase 3 — Dominance</div><div style="font-size:10px;color:var(--ink-3)">Tháng 7–9</div></div>
+      </div>
+      <div class="roadmap-col-body">
+
+        <div class="roadmap-item">Sub-page đất đai, học phí, kinh doanh</div>
+        <div class="roadmap-item">Blog pháp luật giao thông scale 8 bài/tháng</div>
+        <div class="roadmap-item">Backlink outreach editorial</div>
+        <div class="roadmap-item">Content refresh định kỳ tháng</div>
+        <div class="roadmap-item">VNeID deep integration content</div>
+        <div class="roadmap-item">Personalization hub theo user</div>
+        <div class="roadmap-item">Push notification DVC reminder</div>
+        <div class="roadmap-item">Google Discover optimization</div>
+      </div>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:var(--amber-light)">
+        <span style="font-size:16px">🏆</span>
+        <div><div style="font-size:12px;font-weight:800;color:var(--amber)">Phase 4 — Authority</div><div style="font-size:10px;color:var(--ink-3)">Tháng 10–12</div></div>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">PR editorial báo chí lớn</div>
+        <div class="roadmap-item">Content Hub 60+ pages hoàn chỉnh</div>
+        <div class="roadmap-item">Annual báo cáo vi phạm giao thông</div>
+        <div class="roadmap-item">AI assistant DVC tích hợp</div>
+        <div class="roadmap-item">Link building .gov.vn partnerships</div>
+        <div class="roadmap-item">Review &amp; refresh toàn bộ content</div>
+        <div class="roadmap-item">New product DVC launch pages</div>
+        <div class="roadmap-item">Kế hoạch mở rộng 2027</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh" style="margin-top:36px">✅ Publish Checklist — Theo Sản Phẩm</h2>
+
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">🏛️</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Governance Hub — momo.vn/dich-vu-cong</div>
+        <div class="cl-product-sub">Must-publish FIRST · Search bar · 8 service groups · App CTA sticky · Social proof counter</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--green-light);color:var(--green)">Must-Have First</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content &amp; UX</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Search bar auto-suggest, kết quả instant &lt;200ms, không cần nhấn Enter</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">8 service group cards với icon, mô tả, số sub-services, trạng thái hoạt động</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Quick Actions: top 6 dịch vụ cập nhật từ analytics hàng tháng</div></div>
+
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">App download CTA: sticky bottom, dismiss được, QR code, deep link đúng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Social proof counter lượt tra cứu/giao dịch real-time (polling 5 phút)</div></div>
+        </div>
+      </div>
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật &amp; SEO</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Schema: ItemList + Service + WebPage, validate Rich Results Test</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Internal link từ MoMo homepage footer/header về /dich-vu-cong</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: search_query, service_click, filter_tinh, app_cta_click</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Bounce rate target &lt;40%, avg session 2.5+ pages per session</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>⚠️ Must live FIRST:</strong> Hub phải publish trước tất cả sub-pages. Đây là trang nhận internal link từ homepage → PageRank cao nhất → truyền xuống sub-pages. Không publish sub-pages nếu Hub chưa live.</div>
+    </div>
+  </div>
+
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">🚗</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Phạt Nguội — /tra-cuu-phat-nguoi (Xe Máy · Ô Tô · Blog)</div>
+        <div class="cl-product-sub">6 static pages · Widget tra cứu biển số · Blog pháp luật giao thông</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--pink-light);color:var(--pink)">P1 Priority</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content &amp; UX</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Landing /tra-cuu-phat-nguoi live với widget tra cứu biển số hoạt động thực tế (không mock)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sub-page /xe-may và /o-to đủ nội dung: bảng phạt, hướng dẫn, FAQ</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Trang /dong-phat-online có video hướng dẫn nhúng + HowTo Schema</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Bảng mức phạt /muc-phat-2025 theo đúng Nghị định 168/2024</div></div>
+
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQ page min 15 câu hỏi, FAQPage Schema validate OK</div></div>
+        </div>
+      </div>
+
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Schema: FAQPage + HowTo + Service + BreadcrumbList trên tất cả trang</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: bienso_input, ketqua_view, dongphat_click, app_download</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Widget tra cứu: LCP &lt;2s · API timeout &lt;3s · Error state rõ ràng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Deep link MoMo app trỏ đúng vào màn hình đóng phạt trong app</div></div>
+        </div>
+      </div>
+      <div class="cl-note"><strong>⚠️ Launch priority:</strong> Landing chính + xe máy + ô tô + đóng phạt online phải live đồng thời Sprint 1. Widget tra cứu phải hoạt động thực tế (không mock) trước khi submit sitemap.xml.</div>
+    </div>
+  </div>
+
+  <div class="cl-product">
+    <div class="cl-product-header" onclick="toggleCL(this)">
+      <span class="cl-product-icon">📋</span>
+      <div class="cl-product-meta">
+        <div class="cl-product-name">Dịch Vụ Công — /dich-vu-cong (Thủ Tục Hành Chính)</div>
+        <div class="cl-product-sub">10+ sub-pages thủ tục · VNeID integration · DVC calculator tools</div>
+      </div>
+      <span class="cl-product-badge" style="background:var(--blue-light);color:var(--blue)">P1 Priority</span>
+      <span class="cl-product-toggle">▶</span>
+    </div>
+    <div class="cl-product-body">
+      <div class="cl-group">
+        <div class="cl-group-title">📝 Content &amp; UX</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Hub /dich-vu-cong live: search bar, 8 nhóm service, quick actions, app CTA</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sub-page CCCD, bằng lái, thuế TNCN, khai sinh đủ nội dung Phase 1</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Calculator thuế TNCN hoạt động client-side, không cần đăng nhập</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Hướng dẫn VNeID + MoMo integration rõ ràng trên trang CCCD</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Breadcrumb navigation đúng hierarchy trên tất cả trang</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Link nộp lệ phí qua MoMo hoạt động trên tất cả service pages</div></div>
+        </div>
+      </div>
+
+      <div class="cl-group">
+        <div class="cl-group-title">🔧 Kỹ Thuật</div>
+        <div class="cl-grid">
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Schema: Service + FAQPage + HowTo + BreadcrumbList trên tất cả</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: service_select, lefi_click, app_deeplink, vneid_connect</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Seasonal: tax page content update trước T3 hàng năm</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Mobile deep link đến đúng màn hình DVC trong MoMo app</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function toggleCL(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.cl-product-toggle');
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+  </script>
+</section>
+
+</main>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+function toggleCS(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.cs-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+</script>
+</body>
+</html>

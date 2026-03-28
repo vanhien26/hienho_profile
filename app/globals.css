@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pink: #AE2070;
+  --pink-light: #F5E0EC;
+  --ink: #18120E;
+  --ink-2: #4A3F38;
+  --ink-3: #8C7D74;
+  --bg: #F6F3EF;
+  --border: #E4DDD6;
+}
+
+body { background: var(--bg); color: var(--ink); }
