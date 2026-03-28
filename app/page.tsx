@@ -146,7 +146,7 @@ export default function HomePage() {
                   hien.ho@momo.vn
                 </span>
                 <a
-                  href="https://mail.google.com/chat/dm/hien.ho@momo.vn"
+                  href="https://chat.google.com/dm/hien.ho@mservice.com.vn"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all hover:opacity-80"
