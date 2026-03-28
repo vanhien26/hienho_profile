@@ -1,10 +1,12 @@
 export type Category = 'use-case' | 'knowledge'
+export type Division = 'FS' | 'UTI' | 'OTA'
 
 export interface Project {
   id: string
   title: string
   subtitle: string
   category: Category
+  division?: Division
   tags: string[]
   status: 'live' | 'draft' | 'review'
   updatedAt: string
@@ -16,13 +18,14 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 'vay-nhanh-strategy',
-    title: 'Vay Nhanh — Web Growth Strategy',
+    title: 'Vay Nhanh',
     subtitle: 'momo.vn/vay-nhanh',
     category: 'use-case',
+    division: 'FS',
     tags: ['SEO', 'Credit', 'Content Architecture'],
     status: 'live',
     updatedAt: '2026-03-20',
-    description: 'Chiến lược tăng trưởng organic toàn diện cho Use Case Vay Nhanh: keyword clustering, content structure, internal linking map và Credit Ecosystem Loop.',
+    description: 'Chiến lược tăng trưởng organic toàn diện cho Vay Nhanh: keyword clustering, content structure, internal linking map và Credit Ecosystem Loop.',
     htmlFile: '/projects/vay-nhanh-strategy.html',
     metrics: [
       { label: 'Keywords tracked', value: '400+' },
@@ -32,9 +35,10 @@ export const projects: Project[] = [
   },
   {
     id: 'vi-tra-sau-bnpl',
-    title: 'Ví Trả Sau — BNPL SEO Architecture',
+    title: 'Ví Trả Sau',
     subtitle: 'momo.vn/vi-tra-sau',
     category: 'use-case',
+    division: 'FS',
     tags: ['BNPL', 'Internal Linking', 'Schema'],
     status: 'review',
     updatedAt: '2026-03-15',
@@ -46,9 +50,10 @@ export const projects: Project[] = [
   },
   {
     id: 'bao-hiem-xe-may',
-    title: 'Bảo Hiểm Xe Máy — Organic Recovery',
+    title: 'Bảo Hiểm Xe Máy',
     subtitle: 'momo.vn/bao-hiem-xe-may',
     category: 'use-case',
+    division: 'FS',
     tags: ['Insurance', 'Content Clusters', 'Link Building'],
     status: 'live',
     updatedAt: '2026-02-28',
@@ -62,9 +67,10 @@ export const projects: Project[] = [
   },
   {
     id: 'bao-hiem-hub',
-    title: 'Insurance Hub — Information Architecture',
+    title: 'Bảo Hiểm',
     subtitle: 'momo.vn/bao-hiem',
     category: 'use-case',
+    division: 'FS',
     tags: ['IA', 'pSEO', 'Multi-product'],
     status: 'live',
     updatedAt: '2026-02-10',
@@ -77,9 +83,10 @@ export const projects: Project[] = [
   },
   {
     id: 'bao-hiem-o-to',
-    title: 'Bảo Hiểm Ô Tô — Transaction Hub',
+    title: 'Bảo Hiểm Ô Tô',
     subtitle: 'momo.vn/bao-hiem-o-to',
     category: 'use-case',
+    division: 'FS',
     tags: ['Auto Insurance', 'Template System', 'pSEO'],
     status: 'live',
     updatedAt: '2026-01-20',
@@ -92,9 +99,10 @@ export const projects: Project[] = [
   },
   {
     id: 'doi-tac-directory',
-    title: 'Partner Directory — SEO Sitemap',
+    title: 'Đối Tác',
     subtitle: 'momo.vn/doi-tac',
     category: 'use-case',
+    division: 'FS',
     tags: ['Directory', 'Schema', 'Credit Ecosystem'],
     status: 'draft',
     updatedAt: '2026-03-25',
@@ -103,13 +111,14 @@ export const projects: Project[] = [
   },
   {
     id: 'credit-ecosystem',
-    title: 'Credit Ecosystem Hub — Tín Dụng MoMo',
+    title: 'Tín Dụng',
     subtitle: 'momo.vn/credit',
     category: 'use-case',
+    division: 'FS',
     tags: ['Credit', 'Credit Ecosystem', 'Content Architecture'],
     status: 'live',
     updatedAt: '2026-03-12',
-    description: 'Chiến lược tổng thể cho Use Case Tín Dụng MoMo: Credit Ecosystem Loop, cross-product internal linking, keyword clustering cho toàn bộ sản phẩm tín dụng.',
+    description: 'Chiến lược tổng thể cho Tín Dụng MoMo: Credit Ecosystem Loop, cross-product internal linking, keyword clustering cho toàn bộ sản phẩm tín dụng.',
     htmlFile: '/projects/credit-ecosystem.html',
     metrics: [
       { label: 'Products', value: '5+' },
@@ -118,13 +127,14 @@ export const projects: Project[] = [
   },
   {
     id: 'telco-hub',
-    title: 'Telecom Hub — Viễn Thông MoMo',
+    title: 'Viễn Thông',
     subtitle: 'momo.vn/vien-thong',
     category: 'use-case',
+    division: 'UTI',
     tags: ['SEO', 'Multi-product', 'Content Architecture'],
     status: 'live',
     updatedAt: '2026-03-22',
-    description: 'Use Case Viễn Thông: nạp tiền, mua data, chuyển mạng. Hub architecture cho các nhà mạng, pSEO theo gói cước và nhà mạng.',
+    description: 'Viễn Thông: nạp tiền, mua data, chuyển mạng. Architecture cho các nhà mạng, pSEO theo gói cước và nhà mạng.',
     htmlFile: '/projects/telco-hub.html',
     metrics: [
       { label: 'Carriers', value: '5+' },
@@ -133,13 +143,14 @@ export const projects: Project[] = [
   },
   {
     id: 'travel-hub',
-    title: 'Travel Hub — Du Lịch MoMo',
+    title: 'Du Lịch',
     subtitle: 'momo.vn/du-lich',
     category: 'use-case',
+    division: 'OTA',
     tags: ['SEO', 'Multi-product', 'Content Clusters'],
     status: 'live',
     updatedAt: '2026-03-22',
-    description: 'Use Case Du Lịch: đặt vé, khách sạn, tour. Content hub architecture, destination clustering và cross-sell ecosystem mapping.',
+    description: 'Du Lịch: đặt vé, khách sạn, tour. Content architecture, destination clustering và cross-sell ecosystem mapping.',
     htmlFile: '/projects/travel-hub.html',
     metrics: [
       { label: 'Destinations', value: '50+' },
@@ -148,13 +159,14 @@ export const projects: Project[] = [
   },
   {
     id: 'dich-vu-cong',
-    title: 'Dịch Vụ Công — Web Growth Strategy',
+    title: 'Dịch Vụ Công',
     subtitle: 'momo.vn/dich-vu-cong',
     category: 'use-case',
+    division: 'UTI',
     tags: ['SEO', 'pSEO', 'Content Architecture'],
     status: 'live',
     updatedAt: '2026-03-09',
-    description: 'Use Case Dịch Vụ Công: thanh toán hóa đơn, phí phạt, thuế. pSEO theo tỉnh thành, service type clustering.',
+    description: 'Dịch Vụ Công: thanh toán hóa đơn, phí phạt, thuế. pSEO theo tỉnh thành, service type clustering.',
     htmlFile: '/projects/momo-dich-vu-cong-strategy-v3.html',
     metrics: [
       { label: 'Services', value: '10+' },
@@ -163,13 +175,14 @@ export const projects: Project[] = [
   },
   {
     id: 'esim-du-lich',
-    title: 'eSIM Du Lịch — Web Growth Strategy',
+    title: 'eSIM Du Lịch',
     subtitle: 'momo.vn/esim',
     category: 'use-case',
+    division: 'UTI',
     tags: ['SEO', 'Content Clusters', 'pSEO'],
     status: 'live',
     updatedAt: '2026-03-23',
-    description: 'Use Case eSIM Du Lịch: mua eSIM quốc tế trên MoMo. pSEO theo quốc gia, destination-based content clustering.',
+    description: 'eSIM Du Lịch: mua eSIM quốc tế trên MoMo. pSEO theo quốc gia, destination-based content clustering.',
     htmlFile: '/projects/momo-esim-du-lich-doc.html',
     metrics: [
       { label: 'Countries', value: '40+' },
@@ -178,13 +191,14 @@ export const projects: Project[] = [
   },
   {
     id: 'phat-nguoi',
-    title: 'Phạt Nguội — Web Growth Strategy',
+    title: 'Phạt Nguội',
     subtitle: 'momo.vn/phat-nguoi',
     category: 'use-case',
+    division: 'UTI',
     tags: ['SEO', 'pSEO', 'Search Intent'],
     status: 'live',
     updatedAt: '2026-03-21',
-    description: 'Use Case Phạt Nguội: tra cứu và thanh toán phạt nguội online. SEO strategy với high-intent keywords, pSEO theo biển số và tỉnh thành.',
+    description: 'Phạt Nguội: tra cứu và thanh toán phạt nguội online. SEO strategy với high-intent keywords, pSEO theo biển số và tỉnh thành.',
     htmlFile: '/projects/phat-nguoi-web-growth.html',
     metrics: [
       { label: 'Keywords', value: '200+' },
@@ -199,17 +213,17 @@ export const projects: Project[] = [
     tags: ['GEO', 'AI Overview', 'SGE'],
     status: 'live',
     updatedAt: '2026-03-10',
-    description: 'Framework tối ưu nội dung cho AI-generated answers (SGE, Perplexity, ChatGPT). Áp dụng cho Fintech Use Case với YMYL considerations.',
+    description: 'Framework tối ưu nội dung cho AI-generated answers (SGE, Perplexity, ChatGPT). Áp dụng cho Fintech với YMYL considerations.',
   },
   {
     id: 'jtbd-fintech',
-    title: 'JTBD Analysis Skill — Fintech Use Cases',
+    title: 'JTBD Analysis — Fintech',
     subtitle: 'Knowledge & Guideline',
     category: 'knowledge',
     tags: ['JTBD', 'Framework', 'Search Intent'],
     status: 'live',
     updatedAt: '2026-03-18',
-    description: 'Framework phân tích Jobs-to-be-Done cho các Use Case Credit, Wallet/Payments, Insurance của MoMo. Loại bỏ bias auto insurance, áp dụng cross-product.',
+    description: 'Framework phân tích Jobs-to-be-Done cho Credit, Wallet/Payments, Insurance của MoMo. Loại bỏ bias auto insurance, áp dụng cross-product.',
     htmlFile: '/projects/jtbd-fintech.html',
   },
   {

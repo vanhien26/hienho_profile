@@ -160,12 +160,14 @@ export default function HomePage() {
 
           {/* Stats bar */}
           <div
-            className="relative px-6 sm:px-12 py-4 mt-6 sm:mt-10 grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-10"
+            className="relative px-6 sm:px-12 py-4 mt-6 sm:mt-10 grid grid-cols-4 gap-2 sm:flex sm:items-center sm:gap-10"
             style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(8px)', borderTop: '1px solid rgba(255,255,255,0.07)' }}
           >
             {[
-              { value: projects.length.toString(), label: 'Dự án' },
-              { value: projects.filter(p => p.status === 'live').length.toString(), label: 'Live' },
+              { value: useCaseProjects.length.toString(), label: 'Use Cases' },
+              { value: projects.filter(p => p.division === 'FS').length.toString(), label: 'FS' },
+              { value: projects.filter(p => p.division === 'UTI').length.toString(), label: 'UTI' },
+              { value: projects.filter(p => p.division === 'OTA').length.toString(), label: 'OTA' },
             ].map(stat => (
               <div key={stat.label} className="text-center sm:text-left">
                 <div className="text-lg sm:text-xl font-black text-white leading-none">{stat.value}</div>
