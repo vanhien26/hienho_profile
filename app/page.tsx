@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects } from './data/projects'
@@ -49,17 +50,33 @@ function Tag({ label }: { label: string }) {
   )
 }
 
+function HamburgerButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-lg"
+      style={{ background: '#18120E', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+        <path d="M3 12h18M3 6h18M3 18h18" />
+      </svg>
+    </button>
+  )
+}
+
 export default function HomePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const useCaseProjects = projects.filter(p => p.category === 'use-case')
   const knowledgeProjects = projects.filter(p => p.category === 'knowledge')
 
   return (
     <div className="flex min-h-screen w-full">
-      <Sidebar />
+      <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto w-full">
         {/* Profile Header / Banner */}
-        <div className="relative overflow-hidden" style={{ minHeight: 280 }}>
+        <div className="relative overflow-hidden" style={{ minHeight: 220 }}>
           {/* Background */}
           <div
             className="absolute inset-0"
@@ -84,22 +101,26 @@ export default function HomePage() {
             }}
           />
 
-          <div className="relative px-12 pt-10 pb-0 flex items-end gap-8">
+          <div className="relative px-6 sm:px-12 pt-8 sm:pt-10 pb-0 flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-8">
             {/* Avatar */}
             <div
-              className="flex-shrink-0 flex items-center justify-center font-black text-4xl text-white rounded-full shadow-2xl mb-[-32px] z-10"
+              className="flex-shrink-0 rounded-full mb-0 sm:mb-[-32px] z-10 overflow-hidden"
               style={{
-                width: 100,
-                height: 100,
-                background: 'linear-gradient(135deg, #AE2070, #6B1040)',
+                width: 88,
+                height: 88,
                 border: '4px solid #F6F3EF',
                 boxShadow: '0 8px 32px rgba(174,32,112,0.4)',
               }}
             >
-              K
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/avatar.jpg"
+                alt="Klaus"
+                className="w-full h-full object-cover"
+              />
             </div>
             {/* Info */}
-            <div className="pb-8">
+            <div className="pb-4 sm:pb-8 text-center sm:text-left">
               <div
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3"
                 style={{ background: 'rgba(174,32,112,0.3)', color: '#F5BCDA', border: '1px solid rgba(174,32,112,0.4)' }}
@@ -107,38 +128,36 @@ export default function HomePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
                 Growth Traffic Portfolio
               </div>
-              <h1 className="text-4xl font-black text-white tracking-tight leading-none">Klaus</h1>
+              <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none">Van Hien (Klaus)</h1>
               <p className="text-white/60 text-sm font-medium mt-1.5">
                 SEO & GEO Lead ·{' '}
                 <span className="text-white/80 font-semibold">MoMo (momo.vn)</span>
               </p>
               <p className="text-white/40 text-xs mt-2 max-w-md leading-relaxed">
-                7 năm Web Construction · Organic Growth · Web-to-App Pipeline · PLG Mindset
+                Web Growth Traffic & Web to App Optimization
               </p>
             </div>
           </div>
 
           {/* Stats bar */}
           <div
-            className="relative px-12 py-4 mt-10 flex items-center gap-10"
+            className="relative px-6 sm:px-12 py-4 mt-6 sm:mt-10 grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-10"
             style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(8px)', borderTop: '1px solid rgba(255,255,255,0.07)' }}
           >
             {[
               { value: projects.length.toString(), label: 'Dự án' },
               { value: projects.filter(p => p.status === 'live').length.toString(), label: 'Live' },
-              { value: '4', label: 'Verticals' },
-              { value: '7+', label: 'Năm kinh nghiệm' },
             ].map(stat => (
-              <div key={stat.label}>
-                <div className="text-xl font-black text-white leading-none">{stat.value}</div>
-                <div className="text-xs text-white/40 mt-0.5">{stat.label}</div>
+              <div key={stat.label} className="text-center sm:text-left">
+                <div className="text-lg sm:text-xl font-black text-white leading-none">{stat.value}</div>
+                <div className="text-[10px] sm:text-xs text-white/40 mt-0.5">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Content area */}
-        <div className="px-12 py-10">
+        <div className="px-4 sm:px-8 lg:px-12 py-8 sm:py-10">
 
           {/* Use Case Section */}
           <div className="mb-12">
@@ -160,7 +179,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {useCaseProjects.map(p => {
                 const s = statusStyle[p.status]
                 return (
@@ -246,7 +265,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {knowledgeProjects.map(p => {
                 const s = statusStyle[p.status]
                 return (

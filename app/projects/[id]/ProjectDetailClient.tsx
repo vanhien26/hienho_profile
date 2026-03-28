@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import Sidebar from '../../components/Sidebar'
 import Link from 'next/link'
 import { Project } from '../../data/projects'
@@ -42,43 +43,59 @@ function getTagColors(tag: string): string[] {
   return tagColors[tag] || tagColors['default']
 }
 
+function HamburgerButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-lg"
+      style={{ background: '#18120E', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+        <path d="M3 12h18M3 6h18M3 18h18" />
+      </svg>
+    </button>
+  )
+}
+
 export default function ProjectDetailClient({ project }: { project: Project }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const s = statusStyle[project.status]
 
   return (
     <div className="flex min-h-screen w-full">
-      <Sidebar />
+      <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden w-full">
         {/* Breadcrumb bar */}
         <div
-          className="flex items-center gap-3 px-8 py-3.5 flex-shrink-0"
+          className="flex items-center gap-2 sm:gap-3 px-4 sm:px-8 py-3.5 flex-shrink-0 overflow-x-auto"
           style={{ background: '#FFFFFF', borderBottom: '1px solid var(--border)' }}
         >
           <Link
             href="/"
-            className="text-xs font-medium flex items-center gap-1.5 hover:opacity-70 transition-opacity"
+            className="text-xs font-medium flex items-center gap-1.5 hover:opacity-70 transition-opacity flex-shrink-0"
             style={{ color: 'var(--ink-3)' }}
           >
             <span>🏠</span> Home
           </Link>
-          <span style={{ color: 'var(--border)' }}>/</span>
-          <span className="text-xs font-medium" style={{ color: 'var(--ink-3)' }}>
+          <span style={{ color: 'var(--border)' }} className="flex-shrink-0">/</span>
+          <span className="text-xs font-medium flex-shrink-0 hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
             {project.category === 'use-case' ? 'Use Case Document' : 'Knowledge & Guideline'}
           </span>
-          <span style={{ color: 'var(--border)' }}>/</span>
-          <span className="text-xs font-semibold truncate max-w-xs" style={{ color: 'var(--ink)' }}>
+          <span style={{ color: 'var(--border)' }} className="flex-shrink-0 hidden sm:inline">/</span>
+          <span className="text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>
             {project.title}
           </span>
 
-          <div className="ml-auto flex items-center gap-3">
+          <div className="ml-auto flex items-center gap-3 flex-shrink-0">
             <span
               className="text-[10px] font-bold px-2.5 py-1 rounded-full"
               style={{ background: s.bg, color: s.text }}
             >
               {s.label}
             </span>
-            <span className="text-[10px]" style={{ color: 'var(--ink-3)' }}>
+            <span className="text-[10px] hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
               Updated {new Date(project.updatedAt).toLocaleDateString('vi-VN')}
             </span>
           </div>
@@ -88,18 +105,18 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           <div className="flex-1 flex flex-col">
             {/* Meta bar */}
             <div
-              className="flex items-center gap-4 px-8 py-3 flex-shrink-0"
+              className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 px-4 sm:px-8 py-3 flex-shrink-0"
               style={{ background: '#F6F3EF', borderBottom: '1px solid var(--border)' }}
             >
-              <div>
-                <h1 className="text-sm font-black" style={{ color: 'var(--ink)' }}>
+              <div className="min-w-0">
+                <h1 className="text-sm font-black truncate" style={{ color: 'var(--ink)' }}>
                   {project.title}
                 </h1>
                 <code className="text-[10px] font-mono" style={{ color: 'var(--ink-3)' }}>
                   {project.subtitle}
                 </code>
               </div>
-              <div className="flex gap-1.5 ml-4 flex-wrap">
+              <div className="flex gap-1.5 flex-wrap">
                 {project.tags.map(t => {
                   const [bg, color] = getTagColors(t)
                   return (
@@ -114,7 +131,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 })}
               </div>
               {project.metrics && (
-                <div className="ml-auto flex gap-6">
+                <div className="sm:ml-auto flex gap-4 sm:gap-6">
                   {project.metrics.map(m => (
                     <div key={m.label} className="text-center">
                       <div className="text-base font-black" style={{ color: '#AE2070' }}>
@@ -140,11 +157,11 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         ) : (
           /* Placeholder for projects without HTML file yet */
           <div
-            className="flex-1 flex flex-col items-center justify-center px-12 py-16"
+            className="flex-1 flex flex-col items-center justify-center px-4 sm:px-12 py-12 sm:py-16"
             style={{ background: 'var(--bg)' }}
           >
             <div
-              className="max-w-lg w-full rounded-2xl p-10 text-center"
+              className="max-w-lg w-full rounded-2xl p-6 sm:p-10 text-center"
               style={{
                 background: '#FFFFFF',
                 border: '1px solid var(--border)',
@@ -165,7 +182,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
               {project.metrics && (
                 <div
-                  className="flex justify-center gap-8 mt-6 pt-5"
+                  className="flex justify-center gap-6 sm:gap-8 mt-6 pt-5 flex-wrap"
                   style={{ borderTop: '1px solid var(--border)' }}
                 >
                   {project.metrics.map(m => (
