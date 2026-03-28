@@ -65,8 +65,13 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
 
 export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [activeDivision, setActiveDivision] = useState<string | null>(null)
   const useCaseProjects = projects.filter(p => p.category === 'use-case')
   const knowledgeProjects = projects.filter(p => p.category === 'knowledge')
+
+  const filteredUseCases = activeDivision
+    ? useCaseProjects.filter(p => p.division === activeDivision)
+    : useCaseProjects
 
   return (
     <div className="flex min-h-screen w-full">
@@ -198,12 +203,45 @@ export default function HomePage() {
                 className="ml-auto text-xs font-bold px-2.5 py-1 rounded-full"
                 style={{ background: '#F5E0EC', color: '#AE2070' }}
               >
-                {useCaseProjects.length} docs
+                {filteredUseCases.length} docs
               </span>
             </div>
 
+            {/* Division Filter (Card style from user image) */}
+            <div className="flex mb-8">
+              <div
+                className="inline-flex items-center p-1 rounded-2xl"
+                style={{ background: '#18120E', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}
+              >
+                {[
+                  { id: null, label: 'ALL', count: useCaseProjects.length },
+                  { id: 'FS', label: 'FS', count: useCaseProjects.filter(p => p.division === 'FS').length },
+                  { id: 'UTI', label: 'UTI', count: useCaseProjects.filter(p => p.division === 'UTI').length },
+                  { id: 'OTA', label: 'OTA', count: useCaseProjects.filter(p => p.division === 'OTA').length },
+                ].map((div) => (
+                  <button
+                    key={div.label}
+                    onClick={() => setActiveDivision(div.id as any)}
+                    className={`flex flex-col items-center justify-center min-w-[72px] sm:min-w-[84px] py-2.5 rounded-xl transition-all duration-200 ${activeDivision === div.id ? 'bg-white/10' : 'hover:bg-white/5 opacity-60 hover:opacity-100'}`}
+                  >
+                    <span
+                      className={`text-xl sm:text-2xl font-black leading-none ${activeDivision === div.id ? 'text-white' : 'text-white/90'}`}
+                    >
+                      {div.count}
+                    </span>
+                    <span
+                      className={`text-[9px] sm:text-[10px] font-bold tracking-widest mt-1.5 ${activeDivision === div.id ? 'text-white/80' : 'text-white/30'}`}
+                    >
+                      {div.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {useCaseProjects.map(p => {
+              {filteredUseCases.map(p => {
+
                 const s = statusStyle[p.status]
                 return (
                   <Link key={p.id} href={`/projects/${p.id}`} className="block group">

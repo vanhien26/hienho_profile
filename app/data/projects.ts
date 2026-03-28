@@ -17,7 +17,7 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'vay-nhanh-strategy',
+    id: 'vay-nhanh',
     title: 'Vay Nhanh',
     subtitle: 'momo.vn/vay-nhanh',
     category: 'use-case',
@@ -34,7 +34,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'vi-tra-sau-bnpl',
+    id: 'vi-tra-sau',
     title: 'Ví Trả Sau',
     subtitle: 'momo.vn/vi-tra-sau',
     category: 'use-case',
@@ -67,7 +67,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'bao-hiem-hub',
+    id: 'bao-hiem',
     title: 'Bảo Hiểm',
     subtitle: 'momo.vn/bao-hiem',
     category: 'use-case',
@@ -99,7 +99,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'doi-tac-directory',
+    id: 'doi-tac',
     title: 'Đối Tác',
     subtitle: 'momo.vn/doi-tac',
     category: 'use-case',
@@ -111,7 +111,7 @@ export const projects: Project[] = [
     htmlFile: '/projects/doi-tac-directory.html',
   },
   {
-    id: 'credit-ecosystem',
+    id: 'tin-dung',
     title: 'Tín Dụng',
     subtitle: 'momo.vn/credit',
     category: 'use-case',
@@ -127,7 +127,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'telco-hub',
+    id: 'vien-thong',
     title: 'Viễn Thông',
     subtitle: 'momo.vn/vien-thong',
     category: 'use-case',
@@ -143,7 +143,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'travel-hub',
+    id: 'du-lich',
     title: 'Du Lịch',
     subtitle: 'momo.vn/du-lich',
     category: 'use-case',
@@ -208,7 +208,7 @@ export const projects: Project[] = [
   },
   {
     id: 'geo-framework',
-    title: 'GEO Framework — Generative Engine Optimization',
+    title: 'GEO Framework',
     subtitle: 'Knowledge & Guideline',
     category: 'knowledge',
     tags: ['GEO', 'AI Overview', 'SGE'],
@@ -217,8 +217,8 @@ export const projects: Project[] = [
     description: 'Framework tối ưu nội dung cho AI-generated answers (SGE, Perplexity, ChatGPT). Áp dụng cho Fintech với YMYL considerations.',
   },
   {
-    id: 'jtbd-fintech',
-    title: 'JTBD Analysis — Fintech',
+    id: 'jtbd',
+    title: 'JTBD Analysis',
     subtitle: 'Knowledge & Guideline',
     category: 'knowledge',
     tags: ['JTBD', 'Framework', 'Search Intent'],
@@ -228,8 +228,8 @@ export const projects: Project[] = [
     htmlFile: '/projects/jtbd-fintech.html',
   },
   {
-    id: 'web-to-app-funnel',
-    title: 'Web-to-App Conversion Playbook',
+    id: 'web-to-app',
+    title: 'Web-to-App Playbook',
     subtitle: 'Knowledge & Guideline',
     category: 'knowledge',
     tags: ['PLG', 'Deep Link', 'CTA'],
