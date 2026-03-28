@@ -53,6 +53,11 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
     if (onClose) onClose()
   }
 
+  const mainLinks = [
+    { label: 'Home', href: '/', icon: Home },
+    { label: 'Mini Web 2026', href: '/mini-web-2026', icon: FileText },
+  ]
+
   return (
     <>
       {/* Overlay backdrop */}
@@ -97,19 +102,35 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
 
         {/* Nav */}
         <nav className="flex-1 py-4 px-0">
-          <Link
-            href="/"
-            onClick={handleLinkClick}
-            className={`flex items-center gap-2.5 px-5 py-2 text-xs font-semibold transition-all duration-150 ${
-              pathname === '/'
-                ? 'text-white border-l-2 border-pink-500 bg-white/5'
-                : 'text-white/50 hover:text-white/80 border-l-2 border-transparent'
-            }`}
-          >
-            <Home size={14} /> Home
-          </Link>
+          <div className="px-3 mb-6">
+            {mainLinks.map((link) => {
+              const Icon = link.icon
+              const active = pathname === link.href
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={handleLinkClick}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 mb-1 ${
+                    active 
+                      ? 'bg-[#AE2070] text-white shadow-lg shadow-[#AE2070]/20' 
+                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <Icon size={16} strokeWidth={active ? 3 : 2} />
+                  <span className={`text-[13px] font-black tracking-tight ${active ? 'opacity-100' : 'opacity-80'}`}>
+                    {link.label}
+                  </span>
+                </Link>
+              )
+            })}
+          </div>
 
-          {navTree.map(group => {
+          <div className="px-5 mb-2">
+            <div className="h-px bg-white/5 w-full" />
+          </div>
+
+          {navTree.filter(g => (g as any).href === undefined).map(group => {
             const Icon = group.icon
             return (
               <div key={group.key} className="mt-4">

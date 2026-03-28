@@ -58,6 +58,7 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
 
 export default function ProjectDetailClient({ project }: { project: Project }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const s = statusStyle[project.status]
 
   return (
@@ -68,7 +69,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       <main className="flex-1 flex flex-col overflow-hidden w-full">
         {/* Breadcrumb bar */}
         <div
-          className="flex items-center gap-2 sm:gap-3 px-4 sm:px-8 py-3.5 flex-shrink-0 overflow-x-auto"
+          className="flex items-center gap-2 sm:gap-3 pl-16 pr-4 sm:pr-8 py-3.5 flex-shrink-0 overflow-x-auto"
           style={{ background: '#FFFFFF', borderBottom: '1px solid var(--border)' }}
         >
           <Link
@@ -145,13 +146,24 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               )}
             </div>
 
-            {/* Full HTML document in iframe */}
-            <iframe
-              src={project.htmlFile}
-              className="flex-1 w-full border-0"
-              style={{ minHeight: 'calc(100vh - 116px)' }}
-              title={project.title}
-            />
+            {/* Full HTML document in iframe with Loading state */}
+            <div className="flex-1 relative">
+              {loading && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-10 transition-opacity duration-300">
+                  <div className="w-10 h-10 border-4 border-[#F5E0EC] border-t-[#AE2070] rounded-full animate-spin mb-4" />
+                  <p className="text-[10px] font-bold tracking-widest text-[#8C7D74] uppercase animate-pulse">
+                    Đang tải tài liệu chiến lược
+                  </p>
+                </div>
+              )}
+              <iframe
+                src={project.htmlFile}
+                onLoad={() => setLoading(false)}
+                className="w-full h-full border-0"
+                style={{ minHeight: 'calc(100vh - 116px)' }}
+                title={project.title}
+              />
+            </div>
           </div>
         ) : (
           /* Placeholder for projects without HTML file yet */

@@ -224,7 +224,7 @@ export const projects: Project[] = [
     tags: ['JTBD', 'Framework', 'Search Intent'],
     status: 'live',
     updatedAt: '2026-03-18',
-    description: 'Framework phân tích Jobs-to-be-Done cho Credit, Wallet/Payments, Insurance của MoMo. Loại bỏ bias auto insurance, áp dụng cross-product.',
+    description: 'Framework phân tích Jobs-to-be-Done cho các vertical Credit, Wallet/Payments, Insurance của MoMo. Loại bỏ bias auto insurance, áp dụng cross-product.',
     htmlFile: '/projects/jtbd-fintech.html',
   },
   {
