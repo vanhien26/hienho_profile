@@ -3,28 +3,21 @@ import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects } from './data/projects'
-import { tagStyle } from './data/tags'
-import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen } from 'lucide-react'
+import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-function Tag({ label }: { label: string }) {
-  const colors = tagStyle[label]?.split('|') || ['#F0EDE8', '#8C7D74']
-  return (
-    <span
-      className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-      style={{ background: colors[0], color: colors[1] }}
-    >
-      {label}
-    </span>
-  )
+const divisionColors: Record<string, { bg: string; text: string }> = {
+  FS: { bg: '#FFEFF4', text: '#A50064' },
+  UTI: { bg: '#E0F2FE', text: '#0284C7' },
+  OTA: { bg: '#DCFCE7', text: '#16A34A' },
 }
 
 function HamburgerButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-lg"
-      style={{ background: '#18120E', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+      className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-xl"
+      style={{ background: '#111827', boxShadow: 'var(--shadow-md)' }}
     >
       <Menu size={18} color="white" />
     </button>
@@ -35,18 +28,16 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
+    transition: { staggerChildren: 0.08 },
   },
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4 }
+    transition: { duration: 0.35, ease: 'easeOut' as const }
   },
 }
 
@@ -71,143 +62,128 @@ export default function HomePage() {
       p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
   })
 
+  const filterTabs = [
+    { id: null, label: 'Tất cả', count: useCaseProjects.length },
+    { id: 'FS', label: 'FS', count: useCaseProjects.filter(p => p.division === 'FS').length },
+    { id: 'UTI', label: 'UTI', count: useCaseProjects.filter(p => p.division === 'UTI').length },
+    { id: 'OTA', label: 'OTA', count: useCaseProjects.filter(p => p.division === 'OTA').length },
+  ]
+
   return (
     <div className="flex min-h-screen w-full">
       <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
       <main className="flex-1 overflow-y-auto w-full">
-        {/* Profile Header / Banner */}
+        {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           className="relative overflow-hidden"
-          style={{ minHeight: 220 }}
+          style={{ minHeight: 240 }}
         >
-          {/* Background */}
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(135deg, #18120E 0%, #2D1A28 40%, #AE2070 100%)',
+              background: 'linear-gradient(135deg, #111827 0%, #1E1338 35%, #A50064 100%)',
             }}
           />
-          {/* Noise texture overlay */}
           <div
-            className="absolute inset-0 opacity-30"
+            className="absolute inset-0 opacity-[0.07]"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E")`,
-              backgroundSize: '200px',
-            }}
-          />
-          {/* Grid lines */}
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-              backgroundSize: '48px 48px',
+              backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)',
+              backgroundSize: '32px 32px',
             }}
           />
 
-          <div className="relative px-6 sm:px-12 pt-8 sm:pt-10 pb-0 flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-8">
-            {/* Avatar */}
+          <div className="relative px-6 sm:px-12 pt-10 sm:pt-12 pb-10 flex flex-col sm:flex-row items-center sm:items-center gap-5 sm:gap-8">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
-              className="flex-shrink-0 rounded-full mb-0 z-10 overflow-hidden"
+              transition={{ delay: 0.15, type: 'spring', stiffness: 120 }}
+              className="flex-shrink-0 rounded-2xl overflow-hidden z-10"
               style={{
-                width: 88,
-                height: 88,
-                border: '4px solid #F6F3EF',
-                boxShadow: '0 8px 32px rgba(174,32,112,0.4)',
+                width: 80,
+                height: 80,
+                border: '3px solid rgba(255,255,255,0.2)',
+                boxShadow: '0 8px 32px rgba(165,0,100,0.3)',
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/avatar.jpg"
-                alt="Klaus"
-                className="w-full h-full object-cover"
-              />
+              <img src="/avatar.jpg" alt="Klaus" className="w-full h-full object-cover" />
             </motion.div>
-            {/* Info */}
-            <div className="pb-4 sm:pb-8 text-center sm:text-left">
+
+            <div className="pb-0 text-center sm:text-left">
               <motion.div
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3"
-                style={{ background: 'rgba(174,32,112,0.3)', color: '#F5BCDA', border: '1px solid rgba(174,32,112,0.4)' }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold mb-3"
+                style={{ background: 'rgba(165,0,100,0.25)', color: '#FEC8DC', border: '1px solid rgba(165,0,100,0.35)', backdropFilter: 'blur(8px)' }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
                 Growth Traffic Portfolio
               </motion.div>
               <motion.h1
-                initial={{ y: 20, opacity: 0 }}
+                initial={{ y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.3 }}
                 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none"
               >
                 Van Hien (Klaus)
               </motion.h1>
               <motion.p
-                initial={{ y: 20, opacity: 0 }}
+                initial={{ y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-white/60 text-sm font-medium mt-1.5"
+                transition={{ delay: 0.4 }}
+                className="text-white/55 text-sm font-medium mt-2"
               >
-                SEO & GEO Lead ·{' '}
-                <span className="text-white/80 font-semibold">MoMo (momo.vn)</span>
+                SEO & GEO Lead · <span className="text-white/80 font-semibold">MoMo (momo.vn)</span>
               </motion.p>
               <motion.p
-                initial={{ y: 20, opacity: 0 }}
+                initial={{ y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="text-white/40 text-xs mt-2 max-w-md leading-relaxed"
+                transition={{ delay: 0.45 }}
+                className="text-white/35 text-xs mt-1.5"
               >
                 Web Growth Traffic & Web to App Optimization
               </motion.p>
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
+                initial={{ y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                className="flex flex-wrap items-center gap-3 mt-3"
+                transition={{ delay: 0.5 }}
+                className="flex flex-wrap items-center gap-3 mt-4"
               >
-                <span className="text-white/50 text-xs flex items-center gap-1.5">
-                  <Phone size={12} />
-                  090 6973942
+                <span className="text-white/45 text-xs flex items-center gap-1.5">
+                  <Phone size={12} /> 090 6973942
                 </span>
-                <span className="text-white/50 text-xs flex items-center gap-1.5">
-                  <Mail size={12} />
-                  hien.ho@momo.vn
+                <span className="text-white/45 text-xs flex items-center gap-1.5">
+                  <Mail size={12} /> hien.ho@momo.vn
                 </span>
                 <a
                   href="https://chat.google.com/dm/hien.ho@mservice.com.vn"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all hover:opacity-80"
-                  style={{ background: '#AE2070', color: '#fff' }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold transition-all hover:scale-105"
+                  style={{ background: '#A50064', color: '#fff', boxShadow: '0 2px 8px rgba(165,0,100,0.3)' }}
                 >
-                  <MessageCircle size={12} />
-                  Chat
+                  <MessageCircle size={11} /> Chat
                 </a>
               </motion.div>
             </div>
           </div>
-
-          {/* Spacer */}
-          <div className="mt-6 sm:mt-10" />
         </motion.div>
 
-        {/* Content area */}
+        {/* Content */}
         <div className="px-4 sm:px-8 lg:px-12 py-8 sm:py-10">
 
-          {/* Use Case Section Header with Filter & Search */}
-          <div className="mb-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          {/* Section header + Search */}
+          <div className="mb-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#F5E0EC' }}>
-                  <FileText size={16} style={{ color: '#AE2070' }} />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'var(--pink-light)' }}>
+                  <FileText size={16} style={{ color: 'var(--pink)' }} />
                 </div>
                 <div>
                   <h2 className="text-lg font-black tracking-tight" style={{ color: 'var(--ink)' }}>
@@ -219,80 +195,60 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Global Search Bar */}
-              <div className="relative w-full md:w-64">
+              <div className="relative w-full md:w-60">
                 <input
                   type="text"
-                  placeholder="Tìm kiếm chiến lược..."
+                  placeholder="Tìm kiếm..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 bg-white border border-[#E4DDD6] rounded-xl text-xs focus:ring-2 focus:ring-[#AE2070]/20 focus:border-[#AE2070] transition-all outline-none"
+                  className="w-full pl-9 pr-4 py-2.5 bg-white border rounded-xl text-xs transition-all outline-none"
+                  style={{ borderColor: 'var(--border)' }}
+                  onFocus={(e) => { e.target.style.borderColor = '#A50064'; e.target.style.boxShadow = '0 0 0 3px rgba(165,0,100,0.08)' }}
+                  onBlur={(e) => { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none' }}
                 />
-                <svg
-                  className="absolute left-3 top-2.5 w-4 h-4 text-[#8C7D74]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                <Search size={14} className="absolute left-3 top-3" style={{ color: 'var(--ink-ghost)' }} />
               </div>
             </div>
 
-            {/* Division Filter (Card style from user image) */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-              <div
-                className="inline-flex items-center p-1 rounded-2xl relative"
-                style={{ background: '#18120E', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}
-              >
-                {[
-                  { id: null, label: 'ALL', count: useCaseProjects.length },
-                  { id: 'FS', label: 'FS', count: useCaseProjects.filter(p => p.division === 'FS').length },
-                  { id: 'UTI', label: 'UTI', count: useCaseProjects.filter(p => p.division === 'UTI').length },
-                  { id: 'OTA', label: 'OTA', count: useCaseProjects.filter(p => p.division === 'OTA').length },
-                ].map((div) => (
+            {/* Filter pills */}
+            <div className="flex items-center gap-2 mb-8">
+              {filterTabs.map((tab) => {
+                const isActive = activeDivision === tab.id
+                return (
                   <button
-                    key={div.label}
-                    onClick={() => setActiveDivision(div.id as any)}
-                    className="flex flex-col items-center justify-center min-w-[72px] sm:min-w-[84px] py-2.5 rounded-xl transition-all duration-200 relative z-10"
-                    style={{ opacity: activeDivision === div.id ? 1 : 0.4 }}
+                    key={tab.label}
+                    onClick={() => setActiveDivision(tab.id as string | null)}
+                    className="relative px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200"
+                    style={{
+                      background: isActive ? '#111827' : 'var(--bg-panel)',
+                      color: isActive ? '#fff' : 'var(--ink-3)',
+                      border: `1px solid ${isActive ? '#111827' : 'var(--border)'}`,
+                      boxShadow: isActive ? 'var(--shadow-md)' : 'none',
+                    }}
                   >
-                    {activeDivision === div.id && (
-                      <motion.div
-                        layoutId="activeFilter"
-                        className="absolute inset-0 bg-white/10 rounded-xl"
-                        transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                      />
-                    )}
+                    {tab.label}
                     <span
-                      className={`text-xl sm:text-2xl font-black leading-none relative z-10 ${activeDivision === div.id ? 'text-white' : 'text-white/90'}`}
+                      className="ml-1.5 text-[10px] font-black"
+                      style={{ opacity: isActive ? 0.6 : 0.4 }}
                     >
-                      {div.count}
-                    </span>
-                    <span
-                      className={`text-[9px] sm:text-[10px] font-bold tracking-widest mt-1.5 relative z-10 ${activeDivision === div.id ? 'text-white/80' : 'text-white/30'}`}
-                    >
-                      {div.label}
+                      {tab.count}
                     </span>
                   </button>
-                ))}
-              </div>
+                )
+              })}
             </div>
 
+            {/* Use Case Grid */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               key={activeDivision || 'all'}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
             >
               <AnimatePresence mode="popLayout">
                 {filteredUseCases.map(p => {
+                  const dc = p.division ? divisionColors[p.division] : null
                   return (
                     <motion.div
                       key={p.id}
@@ -302,59 +258,73 @@ export default function HomePage() {
                     >
                       <Link href={`/projects/${p.id}`} className="block group">
                         <div
-                          className="rounded-xl p-5 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1.5 group-hover:border-[#AE2070]/30 border border-[#E4DDD6]"
+                          className="rounded-2xl p-5 transition-all duration-300 group-hover:-translate-y-1 border overflow-hidden relative"
                           style={{
-                            background: '#FFFFFF',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                            background: 'var(--bg-panel)',
+                            borderColor: 'var(--border)',
+                            boxShadow: 'var(--shadow-sm)',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
+                            e.currentTarget.style.borderColor = dc ? dc.text + '30' : 'var(--pink)' + '30'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.boxShadow = 'var(--shadow-sm)'
+                            e.currentTarget.style.borderColor = 'var(--border)'
                           }}
                         >
-                          <div className="flex items-start justify-between mb-3">
-                            {p.division && (
+                          <div className="flex items-center justify-between mb-3">
+                            {dc && (
                               <span
-                                className="text-[10px] font-bold px-2 py-0.5 rounded"
-                                style={{ background: '#F5E0EC', color: '#AE2070' }}
+                                className="text-[10px] font-bold px-2.5 py-1 rounded-lg"
+                                style={{ background: dc.bg, color: dc.text }}
                               >
                                 {p.division}
                               </span>
                             )}
-                            <span className="text-[10px]" style={{ color: 'var(--ink-3)' }}>
-                              {new Date(p.updatedAt).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: '2-digit' })}
-                            </span>
                           </div>
 
                           <h3
-                            className="font-bold text-sm leading-snug mb-1 group-hover:text-[#AE2070] transition-colors"
+                            className="font-bold text-[15px] leading-snug mb-1.5 transition-colors"
                             style={{ color: 'var(--ink)' }}
                           >
                             {p.title}
                           </h3>
-                          <code
-                            className="text-[10px] font-mono"
-                            style={{ color: 'var(--ink-3)' }}
+                          <p
+                            className="text-[11px] font-medium mb-3"
+                            style={{ color: 'var(--ink-ghost)' }}
                           >
                             {p.subtitle}
-                          </code>
+                          </p>
 
                           <p
-                            className="text-xs mt-2.5 leading-relaxed line-clamp-2"
+                            className="text-xs leading-relaxed line-clamp-2"
                             style={{ color: 'var(--ink-2)' }}
                           >
                             {p.description}
                           </p>
 
                           {p.metrics && (
-                            <div className="flex gap-3 mt-4 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
+                            <div className="flex gap-4 mt-4 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
                               {p.metrics.map(m => (
                                 <div key={m.label}>
-                                  <div className="text-sm font-black transition-colors" style={{ color: '#AE2070' }}>{m.value}</div>
-                                  <div className="text-[9px]" style={{ color: 'var(--ink-3)' }}>{m.label}</div>
+                                  <div className="text-sm font-black" style={{ color: 'var(--pink)' }}>{m.value}</div>
+                                  <div className="text-[9px] font-medium" style={{ color: 'var(--ink-ghost)' }}>{m.label}</div>
                                 </div>
                               ))}
                             </div>
                           )}
 
                           <div className="flex flex-wrap gap-1.5 mt-3">
-                            {p.tags.slice(0, 3).map(t => <Tag key={t} label={t} />)}
+                            {p.tags.slice(0, 2).map(t => (
+                              <span
+                                key={t}
+                                className="text-[10px] font-semibold px-2 py-0.5 rounded-md"
+                                style={{ background: '#F1F5F9', color: 'var(--ink-3)', border: '1px solid var(--border)' }}
+                              >
+                                {t}
+                              </span>
+                            ))}
                           </div>
                         </div>
                       </Link>
@@ -365,23 +335,23 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          {/* Knowledge Section */}
-          <div className="mb-12">
+          {/* Knowledge */}
+          <div className="mb-12 mt-12">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#EDE8FF' }}>
-                <BookOpen size={16} style={{ color: '#4B1DB8' }} />
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: '#F3E8FF' }}>
+                <BookOpen size={16} style={{ color: '#7C3AED' }} />
               </div>
               <div>
                 <h2 className="text-lg font-black tracking-tight" style={{ color: 'var(--ink)' }}>
                   Knowledge & Guideline
                 </h2>
                 <p className="text-xs" style={{ color: 'var(--ink-3)' }}>
-                  Framework và Playbook áp dụng cross-sale
+                  Framework và Playbook áp dụng cross-product
                 </p>
               </div>
               <span
-                className="ml-auto text-xs font-bold px-2.5 py-1 rounded-full"
-                style={{ background: '#EDE8FF', color: '#4B1DB8' }}
+                className="ml-auto text-[11px] font-bold px-3 py-1 rounded-lg"
+                style={{ background: '#F3E8FF', color: '#7C3AED' }}
               >
                 {filteredKnowledge.length} docs
               </span>
@@ -393,41 +363,52 @@ export default function HomePage() {
               whileInView="visible"
               viewport={{ once: true }}
               key={`knowledge-${searchQuery}`}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
             >
               {filteredKnowledge.map(p => {
                 return (
                   <motion.div key={p.id} variants={cardVariants}>
                     <Link href={`/projects/${p.id}`} className="block group">
                       <div
-                        className="rounded-xl p-5 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1.5 group-hover:border-[#4B1DB8]/30 border border-[#E4DDD6]"
+                        className="rounded-2xl p-5 transition-all duration-300 group-hover:-translate-y-1 border"
                         style={{
-                          background: '#FFFFFF',
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                          background: 'var(--bg-panel)',
+                          borderColor: 'var(--border)',
+                          boxShadow: 'var(--shadow-sm)',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
+                          e.currentTarget.style.borderColor = '#7C3AED30'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.boxShadow = 'var(--shadow-sm)'
+                          e.currentTarget.style.borderColor = 'var(--border)'
                         }}
                       >
-                        <div className="flex items-end justify-end mb-3">
-                          <span className="text-[10px]" style={{ color: 'var(--ink-3)' }}>
-                            {new Date(p.updatedAt).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: '2-digit' })}
-                          </span>
-                        </div>
-
                         <h3
-                          className="font-bold text-sm leading-snug mb-1 group-hover:text-[#4B1DB8] transition-colors"
+                          className="font-bold text-[15px] leading-snug mb-2 transition-colors"
                           style={{ color: 'var(--ink)' }}
                         >
                           {p.title}
                         </h3>
 
                         <p
-                          className="text-xs mt-2.5 leading-relaxed line-clamp-3"
+                          className="text-xs leading-relaxed line-clamp-3"
                           style={{ color: 'var(--ink-2)' }}
                         >
                           {p.description}
                         </p>
 
-                        <div className="flex flex-wrap gap-1.5 mt-3">
-                          {p.tags.map(t => <Tag key={t} label={t} />)}
+                        <div className="flex flex-wrap gap-1.5 mt-4">
+                          {p.tags.map(t => (
+                            <span
+                              key={t}
+                              className="text-[10px] font-semibold px-2 py-0.5 rounded-md"
+                              style={{ background: '#F1F5F9', color: 'var(--ink-3)', border: '1px solid var(--border)' }}
+                            >
+                              {t}
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </Link>
