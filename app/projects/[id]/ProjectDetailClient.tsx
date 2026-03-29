@@ -5,12 +5,6 @@ import Link from 'next/link'
 import { Project } from '../../data/projects'
 import { Menu, Home, FileText, Lightbulb } from 'lucide-react'
 
-const statusStyle: Record<string, { bg: string; text: string; label: string }> = {
-  live: { bg: '#E0F5EA', text: '#00663A', label: 'LIVE' },
-  review: { bg: '#FFF3DC', text: '#8B5800', label: 'REVIEW' },
-  draft: { bg: '#F0EDE8', text: '#8C7D74', label: 'DRAFT' },
-}
-
 const tagColors: Record<string, string[]> = {
   SEO: ['#E6EEFF', '#1848B8'],
   Credit: ['#F5E0EC', '#AE2070'],
@@ -59,7 +53,6 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
 export default function ProjectDetailClient({ project }: { project: Project }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [loading, setLoading] = useState(true)
-  const s = statusStyle[project.status]
 
   return (
     <div className="flex min-h-screen w-full">
@@ -89,12 +82,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           </span>
 
           <div className="ml-auto flex items-center gap-3 flex-shrink-0">
-            <span
-              className="text-[10px] font-bold px-2.5 py-1 rounded-full"
-              style={{ background: s.bg, color: s.text }}
-            >
-              {s.label}
-            </span>
+            {project.division && (
+              <span
+                className="text-[10px] font-bold px-2.5 py-1 rounded-full"
+                style={{ background: '#F5E0EC', color: '#AE2070' }}
+              >
+                {project.division}
+              </span>
+            )}
             <span className="text-[10px] hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
               Updated {new Date(project.updatedAt).toLocaleDateString('vi-VN')}
             </span>

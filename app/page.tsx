@@ -7,12 +7,6 @@ import { tagStyle } from './data/tags'
 import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const statusStyle: Record<string, { bg: string; text: string; label: string }> = {
-  live: { bg: '#E0F5EA', text: '#00663A', label: 'LIVE' },
-  review: { bg: '#FFF3DC', text: '#8B5800', label: 'REVIEW' },
-  draft: { bg: '#F0EDE8', text: '#8C7D74', label: 'DRAFT' },
-}
-
 function Tag({ label }: { label: string }) {
   const colors = tagStyle[label]?.split('|') || ['#F0EDE8', '#8C7D74']
   return (
@@ -49,8 +43,8 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.4 }
   },
@@ -65,16 +59,16 @@ export default function HomePage() {
 
   const filteredUseCases = useCaseProjects.filter(p => {
     const matchesDivision = activeDivision ? p.division === activeDivision : true
-    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
     return matchesDivision && matchesSearch
   })
 
   const filteredKnowledge = knowledgeProjects.filter(p => {
-    return p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-           p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+    return p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
   })
 
   return (
@@ -84,11 +78,11 @@ export default function HomePage() {
 
       <main className="flex-1 overflow-y-auto w-full">
         {/* Profile Header / Banner */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="relative overflow-hidden" 
+          className="relative overflow-hidden"
           style={{ minHeight: 220 }}
         >
           {/* Background */}
@@ -148,7 +142,7 @@ export default function HomePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
                 Growth Traffic Portfolio
               </motion.div>
-              <motion.h1 
+              <motion.h1
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
@@ -156,7 +150,7 @@ export default function HomePage() {
               >
                 Van Hien (Klaus)
               </motion.h1>
-              <motion.p 
+              <motion.p
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5 }}
@@ -165,7 +159,7 @@ export default function HomePage() {
                 SEO & GEO Lead ·{' '}
                 <span className="text-white/80 font-semibold">MoMo (momo.vn)</span>
               </motion.p>
-              <motion.p 
+              <motion.p
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.6 }}
@@ -173,7 +167,7 @@ export default function HomePage() {
               >
                 Web Growth Traffic & Web to App Optimization
               </motion.p>
-              <motion.div 
+              <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.7 }}
@@ -201,26 +195,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Stats bar */}
-          <motion.div
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="relative px-6 sm:px-12 py-4 mt-6 sm:mt-10 grid grid-cols-4 gap-2 sm:flex sm:items-center sm:gap-10"
-            style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(8px)', borderTop: '1px solid rgba(255,255,255,0.07)' }}
-          >
-            {[
-              { value: useCaseProjects.length.toString(), label: 'Use Cases' },
-              { value: projects.filter(p => p.division === 'FS').length.toString(), label: 'FS' },
-              { value: projects.filter(p => p.division === 'UTI').length.toString(), label: 'UTI' },
-              { value: projects.filter(p => p.division === 'OTA').length.toString(), label: 'OTA' },
-            ].map(stat => (
-              <div key={stat.label} className="text-center sm:text-left">
-                <div className="text-lg sm:text-xl font-black text-white leading-none">{stat.value}</div>
-                <div className="text-[10px] sm:text-xs text-white/40 mt-0.5">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
+          {/* Spacer */}
+          <div className="mt-6 sm:mt-10" />
         </motion.div>
 
         {/* Content area */}
@@ -308,7 +284,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -317,7 +293,6 @@ export default function HomePage() {
             >
               <AnimatePresence mode="popLayout">
                 {filteredUseCases.map(p => {
-                  const s = statusStyle[p.status]
                   return (
                     <motion.div
                       key={p.id}
@@ -334,12 +309,14 @@ export default function HomePage() {
                           }}
                         >
                           <div className="flex items-start justify-between mb-3">
-                            <span
-                              className="text-[10px] font-bold px-2 py-0.5 rounded"
-                              style={{ background: s.bg, color: s.text }}
-                            >
-                              {s.label}
-                            </span>
+                            {p.division && (
+                              <span
+                                className="text-[10px] font-bold px-2 py-0.5 rounded"
+                                style={{ background: '#F5E0EC', color: '#AE2070' }}
+                              >
+                                {p.division}
+                              </span>
+                            )}
                             <span className="text-[10px]" style={{ color: 'var(--ink-3)' }}>
                               {new Date(p.updatedAt).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: '2-digit' })}
                             </span>
@@ -399,7 +376,7 @@ export default function HomePage() {
                   Knowledge & Guideline
                 </h2>
                 <p className="text-xs" style={{ color: 'var(--ink-3)' }}>
-                  Framework và Playbook áp dụng cross-vertical
+                  Framework và Playbook áp dụng cross-sale
                 </p>
               </div>
               <span
@@ -410,7 +387,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
@@ -419,7 +396,6 @@ export default function HomePage() {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
             >
               {filteredKnowledge.map(p => {
-                const s = statusStyle[p.status]
                 return (
                   <motion.div key={p.id} variants={cardVariants}>
                     <Link href={`/projects/${p.id}`} className="block group">
@@ -430,13 +406,7 @@ export default function HomePage() {
                           boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
                         }}
                       >
-                        <div className="flex items-start justify-between mb-3">
-                          <span
-                            className="text-[10px] font-bold px-2 py-0.5 rounded"
-                            style={{ background: s.bg, color: s.text }}
-                          >
-                            {s.label}
-                          </span>
+                        <div className="flex items-end justify-end mb-3">
                           <span className="text-[10px]" style={{ color: 'var(--ink-3)' }}>
                             {new Date(p.updatedAt).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: '2-digit' })}
                           </span>

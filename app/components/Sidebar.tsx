@@ -10,19 +10,19 @@ const navTree = [
     icon: FileText,
     key: 'use-case',
     items: [
-      { label: 'Vay Nhanh', href: '/projects/vay-nhanh', tag: 'LIVE' },
-      { label: 'Ví Trả Sau', href: '/projects/vi-tra-sau', tag: 'REVIEW' },
-      { label: 'Tín Dụng', href: '/projects/tin-dung', tag: 'LIVE' },
-      { label: 'Bảo Hiểm Xe Máy', href: '/projects/bao-hiem-xe-may', tag: 'LIVE' },
-      { label: 'Bảo Hiểm', href: '/projects/bao-hiem', tag: 'LIVE' },
-      { label: 'Bảo Hiểm Ô Tô', href: '/projects/bao-hiem-o-to', tag: 'LIVE' },
-      { label: 'Đối Tác', href: '/projects/doi-tac', tag: 'DRAFT' },
-      { label: 'Viễn Thông', href: '/projects/vien-thong', tag: 'LIVE' },
-      { label: 'Du Lịch', href: '/projects/du-lich', tag: 'LIVE' },
-      { label: 'Dịch Vụ Công', href: '/projects/dich-vu-cong', tag: 'LIVE' },
-      { label: 'eSIM Du Lịch', href: '/projects/esim-du-lich', tag: 'LIVE' },
-      { label: 'Phạt Nguội', href: '/projects/phat-nguoi', tag: 'LIVE' },
-      { label: 'Thanh Toán Hóa Đơn', href: '/projects/thanh-toan-hoa-don', tag: 'LIVE' },
+      { label: 'Vay Nhanh', href: '/projects/vay-nhanh' },
+      { label: 'Ví Trả Sau', href: '/projects/vi-tra-sau' },
+      { label: 'Tín Dụng', href: '/projects/tin-dung' },
+      { label: 'Bảo Hiểm Xe Máy', href: '/projects/bao-hiem-xe-may' },
+      { label: 'Bảo Hiểm', href: '/projects/bao-hiem' },
+      { label: 'Bảo Hiểm Ô Tô', href: '/projects/bao-hiem-o-to' },
+      { label: 'Đối Tác', href: '/projects/doi-tac' },
+      { label: 'Viễn Thông', href: '/projects/vien-thong' },
+      { label: 'Du Lịch', href: '/projects/du-lich' },
+      { label: 'Dịch Vụ Công', href: '/projects/dich-vu-cong' },
+      { label: 'eSIM Du Lịch', href: '/projects/esim-du-lich' },
+      { label: 'Phạt Nguội', href: '/projects/phat-nguoi' },
+      { label: 'Thanh Toán Hóa Đơn', href: '/projects/thanh-toan-hoa-don' },
     ],
   },
   {
@@ -30,18 +30,12 @@ const navTree = [
     icon: BookOpen,
     key: 'knowledge',
     items: [
-      { label: 'GEO Framework', href: '/projects/geo-framework', tag: 'LIVE' },
-      { label: 'JTBD Analysis', href: '/projects/jtbd', tag: 'LIVE' },
-      { label: 'Web-to-App Playbook', href: '/projects/web-to-app', tag: 'LIVE' },
+      { label: 'GEO Framework', href: '/projects/geo-framework' },
+      { label: 'JTBD Analysis', href: '/projects/jtbd' },
+      { label: 'Web-to-App Playbook', href: '/projects/web-to-app' },
     ],
   },
 ]
-
-const tagColor: Record<string, string> = {
-  LIVE: 'bg-emerald-500/15 text-emerald-400',
-  REVIEW: 'bg-amber-500/15 text-amber-400',
-  DRAFT: 'bg-white/10 text-white/40',
-}
 
 export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobileOpen?: boolean; onClose?: () => void; alwaysOverlay?: boolean }) {
   const pathname = usePathname()
@@ -158,16 +152,13 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                           key={item.href}
                           href={item.href}
                           onClick={handleLinkClick}
-                          className={`flex items-center justify-between px-5 py-2 text-[12px] font-medium transition-all duration-150 border-l-2 ${
+                          className={`flex items-center px-5 py-2 text-[12px] font-medium transition-all duration-150 border-l-2 ${
                             active
                               ? 'text-white border-pink-500 bg-white/6'
                               : 'text-white/50 border-transparent hover:text-white/80 hover:bg-white/3'
                           }`}
                         >
                           <span className="truncate">{item.label}</span>
-                          <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${tagColor[item.tag] || ''} ml-2 flex-shrink-0`}>
-                            {item.tag}
-                          </span>
                         </Link>
                       )
                     })}
