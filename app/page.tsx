@@ -75,104 +75,126 @@ export default function HomePage() {
       <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
       <main className="flex-1 overflow-y-auto w-full">
-        {/* Profile Header */}
+        {/* Profile Header / Banner */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           className="relative overflow-hidden"
-          style={{ minHeight: 240 }}
+          style={{ minHeight: 220 }}
         >
+          {/* Background */}
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(135deg, #111827 0%, #1E1338 35%, #A50064 100%)',
+              background: 'linear-gradient(135deg, #18120E 0%, #2D1A28 40%, #AE2070 100%)',
             }}
           />
+          {/* Noise texture overlay */}
           <div
-            className="absolute inset-0 opacity-[0.07]"
+            className="absolute inset-0 opacity-30"
             style={{
-              backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)',
-              backgroundSize: '32px 32px',
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E")`,
+              backgroundSize: '200px',
+            }}
+          />
+          {/* Grid lines */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
             }}
           />
 
-          <div className="relative px-6 sm:px-12 pt-10 sm:pt-12 pb-10 flex flex-col sm:flex-row items-center sm:items-center gap-5 sm:gap-8">
+          <div className="relative px-6 sm:px-12 pt-8 sm:pt-10 pb-0 flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-8">
+            {/* Avatar */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.15, type: 'spring', stiffness: 120 }}
-              className="flex-shrink-0 rounded-2xl overflow-hidden z-10"
+              transition={{ delay: 0.2, type: 'spring', stiffness: 100 }}
+              className="flex-shrink-0 rounded-full mb-0 z-10 overflow-hidden"
               style={{
-                width: 80,
-                height: 80,
-                border: '3px solid rgba(255,255,255,0.2)',
-                boxShadow: '0 8px 32px rgba(165,0,100,0.3)',
+                width: 88,
+                height: 88,
+                border: '4px solid #F6F3EF',
+                boxShadow: '0 8px 32px rgba(174,32,112,0.4)',
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/avatar.jpg" alt="Klaus" className="w-full h-full object-cover" />
+              <img
+                src="/avatar.jpg"
+                alt="Klaus"
+                className="w-full h-full object-cover"
+              />
             </motion.div>
-
-            <div className="pb-0 text-center sm:text-left">
+            {/* Info */}
+            <div className="pb-4 sm:pb-8 text-center sm:text-left">
               <motion.div
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold mb-3"
-                style={{ background: 'rgba(165,0,100,0.25)', color: '#FEC8DC', border: '1px solid rgba(165,0,100,0.35)', backdropFilter: 'blur(8px)' }}
+                transition={{ delay: 0.3 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3"
+                style={{ background: 'rgba(174,32,112,0.3)', color: '#F5BCDA', border: '1px solid rgba(174,32,112,0.4)' }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
                 Growth Traffic Portfolio
               </motion.div>
               <motion.h1
-                initial={{ y: 16, opacity: 0 }}
+                initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.4 }}
                 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none"
               >
                 Van Hien (Klaus)
               </motion.h1>
               <motion.p
-                initial={{ y: 16, opacity: 0 }}
+                initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="text-white/55 text-sm font-medium mt-2"
+                transition={{ delay: 0.5 }}
+                className="text-white/60 text-sm font-medium mt-1.5"
               >
-                SEO & GEO Lead · <span className="text-white/80 font-semibold">MoMo (momo.vn)</span>
+                SEO & GEO Lead ·{' '}
+                <span className="text-white/80 font-semibold">MoMo (momo.vn)</span>
               </motion.p>
               <motion.p
-                initial={{ y: 16, opacity: 0 }}
+                initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.45 }}
-                className="text-white/35 text-xs mt-1.5"
+                transition={{ delay: 0.6 }}
+                className="text-white/40 text-xs mt-2 max-w-md leading-relaxed"
               >
                 Web Growth Traffic & Web to App Optimization
               </motion.p>
               <motion.div
-                initial={{ y: 16, opacity: 0 }}
+                initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="flex flex-wrap items-center gap-3 mt-4"
+                transition={{ delay: 0.7 }}
+                className="flex flex-wrap items-center gap-3 mt-3"
               >
-                <span className="text-white/45 text-xs flex items-center gap-1.5">
-                  <Phone size={12} /> 090 6973942
+                <span className="text-white/50 text-xs flex items-center gap-1.5">
+                  <Phone size={12} />
+                  090 6973942
                 </span>
-                <span className="text-white/45 text-xs flex items-center gap-1.5">
-                  <Mail size={12} /> hien.ho@momo.vn
+                <span className="text-white/50 text-xs flex items-center gap-1.5">
+                  <Mail size={12} />
+                  hien.ho@momo.vn
                 </span>
                 <a
                   href="https://chat.google.com/dm/hien.ho@mservice.com.vn"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold transition-all hover:scale-105"
-                  style={{ background: '#A50064', color: '#fff', boxShadow: '0 2px 8px rgba(165,0,100,0.3)' }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all hover:opacity-80"
+                  style={{ background: '#AE2070', color: '#fff' }}
                 >
-                  <MessageCircle size={11} /> Chat
+                  <MessageCircle size={12} />
+                  Chat
                 </a>
               </motion.div>
             </div>
           </div>
+
+          {/* Spacer */}
+          <div className="mt-6 sm:mt-10" />
         </motion.div>
 
         {/* Content */}
