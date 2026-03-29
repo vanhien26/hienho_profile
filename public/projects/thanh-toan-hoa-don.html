@@ -1,0 +1,2476 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoMo Thanh Toán Hóa Đơn — Web Growth Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   MOMO BRAND COLORS
+   Hồng -2: #FFEFF4  Hồng -1: #FEC8DC
+   Hồng:    #FF9DBE  Hồng +1: #F95396
+   Hồng +2 (MoMo): #A50064
+   ═══════════════════════════════════════ */
+:root {
+  --momo:        #A50064;
+  --momo-dark:   #7A004A;
+  --momo-mid:    #F95396;
+  --momo-soft:   #FF9DBE;
+  --momo-pale:   #FEC8DC;
+  --momo-ghost:  #FFEFF4;
+  --pink:        #A50064;
+  --pink-light:  #FFEFF4;
+  --pink-border: #FEC8DC;
+  --green:       #00A64F;
+  --green-light: #E0F5EA;
+  --blue:        #1848B8;
+  --blue-light:  #E6EEFF;
+  --amber:       #C05000;
+  --amber-light: #FFF0E0;
+  --red:         #C42020;
+  --red-light:   #FFE8E8;
+  --ink:    #18120E;
+  --ink-2:  #4A3F38;
+  --ink-3:  #8C7D74;
+  --bg:     #F9F6F3;
+  --surface:#FFFFFF;
+  --border: #EBE4DD;
+  --r:      10px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Be Vietnam Pro',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-size:14px;
+  line-height:1.6;
+  min-height:100vh;
+}
+
+/* ═══ TOP HEADER NAV ═══ */
+.topbar {
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#FFFFFF;
+  border-bottom:1.5px solid var(--momo-pale);
+  box-shadow:0 2px 16px rgba(165,0,100,0.08);
+}
+.topbar-inner {
+  display:flex;
+  align-items:center;
+  min-height:58px;
+  padding:0 20px;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+  max-width:1280px;
+  margin:0 auto;
+}
+.topbar-inner::-webkit-scrollbar { display:none; }
+
+/* Brand */
+.topbar-brand {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding-right:20px;
+  margin-right:12px;
+  border-right:1.5px solid var(--momo-pale);
+  flex-shrink:0;
+  white-space:nowrap;
+}
+.brand-logo {
+  background:var(--momo);
+  color:white;
+  font-weight:900;
+  font-size:14px;
+  padding:4px 10px;
+  border-radius:6px;
+  letter-spacing:-0.3px;
+}
+.brand-label {
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink-3);
+  letter-spacing:0.1px;
+  white-space:nowrap;
+}
+
+/* Nav group wrapper */
+.nav-groups {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  flex:1;
+  flex-wrap:nowrap;
+}
+
+/* Each group = label + pills row */
+.nav-group {
+  display:flex;
+  align-items:center;
+  gap:2px;
+  padding:0 6px 0 4px;
+  border-right:1px solid var(--momo-pale);
+  flex-shrink:0;
+}
+.nav-group:last-child { border-right:none; }
+
+.nav-group-label {
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:0.8px;
+  text-transform:uppercase;
+  color:var(--momo-soft);
+  padding:0 6px 0 4px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+/* Nav pill buttons */
+.nav-btn {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 11px;
+  cursor:pointer;
+  color:var(--ink-2);
+  font-size:12px;
+  font-weight:600;
+  font-family:'Be Vietnam Pro',sans-serif;
+  background:none;
+  border:1.5px solid transparent;
+  border-radius:20px;
+  transition:all 0.14s ease;
+  white-space:nowrap;
+  user-select:none;
+  line-height:1;
+}
+.nav-btn:hover {
+  color:var(--momo);
+  background:var(--momo-ghost);
+  border-color:var(--momo-pale);
+}
+.nav-btn.active {
+  color:var(--momo);
+  background:var(--momo-ghost);
+  border-color:var(--momo-pale);
+  font-weight:700;
+}
+/* Active group highlight: colored left border on group */
+.nav-group:has(.nav-btn.active) .nav-group-label {
+  color:var(--momo);
+}
+
+/* Sub-items (indent feel) */
+.nav-btn.sub {
+  font-size:11.5px;
+  color:var(--ink-3);
+  padding:4px 9px;
+}
+.nav-btn.sub:hover { color:var(--momo); }
+.nav-btn.sub.active {
+  color:var(--momo);
+  background:var(--momo-ghost);
+  border-color:var(--momo-pale);
+}
+
+.topbar-meta {
+  display:flex;
+  align-items:center;
+  padding-left:16px;
+  margin-left:auto;
+  flex-shrink:0;
+  border-left:1px solid var(--momo-pale);
+  gap:8px;
+}
+.topbar-version {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--ink-3);
+  white-space:nowrap;
+}
+.topbar-badge {
+  background:var(--momo-ghost);
+  border:1px solid var(--momo-pale);
+  color:var(--momo);
+  font-size:10px;
+  font-weight:700;
+  padding:2px 7px;
+  border-radius:10px;
+  white-space:nowrap;
+}
+
+/* ═══ MAIN CONTENT ═══ */
+.content-wrap { max-width:1100px; margin:0 auto; padding:36px 32px 60px; }
+.section { display:none; }
+.section.active { display:block; }
+
+/* ═══ PAGE HEADER ═══ */
+.page-header { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:10.5px; font-weight:700; letter-spacing:1.1px; text-transform:uppercase; color:var(--momo); margin-bottom:6px; }
+.page-title { font-size:26px; font-weight:900; letter-spacing:-0.8px; line-height:1.15; color:var(--ink); margin-bottom:8px; }
+.page-desc { font-size:14px; color:var(--ink-2); max-width:700px; line-height:1.7; }
+
+/* ═══ STAT ROW ═══ */
+.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:32px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:16px 18px; }
+.stat-num { font-size:28px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:3px; }
+
+/* ═══ SECTION HEADING ═══ */
+h2.sh { font-size:17px; font-weight:800; letter-spacing:-0.3px; margin-bottom:14px; color:var(--ink); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+/* ═══ TAGS ═══ */
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.1px; white-space:nowrap; }
+.tag-tofu  { background:#E0F4E8; color:#0B6130; }
+.tag-mofu  { background:var(--blue-light); color:var(--blue); }
+.tag-bofu  { background:var(--momo-ghost); color:var(--momo); }
+.tag-p1    { background:var(--momo-ghost); color:var(--momo); }
+.tag-p2    { background:#FFF3DC; color:#8B5800; }
+.tag-p3    { background:#F0EDE8; color:var(--ink-3); }
+.tag-new   { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
+.tag-seo   { background:var(--blue-light); color:var(--blue); }
+.tag-ux    { background:var(--green-light); color:var(--green); }
+.tag-conv  { background:var(--momo-ghost); color:var(--momo); }
+.tag-trust { background:#FFF3DC; color:#8B5800; }
+.tag-geo   { background:#EDE8FF; color:#4B1DB8; border:1.5px solid #C0B0F8; }
+
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); word-break:break-all; }
+
+/* ═══ TABLES ═══ */
+.tbl-wrap { width:100%; overflow-x:auto; margin-bottom:28px; border-radius:var(--r); border:1px solid var(--border); }
+.data-table { width:100%; border-collapse:collapse; font-size:13px; min-width:500px; }
+.data-table thead tr { background:#F5F1EE; }
+.data-table th { padding:9px 13px; text-align:left; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); white-space:nowrap; }
+.data-table td { padding:10px 13px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-total { background:#F5F1EE; font-weight:700; }
+.data-table tbody tr.row-highlight { background:#F0FFF6; }
+
+/* ═══ CALLOUTS ═══ */
+.callout { border-radius:var(--r); padding:14px 18px; margin-bottom:18px; font-size:13px; line-height:1.7; }
+.callout-red    { background:var(--red-light);   border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber  { background:var(--amber-light);  border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green  { background:var(--green-light);  border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue   { background:var(--blue-light);   border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:#EDE8FF; border:1px solid #C0B0F8; color:#3A1A90; }
+.callout-momo   { background:var(--momo-ghost); border:1px solid var(--momo-pale); color:var(--momo-dark); }
+.callout-title  { font-weight:800; margin-bottom:4px; font-size:13px; }
+
+/* ═══ GRIDS ═══ */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:24px; }
+
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; margin-bottom:12px; }
+.card-title { font-size:13.5px; font-weight:700; margin-bottom:7px; color:var(--ink); }
+
+/* ═══ META GRID ═══ */
+.meta-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px; }
+.meta-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:14px 18px; }
+.meta-card-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:5px; }
+.meta-card-value { font-size:14.5px; font-weight:800; color:var(--ink); }
+.meta-card-sub { font-size:11px; color:var(--ink-3); margin-top:3px; }
+
+/* ═══ SCOPE GRID ═══ */
+.scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.scope-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.scope-card-header { padding:9px 15px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; display:flex; align-items:center; gap:7px; }
+.scope-card-body { padding:10px 15px; font-size:12.5px; color:var(--ink-2); line-height:1.7; }
+.scope-card-body li { list-style:none; padding:1px 0; }
+.scope-card-body li::before { content:"→ "; color:var(--ink-3); font-size:11px; }
+
+/* ═══ PERSONA ═══ */
+.persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.persona-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.persona-header { padding:11px 16px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:9px; }
+.persona-title { font-size:12.5px; font-weight:800; }
+.persona-body { padding:12px 16px; }
+.persona-step { display:flex; gap:9px; margin-bottom:7px; align-items:flex-start; }
+.step-num { min-width:20px; height:20px; background:var(--momo); color:white; border-radius:50%; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.step-text { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+.persona-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:7px 11px; font-size:12px; color:#0B5020; font-weight:600; margin-top:6px; }
+
+/* ═══ KEYWORD CLUSTERS ═══ */
+.kw-cluster { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
+.kw-cluster-header { background:var(--ink); color:white; padding:9px 16px; font-size:12px; font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
+.kw-cluster-body { padding:12px 16px; }
+.kw-item { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:13px; gap:8px; flex-wrap:wrap; }
+.kw-item:last-child { border-bottom:none; }
+.kw-text { font-weight:500; color:var(--ink); flex:1; min-width:0; word-break:break-word; }
+.kw-meta { display:flex; gap:6px; align-items:center; flex-shrink:0; flex-wrap:wrap; }
+.kw-vol { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-3); }
+.kw-intent { font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; }
+.kw-intent-info  { background:#E0F4E8; color:#0B6130; }
+.kw-intent-trans { background:var(--momo-ghost); color:var(--momo); }
+.kw-intent-nav   { background:var(--blue-light); color:var(--blue); }
+.kw-intent-comm  { background:var(--amber-light); color:var(--amber); }
+
+/* ═══ GEO BLOCKS ═══ */
+.geo-block { background:#F5F2FF; border:1.5px solid #C8BCFC; border-radius:var(--r); padding:14px 18px; margin-bottom:12px; }
+.geo-block-label { font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#4B1DB8; margin-bottom:7px; display:flex; align-items:center; gap:6px; }
+.geo-block-q { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:5px; font-style:italic; line-height:1.4; }
+.geo-block-a { font-size:12.5px; color:var(--ink-2); line-height:1.65; }
+.geo-block-a strong { color:var(--ink); }
+
+/* ═══ ANATOMY TABLE ═══ */
+.anatomy-wrap { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.anatomy-header-row { background:var(--ink); color:white; font-size:11px; font-weight:700; padding:9px 18px; font-family:'JetBrains Mono',monospace; }
+.anatomy-row { display:grid; grid-template-columns:28px minmax(120px,180px) 1fr auto; align-items:start; gap:12px; padding:11px 18px; border-bottom:1px solid var(--border); font-size:13px; }
+.anatomy-row:last-child { border-bottom:none; }
+.anatomy-row:hover { background:var(--bg); }
+.anatomy-order { width:26px; height:26px; border-radius:50%; background:var(--momo); color:white; font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.anatomy-section-name { font-weight:700; font-size:13px; color:var(--ink); padding-top:3px; line-height:1.4; }
+.anatomy-section-desc { font-size:12.5px; color:var(--ink-2); line-height:1.55; padding-top:3px; }
+.anatomy-section-tag { padding-top:4px; display:flex; flex-direction:column; gap:4px; }
+
+/* ═══ LINK TREE ═══ */
+.link-tree { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.link-tree-header { background:var(--ink); color:white; padding:9px 16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; }
+.link-node { padding:9px 16px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:8px; font-size:12.5px; flex-wrap:wrap; }
+.link-node:last-child { border-bottom:none; }
+.link-node.level-0 { background:var(--bg); font-weight:700; }
+.link-node.level-1 { padding-left:34px; }
+.link-node.level-2 { padding-left:52px; }
+.link-node-main { display:flex; align-items:baseline; gap:8px; flex:1; flex-wrap:wrap; min-width:0; }
+.link-node-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--momo); flex-shrink:0; }
+.link-node-desc { font-size:11.5px; color:var(--ink-3); }
+.link-arrow { color:var(--ink-3); font-size:10px; flex-shrink:0; margin-top:3px; }
+
+/* ═══ FUNNEL FLOW ═══ */
+.funnel-flow { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.funnel-stage { padding:16px 14px; border-right:1px solid var(--border); }
+.funnel-stage:last-child { border-right:none; }
+.funnel-stage-label { font-size:9.5px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:5px; }
+.funnel-stage-title { font-size:14px; font-weight:800; margin-bottom:8px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"· "; color:var(--ink-3); }
+.fs-tofu    { border-top:3px solid var(--green); }
+.fs-tofu    .funnel-stage-label { color:var(--green); }
+.fs-mofu    { border-top:3px solid var(--blue); }
+.fs-mofu    .funnel-stage-label { color:var(--blue); }
+.fs-bofu    { border-top:3px solid var(--momo); }
+.fs-bofu    .funnel-stage-label { color:var(--momo); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+
+/* ═══ SITEMAP TREE ═══ */
+.sitemap-tree { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.sitemap-header { background:var(--ink); color:white; padding:10px 18px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.sitemap-header-title { font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:600; }
+.sitemap-row { padding:10px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.sitemap-row:last-child { border-bottom:none; }
+.sitemap-row.pillar { background:var(--momo-ghost); font-weight:800; font-size:13px; }
+.sitemap-row.cluster { padding-left:36px; font-size:13px; }
+.sitemap-row.sub { padding-left:54px; font-size:12.5px; color:var(--ink-2); }
+.sitemap-row.vts-row { padding-left:36px; font-size:13px; background:#F5F2FF; }
+.sitemap-url { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--momo); flex-shrink:0; }
+.sitemap-desc { flex:1; font-size:12.5px; color:var(--ink-2); min-width:0; }
+.sitemap-priority { font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; flex-shrink:0; }
+
+/* ═══ ADS BLOCKS ═══ */
+.ads-block { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
+.ads-block-header { background:var(--amber-light); border-bottom:1.5px solid #FFD0A0; padding:9px 16px; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.ads-block-title { font-size:11.5px; font-weight:800; color:var(--amber); text-transform:uppercase; letter-spacing:0.5px; }
+.ads-block-body { padding:14px 18px; font-size:13px; color:var(--ink-2); line-height:1.6; }
+.ads-unit { border:1.5px dashed var(--border); border-radius:8px; padding:11px 14px; margin-bottom:10px; background:var(--bg); }
+.ads-unit-label { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:var(--ink-3); margin-bottom:5px; }
+.ads-cta-preview { background:linear-gradient(135deg,var(--momo) 0%,var(--momo-mid) 100%); border-radius:8px; padding:12px 16px; color:white; margin-top:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.ads-cta-text { font-size:13px; font-weight:700; }
+.ads-cta-sub { font-size:11px; opacity:0.75; margin-top:2px; }
+.ads-cta-btn-preview { background:white; color:var(--momo); font-size:12px; font-weight:800; padding:7px 14px; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+
+/* ═══ SIMULATOR ═══ */
+.sim-wrap { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.sim-header { background:var(--momo); padding:20px 24px 18px; position:relative; overflow:hidden; }
+.sim-header-deco { position:absolute; right:-30px; top:-30px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%); pointer-events:none; }
+.sim-brand-pill { background:white; color:var(--momo); font-weight:900; font-size:12px; padding:3px 9px; border-radius:5px; letter-spacing:-0.3px; display:inline-block; margin-bottom:9px; }
+.sim-header h3 { font-size:19px; font-weight:900; color:white; letter-spacing:-0.4px; line-height:1.2; margin-bottom:4px; }
+.sim-header h3 span { color:var(--momo-pale); }
+.sim-header-sub { font-size:12.5px; color:rgba(255,255,255,0.6); }
+.sim-body { padding:22px 24px; }
+.sim-input-row { margin-bottom:18px; }
+.sim-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-2); margin-bottom:7px; display:block; }
+.sim-amount-display { display:inline-flex; align-items:center; gap:7px; background:var(--momo-ghost); border:1.5px solid var(--momo-pale); border-radius:6px; padding:4px 12px; margin-bottom:8px; }
+.sim-amount-val { font-family:'JetBrains Mono',monospace; font-size:17px; font-weight:700; color:var(--momo); }
+.sim-slider { width:100%; height:6px; border-radius:3px; -webkit-appearance:none; background:linear-gradient(to right,var(--momo) var(--pct,5%),var(--border) var(--pct,5%)); outline:none; cursor:pointer; }
+.sim-slider::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:var(--momo); border:2px solid white; box-shadow:0 2px 8px rgba(165,0,100,0.35); cursor:pointer; }
+.ky-btn { padding:7px 14px; border:1.5px solid var(--border); border-radius:7px; cursor:pointer; font-family:'Be Vietnam Pro',sans-serif; font-size:12.5px; font-weight:700; color:var(--ink-3); background:var(--surface); transition:all 0.12s; }
+.ky-btn:hover { border-color:var(--momo-soft); color:var(--momo); }
+.ky-btn.active-ky { border-color:var(--momo); color:var(--momo); background:var(--momo-ghost); }
+.sim-result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px; }
+.sim-result-card { background:var(--bg); border:1.5px solid var(--border); border-radius:8px; padding:12px 14px; }
+.sim-result-card.highlight { background:var(--momo-ghost); border-color:var(--momo-pale); }
+.sim-result-label { font-size:10.5px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.3px; margin-bottom:4px; }
+.sim-result-val { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; color:var(--ink); line-height:1; }
+.sim-result-val.momo { color:var(--momo); }
+.sim-result-sub { font-size:11px; color:var(--ink-3); margin-top:3px; }
+.sim-cta { display:flex; align-items:center; gap:12px; margin-top:20px; padding-top:18px; border-top:1px solid var(--border); flex-wrap:wrap; }
+.sim-cta-btn { background:var(--momo); color:white; border:none; border-radius:8px; padding:10px 22px; font-size:13.5px; font-weight:800; cursor:pointer; font-family:'Be Vietnam Pro',sans-serif; transition:background 0.12s; }
+.sim-cta-btn:hover { background:var(--momo-dark); }
+.sim-cta-note { font-size:11.5px; color:var(--ink-3); line-height:1.5; }
+
+/* ═══ CROSS-SELL ═══ */
+.cross-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:14px; }
+.cross-card-header { padding:11px 16px; background:var(--green-light); border-bottom:1px solid #A0DEB8; display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+.cross-card-brand { font-size:13px; font-weight:800; color:#005A28; }
+.cross-card-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); word-break:break-all; }
+.cross-card-body { padding:12px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.cross-trigger { background:var(--momo-ghost); border:1px solid var(--momo-pale); border-radius:6px; padding:8px 11px; font-size:12px; color:var(--momo-dark); margin-top:8px; display:flex; align-items:flex-start; gap:7px; line-height:1.55; }
+
+/* ═══ CONTENT BLOCK ═══ */
+.content-spec { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.content-spec-header { background:var(--ink); color:white; padding:10px 18px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
+.content-spec-title { font-size:13px; font-weight:700; }
+.content-spec-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.5); }
+.content-spec-body { padding:16px 18px; }
+.content-spec-row { display:grid; grid-template-columns:140px 1fr; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); font-size:12.5px; }
+.content-spec-row:last-child { border-bottom:none; }
+.cs-label { font-weight:700; color:var(--ink-3); font-size:11px; text-transform:uppercase; letter-spacing:0.3px; padding-top:2px; }
+.cs-value { color:var(--ink-2); line-height:1.55; }
+
+/* ═══ INTERNAL LINK MAP ═══ */
+.il-matrix { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.il-matrix-header { background:var(--ink); color:white; padding:10px 18px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; display:flex; justify-content:space-between; align-items:center; }
+.il-row { display:flex; align-items:flex-start; gap:0; border-bottom:1px solid var(--border); }
+.il-row:last-child { border-bottom:none; }
+.il-source { padding:10px 14px; width:200px; flex-shrink:0; font-size:12px; font-weight:700; border-right:1px solid var(--border); background:var(--bg); }
+.il-source code { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--momo); display:block; font-weight:400; margin-top:2px; }
+.il-links { padding:10px 14px; flex:1; display:flex; flex-wrap:wrap; gap:6px; }
+.il-link-pill { background:var(--blue-light); color:var(--blue); font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:4px; font-family:'JetBrains Mono',monospace; }
+.il-link-pill.anchor { background:var(--momo-ghost); color:var(--momo); }
+.il-link-pill.cross { background:var(--green-light); color:var(--green); }
+
+@media(max-width:768px) {
+  .content-wrap { padding:24px 16px 48px; }
+  .stat-row { grid-template-columns:1fr 1fr; }
+  .grid-3 { grid-template-columns:1fr; }
+  .grid-2 { grid-template-columns:1fr; }
+  .scope-grid { grid-template-columns:1fr; }
+  .persona-grid { grid-template-columns:1fr; }
+  .meta-grid { grid-template-columns:1fr 1fr; }
+  .funnel-flow { grid-template-columns:1fr 1fr; }
+  .sim-result-grid { grid-template-columns:1fr 1fr; }
+  .anatomy-row { grid-template-columns:28px 1fr; }
+  .anatomy-section-tag { display:none; }
+  .il-source { width:130px; }
+  .content-spec-row { grid-template-columns:1fr; }
+  .cs-label { font-size:10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOPBAR ═══ -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <div class="brand-logo">MoMo</div>
+      <div class="brand-label">Thanh Toán Hóa Đơn · Web Growth</div>
+    </div>
+
+    <div class="nav-groups">
+
+      <!-- GROUP 1: OVERVIEW -->
+      <div class="nav-group">
+        <span class="nav-group-label">Overview</span>
+        <button class="nav-btn active" onclick="showSection('s-overview')" id="btn-s-overview">📋 Overview</button>
+        <button class="nav-btn sub" onclick="showSection('s-keyword')" id="btn-s-keyword">🔍 Keywords</button>
+        <button class="nav-btn sub" onclick="showSection('s-jtbd')" id="btn-s-jtbd">🎯 JTBDs</button>
+        <button class="nav-btn sub" onclick="showSection('s-sitemap')" id="btn-s-sitemap">🗺 Sitemap</button>
+      </div>
+
+      <!-- GROUP 2: CONTENT -->
+      <div class="nav-group">
+        <span class="nav-group-label">Content</span>
+        <button class="nav-btn sub" onclick="showSection('s-content')" id="btn-s-content">📄 Content Structure</button>
+        <button class="nav-btn sub" onclick="showSection('s-pillar')" id="btn-s-pillar">🏛 Pillar / Cluster Blog</button>
+        <button class="nav-btn sub" onclick="showSection('s-niches')" id="btn-s-niches">🎨 Content Niches</button>
+      </div>
+
+      <!-- GROUP 3: GROWTH -->
+      <div class="nav-group">
+        <span class="nav-group-label">Growth</span>
+        <button class="nav-btn sub" onclick="showSection('s-subpages')" id="btn-s-subpages">📑 Sub-pages</button>
+        <button class="nav-btn sub" onclick="showSection('s-pagestructure')" id="btn-s-pagestructure">🏗 Page Structure</button>
+        <button class="nav-btn sub" onclick="showSection('s-simulator')" id="btn-s-simulator">🧮 Simulation</button>
+      </div>
+
+      <!-- GROUP 4: TACTICS -->
+      <div class="nav-group">
+        <span class="nav-group-label">Tactics</span>
+        <button class="nav-btn sub" onclick="showSection('s-ads')" id="btn-s-ads">📢 Ads Embed</button>
+        <button class="nav-btn sub" onclick="showSection('s-popup')" id="btn-s-popup">💬 Popup / Balloon</button>
+        <button class="nav-btn sub" onclick="showSection('s-links')" id="btn-s-links">🔗 Internal Links</button>
+      </div>
+
+      <!-- GROUP 5: ON PROD -->
+      <div class="nav-group">
+        <span class="nav-group-label">On Prod</span>
+        <button class="nav-btn sub" onclick="showSection('s-checklist')" id="btn-s-checklist">✅ Publish Checklist</button>
+        <button class="nav-btn sub" onclick="showSection('s-offpage')" id="btn-s-offpage">🔗 Off-page</button>
+      </div>
+
+    </div>
+
+    <div class="topbar-meta">
+      <div class="topbar-badge">v1.0</div>
+      <div class="topbar-version">Mar 2026</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════ MAIN WRAP ════ -->
+<div class="content-wrap">
+
+<!-- ════════════════════════════════════
+     0. OVERVIEW
+     ════════════════════════════════════ -->
+<section class="section active" id="s-overview">
+  <div class="page-header">
+    <div class="page-eyebrow">Web Growth Document — momo.vn/thanh-toan-hoa-don</div>
+    <div class="page-title">Dự án Thanh Toán Hóa Đơn</div>
+    <div class="page-desc">Chiến lược Web Growth toàn diện cho cluster Thanh Toán Hóa Đơn của MoMo - bao gồm Keyword Research, Sitemap, Content Structure, SEO/GEO, Simulator Trả Góp, Ads Embed Blog và Internal Link Building.</div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="meta-card-label">URL Chính</div>
+      <div class="meta-card-value">momo.vn/thanh-toan-hoa-don</div>
+      <div class="meta-card-sub">Hub page - điều phối toàn cluster</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-card-label">Tổng Sub-pages</div>
+      <div class="meta-card-value">14 trang</div>
+      <div class="meta-card-sub">8 trang dịch vụ + 1 trang tra cứu</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-card-label">Phiên bản tài liệu</div>
+      <div class="meta-card-value">v1.0 - Tháng 3/2026</div>
+      <div class="meta-card-sub">Tool tra cứu hóa đơn tích hợp</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📌 Context sản phẩm</h2>
+  <div class="callout callout-momo">
+    <div class="callout-title">⚡ Thanh Toán Hóa Đơn - Core Utility của MoMo Super App</div>
+    MoMo hiện hỗ trợ thanh toán hơn 500 dịch vụ bao gồm: Điện (EVN các miền), Nước, Internet (FPT/VNPT/Viettel), Di động trả sau, Truyền hình cáp (K+/VTVcab), Học phí, Phí chung cư, Bảo hiểm, Dịch vụ công, ETC phí không dừng và nhiều hơn nữa. Đây là feature có <strong>tần suất dùng cao nhất</strong> trong toàn bộ hệ sinh thái MoMo - tạo retention và habit loop mạnh nhất. Web hiện tại chưa khai thác được organic traffic từ hàng chục nghìn search query liên quan đến từng dịch vụ cụ thể.
+  </div>
+
+  <div class="scope-grid">
+    <div class="scope-card">
+      <div class="scope-card-header" style="background:var(--green-light);color:#006B30;">✅ Trong scope tài liệu này</div>
+      <div class="scope-card-body">
+        <li>Hub page <code class="url">/thanh-toan-hoa-don</code> + anatomy</li>
+        <li>8 sub-pages dịch vụ: /dien, /nuoc, /internet, /di-dong-tra-sau, /truyen-hinh, /hoc-phi, /chung-cu, /bao-hiem</li>
+        <li>Component tra cứu hóa đơn (Điện/Nước/Internet/Di động)</li>
+        <li>Trang tra cứu / công cụ tiện ích</li>
+        <li>Simulator Trả Góp - phí 76K/tháng fixed</li>
+        <li>Keyword research - intent mapping toàn cluster</li>
+        <li>GEO/AEO content: AI-optimized answers</li>
+        <li>Ads Embed Blog - 4 native ad unit variants</li>
+        <li>Internal Link Building matrix toàn cluster</li>
+      </div>
+    </div>
+    <div class="scope-card">
+      <div class="scope-card-header" style="background:var(--red-light);color:#8B1A1A;">❌ Ngoài scope</div>
+      <div class="scope-card-body">
+        <li>App UX / in-app flow (thuộc Product team)</li>
+        <li>Paid search / Google Ads campaigns</li>
+        <li>Backend API tích hợp nhà cung cấp</li>
+        <li>Legal compliance dịch vụ tiện ích</li>
+        <li>CRM / push notification strategy</li>
+        <li>Pricing / fee negotiation với đối tác</li>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 Business Context - Tại sao cần Web Growth mạnh cho cluster này</h2>
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid var(--momo);">
+      <div class="card-title">🔥 Search demand cực cao</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">
+        "Thanh toán tiền điện online", "đóng tiền nước qua momo", "tra cứu hóa đơn điện EVN" - những query này có tổng SV hàng trăm nghìn/tháng. User đang tìm cách trả hóa đơn ngay - intent rất cao, cần landing page chuyên biệt.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">🎯 SERP hiện tại yếu</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">
+        MoMo hiện chỉ có 1 trang hub chung tại /thanh-toan-hoa-don - không có sub-page chuyên biệt cho từng dịch vụ. SERP dominated bởi blog hướng dẫn từ bên thứ 3, không phải trang chính thức MoMo. Đây là cơ hội quick win rõ ràng.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-title">💡 Tool tra cứu tạo habit loop</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">
+        User tìm "tra cứu hóa đơn điện" → dùng tool trên web → thanh toán qua app. Đây là Utility Web Bridge pattern: web giải quyết nhu cầu tra cứu, app close giao dịch. Mỗi lần dùng tool = một touchpoint củng cố thói quen dùng MoMo.
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🎯 Mục tiêu tăng trưởng</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Mục tiêu</th><th>KPI</th><th>Thời hạn</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Organic Traffic cluster</strong></td><td>+300% sessions/tháng từ organic search</td><td>6 tháng</td><td>SEO Lead</td></tr>
+        <tr><td><strong>SERP Position</strong></td><td>Top 3 cho 8 head terms dịch vụ chính</td><td>4 tháng</td><td>SEO Lead + Content</td></tr>
+        <tr><td><strong>Web-to-App CVR</strong></td><td>CVR web → app install/open ≥ 7%</td><td>3 tháng</td><td>Growth + Dev</td></tr>
+        <tr><td><strong>GEO Visibility</strong></td><td>MoMo được cite trong top AI answers về thanh toán hóa đơn online</td><td>5 tháng</td><td>SEO Lead</td></tr>
+        <tr class="row-highlight"><td><strong>Simulator Engagement</strong></td><td>Avg time-on-page ≥ 90s, simulator interaction ≥ 35%</td><td>1 tháng sau launch</td><td>UX + Growth</td></tr>
+              </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">👤 Target Persona</h2>
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-header"><span style="font-size:20px;">👨‍👩‍👧</span><div class="persona-title">Hộ gia đình trẻ (Core)</div></div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Nhận thông báo hóa đơn điện/nước tháng này cao bất thường</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Lương chưa về, tài khoản không đủ để thanh toán đúng hạn</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Tìm "thanh toán tiền điện online MoMo", "cách đóng tiền nước qua điện thoại"</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: Trả ngay qua app, lưu mã KH tự động, nhắc hạn tháng sau</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header"><span style="font-size:20px;">📡</span><div class="persona-title">User cần tra cứu hóa đơn</div></div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Muốn biết số tiền điện tháng này trước khi đến hạn đóng</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Tìm "tra cứu hóa đơn tiền điện EVN", "kiểm tra hóa đơn nước online"</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Landing trên trang tra cứu, nhập mã khách hàng để xem số tiền</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: Tool tra cứu hóa đơn tích hợp → CTA thanh toán ngay</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header"><span style="font-size:20px;">🏢</span><div class="persona-title">Sinh viên / Người thuê nhà</div></div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Chủ nhà giao nhiệm vụ đóng tiền điện/nước hàng tháng</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Chưa biết cách đóng, tìm hướng dẫn cụ thể theo nhà cung cấp</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Cần hướng dẫn step-by-step, ảnh minh họa rõ ràng</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: Guide chi tiết theo từng nhà cung cấp + app deep link</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header"><span style="font-size:20px;">💳</span><div class="persona-title">User cần tra cứu trước khi đóng</div></div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Hóa đơn điện/nước đến hạn nhưng chưa có tiền trong ví</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Không muốn bị cắt điện/nước, cần giải pháp thanh toán liền</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Tìm "tra cứu hóa đơn điện online", "xem số tiền điện tháng này"</div></div>
+        <div class="persona-result">✅ MoMo giải quyết: Tool tra cứu hóa đơn trên web → CTA thanh toán ngay qua app</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     1. KEYWORD RESEARCH
+     ════════════════════════════════════ -->
+<section class="section" id="s-keyword">
+  <div class="page-header">
+    <div class="page-eyebrow">Keyword Research — momo.vn/thanh-toan-hoa-don</div>
+    <div class="page-title">Thị trường từ khóa Thanh Toán Hóa Đơn</div>
+    <div class="page-desc">Phân tích keyword cluster, search intent, cơ hội cạnh tranh và priority mapping cho toàn bộ cluster Thanh Toán Hóa Đơn tại Việt Nam.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--momo)">~85K</div><div class="stat-lbl">SV/tháng - tổng cluster</div><div class="stat-sub">Ước tính aggregated (cần verify Ahrefs)</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">~28K</div><div class="stat-lbl">SV - "thanh toán tiền điện"</div><div class="stat-sub">Head term lớn nhất, BOFU cao</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green)">~12K</div><div class="stat-lbl">SV - "tra cứu hóa đơn"</div><div class="stat-sub">Tool intent - high engagement</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber)">~9K</div><div class="stat-lbl">SV - "đóng tiền nước MoMo"</div><div class="stat-sub">Branded - high conversion</div></div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Ghi chú số liệu SV</div>
+    Volume ước tính tham chiếu từ Google Trends + Keyword Planner (cần verify lại bằng GSC thực tế + Ahrefs/Semrush). Cluster "điện" và "tra cứu hóa đơn" là priority vì <strong>BOFU intent cao nhất + competition từ landing page MoMo hiện tại thấp</strong>. Cluster "tra cứu hóa đơn điện/nước" là quick win rõ nhất khi có tool tích hợp.
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header"><span>Cluster 1 — Thanh Toán Tiền Điện (Top Priority)</span><span class="tag tag-bofu">BOFU</span></div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">thanh toán tiền điện online</span><div class="kw-meta"><span class="kw-vol">~18.4K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">đóng tiền điện qua momo</span><div class="kw-meta"><span class="kw-vol">~7.2K</span><span class="kw-intent kw-intent-nav">Nav</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">cách thanh toán tiền điện EVN online</span><div class="kw-meta"><span class="kw-vol">~5.6K</span><span class="kw-intent kw-intent-info">Info</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">tra cứu hóa đơn tiền điện EVN</span><div class="kw-meta"><span class="kw-vol">~9.1K</span><span class="kw-intent kw-intent-info">Info</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">thanh toán điện không đủ tiền phải làm sao</span><div class="kw-meta"><span class="kw-vol">~3.2K</span><span class="kw-intent kw-intent-info">Info</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">thanh toán tiền điện trả sau momo</span><div class="kw-meta"><span class="kw-vol">~2.1K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">momo thanh toán điện miễn phí không</span><div class="kw-meta"><span class="kw-vol">~1.8K</span><span class="kw-intent kw-intent-comm">Comm</span><span class="tag tag-p2">P2</span></div></div>
+    </div>
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header"><span>Cluster 2 — Thanh Toán Tiền Nước</span><span class="tag tag-bofu">BOFU</span></div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">đóng tiền nước online</span><div class="kw-meta"><span class="kw-vol">~11.2K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">thanh toán hóa đơn nước qua momo</span><div class="kw-meta"><span class="kw-vol">~4.8K</span><span class="kw-intent kw-intent-nav">Nav</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">tra cứu hóa đơn tiền nước online</span><div class="kw-meta"><span class="kw-vol">~3.9K</span><span class="kw-intent kw-intent-info">Info</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">cách đóng tiền nước không cần ra ngoài</span><div class="kw-meta"><span class="kw-vol">~2.4K</span><span class="kw-intent kw-intent-info">Info</span><span class="tag tag-p2">P2</span></div></div>
+      <div class="kw-item"><span class="kw-text">đóng tiền nước trả sau momo</span><div class="kw-meta"><span class="kw-vol">~1.7K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+    </div>
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header"><span>Cluster 3 — Internet / Wifi</span><span class="tag tag-bofu">BOFU</span></div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">thanh toán internet FPT online</span><div class="kw-meta"><span class="kw-vol">~8.3K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">đóng tiền wifi VNPT qua momo</span><div class="kw-meta"><span class="kw-vol">~3.5K</span><span class="kw-intent kw-intent-nav">Nav</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">gia hạn internet viettel online</span><div class="kw-meta"><span class="kw-vol">~5.1K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p2">P2</span></div></div>
+      <div class="kw-item"><span class="kw-text">thanh toán cước internet trả sau</span><div class="kw-meta"><span class="kw-vol">~1.4K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+    </div>
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header"><span>Cluster 4 — Di Động Trả Sau / Điện Thoại</span><span class="tag tag-bofu">BOFU</span></div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">thanh toán cước điện thoại trả sau viettel</span><div class="kw-meta"><span class="kw-vol">~6.7K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">đóng cước mobifone qua momo</span><div class="kw-meta"><span class="kw-vol">~2.9K</span><span class="kw-intent kw-intent-nav">Nav</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">nạp tiền điện thoại trả sau</span><div class="kw-meta"><span class="kw-vol">~4.1K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">thanh toán hóa đơn vinaphone online</span><div class="kw-meta"><span class="kw-vol">~3.3K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p2">P2</span></div></div>
+    </div>
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header"><span>Cluster 5 — Truyền Hình / Học Phí / Khác</span><span class="tag tag-mofu">MOFU</span></div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">gia hạn K+ qua momo</span><div class="kw-meta"><span class="kw-vol">~2.8K</span><span class="kw-intent kw-intent-nav">Nav</span><span class="tag tag-p2">P2</span></div></div>
+      <div class="kw-item"><span class="kw-text">đóng học phí online momo</span><div class="kw-meta"><span class="kw-vol">~3.7K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">thanh toán phí chung cư online</span><div class="kw-meta"><span class="kw-vol">~2.1K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p2">P2</span></div></div>
+      <div class="kw-item"><span class="kw-text">đóng phí bảo hiểm qua momo</span><div class="kw-meta"><span class="kw-vol">~1.9K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p2">P2</span></div></div>
+      <div class="kw-item"><span class="kw-text">thanh toán ETC phí không dừng momo</span><div class="kw-meta"><span class="kw-vol">~1.4K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p3">P3</span></div></div>
+    </div>
+  </div>
+
+  <div class="kw-cluster">
+    <div class="kw-cluster-header"><span>Cluster 6 — Tra Cứu Trước Thanh Toán (Tool Intent)</span><span class="tag tag-bofu">BOFU</span></div>
+    <div class="kw-cluster-body">
+      <div class="kw-item"><span class="kw-text">thanh toán điện nước không đủ tiền</span><div class="kw-meta"><span class="kw-vol">~4.2K</span><span class="kw-intent kw-intent-info">Info</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">trả tiền điện trả góp momo</span><div class="kw-meta"><span class="kw-vol">~2.3K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">đóng hóa đơn trả sau momo</span><div class="kw-meta"><span class="kw-vol">~1.8K</span><span class="kw-intent kw-intent-trans">Trans</span><span class="tag tag-p1">P1</span></div></div>
+      <div class="kw-item"><span class="kw-text">momo trả sau thanh toán hóa đơn miễn phí</span><div class="kw-meta"><span class="kw-vol">~1.2K</span><span class="kw-intent kw-intent-comm">Comm</span><span class="tag tag-p1">P1</span></div></div>
+    </div>
+  </div>
+
+  <h2 class="sh">🏆 Competitive Landscape</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Domain</th><th>Chiến lược hiện tại</th><th>Điểm yếu - Cơ hội MoMo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>momo.vn</strong></td><td>1 hub page duy nhất, thin content, không có sub-page theo dịch vụ</td><td>❌ Đang để tuột toàn bộ long-tail traffic về dịch vụ cụ thể</td></tr>
+        <tr><td><strong>zalopay.vn</strong></td><td>Tương tự MoMo - có trang tổng, thiếu sub-pages</td><td>✅ MoMo có brand recall mạnh hơn, thêm sub-page sẽ dominates</td></tr>
+        <tr><td><strong>Blog bên thứ 3</strong> (bachhoaxanh, fptshop, cellphones)</td><td>Viết hướng dẫn "Cách đóng tiền điện qua MoMo" - ranking tốt</td><td>⚠️ Đây là traffic nên về trang chính thức MoMo, không phải blog khác</td></tr>
+        <tr><td><strong>evn.com.vn, sawaco.com.vn</strong></td><td>Landing page tra cứu hóa đơn chính thức</td><td>✅ MoMo có thể cạnh tranh bằng UX tốt hơn + tích hợp thanh toán ngay</td></tr>
+        <tr class="row-highlight"><td><strong>MoMo với sub-pages mới</strong></td><td>Sub-page /dien, /nuoc, /internet chuyên biệt + GEO-optimized</td><td>✅ First-mover advantage trong category landing page chính thức</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     2. SITEMAP
+     ════════════════════════════════════ -->
+<section class="section" id="s-sitemap">
+  <div class="page-header">
+    <div class="page-eyebrow">Sitemap Web Growth — Cluster Thanh Toán Hóa Đơn</div>
+    <div class="page-title">Kiến trúc URL & Sitemap</div>
+    <div class="page-desc">Cấu trúc flat URL cho từng dịch vụ (momo.vn/dien, momo.vn/nuoc...) kết hợp với trang tra cứu và hub chính, tạo Internal Link network chặt chẽ trong cluster hóa đơn.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📐 Nguyên tắc cấu trúc URL</div>
+    Các trang dịch vụ dùng <strong>flat URL</strong> (không nested) vì mỗi dịch vụ là một landing page độc lập, không phụ thuộc vào nhau. Trang tra cứu hóa đơn <code class="url">/tra-cuu-hoa-don</code> đóng vai tool hỗ trợ chung cho toàn cluster. Tất cả kết nối hai chiều qua hub <code class="url">/thanh-toan-hoa-don</code> bằng Internal Link.
+  </div>
+
+  <div class="sitemap-tree">
+    <div class="sitemap-header">
+      <div class="sitemap-header-title">🗺 Sitemap — momo.vn / Thanh Toán Hóa Đơn Cluster</div>
+      <span class="tag tag-p1">9 Pages</span>
+    </div>
+
+    <div class="sitemap-row pillar">
+      <span class="sitemap-url">/thanh-toan-hoa-don</span>
+      <span style="flex:1;font-size:13px;">Hub Page - Thanh Toán Hóa Đơn (Tất cả dịch vụ)</span>
+      <span class="sitemap-priority tag-p1 tag">Hub · P1</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/dien</span>
+      <span class="sitemap-desc">Thanh toán tiền điện (EVN HCMC / Hà Nội / Miền Bắc / Miền Nam / Miền Trung)</span>
+      <span class="sitemap-priority tag-p1 tag">P1 · ~28K SV</span>
+    </div>
+    <div class="sitemap-row sub">
+      <span>↪ Tracker: lưu mã KH, nhắc lịch đóng hàng tháng</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/nuoc</span>
+      <span class="sitemap-desc">Thanh toán tiền nước (Sawaco, Hawaco, Dawaco và 50+ công ty cấp nước)</span>
+      <span class="sitemap-priority tag-p1 tag">P1 · ~15K SV</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/internet</span>
+      <span class="sitemap-desc">Thanh toán internet / wifi (FPT, VNPT, Viettel, Tây Đô...)</span>
+      <span class="sitemap-priority tag-p1 tag">P1 · ~17K SV</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/di-dong-tra-sau</span>
+      <span class="sitemap-desc">Thanh toán cước di động trả sau (Viettel, MobiFone, Vinaphone, Vietnamobile)</span>
+      <span class="sitemap-priority tag-p1 tag">P1 · ~13K SV</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/truyen-hinh</span>
+      <span class="sitemap-desc">Thanh toán truyền hình cáp (K+, VTVcab, SCTV, Viettel TV, FPT Play)</span>
+      <span class="sitemap-priority tag-p2 tag">P2 · ~5K SV</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/hoc-phi</span>
+      <span class="sitemap-desc">Đóng học phí online (hệ thống học đường, đại học, trung tâm anh ngữ)</span>
+      <span class="sitemap-priority tag-p2 tag">P2 · ~4K SV</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/chung-cu</span>
+      <span class="sitemap-desc">Thanh toán phí quản lý chung cư / phí dịch vụ tòa nhà</span>
+      <span class="sitemap-priority tag-p2 tag">P2 · ~2K SV</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/bao-hiem</span>
+      <span class="sitemap-desc">Đóng phí bảo hiểm (bảo hiểm xe, y tế tự nguyện, nhân thọ)</span>
+      <span class="sitemap-priority tag-p2 tag">P2 · ~2K SV</span>
+    </div>
+
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/tra-cuu-hoa-don</span>
+      <span class="sitemap-desc">Tool tra cứu hóa đơn điện/nước online - nhập mã KH xem số tiền</span>
+      <span class="sitemap-priority tag-new tag">Tool · ~12K SV</span>
+    </div>
+
+  </div>
+
+  <h2 class="sh">🔄 User Flow - Web to App Funnel</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU - Awareness</div>
+      <div class="funnel-stage-title">Tìm kiếm dịch vụ</div>
+      <ul class="funnel-stage-items">
+        <li>"thanh toán tiền điện online"</li>
+        <li>"tra cứu hóa đơn nước"</li>
+        <li>"cách đóng tiền internet FPT"</li>
+        <li>Landing trang /dien, /nuoc, /internet</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU - Consideration</div>
+      <div class="funnel-stage-title">Tìm hiểu tính năng</div>
+      <ul class="funnel-stage-items">
+        <li>Đọc hướng dẫn step-by-step</li>
+        <li>Dùng tool tra cứu hóa đơn</li>
+        <li>So sánh với app khác</li>
+        <li>Đọc FAQ, trust signal</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU - Decision</div>
+      <div class="funnel-stage-title">Quyết định thanh toán</div>
+      <ul class="funnel-stage-items">
+        <li>Click CTA "Tải MoMo ngay"</li>
+        <li>Scan QR mở app</li>
+        <li>Click deep link từ trang</li>
+        <li>Tìm app store từ web</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT</div>
+      <div class="funnel-stage-title">App Install + Dùng</div>
+      <ul class="funnel-stage-items">
+        <li>Cài MoMo lần đầu</li>
+        <li>Mở lại app từ deep link</li>
+        <li>Thanh toán hóa đơn</li>
+        <li>Đặt nhắc lịch tháng sau</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     3. CONTENT STRUCTURE
+     ════════════════════════════════════ -->
+<section class="section" id="s-content">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Structure — từng trang trong cluster</div>
+    <div class="page-title">Anatomy Content từng trang</div>
+    <div class="page-desc">Content blueprint chi tiết cho Hub page và 3 sub-pages ưu tiên cao nhất. Các trang còn lại follow template tương tự với thay đổi provider-specific content.</div>
+  </div>
+
+  <!-- Hub Page -->
+  <div class="content-spec">
+    <div class="content-spec-header">
+      <div class="content-spec-title">📋 Hub Page — Thanh Toán Hóa Đơn</div>
+      <div class="content-spec-url">momo.vn/thanh-toan-hoa-don</div>
+    </div>
+    <div class="content-spec-body">
+      <div class="content-spec-row"><div class="cs-label">H1</div><div class="cs-value"><strong>Thanh Toán Hóa Đơn Online Nhanh - An Toàn - Miễn Phí | MoMo</strong></div></div>
+      <div class="content-spec-row"><div class="cs-label">Meta Title</div><div class="cs-value">Thanh Toán Hóa Đơn Điện Nước Internet Online qua MoMo | Nhanh - Miễn Phí</div></div>
+      <div class="content-spec-row"><div class="cs-label">Meta Desc</div><div class="cs-value">Thanh toán hóa đơn Điện, Nước, Internet, Truyền hình, Học phí, Bảo hiểm... ngay trên MoMo. 30M+ người dùng. Miễn phí giao dịch. Nhắc hạn tự động. Tải app ngay!</div></div>
+      <div class="content-spec-row"><div class="cs-label">Hero Section</div><div class="cs-value">Headline: "Mọi hóa đơn, một chạm" | Sub: 10+ loại dịch vụ, thanh toán 24/7 | CTA "Thanh toán ngay" + QR App Store | Trust badges: 30M users, miễn phí, bảo mật PCI DSS</div></div>
+      <div class="content-spec-row"><div class="cs-label">Service Grid</div><div class="cs-value">Grid 4x2: Điện ⚡ / Nước 💧 / Internet 📡 / Di động 📱 / Truyền hình 📺 / Học phí 🎓 / Chung cư 🏢 / Bảo hiểm 🛡 - mỗi icon link đến sub-page tương ứng</div></div>
+      <div class="content-spec-row"><div class="cs-label">Featured Tool</div><div class="cs-value">Widget tra cứu hóa đơn nhanh: chọn loại dịch vụ → nhập mã KH → xem số tiền cần trả → CTA thanh toán (deep link app)</div></div>
+      <div class="content-spec-row"><div class="cs-label">USP Section</div><div class="cs-value">3 cột: Miễn phí giao dịch / Nhắc hạn tự động / Lịch sử 6 tháng / Thanh toán hộ người thân / Tra cứu hóa đơn ngay trên web</div></div>
+      <div class="content-spec-row"><div class="cs-label">Featured Tool</div><div class="cs-value">Widget tra cứu hóa đơn: chọn loại dịch vụ → nhập mã KH → xem số tiền cần trả → CTA "Thanh toán ngay" (deep link app). Đây là conversion tool chính của hub page.</div></div>
+      <div class="content-spec-row"><div class="cs-label">FAQ / GEO</div><div class="cs-value">8-10 Q&A schema markup: "Thanh toán hóa đơn qua MoMo có mất phí không?", "MoMo hỗ trợ đóng tiền điện tỉnhnh nào?", "Làm sao lưu mã hóa đơn để tháng sau không nhập lại?"...</div></div>
+      <div class="content-spec-row"><div class="cs-label">Internal Links</div><div class="cs-value">Link ra 8 sub-pages dịch vụ + /tra-cuu-hoa-don + /doi-tac (EVN, FPT, Viettel)</div></div>
+      <div class="content-spec-row"><div class="cs-label">Word Count</div><div class="cs-value">~1,200-1,500 words (hub page không cần quá dài, tập trung navigation + conversion)</div></div>
+    </div>
+  </div>
+
+  <!-- Trang Điện -->
+  <div class="content-spec">
+    <div class="content-spec-header">
+      <div class="content-spec-title">⚡ Sub-page: Thanh Toán Tiền Điện</div>
+      <div class="content-spec-url">momo.vn/dien</div>
+    </div>
+    <div class="content-spec-body">
+      <div class="content-spec-row"><div class="cs-label">H1</div><div class="cs-value"><strong>Thanh Toán Tiền Điện Online qua MoMo - Nhanh - Miễn Phí 2026</strong></div></div>
+      <div class="content-spec-row"><div class="cs-label">Target KW</div><div class="cs-value">Primary: "thanh toán tiền điện online", "đóng tiền điện qua momo" | Secondary: "tra cứu hóa đơn EVN", "thanh toán điện EVN HCMC online"</div></div>
+      <div class="content-spec-row"><div class="cs-label">Intro Block</div><div class="cs-value">Mô tả tính năng: MoMo là đối tác lâu năm của EVN - lưu mã KH tự động, nhắc hạn ngày 2-5 hàng tháng, thanh toán không giới hạn số hóa đơn. Đối tác: EVN HCMC, EVN Hà Nội, EVN NPC (Miền Bắc), EVN SPC (Miền Nam), EVN CPC (Miền Trung)</div></div>
+      <div class="content-spec-row"><div class="cs-label">Hướng dẫn</div><div class="cs-value">Step-by-step 6 bước (ảnh minh họa app): B1: Mở MoMo → B2: Chọn Thanh toán hóa đơn → B3: Chọn Điện → B4: Chọn khu vực/EVN → B5: Nhập mã KH (13 ký tự) → B6: Xác nhận thanh toán. <em>Tip: Lần sau không cần nhập lại mã</em></div></div>
+      <div class="content-spec-row"><div class="cs-label">Tool Widget</div><div class="cs-value">Tra cứu hóa đơn điện: dropdown chọn EVN vùng → input mã KH → hiển thị số tiền → CTA "Thanh toán ngay" (deep link)</div></div>
+      <div class="content-spec-row"><div class="cs-label">FAQ Schema</div><div class="cs-value">"Thanh toán tiền điện qua MoMo có phí không?" / "Mã KH điện là gì, lấy ở đâu?" / "Thanh toán cho nhiều hóa đơn điện được không?" / "MoMo có nhắc hạn đóng tiền điện không?"</div></div>
+      <div class="content-spec-row"><div class="cs-label">Word Count</div><div class="cs-value">~1,800-2,200 words | Schema: HowTo + FAQ + Organization</div></div>
+    </div>
+  </div>
+
+  <!-- Trang Nước -->
+  <div class="content-spec">
+    <div class="content-spec-header">
+      <div class="content-spec-title">💧 Sub-page: Thanh Toán Tiền Nước</div>
+      <div class="content-spec-url">momo.vn/nuoc</div>
+    </div>
+    <div class="content-spec-body">
+      <div class="content-spec-row"><div class="cs-label">H1</div><div class="cs-value"><strong>Thanh Toán Tiền Nước Online qua MoMo - Đóng Hóa Đơn Nước Mọi Tỉnh Thành</strong></div></div>
+      <div class="content-spec-row"><div class="cs-label">Target KW</div><div class="cs-value">Primary: "đóng tiền nước online", "thanh toán hóa đơn nước qua momo" | Secondary: "tra cứu hóa đơn tiền nước Sawaco", "đóng nước Dawaco online"</div></div>
+      <div class="content-spec-row"><div class="cs-label">Provider Grid</div><div class="cs-value">Hiển thị 20+ công ty cấp nước lớn: Sawaco (HCM), Hawaco (Hà Nội), Dawaco (Đà Nẵng), BiwaCo (Bình Dương), Capnuoc Quảng Bình... với hướng dẫn lấy mã danh bộ theo từng đơn vị</div></div>
+      <div class="content-spec-row"><div class="cs-label">Unique Content</div><div class="cs-value">"Mã danh bộ tiền nước là gì và lấy ở đâu" - giải thích cụ thể theo từng tỉnhnh (khác với mã KH điện) | "Tại sao MoMo không thu phí thanh toán nước?"</div></div>
+      <div class="content-spec-row"><div class="cs-label">Word Count</div><div class="cs-value">~1,800-2,000 words | Schema: HowTo + FAQ + LocalBusiness (đối với từng công ty cấp nước lớn)</div></div>
+    </div>
+  </div>
+
+  <!-- Trang Tra Cứu -->
+  <div class="content-spec">
+    <div class="content-spec-header" style="background:linear-gradient(135deg,#006B30,#00A64F);">
+      <div class="content-spec-title">🔎 Tool Page: Tra Cứu Hóa Đơn Online</div>
+      <div class="content-spec-url">momo.vn/tra-cuu-hoa-don</div>
+    </div>
+    <div class="content-spec-body">
+      <div class="content-spec-row"><div class="cs-label">Mục đích</div><div class="cs-value">Tool intent page: user tìm kiếm "tra cứu hóa đơn tiền điện/nước" - cung cấp ngay widget tra cứu, sau đó push sang app để thanh toán. Đây là <strong>Utility Web Bridge</strong> pattern chuẩn.</div></div>
+      <div class="content-spec-row"><div class="cs-label">Target KW</div><div class="cs-value">"tra cứu hóa đơn tiền điện EVN" ~9K SV / "kiểm tra tiền nước phải đóng" ~4K / "xem hóa đơn internet FPT" ~3K</div></div>
+      <div class="content-spec-row"><div class="cs-label">Tool UI</div><div class="cs-value">Step 1: Chọn loại dịch vụ (Điện / Nước / Internet / Di động trả sau) | Step 2: Chọn nhà cung cấp | Step 3: Nhập mã KH | Step 4: Hiển thị số tiền cần đóng + ngày hạn | CTA: "Thanh toán ngay" (deep link app)</div></div>
+      <div class="content-spec-row"><div class="cs-label">Fallback</div><div class="cs-value">Nếu user chưa có MoMo: banner download app + "Tải MoMo → Tra cứu và thanh toán trong 1 app"</div></div>
+      <div class="content-spec-row"><div class="cs-label">Word Count</div><div class="cs-value">~800-1,000 words (tool-first page, không cần content dài) | Schema: WebApplication</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     4. SEO / GEO
+     ════════════════════════════════════ -->
+<section class="section" id="s-seo">
+  <div class="page-header">
+    <div class="page-eyebrow">SEO & GEO Strategy — momo.vn/thanh-toan-hoa-don</div>
+    <div class="page-title">SEO Technical + GEO / AEO Optimization</div>
+    <div class="page-desc">Chiến lược SEO on-page, schema markup và GEO (Generative Engine Optimization) để MoMo được AI engines (ChatGPT, Gemini, Perplexity) cite khi user hỏi về thanh toán hóa đơn online tại Việt Nam.</div>
+  </div>
+
+  <h2 class="sh">📐 SEO On-page Technical</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Element</th><th>Spec / Yêu cầu</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td><strong>URL Structure</strong></td><td>Flat, slug ngắn: /dien, /nuoc, /internet, /di-dong-tra-sau, /truyen-hinh, /hoc-phi, /chung-cu, /bao-hiem</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>Title Tag Pattern</strong></td><td>[Dịch vụ] + "qua MoMo" + [USP ngắn] + "| MoMo" - Max 60 chars</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>H1-H6 Hierarchy</strong></td><td>H1 = 1 per page. H2 = section chính (Hướng dẫn / Nhà cung cấp / FAQ). H3 = sub-section (từng bước / nhà cung cấp cụ thể)</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>Schema Markup</strong></td><td>HowTo (hướng dẫn thanh toán) + FAQPage (8-10 Q&A) + Organization (MoMo) + BreadcrumbList</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>Core Web Vitals</strong></td><td>LCP &lt; 2.5s, INP &lt; 200ms, CLS &lt; 0.1 - đặc biệt quan trọng với pages có tool/widget tương tác</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>Image Optimization</strong></td><td>Screenshots app: WebP format, lazy-load, alt="Cách thanh toán tiền điện qua MoMo bước [N]"</td><td class="tag tag-p2 tag">P2</td></tr>
+        <tr><td><strong>Canonical</strong></td><td>Mỗi sub-page tự canonical về chính nó. Hub canonical về /thanh-toan-hoa-don</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>hreflang</strong></td><td>vi-VN (không cần en vì đây là nội địa market)</td><td class="tag tag-p2 tag">P2</td></tr>
+        <tr><td><strong>Page Speed</strong></td><td>Tool tra cứu lazy-load, không block render. Dùng IntersectionObserver để load widget khi user scroll đến</td><td class="tag tag-p1 tag">P1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🤖 GEO — Generative Engine Optimization</h2>
+  <div class="callout callout-purple">
+    <div class="callout-title">🎯 GEO Strategy cho Thanh Toán Hóa Đơn</div>
+    GEO target: khi user hỏi ChatGPT/Gemini/Perplexity "cách thanh toán tiền điện online ở Việt Nam" hoặc "ứng dụng nào có thể đóng hóa đơn điện nước tại nhà" - MoMo phải được cite là lựa chọn hàng đầu. Cách đạt được: viết content dạng <strong>authoritative answer</strong>, có cấu trúc rõ ràng, số liệu cụ thể, thông tin E-E-A-T cao.
+  </div>
+
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 AI QUERY TARGET #1</div>
+    <div class="geo-block-q">"Ứng dụng nào để thanh toán tiền điện online ở Việt Nam tốt nhất?"</div>
+    <div class="geo-block-a">
+      <strong>GEO-optimized answer MoMo cần tự định vị:</strong> MoMo là đối tác chính thức của EVN (Tập đoàn Điện lực Việt Nam) - hỗ trợ thanh toán điện cho tất cả 5 tổng công ty EVN tại Việt Nam (EVN HCMC, EVN Hà Nội, EVN NPC, EVN SPC, EVN CPC). Với hơn 30 triệu người dùng, MoMo tự động lưu mã khách hàng, gửi thông báo nhắc hạn ngày 2-5 hàng tháng và <strong>miễn phí 100% phí giao dịch</strong>.
+    </div>
+  </div>
+
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 AI QUERY TARGET #2</div>
+    <div class="geo-block-q">"Làm sao tra cứu hóa đơn tiền điện online?"</div>
+    <div class="geo-block-a">
+      <strong>GEO-optimized answer:</strong> Người dùng có thể tra cứu hóa đơn tiền điện trực tiếp tại <strong>momo.vn/tra-cuu-hoa-don</strong> mà không cần đăng nhập - chọn khu vực EVN, nhập mã khách hàng (13 ký tự ghi trên hóa đơn giấy), hệ thống hiển thị ngay số tiền và ngày hạn đóng. Sau khi tra cứu có thể thanh toán luôn bằng cách quét QR mở app MoMo, không cần nhập lại thông tin.
+    </div>
+  </div>
+
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 AI QUERY TARGET #3</div>
+    <div class="geo-block-q">"Thanh toán hóa đơn điện nước qua MoMo như thế nào?"</div>
+    <div class="geo-block-a">
+      <strong>GEO-optimized answer (HowTo format):</strong> Để thanh toán hóa đơn điện qua MoMo: (1) Mở app MoMo, chọn "Thanh toán hóa đơn"; (2) Chọn "Điện", sau đó chọn khu vực (EVN HCMC / Hà Nội / Miền Bắc / Miền Nam / Miền Trung); (3) Nhập mã khách hàng gồm 13 ký tự (lấy từ hóa đơn giấy hoặc website EVN); (4) Kiểm tra số tiền và xác nhận. MoMo sẽ tự động lưu thông tin cho lần sau và gửi nhắc nhở khi đến kỳ đóng tiền.
+    </div>
+  </div>
+
+  <h2 class="sh">📊 E-E-A-T Signals cần có</h2>
+  <div class="grid-2">
+    <div class="card" style="border-top:3px solid var(--momo);">
+      <div class="card-title">🏆 Experience + Expertise</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.65;">
+        Nêu rõ MoMo là đối tác chính thức EVN. Số liệu cụ thể: "30M+ người dùng", "50.000+ đối tác", "ra mắt 2009". Mention: MoMo là 1 trong 4 kênh thanh toán chính thức trên Cổng dịch vụ công quốc gia (từ 2019). Chứng nhận bảo mật PCI DSS cấp độ doanh nghiệp.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-title">🎖 Authoritativeness + Trust</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.65;">
+        Đối tác EVN, Sawaco, Hawaco được nhắc đích danh. Link ra trang chính thức của nhà cung cấp. Rating App Store / Google Play. Hotline hỗ trợ 1900 54 54 41. Thông tin công ty M_Service. Quy định NHNN liên quan (Thông tư 40/2024/TT-NHNN về xác thực sinh trắc học).
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📋 Schema Markup Blueprint - Trang /dien</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Schema Types cần implement - momo.vn/dien</div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">1</div>
+      <div class="anatomy-section-name">HowTo</div>
+      <div class="anatomy-section-desc">6 bước hướng dẫn thanh toán điện - mỗi bước có name + text + image URL app screenshot. Được AI engines và Google Rich Results extract để hiển thị.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-p1">P1</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">2</div>
+      <div class="anatomy-section-name">FAQPage</div>
+      <div class="anatomy-section-desc">8-10 Q&A về thanh toán điện qua MoMo. Format: @type:Question + acceptedAnswer. Google FAQ snippet + AI answer source.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-p1">P1</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">3</div>
+      <div class="anatomy-section-name">Organization</div>
+      <div class="anatomy-section-desc">MoMo / M_Service: name, url, logo, sameAs (Wikipedia, AppStore, CH Play), foundingDate, areaServed: VN.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-p2">P2</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">4</div>
+      <div class="anatomy-section-name">BreadcrumbList</div>
+      <div class="anatomy-section-desc">Trang chủ › Thanh Toán Hóa Đơn › Thanh Toán Tiền Điện. Quan trọng cho navigation signal và SERP breadcrumb hiển thị.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-p1">P1</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">5</div>
+      <div class="anatomy-section-name">WebApplication</div>
+      <div class="anatomy-section-desc">Cho trang /tra-cuu-hoa-don: applicationCategory "FinanceApplication", operatingSystem "iOS, Android", offers free, aggregateRating từ app stores.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-p2">P2</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     5. SIMULATOR TRẢ GÓP
+     ════════════════════════════════════ -->
+<section class="section" id="s-simulator">
+  <div class="page-header">
+    <div class="page-eyebrow">Growth — Component / Simulation</div>
+    <div class="page-title">Tool Tra Cứu Hóa Đơn — Demo Component</div>
+    <div class="page-desc">Component tra cứu hóa đơn tương tác - user chọn loại dịch vụ, chọn nhà cung cấp, nhập mã khách hàng, xem số tiền cần đóng và ngày hạn. Đây là conversion tool cốt lõi của toàn cluster, đặt trên hub page và từng trang dịch vụ.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📐 Logic tool tra cứu</div>
+    Tool này là <strong>Utility Web Bridge</strong> - cầu nối giữa search intent (tra cứu hóa đơn) và conversion (thanh toán qua app). User không cần tải app để tra cứu, nhưng muốn thanh toán thì phải mở MoMo. CTA sau tra cứu = deeplink đến đúng màn hình thanh toán trong app với mã KH đã điền sẵn.
+  </div>
+
+  <!-- LIVE TOOL WIDGET -->
+  <div class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-header-deco"></div>
+      <div class="sim-brand-pill">MoMo</div>
+      <h3>Tra Cứu <span>Hóa Đơn</span> Online</h3>
+      <div class="sim-header-sub">Chọn dịch vụ → Nhập mã → Xem ngay số tiền cần đóng</div>
+    </div>
+    <div class="sim-body">
+
+      <!-- Step 1: Chọn loại dịch vụ -->
+      <div class="sim-input-row">
+        <label class="sim-label">⚡ Bước 1 — Chọn loại dịch vụ</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="ky-btn active-ky" onclick="selectService('dien', this)">⚡ Điện</button>
+          <button class="ky-btn" onclick="selectService('nuoc', this)">💧 Nước</button>
+          <button class="ky-btn" onclick="selectService('internet', this)">📡 Internet</button>
+          <button class="ky-btn" onclick="selectService('didong', this)">📱 Di động trả sau</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Chọn nhà cung cấp -->
+      <div class="sim-input-row" id="providerRow">
+        <label class="sim-label">🏢 Bước 2 — Chọn nhà cung cấp</label>
+        <select id="providerSelect" onchange="updateProviderHint()"
+          style="padding:8px 14px;border:1.5px solid var(--momo-pale);border-radius:8px;font-size:13px;font-family:'Be Vietnam Pro',sans-serif;background:var(--momo-ghost);color:var(--ink);width:100%;max-width:360px;outline:none;">
+          <option value="">-- Chọn khu vực / nhà cung cấp --</option>
+          <option value="evn-hcm">EVN TP.HCM (HCMC)</option>
+          <option value="evn-hn">EVN Hà Nội</option>
+          <option value="evn-nb">EVN Miền Bắc (NPC)</option>
+          <option value="evn-nn">EVN Miền Nam (SPC)</option>
+          <option value="evn-nt">EVN Miền Trung (CPC)</option>
+        </select>
+        <div id="providerHint" style="margin-top:7px;font-size:12px;color:var(--ink-3);display:none;"></div>
+      </div>
+
+      <!-- Step 3: Nhập mã KH -->
+      <div class="sim-input-row">
+        <label class="sim-label">🔢 Bước 3 — Nhập mã khách hàng</label>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <input type="text" id="maKHInput" placeholder="VD: 0123456789012 (13 số)" maxlength="13"
+            style="padding:9px 14px;border:1.5px solid var(--momo-pale);border-radius:8px;font-size:13px;font-family:'JetBrains Mono',monospace;background:white;width:240px;outline:none;letter-spacing:1px;"
+            oninput="validateMaKH()" onfocus="showTooltip()" onblur="hideTooltip()">
+          <button onclick="lookupBill()"
+            style="background:var(--momo);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;">
+            🔍 Tra cứu
+          </button>
+        </div>
+        <div id="maKHTooltip" style="display:none;margin-top:8px;background:var(--ink);color:white;border-radius:7px;padding:9px 13px;font-size:12px;line-height:1.55;max-width:360px;">
+          <strong>Mã khách hàng ở đâu?</strong><br>
+          <span style="color:rgba(255,255,255,0.75);">Xem trên hóa đơn giấy tháng trước (dòng "Mã KH" hoặc "Customer Code"). Nếu mất hóa đơn → vào website EVN vùng bạn tra theo địa chỉ nhà.</span>
+        </div>
+      </div>
+
+      <!-- Kết quả tra cứu -->
+      <div id="lookupResult" style="display:none;margin-top:6px;">
+        <div style="background:var(--green-light);border:1.5px solid #A0DEB8;border-radius:10px;padding:16px 20px;">
+          <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);margin-bottom:10px;">✅ Kết quả tra cứu</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
+            <div style="background:white;border-radius:7px;padding:10px 12px;">
+              <div style="font-size:10.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;margin-bottom:3px;">Số tiền</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--momo);" id="resultAmount">--</div>
+            </div>
+            <div style="background:white;border-radius:7px;padding:10px 12px;">
+              <div style="font-size:10.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;margin-bottom:3px;">Kỳ hóa đơn</div>
+              <div style="font-size:13px;font-weight:700;color:var(--ink);" id="resultPeriod">--</div>
+            </div>
+            <div style="background:white;border-radius:7px;padding:10px 12px;">
+              <div style="font-size:10.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;margin-bottom:3px;">Hạn đóng</div>
+              <div style="font-size:13px;font-weight:700;color:var(--amber);" id="resultDeadline">--</div>
+            </div>
+          </div>
+          <div class="sim-cta" style="padding-top:12px;border-top:1px solid #A0DEB8;">
+            <button class="sim-cta-btn" onclick="alert('Deeplink → MoMo App: Thanh toán hóa đơn với mã KH pre-filled')">📲 Thanh toán ngay qua MoMo</button>
+            <div class="sim-cta-note">Mã KH được điền sẵn · Xác nhận 1 chạm · Miễn phí giao dịch</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo note -->
+      <div style="margin-top:14px;font-size:11.5px;color:var(--ink-3);background:var(--bg);border-radius:7px;padding:9px 13px;border:1px solid var(--border);">
+        ℹ️ <strong>Demo component</strong> — Dữ liệu thực sẽ được pull từ API EVN/nhà cung cấp khi tích hợp production. Nhấn "Tra cứu" để xem kết quả mẫu minh họa.
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📍 Placement Strategy — Đặt Tool ở đâu</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Trang</th><th>Variant tool</th><th>Vị trí</th><th>Trigger Load</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><code class="url">/tra-cuu-hoa-don</code></td><td>Full tool — tất cả dịch vụ</td><td>Above fold, là main content</td><td>Load ngay khi trang render</td></tr>
+        <tr class="row-highlight"><td><code class="url">/thanh-toan-hoa-don</code></td><td>Full tool — tất cả dịch vụ</td><td>Sau Service Grid, trước USP</td><td>Load ngay, lazy render kết quả</td></tr>
+        <tr><td><code class="url">/dien</code></td><td>Mini tool — chỉ Điện, EVN pre-selected</td><td>Sau quick guide 3 bước</td><td>IntersectionObserver scroll 40%</td></tr>
+        <tr><td><code class="url">/nuoc</code></td><td>Mini tool — chỉ Nước</td><td>Sau provider grid</td><td>IntersectionObserver scroll 40%</td></tr>
+        <tr><td><code class="url">/internet</code></td><td>Mini tool — chỉ Internet</td><td>Sau provider grid</td><td>IntersectionObserver scroll 40%</td></tr>
+        <tr><td>Blog posts tra cứu</td><td>Embed compact — inline bài viết</td><td>Giữa bài, sau đoạn giới thiệu</td><td>Load khi element visible</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📊 Tracking — Tool Interaction Events</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Event</th><th>Trigger</th><th>Parameters</th></tr></thead>
+      <tbody>
+        <tr><td><code class="url">tool_service_select</code></td><td>Click chọn loại dịch vụ</td><td>service_type (dien/nuoc/internet/didong)</td></tr>
+        <tr><td><code class="url">tool_provider_select</code></td><td>Chọn nhà cung cấp từ dropdown</td><td>provider_id, service_type</td></tr>
+        <tr><td><code class="url">tool_lookup_submit</code></td><td>Click nút "Tra cứu"</td><td>service_type, provider_id, ma_kh_length</td></tr>
+        <tr><td><code class="url">tool_lookup_success</code></td><td>API trả về kết quả thành công</td><td>service_type, amount_bucket (0-100k/100-500k/500k+)</td></tr>
+        <tr><td><code class="url">tool_lookup_error</code></td><td>API lỗi hoặc mã KH không tìm thấy</td><td>error_type (not_found/api_error/invalid_format)</td></tr>
+        <tr class="row-highlight"><td><code class="url">tool_pay_cta_click</code></td><td>Click "Thanh toán ngay qua MoMo"</td><td>service_type, provider_id, amount, source_page</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+// ═══ TRA CUU TOOL LOGIC ===
+let currentService = 'dien';
+const providerData = {
+  dien: [
+    {value:'evn-hcm', label:'EVN TP.HCM (HCMC)'},
+    {value:'evn-hn', label:'EVN Hà Nội'},
+    {value:'evn-nb', label:'EVN Miền Bắc (NPC)'},
+    {value:'evn-nn', label:'EVN Miền Nam (SPC)'},
+    {value:'evn-nt', label:'EVN Miền Trung (CPC)'}
+  ],
+  nuoc: [
+    {value:'sawaco', label:'Sawaco (TP.HCM)'},
+    {value:'hawaco', label:'Hawaco (Hà Nội)'},
+    {value:'dawaco', label:'Dawaco (Đà Nẵng)'},
+    {value:'biwaco', label:'Biwaco (Bình Dương)'},
+    {value:'capnuoc-qb', label:'Cấp nước Quảng Bình'}
+  ],
+  internet: [
+    {value:'fpt', label:'FPT Telecom'},
+    {value:'vnpt', label:'VNPT'},
+    {value:'viettel-inet', label:'Viettel Internet'},
+    {value:'tay-do', label:'Tây Đô Net'}
+  ],
+  didong: [
+    {value:'viettel-dm', label:'Viettel di động'},
+    {value:'mobifone', label:'MobiFone'},
+    {value:'vinaphone', label:'VinaPhone'},
+    {value:'vietnamobile', label:'Vietnamobile'}
+  ]
+};
+const providerHints = {
+  'evn-hcm': 'Mã KH 13 số — lấy trên hóa đơn giấy hoặc evnhcmc.vn',
+  'evn-hn': 'Mã KH 13 số — lấy trên hóa đơn giấy hoặc evnhanoi.com.vn',
+  'evn-nb': 'Mã KH 13 số — lấy trên hóa đơn giấy hoặc npc.com.vn',
+  'evn-nn': 'Mã KH 13 số — lấy trên hóa đơn giấy hoặc evnspc.com.vn',
+  'evn-nt': 'Mã KH 13 số — lấy trên hóa đơn giấy hoặc cpc.vn',
+  'sawaco': 'Mã danh bộ — số trên thẻ đồng hồ nước hoặc hóa đơn giấy',
+  'hawaco': 'Mã khách hàng — lấy trên hóa đơn giấy Hawaco',
+  'fpt': 'Mã hợp đồng FPT — bắt đầu bằng chữ cái + 8-10 số',
+  'vnpt': 'Mã thuê bao VNPT — 10-12 ký tự trên hợp đồng',
+  'viettel-inet': 'Mã hợp đồng Viettel Internet — trên hóa đơn hoặc app MyViettel',
+  'viettel-dm': 'Số điện thoại Viettel trả sau 10 số',
+  'mobifone': 'Số điện thoại MobiFone trả sau 10 số',
+  'vinaphone': 'Số điện thoại VinaPhone trả sau 10 số'
+};
+
+function selectService(type, btn) {
+  currentService = type;
+  document.querySelectorAll('#s-simulator .ky-btn').forEach(b => b.classList.remove('active-ky'));
+  btn.classList.add('active-ky');
+  const sel = document.getElementById('providerSelect');
+  if (!sel) return;
+  const options = providerData[type] || [];
+  sel.innerHTML = '<option value="">-- Chọn nhà cung cấp --</option>' +
+    options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+  document.getElementById('providerHint').style.display = 'none';
+  document.getElementById('lookupResult').style.display = 'none';
+  const ph = document.getElementById('maKHInput');
+  if (ph) ph.placeholder = type === 'didong' ? 'Số điện thoại 10 số' : 'Nhập mã khách hàng';
+}
+
+function updateProviderHint() {
+  const val = document.getElementById('providerSelect').value;
+  const hint = document.getElementById('providerHint');
+  if (val && providerHints[val]) {
+    hint.textContent = '💡 ' + providerHints[val];
+    hint.style.display = 'block';
+  } else {
+    hint.style.display = 'none';
+  }
+}
+
+function validateMaKH() {
+  document.getElementById('lookupResult').style.display = 'none';
+}
+
+function showTooltip() {
+  document.getElementById('maKHTooltip').style.display = 'block';
+}
+function hideTooltip() {
+  setTimeout(() => { const t = document.getElementById('maKHTooltip'); if(t) t.style.display='none'; }, 200);
+}
+
+function lookupBill() {
+  const provider = document.getElementById('providerSelect').value;
+  const maKH = document.getElementById('maKHInput').value.trim();
+  if (!provider) { alert('Vui lòng chọn nhà cung cấp'); return; }
+  if (!maKH) { alert('Vui lòng nhập mã khách hàng'); return; }
+  // Demo result
+  const amounts = [185000, 340000, 520000, 780000, 1250000];
+  const amount = amounts[Math.floor(Math.random() * amounts.length)];
+  const now = new Date();
+  const deadline = new Date(now.getFullYear(), now.getMonth() + 1, 5);
+  document.getElementById('resultAmount').textContent = amount.toLocaleString('vi-VN') + 'đ';
+  document.getElementById('resultPeriod').textContent = `Tháng ${now.getMonth()+1}/${now.getFullYear()}`;
+  document.getElementById('resultDeadline').textContent = `${deadline.getDate()}/${deadline.getMonth()+1}/${deadline.getFullYear()}`;
+  document.getElementById('lookupResult').style.display = 'block';
+}
+</script>
+
+<!-- ════════════════════════════════════
+     6. ADS EMBED BLOG
+     ════════════════════════════════════ -->
+<section class="section" id="s-ads">
+  <div class="page-header">
+    <div class="page-eyebrow">Ads Embed Blog — Native Ad Units trong Content Hub</div>
+    <div class="page-title">Native Ads Embed Strategy</div>
+    <div class="page-desc">4 biến thể native ad units cho phép nhúng sản phẩm MoMo vào trong blog/content trang tra cứu mà không phá vỡ reading experience. Mỗi unit được trigger theo context từ bài viết.</div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Nguyên tắc Native Ads Embed</div>
+    Ads units phải: (1) Context-relevant - liên quan trực tiếp đến đoạn content xung quanh; (2) Value-first - cung cấp thông tin hữu ích trước khi CTA; (3) Clearly labeled - có nhãn "Dịch vụ MoMo" hoặc "Được tài trợ bởi MoMo" để đảm bảo transparency (Google Helpful Content); (4) Non-intrusive - không che content, không autoplay video/sound.
+  </div>
+
+  <!-- Unit 1 -->
+  <div class="ads-block">
+    <div class="ads-block-header">
+      <div class="ads-block-title">Ad Unit #1 — Tra Cứu Hóa Đơn Inline</div>
+      <span class="tag tag-conv">Trigger: Đoạn hướng dẫn tra cứu</span>
+    </div>
+    <div class="ads-block-body">
+      <div class="ads-unit">
+        <div class="ads-unit-label">📋 Dịch vụ MoMo</div>
+        <strong style="font-size:13.5px;color:var(--ink);">Tra cứu hóa đơn tiền điện ngay tại đây</strong>
+        <div style="font-size:12.5px;color:var(--ink-2);margin-top:5px;margin-bottom:10px;">Nhập mã khách hàng để xem số tiền cần đóng tháng này. Sau đó thanh toán ngay qua MoMo - miễn phí, không cần ra ngoài.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <select style="padding:6px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:12.5px;font-family:'Be Vietnam Pro',sans-serif;">
+            <option>Chọn khu vực điện...</option>
+            <option>EVN TP.HCM</option>
+            <option>EVN Hà Nội</option>
+            <option>EVN Miền Bắc</option>
+            <option>EVN Miền Nam</option>
+            <option>EVN Miền Trung</option>
+          </select>
+          <input type="text" placeholder="Nhập mã khách hàng (13 số)" style="flex:1;min-width:160px;padding:6px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:12.5px;font-family:'Be Vietnam Pro',sans-serif;">
+          <button style="background:var(--momo);color:white;border:none;padding:7px 16px;border-radius:6px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;">Tra cứu</button>
+        </div>
+      </div>
+      <div class="ads-cta-preview">
+        <div>
+          <div class="ads-cta-text">Thanh toán trực tiếp sau khi tra cứu</div>
+          <div class="ads-cta-sub">Miễn phí · Xác nhận tức thì · Nhắc hạn tự động</div>
+        </div>
+        <div class="ads-cta-btn-preview">Tải MoMo</div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--ink-3);">
+        <strong>GA4 Events:</strong> ads_interact (tool_lookup) → ads_cta_click (download_app) → app_install (attribution)
+      </div>
+    </div>
+  </div>
+
+  <!-- Unit 2 -->
+  <div class="ads-block">
+    <div class="ads-block-header">
+      <div class="ads-block-title">Ad Unit #2 — Tra Cứu Hóa Đơn Compact</div>
+      <span class="tag tag-conv">Trigger: Đoạn hướng dẫn trong bài viết về hóa đơn</span>
+    </div>
+    <div class="ads-block-body">
+      <div class="ads-unit">
+        <div class="ads-unit-label">🔍 Dịch vụ MoMo · Tra cứu nhanh</div>
+        <strong style="font-size:13.5px;color:var(--ink);">Tra cứu số tiền hóa đơn ngay tại đây</strong>
+        <div style="font-size:12.5px;color:var(--ink-2);margin-top:5px;margin-bottom:10px;">Nhập mã khách hàng để xem ngay số tiền điện/nước/internet cần đóng — không cần tải app.</div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:11px;color:var(--ink-3);margin-bottom:4px;">Nhập số tiền hóa đơn (VNĐ)</div>
+            <input type="number" id="embedAmount" placeholder="500,000" value="500000"
+              style="padding:6px 12px;border:1.5px solid var(--momo-pale);border-radius:6px;font-size:13px;width:160px;font-family:'JetBrains Mono',monospace;"
+              oninput="updateEmbed()">
+          </div>
+          <div id="embedResult" style="background:var(--momo-ghost);border:1.5px solid var(--momo-pale);border-radius:8px;padding:10px 16px;">
+            <div style="font-size:11px;color:var(--momo-dark);font-weight:700;text-transform:uppercase;letter-spacing:0.3px;">Trả 3 tháng</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--momo);" id="embedMonthly">243.000đ/tháng</div>
+            <div style="font-size:10.5px;color:var(--ink-3);">Gốc + phí 76K</div>
+          </div>
+        </div>
+      </div>
+      <div class="ads-cta-preview">
+        <div>
+          <div class="ads-cta-text">Thanh toán ngay sau khi tra cứu</div>
+          <div class="ads-cta-sub">Không cần chứng minh thu nhập · Hạn mức đến 15 triệu đồng</div>
+        </div>
+        <div class="ads-cta-btn-preview">Đăng ký ngay</div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--ink-3);">
+        <strong>GA4 Events:</strong> ads_interact (simulator_input) → ads_cta_click (vts_register) → vts_open (app)
+      </div>
+    </div>
+  </div>
+
+  <!-- Unit 3 -->
+  <div class="ads-block">
+    <div class="ads-block-header">
+      <div class="ads-block-title">Ad Unit #3 — App Download Banner (Sidebar/Inline)</div>
+      <span class="tag tag-seo">Trigger: Cuối bài viết / Sau hướng dẫn hoàn chỉnh</span>
+    </div>
+    <div class="ads-block-body">
+      <div class="ads-unit">
+        <div class="ads-unit-label">📲 Dịch vụ MoMo</div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <div style="flex:1;">
+            <strong style="font-size:14px;color:var(--ink);">Thanh toán mọi hóa đơn trong 1 app</strong>
+            <div style="font-size:12.5px;color:var(--ink-2);margin-top:5px;line-height:1.55;">Điện · Nước · Internet · Di động trả sau · Truyền hình · Học phí và 500+ dịch vụ khác. Miễn phí. Nhắc hạn tự động. Lịch sử 6 tháng.</div>
+            <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+              <div style="background:var(--ink);color:white;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;">App Store</div>
+              <div style="background:var(--ink);color:white;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;">CH Play</div>
+              <div style="background:var(--momo);color:white;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;">Quét QR mở App</div>
+            </div>
+          </div>
+          <div style="background:var(--bg);border:1.5px solid var(--border);width:80px;height:80px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink-3);text-align:center;flex-shrink:0;">QR Code<br>App</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--ink-3);">
+        <strong>GA4 Events:</strong> ads_cta_click (app_store / ch_play / qr_scan) → app_install
+      </div>
+    </div>
+  </div>
+
+  <!-- Unit 4 -->
+  <div class="ads-block">
+    <div class="ads-block-header">
+      <div class="ads-block-title">Ad Unit #4 — Sticky Bottom Bar (Mobile)</div>
+      <span class="tag tag-conv">Trigger: User scroll 50% trang, chỉ mobile</span>
+    </div>
+    <div class="ads-block-body">
+      <div class="ads-unit">
+        <div class="ads-unit-label">📱 Mobile Sticky Bar</div>
+        <div style="background:var(--ink);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+          <div>
+            <div style="color:white;font-weight:700;font-size:13px;">Thanh toán hóa đơn qua MoMo</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:11px;">Miễn phí · Nhanh · An toàn</div>
+          </div>
+          <div style="background:var(--momo);color:white;padding:8px 16px;border-radius:7px;font-weight:800;font-size:12.5px;white-space:nowrap;">Mở App ↗</div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-3);margin-top:8px;">Display: fixed bottom, z-index cao, close button X góc trên phải. Dismiss = không hiện lại trong session.</div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--ink-3);">
+        <strong>GA4 Events:</strong> sticky_bar_show → sticky_bar_click (open_app) / sticky_bar_dismiss | GTM Trigger: scroll depth 50%, device = mobile
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 GA4 Tracking Spec - Toàn bộ Ads Units</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Event Name</th><th>Parameters</th><th>Unit</th><th>Funnel Stage</th></tr></thead>
+      <tbody>
+        <tr><td><code class="url">ads_unit_view</code></td><td>unit_id, unit_type, page_path, service_type</td><td>All</td><td>Awareness</td></tr>
+        <tr><td><code class="url">ads_interact</code></td><td>unit_id, interaction_type (lookup/input/hover), value</td><td>#1, #2</td><td>Engagement</td></tr>
+        <tr><td><code class="url">ads_cta_click</code></td><td>unit_id, cta_label, destination (app_store/deeplink), service_type</td><td>All</td><td>Decision</td></tr>
+        <tr><td><code class="url">simulator_calculate</code></td><td>amount, months, monthly_payment, total_fee</td><td>#2, Sim Full</td><td>Consideration</td></tr>
+        <tr><td><code class="url">sticky_bar_dismiss</code></td><td>page_path, scroll_depth_at_dismiss, session_time</td><td>#4</td><td>—</td></tr>
+        <tr class="row-highlight"><td><code class="url">web_to_app_convert</code></td><td>source_page, source_unit, attribution_channel</td><td>All</td><td>Conversion</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     7. INTERNAL LINK BUILDING
+     ════════════════════════════════════ -->
+<section class="section" id="s-links">
+  <div class="page-header">
+    <div class="page-eyebrow">Internal Link Building — Cluster Thanh Toán Hóa Đơn</div>
+    <div class="page-title">Internal Link Matrix & Strategy</div>
+    <div class="page-desc">Kiến trúc Internal Link để PageRank flow từ Hub xuống Sub-pages, kết nối từng trang dịch vụ với Hub, trang tra cứu và các trang Đối tác. Mỗi link cần anchor text tối ưu keyword.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📐 Nguyên tắc Internal Link cho cluster này</div>
+    (1) Hub page link xuống toàn bộ 8 sub-pages dịch vụ với anchor text target keyword chính. (2) Mỗi sub-page dịch vụ link lên Hub (breadcrumb) và cross-link với trang tra cứu. (3) Trang /doi-tac/{provider} (EVN, FPT...) link đến trang dịch vụ tương ứng. (5) Blog posts về hóa đơn link đến sub-page liên quan.
+  </div>
+
+  <h2 class="sh">🗺 Internal Link Map - Toàn Cluster</h2>
+
+  <div class="il-matrix">
+    <div class="il-matrix-header">
+      <span>SOURCE PAGE → LINKS ĐI</span>
+      <span style="font-size:10px;color:rgba(255,255,255,0.4);">Màu xanh = nội bộ cluster / Xanh lá = trang đối tác</span>
+    </div>
+
+    <div class="il-row">
+      <div class="il-source">Hub<code>/thanh-toan-hoa-don</code></div>
+      <div class="il-links">
+        <span class="il-link-pill anchor">/dien "thanh toán tiền điện"</span>
+        <span class="il-link-pill anchor">/nuoc "thanh toán tiền nước"</span>
+        <span class="il-link-pill anchor">/internet "thanh toán wifi"</span>
+        <span class="il-link-pill anchor">/di-dong-tra-sau "cước di động"</span>
+        <span class="il-link-pill anchor">/truyen-hinh "truyền hình cáp"</span>
+        <span class="il-link-pill anchor">/hoc-phi "học phí"</span>
+        <span class="il-link-pill anchor">/bao-hiem "phí bảo hiểm"</span>
+        <span class="il-link-pill anchor">/tra-cuu-hoa-don "tra cứu hóa đơn"</span>
+        <span class="il-link-pill cross">/tra-cuu-hoa-don "tra cứu hóa đơn"</span>
+      </div>
+    </div>
+
+    <div class="il-row">
+      <div class="il-source">Điện<code>/dien</code></div>
+      <div class="il-links">
+        <span class="il-link-pill anchor">/thanh-toan-hoa-don "thanh toán hóa đơn"</span>
+        <span class="il-link-pill cross">/tra-cuu-hoa-don "tra cứu hóa đơn điện"</span>
+        <span class="il-link-pill anchor">/tra-cuu-hoa-don "tra cứu hóa đơn điện"</span>
+        <span class="il-link-pill">/nuoc "tiền nước"</span>
+        <span class="il-link-pill">/internet "tiền internet"</span>
+      </div>
+    </div>
+
+    <div class="il-row">
+      <div class="il-source">Nước<code>/nuoc</code></div>
+      <div class="il-links">
+        <span class="il-link-pill anchor">/thanh-toan-hoa-don "thanh toán hóa đơn"</span>
+        <span class="il-link-pill cross">/tra-cuu-hoa-don "tra cứu hóa đơn nước"</span>
+        <span class="il-link-pill anchor">/tra-cuu-hoa-don "tra cứu hóa đơn nước"</span>
+        <span class="il-link-pill">/dien "tiền điện"</span>
+      </div>
+    </div>
+
+    <div class="il-row">
+      <div class="il-source">Internet<code>/internet</code></div>
+      <div class="il-links">
+        <span class="il-link-pill anchor">/thanh-toan-hoa-don "thanh toán hóa đơn"</span>
+        <span class="il-link-pill cross">/tra-cuu-hoa-don "tra cứu hóa đơn internet"</span>
+        <span class="il-link-pill anchor">/di-dong-tra-sau "cước điện thoại trả sau"</span>
+        <span class="il-link-pill">/dien "điện"</span>
+        <span class="il-link-pill">/nuoc "nước"</span>
+      </div>
+    </div>
+
+    <div class="il-row">
+      <div class="il-source">Tra cứu<code>/tra-cuu-hoa-don</code></div>
+      <div class="il-links">
+        <span class="il-link-pill anchor">/dien "tra cứu hóa đơn điện EVN"</span>
+        <span class="il-link-pill anchor">/nuoc "tra cứu hóa đơn nước"</span>
+        <span class="il-link-pill anchor">/internet "tra cứu cước internet"</span>
+        <span class="il-link-pill anchor">/thanh-toan-hoa-don "thanh toán hóa đơn online"</span>
+        <span class="il-link-pill cross">/tra-cuu-hoa-don "tra cứu hóa đơn online"</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🔗 Cross-cluster Links - Từ /doi-tac vào cluster này</h2>
+  <div class="cross-card">
+    <div class="cross-card-header">
+      <div class="cross-card-brand">⚡ momo.vn/doi-tac/evn</div>
+      <div class="cross-card-url">/doi-tac/evn → /dien</div>
+    </div>
+    <div class="cross-card-body">
+      Trang đối tác EVN trên MoMo cần link đến <code class="url">/dien</code> với anchor text: "Hướng dẫn thanh toán điện EVN qua MoMo" và <code class="url">/tra-cuu-hoa-don</code> với anchor: "Tra cứu hóa đơn điện online".
+      <div class="cross-trigger">💡 Cross-link trigger: Trong section "Kênh thanh toán" → "Tra cứu hóa đơn điện → <a href="#">momo.vn/tra-cuu-hoa-don</a>"</div>
+    </div>
+  </div>
+
+  <div class="cross-card">
+    <div class="cross-card-header">
+      <div class="cross-card-brand">📡 momo.vn/doi-tac/fpt</div>
+      <div class="cross-card-url">/doi-tac/fpt → /internet</div>
+    </div>
+    <div class="cross-card-body">
+      Trang đối tác FPT link đến <code class="url">/internet</code> với anchor: "Thanh toán internet FPT qua MoMo" và <code class="url">/tra-cuu-hoa-don</code> với anchor: "Tra cứu cước FPT online".
+      <div class="cross-trigger">💡 Cross-link trigger: "Tra cứu cước internet FPT trước khi đến hạn → <a href="#">momo.vn/tra-cuu-hoa-don</a>"</div>
+    </div>
+  </div>
+
+  <div class="cross-card">
+    <div class="cross-card-header">
+      <div class="cross-card-brand">📱 momo.vn/doi-tac/viettel, /mobifone, /vinaphone</div>
+      <div class="cross-card-url">/doi-tac/{nhamang} → /di-dong-tra-sau</div>
+    </div>
+    <div class="cross-card-body">
+      Các trang đối tác nhà mạng link đến <code class="url">/di-dong-tra-sau</code> với anchor: "Thanh toán cước [Viettel/MobiFone/Vinaphone] online".
+      <div class="cross-trigger">💡 Cross-link trigger: "Kiểm tra cước di động trả sau → <a href="#">momo.vn/tra-cuu-hoa-don</a>"</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📋 Anchor Text Guidelines</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Link Target</th><th>Anchor Text Recommended</th><th>Tránh</th></tr></thead>
+      <tbody>
+        <tr><td><code class="url">/dien</code></td><td>"thanh toán tiền điện", "đóng hóa đơn điện", "thanh toán điện EVN online"</td><td>"click here", "xem thêm", "đây"</td></tr>
+        <tr><td><code class="url">/nuoc</code></td><td>"thanh toán tiền nước", "đóng hóa đơn nước online", "đóng nước qua MoMo"</td><td>URL thuần, generic text</td></tr>
+        <tr><td><code class="url">/internet</code></td><td>"thanh toán internet", "đóng cước wifi", "thanh toán FPT/VNPT online"</td><td>Brand name đơn thuần không có context</td></tr>
+                <tr class="row-highlight"><td><code class="url">/tra-cuu-hoa-don</code></td><td>"tra cứu hóa đơn điện/nước", "kiểm tra số tiền cần đóng", "xem hóa đơn online"</td><td>"tra cứu" quá ngắn</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+</div><!-- /content-wrap -->
+
+<script>
+// ═══ NAV SECTION SWITCH ═══
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  const btn = document.getElementById('btn-' + id);
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ═══ SIMULATOR LOGIC ═══
+let currentKy = 3;
+const FEE = 76000;
+
+function fmt(n) {
+  return Math.round(n).toLocaleString('vi-VN') + 'đ';
+}
+
+function setKy(k) {
+  currentKy = k;
+  document.querySelectorAll('.ky-btn').forEach(b => b.classList.remove('active-ky'));
+  const btn = document.getElementById('ky-' + k);
+  if (btn) btn.classList.add('active-ky');
+  updateSim();
+}
+
+// ═══ EMBED SIMULATOR ═══
+function updateEmbed() {
+  const inp = document.getElementById('embedAmount');
+  if (!inp) return;
+  const amt = parseInt(inp.value) || 500000;
+  const monthly = Math.round(amt / 3) + FEE;
+  const el = document.getElementById('embedMonthly');
+  if (el) el.textContent = fmt(monthly) + '/tháng';
+}
+
+// Guard updateSim for pages without slider
+function updateSim() {
+  const slider = document.getElementById('amountSlider');
+  if (!slider) return;
+  const amt = parseInt(slider.value);
+  const pct = ((amt - 100000) / (5000000 - 100000)) * 100;
+  slider.style.setProperty('--pct', pct + '%');
+  document.getElementById('amountDisplay').textContent = fmt(amt);
+  const monthlyPrincipal = amt / currentKy;
+  const monthlyTotal = monthlyPrincipal + FEE;
+  const totalFee = FEE * currentKy;
+  document.getElementById('monthlyTotal').textContent = fmt(monthlyTotal);
+  document.getElementById('totalFee').textContent = fmt(totalFee);
+  let html = `<div style="display:grid;grid-template-columns:60px 1fr 1fr 1fr;background:#F5F1EE;padding:7px 14px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--ink-3);">
+    <div>Tháng</div><div>Gốc trả</div><div>Phí DV</div><div>Tổng tháng</div>
+  </div>`;
+  for (let i = 1; i <= currentKy; i++) {
+    const isLast = i === currentKy;
+    const princ = isLast ? amt - Math.round(monthlyPrincipal) * (currentKy - 1) : Math.round(monthlyPrincipal);
+    const bg = isLast ? 'background:var(--momo-ghost);' : (i % 2 === 0 ? 'background:#FAFAF8;' : '');
+    html += `<div style="display:grid;grid-template-columns:60px 1fr 1fr 1fr;padding:7px 14px;border-top:1px solid var(--border);font-size:12.5px;${bg}">
+      <div style="font-weight:700;color:var(--momo);">T${i}</div>
+      <div style="font-family:'JetBrains Mono',monospace;">${fmt(princ)}</div>
+      <div style="font-family:'JetBrains Mono',monospace;color:var(--ink-3);">76.000đ</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-weight:700;">${fmt(princ + FEE)}</div>
+    </div>`;
+  }
+  html += `<div style="display:grid;grid-template-columns:60px 1fr 1fr 1fr;padding:8px 14px;border-top:2px solid var(--border);background:#F5F1EE;font-size:12px;font-weight:700;">
+    <div>Tổng</div>
+    <div style="font-family:'JetBrains Mono',monospace;">${fmt(amt)}</div>
+    <div style="font-family:'JetBrains Mono',monospace;color:var(--momo);">${fmt(totalFee)}</div>
+    <div style="font-family:'JetBrains Mono',monospace;">${fmt(amt + totalFee)}</div>
+  </div>`;
+  document.getElementById('breakdownTable').innerHTML = html;
+}
+
+// Init
+updateSim();
+</script>
+
+<!-- ═══ STUB SECTIONS for new nav items ═══ -->
+<section class="section" id="s-jtbd">
+  <div class="page-header">
+    <div class="page-eyebrow">Overview — JTBDs · momo.vn/thanh-toan-hoa-don</div>
+    <div class="page-title">Jobs To Be Done</div>
+    <div class="page-desc">Phân tích "nhiệm vụ" người dùng cần hoàn thành khi tìm đến cluster Thanh Toán Hóa Đơn. Mỗi JTBD xác định Trigger, Barrier, và cách MoMo giải quyết — làm nền tảng cho content strategy và CTA design.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📐 Framework áp dụng</div>
+    JTBD format: <strong>"Khi [situation], tôi muốn [motivation], để [outcome]"</strong>. Mỗi job gắn với: Trigger (điều gì kích hoạt hành vi tìm kiếm), Barrier (điều gì cản trở hoàn thành), Progress (kết quả user kỳ vọng sau khi dùng MoMo).
+  </div>
+
+  <h2 class="sh">⚡ JTBD #1 — Trả hóa đơn tiện lợi, không ra ngoài</h2>
+  <div class="card" style="border-left:4px solid var(--momo);">
+    <div style="font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;font-style:italic;">"Khi nhận thông báo tiền điện/nước đến hạn, tôi muốn thanh toán ngay trên điện thoại, để không mất thời gian ra điểm thu hay ATM."</div>
+    <div class="grid-3" style="margin-bottom:0;">
+      <div style="background:var(--green-light);border:1px solid #A0DEB8;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--green);margin-bottom:6px;">🎯 Trigger</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Nhận SMS/app notification từ EVN hoặc Sawaco. Nhìn thấy bill giấy trong hộp thư. Bạn nhắc "hôm nay cuối tháng rồi đó".</div>
+      </div>
+      <div style="background:var(--red-light);border:1px solid #FFD0D0;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--red);margin-bottom:6px;">🚧 Barrier</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Không biết MoMo hỗ trợ trả hóa đơn. Không biết cách lấy mã khách hàng. Lo phí giao dịch. Phải nhập lại thông tin mỗi tháng.</div>
+      </div>
+      <div style="background:var(--momo-ghost);border:1px solid var(--momo-pale);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--momo);margin-bottom:6px;">✅ MoMo Solves</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Landing page /dien, /nuoc giải thích step-by-step. Nhấn mạnh "Lưu mã tự động - tháng sau 1 chạm". Badge "Miễn phí 100%".</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag tag-p1">Search query: "đóng tiền điện qua momo"</span>
+      <span class="tag tag-seo">Page: /dien · /nuoc · /internet</span>
+      <span class="tag tag-bofu">Intent: Transactional</span>
+    </div>
+  </div>
+
+  <h2 class="sh">🔍 JTBD #2 — Tra cứu hóa đơn trước khi đến hạn</h2>
+  <div class="card" style="border-left:4px solid var(--amber);">
+    <div style="font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;font-style:italic;">"Khi muốn chủ động kiểm soát chi tiêu cuối tháng, tôi muốn xem trước số tiền hóa đơn cần đóng, để không bị bất ngờ hoặc quên đóng đúng hạn."</div>
+    <div class="grid-3" style="margin-bottom:0;">
+      <div style="background:var(--green-light);border:1px solid #A0DEB8;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--green);margin-bottom:6px;">🎯 Trigger</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Nhận cảnh báo "sẽ bị cắt điện trong 3 ngày". Nhìn số dư ví thấp hơn số hóa đơn. Lương chưa về nhưng hóa đơn đến hạn tuần này.</div>
+      </div>
+      <div style="background:var(--red-light);border:1px solid #FFD0D0;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--red);margin-bottom:6px;">🚧 Barrier</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Phải vào website EVN/Sawaco phức tạp. Không nhớ mã khách hàng. UX website nhà cung cấp kém trên mobile.</div>
+      </div>
+      <div style="background:var(--momo-ghost);border:1px solid var(--momo-pale);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--momo);margin-bottom:6px;">✅ MoMo Solves</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Tool tra cứu tại /tra-cuu-hoa-don: chọn dịch vụ → nhập mã → xem ngay. Không cần đăng nhập. CTA "Thanh toán ngay" sau tra cứu.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag tag-p1">Search query: "thanh toán điện không đủ tiền phải làm sao"</span>
+      <span class="tag tag-seo">Page: /tra-cuu-hoa-don</span>
+      <span class="tag tag-bofu">Intent: Info + Trans</span>
+    </div>
+  </div>
+
+  <h2 class="sh">🔍 JTBD #3 — Tra cứu hóa đơn trước khi đóng</h2>
+  <div class="card" style="border-left:4px solid var(--blue);">
+    <div style="font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;font-style:italic;">"Khi muốn kiểm tra số tiền điện/nước tháng này trước hạn, tôi muốn xem được hóa đơn online ngay, để chủ động chuẩn bị tiền và không bị bất ngờ."</div>
+    <div class="grid-3" style="margin-bottom:0;">
+      <div style="background:var(--green-light);border:1px solid #A0DEB8;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--green);margin-bottom:6px;">🎯 Trigger</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Tháng hè lo điện cao. Chủ nhà hỏi "tháng này đóng bao nhiêu". Muốn lập kế hoạch tài chính cuối tháng trước khi chi tiêu.</div>
+      </div>
+      <div style="background:var(--red-light);border:1px solid #FFD0D0;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--red);margin-bottom:6px;">🚧 Barrier</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Phải vào website EVN phức tạp. Không nhớ mã khách hàng. Website nhà cung cấp UX kém, khó dùng trên mobile.</div>
+      </div>
+      <div style="background:var(--momo-ghost);border:1px solid var(--momo-pale);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--momo);margin-bottom:6px;">✅ MoMo Solves</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Tool tra cứu tại /tra-cuu-hoa-don: chọn loại dịch vụ → nhập mã → xem ngay số tiền. Mobile-first UX. CTA "Thanh toán ngay" sau khi tra cứu xong.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag tag-p1">Search query: "tra cứu hóa đơn tiền điện EVN" ~9K SV</span>
+      <span class="tag tag-seo">Page: /tra-cuu-hoa-don</span>
+      <span class="tag tag-tofu">Intent: Informational + Tool</span>
+    </div>
+  </div>
+
+  <h2 class="sh">🎓 JTBD #4 — Học cách dùng MoMo để trả hóa đơn lần đầu</h2>
+  <div class="card" style="border-left:4px solid var(--green);">
+    <div style="font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;font-style:italic;">"Khi mới dùng MoMo hoặc mới ra ở riêng, tôi muốn biết cách thanh toán hóa đơn bước nào, để tự làm được mà không cần hỏi ai."</div>
+    <div class="grid-3" style="margin-bottom:0;">
+      <div style="background:var(--green-light);border:1px solid #A0DEB8;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--green);margin-bottom:6px;">🎯 Trigger</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Sinh viên/người trẻ lần đầu ở trọ tự đóng tiền điện. Cha mẹ nhờ con cái đóng giúp qua điện thoại. Mới cài MoMo nhìn thấy icon "Thanh toán hóa đơn".</div>
+      </div>
+      <div style="background:var(--red-light);border:1px solid #FFD0D0;border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--red);margin-bottom:6px;">🚧 Barrier</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Không biết mã khách hàng lấy ở đâu. Nhầm giữa mã KH điện, mã danh bộ nước, mã thuê bao internet. Lo nhập sai mất tiền.</div>
+      </div>
+      <div style="background:var(--momo-ghost);border:1px solid var(--momo-pale);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--momo);margin-bottom:6px;">✅ MoMo Solves</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Sub-page /dien, /nuoc, /internet với hướng dẫn 6 bước + ảnh minh họa. Section riêng "Mã khách hàng là gì, lấy ở đâu" per nhà cung cấp. HowTo schema.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag tag-p1">Search query: "cách thanh toán tiền điện EVN online" ~5.6K SV</span>
+      <span class="tag tag-seo">Page: /dien · /nuoc</span>
+      <span class="tag tag-tofu">Intent: Informational (How-to)</span>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 JTBD Matrix — Priority & Content Mapping</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>JTBD</th><th>Search Trigger</th><th>Landing Page</th><th>CTA chính</th><th>Cross-sell</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td><strong>#1 Trả hóa đơn tiện lợi</strong></td><td>"đóng tiền điện qua momo"</td><td>/dien, /nuoc, /internet</td><td>Thanh toán ngay (deeplink)</td><td>—</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>#2 Tra cứu trước hạn</strong></td><td>"tra cứu hóa đơn tiền điện EVN"</td><td>/tra-cuu-hoa-don</td><td>Xem số tiền → Thanh toán</td><td>—</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr><td><strong>#3 Tra cứu nhanh</strong></td><td>"tra cứu hóa đơn EVN"</td><td>/tra-cuu-hoa-don</td><td>Thanh toán sau tra cứu</td><td>—</td><td class="tag tag-p1 tag">P1</td></tr>
+        <tr class="row-highlight"><td><strong>#4 Học cách dùng lần đầu</strong></td><td>"cách đóng tiền điện online"</td><td>/dien (how-to section)</td><td>Tải MoMo</td><td>—</td><td class="tag tag-p2 tag">P2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s-pillar">
+  <div class="page-header">
+    <div class="page-eyebrow">Content — Pillar / Cluster Blog</div>
+    <div class="page-title">Pillar Page &amp; Cluster Blog Structure</div>
+    <div class="page-desc">Kiến trúc Pillar &amp; Cluster cho Content Hub — 3 pillar pages chính và hệ thống cluster articles xung quanh mỗi nhóm dịch vụ, đảm bảo topical authority cho MoMo trong mảng thanh toán hóa đơn.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📐 Chiến lược Pillar & Cluster cho cluster này</div>
+    Khác với các dự án SEO thông thường, cluster Thanh Toán Hóa Đơn có đặc điểm: <strong>transaction pages là pillar</strong> (chứ không phải blog). Blog cluster chủ yếu hỗ trợ TOFU/MOFU - kéo traffic từ info queries về hub → chuyển hướng sang transaction pages khi user ready. Mỗi pillar cần tối thiểu 5-8 cluster articles để đủ topical depth.
+  </div>
+
+  <!-- PILLAR 1 -->
+  <h2 class="sh">🏛 Pillar 1 — "Thanh Toán Hóa Đơn Online" (Hub)</h2>
+  <div class="sitemap-tree">
+    <div class="sitemap-header">
+      <div class="sitemap-header-title">Pillar: momo.vn/thanh-toan-hoa-don</div>
+      <span class="tag tag-p1">SV ~85K cluster</span>
+    </div>
+    <div class="sitemap-row pillar">
+      <span class="sitemap-url">/thanh-toan-hoa-don</span>
+      <span style="flex:1;">PILLAR — Hub tổng: giới thiệu đầy đủ tất cả dịch vụ MoMo hỗ trợ, USPs, FAQ</span>
+      <span class="tag tag-p1 tag sitemap-priority">Pillar</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/thanh-toan-hoa-don-online-an-toan</span>
+      <span class="sitemap-desc">Thanh toán hóa đơn online có an toàn không? Rủi ro và cách tránh - TOFU trust-building</span>
+      <span class="tag tag-tofu tag sitemap-priority">Cluster</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/ung-dung-dong-hoa-don-tot-nhat</span>
+      <span class="sitemap-desc">So sánh 5 app đóng hóa đơn tốt nhất tại Việt Nam 2026 - Competitive content</span>
+      <span class="tag tag-tofu tag sitemap-priority">Cluster</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/cach-quan-ly-hoa-don-hang-thang</span>
+      <span class="sitemap-desc">Cách quản lý và theo dõi hóa đơn hàng tháng không bao giờ bị trễ hạn</span>
+      <span class="tag tag-mofu tag sitemap-priority">Cluster</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/momo-mien-phi-thanh-toan-hoa-don</span>
+      <span class="sitemap-desc">MoMo có tính phí thanh toán hóa đơn không? Giải thích chi tiết - FAQ page</span>
+      <span class="tag tag-mofu tag sitemap-priority">Cluster</span>
+    </div>
+  </div>
+
+  <!-- PILLAR 2 -->
+  <h2 class="sh">🏛 Pillar 2 — "Tiền Điện Online" (Vertical Điện)</h2>
+  <div class="sitemap-tree">
+    <div class="sitemap-header">
+      <div class="sitemap-header-title">Pillar: momo.vn/dien</div>
+      <span class="tag tag-p1">SV ~28K cluster</span>
+    </div>
+    <div class="sitemap-row pillar">
+      <span class="sitemap-url">/dien</span>
+      <span style="flex:1;">PILLAR — Transaction page đóng vai pillar: hướng dẫn + tool + CTA thanh toán</span>
+      <span class="tag tag-p1 tag sitemap-priority">Pillar TX</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/ma-khach-hang-dien-la-gi</span>
+      <span class="sitemap-desc">"Mã khách hàng tiền điện là gì, lấy ở đâu?" - hướng dẫn chi tiết theo từng EVN vùng</span>
+      <span class="tag tag-tofu tag sitemap-priority">Cluster · ~6K SV</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/tien-dien-tang-dot-bien-nguyen-nhan</span>
+      <span class="sitemap-desc">Tại sao tiền điện tháng này tăng đột biến? 7 nguyên nhân và cách kiểm tra</span>
+      <span class="tag tag-tofu tag sitemap-priority">Cluster · ~8K SV</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/lich-cat-dien-evn-hcm</span>
+      <span class="sitemap-desc">Lịch cắt điện EVN TP.HCM tháng [hiện tại] - cập nhật hàng tuần (Programmatic SEO)</span>
+      <span class="tag tag-new tag sitemap-priority">Cluster · pSEO</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/bi-cat-dien-phai-lam-gi</span>
+      <span class="sitemap-desc">Bị cắt điện vì quên đóng tiền - cần làm gì? (VTS cross-sell opportunity cực mạnh)</span>
+      <span class="tag tag-mofu tag sitemap-priority">Cluster</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/dang-ky-thong-bao-hoa-don-dien</span>
+      <span class="sitemap-desc">Cách đăng ký nhận thông báo hóa đơn điện online - không lo quên đóng</span>
+      <span class="tag tag-mofu tag sitemap-priority">Cluster</span>
+    </div>
+  </div>
+
+  <!-- PILLAR 3 -->
+  <h2 class="sh">🏛 Pillar 3 — "Tra Cứu Hóa Đơn Online" (Tool Hub)</h2>
+  <div class="sitemap-tree">
+    <div class="sitemap-header">
+      <div class="sitemap-header-title">Pillar: momo.vn/tra-cuu-hoa-don</div>
+      <span class="tag tag-p1">Tool Intent cluster</span>
+    </div>
+    <div class="sitemap-row pillar">
+      <span class="sitemap-url">/tra-cuu-hoa-don</span>
+      <span style="flex:1;">PILLAR Tool — Tra cứu hóa đơn điện/nước/internet theo mã khách hàng</span>
+      <span class="tag tag-p1 tag sitemap-priority">Pillar Tool</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/cach-tra-cuu-hoa-don-dien-nuoc</span>
+      <span class="sitemap-desc">Cách tra cứu hóa đơn điện, nước online — không cần vào website nhà cung cấp</span>
+      <span class="tag tag-tofu tag sitemap-priority">Cluster · ~8K SV</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/ma-khach-hang-dien-nuoc-internet</span>
+      <span class="sitemap-desc">Mã khách hàng điện, nước, internet là gì — hướng dẫn lấy mã theo từng nhà cung cấp</span>
+      <span class="tag tag-mofu tag sitemap-priority">Cluster · ~7K SV</span>
+    </div>
+    <div class="sitemap-row cluster">
+      <span class="link-arrow">└</span>
+      <span class="sitemap-url">/blog/lich-cat-dien-evn-hom-nay</span>
+      <span class="sitemap-desc">Lịch cắt điện EVN hôm nay và tuần này — cập nhật theo vùng (Programmatic SEO)</span>
+      <span class="tag tag-mofu tag sitemap-priority">Cluster</span>
+    </div>
+  </div>
+
+  <h2 class="sh">📅 Content Calendar — 3 tháng đầu</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Tháng</th><th>Cluster Article</th><th>Target KW</th><th>Est. SV</th><th>Pillar link về</th></tr></thead>
+      <tbody>
+        <tr><td>T1</td><td>Mã khách hàng tiền điện là gì, lấy ở đâu?</td><td>mã khách hàng điện evn</td><td>~6K</td><td>/dien</td></tr>
+        <tr><td>T1</td><td>Cách tra cứu hóa đơn điện/nước online không cần ra ngoài</td><td>cách tra cứu hóa đơn tiền điện</td><td>~5K</td><td>/tra-cuu-hoa-don</td></tr>
+        <tr><td>T1</td><td>Tại sao tiền điện tăng đột biến?</td><td>tại sao tiền điện tháng này cao</td><td>~8K</td><td>/dien</td></tr>
+        <tr><td>T2</td><td>Bị cắt điện vì quên đóng - phải làm gì?</td><td>bị cắt điện phải làm sao</td><td>~4K</td><td>/dien</td></tr>
+        <tr><td>T2</td><td>5 app đóng hóa đơn tốt nhất 2026</td><td>app đóng hóa đơn tốt nhất</td><td>~3K</td><td>/thanh-toan-hoa-don</td></tr>
+        <tr><td>T2</td><td>Tra cứu hóa đơn nước Sawaco/Hawaco online</td><td>tra cứu hóa đơn nước sawaco</td><td>~3K</td><td>/tra-cuu-hoa-don</td></tr>
+        <tr class="row-highlight"><td>T3</td><td>Lịch cắt điện EVN [tháng hiện tại] (pSEO)</td><td>lịch cắt điện evn hcm tháng X</td><td>~5K/tháng</td><td>/dien</td></tr>
+        <tr><td>T3</td><td>Cách quản lý hóa đơn hàng tháng không trễ</td><td>cách quản lý hóa đơn hàng tháng</td><td>~2K</td><td>/thanh-toan-hoa-don</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s-niches">
+  <div class="page-header">
+    <div class="page-eyebrow">Content — Niches</div>
+    <div class="page-title">Content Niches chưa được khai thác</div>
+    <div class="page-desc">Các content niche có search demand thực nhưng chưa có trang nào của MoMo cover — long-tail gaps, micro-intent và programmatic SEO opportunities trong cluster hóa đơn.</div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">✅ Tiêu chí xác định niche</div>
+    Niche được ưu tiên khi: (1) Có search demand thực (≥500 SV/tháng); (2) SERP hiện tại dominated bởi blog bên thứ 3, không phải trang chính thức; (3) MoMo có unique advantage để rank (đối tác chính thức, data thực, tool tích hợp); (4) User landing trên niche này có thể convert sang app/VTS.
+  </div>
+
+  <h2 class="sh">🎯 Niche 1 — Programmatic SEO: Lịch cắt điện theo tỉnhnh/quận</h2>
+  <div class="card" style="border-top:3px solid var(--amber);">
+    <div class="card-title">⚡ Lịch cắt điện [Tỉnh/Quận] tháng [Hiện tại]</div>
+    <div class="grid-2" style="margin-bottom:8px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">Opportunity</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Query "lịch cắt điện [quận X] tháng [Y]" có SV đều đặn mỗi tháng ~3-8K/tỉnhnh thành lớn. Hiện tại SERP dominated bởi blog cá nhân, không update đều. MoMo có thể build pSEO template tự động cập nhật từ data EVN.</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">Execution</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Template: <code class="url">/lich-cat-dien/{tinh}/{thang}-{nam}</code>. Dữ liệu từ EVN API hoặc scrape định kỳ. Mỗi trang có CTA "Nhắc tôi khi có lịch cắt điện → tải MoMo nhận thông báo". Cross-sell VTS: "Cắt điện sắp xảy ra? Đóng tiền ngay qua MoMo".</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag tag-new">pSEO · 63 tỉnhnh thành × 12 tháng</span>
+      <span class="tag tag-p1">~50K+ SV/tháng aggregate</span>
+      <span class="tag tag-conv">High seasonal intent</span>
+    </div>
+  </div>
+
+  <h2 class="sh">🎯 Niche 2 — Hướng dẫn theo nhà cung cấp cụ thể</h2>
+  <div class="card" style="border-top:3px solid var(--blue);">
+    <div class="card-title">📡 "Đóng internet [FPT/VNPT/Viettel] qua MoMo như thế nào?"</div>
+    <div class="grid-2" style="margin-bottom:8px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">Opportunity</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Mỗi nhà cung cấp lớn (FPT, VNPT, Viettel, Tây Đô, SCTV...) có riêng một cụm query "đóng [brand] qua momo". Tổng aggregate ~15-20K SV/tháng. Blog bên thứ 3 đang rank tốt hơn trang chính thức MoMo.</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">Execution</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Cluster articles dạng: "Cách đóng tiền internet FPT qua MoMo 2026". Link về /internet (pillar). Có logo đối tác, ảnh chụp màn hình thực tế. Thêm "Lấy mã hợp đồng FPT ở đâu" section — unique value blog khác không có.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag tag-new">10+ ISP lớn × 2-3K SV mỗi brand</span>
+      <span class="tag tag-seo">Branded + navigational intent</span>
+      <span class="tag tag-p1">Quick win: MoMo là đối tác chính thức</span>
+    </div>
+  </div>
+
+  <h2 class="sh">🎯 Niche 3 — Tra cứu theo công ty cấp nước cụ thể</h2>
+  <div class="card" style="border-top:3px solid var(--momo);">
+    <div class="card-title">💸 "Tra cứu hóa đơn nước [Sawaco/Hawaco/Dawaco] online"</div>
+    <div class="grid-2" style="margin-bottom:8px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">Opportunity</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Mỗi công ty cấp nước lớn (Sawaco, Hawaco, Dawaco, BiwaCo) có cụm query "tra cứu hóa đơn nước [tên]". Tổng ~10-15K SV/tháng. Website các công ty cấp nước trên mobile UX rất kém — cơ hội rõ để MoMo cung cấp tool tra cứu trải nghiệm tốt hơn.</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">Execution</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Landing page tra cứu theo từng công ty: "Tra cứu hóa đơn nước Sawaco online" với tool nhúng — nhập mã danh bộ → xem số tiền → CTA "Thanh toán qua MoMo". Section "Mã danh bộ là gì, lấy ở đâu" giải thích riêng từng đơn vị.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="tag tag-bofu">BOFU cực cao — user đang pain ngay lúc tìm kiếm</span>
+      <span class="tag tag-p1">VTS conversion opportunity tốt nhất</span>
+    </div>
+  </div>
+
+  <h2 class="sh">🎯 Niche 4 — FAQ / Schema Snippet Takeover</h2>
+  <div class="card" style="border-top:3px solid var(--green);">
+    <div class="card-title">❓ Featured Snippet + AI Answer optimization</div>
+    <div class="tbl-wrap" style="margin-bottom:0;">
+      <table class="data-table">
+        <thead><tr><th>Query mục tiêu</th><th>Est. SV</th><th>Current SERP</th><th>MoMo Action</th></tr></thead>
+        <tbody>
+          <tr><td>"MoMo có tính phí thanh toán hóa đơn không?"</td><td>~3.2K</td><td>Blog giải thích chung, không authoritative</td><td>FAQ schema trên hub + blog article riêng</td></tr>
+          <tr><td>"Thanh toán hóa đơn qua MoMo bao lâu thì ghi nhận?"</td><td>~1.8K</td><td>Chưa có trang nào trả lời trực tiếp</td><td>FAQ section /dien với schema markup</td></tr>
+          <tr><td>"Mã khách hàng điện là bao nhiêu số?"</td><td>~5.4K</td><td>Blog cá nhân rank top, không cập nhật</td><td>Blog article + HowTo schema - authoritative</td></tr>
+          <tr class="row-highlight"><td>"Ứng dụng nào đóng hóa đơn miễn phí?"</td><td>~4.1K</td><td>So sánh chung, MoMo không được mention nổi bật</td><td>Comparison article + GEO optimization</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s-subpages">
+  <div class="page-header">
+    <div class="page-eyebrow">Growth — Sub-pages từ Sitemap</div>
+    <div class="page-title">Transaction Pages &amp; Pillar Pages — Specs</div>
+    <div class="page-desc">Blueprint chi tiết cho 2 loại sub-page: Transaction page (intent chuyển đổi trực tiếp, user ready to act) và Pillar page (hub topical authority). Mỗi loại có cấu trúc, CTA logic và conversion mechanics riêng biệt.</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-top:3px solid var(--momo);">
+      <div class="card-title">🔴 Transaction Page — Đặc điểm</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Target user đang <strong>ready to act</strong> ngay. Ví dụ: /dien, /nuoc, /internet. Cấu trúc: Hero (CTA deeplink ngay) → Quick guide (3 bước ngắn) → Provider list → Tool tra cứu → Trust signals → FAQ. Không cần nhiều text, cần CTA rõ ràng và tool hữu ích.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">🔵 Pillar Page — Đặc điểm</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Target user đang <strong>nghiên cứu hoặc so sánh</strong>. Ví dụ: /thanh-toan-hoa-don (hub), /tra-cuu-hoa-don (tool). Cấu trúc: Comprehensive intro → Service/product overview → How-to detail → Comparison → FAQ → Internal links đến cluster. Cần depth để build topical authority.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">📋 Transaction Page Specs — /dien (Template chuẩn)</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Page Anatomy: momo.vn/dien — Transaction Page Template</div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">1</div>
+      <div class="anatomy-section-name">Hero + CTA</div>
+      <div class="anatomy-section-desc"><strong>Above the fold:</strong> H1 target keyword. Sub-headline USP ("Miễn phí · Lưu mã tự động · Nhắc hạn"). CTA button "Thanh toán ngay" deeplink app. QR code để mobile scan. Trust badge: "Đối tác chính thức EVN". <em>No scroll needed to see CTA.</em></div>
+      <div class="anatomy-section-tag"><span class="tag tag-conv">CONV</span><span class="tag tag-p1">P1</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">2</div>
+      <div class="anatomy-section-name">Quick Guide</div>
+      <div class="anatomy-section-desc">3-bước visual: Icon → Text ngắn. B1: Mở MoMo chọn Hóa đơn / B2: Chọn Điện + Khu vực / B3: Nhập mã KH xác nhận. Không cần ảnh chi tiết ở đây (đặt phía dưới cho user muốn tìm hiểu thêm).</div>
+      <div class="anatomy-section-tag"><span class="tag tag-ux">UX</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">3</div>
+      <div class="anatomy-section-name">Provider Grid</div>
+      <div class="anatomy-section-desc">Logo grid 5 EVN vùng: EVN HCMC · Hà Nội · Miền Bắc · Miền Nam · Miền Trung. Click vào mỗi provider → accordion expand hướng dẫn lấy mã KH theo từng vùng + link deeplink app đến đúng provider.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span><span class="tag tag-ux">UX</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">4</div>
+      <div class="anatomy-section-name">Tool Tra Cứu</div>
+      <div class="anatomy-section-desc">Widget inline: Dropdown chọn EVN vùng → Input mã KH → Hiển thị số tiền + ngày hạn → CTA "Thanh toán ngay" deeplink. Lazy-load khi user scroll đến. Tracking: tool_interact event GA4.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-conv">CONV</span><span class="tag tag-new">Widget</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">5</div>
+      <div class="anatomy-section-name">VTS Cross-sell</div>
+      <div class="anatomy-section-desc">Sau tra cứu thành công: "Bạn cần đóng [số tiền]đ — thanh toán ngay qua MoMo?" → Deeplink app với mã KH đã điền sẵn → CTA "Thanhk /vi-tra-sau/thanh-toan-dien. Trigger: Hiển thị sau khi user interact với tool tra cứu hoặc scroll 60%.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-bofu">VTS</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">6</div>
+      <div class="anatomy-section-name">Step-by-step Guide</div>
+      <div class="anatomy-section-desc">Hướng dẫn chi tiết 6 bước với ảnh screenshot app thực tế. Dành cho user TOFU cần học. Section này phục vụ SEO (HowTo schema) và user lần đầu dùng. Đặt phía sau tool vì user BOFU không cần đọc.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-seo">SEO · HowTo</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">7</div>
+      <div class="anatomy-section-name">Trust + Social Proof</div>
+      <div class="anatomy-section-desc">3 stat cards: "30M+ người dùng" / "500+ nhà cung cấp" / "Miễn phí 100% giao dịch". App store rating. Logo đối tác EVN chính thức. Bảo mật PCI DSS.</div>
+      <div class="anatomy-section-tag"><span class="tag tag-trust">Trust</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">8</div>
+      <div class="anatomy-section-name">FAQ Schema</div>
+      <div class="anatomy-section-desc">8-10 Q&A với FAQPage schema markup. Questions lấy từ PAA Google + GEO queries. Cuối FAQ có CTA thứ hai "Vẫn có câu hỏi? Tải app MoMo để được hỗ trợ 24/7".</div>
+      <div class="anatomy-section-tag"><span class="tag tag-seo">SEO · FAQ</span><span class="tag tag-geo">GEO</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-order">9</div>
+      <div class="anatomy-section-name">Internal Links Footer</div>
+      <div class="anatomy-section-desc">3 link grid: → Thanh toán Tiền Nước / → Thanh toán Internet / → Tra cứu Hóa đơn. Không có link ngoài cluster này.eatured link VTS: "Chưa đủ tiền? Dùng Ví Trả Sau".</div>
+      <div class="anatomy-section-tag"><span class="tag tag-seo">IL</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 Sub-page Priority Matrix</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Page</th><th>Type</th><th>Est. SV</th><th>Effort</th><th>Impact</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><code class="url">/dien</code></td><td>Transaction</td><td>~28K</td><td>Medium</td><td>Very High</td><td>Sprint 1</td></tr>
+        <tr class="row-highlight"><td><code class="url">/nuoc</code></td><td>Transaction</td><td>~15K</td><td>Medium</td><td>High</td><td>Sprint 1</td></tr>
+        <tr class="row-highlight"><td><code class="url">/internet</code></td><td>Transaction</td><td>~17K</td><td>Medium</td><td>High</td><td>Sprint 1</td></tr>
+        <tr><td><code class="url">/tra-cuu-hoa-don</code></td><td>Tool</td><td>~12K</td><td>High (dev)</td><td>Very High (engagement)</td><td>Sprint 2</td></tr>
+                <tr><td><code class="url">/di-dong-tra-sau</code></td><td>Transaction</td><td>~13K</td><td>Medium</td><td>High</td><td>Sprint 2</td></tr>
+        <tr><td><code class="url">/hoc-phi</code></td><td>Transaction</td><td>~4K</td><td>Low</td><td>Medium</td><td>Sprint 3</td></tr>
+        <tr><td><code class="url">/truyen-hinh</code></td><td>Transaction</td><td>~5K</td><td>Low</td><td>Medium</td><td>Sprint 3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s-pagestructure">
+  <div class="page-header">
+    <div class="page-eyebrow">Growth — Page Structure</div>
+    <div class="page-title">Page Structure Template &amp; Wireframe Specs</div>
+    <div class="page-desc">Template cấu trúc chuẩn cho từng loại trang trong cluster — section order, CTA placement, widget logic và conversion mechanics. Dev team và Content team dùng làm spec triển khai.</div>
+  </div>
+
+  <h2 class="sh">📐 Desktop vs Mobile Layout Rules</h2>
+  <div class="grid-2">
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">🖥 Desktop (≥1024px)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">
+        Max-width: 1100px centered. 2-column layout ở sections có sidebar (Tool + Trust). Hero: Full-width gradient band. CTA button: Tối thiểu 48px height, padding 20px horizontal. Tool widget: Right-aligned sticky khi scroll qua hero section.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--momo);">
+      <div class="card-title">📱 Mobile (≤768px)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">
+        Single column. CTA button: Full width, 52px height, fixed bottom bar sau khi user scroll qua hero. Tool widget: Full width, input keyboard-friendly. Provider grid: 2 columns grid. VTS banner: Sticky bottom dismissible sau 3 giây.
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🏗 CTA Placement Rules — Transaction Page</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>CTA Vị trí</th><th>Text</th><th>Action</th><th>Visible khi nào</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><strong>Hero Primary</strong></td><td>Thanh toán ngay</td><td>Deeplink app → màn hình dịch vụ cụ thể</td><td>Always visible above fold</td></tr>
+        <tr><td>Hero Secondary</td><td>Tải MoMo miễn phí</td><td>Onelink → App Store / CH Play</td><td>Hiển thị nếu chưa có app (user agent check)</td></tr>
+        <tr><td>Tool Widget</td><td>Thanh toán [số tiền]đ ngay</td><td>Deeplink đến trang thanh toán với mã KH pre-filled</td><td>Sau khi tra cứu thành công</td></tr>
+        <tr><td>Tra cứu Widget CTA</td><td>Thanh toán [số tiền]đ ngay</td><td>Deeplink màn hình thanh toán với mã KH pre-filled</td><td>Sau tra cứu thành công</td></tr>
+        <tr><td>FAQ Footer CTA</td><td>Mở MoMo thanh toán ngay</td><td>Deeplink app</td><td>Cuối trang — second chance convert</td></tr>
+        <tr><td>Mobile Sticky Bar</td><td>Thanh toán hóa đơn qua MoMo</td><td>Deeplink app</td><td>Mobile only, sau scroll 50%, dismissible</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">⚡ Above-the-fold Requirements</h2>
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Hard requirements — không negotiate</div>
+    (1) H1 phải visible không bị truncate trên viewport 375px (iPhone SE). (2) Primary CTA button phải visible mà không scroll. (3) Không có interstitial/popup nào xuất hiện trong 3 giây đầu page load. (4) LCP element (thường là hero banner/H1) phải &lt; 2.5s. (5) Không có layout shift (CLS &lt; 0.1) do lazy-load images hay widget inject.
+  </div>
+
+  <h2 class="sh">🔄 A/B Test Roadmap</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Test</th><th>Variant A (Control)</th><th>Variant B</th><th>Metric</th><th>Sprint</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Hero CTA Copy</strong></td><td>"Thanh toán ngay"</td><td>"Đóng tiền điện - Miễn phí"</td><td>CTR CTA</td><td>Sprint 2</td></tr>
+        <tr><td><strong>VTS Banner Position</strong></td><td>Sau section Provider (scroll ~40%)</td><td>Sau Tool Widget (contextual)</td><td>VTS click rate</td><td>Sprint 2</td></tr>
+        <tr><td><strong>Tool Widget Placement</strong></td><td>Sau Quick Guide (section 3)</td><td>Trong Hero (right column desktop)</td><td>Tool interaction rate</td><td>Sprint 3</td></tr>
+        <tr class="row-highlight"><td><strong>Mobile Sticky Bar</strong></td><td>Không có sticky bar</td><td>Có sticky bar sau scroll 50%</td><td>Web-to-App CVR mobile</td><td>Sprint 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s-popup">
+  <div class="page-header">
+    <div class="page-eyebrow">Tactics — Popup / Balloon</div>
+    <div class="page-title">Ads Popup &amp; Balloon Units — Design &amp; Trigger Logic</div>
+    <div class="page-desc">3 loại popup/balloon CTA được thiết kế theo nguyên tắc contextual-first: chỉ hiện đúng lúc user có intent cao nhất, không intrusive, có dismiss rõ ràng. Mỗi unit có trigger riêng và tracking GA4 đầy đủ.</div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Nguyên tắc Popup/Balloon — không spam user</div>
+    (1) Mỗi session chỉ hiển thị <strong>tối đa 1 popup</strong>. (2) Sau dismiss = không hiện lại trong 7 ngày (localStorage). (3) Không hiện trong 3 giây đầu tải trang. (4) Không block toàn màn hình trên mobile. (5) Balloon/tooltip chỉ triggered bởi user action (hover, scroll đến element), không autoplay.
+  </div>
+
+  <!-- Popup Unit 1 -->
+  <div class="ads-block">
+    <div class="ads-block-header">
+      <div class="ads-block-title">Popup #1 — Exit Intent (Desktop)</div>
+      <span class="tag tag-conv">Trigger: Chuột di chuyển ra khỏi viewport (exit intent)</span>
+    </div>
+    <div class="ads-block-body">
+      <div class="ads-unit">
+        <div class="ads-unit-label">🖥 Desktop Exit Intent Popup — /dien · /nuoc · /internet</div>
+        <div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:24px;max-width:420px;margin:0 auto;position:relative;">
+          <div style="position:absolute;top:-1px;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--momo),var(--momo-mid));border-radius:12px 12px 0 0;"></div>
+          <div style="text-align:center;margin-bottom:14px;">
+            <div style="background:var(--momo-ghost);border:1.5px solid var(--momo-pale);display:inline-block;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;color:var(--momo);margin-bottom:10px;">MoMo · Thanh toán hóa đơn</div>
+            <div style="font-size:17px;font-weight:900;color:var(--ink);line-height:1.3;margin-bottom:6px;">Đừng quên đóng hóa đơn<br>trước khi rời đi! 📋</div>
+            <div style="font-size:12.5px;color:var(--ink-2);">Thanh toán tiền điện/nước qua MoMo — miễn phí, xong trong 30 giây.</div>
+          </div>
+          <div style="background:var(--momo);border-radius:8px;padding:11px;text-align:center;color:white;font-weight:800;font-size:13.5px;cursor:pointer;margin-bottom:8px;">Thanh toán ngay →</div>
+          <div style="text-align:center;font-size:11px;color:var(--ink-3);cursor:pointer;">Để sau</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--ink-3);">
+        <strong>Trigger:</strong> mouseleave document.body trên desktop. Delay: tối thiểu 30s trên trang. 1 lần/session. <br>
+        <strong>GA4:</strong> popup_show(exit_intent) → popup_cta_click → web_to_app_convert
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Unit 2 -->
+  <div class="ads-block">
+    <div class="ads-block-header">
+      <div class="ads-block-title">Popup #2 — Tra Cứu Hóa Đơn Popup</div>
+      <span class="tag tag-bofu">Trigger: User scroll qua section Hướng dẫn trên /dien · /nuoc mà chưa dùng tool</span>
+    </div>
+    <div class="ads-block-body">
+      <div class="ads-unit">
+        <div class="ads-unit-label">🔍 Tra Cứu Popup — Bottom Sheet Mobile / Modal Desktop</div>
+        <div style="background:linear-gradient(135deg,var(--momo-ghost),white);border:1.5px solid var(--momo-pale);border-radius:12px;padding:20px;max-width:380px;">
+          <div style="font-size:13px;font-weight:800;color:var(--momo-dark);margin-bottom:4px;">Chưa đủ tiền đóng điện? 💡</div>
+          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;margin-bottom:12px;">Bạn có muốn <strong>tra cứu số tiền hóa đơn</strong> trước khi thanh toán? Nhập mã khách hàng — xem ngay số tiền và ngày hạn.</div>
+          <div style="display:flex;gap:8px;margin-bottom:10px;">
+            <div style="flex:1;background:var(--momo-ghost);border:1.5px solid var(--momo-pale);border-radius:6px;padding:8px;text-align:center;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--momo);">76K</div>
+              <div style="font-size:10px;color:var(--ink-3);">Phí/tháng cố định</div>
+            </div>
+            <div style="flex:1;background:var(--momo-ghost);border:1.5px solid var(--momo-pale);border-radius:6px;padding:8px;text-align:center;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--momo);">3 phút</div>
+              <div style="font-size:10px;color:var(--ink-3);">Đăng ký xong</div>
+            </div>
+            <div style="flex:1;background:var(--momo-ghost);border:1.5px solid var(--momo-pale);border-radius:6px;padding:8px;text-align:center;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--momo);">0%</div>
+              <div style="font-size:10px;color:var(--ink-3);">Lãi suất</div>
+            </div>
+          </div>
+          <div style="background:var(--momo);border-radius:8px;padding:10px;text-align:center;color:white;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:6px;">Mở Ví Trả Sau ngay</div>
+          <div style="text-align:center;font-size:11px;color:var(--ink-3);cursor:pointer;">Tôi có đủ tiền rồi ×</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--ink-3);">
+        <strong>Trigger:</strong> IntersectionObserver trên section Hướng dẫn khi user chưa click tool. Hiện dạng bottom sheet (mobile) hoặc side modal (desktop). 1 lần/session.<br>
+        <strong>GA4:</strong> popup_show(tool_reminder) → popup_cta_click(open_tool) → tool_lookup_submit
+      </div>
+    </div>
+  </div>
+
+  <!-- Balloon Unit -->
+  <div class="ads-block">
+    <div class="ads-block-header">
+      <div class="ads-block-title">Balloon #1 — Tool Helper Tooltip</div>
+      <span class="tag tag-ux">Trigger: User hover / focus vào input mã khách hàng</span>
+    </div>
+    <div class="ads-block-body">
+      <div class="ads-unit">
+        <div class="ads-unit-label">💬 Balloon Tooltip — Hướng dẫn lấy mã KH</div>
+        <div style="background:var(--ink);color:white;border-radius:8px;padding:12px 16px;max-width:300px;font-size:12.5px;line-height:1.6;position:relative;">
+          <div style="position:absolute;bottom:-7px;left:20px;width:14px;height:14px;background:var(--ink);transform:rotate(45deg);border-radius:2px;"></div>
+          <strong>Mã khách hàng điện ở đâu?</strong><br>
+          <span style="color:rgba(255,255,255,0.75);">Xem trên hóa đơn giấy (dòng "Mã KH" 13 số) hoặc trên website EVN vùng bạn. Không biết EVN vùng nào → chọn theo tỉnhnh/thành bên trên.</span>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--ink-3);">
+        <strong>Trigger:</strong> focus event trên input field mã KH. Auto-dismiss sau 5s hoặc khi user bắt đầu nhập. Không dismiss button cần thiết.<br>
+        <strong>GA4:</strong> tooltip_show(ma_kh_helper) — không count là conversion event, chỉ engagement signal
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">📊 Popup Performance Benchmark</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Unit</th><th>Target CTR</th><th>Target Dismiss rate</th><th>Condition để tắt</th></tr></thead>
+      <tbody>
+        <tr><td>Exit Intent Popup</td><td>≥ 8%</td><td>&lt; 85%</td><td>CTR &lt; 3% sau 500 impressions → tắt + A/B test copy</td></tr>
+        <tr><td>VTS Contextual Popup</td><td>≥ 12%</td><td>&lt; 75%</td><td>CTR &lt; 5% sau 300 impressions → review trigger timing</td></tr>
+        <tr class="row-highlight"><td>Balloon Tooltip</td><td>N/A (engagement only)</td><td>N/A</td><td>Nếu tool completion rate không tăng sau tooltip → review nội dung</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s-checklist">
+  <div class="page-header">
+    <div class="page-eyebrow">On Prod — Publish Checklist</div>
+    <div class="page-title">Publish Checklist — Go Live Gate</div>
+    <div class="page-desc">Danh sách kiểm tra đầy đủ trước khi publish từng sub-page. Được chia theo domain: SEO Technical, Content QA, Tracking &amp; Analytics, CTA/Conversion, và Cross-functional sign-off. Checklist này áp dụng cho mỗi trang trong cluster.</div>
+  </div>
+
+  <h2 class="sh">🔧 SEO Technical Checklist</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Item</th><th>Tool kiểm tra</th><th>Pass criteria</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Title tag đúng pattern, ≤ 60 chars</td><td>GSC / Screaming Frog</td><td>Không bị truncate trên SERP</td></tr>
+        <tr><td>2</td><td>Meta description có CTA, ≤ 155 chars</td><td>Screaming Frog</td><td>Không duplicate với page khác</td></tr>
+        <tr><td>3</td><td>H1 duy nhất, chứa target keyword chính</td><td>Manual check</td><td>1 H1 per page, không giống H1 trang khác</td></tr>
+        <tr><td>4</td><td>Canonical tag tự trỏ về chính nó</td><td>Dev tools / GSC</td><td>canonical = URL trang đó</td></tr>
+        <tr><td>5</td><td>Schema markup HowTo + FAQPage valid</td><td>Google Rich Results Test</td><td>0 errors, 0 warnings critical</td></tr>
+        <tr><td>6</td><td>BreadcrumbList schema đúng hierarchy</td><td>Schema.org validator</td><td>Hiển thị đúng trên SERP preview</td></tr>
+        <tr><td>7</td><td>Internal links ra đúng target, không broken</td><td>Screaming Frog / Manual</td><td>0 broken links, anchor text đúng spec</td></tr>
+        <tr><td>8</td><td>Sitemap XML include trang mới</td><td>momo.vn/sitemap.xml</td><td>URL xuất hiện trong sitemap, lastmod đúng</td></tr>
+        <tr class="row-highlight"><td>9</td><td>Core Web Vitals pass: LCP &lt; 2.5s, CLS &lt; 0.1</td><td>PageSpeed Insights</td><td>Score ≥ 75 mobile, ≥ 90 desktop</td></tr>
+        <tr><td>10</td><td>Images có alt text, định dạng WebP, lazy-load</td><td>Chrome DevTools</td><td>0 images missing alt text</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📄 Content QA Checklist</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Item</th><th>Người kiểm tra</th><th>Pass criteria</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Tên nhà cung cấp (EVN, Sawaco...) chính xác, không viết tắt sai</td><td>Content + Product</td><td>Khớp với tên thương mại chính thức</td></tr>
+        <tr><td>2</td><td>Số bước hướng dẫn khớp với app thực tế (screenshot cập nhật)</td><td>Content + QC App</td><td>Screenshots là phiên bản app hiện tại</td></tr>
+        <tr><td>3</td><td>Tool tra cứu trả về đúng nhà cung cấp theo lựa chọn</td><td>Dev + QC</td><td>Test thực tế từng provider hành</td></tr>
+        <tr><td>4</td><td>Không có thông tin pháp lý sai lệch (lãi suất, điều kiện vay)</td><td>Legal review</td><td>Sign-off từ Legal team</td></tr>
+        <tr><td>5</td><td>FAQ answers chính xác, không mâu thuẫn với support center</td><td>Content + CS team</td><td>Align với MoMo Help Center</td></tr>
+        <tr><td>6</td><td>Word count đạt target (Transaction: ≥1.500w, Pillar: ≥2.000w)</td><td>Content</td><td>Đúng target per content spec</td></tr>
+        <tr class="row-highlight"><td>7</td><td>Deeplink URLs đúng và hoạt động trên cả iOS + Android</td><td>Dev + QC</td><td>Test thực tế trên cả 2 nền tảng</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📊 Tracking & Analytics Checklist</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Event</th><th>GTM Trigger</th><th>GA4 Property</th><th>Kiểm tra bằng</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>page_view</td><td>All Pages</td><td>Standard event</td><td>GA4 Realtime</td></tr>
+        <tr><td>2</td><td>cta_click (hero primary)</td><td>Click - element ID #cta-hero</td><td>Custom event + parameter: cta_position=hero</td><td>GTM Preview</td></tr>
+        <tr><td>3</td><td>tool_interact (tra cứu widget)</td><td>Focus / Input event trên widget</td><td>tool_interact, tool_type=lookup</td><td>GTM Preview</td></tr>
+        <tr><td>4</td><td>tool_complete (lookup thành công)</td><td>Custom JS event từ widget</td><td>tool_complete, result=success/error</td><td>GTM Preview + Network tab</td></tr>
+        <tr><td>5</td><td>tool_widget_view</td><td>IntersectionObserver trên tool widget</td><td>ads_unit_view, unit_id=tool_widget</td><td>GTM Preview</td></tr>
+        <tr><td>6</td><td>tool_pay_cta</td><td>Click nút "Thanh toán ngay" sau tra cứu</td><td>tool_pay_cta_click, source_page, amount</td><td>GTM Preview</td></tr>
+        <tr class="row-highlight"><td>7</td><td>web_to_app_convert</td><td>Click App Store / CH Play / Deeplink CTAs</td><td>web_to_app_convert, source_page, source_cta</td><td>GA4 Realtime + Appsflyer</td></tr>
+        <tr><td>8</td><td>scroll_depth_50 / scroll_depth_90</td><td>Scroll Depth trigger GTM</td><td>scroll_depth, depth_pct</td><td>GA4 Realtime</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">✅ Sign-off Matrix — Ai approve trước khi Go Live</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Domain</th><th>Owner</th><th>What to review</th><th>Deadline trước launch</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><strong>SEO Technical</strong></td><td>SEO Lead (Klaus)</td><td>Toàn bộ SEO checklist trên</td><td>T-3 ngày</td></tr>
+        <tr><td><strong>Content accuracy</strong></td><td>Content Lead</td><td>Factual claims, provider names, steps</td><td>T-3 ngày</td></tr>
+        <tr><td><strong>Legal / Compliance</strong></td><td>Legal team</td><td>Thông tin nhà cung cấp, hạn ngày trong tool</td><td>T-5 ngày</td></tr>
+        <tr><td><strong>Tracking</strong></td><td>Data Analyst</td><td>GTM container, GA4 events, Appsflyer</td><td>T-2 ngày</td></tr>
+        <tr><td><strong>Dev / QC</strong></td><td>Dev Lead</td><td>Deeplinks, tool widget, mobile UX, CWV</td><td>T-2 ngày</td></tr>
+        <tr><td><strong>Product</strong></td><td>PO</td><td>App flow sau deeplink, màn hình thanh toán pre-filled</td><td>T-1 ngày</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s-offpage">
+  <div class="page-header">
+    <div class="page-eyebrow">On Prod — Off-page Strategy</div>
+    <div class="page-title">Off-page &amp; Authority Building</div>
+    <div class="page-desc">Chiến lược xây dựng authority từ bên ngoài cho cluster Thanh Toán Hóa Đơn — link building có chọn lọc, digital PR, brand mention tracking và GEO citation building để AI engines cite MoMo.</div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🎯 Off-page Priority cho cluster này</div>
+    Cluster Thanh Toán Hóa Đơn có lợi thế: MoMo đã là thương hiệu uy tín, đã là đối tác chính thức EVN. Off-page cần tập trung vào: (1) Chuyển traffic từ blog bên thứ 3 đang rank về trang chính thức MoMo; (2) Build GEO citations để AI engines cite MoMo khi trả lời về hóa đơn; (3) Tận dụng network đối tác sẵn có để lấy backlinks chất lượng.
+  </div>
+
+  <h2 class="sh">🔗 Link Building Targets</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Target Domain</th><th>Tactic</th><th>Anchor Text đề xuất</th><th>Priority</th><th>Difficulty</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><strong>evn.com.vn, evnhcmc.vn</strong></td><td>Partner co-marketing: "Thanh toán qua MoMo" section với link về /dien</td><td>"thanh toán tiền điện qua MoMo"</td><td class="tag tag-p1 tag">P1</td><td>Low — đã là đối tác</td></tr>
+        <tr class="row-highlight"><td><strong>sawaco.vn, hawaco.vn</strong></td><td>Partner page "Kênh thanh toán" → link MoMo</td><td>"thanh toán nước qua MoMo"</td><td class="tag tag-p1 tag">P1</td><td>Low — đã là đối tác</td></tr>
+        <tr><td><strong>fpt.vn, vnpt.vn, viettel.vn</strong></td><td>Partner "Cách thanh toán online" page → link /internet</td><td>"thanh toán internet qua MoMo"</td><td class="tag tag-p2 tag">P2</td><td>Medium</td></tr>
+        <tr><td><strong>vietnammoi.vn, baomoi.com</strong></td><td>Press release khi launch tính năng mới / milestone</td><td>Brand mention + link /thanh-toan-hoa-don</td><td class="tag tag-p2 tag">P2</td><td>Medium</td></tr>
+        <tr><td><strong>bachhoaxanh.com, cellphones.com.vn</strong></td><td>Tiếp cận "Guest expert" section — bài viết về thanh toán hóa đơn</td><td>Contextual links từ how-to content</td><td class="tag tag-p2 tag">P2</td><td>Medium-High</td></tr>
+        <tr><td><strong>thuvienphapluat.vn, luatvietnam.vn</strong></td><td>Mention MoMo trong bài về "thanh toán điện tử hóa đơn tiện ích"</td><td>Natural brand citation</td><td class="tag tag-p3 tag">P3</td><td>High</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📰 Digital PR Playbook</h2>
+  <div class="grid-2">
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">📊 Data PR — "Báo cáo Thanh toán Hóa đơn VN"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">MoMo có data thực về: tháng nào tiền điện cao nhất, tỉnhnh nào có tốc độ thanh toán online tăng nhanh nhất, % user dùng VTS để đóng hóa đơn. Publish báo cáo hàng năm → báo chí trích dẫn → natural backlinks chất lượng cao từ VnExpress, Tuổi Trẻ, Báo Đầu Tư.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-title">🎯 Milestone PR — Launch sub-pages</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Khi launch /dien và /nuoc: press release "MoMo ra mắt trang hướng dẫn thanh toán hóa đơn chuyên biệt, tích hợp tra cứu EVN". Tie-in với số liệu: "Xử lý Xmillion giao dịch tiền điện mỗi tháng". Target: VnExpress Tech, CafeF, Báo Người Lao Động.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🤖 GEO Citation Building — AI Engines</h2>
+  <div class="geo-block">
+    <div class="geo-block-label">🎯 GEO Citation Strategy</div>
+    <div class="geo-block-q">Mục tiêu: ChatGPT, Gemini, Perplexity, và SearchGPT cite MoMo khi trả lời về hóa đơn online tại Việt Nam</div>
+    <div class="geo-block-a">
+      <strong>3 yếu tố AI engines dùng để chọn source:</strong> (1) <strong>Authoritative brand</strong> - MoMo là 1 trong 3 ví điện tử lớn nhất VN, domain authority cao. (2) <strong>Clear factual claims</strong> - Content cần có số liệu cụ thể, dễ extract. (3) <strong>Freshness + Consistency</strong> - Thông tin phải nhất quán trên nhiều nguồn (website chính, App Store listing, Wikipedia, báo chí).
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Citation Source</th><th>Action</th><th>Expected Impact</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Wikipedia — MoMo (ví điện tử)</strong></td><td>Cập nhật section "Dịch vụ" bổ sung "Thanh toán hóa đơn tiện ích: hỗ trợ điện, nước, internet..." với citation từ báo chí chính thức</td><td>AI engines dùng Wikipedia như primary source — citation xuất hiện gần như tức thì sau update</td></tr>
+        <tr class="row-highlight"><td><strong>Google Business Profile</strong></td><td>Update services description, Q&A section với "Thanh toán điện nước qua MoMo miễn phí"</td><td>Google AI Overview (SGE) ưu tiên GBP data cho local/brand queries</td></tr>
+        <tr><td><strong>App Store / CH Play listing</strong></td><td>Cập nhật keywords + description section "Thanh toán hóa đơn điện, nước, internet" với số liệu cụ thể</td><td>AI engines extract từ app store data khi trả lời về mobile apps</td></tr>
+        <tr><td><strong>Structured data trên web</strong></td><td>Organization schema với description đầy đủ về dịch vụ thanh toán hóa đơn</td><td>AI engines parse structured data để build knowledge graph về MoMo</td></tr>
+        <tr><td><strong>Báo chí chính thống</strong></td><td>Đảm bảo VnExpress, Tuổi Trẻ, CafeF có ít nhất 1 bài/quý mention MoMo + thanh toán hóa đơn với số liệu mới</td><td>AI engines crawl báo uy tín — brand + service mention = citation signal mạnh</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📈 Brand Mention Monitoring</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">🔍 Google Alerts</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Setup alerts cho: "MoMo thanh toán điện", "MoMo tiền nước", "momo.vn hóa đơn". Tần suất: daily digest. Dùng để track unlinked mentions → reach out xin thêm link.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Ahrefs Brand Monitor</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Track backlinks mới đến /dien, /nuoc, /internet, /thanh-toan-hoa-don. Alert khi có toxic link. Monthly report: new referring domains, lost links, DR distribution.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🤖 AI Citation Audit</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Monthly: hỏi trực tiếp ChatGPT/Gemini/Perplexity "app nào tốt nhất để đóng hóa đơn điện VN?" và ghi lại có mention MoMo không. Track % queries được cite theo thời gian.</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

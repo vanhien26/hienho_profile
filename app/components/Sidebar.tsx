@@ -22,6 +22,7 @@ const navTree = [
       { label: 'Dịch Vụ Công', href: '/projects/dich-vu-cong', tag: 'LIVE' },
       { label: 'eSIM Du Lịch', href: '/projects/esim-du-lich', tag: 'LIVE' },
       { label: 'Phạt Nguội', href: '/projects/phat-nguoi', tag: 'LIVE' },
+      { label: 'Thanh Toán Hóa Đơn', href: '/projects/thanh-toan-hoa-don', tag: 'LIVE' },
     ],
   },
   {
@@ -30,8 +31,8 @@ const navTree = [
     key: 'knowledge',
     items: [
       { label: 'GEO Framework', href: '/projects/geo-framework', tag: 'LIVE' },
-      { label: 'JTBD Fintech', href: '/projects/jtbd-fintech', tag: 'LIVE' },
-      { label: 'Web-to-App Playbook', href: '/projects/web-to-app-funnel', tag: 'LIVE' },
+      { label: 'JTBD Analysis', href: '/projects/jtbd', tag: 'LIVE' },
+      { label: 'Web-to-App Playbook', href: '/projects/web-to-app', tag: 'LIVE' },
     ],
   },
 ]

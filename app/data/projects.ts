@@ -207,6 +207,18 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: 'thanh-toan-hoa-don',
+    title: 'Thanh Toán Hóa Đơn',
+    subtitle: 'momo.vn/thanh-toan-hoa-don',
+    category: 'use-case',
+    division: 'UTI',
+    tags: ['SEO', 'Content Architecture', 'pSEO'],
+    status: 'live',
+    updatedAt: '2026-03-29',
+    description: 'Thanh Toán Hóa Đơn: điện, nước, internet, truyền hình. Web growth strategy và content architecture cho dịch vụ thanh toán.',
+    htmlFile: '/projects/thanh-toan-hoa-don.html',
+  },
+  {
     id: 'geo-framework',
     title: 'GEO Framework',
     subtitle: 'Knowledge & Guideline',
