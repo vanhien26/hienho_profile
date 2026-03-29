@@ -214,7 +214,7 @@ export default function HomePage() {
                     Use Case Document
                   </h2>
                   <p className="text-xs" style={{ color: 'var(--ink-3)' }}>
-                    Chiến lược và tài liệu thực thi cho từng vertical
+                    Chiến lược và tài liệu thực thi cho từng Use Case
                   </p>
                 </div>
               </div>
