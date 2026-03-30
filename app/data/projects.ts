@@ -1,5 +1,5 @@
 export type Category = 'use-case' | 'knowledge'
-export type Division = 'FS' | 'UTI' | 'OTA'
+export type Division = 'FS' | 'UTI' | 'OTA' | 'GPD'
 
 export interface Project {
   id: string
@@ -217,6 +217,18 @@ export const projects: Project[] = [
     updatedAt: '2026-03-29',
     description: 'Thanh Toán Hóa Đơn: điện, nước, internet, truyền hình. Web growth strategy và content architecture cho dịch vụ thanh toán.',
     htmlFile: '/projects/thanh-toan-hoa-don.html',
+  },
+  {
+    id: 'quan-ly-chi-tieu',
+    title: 'Quản Lý Chi Tiêu',
+    subtitle: 'momo.vn/quan-ly-chi-tieu',
+    category: 'use-case',
+    division: 'GPD',
+    tags: ['SEO', 'Content Architecture', 'pSEO'],
+    status: 'live',
+    updatedAt: '2026-03-30',
+    description: 'Chiến lược xây dựng trang web cho tính năng Quản Lý Chi Tiêu của MoMo.',
+    htmlFile: '/projects/quan-ly-chi-tieu.html',
   },
   {
     id: 'geo-framework',
