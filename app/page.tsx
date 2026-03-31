@@ -115,6 +115,17 @@ export default function HomePage() {
             }}
           />
 
+          {/* MoMo Logo - top right */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="absolute top-4 right-6 sm:right-12 z-10"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/momo-logo-white.png" alt="MoMo" className="h-10 sm:h-12 w-auto opacity-70" />
+          </motion.div>
+
           <div className="relative px-6 sm:px-12 pt-8 sm:pt-10 pb-0 flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-8">
             {/* Avatar */}
             <motion.div

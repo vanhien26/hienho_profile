@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Top row: m + o -->
+  <!-- Letter m (top-left) -->
+  <path d="M8 95 L8 52 C8 28 22 12 38 12 C48 12 54 18 58 24 C62 18 68 12 78 12 C94 12 108 28 108 52 L108 95 L92 95 L92 52 C92 36 86 24 78 24 C70 24 64 36 64 52 L64 95 L52 95 L52 52 C52 36 46 24 38 24 C30 24 24 36 24 52 L24 95 Z" fill="#A50064"/>
+  <!-- Letter o (top-right) -->
+  <circle cx="152" cy="54" r="42" fill="#A50064"/>
+  <circle cx="152" cy="54" r="18" fill="white"/>
+  <!-- Bottom row: m + o -->
+  <!-- Letter m (bottom-left) -->
+  <path d="M8 190 L8 147 C8 123 22 107 38 107 C48 107 54 113 58 119 C62 113 68 107 78 107 C94 107 108 123 108 147 L108 190 L92 190 L92 147 C92 131 86 119 78 119 C70 119 64 131 64 147 L64 190 L52 190 L52 147 C52 131 46 119 38 119 C30 119 24 131 24 147 L24 190 Z" fill="#A50064"/>
+  <!-- Letter o (bottom-right) -->
+  <circle cx="152" cy="149" r="42" fill="#A50064"/>
+  <circle cx="152" cy="149" r="18" fill="white"/>
+</svg>
