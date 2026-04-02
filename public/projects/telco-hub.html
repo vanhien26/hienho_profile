@@ -7,8 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --pink: #AE2070;
-  --pink-light: #F5E0EC;
+  /* MoMo Brand Pink — correct values from brand guideline */
+  --pink:       #F95396;  /* Hồng +1 — primary brand */
+  --pink-0:     #FF9DBE;  /* Hồng — mid */
+  --pink-m1:    #FEC8DC;  /* Hồng -1 — light */
+  --pink-m2:    #FFEFF4;  /* Hồng -2 — pale bg */
+  --pink-light: #FFEFF4;
+  /* Semantic colours */
   --green: #00A64F;
   --green-light: #E0F5EA;
   --blue: #1848B8;
@@ -30,67 +35,203 @@
   --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
   --shadow: 0 4px 20px rgba(0,0,0,0.08);
   --r: 10px;
+  /* Topbar */
+  --topbar-h: 52px;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; -webkit-text-size-adjust:100%; }
 
-/* ─── LAYOUT ─── */
-.layout { display:flex; min-height:100vh; }
-.sidebar { width:260px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
-.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
-.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
-.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
-.nav-section { padding:16px 0 0; }
-.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
-.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; user-select:none; }
-.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
-.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
-.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
-.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
-.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+/* ══════════════════════════════════════
+   LAYOUT — Sidebar model, mobile-first
+══════════════════════════════════════ */
 
-/* ─── CONTENT ─── */
-.content { flex:1; overflow-y:auto; min-width:0; }
-.section { display:none; padding:40px 48px; }
+/* Mobile: single column, sidebar hidden off-screen */
+.layout { display:block; min-height:100vh; }
+
+/* ── MOBILE HEADER ── */
+.mob-header {
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:300;
+  height:52px; padding:0 16px;
+  background:#fff;
+  border-bottom:2px solid var(--pink-m1);
+  box-shadow:0 2px 10px rgba(249,83,150,0.08);
+}
+.mob-brand { display:flex; align-items:center; gap:9px; }
+.brand-logo {
+  background:linear-gradient(135deg,var(--pink) 0%,#D0206A 100%);
+  color:#fff; font-weight:900; font-size:15px;
+  padding:4px 10px; border-radius:7px; letter-spacing:-0.5px;
+}
+.brand-label { font-size:10.5px; font-weight:700; color:var(--ink-3); line-height:1.3; }
+.mob-hamburger {
+  display:flex; flex-direction:column; gap:4.5px;
+  cursor:pointer; padding:7px; border-radius:6px;
+  background:transparent; border:none;
+  transition:background 0.12s;
+}
+.mob-hamburger:hover { background:var(--pink-m2); }
+.mob-hamburger span {
+  display:block; width:20px; height:2px;
+  background:var(--ink-2); border-radius:2px;
+  transition:all 0.22s cubic-bezier(0.4,0,0.2,1);
+}
+.mob-hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(4.5px,4.5px); background:var(--pink); }
+.mob-hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+.mob-hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(4.5px,-4.5px); background:var(--pink); }
+
+/* ── SIDEBAR OVERLAY ── */
+.sidebar-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(24,18,14,0.5);
+  z-index:250; -webkit-tap-highlight-color:transparent;
+}
+.sidebar-overlay.open { display:block; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position:fixed; top:0; left:0;
+  width:256px; height:100vh;
+  background:#18120E;
+  display:flex; flex-direction:column;
+  z-index:260;
+  transform:translateX(-100%);
+  transition:transform 0.26s cubic-bezier(0.4,0,0.2,1);
+  overflow-y:auto; overflow-x:hidden;
+}
+.sidebar.open { transform:translateX(0); box-shadow:4px 0 24px rgba(0,0,0,0.3); }
+
+/* Sidebar brand */
+.sidebar-brand {
+  display:flex; align-items:center; gap:10px;
+  padding:18px 18px 15px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;
+}
+.sidebar-brand .brand-logo { font-size:14px; padding:3px 9px; }
+.sidebar-brand .brand-label { color:rgba(255,255,255,0.45); font-size:10px; line-height:1.4; }
+
+/* Nav sections */
+.nav-section { padding:18px 0 4px; flex-shrink:0; }
+.nav-section-label {
+  display:block;
+  font-size:9px; font-weight:800; letter-spacing:1.6px;
+  text-transform:uppercase; color:var(--pink-0);
+  padding:0 18px 6px; opacity:0.9;
+}
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 18px 9px 16px;
+  cursor:pointer;
+  color:rgba(255,255,255,0.52);
+  font-size:12.5px; font-weight:500;
+  border-left:3px solid transparent;
+  transition:all 0.13s; user-select:none;
+  line-height:1.3;
+}
+.nav-item:hover {
+  color:rgba(255,255,255,0.9);
+  background:rgba(255,255,255,0.05);
+  border-left-color:var(--pink-m1);
+}
+.nav-item.active {
+  color:#fff;
+  background:rgba(249,83,150,0.14);
+  border-left-color:var(--pink);
+  font-weight:700;
+}
+.nav-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:rgba(255,255,255,0.18); flex-shrink:0;
+  transition:background 0.13s;
+}
+.nav-item.active .nav-dot { background:var(--pink); box-shadow:0 0 6px var(--pink); }
+.nav-item:hover .nav-dot { background:rgba(255,255,255,0.45); }
+.nav-icon { display:none; }
+.nav-lbl { flex:1; }
+
+/* Sidebar footer */
+.sidebar-footer {
+  margin-top:auto; padding:14px 18px;
+  border-top:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;
+}
+.version-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px; color:rgba(255,255,255,0.22); line-height:1.8;
+}
+
+/* ── CONTENT ── */
+.content {}
+.section { display:none; padding:24px 16px 40px; }
 .section.active { display:block; }
 
-/* ─── HEADER ─── */
-.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
-.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
-.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
-.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+/* ── DESKTOP: sidebar always visible ── */
+@media (min-width:900px) {
+  .mob-header { display:none; }
+  .sidebar-overlay { display:none !important; }
+  .sidebar {
+    transform:none !important;
+    position:fixed; top:0; left:0; height:100vh;
+    box-shadow:none;
+  }
+  .layout { margin-left:256px; }
+  .section { padding:36px 44px 48px; }
+}
 
-/* ─── STATS ─── */
-.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
-.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
-.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
-.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
-.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+/* Hide old topbar */
+.topbar { display:none !important; }
+.topbar-brand-row,
+.topbar-nav-row,
+.topbar-meta,
+.nav-group,
+.nav-group-sep,
+.nav-group-label { }
 
-/* ─── HEADINGS ─── */
-h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
-h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
-h4.sh4 { font-size:13px; font-weight:700; margin-bottom:8px; color:var(--ink-2); }
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+.page-header { margin-bottom:28px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:6px; }
+.page-title { font-size:22px; font-weight:900; letter-spacing:-0.5px; line-height:1.2; color:var(--ink); margin-bottom:8px; }
+.page-desc { font-size:13.5px; color:var(--ink-2); line-height:1.7; }
+
+/* ══════════════════════════════════════
+   STATS
+══════════════════════════════════════ */
+.stat-row { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:28px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 16px; }
+.stat-num { font-size:26px; font-weight:900; letter-spacing:-1px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:11.5px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10px; color:var(--ink-3); margin-top:3px; }
+
+/* ══════════════════════════════════════
+   HEADINGS
+══════════════════════════════════════ */
+h2.sh { font-size:16px; font-weight:800; letter-spacing:-0.3px; margin-bottom:14px; color:var(--ink); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+h3.sh3 { font-size:13.5px; font-weight:700; margin-bottom:10px; color:var(--ink); }
+h4.sh4 { font-size:12.5px; font-weight:700; margin-bottom:7px; color:var(--ink-2); }
 
 /* ─── TAGS ─── */
 .tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
 .tag-tofu { background:#E0F4E8; color:#0B6130; }
 .tag-mofu { background:var(--blue-light); color:var(--blue); }
-.tag-bofu { background:var(--pink-light); color:var(--pink); }
-.tag-p1 { background:var(--pink-light); color:var(--pink); }
+.tag-bofu { background:var(--pink-m2); color:var(--pink); }
+.tag-p1 { background:var(--pink-m2); color:var(--pink); }
 .tag-p2 { background:#FFF3DC; color:#8B5800; }
 .tag-p3 { background:#F0EDE8; color:var(--ink-3); }
 .tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
 .tag-pseo { background:var(--purple-light); color:var(--purple); }
 .tag-seo { background:var(--blue-light); color:var(--blue); }
 .tag-ux { background:var(--green-light); color:var(--green); }
-.tag-conv { background:var(--pink-light); color:var(--pink); }
+.tag-conv { background:var(--pink-m2); color:var(--pink); }
 .tag-trust { background:#FFF3DC; color:#8B5800; }
 .tag-template { background:var(--teal-light); color:var(--teal); }
 .tag-ai { background:var(--purple-light); color:var(--purple); border:1.5px dashed var(--purple); }
 
-code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
-
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); word-break:break-all; }
+.data-table td { padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; word-break:break-word; }
 /* ─── TABLE ─── */
 .data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
 .data-table thead tr { background:#F0EDE8; }
@@ -100,7 +241,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .data-table tbody tr:hover { background:#FAFAF8; }
 .data-table tbody tr.row-new { background:#F0FFF6; }
 .data-table tbody tr.row-new:hover { background:#E0F5EA; }
-.data-table tbody tr.row-highlight { background:var(--pink-light); }
+.data-table tbody tr.row-highlight { background:var(--pink-m2); }
 
 /* ─── FUNNEL ─── */
 .funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
@@ -334,58 +475,1024 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .progress-track { height:12px; background:#F0EDE8; border-radius:7px; overflow:hidden; }
 .progress-fill { height:100%; border-radius:7px; }
 
+/* ─── TABLE — scroll wrapper on mobile ─── */
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:12.5px; margin-bottom:24px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:9px 12px; text-align:left; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-new { background:#F0FFF6; }
+.data-table tbody tr.row-new:hover { background:#E0F5EA; }
+.data-table tbody tr.row-highlight { background:var(--pink-m2); }
+.table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:24px; border-radius:var(--r); }
+.table-scroll .data-table { margin-bottom:0; min-width:540px; }
+
+/* ─── FUNNEL ─── */
+.funnel-flow { display:flex; flex-direction:column; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.funnel-stage { flex:1; padding:14px 16px; border-bottom:1px solid var(--border); border-right:none; }
+.funnel-stage:last-child { border-bottom:none; }
+.funnel-stage-label { font-size:9.5px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:5px; }
+.funnel-stage-title { font-size:14px; font-weight:800; margin-bottom:8px; }
+.funnel-stage-items { list-style:none; font-size:11.5px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
+.fs-tofu { border-top:3px solid var(--green); }
+.fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); }
+.fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); }
+.fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+.fs-pseo { border-top:3px solid var(--purple); }
+.fs-pseo .funnel-stage-label { color:var(--purple); }
+
+/* ─── TREE ─── */
+.tree-grid { display:grid; grid-template-columns:1fr; gap:14px; margin-bottom:28px; }
+.tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.tree-box-header { padding:12px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+.tree-box-title { font-size:13px; font-weight:800; }
+.tree-box-url { font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-3); margin-top:1px; }
+.tree-body { padding:12px 16px; }
+.tree-item { font-size:12px; padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:7px; line-height:1.4; }
+.tree-item:last-child { border-bottom:none; }
+.tree-depth-0 { font-weight:800; color:var(--ink); }
+.tree-depth-1 { padding-left:12px; color:var(--ink-2); }
+.tree-depth-2 { padding-left:24px; color:var(--ink-3); font-size:11px; }
+.tree-badge { font-size:9.5px; font-weight:700; padding:1px 5px; border-radius:3px; flex-shrink:0; }
+
+/* ─── DIVIDER ─── */
+.divider { height:1px; background:var(--border); margin:24px 0; }
+
+/* ─── CALLOUT ─── */
+.callout { border-radius:var(--r); padding:14px 16px; margin-bottom:16px; font-size:12.5px; line-height:1.7; }
+.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-purple { background:var(--purple-light); border:1px solid #C0A0FF; color:#4A1A90; }
+.callout-title { font-weight:800; margin-bottom:4px; font-size:12.5px; }
+
+/* ─── VERDICT ─── */
+.verdict-bar { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px; margin-bottom:24px; display:flex; flex-direction:column; gap:14px; }
+.verdict-score { width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px; font-weight:900; }
+.verdict-text { flex:1; }
+.verdict-title { font-size:14px; font-weight:800; margin-bottom:4px; }
+.verdict-desc { font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+
+/* ─── CARDS ─── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:16px 18px; margin-bottom:12px; }
+.card-title { font-size:13.5px; font-weight:700; margin-bottom:7px; color:var(--ink); }
+
+/* ─── GRID (mobile: 1-col default) ─── */
+.grid-2 { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+.grid-3 { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+
+/* ─── CONTENT STRUCTURE ─── */
+.cs-page { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+.cs-header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; cursor:pointer; background:var(--surface); transition:background 0.12s; gap:10px; }
+.cs-header:hover { background:var(--bg); }
+.cs-header-left { display:flex; align-items:center; gap:10px; min-width:0; }
+.cs-page-title { font-size:13px; font-weight:700; white-space:normal; }
+.cs-toggle { font-size:11px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
+.cs-toggle.open { transform:rotate(90deg); }
+.cs-body { display:none; border-top:1px solid var(--border); }
+.cs-body.open { display:block; }
+.cs-section { border-bottom:1px solid var(--border); padding:14px 16px; }
+.cs-section:last-child { border-bottom:none; }
+.cs-section-label { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:7px; }
+.cs-keyword-row { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11px; padding:2px 7px; border-radius:4px; }
+.cs-component { display:inline-flex; align-items:center; gap:4px; background:var(--amber-light); color:var(--amber); border:1px solid #FFD0A0; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px; margin:2px; }
+.cs-content-block { background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:9px 12px; margin-bottom:7px; font-size:12px; }
+.cs-block-title { font-weight:700; margin-bottom:2px; }
+.cs-block-desc { color:var(--ink-2); line-height:1.5; }
+.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
+.cs-ai { display:inline-block; background:var(--purple-light); color:var(--purple); border:1px solid #C0A0FF; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:4px; margin:2px; }
+
+/* ─── KPI ─── */
+.kpi-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:24px; }
+.kpi-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px; text-align:center; }
+.kpi-icon { font-size:22px; margin-bottom:6px; }
+.kpi-value { font-size:24px; font-weight:900; letter-spacing:-1px; margin-bottom:3px; }
+.kpi-label { font-size:11.5px; color:var(--ink-3); font-weight:500; }
+.kpi-note { font-size:10px; color:var(--ink-3); margin-top:3px; }
+
+/* ─── ROADMAP ─── */
+.roadmap-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.roadmap-col-header { padding:10px 14px; display:flex; align-items:center; gap:10px; }
+.roadmap-col-body { padding:10px 14px; background:var(--surface); }
+.roadmap-item { font-size:11.5px; color:var(--ink-2); padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:6px; line-height:1.4; }
+.roadmap-item:last-child { border-bottom:none; }
+.roadmap-item::before { content:"✓"; color:var(--green); font-size:10.5px; flex-shrink:0; margin-top:1px; }
+
+/* ─── CHECKLIST ─── */
+.cl-product { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+.cl-product-header { display:flex; align-items:center; gap:10px; padding:14px 16px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
+.cl-product-header:hover { background:var(--bg); }
+.cl-product-icon { font-size:20px; flex-shrink:0; }
+.cl-product-meta { flex:1; min-width:0; }
+.cl-product-name { font-size:13px; font-weight:800; }
+.cl-product-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
+.cl-product-badge { font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:20px; flex-shrink:0; display:none; }
+.cl-product-toggle { font-size:11px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
+.cl-product-toggle.open { transform:rotate(90deg); }
+.cl-product-body { display:none; border-top:1px solid var(--border); }
+.cl-product-body.open { display:block; }
+.cl-group { padding:14px 16px; border-bottom:1px solid var(--border); }
+.cl-group:last-child { border-bottom:none; }
+.cl-group-title { font-size:11px; font-weight:700; color:var(--ink-2); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
+.cl-grid { display:grid; grid-template-columns:1fr; gap:4px; }
+.cl-item { display:flex; gap:8px; align-items:flex-start; padding:4px 0; }
+.cl-check { width:13px; height:13px; border:1.5px solid var(--border); border-radius:3px; flex-shrink:0; margin-top:2px; }
+.cl-item-text { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.cl-note { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; font-size:12px; padding:10px 14px; border-radius:7px; margin:10px 16px 14px; line-height:1.6; }
+
+/* ─── ANATOMY ─── */
+.anatomy-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
+.anatomy-header-row { padding:10px 14px; background:#F0EDE8; border-bottom:1px solid var(--border); font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); }
+.anatomy-row { display:flex; flex-direction:column; border-bottom:1px solid var(--border); font-size:12.5px; }
+.anatomy-row:last-child { border-bottom:none; }
+.anatomy-section { padding:10px 14px 4px; background:var(--bg); border-bottom:1px solid var(--border); font-weight:700; font-size:11.5px; color:var(--ink); display:flex; align-items:center; gap:6px; }
+.anatomy-section::before { content:"▸"; color:var(--pink); font-size:10px; }
+.anatomy-content { padding:10px 14px; font-size:12px; color:var(--ink-2); line-height:1.6; }
+.anatomy-note { padding:6px 14px 10px; font-size:11px; color:var(--ink-3); line-height:1.5; border-top:1px dashed var(--border); background:var(--bg); }
+
+/* ─── HUB CARD ─── */
+.hub-product-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+.hub-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 18px; position:relative; overflow:hidden; }
+.hub-card::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; }
+.hub-card.sim::before { background:var(--pink); }
+.hub-card.data::before { background:var(--blue); }
+.hub-card.esim::before { background:var(--teal); }
+.hub-card.nap::before { background:var(--amber); }
+.hub-card-icon { font-size:24px; margin-bottom:8px; }
+.hub-card-title { font-size:14px; font-weight:800; margin-bottom:3px; }
+.hub-card-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-bottom:8px; }
+.hub-card-desc { font-size:12.5px; color:var(--ink-2); line-height:1.6; margin-bottom:10px; }
+.hub-card-items { list-style:none; font-size:12px; color:var(--ink-2); }
+.hub-card-items li { padding:3px 0; display:flex; gap:6px; align-items:flex-start; line-height:1.4; }
+.hub-card-items li::before { content:"→"; flex-shrink:0; }
+
+/* ─── PSEO ─── */
+.pseo-wrap { background:linear-gradient(135deg,var(--purple-light),#F8F4FF); border:1.5px solid #C0A0FF; border-radius:var(--r); padding:16px 18px; margin-bottom:16px; }
+.pseo-title { font-size:13.5px; font-weight:800; color:var(--purple); margin-bottom:6px; display:flex; align-items:center; gap:7px; }
+.pseo-desc { font-size:12px; color:var(--ink-2); line-height:1.6; margin-bottom:10px; }
+.pseo-template-row { display:grid; grid-template-columns:1fr; gap:8px; }
+.pseo-template { background:white; border:1px solid #C0A0FF; border-radius:7px; padding:10px 12px; font-size:12px; }
+.pseo-template-label { font-weight:700; color:var(--purple); margin-bottom:2px; font-size:10.5px; text-transform:uppercase; }
+.pseo-template-url { font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-3); margin-bottom:4px; }
+.pseo-template-vol { font-size:11px; color:var(--ink-3); }
+
+/* ─── OPERATOR BADGE ─── */
+.op-grid { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+.op-badge { display:flex; align-items:center; gap:5px; padding:5px 10px; border-radius:6px; font-size:11.5px; font-weight:700; border:1.5px solid; }
+.op-viettel { background:#FFF0F0; color:#C00000; border-color:#FFB0B0; }
+.op-mobi { background:#FFF8E0; color:#9B6000; border-color:#FFD880; }
+.op-vina { background:#E8F0FF; color:#1040C0; border-color:#A0C0FF; }
+.op-vietnamobile { background:#F0FFF0; color:#007040; border-color:#80D080; }
+.op-reddi { background:#F8F0FF; color:#7000B0; border-color:#C080FF; }
+.op-itelecom { background:#F0FFFE; color:#007070; border-color:#80D0D0; }
+
+/* ─── PHONG THUY ─── */
+.pt-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:16px; }
+.pt-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; text-align:center; }
+.pt-icon { font-size:22px; margin-bottom:5px; }
+.pt-name { font-size:12.5px; font-weight:700; margin-bottom:2px; }
+.pt-desc { font-size:11px; color:var(--ink-3); line-height:1.4; }
+
+/* ─── ESIM REGION ─── */
+.region-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin-bottom:14px; }
+.region-card { background:var(--surface); border:1px solid var(--border); border-radius:7px; padding:10px; text-align:center; }
+.region-icon { font-size:18px; margin-bottom:3px; }
+.region-name { font-size:11px; font-weight:700; color:var(--ink); }
+.region-count { font-size:10px; color:var(--ink-3); }
+
+/* ─── PROGRESS ─── */
+.progress-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 16px; margin-bottom:24px; }
+.progress-label { display:flex; justify-content:space-between; font-size:11.5px; font-weight:600; margin-bottom:7px; }
+.progress-track { height:10px; background:#F0EDE8; border-radius:7px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:7px; }
+
 /* ─── TELECOM HUB ─── */
-.th-section-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
-.th-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-.th-section-title { font-size:15px; font-weight:800; display:flex; align-items:center; gap:8px; }
-.th-section-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
+.th-section-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 18px; margin-bottom:12px; }
+.th-section-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; gap:8px; flex-wrap:wrap; }
+.th-section-title { font-size:14px; font-weight:800; display:flex; align-items:center; gap:7px; }
+.th-section-url { font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-3); }
+
+/* ─── SCENARIO ─── */
+.scenario-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+.scenario-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.scenario-header { padding:12px 16px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.scenario-title { font-size:13px; font-weight:700; }
+.scenario-body { padding:14px 16px; }
+.scenario-step { display:flex; gap:10px; margin-bottom:10px; align-items:flex-start; font-size:12.5px; }
+.step-num { width:22px; height:22px; border-radius:50%; background:var(--pink); color:white; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; flex-shrink:0; }
+.step-text { color:var(--ink-2); line-height:1.5; padding-top:2px; }
+.scenario-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:7px 12px; font-size:11.5px; font-weight:700; color:#0B5020; margin-top:6px; }
+
+/* ─── MATRIX ─── */
+.matrix-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+.matrix-table { width:100%; border-collapse:collapse; font-size:11.5px; }
+.matrix-table th { padding:9px 10px; background:#F0EDE8; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-3); border-bottom:1px solid var(--border); border-right:1px solid var(--border); text-align:center; }
+.matrix-table th:first-child { text-align:left; }
+.matrix-table td { padding:9px 10px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); vertical-align:middle; line-height:1.4; text-align:center; }
+.matrix-table td:first-child { text-align:left; }
+.matrix-table td:last-child, .matrix-table th:last-child { border-right:none; }
+.matrix-table tbody tr:last-child td { border-bottom:none; }
+.matrix-table .row-label { font-weight:700; font-size:11.5px; background:var(--bg); white-space:nowrap; text-align:left; }
+.matrix-has { color:var(--green); font-weight:600; font-size:12.5px; }
+.matrix-no { color:var(--ink-3); font-size:10.5px; }
+.matrix-cond { color:var(--blue); font-size:10.5px; font-weight:500; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE — TABLET 640px+
+══════════════════════════════════════ */
+@media (min-width:640px) {
+  .section { padding:28px 28px; }
+  .page-title { font-size:24px; }
+  .stat-row { grid-template-columns:repeat(4,1fr); }
+  .funnel-flow { flex-direction:row; }
+  .funnel-stage { border-right:1px solid var(--border); border-bottom:none; }
+  .funnel-stage:last-child { border-right:none; }
+  .tree-grid { grid-template-columns:1fr 1fr; }
+  .grid-2 { grid-template-columns:1fr 1fr; }
+  .grid-3 { grid-template-columns:1fr 1fr; }
+  .grid-4 { grid-template-columns:repeat(4,1fr); }
+  .hub-product-grid { grid-template-columns:repeat(2,1fr); }
+  .pseo-template-row { grid-template-columns:1fr 1fr; }
+  .cl-grid { grid-template-columns:1fr 1fr; }
+  .scenario-grid { grid-template-columns:1fr 1fr; }
+  .region-grid { grid-template-columns:repeat(4,1fr); }
+  .pt-grid { grid-template-columns:repeat(3,1fr); }
+  .verdict-bar { flex-direction:row; align-items:center; padding:20px 24px; }
+  .verdict-score { width:72px; height:72px; }
+  .verdict-title { font-size:15px; }
+  .anatomy-row { flex-direction:row; }
+  .anatomy-section { width:180px; border-bottom:none; border-right:1px solid var(--border); flex-shrink:0; }
+  .anatomy-section::before { display:none; }
+  .anatomy-note { border-top:none; border-left:1px solid var(--border); width:160px; flex-shrink:0; }
+  .anatomy-content { flex:1; }
+  .cl-product-badge { display:block; }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — DESKTOP 1024px+
+══════════════════════════════════════ */
+@media (min-width:1024px) {
+  .section { padding:36px 48px; }
+  .page-title { font-size:26px; }
+  h2.sh { font-size:17px; }
+  .grid-3 { grid-template-columns:1fr 1fr 1fr; }
+  .pseo-template-row { grid-template-columns:1fr 1fr 1fr; }
+  .anatomy-section { width:200px; }
+  .anatomy-note { width:180px; }
+  .tree-grid { grid-template-columns:1fr 1fr; }
+  .hub-product-grid { grid-template-columns:repeat(2,1fr); }
+  .page-title { font-size:28px; letter-spacing:-1px; }
+  .stat-num { font-size:28px; }
+}
 
 </style>
 </head>
 <body>
 <div class="layout">
 
-<!-- ═══════ SIDEBAR ═══════ -->
-<aside class="sidebar">
+<!-- ══════════════════════════════════════
+     MOBILE HEADER
+══════════════════════════════════════ -->
+<header class="mob-header">
+  <div class="mob-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-label">Viễn Thông<br>Growth Strategy</div>
+  </div>
+  <button class="mob-hamburger" id="hamburger" aria-label="Menu" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ══════════════════════════════════════
+     SIDEBAR OVERLAY
+══════════════════════════════════════ -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ══════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+
   <div class="sidebar-brand">
     <div class="brand-logo">MoMo</div>
-    <div class="brand-sub">Viễn Thông — Growth Strategy<br>Content Architecture v1.0</div>
+    <div class="brand-label">Viễn Thông<br>Growth Strategy</div>
   </div>
+
   <nav>
+
+    <!-- OVERVIEW -->
     <div class="nav-section">
-      <div class="nav-label">Tổng quan</div>
-      <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">🗺</span> Overview & Funnel</div>
-      <div class="nav-item" onclick="go('kpi')"><span class="nav-icon">📊</span> KPI & Mục tiêu</div>
+      <span class="nav-section-label">Overview</span>
+      <div class="nav-item active" onclick="go('overview')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Overview & Funnel</span>
+      </div>
+      <div class="nav-item" onclick="go('kpi')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">KPI 2026</span>
+      </div>
+      <div class="nav-item" onclick="go('keywords')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Keyword Research</span>
+      </div>
+      <div class="nav-item" onclick="go('jtbd')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">JTBDs</span>
+      </div>
+      <div class="nav-item" onclick="go('hub')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Telecom Hub</span>
+      </div>
     </div>
+
+    <!-- SITEMAP & SUBPAGE -->
     <div class="nav-section">
-      <div class="nav-label">Telecom Hub</div>
-      <div class="nav-item" onclick="go('hub')"><span class="nav-icon">⚡</span> Telecom Hub /vien-thong</div>
+      <span class="nav-section-label">Sitemap &amp; Subpage</span>
+      <div class="nav-item" onclick="go('sim')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Sim Số Đẹp + pSEO</span>
+      </div>
+      <div class="nav-item" onclick="go('data')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Nạp Data</span>
+      </div>
+      <div class="nav-item" onclick="go('esim')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">eSIM Du Lịch</span>
+      </div>
+      <div class="nav-item" onclick="go('nap')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Nạp Tiền ĐT</span>
+      </div>
+      <div class="nav-item" onclick="go('content')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Content Structure</span>
+      </div>
     </div>
+
+    <!-- GROWTH -->
     <div class="nav-section">
-      <div class="nav-label">Sitemap & Sub-pages</div>
-      <div class="nav-item" onclick="go('sim')"><span class="nav-icon">📱</span> Sim Số Đẹp + pSEO</div>
-      <div class="nav-item" onclick="go('data')"><span class="nav-icon">📶</span> Nạp Data</div>
-      <div class="nav-item" onclick="go('esim')"><span class="nav-icon">🌍</span> eSIM Du Lịch</div>
-      <div class="nav-item" onclick="go('nap')"><span class="nav-icon">💳</span> Nạp Tiền ĐT</div>
+      <span class="nav-section-label">Growth</span>
+      <div class="nav-item" onclick="go('blog')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Blog Strategy</span>
+      </div>
+      <div class="nav-item" onclick="go('crosssell')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Cross-sell Ecosystem</span>
+      </div>
     </div>
+
+    <!-- TACTICS -->
     <div class="nav-section">
-      <div class="nav-label">Content Plan</div>
-      <div class="nav-item" onclick="go('content')"><span class="nav-icon">🧩</span> Content Structure</div>
-      <div class="nav-item" onclick="go('blog')"><span class="nav-icon">✍️</span> Blog Strategy</div>
+      <span class="nav-section-label">Tactics</span>
+      <div class="nav-item" onclick="go('ads-embed')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Blog Embed</span>
+      </div>
+      <div class="nav-item" onclick="go('checklist')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Ads Popup / Balloon</span>
+      </div>
+      <div class="nav-item" onclick="go('crosssell')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Internal Link</span>
+      </div>
     </div>
+
+    <!-- ON PROD -->
     <div class="nav-section">
-      <div class="nav-label">Ecosystem</div>
-      <div class="nav-item" onclick="go('crosssell')"><span class="nav-icon">🔗</span> Cross-sell Ecosystem</div>
-      <div class="nav-item" onclick="go('checklist')"><span class="nav-icon">✅</span> Publish Checklist</div>
+      <span class="nav-section-label">On Prod</span>
+      <div class="nav-item" onclick="go('checklist')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Publish Checklist</span>
+      </div>
+      <div class="nav-item" onclick="go('checklist')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Off-page</span>
+      </div>
     </div>
+
   </nav>
+
   <div class="sidebar-footer">
-    <div class="version-tag">v1.0 · March 2026</div>
-    <div class="version-tag">Telecom Growth — momo.vn/vien-thong</div>
+    <div class="version-tag">momo-telecom-strategy</div>
+    <div class="version-tag">v3.0 · March 2026</div>
   </div>
+
 </aside>
 
+
 <main class="content">
+
+<!-- PLACEHOLDER: Keywords -->
+<section class="section" id="s-keywords">
+  <div class="page-header">
+    <div class="page-eyebrow">Overview — Keyword Research</div>
+    <div class="page-title">Keyword Research — 4 Sản Phẩm Viễn Thông</div>
+    <div class="page-desc">Phân tích từ khóa theo từng cluster sản phẩm: Sim Số Đẹp, Nạp Data, eSIM Du Lịch, Nạp Tiền. Section này sẽ được phát triển trong phiên làm việc tiếp theo.</div>
+  </div>
+  <div class="callout callout-amber"><div class="callout-title">🚧 Đang phát triển</div>Keyword Research cho từng sản phẩm sẽ được bổ sung vào tài liệu này, bao gồm: seed keywords, long-tail clusters, search volume (GSC/Ahrefs), intent classification, và keyword-to-URL mapping.</div>
+</section>
+
+<!-- JTBD FULL SECTION -->
+<section class="section" id="s-jtbd">
+  <div class="page-header">
+    <div class="page-eyebrow">Overview — Jobs-to-Be-Done · Telecom MoMo</div>
+    <div class="page-title">JTBDs — Người Dùng Thuê MoMo Để Làm Gì?</div>
+    <div class="page-desc">JTBD không hỏi "user là ai" mà hỏi <strong>"user đang cố hoàn thành việc gì trong cuộc sống?"</strong>. Mỗi job có 3 lớp: Functional (làm được), Emotional (cảm thấy), Social (được nhìn nhận). Content, CTA, và page structure phải phục vụ job — không phải feature.</div>
+  </div>
+
+  <!-- ════════ FRAMEWORK NOTE ════════ -->
+  <div class="grid-3">
+    <div style="background:var(--green-light);border:1px solid #A0DEB8;border-radius:var(--r);padding:16px 18px;">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--green);margin-bottom:6px;">Functional Job</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Làm được việc cụ thể</div>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">Kết quả đo lường được: mua được sim, đăng ký được gói data, điện thoại có internet khi đến Nhật. → Implication: CTA rõ, flow ít bước, thông tin đủ để quyết định.</div>
+    </div>
+    <div style="background:var(--pink-m2);border:1px solid var(--pink-m1);border-radius:var(--r);padding:16px 18px;">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--pink);margin-bottom:6px;">Emotional Job</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Cảm thấy như thế nào</div>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">Trạng thái nội tâm mong muốn: an tâm, may mắn, không bị lo lắng khi ở nước ngoài. → Implication: tone copy, trust signal, social proof, giải thích ý nghĩa.</div>
+    </div>
+    <div style="background:var(--blue-light);border:1px solid #B0C8FF;border-radius:var(--r);padding:16px 18px;">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:6px;">Social Job</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Được nhìn nhận thế nào</div>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">Hình ảnh trước người khác: trông chuyên nghiệp, chu đáo với người thân, savvy khi du lịch. → Implication: share trigger, gifting copy, badge/prestige signal.</div>
+    </div>
+  </div>
+
+  <!-- ════════ SIM SỐ ĐẸP ════════ -->
+  <h2 class="sh" style="border-left:4px solid var(--pink);padding-left:12px;">📱 Sim Số Đẹp — JTBDs</h2>
+
+  <div class="grid-2">
+
+    <!-- JOB 1 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--pink-m2),#FFF0F6);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--pink);margin-bottom:4px;">Job #SIM-01 · High Volume</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi muốn chọn số điện thoại hợp phong thủy với bản thân"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Tìm được sim có đuôi số cát theo mệnh/năm sinh, mua online không cần ra đại lý.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Cảm thấy đã chọn đúng, an tâm số điện thoại sẽ mang lại may mắn, không lo dùng số xấu.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Người thân/đối tác thấy mình chỉn chu, am hiểu phong thủy, không dùng số tùy tiện.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">AI Giải Luận widget trên tất cả trang sim</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">pSEO trang năm sinh × mệnh × nhà mạng</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Giải thích rõ "tại sao số này hợp bạn"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Badge "Hợp mệnh [X]" trên sim card</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">CTA: "Xem giải luận chi tiết →"</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Mua sim mới · Chuyển mạng · Khai trương kinh doanh · Đầu năm mới
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB 2 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--pink-m2),#FFF0F6);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--pink);margin-bottom:4px;">Job #SIM-02 · Gift Intent</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi muốn tặng sim số đẹp cho người thân như quà tặng ý nghĩa"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Tìm sim hợp tuổi/mệnh của người được tặng, mua và giao nhận đúng dịp.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Cảm thấy mình đã chuẩn bị chu đáo, món quà có ý nghĩa thay vì chỉ mua đại.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Người nhận cảm nhận được sự quan tâm, không ai tặng quà này ngoài người thực sự chu đáo.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Landing /sim-so-dep/tang-sim-so-dep</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Widget: nhập năm sinh người được tặng</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Copy: "Tặng may mắn — không chỉ tặng số"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Dịp tặng: sinh nhật / khai trương / Tết</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Cross-sell gói data combo</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Sinh nhật · Tết · Khai trương · Đám cưới · Ra trường
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB 3 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--pink-m2),#FFF0F6);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--pink);margin-bottom:4px;">Job #SIM-03 · Business</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi cần số điện thoại đẹp, dễ nhớ cho việc kinh doanh"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Số có pattern dễ nhớ (đuôi 168, 999, lặp số), in được lên danh thiếp/banner.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Tự tin khi đưa số cho khách hàng, cảm giác chuyên nghiệp hơn so với số random.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Khách hàng/đối tác nhớ số ngay, thấy chủ doanh nghiệp đầu tư nghiêm túc.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Landing /sim-so-dep/sim-kinh-doanh</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Filter: đuôi lặp / pattern đặc biệt / giá cao</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Copy: "Số điện thoại là bộ mặt doanh nghiệp"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Premium tier: sim giá 2–50 triệu</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Blog: sim hotline đẹp cho từng ngành</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Mở cơ sở kinh doanh mới · Đổi số hotline · Rebranding
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB 4 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--pink-m2),#FFF0F6);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--pink);margin-bottom:4px;">Job #SIM-04 · MNP</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi muốn đổi sang nhà mạng tốt hơn mà không mất số cũ"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Giữ nguyên số hiện tại, chuyển sang nhà mạng phủ sóng tốt hơn hoặc gói rẻ hơn.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Không lo thông báo lại số cho mọi người, an tâm quá trình chuyển mạng không mất liên lạc.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Giữ số quen thuộc — người thân, khách hàng không bị mất liên lạc.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Landing /sim-so-dep/chuyen-mang-giu-so</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">HowTo MNP A–Z: cú pháp, thời gian, phí</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Copy: "Đổi mạng, giữ số — không mất liên lạc"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">FAQ: MNP mất bao lâu, có mất OTP không</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Cross-sell: sau MNP → đăng ký gói data mới</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Sóng yếu · Gói cước quá đắt · Nhà mạng mới ra gói hấp dẫn
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ NẠP DATA ════════ -->
+  <h2 class="sh" style="border-left:4px solid var(--blue);padding-left:12px;">📶 Nạp Data — JTBDs</h2>
+
+  <div class="grid-2">
+
+    <!-- JOB DATA-01 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--blue-light),#D8E8FF);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:4px;">Job #DATA-01 · Core</div>
+        <div style="font-size:15px;font-weight:900;">"Điện thoại hết data, tôi cần đăng ký gói ngay lập tức"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Đăng ký gói data nhanh, ít bước, thanh toán ngay bằng ví MoMo sẵn có.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Không bị "chết internet" giữa chừng, không cần nhờ người khác hay tìm wifi.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Không bị gián đoạn công việc/liên lạc — vẫn available với mọi người.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Speed là #1 — CTA above fold, 3 bước tối đa</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Auto-detect nhà mạng từ SĐT đã lưu</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">"Kích hoạt tức thì" badge nổi bật</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Quick-pick gói bán chạy (không cần browse)</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">History: "Bạn hay dùng gói X — đăng ký lại?"</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Thông báo "hết data" · Mạng chậm đột ngột · Cuối tháng
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB DATA-02 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--blue-light),#D8E8FF);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:4px;">Job #DATA-02 · Research</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi muốn tìm gói data tốt nhất với ngân sách của mình"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">So sánh được tất cả gói của nhà mạng mình đang dùng, hiểu rõ data/ngày và giá.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Tự tin mình đã chọn gói "value nhất", không bị cảm giác bị thiệt.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Giới thiệu gói tốt cho bạn bè/đồng nghiệp — trở thành người "biết chỗ mua hay".</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Trang nhà mạng: bảng đầy đủ + sort/filter</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Badge "Best Value", "Bán chạy nhất"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">So sánh cùng mệnh giá: Viettel vs Mobi vs Vina</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Recommendation engine theo usage profile</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Blog: "Gói data nào tốt nhất tháng X"</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Gói hết hiệu lực · Thấy quảng cáo nhà mạng khác · Review chi phí hàng tháng
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB DATA-03 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--blue-light),#D8E8FF);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:4px;">Job #DATA-03 · Gifting</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi muốn đăng ký gói data cho người thân đang dùng nhờ điện thoại của tôi"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Nhập SĐT người thân, chọn gói, thanh toán từ ví mình — người kia nhận ngay.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Cảm giác quan tâm được thực hiện nhanh gọn, không phải chuyển tiền rồi chờ họ tự làm.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Con cái/bố mẹ biết mình chu đáo, lo cho họ ngay cả khi không ở gần.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Input SĐT người thân rõ ràng, không bắt login</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Copy: "Mua data cho người thân — tặng kết nối"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Liên kết danh bạ MoMo (nếu có)</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Confirmation: notify người nhận khi kích hoạt</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Con cái xin data · Bố mẹ hết mạng · Gia đình ở xa
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB DATA-04 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--blue-light),#D8E8FF);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:4px;">Job #DATA-04 · Specific Package</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi đã biết tên gói mình muốn, cần đăng ký nhanh nhất có thể"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Search tên gói → thấy ngay → đăng ký 1 click không cần browse danh sách dài.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Không bị distract bởi gói khác, không phải tìm kiếm lâu cho thứ đã biết muốn mua.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Ít liên quan — đây là job thuần transactional, không có social dimension mạnh.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">pSEO landing /nap-data/viettel/d90n rank #1</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Hero card đủ thông tin — không cần scroll</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Nút "Đăng Ký Ngay" ưu tiên tuyệt đối</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Không đặt upsell trước CTA primary</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Search box nổi bật trên /nap-data hub</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Bạn bè recommend gói · Nhà mạng SMS thông báo gói mới · Google search tên gói
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ eSIM DU LỊCH ════════ -->
+  <h2 class="sh" style="border-left:4px solid var(--teal);padding-left:12px;">🌍 eSIM Du Lịch — JTBDs</h2>
+
+  <div class="grid-2">
+
+    <!-- JOB ESIM-01 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--teal-light),#D0F0F0);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:4px;">Job #ESIM-01 · Core Travel</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi cần có internet khi vừa đến nước ngoài, không muốn lo tìm sim sau khi hạ cánh"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Mua và cài eSIM trước khi đi, khi đến nơi chỉ cần bật lên là có mạng ngay.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">An tâm hoàn toàn — không phải xếp hàng ở sân bay, không lo bị "tối tăm" khi vừa đến.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Update được ngay cho gia đình biết đã đến nơi an toàn, không bị cắt liên lạc.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Hero copy: "Internet ngay khi hạ cánh"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Hướng dẫn cài trước khi đi rõ ràng</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Nhấn mạnh: không cần ra quầy, không xếp hàng</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Trust: "X khách đã dùng eSIM [nước] qua MoMo"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Cross-sell: BH du lịch ngay sau mua eSIM</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Mua vé máy bay · 1–2 tuần trước chuyến đi · Check-in online
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB ESIM-02 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--teal-light),#D0F0F0);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:4px;">Job #ESIM-02 · Cost Control</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi không muốn bị sốc hóa đơn roaming khi về nước"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Biết trước chính xác mình phải trả bao nhiêu, không có phí ẩn hay cước roaming bất ngờ.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Không bị lo lắng suốt chuyến đi về chi phí data, dùng internet thoải mái không dè xẻn.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Chia sẻ được ảnh/video real-time cho bạn bè, không phải đợi về nhà mới upload.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Giá cố định, không phí ẩn — nói rõ trong copy</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">So sánh: eSIM MoMo vs roaming nhà mạng VN</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Calculator tiết kiệm (VD: "tiết kiệm X00k vs roaming")</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Blog: "Roaming vs eSIM — nên chọn gì?"</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Đã từng bị bill roaming cao · Nghe bạn bè kể bị sốc hóa đơn
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB ESIM-03 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--teal-light),#D0F0F0);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:4px;">Job #ESIM-03 · First Timer</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi chưa dùng eSIM bao giờ, không biết mua ở đâu và cài như thế nào"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Hiểu được eSIM là gì, điện thoại mình có hỗ trợ không, cài đặt được từng bước.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Không cảm thấy bị bỏ lại, không lo bị rủi ro khi lần đầu thử công nghệ mới.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Tự làm được mà không cần nhờ ai — cảm giác tự chủ, không thua kém người có kinh nghiệm.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Landing /esim-du-lich/esim-la-gi tofu</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Device checker: "Máy tôi có hỗ trợ eSIM không?"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Hướng dẫn cài iOS vs Android từng bước có ảnh</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">FAQ nổi bật: "Cài sai có làm mất sim VN không?"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Tone: reassuring, không dùng jargon kỹ thuật</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Lần đầu đi nước ngoài · Bạn bè nhắc đến eSIM · Google "eSIM là gì"
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB ESIM-04 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--teal-light),#D0F0F0);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:4px;">Job #ESIM-04 · Frequent Traveler</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi đi nước ngoài thường xuyên, cần giải pháp data nhanh không mất thời gian mỗi chuyến"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Mua eSIM trong 2 phút, lịch sử mua lưu sẵn, không cần điền lại thông tin từng chuyến.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">MoMo là người bạn đồng hành đáng tin cậy cho mỗi chuyến — không phải tìm chỗ mới mỗi lần.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Recommend được cho đồng nghiệp/bạn bè đi cùng chuyến — trở thành người "biết chỗ".</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Lịch sử mua eSIM — re-order 1 click</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Gói toàn cầu /esim-du-lich/khu-vuc/toan-cau</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">BH du lịch annual combo với eSIM</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">MoMo Điểm: loyalty reward mua eSIM nhiều lần</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Đặt vé · Nhận email confirm booking · Trước ngày bay 48h
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ NẠP TIỀN ════════ -->
+  <h2 class="sh" style="border-left:4px solid var(--amber);padding-left:12px;">💳 Nạp Tiền Điện Thoại — JTBDs</h2>
+
+  <div class="grid-2">
+
+    <!-- JOB NAP-01 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--amber-light),#FFE8C0);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--amber);margin-bottom:4px;">Job #NAP-01 · Core · Highest Volume</div>
+        <div style="font-size:15px;font-weight:900;">"Điện thoại hết tiền, tôi cần nạp ngay không muốn bị cắt liên lạc"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Nạp tiền trong vòng 10 giây, nhận xác nhận ngay, không cần ra cửa hàng.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Hết lo bị cắt cuộc gọi giữa chừng, không phải dè xẻn từng tin nhắn.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Luôn available, không ai không liên lạc được — quan trọng với người phụ trách gia đình.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Form nạp above-the-fold, không scroll</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">"Nạp trong 5 giây" — badge nổi bật</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Quick-select mệnh giá không cần gõ</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Auto-detect nhà mạng từ đầu số</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Zero friction — không yêu cầu đăng nhập để nạp</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> SMS nhắc tài khoản thấp · Nghe thông báo "tài khoản không đủ" · Cuộc gọi bị ngắt
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB NAP-02 -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:14px 18px;background:linear-gradient(135deg,var(--amber-light),#FFE8C0);border-bottom:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--amber);margin-bottom:4px;">Job #NAP-02 · Care</div>
+        <div style="font-size:15px;font-weight:900;">"Tôi muốn nạp tiền hộ bố mẹ/người thân không rành công nghệ"</div>
+      </div>
+      <div style="padding:16px 18px;font-size:12.5px;">
+        <div class="grid-3">
+          <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Nhập SĐT người thân, chọn mệnh giá, thanh toán — người kia nhận tiền ngay không cần làm gì.</div>
+          </div>
+          <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Cảm giác lo cho người thân được thực hiện nhanh gọn, không phụ thuộc vào việc họ có biết dùng app không.</div>
+          </div>
+          <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+            <div style="color:var(--ink-2);line-height:1.5;">Bố mẹ biết mình vẫn nhớ và quan tâm dù bận rộn hay ở xa.</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Content & Page Implications</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Landing /nap-tien-dien-thoai/nap-ho-nguoi-than</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Danh bạ MoMo — nạp 1 chạm cho số đã lưu</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Lịch sử: "Bạn hay nạp cho 0912xxx — nạp lại?"</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Copy: "Nạp cho người thân — không cần họ làm gì"</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+          <strong>Trigger moment:</strong> Bố mẹ gọi báo "điện thoại sắp hết tiền" · Định kỳ cuối tháng
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ JTBD PRIORITY MATRIX ════════ -->
+  <h2 class="sh">🎯 Ma Trận Ưu Tiên — Jobs × Impact</h2>
+  <div class="table-scroll"><table class="data-table">
+    <thead><tr>
+      <th>Job ID</th><th>Job Statement</th><th>Sản phẩm</th><th>Volume</th><th>CR Potential</th><th>Content Priority</th>
+    </tr></thead>
+    <tbody>
+      <tr class="row-highlight"><td><strong>NAP-01</strong></td><td>Nạp tiền khẩn cấp — hết tài khoản</td><td>Nạp Tiền</td><td>⬆⬆⬆ Rất cao</td><td>⬆⬆⬆ Rất cao</td><td><span class="tag tag-p1">P1 · Core UX</span></td></tr>
+      <tr class="row-highlight"><td><strong>DATA-01</strong></td><td>Đăng ký gói data khẩn — hết data</td><td>Nạp Data</td><td>⬆⬆⬆ Rất cao</td><td>⬆⬆⬆ Rất cao</td><td><span class="tag tag-p1">P1 · Core UX</span></td></tr>
+      <tr class="row-highlight"><td><strong>SIM-01</strong></td><td>Chọn sim hợp phong thủy</td><td>Sim Số Đẹp</td><td>⬆⬆⬆ Rất cao</td><td>⬆⬆ Cao</td><td><span class="tag tag-p1">P1 · pSEO Engine</span></td></tr>
+      <tr><td><strong>DATA-04</strong></td><td>Biết tên gói, đăng ký ngay</td><td>Nạp Data</td><td>⬆⬆ Cao</td><td>⬆⬆⬆ Rất cao</td><td><span class="tag tag-p1">P1 · pSEO Landing</span></td></tr>
+      <tr><td><strong>ESIM-01</strong></td><td>Internet ngay khi hạ cánh</td><td>eSIM Du Lịch</td><td>⬆⬆ Cao</td><td>⬆⬆ Cao</td><td><span class="tag tag-p1">P1 · Landing + Blog</span></td></tr>
+      <tr><td><strong>DATA-02</strong></td><td>So sánh gói data value nhất</td><td>Nạp Data</td><td>⬆⬆ Cao</td><td>⬆⬆ Cao</td><td><span class="tag tag-p1">P1 · Trang nhà mạng</span></td></tr>
+      <tr><td><strong>ESIM-02</strong></td><td>Tránh sốc hóa đơn roaming</td><td>eSIM Du Lịch</td><td>⬆⬆ Cao</td><td>⬆⬆ Cao</td><td><span class="tag tag-p1">P1 · Blog + Comparison</span></td></tr>
+      <tr><td><strong>SIM-02</strong></td><td>Tặng sim số đẹp làm quà</td><td>Sim Số Đẹp</td><td>⬆ Vừa</td><td>⬆⬆ Cao</td><td><span class="tag tag-p2">P2 · Gift Landing</span></td></tr>
+      <tr><td><strong>NAP-02</strong></td><td>Nạp tiền hộ người thân</td><td>Nạp Tiền</td><td>⬆ Vừa</td><td>⬆⬆ Cao</td><td><span class="tag tag-p2">P2 · UX Feature</span></td></tr>
+      <tr><td><strong>ESIM-03</strong></td><td>Lần đầu dùng eSIM — cần hướng dẫn</td><td>eSIM Du Lịch</td><td>⬆ Vừa</td><td>⬆ Vừa</td><td><span class="tag tag-p2">P2 · TOFU Content</span></td></tr>
+      <tr><td><strong>SIM-03</strong></td><td>Số đẹp cho kinh doanh</td><td>Sim Số Đẹp</td><td>⬆ Vừa</td><td>⬆⬆⬆ Rất cao</td><td><span class="tag tag-p2">P2 · B2B Landing</span></td></tr>
+      <tr><td><strong>DATA-03</strong></td><td>Nạp data cho người thân</td><td>Nạp Data</td><td>⬆ Vừa</td><td>⬆⬆ Cao</td><td><span class="tag tag-p2">P2 · UX Copy</span></td></tr>
+      <tr><td><strong>ESIM-04</strong></td><td>Frequent traveler — mua nhanh mỗi chuyến</td><td>eSIM Du Lịch</td><td>↗ Thấp-Vừa</td><td>⬆⬆⬆ Rất cao</td><td><span class="tag tag-p2">P2 · Loyalty</span></td></tr>
+      <tr><td><strong>SIM-04</strong></td><td>Chuyển mạng giữ số (MNP)</td><td>Sim Số Đẹp</td><td>↗ Thấp-Vừa</td><td>⬆⬆ Cao</td><td><span class="tag tag-p2">P2 · HowTo Landing</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
 
 <!-- ═══════════════════════════════════ -->
 <!-- 1. OVERVIEW -->
@@ -493,7 +1600,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 
   <h2 class="sh">🏗 Kiến Trúc URL Tổng Thể</h2>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr>
       <th>Sản phẩm</th><th>URL Cha</th><th>Số sub-pages</th><th>pSEO</th><th>Priority</th>
     </tr></thead>
@@ -534,7 +1641,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
         <td><span class="tag tag-p2">P2</span></td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <div class="callout callout-purple">
     <div class="callout-title">🤖 AI Competitive Advantage — Giải Luận Sim Phong Thủy</div>
@@ -558,7 +1665,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 
   <h2 class="sh">🔗 Chuỗi KPI 4 Tầng — Mô Hình Tổng Thể 2026</h2>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:28px;">
+  <div class="grid-4" style="gap:0;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:28px;">
     <div style="padding:18px 16px;border-right:1px solid var(--border);border-top:3px solid var(--green);">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--green);margin-bottom:6px;">Tầng 1</div>
       <div style="font-size:16px;font-weight:900;margin-bottom:8px;">Top of Mind</div>
@@ -601,7 +1708,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
     </div>
     <div style="padding:0;">
-      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+      <div class="table-scroll"><table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
         <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target</th></tr></thead>
         <tbody>
           <tr><td><strong>📱 Sim Số Đẹp</strong></td><td>Launch brand recall — "MoMo bán sim số đẹp"</td><td>Top 10 cho 20 KW core<br><span style="font-size:11px;color:var(--ink-3);">sim số đẹp, sim phong thủy, sim viettel đẹp...</span></td><td><strong style="color:var(--amber);">5,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">Baseline từ trang cha + 6 nhà mạng</span></td><td><strong style="color:var(--pink);">1.5–2%</strong><br><span style="font-size:11px;color:var(--ink-3);">Warm-up CR, optimize funnel</span></td></tr>
@@ -609,7 +1716,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>"MoMo có eSIM du lịch" — introduce</td><td>Top 10 "esim du lịch"<br><span style="font-size:11px;color:var(--ink-3);">20 quốc gia hot nhất live</span></td><td><strong style="color:var(--amber);">2,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">New product — ramp-up phase</span></td><td><strong style="color:var(--pink);">2–3%</strong></td></tr>
           <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend mindshare "nạp tiền qua MoMo"</td><td>Top 3 "nạp tiền điện thoại" (defend)</td><td><strong style="color:var(--amber);">30,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">Established product — maintain</span></td><td><strong style="color:var(--pink);">8–10%</strong><br><span style="font-size:11px;color:var(--ink-3);">High intent + easy checkout</span></td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -627,7 +1734,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
     </div>
     <div style="padding:0;">
-      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+      <div class="table-scroll"><table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
         <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target</th></tr></thead>
         <tbody>
           <tr><td><strong>📱 Sim Số Đẹp</strong></td><td>Branded search "sim MoMo" tăng 50% vs Q1</td><td><strong>Top 3</strong> "sim số đẹp", "sim phong thủy"<br><span style="font-size:11px;color:var(--ink-3);">500 pSEO tên × nhà mạng live</span></td><td><strong style="color:var(--amber);">25,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">5x Q1 — pSEO bắt đầu đóng góp</span></td><td><strong style="color:var(--pink);">2.5–3%</strong><br><span style="font-size:11px;color:var(--ink-3);">Personalized pages → higher intent</span></td></tr>
@@ -635,7 +1742,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>"MoMo bán eSIM rẻ nhất" — positioning</td><td><strong>Top 5</strong> "esim [quốc gia]" cho 20 nước P1</td><td><strong style="color:var(--amber);">8,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">100 quốc gia live → long-tail kéo traffic</span></td><td><strong style="color:var(--pink);">3–4%</strong></td></tr>
           <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend #1 share of mind</td><td><strong>Top 1–2</strong> cho tất cả 6 nhà mạng</td><td><strong style="color:var(--amber);">40,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">9–11%</strong><br><span style="font-size:11px;color:var(--ink-3);">Post-purchase data cross-sell active</span></td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -653,7 +1760,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
     </div>
     <div style="padding:0;">
-      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+      <div class="table-scroll"><table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
         <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target</th></tr></thead>
         <tbody>
           <tr><td><strong>📱 Sim Số Đẹp</strong></td><td>"MoMo = nền tảng sim phong thủy số 1" — category leader</td><td><strong>#1 Featured Snippet</strong> nhóm sim phong thủy<br><span style="font-size:11px;color:var(--ink-3);">5,000 pSEO tên indexed</span></td><td><strong style="color:var(--amber);">80,000 sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">pSEO tên đóng góp 60%+ organic</span></td><td><strong style="color:var(--pink);">3.5–4%</strong><br><span style="font-size:11px;color:var(--ink-3);">AI giải luận → personalized path → high CR</span></td></tr>
@@ -661,7 +1768,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>"Đi nước ngoài → mua eSIM MoMo" — TOM travel segment</td><td><strong>Top 3</strong> "esim [quốc gia]" cho 50+ nước</td><td><strong style="color:var(--amber);">20,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">4–5%</strong><br><span style="font-size:11px;color:var(--ink-3);">Travel context → cross-sell BH du lịch +AOV</span></td></tr>
           <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend + upsell mindshare → data</td><td>Maintain #1 toàn nhà mạng</td><td><strong style="color:var(--amber);">50,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">10–12%</strong></td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -679,7 +1786,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
     </div>
     <div style="padding:0;">
-      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+      <div class="table-scroll"><table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
         <thead><tr><th>Sản phẩm</th><th>Top of Mind Target</th><th>Ranking Target</th><th>Organic Traffic Target</th><th>CR Target (EOY)</th></tr></thead>
         <tbody>
           <tr class="row-highlight"><td><strong>📱 Sim Số Đẹp</strong></td><td><strong>#1 Unaided Recall</strong> "mua sim số đẹp online" market</td><td><strong>#1</strong> cho 50+ từ khóa sim · 10K pSEO indexed</td><td><strong style="color:var(--pink);font-size:15px;">150,000+ sessions/tháng</strong><br><span style="font-size:11px;color:var(--ink-3);">pSEO engine full speed · blog amplify</span></td><td><strong style="color:var(--pink);font-size:15px;">4–5%</strong><br><span style="font-size:11px;color:var(--ink-3);">~6,000–7,500 sim/tháng từ organic</span></td></tr>
@@ -687,12 +1794,12 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <tr><td><strong>🌍 eSIM Du Lịch</strong></td><td>#1 eSIM provider tại VN (survey)</td><td><strong>Top 1–3</strong> cho 100+ quốc gia</td><td><strong style="color:var(--amber);">35,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">5–6%</strong></td></tr>
           <tr><td><strong>💳 Nạp Tiền ĐT</strong></td><td>Defend #1 + upsell "nạp + gói data"</td><td>#1 tất cả nhà mạng · Featured snippet</td><td><strong style="color:var(--amber);">60,000 sessions/tháng</strong></td><td><strong style="color:var(--pink);">11–13%</strong></td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
   <h2 class="sh">📐 Dashboard KPI — Tracking Template</h2>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr><th>Metric</th><th>Tool đo</th><th>Tần suất review</th><th>Owner</th><th>Alert threshold</th></tr></thead>
     <tbody>
       <tr><td><strong>Branded Search Volume</strong></td><td>Google Search Console · Google Trends</td><td>Hàng tuần</td><td>SEO Lead</td><td>Giảm &gt;15% WoW → investigate</td></tr>
@@ -702,7 +1809,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <tr><td><strong>pSEO Indexed Pages</strong></td><td>GSC Coverage report</td><td>Hàng tháng</td><td>Tech SEO</td><td>Index rate &lt;70% → schema/tech fix</td></tr>
       <tr><td><strong>Core Web Vitals</strong></td><td>PageSpeed Insights · GSC</td><td>Hàng tháng</td><td>Tech Lead</td><td>LCP &gt;2.5s trên mobile → hotfix</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h2 class="sh">🏁 Lộ Trình Triển Khai — 4 Quý 2026</h2>
   <div class="grid-4">
@@ -1055,7 +2162,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 
   <h2 class="sh">🗃 Sub-pages Tĩnh Ưu Tiên — /sim-so-dep</h2>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr><th>URL</th><th>Mục tiêu</th><th>Target keyword</th><th>Tầng funnel</th><th>Priority</th></tr></thead>
     <tbody>
       <tr><td><code class="url">/sim-so-dep/sim-dau-so-dep</code></td><td>Lọc theo đầu số (032, 090...)</td><td>"sim đầu 032 đẹp", "sim đầu 090"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
@@ -1067,7 +2174,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <tr class="row-new"><td><code class="url">/sim-so-dep/tang-sim-so-dep</code></td><td>Gift occasion segment</td><td>"tặng sim số đẹp", "sim quà tặng"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p3">P3</span></td></tr>
       <tr class="row-new"><td><code class="url">/sim-so-dep/so-dep-theo-nghe-nghiep</code></td><td>Nghề nghiệp segment</td><td>"sim hợp bác sĩ/giáo viên/kỹ sư"</td><td><span class="tag tag-pseo">pSEO</span></td><td><span class="tag tag-p3">P3</span></td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <div class="callout callout-purple">
     <div class="callout-title">🤖 Kỹ thuật triển khai pSEO Sim Phong Thủy</div>
@@ -1190,7 +2297,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 
   <h3 class="sh3">📊 Matrix Năm Sinh × Mệnh × Số Hợp — Reference Data</h3>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr><th>Nhóm năm sinh</th><th>Can Chi</th><th>Mệnh</th><th>Số cát (đuôi)</th><th>Số kỵ (đuôi)</th><th>Nhà mạng gợi ý</th><th>Volume ước tính</th></tr></thead>
     <tbody>
       <tr><td>1984, 2044</td><td>Giáp Tý</td><td>Kim</td><td>1, 6, 7</td><td>2, 3, 8</td><td>Viettel 086, 096</td><td>~2,000 searches/tháng</td></tr>
@@ -1206,7 +2313,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <tr><td>2000, 2060</td><td>Canh Thìn</td><td>Kim</td><td>1, 6, 7</td><td>2, 3, 8</td><td>Viettel 032, 033</td><td>~1,600 searches/tháng</td></tr>
       <tr><td>2003, 2063</td><td>Quý Mùi</td><td>Mộc</td><td>3, 4, 8</td><td>1, 6, 7</td><td>Viettel 035, MobiFone 076</td><td>~1,400 searches/tháng</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div style="font-size:11.5px;color:var(--ink-3);margin-top:-20px;margin-bottom:20px;">* Volume ước tính per năm sinh. Tổng 100 năm ≈ 180,000–220,000 searches/tháng từ cluster này.</div>
 
   <h3 class="sh3">🎯 Kịch Bản Người Dùng — Giải Luận Năm Sinh</h3>
@@ -1298,7 +2405,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <span class="tag tag-p1">P1 · 6 trang</span>
     </div>
     <div style="padding:0;">
-      <table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
+      <div class="table-scroll"><table class="data-table" style="margin-bottom:0;border:none;border-radius:0;">
         <thead><tr><th>URL</th><th>Target keyword chính</th><th>Số gói hiện tại</th><th>Volume ước tính</th></tr></thead>
         <tbody>
           <tr><td><code class="url">/nap-data/viettel</code></td><td>"gói data Viettel 2026", "đăng ký 4G Viettel"</td><td>~80–100 gói đang bán</td><td>~15,000 searches/tháng</td></tr>
@@ -1308,7 +2415,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <tr><td><code class="url">/nap-data/reddi</code></td><td>"gói data Reddi", "gói Reddi Network"</td><td>~15–20 gói</td><td>~800 searches/tháng</td></tr>
           <tr><td><code class="url">/nap-data/itelecom</code></td><td>"gói data iTelecom"</td><td>~10–15 gói</td><td>~400 searches/tháng</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -1327,7 +2434,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
     </div>
     <div style="padding:0 18px 18px;">
-      <table class="data-table" style="margin-bottom:16px;">
+      <div class="table-scroll"><table class="data-table" style="margin-bottom:16px;">
         <thead><tr><th>Nhà mạng</th><th>Pattern URL</th><th>Ví dụ gói thực tế</th><th>Số trang dự kiến</th><th>Volume tổng cluster</th></tr></thead>
         <tbody>
           <tr>
@@ -1385,13 +2492,13 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
             <td>~800 searches/tháng</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       <div style="font-size:11.5px;color:var(--ink-3);margin-bottom:8px;">* Tên gói trong URL slug lowercase, bỏ ký tự đặc biệt. VD: "D90N" → <code class="url">d90n</code>, "MAX+1GB" → <code class="url">max-1gb</code>. Tổng ~330 trang pSEO, volume tích lũy ~95,000 searches/tháng.</div>
     </div>
   </div>
 
   <h2 class="sh">📊 So Sánh Approach: MoMo vs TGDD</h2>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr><th>Tiêu chí</th><th>TGDD (benchmark)</th><th>MoMo (đề xuất)</th><th>MoMo advantage</th></tr></thead>
     <tbody>
       <tr>
@@ -1419,7 +2526,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
         <td>Ecosystem advantage — TGDD không có payment app tích hợp</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h2 class="sh">📄 Anatomy — Trang Landing Gói Cụ Thể</h2>
   <div class="anatomy-wrap">
@@ -1491,7 +2598,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
     <div class="callout-title">📋 Thứ tự build pSEO theo volume</div>
     <strong>Batch 1 (Q1–Q2):</strong> 50 gói Viettel volume cao nhất + 30 gói Mobifone + 20 gói Vinaphone = 100 trang đầu. Validate CTR + index rate trước khi scale. <strong>Batch 2 (Q2–Q3):</strong> Toàn bộ gói còn lại của Viettel/Mobi/Vina (~180 trang). <strong>Batch 3 (Q3–Q4):</strong> Vietnamobile + Reddi + iTelecom (~50 trang). Tổng: ~330 trang, mỗi trang có content unique tối thiểu 400 chữ.
   </div>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr><th>Gói Viettel</th><th>Gói Mobifone</th><th>Gói Vinaphone</th><th>Volume/tháng</th><th>Priority</th></tr></thead>
     <tbody>
       <tr><td><code class="url">d90n</code> — 2GB/ngày · 30 ngày · 70k</td><td><code class="url">c90n</code> — đã dừng đk mới</td><td><code class="url">big90</code> — 7GB · 30 ngày · 90k</td><td>2,000–5,000</td><td><span class="tag tag-p1">P1</span></td></tr>
@@ -1501,7 +2608,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <tr><td><code class="url">st15</code> — 300MB · 1 ngày · 15k</td><td><code class="url">m70</code> — gói tháng · 70k</td><td><code class="url">big120</code> — data lớn · 120k</td><td>500–1,500</td><td><span class="tag tag-p2">P2</span></td></tr>
       <tr><td><code class="url">3fb30</code> — 4G/5G · 30 ngày · 30k</td><td><code class="url">4g90</code> — tháng · 90k</td><td><code class="url">max100</code> — tháng · 100k</td><td>400–1,200</td><td><span class="tag tag-p2">P2</span></td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div style="font-size:11.5px;color:var(--ink-3);margin-top:-20px;margin-bottom:28px;">* Tên gói và giá là ước tính dựa trên thông tin công khai, cần verify lại với API nhà mạng trước khi publish. Gói có thể thay đổi theo thời gian — cần cơ chế update tự động.</div>
 
   <div class="callout callout-purple">
@@ -1666,7 +2773,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 
   <h2 class="sh">🗂 Sitemap — Nạp Tiền Điện Thoại</h2>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr><th>URL</th><th>Mục tiêu</th><th>Target keyword</th><th>Funnel</th><th>Priority</th></tr></thead>
     <tbody>
       <tr><td><code class="url">/nap-tien-dien-thoai</code></td><td>Hub tổng + form nạp nhanh</td><td>"nạp tiền điện thoại online", "nạp điện thoại"</td><td><span class="tag tag-conv">CONV</span></td><td><span class="tag tag-p1">P1</span></td></tr>
@@ -1680,7 +2787,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <tr class="row-new"><td><code class="url">/nap-tien-dien-thoai/khuyen-mai</code></td><td>Ưu đãi, cashback MoMo</td><td>"nạp tiền điện thoại được hoàn tiền"</td><td><span class="tag tag-bofu">BOFU</span></td><td><span class="tag tag-p1">P1</span></td></tr>
       <tr class="row-new"><td><code class="url">/nap-tien-dien-thoai/huong-dan</code></td><td>How-to TOFU</td><td>"cách nạp tiền điện thoại qua MoMo"</td><td><span class="tag tag-tofu">TOFU</span></td><td><span class="tag tag-p3">P3</span></td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h2 class="sh">📄 Anatomy — Trang Nhà Mạng (/nap-tien-dien-thoai/viettel)</h2>
   <div class="anatomy-wrap">
@@ -2150,7 +3257,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 
   <h2 class="sh">📝 Content Plan — 100 Bài Blog Telecom 2026</h2>
-  <table class="data-table">
+  <div class="table-scroll"><table class="data-table">
     <thead><tr><th>Quý</th><th>Chủ đề bài</th><th>URL Blog (ví dụ)</th><th>Target keyword</th><th>Internal Link về</th><th>Funnel</th></tr></thead>
     <tbody>
       <tr><td rowspan="6" style="font-weight:800;background:var(--green-light);vertical-align:top;">Q1<br><span style="font-size:10px;font-weight:400;color:var(--ink-3)">20 bài<br>TOFU</span></td>
@@ -2182,7 +3289,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <tr><td>Pillar: Hướng dẫn toàn diện mua sim phong thủy qua MoMo</td><td><code class="url">/blog/huong-dan-mua-sim-phong-thuy-momo</code></td><td>"hướng dẫn mua sim phong thủy"</td><td>/sim-so-dep</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
       <tr><td>Pillar: Tất cả về eSIM — Q&A toàn diện 2026</td><td><code class="url">/blog/esim-qa-toan-dien</code></td><td>"esim faq"</td><td>/esim-du-lich</td><td><span class="tag tag-tofu">TOFU</span></td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h2 class="sh">🔗 Internal Link Blueprint — Blog ↔ Product Page</h2>
   <div class="anatomy-wrap">
@@ -2226,7 +3333,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 
   <h2 class="sh">🔗 Ma Trận Cross-sell — Telecom Internal</h2>
-  <div class="matrix-wrap">
+  <div class="table-scroll" style="border-radius:var(--r);"><div class="matrix-wrap" style="margin-bottom:0;">
     <table class="matrix-table">
       <thead><tr>
         <th>Đang ở trang →</th>
@@ -2265,11 +3372,11 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <td>—</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <h2 class="sh">🏥 Cross-sell Telecom → Bảo Hiểm</h2>
-  <div class="matrix-wrap">
+  <div class="table-scroll" style="border-radius:var(--r);"><div class="matrix-wrap" style="margin-bottom:0;">
     <table class="matrix-table">
       <thead><tr>
         <th>Trigger từ Telecom</th>
@@ -2315,7 +3422,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <td><span style="color:var(--green);font-weight:700">⬆ Cao</span></td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <h2 class="sh">🎭 Kịch Bản Cross-sell Thực Tế</h2>
@@ -2373,6 +3480,230 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   <div class="callout callout-green">
     <div class="callout-title">🎯 Centralization Strategy — /vien-thong như "Telecom Super Hub"</div>
     <strong>/vien-thong</strong> không chỉ là landing page — nó là điểm khởi đầu cho toàn bộ journey telecom của user trên MoMo. Từ đây, user được routing đến đúng sản phẩm (sim/data/esim/nạp tiền). Sau khi hoàn thành, cross-sell sang /bao-hiem (travel, thiết bị) và các sản phẩm tài chính MoMo khác. <strong>Mục tiêu cuối cùng: user nhớ "cần gì về điện thoại/internet thì vào MoMo"</strong> — tương tự cách người ta nhớ "cần gọi xe thì dùng Grab".
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════ -->
+<!-- ADS BLOG EMBED -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s-ads-embed">
+  <div class="page-header">
+    <div class="page-eyebrow">Tactics — Blog Conversion Layer</div>
+    <div class="page-title">Blog Embed — Product Components trong Bài Blog</div>
+    <div class="page-desc">Thay vì để link text thuần, mỗi bài blog phải nhúng <strong>product component trực tiếp</strong> tại điểm user có intent cao nhất. Component không phải banner quảng cáo — nó là <em>functional widget giải quyết job ngay tại chỗ</em>, không cần user rời trang để convert.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📐 Nguyên tắc thiết kế Blog Embed</div>
+    <strong>Rule 1 — Đặt đúng vị trí:</strong> Embed xuất hiện ngay sau đoạn văn tạo ra intent — không phải đầu bài, không phải cuối bài. <strong>Rule 2 — Minimal friction:</strong> Component phải có thể thao tác được ngay trong blog (nhập số, chọn gói, xem sim), không redirect trước khi user đã có action. <strong>Rule 3 — Contextual, không generic:</strong> Bài viết về "sim tuổi 1990" → embed sim đã filter sẵn mệnh Thổ — không phải embed sim tổng. <strong>Rule 4 — 1 component chính per bài,</strong> tối đa 2 nếu bài dài &gt;2,000 chữ.
+  </div>
+
+  <h2 class="sh">🧩 Thư Viện Component — 6 Loại Embed</h2>
+
+  <div class="grid-3">
+
+    <div style="background:var(--surface);border:1.5px solid var(--pink-m1);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:12px 16px;background:var(--pink-m2);border-bottom:1px solid var(--pink-m1);display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:13px;font-weight:800;">Sim Lookup Widget</div>
+        <span class="tag tag-p1">C-SIM-01</span>
+      </div>
+      <div style="padding:14px 16px;font-size:12.5px;">
+        <div style="background:#F8F6F4;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:12px;color:var(--ink-3);font-style:italic;">"Nhập tên và năm sinh để xem sim phù hợp với bạn"<br><span style="display:block;margin-top:6px;background:#FFF;border:1px solid var(--border);border-radius:5px;padding:5px 10px;color:var(--ink-2);font-style:normal;">Tên: [________________]</span><span style="display:block;margin-top:4px;background:#FFF;border:1px solid var(--border);border-radius:5px;padding:5px 10px;color:var(--ink-2);font-style:normal;">Năm sinh: [____] &nbsp; <strong style="background:var(--pink);color:#fff;padding:2px 10px;border-radius:4px;font-size:11px;">Xem sim →</strong></span></div>
+        <div style="font-size:11.5px;color:var(--ink-2);line-height:1.6;margin-bottom:10px;">AI giải luận inline + hiển thị 3–5 sim đã filter theo mệnh/năm sinh. User click "Xem thêm" → /sim-so-dep/nam-sinh/[nam].</div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Dùng trong blog về</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Sim phong thủy theo tuổi</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Sim hợp mệnh X</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Cách chọn sim đẹp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--pink-m1);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:12px 16px;background:var(--pink-m2);border-bottom:1px solid var(--pink-m1);display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:13px;font-weight:800;">Sim Results Card Strip</div>
+        <span class="tag tag-p1">C-SIM-02</span>
+      </div>
+      <div style="padding:14px 16px;font-size:12.5px;">
+        <div style="background:#F8F6F4;border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-3);margin-bottom:8px;">SIM SỐ ĐẸP GỢI Ý — Mệnh Thổ</div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="background:#FFF;border:1px solid var(--border);border-radius:5px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;"><span style="font-weight:700;">0912.xxx.xx8</span><span style="color:var(--ink-3)">Viettel · 150k</span><strong style="background:var(--pink);color:#fff;padding:1px 8px;border-radius:4px;font-size:10px;">Mua</strong></div>
+            <div style="background:#FFF;border:1px solid var(--border);border-radius:5px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;"><span style="font-weight:700;">0358.xxx.xx5</span><span style="color:var(--ink-3)">Viettel · 200k</span><strong style="background:var(--pink);color:#fff;padding:1px 8px;border-radius:4px;font-size:10px;">Mua</strong></div>
+          </div>
+          <div style="text-align:right;margin-top:8px;font-size:11px;color:var(--pink);cursor:pointer;font-weight:600;">Xem tất cả 240 sim →</div>
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-2);line-height:1.6;margin-bottom:10px;">Strip 3–5 sim đã pre-filter theo context bài viết. Hiển thị số, nhà mạng, giá và nút mua inline. Không cần user rời trang.</div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Dùng trong blog về</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Top sim thần tài / lộc phát</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Sim Viettel số đẹp</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Sim tặng quà sinh nhật</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--blue-light);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:12px 16px;background:var(--blue-light);border-bottom:1px solid #B0C8FF;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:13px;font-weight:800;">Data Package Card</div>
+        <span class="tag tag-mofu">C-DATA-01</span>
+      </div>
+      <div style="padding:14px 16px;font-size:12.5px;">
+        <div style="background:#F8F6F4;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:8px;">GÓI DATA GỢI Ý — Viettel · Tháng</div>
+          <div style="background:#FFF;border:1.5px solid var(--blue-light);border-radius:7px;padding:10px 12px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div><div style="font-size:14px;font-weight:900;">D90N</div><div style="font-size:11px;color:var(--ink-3)">2GB/ngày · 30 ngày</div></div>
+              <div style="text-align:right;"><div style="font-size:16px;font-weight:900;color:var(--blue)">70.000đ</div><strong style="display:block;margin-top:4px;background:var(--blue);color:#fff;padding:3px 12px;border-radius:4px;font-size:11px;text-align:center;">Đăng ký ngay</strong></div>
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:10px;color:var(--ink-3);text-align:right;cursor:pointer;">Xem tất cả gói Viettel →</div>
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-2);line-height:1.6;margin-bottom:10px;">Hiển thị 1 gói đề xuất chính + link xem thêm. Gói được pre-select theo context bài (bài về Viettel → gói Viettel bán chạy nhất).</div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Dùng trong blog về</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Review gói data tháng</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Gói data cho sinh viên</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">So sánh gói 4G các mạng</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--blue-light);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:12px 16px;background:var(--blue-light);border-bottom:1px solid #B0C8FF;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:13px;font-weight:800;">Data Comparison Table</div>
+        <span class="tag tag-mofu">C-DATA-02</span>
+      </div>
+      <div style="padding:14px 16px;font-size:12.5px;">
+        <div style="background:#F8F6F4;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:12px;overflow-x:auto;">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:8px;">SO SÁNH GÓI 70K — 3 NHÀ MẠNG</div>
+          <table style="width:100%;font-size:11px;border-collapse:collapse;">
+            <tr style="background:#EEF2FF;"><th style="padding:5px 8px;text-align:left;">Gói</th><th style="padding:5px 8px;">Data</th><th style="padding:5px 8px;">Ngày</th><th style="padding:5px 8px;"></th></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 8px;font-weight:700;">D90N Viettel</td><td style="padding:5px 8px;text-align:center;">60GB</td><td style="padding:5px 8px;text-align:center;">30</td><td style="padding:5px 8px;"><span style="background:var(--blue);color:#fff;padding:1px 8px;border-radius:3px;font-size:10px;">Mua</span></td></tr>
+            <tr><td style="padding:5px 8px;font-weight:700;">ED60 Mobi</td><td style="padding:5px 8px;text-align:center;">60GB</td><td style="padding:5px 8px;text-align:center;">30</td><td style="padding:5px 8px;"><span style="background:var(--border);color:var(--ink-3);padding:1px 8px;border-radius:3px;font-size:10px;">Mua</span></td></tr>
+          </table>
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-2);line-height:1.6;margin-bottom:10px;">Bảng so sánh mini 2–4 gói theo cùng mệnh giá/thời hạn. Nút mua ngay per row. Nhúng vào giữa bài khi user đang ở giai đoạn so sánh.</div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Dùng trong blog về</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">So sánh gói data các mạng</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Gói nào value nhất tháng X</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--teal-light);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:12px 16px;background:var(--teal-light);border-bottom:1px solid #80D0D0;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:13px;font-weight:800;">eSIM Destination Card</div>
+        <span style="background:var(--teal-light);color:var(--teal);border:1px solid var(--teal);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">C-ESIM-01</span>
+      </div>
+      <div style="padding:14px 16px;font-size:12.5px;">
+        <div style="background:#F8F6F4;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:12px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="font-size:24px;">🇯🇵</span><div><div style="font-size:14px;font-weight:900;">eSIM Nhật Bản</div><div style="font-size:11px;color:var(--ink-3)">Từ 99.000đ · Nhận QR ngay · NTT DoCoMo</div></div></div>
+          <div style="display:flex;gap:6px;margin-bottom:8px;">
+            <div style="flex:1;background:#FFF;border:1px solid var(--border);border-radius:5px;padding:6px 10px;font-size:11px;text-align:center;"><div style="font-weight:700;">3GB · 7 ngày</div><div style="color:var(--teal);">99k</div></div>
+            <div style="flex:1;background:#FFF;border:1.5px solid var(--teal);border-radius:5px;padding:6px 10px;font-size:11px;text-align:center;"><div style="font-weight:700;">10GB · 15 ngày</div><div style="color:var(--teal);">189k ⭐</div></div>
+            <div style="flex:1;background:#FFF;border:1px solid var(--border);border-radius:5px;padding:6px 10px;font-size:11px;text-align:center;"><div style="font-weight:700;">∞ · 30 ngày</div><div style="color:var(--teal);">349k</div></div>
+          </div>
+          <div style="background:var(--teal);color:#FFF;text-align:center;border-radius:5px;padding:7px;font-size:12px;font-weight:700;cursor:pointer;">Mua eSIM Nhật Bản →</div>
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-2);line-height:1.6;margin-bottom:10px;">Card điểm đến với 3 gói nổi bật. Gói "best value" được highlight. CTA mua ngay trong blog.</div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Dùng trong blog về</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Kinh nghiệm du lịch Nhật</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Chuẩn bị đi Nhật/Hàn/Thái</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">eSIM có tốt không?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--amber-light);border-radius:var(--r);overflow:hidden;">
+      <div style="padding:12px 16px;background:var(--amber-light);border-bottom:1px solid #FFD0A0;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:13px;font-weight:800;">Quick Top-up Form</div>
+        <span style="background:var(--amber-light);color:var(--amber);border:1px solid var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">C-NAP-01</span>
+      </div>
+      <div style="padding:14px 16px;font-size:12.5px;">
+        <div style="background:#F8F6F4;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--amber);margin-bottom:8px;">NẠP TIỀN NHANH</div>
+          <div style="background:#FFF;border:1px solid var(--border);border-radius:5px;padding:7px 10px;font-size:12px;margin-bottom:6px;color:var(--ink-3);">Số điện thoại: [______________]</div>
+          <div style="display:flex;gap:4px;margin-bottom:8px;">
+            <span style="border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:11px;background:#FFF;">20k</span>
+            <span style="border:1px solid var(--amber);border-radius:4px;padding:4px 8px;font-size:11px;background:var(--amber-light);font-weight:700;">50k</span>
+            <span style="border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:11px;background:#FFF;">100k</span>
+            <span style="border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:11px;background:#FFF;">200k</span>
+          </div>
+          <div style="background:var(--amber);color:#FFF;text-align:center;border-radius:5px;padding:7px;font-size:12px;font-weight:700;">Nạp Ngay</div>
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-2);line-height:1.6;margin-bottom:10px;">Mini form nạp tiền inline. User nhập SĐT + chọn mệnh giá → redirect sang checkout MoMo.</div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Dùng trong blog về</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Cách nạp tiền điện thoại</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Ưu đãi nạp tiền qua MoMo</span>
+            <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;">Bài tiết kiệm chi phí điện thoại</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="sh">📍 Quy Tắc Đặt Component — Vị Trí & Điều Kiện</h2>
+  <div class="table-scroll"><table class="data-table">
+    <thead><tr><th>Vị trí trong bài</th><th>Điều kiện</th><th>Component phù hợp</th><th>Ghi chú</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sau intro (đoạn 1–2)</strong></td><td>Intent rõ là BOFU — user đã biết muốn mua</td><td><span class="tag tag-p1">C-SIM-02</span> <span class="tag tag-mofu">C-DATA-01</span> <span style="background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;">C-ESIM-01</span></td><td>Đừng delay conversion với user sẵn sàng mua</td></tr>
+      <tr><td><strong>Giữa bài — sau giải thích chính</strong></td><td>Vừa tạo xong context → intent vừa hình thành</td><td><span class="tag tag-p1">C-SIM-01</span> <span class="tag tag-mofu">C-DATA-02</span></td><td><strong>Vị trí hiệu quả nhất</strong></td></tr>
+      <tr><td><strong>Trước FAQ / cuối bài</strong></td><td>Bài TOFU — user đang tìm hiểu</td><td><span class="tag tag-p1">C-SIM-01</span> <span style="background:var(--amber-light);color:var(--amber);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;">C-NAP-01</span></td><td>Soft CTA — không aggressive</td></tr>
+      <tr><td><strong>Inline trong bảng so sánh</strong></td><td>Bài có bảng so sánh sản phẩm</td><td><span class="tag tag-mofu">C-DATA-02</span></td><td>Thêm nút mua ngay per row</td></tr>
+      <tr><td><strong>Sau section "Chuẩn bị" trong bài travel</strong></td><td>User đang lên kế hoạch chuyến đi</td><td><span style="background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;">C-ESIM-01</span></td><td>Contextual nhất trong travel content</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">🗺 Mapping Blog → Component</h2>
+  <div class="table-scroll"><table class="data-table">
+    <thead><tr><th>Blog URL</th><th>Chủ đề</th><th>Component</th><th>Vị trí</th><th>Pre-filter</th></tr></thead>
+    <tbody>
+      <tr><td><code class="url">/blog/sim-phong-thuy-tuoi-1990</code></td><td>Sim hợp tuổi 1990</td><td><span class="tag tag-p1">C-SIM-01</span></td><td>Giữa bài — sau giải thích mệnh Thổ</td><td><code class="url">?year=1990&menh=tho</code></td></tr>
+      <tr><td><code class="url">/blog/sim-than-tai-la-gi</code></td><td>Giải thích sim thần tài</td><td><span class="tag tag-p1">C-SIM-02</span></td><td>Sau intro + cuối bài</td><td><code class="url">?loai=than-tai</code></td></tr>
+      <tr><td><code class="url">/blog/goi-data-viettel-tot-nhat-2026</code></td><td>Review gói Viettel</td><td><span class="tag tag-mofu">C-DATA-01</span> + <span class="tag tag-mofu">C-DATA-02</span></td><td>C-DATA-01 sau intro · C-DATA-02 trong phần so sánh</td><td><code class="url">?nhamang=viettel</code></td></tr>
+      <tr><td><code class="url">/blog/so-sanh-goi-data-100k</code></td><td>So sánh gói 100k 3 mạng</td><td><span class="tag tag-mofu">C-DATA-02</span></td><td>Inline trong bảng so sánh</td><td><code class="url">?price=100000</code></td></tr>
+      <tr><td><code class="url">/blog/esim-di-nhat-ban</code></td><td>Cẩm nang eSIM Nhật</td><td><span style="background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;">C-ESIM-01</span></td><td>Sau section "Cần chuẩn bị gì"</td><td><code class="url">?country=nhat-ban</code></td></tr>
+      <tr><td><code class="url">/blog/kinh-nghiem-du-lich-thai-lan</code></td><td>Travel guide Thái Lan</td><td><span style="background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;">C-ESIM-01</span></td><td>Sau phần "Liên lạc & internet"</td><td><code class="url">?country=thai-lan</code></td></tr>
+      <tr><td><code class="url">/blog/nap-tien-dien-thoai-momo</code></td><td>Hướng dẫn nạp tiền</td><td><span style="background:var(--amber-light);color:var(--amber);font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;">C-NAP-01</span></td><td>Cuối bài — sau hướng dẫn</td><td>Generic — không cần filter</td></tr>
+      <tr><td><code class="url">/blog/goi-data-re-nhat-cho-sinh-vien</code></td><td>Gói data sinh viên</td><td><span class="tag tag-mofu">C-DATA-01</span></td><td>Giữa bài — sau đoạn đề xuất gói</td><td><code class="url">?segment=sinh-vien&price_max=50000</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sh">⚙️ Technical Spec — Triển Khai</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🔧 Cơ chế nhúng vào CMS Blog</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Mỗi component là Web Component / React component độc lập, nhúng vào bài blog qua shortcode hoặc block trong CMS:<br><code class="url" style="display:block;margin:6px 0;">[momo-embed type="sim-lookup" year="1990" menh="tho"]</code><code class="url" style="display:block;margin-bottom:6px;">[momo-embed type="esim-card" country="nhat-ban"]</code>Component tự fetch data realtime từ API MoMo — không hardcode. Khi hết hàng tự ẩn / hiển thị sản phẩm thay thế.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Tracking GA4</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Mỗi component fire 3 events:<br><code class="url" style="display:block;margin:6px 0;">embed_view — vào viewport</code><code class="url" style="display:block;margin-bottom:4px;">embed_interact — click trong component</code><code class="url" style="display:block;margin-bottom:6px;">embed_convert — click CTA mua/đăng ký</code>Params: <code class="url">blog_slug</code> · <code class="url">component_type</code> · <code class="url">position</code> · <code class="url">product_id</code>. Đo được CTR và CR per component per bài.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📱 Responsive & Performance</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Desktop = card ngang, mobile = card dọc stack. Lazy load — fetch data khi vào viewport (IntersectionObserver). Target: không làm tăng LCP của bài blog quá 200ms. 60%+ traffic blog đến từ mobile.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🚫 Anti-patterns cần tránh</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Không quá 2 component per bài. Không dùng component generic cho bài có context cụ thể. Không đặt component trước khi đã tạo đủ intent. Không hardcode sản phẩm — phải dynamic để tránh hiển thị gói đã hết / sim đã bán.</div>
+    </div>
   </div>
 </section>
 
@@ -2569,19 +3900,50 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 </div>
 
 <script>
+/* ── Sidebar toggle ── */
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const burger  = document.getElementById('hamburger');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+}
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const burger  = document.getElementById('hamburger');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── Navigation ── */
 function go(id) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById('s-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
-  document.querySelector('.content').scrollTop = 0;
+  const target = document.getElementById('s-' + id);
+  if (target) target.classList.add('active');
+  if (event && event.currentTarget) event.currentTarget.classList.add('active');
+  window.scrollTo({ top:0, behavior:'instant' });
+  /* Close sidebar on mobile after nav */
+  if (window.innerWidth < 900) closeSidebar();
 }
+
+/* ── Accordion ── */
 function toggleCS(header) {
-  const body = header.nextElementSibling;
+  const body   = header.nextElementSibling;
   const toggle = header.querySelector('.cs-toggle');
   body.classList.toggle('open');
   toggle.classList.toggle('open');
 }
+
+/* ── Close sidebar on Escape ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSidebar();
+});
 </script>
 </body>
 </html>
