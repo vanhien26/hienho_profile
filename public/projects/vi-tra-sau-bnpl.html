@@ -7,47 +7,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
-   MOMO BRAND COLORS
-   Hồng -2: #FFEFF4  Hồng -1: #FEC8DC
-   Hồng:    #FF9DBE  Hồng +1: #F95396
-   Hồng +2 (MoMo): #A50064
+   MOMO BRAND COLORS — MOBILE-FIRST
    ═══════════════════════════════════════ */
 :root {
-  /* MoMo brand */
-  --momo:        #A50064;
-  --momo-dark:   #7A004A;
-  --momo-mid:    #F95396;
-  --momo-soft:   #FF9DBE;
-  --momo-pale:   #FEC8DC;
-  --momo-ghost:  #FFEFF4;
-
-  /* Semantic aliases (tương thích với component cũ) */
-  --pink:        #A50064;
-  --pink-light:  #FFEFF4;
-  --pink-border: #FEC8DC;
-
-  /* Supporting palette */
-  --green:       #00A64F;
-  --green-light: #E0F5EA;
-  --blue:        #1848B8;
-  --blue-light:  #E6EEFF;
-  --amber:       #C05000;
-  --amber-light: #FFF0E0;
-  --red:         #C42020;
-  --red-light:   #FFE8E8;
-
-  /* Neutrals */
-  --ink:    #18120E;
-  --ink-2:  #4A3F38;
-  --ink-3:  #8C7D74;
-  --bg:     #F9F6F3;
-  --surface:#FFFFFF;
-  --border: #EBE4DD;
-  --r:      10px;
+  --momo:       #A50064;
+  --momo-dark:  #7A004A;
+  --momo-mid:   #F95396;
+  --momo-soft:  #FF9DBE;
+  --momo-pale:  #FEC8DC;
+  --momo-ghost: #FFEFF4;
+  --pink:       #A50064;
+  --pink-light: #FFEFF4;
+  --green:      #00A64F;
+  --green-light:#E0F5EA;
+  --blue:       #1848B8;
+  --blue-light: #E6EEFF;
+  --amber:      #C05000;
+  --amber-light:#FFF0E0;
+  --red:        #C42020;
+  --red-light:  #FFE8E8;
+  --ink:        #18120E;
+  --ink-2:      #4A3F38;
+  --ink-3:      #8C7D74;
+  --bg:         #F9F6F3;
+  --surface:    #FFFFFF;
+  --border:     #EBE4DD;
+  --r:          10px;
 }
 
+/* ═══ BASE RESET ═══ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
 body {
   font-family:'Be Vietnam Pro',sans-serif;
   background:var(--bg);
@@ -55,193 +45,252 @@ body {
   font-size:14px;
   line-height:1.6;
   min-height:100vh;
+  /* Reserve space for mobile bottom nav */
+  padding-bottom:64px;
 }
 
-/* ═══ TOP HEADER NAV ═══ */
-.topbar {
+/* ══════════════════════════════════════════
+   MOBILE NAV — Bottom Tab Bar (default)
+   ══════════════════════════════════════════ */
+.layout { display:block; min-height:100vh; }
+
+/* Sidebar hidden on mobile — replaced by bottom tabs + drawer */
+.sidebar { display:none; }
+
+/* ── Mobile Top Appbar ── */
+.mobile-appbar {
   position:sticky;
   top:0;
-  z-index:100;
+  z-index:200;
   background:var(--momo);
-  box-shadow:0 2px 12px rgba(165,0,100,0.25);
-}
-.topbar-inner {
-  display:flex;
-  align-items:stretch;
-  min-height:52px;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-.topbar-inner::-webkit-scrollbar { display:none; }
-
-.topbar-brand {
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0 20px 0 16px;
-  border-right:1px solid rgba(255,255,255,0.15);
-  flex-shrink:0;
-  white-space:nowrap;
+  padding:0 16px;
+  height:52px;
+  gap:12px;
+  box-shadow:0 1px 8px rgba(165,0,100,0.3);
 }
-.brand-logo {
+.mobile-appbar .brand-logo {
   background:white;
   color:var(--momo);
   font-weight:900;
   font-size:15px;
-  padding:4px 10px;
+  padding:3px 10px;
   border-radius:5px;
   letter-spacing:-0.5px;
+  flex-shrink:0;
 }
-.brand-label {
-  font-size:11.5px;
+.mobile-appbar-title {
+  font-size:13px;
   font-weight:700;
-  color:rgba(255,255,255,0.85);
-  letter-spacing:0.2px;
+  color:rgba(255,255,255,0.9);
+  flex:1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.mobile-menu-btn {
+  background:rgba(255,255,255,0.15);
+  border:none;
+  border-radius:8px;
+  width:36px;
+  height:36px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  cursor:pointer;
+  flex-shrink:0;
+  padding:0;
+}
+.mobile-menu-btn span {
+  display:block;
+  width:18px;
+  height:2px;
+  background:white;
+  border-radius:2px;
+  transition:transform 0.2s, opacity 0.2s;
 }
 
-.nav-groups {
-  display:flex;
-  align-items:stretch;
-  flex:1;
+/* ── Drawer Overlay ── */
+.drawer-overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  z-index:300;
+  opacity:0;
+  transition:opacity 0.25s;
 }
-.nav-group {
-  display:flex;
-  align-items:stretch;
-  border-right:1px solid rgba(255,255,255,0.08);
-  padding:0 4px;
+.drawer-overlay.open {
+  display:block;
+  opacity:1;
 }
-.nav-group-label {
+
+/* ── Drawer Panel ── */
+.drawer {
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:280px;
+  max-width:85vw;
+  background:var(--ink);
+  z-index:400;
+  display:flex;
+  flex-direction:column;
+  transform:translateX(-100%);
+  transition:transform 0.28s cubic-bezier(0.4,0,0.2,1);
+  overflow-y:auto;
+}
+.drawer.open { transform:translateX(0); }
+
+.drawer-brand {
+  padding:20px 18px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
   display:flex;
   align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+}
+.drawer-brand-info { display:flex; flex-direction:column; gap:4px; }
+.drawer-brand .brand-logo {
+  background:var(--momo);
+  color:white;
+  font-weight:900;
+  font-size:16px;
+  padding:4px 11px;
+  border-radius:6px;
+  display:inline-block;
+  letter-spacing:-0.5px;
+}
+.drawer-brand-sub { font-size:11px; color:rgba(255,255,255,0.38); line-height:1.4; }
+.drawer-close {
+  background:rgba(255,255,255,0.1);
+  border:none;
+  border-radius:8px;
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  color:white;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.nav-section { padding:12px 0 0; }
+.nav-label {
   font-size:9px;
   font-weight:700;
-  letter-spacing:1px;
+  letter-spacing:1.3px;
   text-transform:uppercase;
-  color:rgba(255,255,255,0.4);
-  padding:0 8px 0 12px;
-  white-space:nowrap;
+  color:rgba(255,255,255,0.28);
+  padding:0 18px 6px;
 }
-.nav-btn {
+.nav-item {
   display:flex;
   align-items:center;
-  gap:6px;
-  padding:0 13px;
+  gap:10px;
+  padding:10px 18px;
   cursor:pointer;
-  color:rgba(255,255,255,0.72);
-  font-size:12.5px;
-  font-weight:600;
-  font-family:'Be Vietnam Pro',sans-serif;
-  background:none;
-  border:none;
-  border-bottom:2.5px solid transparent;
+  color:rgba(255,255,255,0.6);
+  font-size:13px;
+  font-weight:500;
   transition:all 0.15s;
-  white-space:nowrap;
+  border-left:3px solid transparent;
   user-select:none;
+  -webkit-tap-highlight-color:transparent;
 }
-.nav-btn:hover {
+.nav-item:active { background:rgba(255,255,255,0.08); }
+.nav-item.active {
   color:white;
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.09);
+  border-left-color:var(--momo-mid);
 }
-.nav-btn.active {
-  color:white;
-  border-bottom-color:white;
-  background:rgba(255,255,255,0.1);
-}
-.nav-btn .ni { font-size:13px; }
+.nav-icon { font-size:15px; width:22px; text-align:center; flex-shrink:0; }
 
-.topbar-meta {
-  display:flex;
-  align-items:center;
-  padding:0 16px;
+.drawer-footer {
+  margin-top:auto;
+  padding:14px 18px;
+  border-top:1px solid rgba(255,255,255,0.08);
   flex-shrink:0;
-  margin-left:auto;
-  border-left:1px solid rgba(255,255,255,0.12);
 }
-.topbar-version {
+.version-tag {
   font-family:'JetBrains Mono',monospace;
-  font-size:10px;
-  color:rgba(255,255,255,0.35);
-  white-space:nowrap;
+  font-size:9.5px;
+  color:rgba(255,255,255,0.2);
 }
 
-/* ═══ MAIN CONTENT ═══ */
-.content-wrap { max-width:1100px; margin:0 auto; padding:36px 32px 60px; }
+/* ═══ MAIN CONTENT — Mobile ═══ */
+.content { min-width:0; }
+.content-wrap { padding:16px 14px 24px; }
 .section { display:none; }
 .section.active { display:block; }
 
-/* ═══ PAGE HEADER ═══ */
+/* ═══ PAGE HEADER — Mobile ═══ */
 .page-header {
-  margin-bottom:32px;
-  padding-bottom:24px;
+  margin-bottom:20px;
+  padding-bottom:16px;
   border-bottom:1px solid var(--border);
 }
 .page-eyebrow {
-  font-size:10.5px;
+  font-size:10px;
   font-weight:700;
   letter-spacing:1.1px;
   text-transform:uppercase;
   color:var(--momo);
-  margin-bottom:6px;
+  margin-bottom:5px;
 }
 .page-title {
-  font-size:26px;
+  font-size:20px;
   font-weight:900;
-  letter-spacing:-0.8px;
-  line-height:1.15;
+  letter-spacing:-0.6px;
+  line-height:1.2;
   color:var(--ink);
-  margin-bottom:8px;
+  margin-bottom:7px;
 }
-.page-desc {
-  font-size:14px;
-  color:var(--ink-2);
-  max-width:700px;
-  line-height:1.7;
-}
+.page-desc { font-size:13.5px; color:var(--ink-2); line-height:1.65; }
 
-/* ═══ STAT ROW ═══ */
+/* ═══ STAT ROW — 2 cols mobile ═══ */
 .stat-row {
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:32px;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:20px;
 }
 .stat-card {
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:var(--r);
-  padding:16px 18px;
+  padding:14px 14px;
 }
-.stat-num {
-  font-size:28px;
-  font-weight:900;
-  letter-spacing:-1.5px;
-  line-height:1;
-  margin-bottom:4px;
-}
-.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
-.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:3px; }
+.stat-num { font-size:24px; font-weight:900; letter-spacing:-1px; line-height:1; margin-bottom:4px; }
+.stat-lbl { font-size:11.5px; color:var(--ink-3); font-weight:500; }
+.stat-sub { font-size:10px; color:var(--ink-3); margin-top:3px; }
 
 /* ═══ SECTION HEADING ═══ */
 h2.sh {
-  font-size:17px;
+  font-size:15px;
   font-weight:800;
-  letter-spacing:-0.3px;
-  margin-bottom:14px;
+  letter-spacing:-0.2px;
+  margin-bottom:12px;
   color:var(--ink);
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:7px;
   flex-wrap:wrap;
 }
 
 /* ═══ TAGS ═══ */
 .tag {
   display:inline-block;
-  padding:2px 8px;
+  padding:2px 7px;
   border-radius:4px;
-  font-size:11px;
+  font-size:10.5px;
   font-weight:700;
-  letter-spacing:0.1px;
   white-space:nowrap;
 }
 .tag-tofu  { background:#E0F4E8; color:#0B6130; }
@@ -259,27 +308,29 @@ h2.sh {
 
 code.url {
   font-family:'JetBrains Mono',monospace;
-  font-size:11px;
+  font-size:10.5px;
   background:#F0EDE8;
-  padding:1px 7px;
+  padding:1px 6px;
   border-radius:4px;
   color:var(--ink-2);
   word-break:break-all;
 }
 
-/* ═══ TABLES ═══ */
-.tbl-wrap { width:100%; overflow-x:auto; margin-bottom:28px; border-radius:var(--r); border:1px solid var(--border); }
-.data-table {
+/* ═══ TABLES — scroll on mobile ═══ */
+.tbl-wrap {
   width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-  min-width:500px;
+  overflow-x:auto;
+  margin-bottom:20px;
+  border-radius:var(--r);
+  border:1px solid var(--border);
+  -webkit-overflow-scrolling:touch;
 }
+.data-table { width:100%; border-collapse:collapse; font-size:12.5px; min-width:480px; }
 .data-table thead tr { background:#F5F1EE; }
 .data-table th {
-  padding:9px 13px;
+  padding:8px 12px;
   text-align:left;
-  font-size:10.5px;
+  font-size:10px;
   font-weight:700;
   text-transform:uppercase;
   letter-spacing:0.5px;
@@ -287,12 +338,7 @@ code.url {
   border-bottom:1px solid var(--border);
   white-space:nowrap;
 }
-.data-table td {
-  padding:10px 13px;
-  border-bottom:1px solid var(--border);
-  vertical-align:top;
-  line-height:1.5;
-}
+.data-table td { padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
 .data-table tbody tr:last-child td { border-bottom:none; }
 .data-table tbody tr:hover { background:#FAFAF8; }
 .data-table tbody tr.row-total { background:#F5F1EE; font-weight:700; }
@@ -301,10 +347,10 @@ code.url {
 /* ═══ CALLOUTS ═══ */
 .callout {
   border-radius:var(--r);
-  padding:14px 18px;
-  margin-bottom:18px;
-  font-size:13px;
-  line-height:1.7;
+  padding:12px 14px;
+  margin-bottom:14px;
+  font-size:12.5px;
+  line-height:1.65;
 }
 .callout-red    { background:var(--red-light);   border:1px solid #FFD0D0; color:#8B1A1A; }
 .callout-amber  { background:var(--amber-light);  border:1px solid #FFD0A0; color:#7A3A00; }
@@ -312,267 +358,388 @@ code.url {
 .callout-blue   { background:var(--blue-light);   border:1px solid #B0C8FF; color:#0D3080; }
 .callout-purple { background:#EDE8FF; border:1px solid #C0B0F8; color:#3A1A90; }
 .callout-momo   { background:var(--momo-ghost); border:1px solid var(--momo-pale); color:var(--momo-dark); }
-.callout-title  { font-weight:800; margin-bottom:4px; font-size:13px; }
+.callout-title  { font-weight:800; margin-bottom:4px; font-size:12.5px; }
 
-/* ═══ GRIDS ═══ */
-.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
-.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:24px; }
+/* ═══ GRIDS — stacked on mobile ═══ */
+.grid-2 { display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px; }
+.grid-3 { display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 16px; margin-bottom:10px; }
+.card-title { font-size:13px; font-weight:700; margin-bottom:6px; color:var(--ink); }
 
-.card {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:18px 20px;
-  margin-bottom:12px;
-}
-.card-title { font-size:13.5px; font-weight:700; margin-bottom:7px; color:var(--ink); }
-
-/* ═══ META GRID ═══ */
-.meta-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px; }
-.meta-card {
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:var(--r);
-  padding:14px 18px;
-}
-.meta-card-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:5px; }
-.meta-card-value { font-size:14.5px; font-weight:800; color:var(--ink); }
+/* ═══ META GRID — 1 col mobile ═══ */
+.meta-grid { display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px; }
+.meta-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:12px 14px; }
+.meta-card-label { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:4px; }
+.meta-card-value { font-size:14px; font-weight:800; color:var(--ink); }
 .meta-card-sub { font-size:11px; color:var(--ink-3); margin-top:3px; }
 
-/* ═══ SCOPE GRID ═══ */
-.scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+/* ═══ SCOPE / PERSONA — stacked mobile ═══ */
+.scope-grid { display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px; }
 .scope-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-.scope-card-header { padding:9px 15px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; display:flex; align-items:center; gap:7px; }
-.scope-card-body { padding:10px 15px; font-size:12.5px; color:var(--ink-2); line-height:1.7; }
+.scope-card-header { padding:8px 13px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; display:flex; align-items:center; gap:6px; }
+.scope-card-body { padding:10px 13px; font-size:12px; color:var(--ink-2); line-height:1.7; }
 .scope-card-body li { list-style:none; padding:1px 0; }
-.scope-card-body li::before { content:"→ "; color:var(--ink-3); font-size:11px; }
+.scope-card-body li::before { content:"→ "; color:var(--ink-3); font-size:10.5px; }
 
-/* ═══ PERSONA ═══ */
-.persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.persona-grid { display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:20px; }
 .persona-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-.persona-header { padding:11px 16px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:9px; }
+.persona-header { padding:10px 14px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
 .persona-title { font-size:12.5px; font-weight:800; }
-.persona-body { padding:12px 16px; }
-.persona-step { display:flex; gap:9px; margin-bottom:7px; align-items:flex-start; }
+.persona-body { padding:11px 14px; }
+.persona-step { display:flex; gap:8px; margin-bottom:6px; align-items:flex-start; }
 .step-num { min-width:20px; height:20px; background:var(--momo); color:white; border-radius:50%; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
-.step-text { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
-.persona-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:7px 11px; font-size:12px; color:#0B5020; font-weight:600; margin-top:6px; }
+.step-text { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.persona-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:7px 10px; font-size:11.5px; color:#0B5020; font-weight:600; margin-top:6px; }
 
-/* ═══ KEYWORD CLUSTERS ═══ */
-.kw-cluster { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
-.kw-cluster-header { background:var(--ink); color:white; padding:9px 16px; font-size:12px; font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
-.kw-cluster-body { padding:12px 16px; }
-.kw-item { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:13px; gap:8px; flex-wrap:wrap; }
+/* ═══ KW CLUSTERS ═══ */
+.kw-cluster { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:14px; }
+.kw-cluster-header { background:var(--ink); color:white; padding:8px 14px; font-size:11.5px; font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
+.kw-cluster-body { padding:10px 14px; }
+.kw-item { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:12.5px; gap:6px; flex-wrap:wrap; }
 .kw-item:last-child { border-bottom:none; }
 .kw-text { font-weight:500; color:var(--ink); flex:1; min-width:0; word-break:break-word; }
-.kw-meta { display:flex; gap:6px; align-items:center; flex-shrink:0; flex-wrap:wrap; }
-.kw-vol { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-3); }
-.kw-intent { font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; }
+.kw-meta { display:flex; gap:5px; align-items:center; flex-shrink:0; flex-wrap:wrap; }
+.kw-vol { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-3); }
+.kw-intent { font-size:9.5px; font-weight:700; padding:1px 5px; border-radius:3px; }
 .kw-intent-info  { background:#E0F4E8; color:#0B6130; }
 .kw-intent-trans { background:var(--momo-ghost); color:var(--momo); }
 .kw-intent-nav   { background:var(--blue-light); color:var(--blue); }
 .kw-intent-comm  { background:var(--amber-light); color:var(--amber); }
 
 /* ═══ GEO BLOCKS ═══ */
-.geo-block { background:#F5F2FF; border:1.5px solid #C8BCFC; border-radius:var(--r); padding:14px 18px; margin-bottom:12px; }
-.geo-block-label { font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#4B1DB8; margin-bottom:7px; display:flex; align-items:center; gap:6px; }
-.geo-block-q { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:5px; font-style:italic; line-height:1.4; }
-.geo-block-a { font-size:12.5px; color:var(--ink-2); line-height:1.65; }
+.geo-block { background:#F5F2FF; border:1.5px solid #C8BCFC; border-radius:var(--r); padding:12px 14px; margin-bottom:10px; }
+.geo-block-label { font-size:9.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#4B1DB8; margin-bottom:6px; display:flex; align-items:center; gap:5px; }
+.geo-block-q { font-size:12.5px; font-weight:700; color:var(--ink); margin-bottom:5px; font-style:italic; line-height:1.4; }
+.geo-block-a { font-size:12px; color:var(--ink-2); line-height:1.6; }
 .geo-block-a strong { color:var(--ink); }
 
 /* ═══ ANATOMY TABLE ═══ */
-.anatomy-wrap { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
-.anatomy-header-row { background:var(--ink); color:white; font-size:11px; font-weight:700; padding:9px 18px; font-family:'JetBrains Mono',monospace; }
-.anatomy-row { display:grid; grid-template-columns:28px minmax(120px,180px) 1fr auto; align-items:start; gap:12px; padding:11px 18px; border-bottom:1px solid var(--border); font-size:13px; }
+.anatomy-wrap { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.anatomy-header-row { background:var(--ink); color:white; font-size:10.5px; font-weight:700; padding:8px 14px; font-family:'JetBrains Mono',monospace; }
+/* Mobile: 2-col grid (number + content stack) */
+.anatomy-row {
+  display:grid;
+  grid-template-columns:28px 1fr;
+  grid-template-rows:auto auto auto;
+  gap:6px 10px;
+  padding:11px 14px;
+  border-bottom:1px solid var(--border);
+}
 .anatomy-row:last-child { border-bottom:none; }
 .anatomy-row:hover { background:var(--bg); }
-.anatomy-order { width:26px; height:26px; border-radius:50%; background:var(--momo); color:white; font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.anatomy-section-name { font-weight:700; font-size:13px; color:var(--ink); padding-top:3px; line-height:1.4; }
-.anatomy-section-desc { font-size:12.5px; color:var(--ink-2); line-height:1.55; padding-top:3px; }
-.anatomy-section-tag { padding-top:4px; display:flex; flex-direction:column; gap:4px; }
+.anatomy-order { width:26px; height:26px; border-radius:50%; background:var(--momo); color:white; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; grid-row:1/4; align-self:start; margin-top:2px; }
+.anatomy-section-name { font-weight:700; font-size:12.5px; color:var(--ink); line-height:1.3; }
+.anatomy-section-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
+.anatomy-section-tag { display:flex; flex-wrap:wrap; gap:4px; }
 
 /* ═══ LINK TREE ═══ */
-.link-tree { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
-.link-tree-header { background:var(--ink); color:white; padding:9px 16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; }
-.link-node { padding:9px 16px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:8px; font-size:12.5px; flex-wrap:wrap; }
+.link-tree { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.link-tree-header { background:var(--ink); color:white; padding:8px 14px; font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:600; }
+.link-node { padding:8px 14px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:7px; font-size:12px; flex-wrap:wrap; }
 .link-node:last-child { border-bottom:none; }
 .link-node.level-0 { background:var(--bg); font-weight:700; }
-.link-node.level-1 { padding-left:34px; }
-.link-node.level-2 { padding-left:52px; }
-.link-node-main { display:flex; align-items:baseline; gap:8px; flex:1; flex-wrap:wrap; min-width:0; }
-.link-node-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--momo); flex-shrink:0; }
-.link-node-desc { font-size:11.5px; color:var(--ink-3); }
-.link-arrow { color:var(--ink-3); font-size:10px; flex-shrink:0; margin-top:3px; }
+.link-node.level-1 { padding-left:28px; }
+.link-node.level-2 { padding-left:42px; }
+.link-node-main { display:flex; flex-direction:column; gap:2px; flex:1; min-width:0; }
+.link-node-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--momo); }
+.link-node-desc { font-size:11px; color:var(--ink-3); }
+.link-arrow { color:var(--ink-3); font-size:10px; flex-shrink:0; margin-top:2px; }
 
-/* ═══ FUNNEL FLOW ═══ */
-.funnel-flow { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
-.funnel-stage { padding:16px 14px; border-right:1px solid var(--border); }
-.funnel-stage:last-child { border-right:none; }
-.funnel-stage-label { font-size:9.5px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:5px; }
-.funnel-stage-title { font-size:14px; font-weight:800; margin-bottom:8px; }
-.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+/* ═══ FUNNEL FLOW — vertical stack mobile ═══ */
+.funnel-flow {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0;
+  border:1.5px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  margin-bottom:20px;
+}
+.funnel-stage { padding:14px 14px; border-bottom:1px solid var(--border); border-right:none; }
+.funnel-stage:last-child { border-bottom:none; }
+.funnel-stage-label { font-size:9px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:4px; }
+.funnel-stage-title { font-size:13px; font-weight:800; margin-bottom:6px; }
+.funnel-stage-items { list-style:none; font-size:11.5px; color:var(--ink-2); line-height:1.65; }
 .funnel-stage-items li::before { content:"· "; color:var(--ink-3); }
-.fs-tofu    { border-top:3px solid var(--green); }
+.fs-tofu    { border-left:4px solid var(--green); }
 .fs-tofu    .funnel-stage-label { color:var(--green); }
-.fs-mofu    { border-top:3px solid var(--blue); }
+.fs-mofu    { border-left:4px solid var(--blue); }
 .fs-mofu    .funnel-stage-label { color:var(--blue); }
-.fs-bofu    { border-top:3px solid var(--momo); }
+.fs-bofu    { border-left:4px solid var(--momo); }
 .fs-bofu    .funnel-stage-label { color:var(--momo); }
-.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert { border-left:4px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
 .fs-convert .funnel-stage-label { color:var(--amber); }
 
 /* ═══ SITEMAP TREE ═══ */
-.sitemap-tree { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
-.sitemap-header { background:var(--ink); color:white; padding:10px 18px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
-.sitemap-header-title { font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:600; }
-.sitemap-row { padding:10px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.sitemap-tree { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.sitemap-header { background:var(--ink); color:white; padding:9px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
+.sitemap-header-title { font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:600; }
+.sitemap-row { padding:9px 14px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:7px; flex-wrap:wrap; }
 .sitemap-row:last-child { border-bottom:none; }
-.sitemap-row.pillar { background:var(--momo-ghost); font-weight:800; font-size:13px; }
-.sitemap-row.cluster { padding-left:36px; font-size:13px; }
-.sitemap-row.sub { padding-left:54px; font-size:12.5px; color:var(--ink-2); }
-.sitemap-url { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--momo); flex-shrink:0; }
-.sitemap-desc { flex:1; font-size:12.5px; color:var(--ink-2); min-width:0; }
-.sitemap-priority { font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; flex-shrink:0; }
+.sitemap-row.pillar { background:var(--momo-ghost); font-weight:800; font-size:12.5px; }
+.sitemap-row.cluster { padding-left:26px; font-size:12.5px; }
+.sitemap-row.sub { padding-left:40px; font-size:12px; color:var(--ink-2); }
+.sitemap-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--momo); flex-shrink:0; word-break:break-all; }
+.sitemap-desc { flex:1; font-size:12px; color:var(--ink-2); min-width:120px; }
+.sitemap-priority { font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; flex-shrink:0; }
 
 /* ═══ ADS BLOCKS ═══ */
-.ads-block { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
-.ads-block-header { background:var(--amber-light); border-bottom:1.5px solid #FFD0A0; padding:9px 16px; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
-.ads-block-title { font-size:11.5px; font-weight:800; color:var(--amber); text-transform:uppercase; letter-spacing:0.5px; }
-.ads-block-body { padding:14px 18px; font-size:13px; color:var(--ink-2); line-height:1.6; }
-.ads-unit { border:1.5px dashed var(--border); border-radius:8px; padding:11px 14px; margin-bottom:10px; background:var(--bg); }
-.ads-unit-label { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:var(--ink-3); margin-bottom:5px; }
-.ads-cta-preview { background:linear-gradient(135deg,var(--momo) 0%,var(--momo-mid) 100%); border-radius:8px; padding:12px 16px; color:white; margin-top:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.ads-block { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:14px; }
+.ads-block-header { background:var(--amber-light); border-bottom:1.5px solid #FFD0A0; padding:8px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.ads-block-title { font-size:11px; font-weight:800; color:var(--amber); text-transform:uppercase; letter-spacing:0.5px; }
+.ads-block-body { padding:12px 14px; font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+.ads-unit { border:1.5px dashed var(--border); border-radius:8px; padding:10px 12px; margin-bottom:10px; background:var(--bg); }
+.ads-unit-label { font-size:9.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:var(--ink-3); margin-bottom:5px; }
+.ads-cta-preview { background:linear-gradient(135deg,var(--momo) 0%,var(--momo-mid) 100%); border-radius:8px; padding:12px 14px; color:white; margin-top:10px; display:flex; flex-direction:column; gap:10px; }
 .ads-cta-text { font-size:13px; font-weight:700; }
-.ads-cta-sub { font-size:11px; opacity:0.75; margin-top:2px; }
-.ads-cta-btn-preview { background:white; color:var(--momo); font-size:12px; font-weight:800; padding:7px 14px; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+.ads-cta-sub { font-size:11px; opacity:0.75; }
+.ads-cta-btn-preview { background:white; color:var(--momo); font-size:12px; font-weight:800; padding:8px 16px; border-radius:6px; white-space:nowrap; align-self:flex-start; }
 
 /* ═══ CROSS-SELL ═══ */
-.cross-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:14px; }
-.cross-card-header { padding:11px 16px; background:var(--green-light); border-bottom:1px solid #A0DEB8; display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
-.cross-card-brand { font-size:13px; font-weight:800; color:#005A28; }
-.cross-card-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); word-break:break-all; }
-.cross-card-body { padding:12px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.6; }
-.cross-trigger { background:var(--momo-ghost); border:1px solid var(--momo-pale); border-radius:6px; padding:8px 11px; font-size:12px; color:var(--momo-dark); margin-top:8px; display:flex; align-items:flex-start; gap:7px; line-height:1.55; }
+.cross-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:12px; }
+.cross-card-header { padding:10px 14px; background:var(--green-light); border-bottom:1px solid #A0DEB8; display:flex; align-items:flex-start; gap:8px; flex-wrap:wrap; }
+.cross-card-brand { font-size:12.5px; font-weight:800; color:#005A28; }
+.cross-card-url { font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-3); word-break:break-all; }
+.cross-card-body { padding:11px 14px; font-size:12px; color:var(--ink-2); line-height:1.6; }
+.cross-trigger { background:var(--momo-ghost); border:1px solid var(--momo-pale); border-radius:6px; padding:8px 10px; font-size:11.5px; color:var(--momo-dark); margin-top:8px; display:flex; align-items:flex-start; gap:6px; line-height:1.55; }
 .cross-trigger a { color:var(--momo); font-weight:700; text-decoration:none; }
 
 /* ═══ SIMULATOR ═══ */
-.sim-wrap { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
-.sim-header { background:var(--momo); padding:20px 24px 18px; position:relative; overflow:hidden; }
-.sim-header-deco { position:absolute; right:-30px; top:-30px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%); pointer-events:none; }
-.sim-brand-pill { background:white; color:var(--momo); font-weight:900; font-size:12px; padding:3px 9px; border-radius:5px; letter-spacing:-0.3px; display:inline-block; margin-bottom:9px; }
-.sim-header h3 { font-size:19px; font-weight:900; color:white; letter-spacing:-0.4px; line-height:1.2; margin-bottom:4px; }
+.sim-wrap { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.sim-header { background:var(--momo); padding:16px 16px 14px; position:relative; overflow:hidden; }
+.sim-header-deco { position:absolute; right:-20px; top:-20px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%); pointer-events:none; }
+.sim-brand-pill { background:white; color:var(--momo); font-weight:900; font-size:11px; padding:2px 8px; border-radius:5px; letter-spacing:-0.3px; display:inline-block; margin-bottom:7px; }
+.sim-header h3 { font-size:16px; font-weight:900; color:white; letter-spacing:-0.3px; line-height:1.2; margin-bottom:3px; }
 .sim-header h3 span { color:var(--momo-pale); }
-.sim-header-sub { font-size:12.5px; color:rgba(255,255,255,0.6); }
-.sim-body { padding:22px 24px; }
-.sim-input-row { margin-bottom:18px; }
-.sim-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-2); margin-bottom:7px; display:block; }
-.sim-amount-display { display:inline-flex; align-items:center; gap:7px; background:var(--momo-ghost); border:1.5px solid var(--momo-pale); border-radius:6px; padding:4px 12px; margin-bottom:8px; }
-.sim-amount-val { font-family:'JetBrains Mono',monospace; font-size:17px; font-weight:700; color:var(--momo); }
-.sim-slider { width:100%; height:6px; border-radius:3px; -webkit-appearance:none; background:linear-gradient(to right,var(--momo) var(--pct,5%),var(--border) var(--pct,5%)); outline:none; cursor:pointer; }
-.sim-slider::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:var(--momo); border:2px solid white; box-shadow:0 2px 8px rgba(165,0,100,0.35); cursor:pointer; }
-.ky-btn { padding:7px 14px; border:1.5px solid var(--border); border-radius:7px; cursor:pointer; font-family:'Be Vietnam Pro',sans-serif; font-size:12.5px; font-weight:700; color:var(--ink-3); background:var(--surface); transition:all 0.12s; }
-.ky-btn:hover { border-color:var(--momo-soft); color:var(--momo); }
-.ky-btn.active-ky { border-color:var(--momo); color:var(--momo); background:var(--momo-ghost); }
-.sim-result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px; }
-.sim-result-card { background:var(--bg); border:1.5px solid var(--border); border-radius:8px; padding:12px 14px; }
-.sim-result-card.highlight { background:var(--momo-ghost); border-color:var(--momo-pale); }
-.sim-result-label { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px; }
-.sim-result-val { font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:700; color:var(--ink); word-break:break-all; }
-.sim-result-card.highlight .sim-result-val { color:var(--momo); }
-.sim-result-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
-.sim-table-wrap { overflow-x:auto; margin-top:18px; }
-.sim-table { width:100%; border-collapse:collapse; font-size:13px; min-width:420px; }
-.sim-table thead tr { background:var(--bg); }
-.sim-table th { padding:8px 11px; text-align:left; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-3); border-bottom:1px solid var(--border); white-space:nowrap; }
-.sim-table td { padding:9px 11px; border-bottom:1px solid var(--border); }
-.sim-table tbody tr:last-child td { border-bottom:none; }
-.sim-cta-bar { background:linear-gradient(135deg,var(--momo) 0%,var(--momo-mid) 100%); border-radius:var(--r); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; flex-wrap:wrap; }
-.sim-cta-title { font-size:13.5px; font-weight:800; color:white; margin-bottom:2px; }
-.sim-cta-sub { font-size:11.5px; color:rgba(255,255,255,0.7); }
-.sim-cta-btn { background:white; color:var(--momo); font-family:'Be Vietnam Pro',sans-serif; font-size:13px; font-weight:800; padding:9px 18px; border-radius:7px; border:none; cursor:pointer; white-space:nowrap; transition:transform 0.1s,box-shadow 0.1s; box-shadow:0 4px 10px rgba(0,0,0,0.15); flex-shrink:0; }
-.sim-cta-btn:hover { transform:translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,0.18); }
-.sim-disclaimer { font-size:11px; color:var(--ink-3); text-align:center; margin-top:10px; }
+.sim-header-sub { font-size:11.5px; color:rgba(255,255,255,0.6); }
+.sim-body { padding:16px 14px; }
+.sim-input-row { margin-bottom:16px; }
+.sim-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-2); margin-bottom:7px; display:block; }
+.sim-amount-display { display:inline-flex; align-items:center; gap:6px; background:var(--momo-ghost); border:1.5px solid var(--momo-pale); border-radius:6px; padding:4px 10px; margin-bottom:8px; }
+.sim-amount-val { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; color:var(--momo); }
+.sim-slider { width:100%; height:6px; border-radius:3px; -webkit-appearance:none; background:linear-gradient(to right,var(--momo) var(--pct,5%),var(--border) var(--pct,5%)); outline:none; cursor:pointer; touch-action:manipulation; }
+.sim-slider::-webkit-slider-thumb { -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:var(--momo); border:2px solid white; box-shadow:0 2px 8px rgba(165,0,100,0.35); cursor:pointer; }
 .ky-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.ky-btn { padding:9px 14px; border:1.5px solid var(--border); border-radius:8px; cursor:pointer; font-family:'Be Vietnam Pro',sans-serif; font-size:13px; font-weight:700; color:var(--ink-3); background:var(--surface); transition:all 0.12s; -webkit-tap-highlight-color:transparent; }
+.ky-btn:active { background:var(--momo-ghost); }
+.ky-btn.active-ky { border-color:var(--momo); color:var(--momo); background:var(--momo-ghost); }
+.sim-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; }
+.sim-result-card { background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:14px 14px; }
+.sim-result-card.highlight { background:var(--momo-ghost); border-color:var(--momo-pale); }
+.sim-result-label { font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px; }
+.sim-result-val { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:700; color:var(--ink); word-break:break-all; line-height:1.2; }
+.sim-result-card.highlight .sim-result-val { color:var(--momo); font-size:20px; }
+.sim-result-sub { font-size:11px; color:var(--ink-3); margin-top:4px; }
+.sim-table-wrap { overflow-x:auto; margin-top:16px; -webkit-overflow-scrolling:touch; }
+.sim-table { width:100%; border-collapse:collapse; font-size:12.5px; min-width:380px; }
+.sim-table thead tr { background:var(--bg); }
+.sim-table th { padding:7px 10px; text-align:left; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-3); border-bottom:1px solid var(--border); white-space:nowrap; }
+.sim-table td { padding:9px 10px; border-bottom:1px solid var(--border); }
+.sim-table tbody tr:last-child td { border-bottom:none; }
+.sim-cta-bar { background:linear-gradient(135deg,var(--momo) 0%,var(--momo-mid) 100%); border-radius:var(--r); padding:14px 16px; display:flex; flex-direction:column; gap:12px; margin-top:16px; }
+.sim-cta-title { font-size:13px; font-weight:800; color:white; }
+.sim-cta-sub { font-size:11.5px; color:rgba(255,255,255,0.7); margin-top:2px; }
+.sim-cta-btn { background:white; color:var(--momo); font-family:'Be Vietnam Pro',sans-serif; font-size:13px; font-weight:800; padding:11px 20px; border-radius:8px; border:none; cursor:pointer; white-space:nowrap; align-self:stretch; text-align:center; -webkit-tap-highlight-color:transparent; }
+.sim-disclaimer { font-size:11px; color:var(--ink-3); text-align:center; margin-top:10px; }
 
-/* ═══ RESPONSIVE ═══ */
-@media (max-width:768px) {
-  .content-wrap { padding:20px 16px 48px; }
-  .stat-row { grid-template-columns:1fr 1fr; }
-  .grid-3 { grid-template-columns:1fr; }
-  .grid-2 { grid-template-columns:1fr; }
-  .meta-grid { grid-template-columns:1fr 1fr; }
-  .persona-grid { grid-template-columns:1fr; }
-  .scope-grid { grid-template-columns:1fr; }
-  .sim-result-grid { grid-template-columns:1fr 1fr; }
-  .funnel-flow { grid-template-columns:1fr 1fr; }
-  .anatomy-row { grid-template-columns:26px 1fr; }
-  .anatomy-section-name { grid-column:2; }
-  .anatomy-section-desc { grid-column:2; }
-  .anatomy-section-tag { grid-column:2; }
-  .anatomy-order { grid-row:1/3; }
-  .page-title { font-size:21px; }
-  .nav-group-label { display:none; }
-  .topbar-meta { display:none; }
-  .sitemap-row { padding:9px 12px; }
-  .sitemap-row.cluster { padding-left:24px; }
-  .sitemap-row.sub { padding-left:38px; }
-  .link-node.level-1 { padding-left:22px; }
-  .link-node.level-2 { padding-left:36px; }
-  .ads-cta-preview { flex-direction:column; }
-  .sim-cta-bar { flex-direction:column; align-items:flex-start; }
+/* ══════════════════════════════════════════
+   TABLET — 640px+
+   ══════════════════════════════════════════ */
+@media (min-width:640px) {
+  body { padding-bottom:0; }
+  .mobile-appbar { display:none; }
+  .meta-grid { grid-template-columns:repeat(3,1fr); }
+  .scope-grid { grid-template-columns:1fr 1fr; }
+  .persona-grid { grid-template-columns:1fr 1fr; }
+  .grid-2 { grid-template-columns:1fr 1fr; }
+  .grid-3 { grid-template-columns:1fr 1fr; }
+  .stat-row { grid-template-columns:repeat(4,1fr); }
+  .stat-num { font-size:26px; }
+  .funnel-flow {
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto;
+  }
+  .funnel-stage { border-bottom:1px solid var(--border); border-left:none; }
+  .funnel-stage:nth-child(odd) { border-right:1px solid var(--border); }
+  .funnel-stage:nth-child(3),
+  .funnel-stage:nth-child(4) { border-bottom:none; }
+  .fs-tofu,.fs-mofu,.fs-bofu,.fs-convert { border-left:none; border-top:3px solid; }
+  .fs-tofu    { border-top-color:var(--green); }
+  .fs-mofu    { border-top-color:var(--blue); }
+  .fs-bofu    { border-top-color:var(--momo); }
+  .fs-convert { border-top-color:var(--amber); }
+  .ads-cta-preview { flex-direction:row; align-items:center; }
+  .ads-cta-btn-preview { align-self:auto; }
+  .sim-cta-bar { flex-direction:row; align-items:center; justify-content:space-between; }
+  .sim-cta-btn { align-self:auto; }
+  .content-wrap { padding:24px 28px 40px; }
+  .page-title { font-size:23px; }
+  h2.sh { font-size:16px; }
+  .anatomy-row { grid-template-columns:28px 160px 1fr auto; grid-template-rows:auto; }
+  .anatomy-order { grid-row:auto; }
 }
-@media (max-width:480px) {
-  .stat-row { grid-template-columns:1fr; }
-  .meta-grid { grid-template-columns:1fr; }
-  .sim-result-grid { grid-template-columns:1fr; }
-  .funnel-flow { grid-template-columns:1fr; }
-  .page-title { font-size:19px; }
+
+/* ══════════════════════════════════════════
+   DESKTOP — 1024px+ (sidebar appears)
+   ══════════════════════════════════════════ */
+@media (min-width:1024px) {
+  body { padding-bottom:0; }
+  .mobile-appbar { display:none; }
+  .drawer-overlay { display:none !important; }
+  .drawer { display:none !important; }
+
+  .layout { display:flex; min-height:100vh; }
+
+  .sidebar {
+    display:flex;
+    width:252px;
+    flex-shrink:0;
+    background:var(--ink);
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    flex-direction:column;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(255,255,255,0.1) transparent;
+  }
+  .sidebar::-webkit-scrollbar { width:4px; }
+  .sidebar::-webkit-scrollbar-track { background:transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.12); border-radius:2px; }
+
+  .sidebar-brand {
+    padding:22px 20px 18px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    flex-shrink:0;
+  }
+  .brand-logo {
+    background:var(--momo);
+    color:white;
+    font-weight:900;
+    font-size:17px;
+    padding:5px 12px;
+    border-radius:6px;
+    display:inline-block;
+    letter-spacing:-0.5px;
+    margin-bottom:8px;
+  }
+  .brand-sub { font-size:11px; color:rgba(255,255,255,0.4); line-height:1.5; }
+
+  .nav-section { padding:14px 0 0; }
+  .nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.28); padding:0 20px 7px; }
+  .nav-item { padding:9px 20px; font-size:12.5px; border-left:2.5px solid transparent; }
+  .nav-item.active { border-left-color:var(--momo-mid); }
+  .nav-icon { font-size:14px; width:20px; }
+  .sidebar-footer { margin-top:auto; padding:14px 20px; border-top:1px solid rgba(255,255,255,0.08); flex-shrink:0; }
+
+  .content { flex:1; overflow-y:auto; min-width:0; }
+  .content-wrap { padding:36px 44px 60px; max-width:960px; }
+  .page-title { font-size:26px; }
+  h2.sh { font-size:17px; }
+  .grid-3 { grid-template-columns:1fr 1fr 1fr; }
+  .funnel-flow { grid-template-columns:repeat(4,1fr); grid-template-rows:auto; }
+  .funnel-stage { border-bottom:none; border-right:1px solid var(--border); border-left:none; }
+  .funnel-stage:nth-child(odd) { border-right:1px solid var(--border); }
+  .funnel-stage:nth-child(3) { border-bottom:none; }
+  .funnel-stage:last-child { border-right:none; }
+  .sim-result-val { font-size:16px; }
+  .sim-result-card.highlight .sim-result-val { font-size:18px; }
+  .sim-header { padding:20px 24px 18px; }
+  .sim-header h3 { font-size:19px; }
+  .sim-body { padding:22px 24px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══ TOP HEADER NAV ═══ -->
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="topbar-brand">
-      <div class="brand-logo">MoMo</div>
-      <div class="brand-label">Ví Trả Sau — Web Growth</div>
-    </div>
+<div class="layout">
 
-    <div class="nav-groups">
-      <div class="nav-group">
-        <div class="nav-group-label">Tổng quan</div>
-        <button class="nav-btn active" onclick="go('overview')"><span class="ni">📋</span>Overview</button>
-      </div>
-      <div class="nav-group">
-        <div class="nav-group-label">Nghiên cứu</div>
-        <button class="nav-btn" onclick="go('keyword')"><span class="ni">🔍</span>Keywords</button>
-        <button class="nav-btn" onclick="go('geo')"><span class="ni">🤖</span>GEO / AEO</button>
-      </div>
-      <div class="nav-group">
-        <div class="nav-group-label">Kiến trúc</div>
-        <button class="nav-btn" onclick="go('sitemap')"><span class="ni">🗺</span>Sitemap</button>
-        <button class="nav-btn" onclick="go('interlinking')"><span class="ni">🔗</span>Internal Links</button>
-      </div>
-      <div class="nav-group">
-        <div class="nav-group-label">Công cụ</div>
-        <button class="nav-btn" onclick="go('simulator')"><span class="ni">🧮</span>Simulator</button>
-      </div>
-      <div class="nav-group">
-        <div class="nav-group-label">Growth</div>
-        <button class="nav-btn" onclick="go('growth')"><span class="ni">🚀</span>Tactics</button>
-        <button class="nav-btn" onclick="go('ads')"><span class="ni">📰</span>Ads Blog</button>
-        <button class="nav-btn" onclick="go('crosssell')"><span class="ni">🔄</span>Cross-sell</button>
-      </div>
-    </div>
-
-    <div class="topbar-meta">
-      <div class="topbar-version">momo.vn/vi-tra-sau · v1.0 · 2026</div>
-    </div>
-  </div>
+<!-- ── Mobile Appbar (< 1024px) ── -->
+<header class="mobile-appbar">
+  <div class="brand-logo">MoMo</div>
+  <div class="mobile-appbar-title">Ví Trả Sau — Web Growth</div>
+  <button class="mobile-menu-btn" onclick="openDrawer()" aria-label="Mở menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
+<!-- ── Drawer Overlay ── -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- ── Drawer Panel ── -->
+<div class="drawer" id="drawer">
+  <div class="drawer-brand">
+    <div class="drawer-brand-info">
+      <div class="brand-logo">MoMo</div>
+      <div class="drawer-brand-sub">Ví Trả Sau<br>Web Growth Document v1.0</div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Tổng quan</div>
+    <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">📋</span> Project Overview</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Nghiên cứu thị trường</div>
+    <div class="nav-item" onclick="go('keyword')"><span class="nav-icon">🔍</span> Keyword Research</div>
+    <div class="nav-item" onclick="go('geo')"><span class="nav-icon">🤖</span> GEO / AEO Intelligence</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Kiến trúc</div>
+    <div class="nav-item" onclick="go('sitemap')"><span class="nav-icon">🗺</span> Sitemap Web Growth</div>
+    <div class="nav-item" onclick="go('interlinking')"><span class="nav-icon">🔗</span> Internal Link Building</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Công cụ</div>
+    <div class="nav-item" onclick="go('simulator')"><span class="nav-icon">🧮</span> Simulator Trả Góp</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Growth Tactics</div>
+    <div class="nav-item" onclick="go('growth')"><span class="nav-icon">🚀</span> Growth Tactics</div>
+    <div class="nav-item" onclick="go('ads')"><span class="nav-icon">📰</span> Ads Embed Blog</div>
+    <div class="nav-item" onclick="go('crosssell')"><span class="nav-icon">🔄</span> Cross-sell từ Đối tác</div>
+  </div>
+  <div class="drawer-footer">
+    <div class="version-tag">momo.vn/vi-tra-sau · v1.0 · 2026</div>
+  </div>
+</div>
+
+<!-- ── Desktop Sidebar (≥ 1024px) ── -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-sub">Ví Trả Sau<br>Web Growth Document v1.0</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Tổng quan</div>
+    <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">📋</span> Project Overview</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Nghiên cứu thị trường</div>
+    <div class="nav-item" onclick="go('keyword')"><span class="nav-icon">🔍</span> Keyword Research</div>
+    <div class="nav-item" onclick="go('geo')"><span class="nav-icon">🤖</span> GEO / AEO Intelligence</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Kiến trúc</div>
+    <div class="nav-item" onclick="go('sitemap')"><span class="nav-icon">🗺</span> Sitemap Web Growth</div>
+    <div class="nav-item" onclick="go('interlinking')"><span class="nav-icon">🔗</span> Internal Link Building</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Công cụ</div>
+    <div class="nav-item" onclick="go('simulator')"><span class="nav-icon">🧮</span> Simulator Trả Góp</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Growth Tactics</div>
+    <div class="nav-item" onclick="go('growth')"><span class="nav-icon">🚀</span> Growth Tactics</div>
+    <div class="nav-item" onclick="go('ads')"><span class="nav-icon">📰</span> Ads Embed Blog</div>
+    <div class="nav-item" onclick="go('crosssell')"><span class="nav-icon">🔄</span> Cross-sell từ Đối tác</div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="version-tag">momo.vn/vi-tra-sau · v1.0 · 2026</div>
+  </div>
+</nav>
+
+<main class="content">
 <div class="content-wrap">
 
 <!-- ════════════════════════════════════
@@ -606,7 +773,7 @@ code.url {
   <h2 class="sh">🎯 Mô tả sản phẩm &amp; Context</h2>
   <div class="callout callout-momo">
     <div class="callout-title">💳 Ví Trả Sau — BNPL tích hợp trong hệ sinh thái MoMo</div>
-    Ví Trả Sau (VTS) là tính năng Buy Now Pay Later của MoMo cho phép người dùng chi tiêu ngay, thanh toán sau - không cần thẻ tín dụng ngân hàng. Sản phẩm nhắm vào tệp user chưa có thẻ tín dụng hoặc không muốn dùng thẻ, nhưng cần linh hoạt dòng tiền khi nạp game, thanh toán điện, mua hàng online. <strong>Điểm nổi bật:</strong> trả góp với phí cố định 76.000đ/tháng, hạn mức từ 200K đến 15 triệu đồng, tích hợp sẵn trong app MoMo.
+    Ví Trả Sau (VTS) là tính năng Buy Now Pay Later của MoMo cho phép người dùng chi tiêu ngay, thanh toán sau - không cần thẻ tín dụng ngân hàng. Sản phẩm nhắm vào tệp user chưa có thẻ tín dụng hoặc không muốn dùng thẻ, nhưng cần linh hoạt dòng tiền khi nạp game, thanh toán điện, mua hàng online. <strong>Điểm nổi bật:</strong> trả góp với phí chuyển đổi 3% trên số tiền gốc, hạn mức từ 200K đến 15 triệu đồng, tích hợp sẵn trong app MoMo.
   </div>
 
   <div class="scope-grid">
@@ -1067,7 +1234,10 @@ code.url {
 
   <div class="callout callout-blue">
     <div class="callout-title">🧮 Logic Simulator - Spec cho Dev</div>
-    Phí cố định = <strong>76.000đ/kỳ/tháng</strong> (không phụ thuộc số tiền gốc). Kỳ trả góp: 1, 2, 3, 6, 12 tháng. Công thức: Gốc/tháng = Tổng / Số tháng; Phí/tháng = 76.000đ; Tổng/tháng = Gốc/tháng + 76.000đ. Trả góp 1 tháng = không phí (chỉ trả đúng số tiền gốc).
+    <strong>Công thức:</strong><br>
+    Tổng tiền trả góp = Số tiền chuyển đổi + Số tiền chuyển đổi × 3%<br>
+    Số tiền trả mỗi tháng = Tổng tiền trả góp / Kỳ hạn trả góp<br><br>
+    Ví dụ: Chuyển đổi 1.000.000đ, kỳ hạn 3 tháng → Tổng = 1.030.000đ → Mỗi tháng = 343.333đ. Kỳ trả góp hỗ trợ: 1, 2, 3, 6, 12 tháng.
   </div>
 
   <div class="sim-wrap">
@@ -1101,21 +1271,16 @@ code.url {
         </div>
       </div>
 
-      <div class="sim-result-grid">
+      <div class="sim-result-grid" style="grid-template-columns:1fr 1fr;">
         <div class="sim-result-card highlight">
           <div class="sim-result-label">Trả mỗi tháng</div>
-          <div class="sim-result-val" id="sim-monthly">576.000đ</div>
-          <div class="sim-result-sub">Gốc + phí 76K</div>
+          <div class="sim-result-val" id="sim-monthly">515.000đ</div>
+          <div class="sim-result-sub" id="sim-ky-label">2 tháng</div>
         </div>
         <div class="sim-result-card">
-          <div class="sim-result-label">Phí trả góp/tháng</div>
-          <div class="sim-result-val" id="sim-fee-monthly">76.000đ</div>
-          <div class="sim-result-sub">Cố định mọi kỳ</div>
-        </div>
-        <div class="sim-result-card">
-          <div class="sim-result-label">Tổng phí toàn kỳ</div>
-          <div class="sim-result-val" id="sim-total-fee">152.000đ</div>
-          <div class="sim-result-sub" id="sim-ky-label">2 tháng × 76.000đ</div>
+          <div class="sim-result-label">Tổng tiền phải trả</div>
+          <div class="sim-result-val" id="sim-total-fee">1.030.000đ</div>
+          <div class="sim-result-sub">Gốc + phí 3%</div>
         </div>
       </div>
 
@@ -1151,24 +1316,25 @@ code.url {
       <thead>
         <tr>
           <th>Số tiền trả góp</th>
-          <th>1 tháng (miễn phí)</th>
+          <th>Phí 3%</th>
+          <th>Tổng tiền</th>
+          <th>1 tháng</th>
           <th>2 tháng</th>
           <th>3 tháng</th>
           <th>6 tháng</th>
-          <th>12 tháng</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td><strong>500.000đ</strong></td><td>500.000đ/th</td><td>326.000đ/th</td><td>242.667đ/th</td><td>159.333đ/th</td><td>117.667đ/th</td></tr>
-        <tr><td><strong>1.000.000đ</strong></td><td>1.000.000đ/th</td><td>576.000đ/th</td><td>409.333đ/th</td><td>242.667đ/th</td><td>159.333đ/th</td></tr>
-        <tr class="row-highlight"><td><strong>3.000.000đ</strong></td><td>3.000.000đ/th</td><td>1.576.000đ/th</td><td>1.076.000đ/th</td><td>576.000đ/th</td><td>326.000đ/th</td></tr>
-        <tr><td><strong>5.000.000đ</strong></td><td>5.000.000đ/th</td><td>2.576.000đ/th</td><td>1.742.667đ/th</td><td>909.333đ/th</td><td>492.667đ/th</td></tr>
-        <tr><td><strong>10.000.000đ</strong></td><td>10.000.000đ/th</td><td>5.076.000đ/th</td><td>3.409.333đ/th</td><td>1.742.667đ/th</td><td>909.333đ/th</td></tr>
-        <tr class="row-total"><td>Phí trả góp/tháng</td><td>0đ</td><td>76.000đ</td><td>76.000đ</td><td>76.000đ</td><td>76.000đ</td></tr>
+        <tr><td><strong>500.000đ</strong></td><td>15.000đ</td><td>515.000đ</td><td>515.000đ/th</td><td>257.500đ/th</td><td>171.667đ/th</td><td>85.833đ/th</td></tr>
+        <tr><td><strong>1.000.000đ</strong></td><td>30.000đ</td><td>1.030.000đ</td><td>1.030.000đ/th</td><td>515.000đ/th</td><td>343.333đ/th</td><td>171.667đ/th</td></tr>
+        <tr class="row-highlight"><td><strong>3.000.000đ</strong></td><td>90.000đ</td><td>3.090.000đ</td><td>3.090.000đ/th</td><td>1.545.000đ/th</td><td>1.030.000đ/th</td><td>515.000đ/th</td></tr>
+        <tr><td><strong>5.000.000đ</strong></td><td>150.000đ</td><td>5.150.000đ</td><td>5.150.000đ/th</td><td>2.575.000đ/th</td><td>1.716.667đ/th</td><td>858.333đ/th</td></tr>
+        <tr><td><strong>10.000.000đ</strong></td><td>300.000đ</td><td>10.300.000đ</td><td>10.300.000đ/th</td><td>5.150.000đ/th</td><td>3.433.333đ/th</td><td>1.716.667đ/th</td></tr>
+        <tr class="row-total"><td>Phí chuyển đổi</td><td colspan="2">3% trên số tiền gốc</td><td colspan="4">Số tiền/tháng = (Gốc × 1.03) / Kỳ hạn</td></tr>
       </tbody>
     </table>
   </div>
-  <p style="font-size:11.5px;color:var(--ink-3);margin-top:-20px;margin-bottom:24px;">* Phí 76.000đ/tháng cố định, không thay đổi theo số tiền trả góp. Cần verify với Product team trước khi publish.</p>
+  <p style="font-size:11.5px;color:var(--ink-3);margin-top:-20px;margin-bottom:24px;">* Công thức: Tổng = Gốc + Gốc × 3%. Số tiền/tháng = Tổng / Kỳ hạn. Cần verify với Product team trước khi publish.</p>
 </section>
 
 
@@ -1457,26 +1623,41 @@ code.url {
 </section>
 
 </div><!-- /content-wrap -->
+</main>
+</div><!-- /layout -->
 
 <script>
+// ═══ DRAWER (Mobile) ═══
+function openDrawer() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 // ═══ NAVIGATION ═══
 function go(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const sec = document.getElementById('s-' + id);
   if (sec) sec.classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => {
-    const fn = b.getAttribute('onclick') || '';
-    if (fn.includes("'" + id + "'")) b.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const fn = item.getAttribute('onclick') || '';
+    if (fn.includes("'" + id + "'")) item.classList.add('active');
   });
+  closeDrawer();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ═══ SIMULATOR ═══
-const SIM = { amount: 1000000, ky: 2, FEE: 76000 };
+const SIM = { amount: 1000000, ky: 2 };
 
 function simFmt(n) {
-  return n.toLocaleString('vi-VN');
+  return Math.round(n).toLocaleString('vi-VN');
 }
 
 function simOnChange(el) {
@@ -1495,32 +1676,28 @@ function simSetKy(months, el) {
 }
 
 function simRender() {
-  const { amount, ky, FEE } = SIM;
-  const principal = Math.round(amount / ky);
-  let monthly, feePerMonth, totalFee;
-  if (ky === 1) {
-    monthly = amount; feePerMonth = 0; totalFee = 0;
-  } else {
-    feePerMonth = FEE; monthly = principal + FEE; totalFee = FEE * ky;
-  }
-  document.getElementById('sim-monthly').textContent = simFmt(monthly) + 'đ';
-  document.getElementById('sim-fee-monthly').textContent = ky === 1 ? 'Miễn phí' : simFmt(feePerMonth) + 'đ';
-  document.getElementById('sim-total-fee').textContent = ky === 1 ? '0đ' : simFmt(totalFee) + 'đ';
-  document.getElementById('sim-ky-label').textContent = ky === 1 ? 'Trả 1 lần, không phí' : ky + ' tháng × ' + simFmt(FEE) + 'đ';
+  const { amount, ky } = SIM;
+  // Công thức: Tổng tiền trả góp = gốc + gốc × 3%
+  const total     = amount * 1.03;
+  const fee       = amount * 0.03;           // Phí chuyển đổi 3%
+  const monthly   = total / ky;             // Số tiền trả mỗi tháng = tổng / kỳ hạn
 
-  let remaining = amount, rows = '';
+  document.getElementById('sim-monthly').textContent    = simFmt(monthly) + 'đ';
+  document.getElementById('sim-total-fee').textContent  = simFmt(total) + 'đ';
+  document.getElementById('sim-ky-label').textContent   = ky + ' tháng';
+
+  // Bảng lịch trả góp
+  const principalPerMonth = amount / ky;
+  const feePerMonth       = fee / ky;
+  let remaining = total, rows = '';
   for (let i = 1; i <= ky; i++) {
-    const isLast = i === ky;
-    const p = isLast ? remaining : principal;
-    const fee = ky === 1 ? 0 : FEE;
-    const total = p + fee;
-    remaining -= p;
+    remaining -= monthly;
     rows += `<tr>
       <td><strong>Tháng ${i}</strong></td>
-      <td>${simFmt(p)}đ</td>
-      <td>${fee === 0 ? '<span style="color:var(--green);font-weight:700;">Miễn phí</span>' : simFmt(fee) + 'đ'}</td>
-      <td style="font-weight:700;color:var(--momo);">${simFmt(total)}đ</td>
-      <td style="color:var(--ink-3);">${remaining <= 0 ? '<span style="color:var(--green);">✅ Đã tất toán</span>' : simFmt(remaining) + 'đ'}</td>
+      <td>${simFmt(principalPerMonth)}đ</td>
+      <td>${simFmt(feePerMonth)}đ</td>
+      <td style="font-weight:700;color:var(--momo);">${simFmt(monthly)}đ</td>
+      <td style="color:var(--ink-3);">${remaining <= 1 ? '<span style="color:var(--green);">✅ Đã tất toán</span>' : simFmt(Math.max(0, remaining)) + 'đ'}</td>
     </tr>`;
   }
   document.getElementById('sim-tbody').innerHTML = rows;

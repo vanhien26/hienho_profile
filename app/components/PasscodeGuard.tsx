@@ -46,7 +46,7 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
             className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#F6F3EF]"
           >
             {/* Minimalist Background Pattern */}
-            <div 
+            <div
               className="absolute inset-0 opacity-[0.03] pointer-events-none"
               style={{
                 backgroundImage: `radial-gradient(#AE2070 1px, transparent 1px)`,
@@ -56,20 +56,20 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
 
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ 
-                scale: 1, 
-                opacity: 1, 
+              animate={{
+                scale: 1,
+                opacity: 1,
                 y: 0,
-                x: error ? [-10, 10, -10, 10, 0] : 0 
+                x: error ? [-10, 10, -10, 10, 0] : 0
               }}
-              transition={{ 
+              transition={{
                 scale: { type: 'spring', damping: 25, stiffness: 300 },
                 x: { duration: 0.4 }
               }}
               className="relative w-full max-w-sm bg-white rounded-[2.5rem] p-10 shadow-[0_32px_80px_-20px_rgba(0,0,0,0.12)] border border-[#E4DDD6]"
             >
               <div className="flex flex-col items-center text-center">
-                <div 
+                <div
                   className="w-20 h-20 rounded-3xl flex items-center justify-center mb-8 shadow-xl shadow-[#AE2070]/20"
                   style={{ background: 'linear-gradient(135deg, #AE2070 0%, #8A1A59 100%)' }}
                 >
@@ -77,10 +77,10 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
                 </div>
 
                 <h2 className="text-2xl font-black text-[#18120E] tracking-tight mb-3">
-                  Protected Profile
+                  SEO/GEO Growth Strategy
                 </h2>
                 <p className="text-[13px] text-[#8C7D74] font-medium leading-relaxed mb-10 px-2">
-                  Vui lòng liên hệ <span className="text-[#AE2070] font-bold">Hien.ho</span> để nhận <span className="text-[#18120E] font-bold underline underline-offset-4 decoration-[#AE2070]/30">Passcode (4 số)</span> để truy cập nội dung này.
+                  Vui lòng liên hệ <span className="text-[#AE2070] font-bold">Hien.ho</span> để nhận <span className="text-[#18120E] font-bold underline underline-offset-4 decoration-[#AE2070]/30">Passcode</span> để truy cập nội dung này.
                 </p>
 
                 <form onSubmit={handleSubmit} className="w-full space-y-6">
@@ -102,7 +102,7 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
                       autoFocus
                     />
                     {error && (
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="absolute -bottom-6 left-0 right-0 flex items-center justify-center gap-1.5 text-red-500 text-[10px] font-bold"
@@ -118,8 +118,8 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
                     disabled={passcode.length !== 4}
                     className={`
                       w-full h-16 rounded-2xl font-black text-xs tracking-[0.2em] flex items-center justify-center gap-3 transition-all
-                      ${passcode.length === 4 
-                        ? 'bg-[#18120E] text-white shadow-2xl shadow-black/20 hover:-translate-y-1 active:scale-95' 
+                      ${passcode.length === 4
+                        ? 'bg-[#18120E] text-white shadow-2xl shadow-black/20 hover:-translate-y-1 active:scale-95'
                         : 'bg-[#F6F3EF] text-[#8C7D74] cursor-not-allowed'}
                     `}
                   >
@@ -129,7 +129,7 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
                 </form>
 
                 <div className="mt-12 pt-8 border-t border-[#F6F3EF] w-full">
-                   <p className="text-[9px] font-black tracking-[0.3em] text-[#8C7D74]/40 uppercase">Growth Traffic Portfolio 2026</p>
+                  <p className="text-[9px] font-black tracking-[0.3em] text-[#8C7D74]/40 uppercase">Growth Traffic Portfolio 2026</p>
                 </div>
               </div>
             </motion.div>
