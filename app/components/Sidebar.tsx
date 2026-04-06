@@ -3,39 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { Home, FileText, BookOpen, ChevronDown, X } from 'lucide-react'
-
-const navTree = [
-  {
-    section: 'Use Case Document',
-    icon: FileText,
-    key: 'use-case',
-    items: [
-      { label: 'Vay Nhanh', href: '/projects/vay-nhanh' },
-      { label: 'Ví Trả Sau', href: '/projects/vi-tra-sau' },
-      { label: 'Tín Dụng', href: '/projects/tin-dung' },
-      { label: 'Bảo Hiểm Xe Máy', href: '/projects/bao-hiem-xe-may' },
-      { label: 'Bảo Hiểm', href: '/projects/bao-hiem' },
-      { label: 'Bảo Hiểm Ô Tô', href: '/projects/bao-hiem-o-to' },
-      { label: 'Đối Tác', href: '/projects/doi-tac' },
-      { label: 'Viễn Thông', href: '/projects/vien-thong' },
-      { label: 'Du Lịch', href: '/projects/du-lich' },
-      { label: 'Dịch Vụ Công', href: '/projects/dich-vu-cong' },
-      { label: 'eSIM Du Lịch', href: '/projects/esim-du-lich' },
-      { label: 'Phạt Nguội', href: '/projects/phat-nguoi' },
-      { label: 'Thanh Toán Hóa Đơn', href: '/projects/thanh-toan-hoa-don' },
-    ],
-  },
-  {
-    section: 'Knowledge & Guideline',
-    icon: BookOpen,
-    key: 'knowledge',
-    items: [
-      { label: 'GEO Framework', href: '/projects/geo-framework' },
-      { label: 'JTBD Analysis', href: '/projects/jtbd' },
-      { label: 'Web-to-App Playbook', href: '/projects/web-to-app' },
-    ],
-  },
-]
+import { projects } from '../data/projects'
 
 export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobileOpen?: boolean; onClose?: () => void; alwaysOverlay?: boolean }) {
   const pathname = usePathname()
@@ -53,12 +21,30 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
     { label: 'Mini Web 2026', href: '/mini-web-2026', icon: FileText },
   ]
 
+  const navTree = [
+    {
+      section: 'Use Case Document',
+      icon: FileText,
+      key: 'use-case',
+      items: projects
+        .filter(p => p.category === 'use-case')
+        .map(p => ({ label: p.title, href: `/projects/${p.id}` })),
+    },
+    {
+      section: 'Knowledge & Guideline',
+      icon: BookOpen,
+      key: 'knowledge',
+      items: projects
+        .filter(p => p.category === 'knowledge')
+        .map(p => ({ label: p.title, href: `/projects/${p.id}` })),
+    },
+  ]
+
   return (
     <>
-      {/* Overlay backdrop */}
       {mobileOpen && (
         <div
-          className={`fixed inset-0 bg-black/50 z-40 ${alwaysOverlay ? '' : 'lg:hidden'}`}
+          className={`fixed inset-0 bg-black/40 z-40 ${alwaysOverlay ? '' : 'lg:hidden'}`}
           onClick={onClose}
         />
       )}
@@ -70,34 +56,47 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
           ${alwaysOverlay ? '' : 'lg:sticky lg:translate-x-0 lg:z-auto'}
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
-        style={{ width: 256, background: '#18120E', borderRight: '1px solid rgba(255,255,255,0.07)' }}
+        style={{ width: 240, background: '#FFFFFF', borderRight: '1px solid #E5E7EB' }}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4 text-white/50 hover:text-white z-10 transition-colors ${alwaysOverlay ? '' : 'lg:hidden'}`}
+          className={`absolute top-4 right-4 z-10 transition-colors ${alwaysOverlay ? '' : 'lg:hidden'}`}
+          style={{ color: '#6B7280' }}
         >
           <X size={18} />
         </button>
 
         {/* Brand */}
-        <div className="px-5 pt-6 pb-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="px-4 pt-5 pb-4" style={{ borderBottom: '1px solid #F3F4F6' }}>
           <Link href="/" className="block" onClick={handleLinkClick}>
             <div
-              className="inline-flex items-center gap-2 mb-3"
-              style={{ background: '#AE2070', borderRadius: 8, padding: '5px 11px' }}
+              className="inline-flex items-center gap-1.5 mb-3 px-2.5 py-1 rounded-lg"
+              style={{ background: '#FFEFF4' }}
             >
-              <span className="text-white font-black text-sm tracking-tight">MoMo</span>
-              <span className="text-white/60 text-xs font-medium">Growth</span>
+              <span className="font-black text-xs tracking-tight" style={{ color: '#AE2070' }}>MoMo</span>
+              <span className="text-xs font-medium" style={{ color: '#AE2070', opacity: 0.6 }}>Growth</span>
             </div>
-            <p className="text-xs font-bold text-white/80 leading-tight">Van Hien (Klaus)</p>
-            <p className="text-[10px] text-white/35 mt-0.5">SEO & GEO Lead · momo.vn</p>
+            <div className="flex items-center gap-2.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/avatar.jpg"
+                alt="Klaus"
+                className="rounded-full flex-shrink-0 object-cover"
+                style={{ width: 32, height: 32, border: '2px solid #F9C9DC' }}
+              />
+              <div>
+                <p className="text-xs font-bold leading-tight" style={{ color: '#111827' }}>Van Hien (Klaus)</p>
+                <p className="text-[10px] mt-0.5" style={{ color: '#9CA3AF' }}>SEO & GEO Lead · momo.vn</p>
+              </div>
+            </div>
           </Link>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 py-4 px-0">
-          <div className="px-3 mb-6">
+        <nav className="flex-1 py-3 px-0 overflow-y-auto">
+          {/* Main links */}
+          <div className="px-3 mb-3">
             {mainLinks.map((link) => {
               const Icon = link.icon
               const active = pathname === link.href
@@ -106,45 +105,48 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                   key={link.href}
                   href={link.href}
                   onClick={handleLinkClick}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 mb-1 ${
-                    active 
-                      ? 'bg-[#AE2070] text-white shadow-lg shadow-[#AE2070]/20' 
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
-                  }`}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 mb-0.5"
+                  style={{
+                    background: active ? '#FFEFF4' : 'transparent',
+                    color: active ? '#AE2070' : '#4B5563',
+                  }}
                 >
-                  <Icon size={16} strokeWidth={active ? 3 : 2} />
-                  <span className={`text-[13px] font-black tracking-tight ${active ? 'opacity-100' : 'opacity-80'}`}>
-                    {link.label}
-                  </span>
+                  <Icon size={15} strokeWidth={active ? 2.5 : 2} />
+                  <span className="text-[13px] font-semibold">{link.label}</span>
                 </Link>
               )
             })}
           </div>
 
-          <div className="px-5 mb-2">
-            <div className="h-px bg-white/5 w-full" />
-          </div>
+          <div className="mx-4 mb-3" style={{ height: 1, background: '#F3F4F6' }} />
 
-          {navTree.filter(g => (g as any).href === undefined).map(group => {
+          {/* Dynamic sections */}
+          {navTree.map(group => {
             const Icon = group.icon
+            const isCollapsed = collapsed[group.key]
             return (
-              <div key={group.key} className="mt-4">
+              <div key={group.key} className="mb-1">
                 <button
                   onClick={() => toggle(group.key)}
-                  className="w-full flex items-center justify-between px-5 py-1.5 group"
+                  className="w-full flex items-center justify-between px-4 py-1.5"
                 >
-                  <span className="text-[10px] font-bold tracking-widest uppercase text-white/25 group-hover:text-white/40 transition-colors flex items-center gap-1.5">
-                    <Icon size={12} /> {group.section}
+                  <span className="text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5" style={{ color: '#9CA3AF' }}>
+                    <Icon size={11} />
+                    {group.section}
+                    <span className="ml-1 font-black" style={{ color: '#D1D5DB' }}>{group.items.length}</span>
                   </span>
                   <ChevronDown
                     size={12}
-                    className="text-white/20 transition-transform duration-200"
-                    style={{ transform: collapsed[group.key] ? 'rotate(-90deg)' : 'rotate(0)' }}
+                    style={{
+                      color: '#D1D5DB',
+                      transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0)',
+                      transition: 'transform 0.2s',
+                    }}
                   />
                 </button>
 
-                {!collapsed[group.key] && (
-                  <div className="mt-1">
+                {!isCollapsed && (
+                  <div className="mt-0.5 px-3">
                     {group.items.map(item => {
                       const active = pathname === item.href
                       return (
@@ -152,11 +154,12 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                           key={item.href}
                           href={item.href}
                           onClick={handleLinkClick}
-                          className={`flex items-center px-5 py-2 text-[12px] font-medium transition-all duration-150 border-l-2 ${
-                            active
-                              ? 'text-white border-pink-500 bg-white/6'
-                              : 'text-white/50 border-transparent hover:text-white/80 hover:bg-white/3'
-                          }`}
+                          className="flex items-center px-3 py-1.5 rounded-lg text-[12px] transition-all duration-150"
+                          style={{
+                            background: active ? '#FFEFF4' : 'transparent',
+                            color: active ? '#AE2070' : '#6B7280',
+                            fontWeight: active ? 600 : 400,
+                          }}
                         >
                           <span className="truncate">{item.label}</span>
                         </Link>
@@ -170,8 +173,8 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
         </nav>
 
         {/* Footer */}
-        <div className="px-5 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-          <p className="font-mono text-[10px] text-white/20">v2026.03 · Growth Portfolio</p>
+        <div className="px-4 py-3" style={{ borderTop: '1px solid #F3F4F6' }}>
+          <p className="font-mono text-[10px]" style={{ color: '#D1D5DB' }}>v2026.03 · Growth Portfolio</p>
         </div>
       </aside>
     </>

@@ -3,18 +3,31 @@ import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects } from './data/projects'
-import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search } from 'lucide-react'
+import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search, Globe, Target, Map, BarChart2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const divisionColors: Record<string, { bg: string; text: string }> = {
-  FS: { bg: '#FFEFF4', text: '#A50064' },
-  UTI: { bg: '#E0F2FE', text: '#0284C7' },
-  OTA: { bg: '#DCFCE7', text: '#16A34A' },
-  MDS: { bg: '#FEF3C7', text: '#D97706' },
-  DLS: { bg: '#EDE9FE', text: '#7C3AED' },
-  SP: { bg: '#FEE2E2', text: '#DC2626' },
-  BMC: { bg: '#DBEAFE', text: '#2563EB' },
-  GPD: { bg: '#F9AFB5', text: '#E5303F' },
+const divisionColors: Record<string, { bg: string; text: string; border: string }> = {
+  FS: { bg: '#FFEFF4', text: '#A50064', border: '#A50064' },
+  UTI: { bg: '#E0F2FE', text: '#0284C7', border: '#0284C7' },
+  OTA: { bg: '#DCFCE7', text: '#16A34A', border: '#16A34A' },
+  MDS: { bg: '#FEF3C7', text: '#D97706', border: '#D97706' },
+  DLS: { bg: '#EDE9FE', text: '#7C3AED', border: '#7C3AED' },
+  SP: { bg: '#FEE2E2', text: '#DC2626', border: '#DC2626' },
+  BMC: { bg: '#DBEAFE', text: '#2563EB', border: '#2563EB' },
+  GPD: { bg: '#F9AFB5', text: '#E5303F', border: '#E5303F' },
+}
+
+
+const knowledgeIcons: Record<string, React.ReactNode> = {
+  'geo-framework': <Globe size={16} style={{ color: '#0284C7' }} />,
+  'jtbd': <Target size={16} style={{ color: '#7C3AED' }} />,
+  'web-to-app': <Map size={16} style={{ color: '#16A34A' }} />,
+}
+
+const knowledgeIconBg: Record<string, string> = {
+  'geo-framework': '#E0F2FE',
+  'jtbd': '#EDE9FE',
+  'web-to-app': '#DCFCE7',
 }
 
 function HamburgerButton({ onClick }: { onClick: () => void }) {
@@ -22,9 +35,9 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
     <button
       onClick={onClick}
       className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-xl"
-      style={{ background: '#111827', boxShadow: 'var(--shadow-md)' }}
+      style={{ background: '#FFFFFF', boxShadow: 'var(--shadow-md)', border: '1px solid #E5E7EB' }}
     >
-      <Menu size={18} color="white" />
+      <Menu size={18} color="#111827" />
     </button>
   )
 }
@@ -252,25 +265,27 @@ export default function HomePage() {
             </div>
 
             {/* Filter pills */}
-            <div className="flex items-center gap-2 mb-8">
+            <div className="flex items-center gap-2 mb-8 flex-wrap">
               {filterTabs.map((tab) => {
                 const isActive = activeDivision === tab.id
+                const dc = tab.id ? divisionColors[tab.id] : null
                 return (
                   <button
                     key={tab.label}
                     onClick={() => setActiveDivision(tab.id as string | null)}
-                    className="relative px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200"
                     style={{
-                      background: isActive ? '#111827' : 'var(--bg-panel)',
+                      background: isActive
+                        ? (dc ? dc.text : '#111827')
+                        : 'var(--bg-panel)',
                       color: isActive ? '#fff' : 'var(--ink-3)',
-                      border: `1px solid ${isActive ? '#111827' : 'var(--border)'}`,
+                      border: `1px solid ${isActive ? (dc ? dc.text : '#111827') : 'var(--border)'}`,
                       boxShadow: isActive ? 'var(--shadow-md)' : 'none',
                     }}
                   >
                     {tab.label}
                     <span
-                      className="ml-1.5 text-[10px] font-black"
-                      style={{ opacity: isActive ? 0.6 : 0.4 }}
+                      className="text-[10px] font-black opacity-60"
                     >
                       {tab.count}
                     </span>
@@ -278,6 +293,30 @@ export default function HomePage() {
                 )
               })}
             </div>
+
+            {/* Empty State */}
+            {filteredUseCases.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center justify-center py-16 text-center"
+              >
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--pink-light)' }}>
+                  <Search size={20} style={{ color: 'var(--pink)' }} />
+                </div>
+                <p className="text-sm font-bold" style={{ color: 'var(--ink-2)' }}>Không tìm thấy kết quả</p>
+                <p className="text-xs mt-1" style={{ color: 'var(--ink-ghost)' }}>
+                  Thử từ khoá khác hoặc{' '}
+                  <button
+                    onClick={() => { setSearchQuery(''); setActiveDivision(null) }}
+                    className="underline font-semibold"
+                    style={{ color: 'var(--pink)' }}
+                  >
+                    xoá bộ lọc
+                  </button>
+                </p>
+              </motion.div>
+            )}
 
             {/* Use Case Grid */}
             <motion.div
@@ -299,7 +338,7 @@ export default function HomePage() {
                     >
                       <Link href={`/projects/${p.id}`} className="block group">
                         <div
-                          className="rounded-2xl p-5 transition-all duration-300 group-hover:-translate-y-1 border overflow-hidden relative"
+                          className="rounded-2xl transition-all duration-300 group-hover:-translate-y-1 border overflow-hidden relative flex"
                           style={{
                             background: 'var(--bg-panel)',
                             borderColor: 'var(--border)',
@@ -307,65 +346,65 @@ export default function HomePage() {
                           }}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
-                            e.currentTarget.style.borderColor = dc ? dc.text + '30' : 'var(--pink)' + '30'
+                            e.currentTarget.style.borderColor = dc ? dc.text + '40' : '#AE207040'
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.boxShadow = 'var(--shadow-sm)'
                             e.currentTarget.style.borderColor = 'var(--border)'
                           }}
                         >
-                          <div className="flex items-center justify-between mb-3">
-                            {dc && (
-                              <span
-                                className="text-[10px] font-bold px-2.5 py-1 rounded-lg"
-                                style={{ background: dc.bg, color: dc.text }}
-                              >
-                                {p.division}
+                          {/* Left border accent */}
+                          <div
+                            className="w-1 flex-shrink-0 rounded-l-2xl"
+                            style={{ background: dc ? dc.border : '#AE2070' }}
+                          />
+
+                          <div className="p-4 flex-1 min-w-0">
+                            {/* Top row: division badge + date */}
+                            <div className="flex items-center justify-between mb-2">
+                              {dc && (
+                                <span
+                                  className="text-[10px] font-bold px-2 py-0.5 rounded-md"
+                                  style={{ background: dc.bg, color: dc.text }}
+                                >
+                                  {p.division}
+                                </span>
+                              )}
+                              <span className="text-[10px]" style={{ color: 'var(--ink-ghost)' }}>
+                                {new Date(p.updatedAt).toLocaleDateString('vi-VN', { month: 'short', year: 'numeric' })}
                               </span>
-                            )}
-                          </div>
-
-                          <h3
-                            className="font-bold text-[15px] leading-snug mb-1.5 transition-colors"
-                            style={{ color: 'var(--ink)' }}
-                          >
-                            {p.title}
-                          </h3>
-                          <p
-                            className="text-[11px] font-medium mb-3"
-                            style={{ color: 'var(--ink-ghost)' }}
-                          >
-                            {p.subtitle}
-                          </p>
-
-                          <p
-                            className="text-xs leading-relaxed line-clamp-2"
-                            style={{ color: 'var(--ink-2)' }}
-                          >
-                            {p.description}
-                          </p>
-
-                          {p.metrics && (
-                            <div className="flex gap-4 mt-4 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
-                              {p.metrics.map(m => (
-                                <div key={m.label}>
-                                  <div className="text-sm font-black" style={{ color: 'var(--pink)' }}>{m.value}</div>
-                                  <div className="text-[9px] font-medium" style={{ color: 'var(--ink-ghost)' }}>{m.label}</div>
-                                </div>
-                              ))}
                             </div>
-                          )}
 
-                          <div className="flex flex-wrap gap-1.5 mt-3">
-                            {p.tags.slice(0, 2).map(t => (
-                              <span
-                                key={t}
-                                className="text-[10px] font-semibold px-2 py-0.5 rounded-md"
-                                style={{ background: '#F1F5F9', color: 'var(--ink-3)', border: '1px solid var(--border)' }}
-                              >
-                                {t}
-                              </span>
-                            ))}
+                            <h3
+                              className="font-bold text-[14px] leading-snug mb-0.5"
+                              style={{ color: 'var(--ink)' }}
+                            >
+                              {p.title}
+                            </h3>
+                            <p
+                              className="text-[10px] font-mono mb-1.5 truncate"
+                              style={{ color: 'var(--ink-ghost)' }}
+                            >
+                              {p.subtitle}
+                            </p>
+
+                            <p
+                              className="text-[11px] leading-relaxed line-clamp-2"
+                              style={{ color: 'var(--ink-2)' }}
+                            >
+                              {p.description}
+                            </p>
+
+                            {p.metrics && (
+                              <div className="flex gap-3 mt-3 pt-2.5" style={{ borderTop: '1px solid var(--border)' }}>
+                                {p.metrics.slice(0, 3).map(m => (
+                                  <div key={m.label}>
+                                    <div className="text-xs font-black" style={{ color: 'var(--pink)' }}>{m.value}</div>
+                                    <div className="text-[9px]" style={{ color: 'var(--ink-ghost)' }}>{m.label}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </Link>
@@ -407,11 +446,13 @@ export default function HomePage() {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
             >
               {filteredKnowledge.map(p => {
+                const kIcon = knowledgeIcons[p.id]
+                const kIconBg = knowledgeIconBg[p.id] || '#F3E8FF'
                 return (
                   <motion.div key={p.id} variants={cardVariants}>
                     <Link href={`/projects/${p.id}`} className="block group">
                       <div
-                        className="rounded-2xl p-5 transition-all duration-300 group-hover:-translate-y-1 border"
+                        className="rounded-2xl transition-all duration-300 group-hover:-translate-y-1 border overflow-hidden flex"
                         style={{
                           background: 'var(--bg-panel)',
                           borderColor: 'var(--border)',
@@ -419,37 +460,52 @@ export default function HomePage() {
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
-                          e.currentTarget.style.borderColor = '#7C3AED30'
+                          e.currentTarget.style.borderColor = '#7C3AED40'
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.boxShadow = 'var(--shadow-sm)'
                           e.currentTarget.style.borderColor = 'var(--border)'
                         }}
                       >
-                        <h3
-                          className="font-bold text-[15px] leading-snug mb-2 transition-colors"
-                          style={{ color: 'var(--ink)' }}
-                        >
-                          {p.title}
-                        </h3>
+                        {/* Left border accent — purple for knowledge */}
+                        <div className="w-1 flex-shrink-0 rounded-l-2xl" style={{ background: '#7C3AED' }} />
 
-                        <p
-                          className="text-xs leading-relaxed line-clamp-3"
-                          style={{ color: 'var(--ink-2)' }}
-                        >
-                          {p.description}
-                        </p>
-
-                        <div className="flex flex-wrap gap-1.5 mt-4">
-                          {p.tags.map(t => (
-                            <span
-                              key={t}
-                              className="text-[10px] font-semibold px-2 py-0.5 rounded-md"
-                              style={{ background: '#F1F5F9', color: 'var(--ink-3)', border: '1px solid var(--border)' }}
+                        <div className="p-5 flex-1 min-w-0">
+                          {/* Icon row */}
+                          <div className="flex items-center mb-3">
+                            <div
+                              className="w-8 h-8 rounded-xl flex items-center justify-center"
+                              style={{ background: kIconBg }}
                             >
-                              {t}
-                            </span>
-                          ))}
+                              {kIcon || <BarChart2 size={16} style={{ color: '#7C3AED' }} />}
+                            </div>
+                          </div>
+
+                          <h3
+                            className="font-bold text-[15px] leading-snug mb-2 transition-colors"
+                            style={{ color: 'var(--ink)' }}
+                          >
+                            {p.title}
+                          </h3>
+
+                          <p
+                            className="text-xs leading-relaxed line-clamp-3"
+                            style={{ color: 'var(--ink-2)' }}
+                          >
+                            {p.description}
+                          </p>
+
+                          <div className="flex flex-wrap gap-1.5 mt-4">
+                            {p.tags.map(t => (
+                              <span
+                                key={t}
+                                className="text-[10px] font-semibold px-2 py-0.5 rounded-md"
+                                style={{ background: '#F1F5F9', color: 'var(--ink-3)', border: '1px solid var(--border)' }}
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </Link>
