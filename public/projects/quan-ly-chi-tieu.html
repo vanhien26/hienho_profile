@@ -52,67 +52,93 @@ body {
   min-height:100vh;
 }
 
-/* ═══ TOP HEADER NAV ═══ */
-.topbar {
-  position:sticky; top:0; z-index:100;
-  background:var(--momo);
-  box-shadow:0 2px 12px rgba(165,0,100,0.25);
+/* ═══ APP SHELL — Sidebar Layout ═══ */
+.app-shell { display:flex; min-height:100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:220px; flex-shrink:0;
+  position:fixed; top:0; left:0; height:100vh;
+  background:#FFFFFF;
+  border-right:1.5px solid var(--border);
+  display:flex; flex-direction:column;
+  z-index:200; overflow:hidden;
 }
-.topbar-inner {
-  display:flex; align-items:stretch;
-  min-height:52px; overflow-x:auto; scrollbar-width:none;
-}
-.topbar-inner::-webkit-scrollbar { display:none; }
-.topbar-brand {
-  display:flex; align-items:center; gap:10px;
-  padding:0 20px 0 16px;
-  border-right:1px solid rgba(255,255,255,0.15);
-  flex-shrink:0; white-space:nowrap;
+.sidebar-brand {
+  padding:18px 16px 16px;
+  border-bottom:1.5px solid var(--momo-pale);
+  flex-shrink:0;
 }
 .brand-logo {
-  background:white; color:var(--momo);
-  font-weight:900; font-size:15px;
-  padding:4px 10px; border-radius:5px; letter-spacing:-0.5px;
+  background:var(--momo); color:white;
+  font-weight:900; font-size:13px;
+  padding:3px 9px; border-radius:6px;
+  letter-spacing:-0.3px;
+  display:inline-block; margin-bottom:7px;
 }
 .brand-label {
   font-size:11.5px; font-weight:700;
-  color:rgba(255,255,255,0.85); letter-spacing:0.2px;
+  color:var(--ink); line-height:1.3; display:block;
 }
-.nav-groups { display:flex; align-items:stretch; flex:1; }
-.nav-group {
-  display:flex; align-items:stretch;
-  border-right:1px solid rgba(255,255,255,0.08); padding:0 4px;
+.brand-sub {
+  font-size:10px; color:var(--ink-3);
+  font-weight:500; margin-top:2px; display:block;
 }
+.sidebar-nav {
+  flex:1; overflow-y:auto;
+  padding:8px 0 24px;
+  scrollbar-width:thin;
+  scrollbar-color:var(--border) transparent;
+}
+.sidebar-nav::-webkit-scrollbar { width:3px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+.nav-group { margin-bottom:2px; }
 .nav-group-label {
-  display:flex; align-items:center;
-  font-size:9px; font-weight:700; letter-spacing:1px;
-  text-transform:uppercase; color:rgba(255,255,255,0.4);
-  padding:0 8px 0 12px; white-space:nowrap;
+  font-size:9px; font-weight:800; letter-spacing:1px;
+  text-transform:uppercase; color:var(--ink-3);
+  padding:12px 16px 3px; display:block;
 }
+.nav-group:has(.nav-btn.active) .nav-group-label { color:var(--momo); }
 .nav-btn {
-  display:flex; align-items:center; gap:6px;
-  padding:0 13px; cursor:pointer;
-  color:rgba(255,255,255,0.72); font-size:12.5px;
-  font-weight:600; font-family:'Be Vietnam Pro',sans-serif;
+  display:flex; align-items:center; gap:8px;
+  width:100%; padding:6px 16px 6px 12px;
+  cursor:pointer; color:var(--ink-2);
+  font-size:12.5px; font-weight:500;
+  font-family:'Be Vietnam Pro',sans-serif;
   background:none; border:none;
-  border-bottom:2.5px solid transparent;
-  transition:all 0.15s; white-space:nowrap; user-select:none;
+  border-left:2.5px solid transparent;
+  text-align:left;
+  transition:color 0.12s, background 0.12s, border-color 0.12s;
+  white-space:nowrap; overflow:hidden;
+  text-overflow:ellipsis; user-select:none; line-height:1.4;
 }
-.nav-btn:hover { color:white; background:rgba(255,255,255,0.08); }
-.nav-btn.active { color:white; border-bottom-color:white; background:rgba(255,255,255,0.1); }
-.nav-btn .ni { font-size:13px; }
-.topbar-meta {
-  display:flex; align-items:center; padding:0 16px;
-  flex-shrink:0; margin-left:auto;
-  border-left:1px solid rgba(255,255,255,0.12);
+.nav-btn:hover {
+  color:var(--momo); background:var(--momo-ghost);
+  border-left-color:var(--momo-pale);
 }
-.topbar-version {
-  font-family:'JetBrains Mono',monospace; font-size:10px;
-  color:rgba(255,255,255,0.35); white-space:nowrap;
+.nav-btn.active {
+  color:var(--momo); background:var(--momo-ghost);
+  border-left-color:var(--momo); font-weight:700;
+}
+.nav-icon { font-size:13px; flex-shrink:0; opacity:0.7; }
+.nav-btn.active .nav-icon { opacity:1; }
+.sidebar-footer {
+  flex-shrink:0; padding:11px 14px;
+  border-top:1px solid var(--border);
+  display:flex; align-items:center; gap:8px;
+}
+.sidebar-version { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--ink-3); }
+.sidebar-badge {
+  background:var(--momo-ghost); border:1px solid var(--momo-pale);
+  color:var(--momo); font-size:9px; font-weight:700;
+  padding:2px 6px; border-radius:8px; margin-left:auto;
 }
 
+/* ── MAIN AREA ── */
+.main-area { margin-left:220px; flex:1; min-width:0; }
+
 /* ═══ MAIN CONTENT ═══ */
-.content-wrap { max-width:1100px; margin:0 auto; padding:36px 32px 60px; }
+.content-wrap { max-width:900px; margin:0 auto; padding:36px 36px 60px; }
 .section { display:none; }
 .section.active { display:block; }
 
@@ -365,7 +391,15 @@ code.url {
 .progress-bar { height:100%; background:var(--momo); border-radius:4px; transition:width 0.4s; }
 
 /* ═══ RESPONSIVE ═══ */
+@media (max-width:960px) {
+  .sidebar { width:180px; }
+  .main-area { margin-left:180px; }
+  .content-wrap { padding:24px 20px 48px; }
+}
 @media (max-width:768px) {
+  .sidebar { transform:translateX(-100%); transition:transform 0.25s; }
+  .sidebar.open { transform:translateX(0); }
+  .main-area { margin-left:0; }
   .content-wrap { padding:20px 16px 48px; }
   .stat-row { grid-template-columns:1fr 1fr; }
   .grid-2,.grid-3,.meta-grid,.scope-grid,.persona-grid { grid-template-columns:1fr; }
@@ -378,708 +412,869 @@ code.url {
 </head>
 <body>
 
-<!-- ═══ TOPBAR ═══ -->
-<nav class="topbar">
-  <div class="topbar-inner">
-    <div class="topbar-brand">
-      <div class="brand-logo">MoMo</div>
-      <div class="brand-label">Quản Lý Chi Tiêu — Web Growth</div>
-    </div>
-    <div class="nav-groups">
-      <div class="nav-group">
-        <span class="nav-group-label">Strategy</span>
-        <button class="nav-btn active" onclick="showSection('overview')" data-section="overview"><span class="ni">📋</span> Overview</button>
-        <button class="nav-btn" onclick="showSection('keyword')" data-section="keyword"><span class="ni">🔍</span> Keyword Research</button>
-        <button class="nav-btn" onclick="showSection('sitemap')" data-section="sitemap"><span class="ni">🗺️</span> Sitemap</button>
-      </div>
-      <div class="nav-group">
-        <span class="nav-group-label">Content</span>
-        <button class="nav-btn" onclick="showSection('content')" data-section="content"><span class="ni">📄</span> Content Structure</button>
-        <button class="nav-btn" onclick="showSection('tools')" data-section="tools"><span class="ni">🛠️</span> Utility Tools</button>
-        <button class="nav-btn" onclick="showSection('geo')" data-section="geo"><span class="ni">🤖</span> SEO/GEO</button>
-      </div>
-      <div class="nav-group">
-        <span class="nav-group-label">Growth</span>
-        <button class="nav-btn" onclick="showSection('ads')" data-section="ads"><span class="ni">📢</span> Ads Embed</button>
-        <button class="nav-btn" onclick="showSection('links')" data-section="links"><span class="ni">🔗</span> Internal Links</button>
-        <button class="nav-btn" onclick="showSection('checklist')" data-section="checklist"><span class="ni">✅</span> Checklist</button>
-      </div>
-    </div>
-    <div class="topbar-meta">
-      <span class="topbar-version">v1.0 · 03/2026</span>
-    </div>
-  </div>
-</nav>
+<!-- ═══ APP SHELL ═══ -->
+<div class="app-shell">
 
-<!-- ═══ CONTENT WRAP ═══ -->
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-logo">MoMo</span>
+    <span class="brand-label">Quản Lý Chi Tiêu</span>
+    <span class="brand-sub">Web Growth Document</span>
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <!-- GROUP 1: OVERVIEW -->
+    <div class="nav-group">
+      <span class="nav-group-label">Overview</span>
+      <button class="nav-btn active" onclick="showSection('overview')" id="btn-overview"><span class="nav-icon">📋</span> Tổng quan</button>
+      <button class="nav-btn" onclick="showSection('sitemap')" id="btn-sitemap"><span class="nav-icon">🗺</span> Sitemap</button>
+      <button class="nav-btn" onclick="showSection('geo')" id="btn-geo"><span class="nav-icon">🤖</span> SEO / GEO</button>
+    </div>
+
+    <!-- GROUP 2: CONTENT -->
+    <div class="nav-group">
+      <span class="nav-group-label">Content</span>
+      <button class="nav-btn" onclick="showSection('content-structure')" id="btn-content-structure"><span class="nav-icon">📄</span> Content Structure</button>
+      <button class="nav-btn" onclick="showSection('content-cluster')" id="btn-content-cluster"><span class="nav-icon">🏛</span> Pillar / Cluster Blog</button>
+      <button class="nav-btn" onclick="showSection('content-niches')" id="btn-content-niches"><span class="nav-icon">🎨</span> Content Niches</button>
+    </div>
+
+    <!-- GROUP 3: GROWTH -->
+    <div class="nav-group">
+      <span class="nav-group-label">Growth</span>
+      <button class="nav-btn" onclick="showSection('growth-pages')" id="btn-growth-pages"><span class="nav-icon">📑</span> Sub-pages</button>
+      <button class="nav-btn" onclick="showSection('page-structure')" id="btn-page-structure"><span class="nav-icon">🏗</span> Page Structure</button>
+      <button class="nav-btn" onclick="showSection('simulation')" id="btn-simulation"><span class="nav-icon">🧮</span> Simulation</button>
+    </div>
+
+    <!-- GROUP 4: TACTICS -->
+    <div class="nav-group">
+      <span class="nav-group-label">Tactics</span>
+      <button class="nav-btn" onclick="showSection('ads')" id="btn-ads"><span class="nav-icon">📢</span> Ads Embed</button>
+      <button class="nav-btn" onclick="showSection('links')" id="btn-links"><span class="nav-icon">🔗</span> Internal Links</button>
+    </div>
+
+    <!-- GROUP 5: ON PROD -->
+    <div class="nav-group">
+      <span class="nav-group-label">On Prod</span>
+      <button class="nav-btn" onclick="showSection('checklist')" id="btn-checklist"><span class="nav-icon">✅</span> Publish Checklist</button>
+      <button class="nav-btn" onclick="showSection('offpage')" id="btn-offpage"><span class="nav-icon">🌐</span> Off-page</button>
+    </div>
+
+  </nav>
+
+  <div class="sidebar-footer">
+    <span class="sidebar-version">v1.1 · Mar 2026</span>
+    <span class="sidebar-badge">QLCT</span>
+  </div>
+</aside>
+
+<!-- ── MAIN AREA ── -->
+<div class="main-area">
 <div class="content-wrap">
 
-<!-- ══════════════════════════════════════════
-     SECTION 1: OVERVIEW
-══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+  SECTION: OVERVIEW — Tổng quan & JTBD
+══════════════════════════════════════ -->
 <div id="overview" class="section active">
   <div class="page-header">
-    <div class="page-eyebrow">📊 Web Growth Document · momo.vn/quan-ly-chi-tieu</div>
-    <h1 class="page-title">Quản Lý Chi Tiêu<br>Web Growth Strategy</h1>
-    <p class="page-desc">Chiến lược xây dựng trang web cho tính năng Quản Lý Chi Tiêu của MoMo — bao gồm thống kê giao dịch, so sánh thu/chi, quản lý hũ chi tiêu và budget. Mục tiêu chuyển đổi organic traffic → app activation thông qua PLG framework.</p>
+    <div class="page-eyebrow">📊 JTBD Analysis · momo.vn/quan-ly-chi-tieu</div>
+    <h1 class="page-title">Quản Lý Chi Tiêu<br>JTBD & Web Growth Map</h1>
+    <p class="page-desc">Phân tích JTBD từ live scrape momo.vn/quan-ly-chi-tieu + SERP research. Output làm nền tảng cho content brief, page anatomy, schema và growth experiments. Không có section nào là giả thuyết thuần túy.</p>
+  </div>
+
+  <!-- Step 0A audit result -->
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Critical Thinking Flag — Step 0A Audit</div>
+    Page <code class="url">momo.vn/quan-ly-chi-tieu</code> hiện đang target keyword "quản lý chi tiêu tự động với AI" — nhưng <strong>SERP top 3 cho query "app quản lý chi tiêu" đang bị dominated bởi comparison blog</strong> (Timo, Cellphones, Glints) không phải product landing page. MoMo có landing page nhưng content quá mỏng (không có FAQ schema, không có comparison section, không có budget simulator). <strong>Gap: Page đang serve navigational intent nhưng organic traffic đến từ commercial intent queries.</strong>
   </div>
 
   <div class="meta-grid">
     <div class="meta-card">
-      <div class="meta-card-label">Path chính</div>
+      <div class="meta-card-label">URL Analyzed</div>
       <div class="meta-card-value"><code class="url">momo.vn/quan-ly-chi-tieu</code></div>
-      <div class="meta-card-sub">Pillar page · Landing + Hub</div>
+      <div class="meta-card-sub">Live scrape 03/2026 — có H1 + HowTo steps + FAQ</div>
     </div>
     <div class="meta-card">
-      <div class="meta-card-label">Phiên bản</div>
-      <div class="meta-card-value">v1.0 — Tháng 3/2026</div>
-      <div class="meta-card-sub">Tích hợp Hũ Chi Tiêu + Budget</div>
+      <div class="meta-card-label">H1 hiện tại</div>
+      <div class="meta-card-value">Quản lý chi tiêu tự động với AI</div>
+      <div class="meta-card-sub">Nhắm AI positioning — nhưng user đang tìm "app QLCT"</div>
     </div>
     <div class="meta-card">
-      <div class="meta-card-label">Vertical</div>
-      <div class="meta-card-value">PFM · Personal Finance Mgmt</div>
-      <div class="meta-card-sub">Category mới, ít cạnh tranh direct</div>
+      <div class="meta-card-label">Schema hiện có</div>
+      <div class="meta-card-value">HowTo + FAQ (basic)</div>
+      <div class="meta-card-sub">Thiếu: SoftwareApp, FAQPage đầy đủ, BreadcrumbList</div>
     </div>
+  </div>
+
+  <h2 class="sh">🎯 JTBD Segment Overview</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Segment</th><th>Job Statement</th><th>Trigger Moment</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><strong>Người đi làm trẻ 22–30</strong></td><td>Muốn biết tiền tháng đi đâu mà không cần nhập tay thủ công</td><td>Cuối tháng hết tiền, không rõ lý do</td><td><span class="tag tag-p1">P1 Core</span></td></tr>
+        <tr><td><strong>Hộ gia đình trẻ</strong></td><td>Muốn phân chia chi tiêu theo mục tiêu gia đình cụ thể (học phí, tiết kiệm)</td><td>Lương về, không biết chia tiền như thế nào</td><td><span class="tag tag-p1">P1 High-vol</span></td></tr>
+        <tr><td><strong>Sinh viên / Gen Z</strong></td><td>Muốn kiểm soát tiền khi thu nhập hạn chế mà không friction</td><td>Hết tiền trước cuối tháng, lo lắng</td><td><span class="tag tag-p2">P2</span></td></tr>
+        <tr><td><strong>Freelancer / Kinh doanh nhỏ</strong></td><td>Muốn tách biệt chi tiêu cá nhân và kinh doanh, theo dõi dòng tiền</td><td>Tax season hoặc khi dòng tiền không đều</td><td><span class="tag tag-p2">P2</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🔬 JTBD Chi Tiết — Segment P1: Người đi làm trẻ</h2>
+  <div class="card" style="border-left:3px solid var(--momo); margin-bottom:8px;">
+    <div class="card-title">📌 Job Statement</div>
+    <div style="font-size:13px;color:var(--ink-2);line-height:1.7;font-style:italic;">"When tôi nhận lương cuối tháng và nhận ra tài khoản hầu như trống rỗng, I want to hiểu rõ từng đồng đã đi đâu mà không cần nhập tay mệt mỏi, so I can điều chỉnh thói quen chi tiêu để không bị cảnh thiếu tiền cuối tháng nữa."</div>
+  </div>
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-top:3px solid var(--blue);">
+        <div class="card-title">4 Job Dimensions</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+          <strong>Functional:</strong> Theo dõi, phân loại thu chi tự động theo danh mục<br>
+          <strong>Emotional:</strong> Cảm giác làm chủ tài chính, không lo âu cuối tháng<br>
+          <strong>Social:</strong> Được coi là người trưởng thành, có kế hoạch tài chính<br>
+          <strong>Consumption:</strong> Không cần nhập tay, tự động từ giao dịch MoMo
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--amber);">
+        <div class="card-title">Switch Triggers</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+          <strong>Push:</strong> Mệt mỏi với việc nhập tay vào Money Lover hoặc Excel, bỏ cuộc sau 2 tuần<br>
+          <strong>Pull:</strong> MoMo tự động từ giao dịch — zero friction to start<br>
+          <strong>Anxieties:</strong> Liệu data có chính xác không? Có mất phí không? Có an toàn không?<br>
+          <strong>Habits:</strong> Quen dùng Money Lover đã lâu, ngại chuyển
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-top:3px solid var(--green);">
+        <div class="card-title">Desired Outcomes (ODI)</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+          1. Giảm thời gian nhập liệu xuống 0 phút/ngày<br>
+          2. Tăng độ chính xác phân loại giao dịch lên >90%<br>
+          3. Biết rõ top 3 danh mục chi tiêu nhiều nhất mỗi tháng<br>
+          4. Nhận cảnh báo trước khi vượt budget, không phải sau<br>
+          5. Xem báo cáo tháng trong &lt;60 giây, không cần tính tay<br>
+          6. So sánh được tháng này vs tháng trước không cần export
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--momo);">
+        <div class="card-title">MoMo Product Fit</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+          ✅ Ghi chép tự động từ giao dịch MoMo — <strong>unique differentiator</strong><br>
+          ✅ Phân loại AI tự động theo danh mục<br>
+          ✅ Báo cáo tuần/tháng tự động<br>
+          ⚠️ Hũ chi tiêu: cần confirm tính năng hiện có trong app <span style="color:var(--amber);">[VERIFY PO]</span><br>
+          ❌ Giao dịch ngoài MoMo: cần nhập thủ công — vẫn là gap
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">⚡ SERP Analysis — Ai đang win các Job queries</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Query</th><th>Intent Type</th><th>SERP Winner</th><th>Format thắng</th><th>MoMo Status</th></tr></thead>
+      <tbody>
+        <tr><td>app quản lý chi tiêu</td><td>Commercial</td><td>Timo.vn, Cellphones.com.vn, Glints.vn</td><td>Top-10 comparison blog</td><td style="color:var(--red);">❌ Không có mặt</td></tr>
+        <tr><td>quản lý chi tiêu cá nhân</td><td>Informational</td><td>Blog tổng hợp ngân hàng (VPBank, Cake, ACB)</td><td>Blog dài 2.000+ từ</td><td style="color:var(--amber);">⚠️ Yếu — trang product chưa rank</td></tr>
+        <tr class="row-highlight"><td>momo quản lý chi tiêu</td><td>Navigational</td><td>momo.vn/quan-ly-chi-tieu</td><td>Product landing page</td><td style="color:var(--green);">✅ Rank #1</td></tr>
+        <tr><td>6 hũ tài chính / hũ chi tiêu</td><td>Informational</td><td>Techcombank, VPBank, ACB blogs</td><td>Blog definitional + calculator</td><td style="color:var(--red);">❌ Không có mặt (chỉ có blog MoMo không tối ưu)</td></tr>
+        <tr><td>quy tắc 50/30/20</td><td>Informational</td><td>Nhiều blog tổng hợp</td><td>Blog giải thích + ví dụ số</td><td style="color:var(--red);">❌ Không có mặt với page chuyên biệt</td></tr>
+        <tr><td>cách lập ngân sách cá nhân</td><td>Informational</td><td>Blog ngân hàng, blog tài chính</td><td>Blog + công cụ tính</td><td style="color:var(--red);">❌ Không có trang riêng</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🤖 GEO Gap Analysis</h2>
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 AI Query: "App quản lý chi tiêu tốt nhất ở Việt Nam"</div>
+    <div class="geo-block-q">"Ứng dụng nào giúp quản lý chi tiêu tốt nhất tại Việt Nam hiện nay?"</div>
+    <div class="geo-block-a">
+      <strong>Brands được AI cite hiện tại:</strong> Money Lover (dominant), MISA Money Keeper, Timo, Sổ Thu Chi. MoMo thường không được cite hoặc chỉ được đề cập thoáng qua như ví điện tử.<br><br>
+      <strong>Lý do MoMo yếu trong AI citation:</strong> (1) Không có page so sánh tính năng rõ ràng, (2) Không có FAQPage schema đầy đủ, (3) Không có content định nghĩa "quản lý chi tiêu tự động" từ góc độ authoritative.<br><br>
+      <strong>GEO fix cần làm:</strong> Tạo page định nghĩa "QLCT tự động" + comparison table MoMo vs Money Lover + FAQPage schema + SoftwareApplication schema với rating. Target: AI cite MoMo khi nói về "app QLCT không cần nhập tay".
+    </div>
+  </div>
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 AI Query: "Hũ chi tiêu là gì"</div>
+    <div class="geo-block-q">"6 hũ tài chính là gì? Cách áp dụng phương pháp hũ chi tiêu hiệu quả?"</div>
+    <div class="geo-block-a">
+      <strong>Brands được AI cite:</strong> VPBank, Techcombank, ACB, MISA — <strong>không có MoMo</strong>, dù MoMo có tính năng Hũ Chi Tiêu trong app.<br><br>
+      <strong>Cơ hội GEO:</strong> MoMo là fintech app duy nhất có tính năng hũ chi tiêu tích hợp. Nếu tạo page <code class="url">/hu-chi-tieu</code> với: định nghĩa đúng format (definition → list → how-to → FAQ) + Hũ Planner tool + FAQPage schema → có thể vượt ngân hàng trong AI citation vì MoMo có <strong>product evidence</strong> còn ngân hàng chỉ có content lý thuyết.
+    </div>
+  </div>
+
+  <h2 class="sh">📊 Business Context & OKR Alignment</h2>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--momo);">~85K</div><div class="stat-lbl">Monthly Search Vol.</div><div class="stat-sub">Toàn cluster PFM [cần verify GSC]</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue);">0%</div><div class="stat-lbl">MoMo SERP Presence</div><div class="stat-sub">Ngoài branded queries</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green);">Low</div><div class="stat-lbl">KD toàn cluster</div><div class="stat-sub">Blog ngân hàng chưa optimize tốt</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber);">D30</div><div class="stat-lbl">Retention Impact</div><div class="stat-sub">User activate QLCT có D30 cao hơn</div></div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>KR</th><th>Metric</th><th>Baseline</th><th>Target 6 tháng</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>KR1 — Acquisition</td><td>Organic sessions QLCT cluster</td><td>~X/tháng [GSC pull]</td><td>+300% vs baseline</td><td>SEO Lead</td></tr>
+        <tr><td>KR2 — Activation</td><td>Web → App activation rate</td><td>Chưa đo [set up tracking]</td><td>≥12% CVR</td><td>Growth + Dev</td></tr>
+        <tr><td>KR3 — GEO</td><td>AI citation khi hỏi về PFM VN</td><td>0 citations hiện tại</td><td>Cited trong top 3 AI answers</td><td>SEO Lead</td></tr>
+        <tr class="row-highlight"><td>KR4 — Retention</td><td>D30 rate user activate QLCT qua web</td><td>Chưa đo [Appsflyer segment]</td><td>+15% vs organic baseline</td><td>Data + Growth</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- KW RESEARCH FROM GKP -->
+  <h2 class="sh">🔍 Keyword Research — Google Keyword Planner Data (Mar 2025–Feb 2026)</h2>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📊 Đánh giá tổng quan 54 keywords · GKP export 05/04/2026</div>
+    File GKP bao gồm cluster "quản lý tài chính / chi tiêu cá nhân" với <strong>54 keywords</strong>, period Mar 2025–Feb 2026. Insight quan trọng nhất: <strong>volume thấp hơn ước tính trước</strong> — head terms chỉ hiển thị 5.000 (GKP cap), phần lớn còn lại floor 50. GKP có xu hướng under-report branded queries và long-tail. Cần cross-check với GSC impression data thực của momo.vn để có baseline chính xác.
   </div>
 
   <div class="stat-row">
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--momo);">~85K</div>
-      <div class="stat-lbl">Search volume/tháng</div>
-      <div class="stat-sub">Toàn cluster PFM [cần verify]</div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--momo);">4</div><div class="stat-lbl">Keywords vol 5.000</div><div class="stat-sub">GKP cap — thực tế cao hơn</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue);">7</div><div class="stat-lbl">Keywords vol ~500</div><div class="stat-sub">Mid-tail — có thể target</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--ink-3);">43</div><div class="stat-lbl">Keywords vol 50 (floor)</div><div class="stat-sub">Long-tail / branded / non-diacritics</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green);">30</div><div class="stat-lbl">Low Competition</div><div class="stat-sub">56% toàn cluster</div></div>
+  </div>
+
+  <h2 class="sh">⚠️ 4 Critical Insights từ GKP Data</h2>
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title">🔴 Insight 1 — 14 keywords YoY giảm -90% đến -100%</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">"Quản lý tài chính", "tài chính cá nhân", "kỹ năng quản lý tài chính", "phần mềm quản lý tài chính cá nhân" đang giảm mạnh YoY. <strong>Không đầu tư content mới cho nhóm này</strong> — demand cạn dần, cạnh tranh không đổi. Ưu tiên nhóm có YoY ổn định hoặc tăng.</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--blue);">12</div>
-      <div class="stat-lbl">Sub-pages đề xuất</div>
-      <div class="stat-sub">Cluster + Utility Tools</div>
+    <div class="card" style="border-left:3px solid var(--momo);">
+      <div class="card-title">🔺 Insight 2 — "Quản lý chi tiêu" tăng YoY +900%</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">Cả 2 variants "quan ly chi tieu" (không dấu) và "quản lý chi tiêu" đều YoY +900% — signal cực mạnh. Competition Low, comp index chỉ 5–7, bid thấp. <strong>Đây phải là primary target keyword</strong> cho toàn cluster — không phải "quản lý tài chính".</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--green);">5</div>
-      <div class="stat-lbl">Interactive Tools</div>
-      <div class="stat-sub">Budget sim, Hũ planner, v.v.</div>
+    <div class="card" style="border-left:3px solid var(--green);">
+      <div class="card-title">✅ Insight 3 — Sweet spot: vol cao + competition thấp</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">5 keywords vol ≥500 và comp index &lt;30: <strong>"cách quản lý tài chính cá nhân"</strong> (500, index 21), <strong>"cách quản lý tài chính cá nhân hiệu quả"</strong> (500, index chỉ 5). Đây là nhóm tốt nhất cho blog content — demand có, cạnh tranh còn trong tầm kiểm soát.</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--amber);">Low</div>
-      <div class="stat-lbl">Cạnh tranh SEO</div>
-      <div class="stat-sub">No fintech owns PFM SERP VN</div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <div class="card-title">⚠️ Insight 4 — GKP Vol 50 ≠ Demand thấp</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">Branded queries ("hũ chi tiêu momo", "thống kê chi tiêu momo") không xuất hiện trong file — đây là <strong>cluster "quản lý tài chính" generic</strong>, không phải branded. Cần GKP research riêng cho branded cluster. Vol 50 là GKP floor, không phản ánh actual demand — confirm bằng GSC.</div>
     </div>
   </div>
 
-  <h2 class="sh">🧭 Product Context — Quản Lý Chi Tiêu là gì trên MoMo?</h2>
+  <h2 class="sh">📋 Keyword Table — GKP Data với Priority</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Keyword</th><th>Vol</th><th>YoY</th><th>Competition</th><th>Comp Index</th><th>Bid (VND)</th><th>Priority</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><strong>quan ly chi tieu / quản lý chi tiêu</strong></td><td>50*</td><td style="color:var(--green);font-weight:700;">+900%</td><td>Low</td><td>5</td><td>527–2.107</td><td><span class="tag tag-p1">P1 — Primary KW</span></td><td>H1 Pillar page</td></tr>
+        <tr class="row-highlight"><td><strong>quản lý tài chính cá nhân</strong></td><td>5.000</td><td>0%</td><td>Medium</td><td>40</td><td>299–5.934</td><td><span class="tag tag-p1">P1 — Head term</span></td><td>Blog optimize (bài có sẵn)</td></tr>
+        <tr class="row-highlight"><td><strong>cách quản lý tài chính cá nhân</strong></td><td>500</td><td>0%</td><td>Low</td><td>21</td><td>237–2.347</td><td><span class="tag tag-p1">P1 — Sweet spot</span></td><td>Blog H1 target</td></tr>
+        <tr class="row-highlight"><td><strong>cách quản lý tài chính cá nhân hiệu quả</strong></td><td>500</td><td>0%</td><td>Low</td><td>5</td><td>—</td><td><span class="tag tag-p1">P1 — Sweet spot</span></td><td>H2 / FAQ variation trong blog P1</td></tr>
+        <tr><td>cách quản lý tài chính</td><td>500</td><td>0%</td><td>Medium</td><td>38</td><td>134–790</td><td><span class="tag tag-p2">P2</span></td><td>Internal link anchor text</td></tr>
+        <tr><td>quan ly chi tieu ca nhan</td><td>50</td><td>0%</td><td>Low</td><td>0</td><td>—</td><td><span class="tag tag-p2">P2</span></td><td>FAQ / heading variation</td></tr>
+        <tr><td>quan ly chi tieu gia dinh</td><td>50</td><td>0%</td><td>Low</td><td>0</td><td>—</td><td><span class="tag tag-p2">P2</span></td><td>Blog segment gia đình trẻ</td></tr>
+        <tr><td>quản lý chi tiêu thông minh</td><td>50</td><td>0%</td><td>Low</td><td>8</td><td>—</td><td><span class="tag tag-p2">P2</span></td><td>Subheadline / meta variation</td></tr>
+        <tr><td>quản lý chi tiêu cá nhân hiệu quả</td><td>50</td><td>0%</td><td>Low</td><td>14</td><td>—</td><td><span class="tag tag-p2">P2</span></td><td>FAQ answer variation</td></tr>
+        <tr><td>quan ly tai chinh / quản lý tài chính</td><td>5.000</td><td style="color:var(--red);">-90%</td><td>Low</td><td>18</td><td>417–16.611</td><td><span class="tag tag-p3">P3 — Declining</span></td><td>Skip — demand giảm mạnh</td></tr>
+        <tr><td>tài chính cá nhân</td><td>500</td><td style="color:var(--red);">-90%</td><td>Low</td><td>28</td><td>172–6.453</td><td><span class="tag tag-p3">P3 — Declining</span></td><td>Skip</td></tr>
+        <tr><td>khóa học quản lý tài chính cá nhân</td><td>500</td><td style="color:var(--red);">-90%</td><td>Medium</td><td>65</td><td>1.703–9.055</td><td><span class="tag tag-p3">Out of scope</span></td><td>MoMo không sell khóa học</td></tr>
+        <tr><td>quan ly tai chinh doanh nghiep</td><td>500</td><td style="color:var(--red);">-90%</td><td>Medium</td><td>50</td><td>2.952–21.161</td><td><span class="tag tag-p3">Out of scope</span></td><td>B2B — sai segment</td></tr>
+        <tr><td>quản lý tiền bạc / tài chính cá nhân cho phụ nữ...</td><td>50</td><td style="color:var(--red);">-90% / -100%</td><td>Low</td><td>&lt;10</td><td>—</td><td><span class="tag tag-p3">Dead</span></td><td>Bỏ qua toàn bộ</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="callout callout-momo">
-    <div class="callout-title">💰 Quản Lý Chi Tiêu — PFM tích hợp trong hệ sinh thái MoMo</div>
-    Tính năng Quản Lý Chi Tiêu của MoMo cho phép người dùng theo dõi thu/chi theo từng danh mục (ăn uống, di chuyển, mua sắm...), thiết lập budget theo tháng, tạo hũ tiết kiệm mục tiêu, và xem thống kê xu hướng. <strong>Điểm khác biệt:</strong> dữ liệu giao dịch được tổng hợp tự động từ hoạt động trong app MoMo — không cần nhập tay như các app PFM truyền thống. Đây là <strong>hook mạnh để giữ chân user</strong> (Retention) và tăng depth of engagement.
+    <div class="callout-title">⚡ 3 Actions ngay từ GKP Data — Không cần chờ thêm</div>
+    <strong>(1)</strong> Đổi H1 pillar page /quan-ly-chi-tieu: chứa exact "quản lý chi tiêu" thay vì "quản lý chi tiêu tự động với AI" — head term +900% YoY cần được H1 capture đúng.<br>
+    <strong>(2)</strong> Optimize 2 blog đã có: update H1 match "cách quản lý tài chính cá nhân hiệu quả" (comp index 5!) + embed Budget Simulator → differentiate vs ngân hàng viết cùng topic.<br>
+    <strong>(3)</strong> Pull GSC data /quan-ly-chi-tieu → xem impression thực cho "quản lý chi tiêu" để validate GKP vol floor 50 và xác nhận actual opportunity size trước khi commit sprint.
   </div>
 
-  <div class="scope-grid">
-    <div class="scope-card">
-      <div class="scope-card-header" style="background:var(--green-light);color:#006B30;">✅ Trong scope tài liệu này</div>
-      <div class="scope-card-body">
-        <li>Trang chính <code class="url">/quan-ly-chi-tieu</code> — content &amp; anatomy</li>
-        <li>Sitemap sub-pages cluster PFM</li>
-        <li>Utility tools: Budget Simulator, Hũ Planner, Phân loại chi tiêu</li>
-        <li>Keyword research &amp; intent mapping</li>
-        <li>GEO/AEO content structure cho PFM queries</li>
-        <li>Ads Embed Blog — native ad units trong content hub</li>
-        <li>Internal Link Building cross-product</li>
-        <li>Onpage SEO checklist</li>
-      </div>
-    </div>
-    <div class="scope-card">
-      <div class="scope-card-header" style="background:var(--red-light);color:#8B1A1A;">❌ Ngoài scope tài liệu này</div>
-      <div class="scope-card-body">
-        <li>App UX / feature design (thuộc Product team)</li>
-        <li>Backend sync giao dịch tự động</li>
-        <li>Paid campaign / Meta Ads</li>
-        <li>Bank data aggregation / Open Banking</li>
-        <li>CRM / push notification flow</li>
-        <li>Tư vấn tài chính cá nhân (YMYL hard)</li>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">📈 Business Case — Tại sao PFM cần Web Growth</h2>
-  <div class="grid-3">
-    <div class="card" style="border-top:3px solid var(--momo);">
-      <div class="card-title">🎯 Retention Hook mạnh nhất</div>
-      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">User dùng QLCT có DAU/MAU ratio cao hơn user thông thường. Organic traffic dẫn user activate tính năng = tăng D30 Retention trực tiếp. SEO ở đây không chỉ là acquisition mà là activation funnel.</div>
-    </div>
-    <div class="card" style="border-top:3px solid var(--blue);">
-      <div class="card-title">🏆 SERP trắng — First Mover Advantage</div>
-      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">Hiện tại không có fintech Việt nào có landing page chuyên biệt về "quản lý chi tiêu app", "cách lập ngân sách cá nhân", "hũ tiết kiệm". MoMo có thể own toàn bộ category này nếu ra trang sớm.</div>
-    </div>
-    <div class="card" style="border-top:3px solid var(--green);">
-      <div class="card-title">🔗 Cross-sell với Ví Trả Sau &amp; Vay</div>
-      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6;">User đang track chi tiêu = user có awareness về tình trạng tài chính của họ. Đây là tệp có intent cao nhất cho Ví Trả Sau, Vay Nhanh — cross-sell tự nhiên nhất trong hệ sinh thái MoMo.</div>
-    </div>
-  </div>
-
-  <h2 class="sh">🎯 Mục tiêu tăng trưởng</h2>
-  <div class="tbl-wrap">
-    <table class="data-table">
-      <thead><tr><th>Mục tiêu</th><th>KPI</th><th>Thời hạn</th><th>Owner</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Organic Traffic QLCT pages</strong></td><td>+300% sessions/tháng từ organic</td><td>6 tháng</td><td>SEO Lead</td></tr>
-        <tr><td><strong>Web-to-App Activation</strong></td><td>CVR web → feature activation ≥ 12%</td><td>3 tháng</td><td>Growth + Dev</td></tr>
-        <tr><td><strong>GEO Visibility</strong></td><td>MoMo được cite khi AI trả lời PFM queries VN</td><td>6 tháng</td><td>SEO Lead</td></tr>
-        <tr><td><strong>Tool Engagement</strong></td><td>Avg. time-on-page ≥ 120s, tool interaction rate ≥ 45%</td><td>1 tháng sau launch</td><td>UX + Growth</td></tr>
-        <tr class="row-highlight"><td><strong>Retention Impact</strong></td><td>User activate QLCT qua web có D30 retention cao hơn baseline ≥ 15%</td><td>3 tháng sau launch</td><td>Data + Growth</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h2 class="sh">👤 Target Persona</h2>
-  <div class="persona-grid">
-    <div class="persona-card">
-      <div class="persona-header"><span style="font-size:20px;">📱</span><div class="persona-title">Người đi làm trẻ 22–30 (Core)</div></div>
-      <div class="persona-body">
-        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Lương tháng vào, tiêu hết trước cuối tháng — không biết tiền đi đâu</div></div>
-        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Tìm "cách quản lý chi tiêu hiệu quả" hoặc "app theo dõi thu chi" trên Google</div></div>
-        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Tìm được trang MoMo, thấy tính năng tự động từ giao dịch MoMo — không cần nhập tay</div></div>
-        <div class="persona-result">✅ QLCT giải quyết: tự động phân loại, báo cáo tháng, không friction</div>
-      </div>
-    </div>
-    <div class="persona-card">
-      <div class="persona-header"><span style="font-size:20px;">👨‍👩‍👧</span><div class="persona-title">Hộ gia đình trẻ (High-volume)</div></div>
-      <div class="persona-body">
-        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Chi tiêu gia đình phức tạp: điện, nước, học phí, siêu thị, ăn ngoài</div></div>
-        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Tìm "phần mềm quản lý chi tiêu gia đình", "cách lập ngân sách hàng tháng"</div></div>
-        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Thấy tính năng Hũ Chi Tiêu của MoMo — đặt mục tiêu cho từng khoản</div></div>
-        <div class="persona-result">✅ QLCT giải quyết: hũ riêng cho học phí, tiết kiệm, du lịch</div>
-      </div>
-    </div>
-    <div class="persona-card">
-      <div class="persona-header"><span style="font-size:20px;">🎓</span><div class="persona-title">Sinh viên / Gen Z</div></div>
-      <div class="persona-body">
-        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Tiền trợ cấp hoặc lương part-time giới hạn, cần kiểm soát chi tiêu chặt</div></div>
-        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Tìm "app quản lý tiền miễn phí", "theo dõi chi tiêu bằng điện thoại"</div></div>
-        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Thấy Budget tool trên web MoMo, tạo được kế hoạch chi tiêu 1 click</div></div>
-        <div class="persona-result">✅ QLCT giải quyết: miễn phí, mobile-first, không cần nhập tay</div>
-      </div>
-    </div>
-    <div class="persona-card">
-      <div class="persona-header"><span style="font-size:20px;">💼</span><div class="persona-title">Freelancer / Kinh doanh nhỏ</div></div>
-      <div class="persona-body">
-        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Thu nhập không đều, cần tách biệt chi tiêu cá nhân và kinh doanh</div></div>
-        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Tìm "quản lý thu chi cá nhân vs kinh doanh", "hũ tiết kiệm mục tiêu"</div></div>
-        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Thấy Hũ Chi Tiêu MoMo cho phép đặt tên và mục tiêu riêng từng hũ</div></div>
-        <div class="persona-result">✅ QLCT giải quyết: hũ riêng dự phòng kinh doanh, theo dõi dòng tiền</div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">🔄 Web-to-App Funnel</h2>
-  <div class="funnel-flow">
-    <div class="funnel-stage fs-tofu">
-      <div class="funnel-stage-label">TOFU · Awareness</div>
-      <div class="funnel-stage-title">Tìm kiếm PFM</div>
-      <ul class="funnel-stage-items">
-        <li>quản lý chi tiêu cá nhân</li>
-        <li>app theo dõi thu chi</li>
-        <li>cách lập ngân sách</li>
-        <li>hũ tiết kiệm là gì</li>
-        <li>quy tắc 50/30/20</li>
-      </ul>
-    </div>
-    <div class="funnel-stage fs-mofu">
-      <div class="funnel-stage-label">MOFU · Consideration</div>
-      <div class="funnel-stage-title">So sánh giải pháp</div>
-      <ul class="funnel-stage-items">
-        <li>app quản lý chi tiêu tốt nhất</li>
-        <li>money lover vs momo</li>
-        <li>quản lý chi tiêu không cần nhập tay</li>
-        <li>budget app miễn phí vn</li>
-      </ul>
-    </div>
-    <div class="funnel-stage fs-bofu">
-      <div class="funnel-stage-label">BOFU · Intent</div>
-      <div class="funnel-stage-title">Tìm MoMo cụ thể</div>
-      <ul class="funnel-stage-items">
-        <li>momo quản lý chi tiêu</li>
-        <li>hũ chi tiêu momo là gì</li>
-        <li>cách tạo hũ tiết kiệm trên momo</li>
-        <li>thống kê giao dịch momo</li>
-      </ul>
-    </div>
-    <div class="funnel-stage fs-convert">
-      <div class="funnel-stage-label">Convert · Action</div>
-      <div class="funnel-stage-title">Activate App</div>
-      <ul class="funnel-stage-items">
-        <li>Deep link → màn hình QLCT</li>
-        <li>Smart Banner → App Store</li>
-        <li>QR Code install MoMo</li>
-        <li>Contextual CTA: "Xem chi tiêu của bạn"</li>
-      </ul>
-    </div>
-  </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SECTION 2: KEYWORD RESEARCH
-══════════════════════════════════════════ -->
-<div id="keyword" class="section">
-  <div class="page-header">
-    <div class="page-eyebrow">🔍 Keyword Research Insight</div>
-    <h1 class="page-title">Keyword Research<br>& Intent Mapping</h1>
-    <p class="page-desc">Phân tích keyword clusters theo từng tính năng QLCT. Dữ liệu volume là ước tính [cần verify bằng GSC + Ahrefs/SEMrush]. Ưu tiên theo BOFU intent và khả năng convert sang app activation.</p>
-  </div>
-
-  <div class="callout callout-blue">
-    <div class="callout-title">🎯 Insight tổng quan</div>
-    PFM (Personal Finance Management) là category có search volume ổn định, tăng theo mùa lương (đầu tháng) và dịp Tết. Đặc điểm SERP: đang bị dominated bởi bài blog tổng hợp (Money Lover, MISA, Timo) — không có landing page product nào đủ chất lượng. MoMo có lợi thế về brand trust và tích hợp giao dịch tự động để differentiate.
-  </div>
-
-  <h2 class="sh">📦 Cluster 1: Quản Lý Chi Tiêu (Pillar)</h2>
-  <div class="kw-cluster">
-    <div class="kw-cluster-header">
-      <span>🏠 Pillar — momo.vn/quan-ly-chi-tieu</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);">~30K vol/tháng ước tính</span>
-    </div>
-    <div class="kw-cluster-body">
-      <div class="kw-item">
-        <span class="kw-text">quản lý chi tiêu cá nhân</span>
-        <div class="kw-meta"><span class="kw-vol">~12K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">app quản lý chi tiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~8K</span><span class="kw-intent kw-intent-comm">Commercial</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">theo dõi chi tiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~5K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">phần mềm quản lý thu chi cá nhân</span>
-        <div class="kw-meta"><span class="kw-vol">~3K</span><span class="kw-intent kw-intent-comm">Commercial</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">momo quản lý chi tiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~2K</span><span class="kw-intent kw-intent-nav">Navigational</span><span class="tag tag-bofu">BOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">quản lý chi tiêu bằng điện thoại</span>
-        <div class="kw-meta"><span class="kw-vol">~1.5K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">📦 Cluster 2: Thống Kê & So Sánh Giao Dịch</h2>
-  <div class="kw-cluster">
-    <div class="kw-cluster-header">
-      <span>📊 Sub-page — momo.vn/quan-ly-chi-tieu/thong-ke</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);">~10K vol/tháng ước tính</span>
-    </div>
-    <div class="kw-cluster-body">
-      <div class="kw-item">
-        <span class="kw-text">thống kê chi tiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~4K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">xem lịch sử giao dịch momo</span>
-        <div class="kw-meta"><span class="kw-vol">~3.5K</span><span class="kw-intent kw-intent-nav">Navigational</span><span class="tag tag-bofu">BOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">so sánh thu chi hàng tháng</span>
-        <div class="kw-meta"><span class="kw-vol">~1.2K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">báo cáo chi tiêu theo danh mục</span>
-        <div class="kw-meta"><span class="kw-vol">~800</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">xu hướng chi tiêu cá nhân</span>
-        <div class="kw-meta"><span class="kw-vol">~600</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">📦 Cluster 3: Hũ Chi Tiêu & Tiết Kiệm Mục Tiêu</h2>
-  <div class="kw-cluster">
-    <div class="kw-cluster-header">
-      <span>🪣 Sub-page — momo.vn/quan-ly-chi-tieu/hu-chi-tieu</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);">~15K vol/tháng ước tính · Growing YoY</span>
-    </div>
-    <div class="kw-cluster-body">
-      <div class="kw-item">
-        <span class="kw-text">hũ tiết kiệm</span>
-        <div class="kw-meta"><span class="kw-vol">~6K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">phương pháp hũ tiết kiệm</span>
-        <div class="kw-meta"><span class="kw-vol">~4K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">6 hũ tài chính</span>
-        <div class="kw-meta"><span class="kw-vol">~3K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">hũ chi tiêu momo</span>
-        <div class="kw-meta"><span class="kw-vol">~1.5K</span><span class="kw-intent kw-intent-nav">Navigational</span><span class="tag tag-bofu">BOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">cách tạo hũ tiết kiệm trên app</span>
-        <div class="kw-meta"><span class="kw-vol">~900</span><span class="kw-intent kw-intent-trans">Transactional</span><span class="tag tag-bofu">BOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">tiết kiệm mục tiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~2.5K</span><span class="kw-intent kw-intent-comm">Commercial</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">📦 Cluster 4: Budget & Lập Ngân Sách</h2>
-  <div class="kw-cluster">
-    <div class="kw-cluster-header">
-      <span>📋 Sub-page — momo.vn/quan-ly-chi-tieu/ngan-sach</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);">~18K vol/tháng ước tính</span>
-    </div>
-    <div class="kw-cluster-body">
-      <div class="kw-item">
-        <span class="kw-text">lập ngân sách cá nhân</span>
-        <div class="kw-meta"><span class="kw-vol">~7K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">quy tắc 50/30/20</span>
-        <div class="kw-meta"><span class="kw-vol">~5K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">cách lập kế hoạch tài chính cá nhân</span>
-        <div class="kw-meta"><span class="kw-vol">~3K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">budget chi tiêu hàng tháng</span>
-        <div class="kw-meta"><span class="kw-vol">~2K</span><span class="kw-intent kw-intent-comm">Commercial</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">đặt hạn mức chi tiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~1K</span><span class="kw-intent kw-intent-trans">Transactional</span><span class="tag tag-bofu">BOFU</span></div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">📦 Cluster 5: Phân Loại Giao Dịch</h2>
-  <div class="kw-cluster">
-    <div class="kw-cluster-header">
-      <span>🏷️ Sub-page — momo.vn/quan-ly-chi-tieu/phan-loai</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);">~8K vol/tháng ước tính</span>
-    </div>
-    <div class="kw-cluster-body">
-      <div class="kw-item">
-        <span class="kw-text">phân loại chi tiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~3K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-mofu">MOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">danh mục chi tiêu cá nhân</span>
-        <div class="kw-meta"><span class="kw-vol">~2K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">các khoản chi cố định hàng tháng</span>
-        <div class="kw-meta"><span class="kw-vol">~1.5K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-      <div class="kw-item">
-        <span class="kw-text">chi tiêu ăn uống vs tiết kiệm tỷ lệ bao nhiêu</span>
-        <div class="kw-meta"><span class="kw-vol">~1K</span><span class="kw-intent kw-intent-info">Informational</span><span class="tag tag-tofu">TOFU</span></div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">🔑 Keyword Priority Matrix</h2>
-  <div class="tbl-wrap">
-    <table class="data-table">
-      <thead><tr><th>Keyword</th><th>Volume</th><th>Difficulty</th><th>Intent</th><th>Funnel</th><th>Page Target</th><th>Priority</th></tr></thead>
-      <tbody>
-        <tr class="row-highlight"><td><strong>hũ tiết kiệm</strong></td><td>~6K</td><td>Low</td><td>Info</td><td>TOFU</td><td><code class="url">/hu-chi-tieu</code></td><td><span class="tag tag-p1">P1</span></td></tr>
-        <tr class="row-highlight"><td><strong>lập ngân sách cá nhân</strong></td><td>~7K</td><td>Medium</td><td>Info</td><td>TOFU</td><td><code class="url">/ngan-sach</code></td><td><span class="tag tag-p1">P1</span></td></tr>
-        <tr class="row-highlight"><td><strong>app quản lý chi tiêu</strong></td><td>~8K</td><td>Medium</td><td>Commercial</td><td>MOFU</td><td><code class="url">/quan-ly-chi-tieu</code></td><td><span class="tag tag-p1">P1</span></td></tr>
-        <tr><td>quy tắc 50/30/20</td><td>~5K</td><td>Low</td><td>Info</td><td>TOFU</td><td><code class="url">/blog/quy-tac-50-30-20</code></td><td><span class="tag tag-p1">P1</span></td></tr>
-        <tr><td>momo quản lý chi tiêu</td><td>~2K</td><td>Very Low</td><td>Nav</td><td>BOFU</td><td><code class="url">/quan-ly-chi-tieu</code></td><td><span class="tag tag-p1">P1</span></td></tr>
-        <tr><td>6 hũ tài chính</td><td>~3K</td><td>Low</td><td>Info</td><td>TOFU</td><td><code class="url">/blog/6-hu-tai-chinh</code></td><td><span class="tag tag-p2">P2</span></td></tr>
-        <tr><td>xem lịch sử giao dịch momo</td><td>~3.5K</td><td>Very Low</td><td>Nav</td><td>BOFU</td><td><code class="url">/thong-ke</code></td><td><span class="tag tag-p2">P2</span></td></tr>
-        <tr><td>thống kê chi tiêu</td><td>~4K</td><td>Low</td><td>Info</td><td>MOFU</td><td><code class="url">/thong-ke</code></td><td><span class="tag tag-p2">P2</span></td></tr>
-        <tr><td>tiết kiệm mục tiêu</td><td>~2.5K</td><td>Medium</td><td>Commercial</td><td>MOFU</td><td><code class="url">/hu-chi-tieu</code></td><td><span class="tag tag-p2">P2</span></td></tr>
-        <tr><td>phân loại chi tiêu</td><td>~3K</td><td>Low</td><td>Info</td><td>MOFU</td><td><code class="url">/phan-loai</code></td><td><span class="tag tag-p3">P3</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     SECTION 3: SITEMAP
-══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+  SECTION: SITEMAP
+══════════════════════════════════════ -->
 <div id="sitemap" class="section">
   <div class="page-header">
-    <div class="page-eyebrow">🗺️ Sitemap Web Growth</div>
-    <h1 class="page-title">Sitemap & Sub-page<br>Architecture</h1>
-    <p class="page-desc">Kiến trúc URL cluster xung quanh path <code class="url">momo.vn/quan-ly-chi-tieu</code>. Phân loại theo loại hình trang: Pillar, Feature, Tool, Blog. Ưu tiên theo ROI organic và khả năng Web-to-App conversion.</p>
+    <div class="page-eyebrow">🗺 Overview · Sitemap & Keyword Intent</div>
+    <h1 class="page-title">Sitemap & Sub-page<br>Intent-based Architecture</h1>
+    <p class="page-desc">Mỗi URL được quyết định dựa trên <strong>SERP analysis thực tế</strong> — Google đang rank loại trang nào cho query đó? Trang nào cần tạo, blog hay page? Không phải mọi keyword đều cần landing page riêng.</p>
   </div>
 
-  <h2 class="sh">🏗️ Toàn bộ Sitemap Cluster</h2>
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Critical Thinking — Tại sao Intent quyết định loại trang</div>
+    <strong>Bài học từ SERP research:</strong> Query "app quản lý chi tiêu tốt nhất" → SERP top 10 đều là <strong>blog comparison</strong> (Timo, Cellphones, Glints, Di Động Việt). Nếu MoMo tạo landing page product → sẽ không rank được vì Google đánh giá intent là Informational/Commercial investigation, không phải Navigational. Ngược lại, query "hũ chi tiêu momo" → navigational, nên là product page. <strong>Sai loại trang = tốn công mà không rank.</strong>
+  </div>
+
+  <h2 class="sh">🔬 Keyword Intent Matrix — SERP Verified</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Keyword</th>
+          <th>Vol ước tính</th>
+          <th>SERP thực tế rank gì</th>
+          <th>Intent</th>
+          <th>→ Loại trang MoMo</th>
+          <th>URL đề xuất</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>quản lý chi tiêu cá nhân</strong></td>
+          <td>~12K</td>
+          <td>Blog tips/hướng dẫn từ MoMo, Prudential, blog tài chính</td>
+          <td><span class="kw-intent kw-intent-info">Informational</span></td>
+          <td>📝 Blog — MoMo đã có nhiều bài, cần optimize</td>
+          <td><code class="url">/blog/bi-quyet-quan-ly-chi-tieu</code> (hiện có)</td>
+        </tr>
+        <tr class="row-highlight">
+          <td><strong>app quản lý chi tiêu tốt nhất</strong></td>
+          <td>~8K</td>
+          <td>Blog comparison top-10 (Timo, Glints, Cellphones, Di Động Việt)</td>
+          <td><span class="kw-intent kw-intent-comm">Commercial Invest.</span></td>
+          <td>📝 Blog comparison — MoMo viết comparison honest</td>
+          <td><code class="url">/blog/app-quan-ly-chi-tieu-tot-nhat</code> (chưa có)</td>
+        </tr>
+        <tr>
+          <td><strong>hũ chi tiêu momo / cách tạo hũ momo</strong></td>
+          <td>~2K</td>
+          <td>TikTok video hướng dẫn + momo.vn/quan-ly-chi-tieu</td>
+          <td><span class="kw-intent kw-intent-nav">Navigational</span></td>
+          <td>🏠 Feature Page — user đang tìm MoMo cụ thể</td>
+          <td><code class="url">/quan-ly-chi-tieu</code> (hiện có, cần thêm section hũ)</td>
+        </tr>
+        <tr>
+          <td><strong>6 hũ tài chính là gì / hũ tiết kiệm</strong></td>
+          <td>~6K</td>
+          <td>Blog định nghĩa từ VPBank, ACB, Techcombank, MISA</td>
+          <td><span class="kw-intent kw-intent-info">Informational</span></td>
+          <td>📝 Blog — giải thích + áp dụng với MoMo, link về feature page</td>
+          <td><code class="url">/blog/6-hu-tai-chinh-la-gi</code> (chưa có)</td>
+        </tr>
+        <tr>
+          <td><strong>quy tắc 50/30/20</strong></td>
+          <td>~5K</td>
+          <td>Blog định nghĩa + ví dụ số từ ngân hàng, blog tài chính</td>
+          <td><span class="kw-intent kw-intent-info">Informational</span></td>
+          <td>📝 Blog — có Budget Simulator embed → differentiate vs ngân hàng</td>
+          <td><code class="url">/blog/quy-tac-50-30-20</code> (chưa có)</td>
+        </tr>
+        <tr>
+          <td><strong>cách lập ngân sách cá nhân</strong></td>
+          <td>~7K</td>
+          <td>Blog how-to từ MoMo (đã có), blog ngân hàng</td>
+          <td><span class="kw-intent kw-intent-info">Informational</span></td>
+          <td>📝 Blog — MoMo đã có bài, optimize + embed tool</td>
+          <td><code class="url">/blog/cach-lap-ke-hoach-chi-tieu</code> (hiện có)</td>
+        </tr>
+        <tr>
+          <td><strong>momo quản lý chi tiêu</strong></td>
+          <td>~2K</td>
+          <td>momo.vn/quan-ly-chi-tieu rank #1</td>
+          <td><span class="kw-intent kw-intent-nav">Navigational</span></td>
+          <td>🏠 Feature Page — đang rank tốt, cần enrich content</td>
+          <td><code class="url">/quan-ly-chi-tieu</code> (hiện có)</td>
+        </tr>
+        <tr>
+          <td><strong>thống kê chi tiêu / xem lịch sử giao dịch momo</strong></td>
+          <td>~4K</td>
+          <td>FPTShop, ThếGiớiĐiĐộng blog hướng dẫn step-by-step</td>
+          <td><span class="kw-intent kw-intent-trans">Transactional</span></td>
+          <td>📄 Feature Page hoặc Support Page — how-to, HowTo schema</td>
+          <td><code class="url">/quan-ly-chi-tieu/thong-ke</code> (chưa có)</td>
+        </tr>
+        <tr>
+          <td><strong>cách tạo ngân sách trong momo</strong></td>
+          <td>~800</td>
+          <td>Blog hướng dẫn step-by-step từ tech sites</td>
+          <td><span class="kw-intent kw-intent-trans">Transactional</span></td>
+          <td>📄 Transaction Page — HowTo schema + deep link</td>
+          <td><code class="url">/quan-ly-chi-tieu/tao-ngan-sach</code> (chưa có)</td>
+        </tr>
+        <tr>
+          <td><strong>theo dõi chi tiêu tháng momo</strong></td>
+          <td>~600</td>
+          <td>FPTShop how-to article</td>
+          <td><span class="kw-intent kw-intent-trans">Transactional</span></td>
+          <td>📄 Support/Feature Page — hướng dẫn ngắn + deep link</td>
+          <td>Merge vào <code class="url">/quan-ly-chi-tieu/thong-ke</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🏗 Sitemap Kết luận — 3 loại trang rõ ràng</h2>
+
+  <div class="grid-3" style="margin-bottom:8px;">
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">📝 Blog (Informational / Commercial)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">SERP đang rank blog → MoMo phải làm blog. Cố tình tạo landing page product sẽ không rank. Blog cần embed tool để differentiate vs ngân hàng viết cùng topic.<br><br><strong>Query này:</strong> quản lý chi tiêu cá nhân, app QLCT tốt nhất, 6 hũ tài chính, quy tắc 50/30/20, cách lập ngân sách.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--momo);">
+      <div class="card-title">🏠 Feature Page (Navigational)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">User đang tìm MoMo cụ thể → landing page product đúng. Pillar page + sub feature pages. Nội dung rich hơn support page, có FAQ schema, HowTo, Social proof.<br><br><strong>Query này:</strong> momo quản lý chi tiêu, hũ chi tiêu momo, tính năng QLCT momo.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-title">📄 Transaction Page (Transactional)</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">User muốn làm action ngay → page ngắn, HowTo schema, deep link mỗi bước. Không cần 1500 từ. 400-600 từ là đủ nếu steps rõ ràng và CTA mạnh.<br><br><strong>Query này:</strong> cách tạo ngân sách momo, thống kê chi tiêu momo, cách theo dõi chi tiêu tháng.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🗺 Full Sitemap — Intent-classified</h2>
   <div class="sitemap-tree">
     <div class="sitemap-header">
-      <span class="sitemap-header-title">momo.vn/ — QLCT Cluster</span>
-      <span class="tag tag-p1">12 pages</span>
+      <span class="sitemap-header-title">momo.vn — QLCT Cluster · Intent-based</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);">Feature Pages + Transaction Pages + Blog</span>
     </div>
 
+    <!-- FEATURE PAGES -->
+    <div class="sitemap-row" style="background:#FFF8F0;font-size:10px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:var(--amber);padding:6px 18px;">🏠 FEATURE PAGES — Navigational Intent</div>
     <div class="sitemap-row pillar">
       <span class="sitemap-url">/quan-ly-chi-tieu</span>
-      <span class="sitemap-desc">🏠 Pillar Page — Hub QLCT tổng hợp</span>
-      <span class="sitemap-priority tag tag-p1">P1 · Pillar</span>
+      <span class="sitemap-desc">Pillar Hub — "momo quản lý chi tiêu" · Rank #1 branded · Cần enrich: FAQ schema, SoftwareApp schema, Hũ section, Budget preview</span>
+      <span class="sitemap-priority tag tag-p1">P1 · Hiện có</span>
     </div>
 
+    <!-- TRANSACTION PAGES -->
+    <div class="sitemap-row" style="background:#F0FFF6;font-size:10px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:var(--green);padding:6px 18px;">📄 TRANSACTION PAGES — Transactional Intent</div>
     <div class="sitemap-row cluster">
       <span class="sitemap-url">/quan-ly-chi-tieu/thong-ke</span>
-      <span class="sitemap-desc">📊 Thống Kê Giao Dịch — Feature page, biểu đồ thu/chi</span>
-      <span class="sitemap-priority tag tag-p1">P1 · Feature</span>
+      <span class="sitemap-desc">📊 Thống kê giao dịch — "thống kê chi tiêu momo", "xem lịch sử giao dịch" · HowTo schema + deep link · 400–600 từ</span>
+      <span class="sitemap-priority tag tag-p1">P1 · Chưa có</span>
     </div>
-    <div class="sitemap-row sub">
-      <span class="sitemap-url">/quan-ly-chi-tieu/thong-ke/thang-nay</span>
-      <span class="sitemap-desc">Báo cáo tháng hiện tại (dynamic content)</span>
-      <span class="sitemap-priority tag tag-p2">P2</span>
-    </div>
-    <div class="sitemap-row sub">
-      <span class="sitemap-url">/quan-ly-chi-tieu/thong-ke/so-sanh</span>
-      <span class="sitemap-desc">So sánh tháng này vs tháng trước</span>
-      <span class="sitemap-priority tag tag-p2">P2</span>
-    </div>
-
     <div class="sitemap-row cluster">
-      <span class="sitemap-url">/quan-ly-chi-tieu/ngan-sach</span>
-      <span class="sitemap-desc">📋 Budget & Ngân Sách — Feature page + Budget Simulator</span>
-      <span class="sitemap-priority tag tag-p1">P1 · Feature+Tool</span>
+      <span class="sitemap-url">/quan-ly-chi-tieu/tao-ngan-sach</span>
+      <span class="sitemap-desc">📋 Tạo ngân sách — "cách tạo ngân sách trong momo" · Step-by-step HowTo + deep link màn hình Budget · 400–600 từ</span>
+      <span class="sitemap-priority tag tag-p1">P1 · Chưa có</span>
     </div>
-    <div class="sitemap-row sub">
-      <span class="sitemap-url">/quan-ly-chi-tieu/ngan-sach/thiet-lap</span>
-      <span class="sitemap-desc">Hướng dẫn thiết lập budget theo danh mục</span>
-      <span class="sitemap-priority tag tag-p2">P2</span>
-    </div>
-
     <div class="sitemap-row cluster">
-      <span class="sitemap-url">/quan-ly-chi-tieu/hu-chi-tieu</span>
-      <span class="sitemap-desc">🪣 Hũ Chi Tiêu — Feature page + Hũ Planner Tool</span>
-      <span class="sitemap-priority tag tag-p1">P1 · Feature+Tool</span>
+      <span class="sitemap-url">/quan-ly-chi-tieu/tao-hu</span>
+      <span class="sitemap-desc">🪣 Tạo hũ chi tiêu — "cách tạo hũ chi tiêu trên momo" · TikTok organic → cần capture bằng text page · HowTo schema</span>
+      <span class="sitemap-priority tag tag-p2">P2 · Chưa có</span>
     </div>
-    <div class="sitemap-row sub">
-      <span class="sitemap-url">/quan-ly-chi-tieu/hu-chi-tieu/tao-hu</span>
-      <span class="sitemap-desc">Hướng dẫn tạo hũ mục tiêu từng bước</span>
-      <span class="sitemap-priority tag tag-p2">P2</span>
-    </div>
-    <div class="sitemap-row sub">
-      <span class="sitemap-url">/quan-ly-chi-tieu/hu-chi-tieu/6-hu-tai-chinh</span>
-      <span class="sitemap-desc">6 hũ tài chính — phương pháp T. Harv Eker</span>
-      <span class="sitemap-priority tag tag-p2">P2</span>
-    </div>
-
     <div class="sitemap-row cluster">
-      <span class="sitemap-url">/quan-ly-chi-tieu/phan-loai</span>
-      <span class="sitemap-desc">🏷️ Phân Loại Chi Tiêu — Danh mục giao dịch</span>
-      <span class="sitemap-priority tag tag-p2">P2 · Feature</span>
+      <span class="sitemap-url">/quan-ly-chi-tieu/phan-loai-giao-dich</span>
+      <span class="sitemap-desc">🏷 Phân loại giao dịch — "cách phân loại giao dịch momo" · How-to AI categorization · HowTo schema + CTA</span>
+      <span class="sitemap-priority tag tag-p2">P2 · Chưa có</span>
     </div>
 
+    <!-- BLOG -->
+    <div class="sitemap-row" style="background:var(--blue-light);font-size:10px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:var(--blue);padding:6px 18px;">📝 BLOG — Informational / Commercial Investigation Intent</div>
     <div class="sitemap-row cluster" style="background:var(--blue-light);">
-      <span class="sitemap-url">/blog/quy-tac-50-30-20</span>
-      <span class="sitemap-desc">📝 Blog: Quy tắc 50/30/20 — TOFU content, link về /ngan-sach</span>
-      <span class="sitemap-priority tag tag-p1">P1 · Blog</span>
-    </div>
-    <div class="sitemap-row cluster" style="background:var(--blue-light);">
-      <span class="sitemap-url">/blog/cach-lap-ngan-sach-ca-nhan</span>
-      <span class="sitemap-desc">📝 Blog: Cách lập ngân sách chi tiết — link về /ngan-sach</span>
-      <span class="sitemap-priority tag tag-p1">P1 · Blog</span>
+      <span class="sitemap-url">/blog/app-quan-ly-chi-tieu-tot-nhat</span>
+      <span class="sitemap-desc">📝 Comparison Blog — "app quản lý chi tiêu tốt nhất 2026" · ~8K vol · SERP: Timo, Glints, Cellphones win → MoMo viết honest comparison</span>
+      <span class="sitemap-priority tag tag-p1">P1 · Chưa có</span>
     </div>
     <div class="sitemap-row cluster" style="background:var(--blue-light);">
       <span class="sitemap-url">/blog/6-hu-tai-chinh-la-gi</span>
-      <span class="sitemap-desc">📝 Blog: 6 hũ tài chính — TOFU, link về /hu-chi-tieu</span>
-      <span class="sitemap-priority tag tag-p2">P2 · Blog</span>
+      <span class="sitemap-desc">📝 Định nghĩa Blog — "6 hũ tài chính là gì" · ~6K vol · SERP: VPBank, ACB, Techcombank win → MoMo có product evidence thực</span>
+      <span class="sitemap-priority tag tag-p1">P1 · Chưa có</span>
+    </div>
+    <div class="sitemap-row cluster" style="background:var(--blue-light);">
+      <span class="sitemap-url">/blog/quy-tac-50-30-20</span>
+      <span class="sitemap-desc">📝 Giải thích Blog — "quy tắc 50/30/20" · ~5K vol · SERP: blog tài chính win → MoMo differentiate bằng Budget Simulator embed</span>
+      <span class="sitemap-priority tag tag-p1">P1 · Chưa có</span>
+    </div>
+    <div class="sitemap-row cluster" style="background:var(--blue-light);">
+      <span class="sitemap-url">/blog/bi-quyet-quan-ly-chi-tieu-ca-nhan</span>
+      <span class="sitemap-desc">📝 Tips Blog — "quản lý chi tiêu cá nhân hiệu quả" · MoMo đã có nhiều bài · Cần consolidate + embed tool + update schema</span>
+      <span class="sitemap-priority tag tag-p2">P2 · Optimize bài có sẵn</span>
+    </div>
+    <div class="sitemap-row cluster" style="background:var(--blue-light);">
+      <span class="sitemap-url">/blog/cach-lap-ke-hoach-chi-tieu</span>
+      <span class="sitemap-desc">📝 How-to Blog — "cách lập ngân sách cá nhân" · MoMo đã có bài · Cần embed Budget Simulator + update FAQPage schema</span>
+      <span class="sitemap-priority tag tag-p2">P2 · Optimize bài có sẵn</span>
+    </div>
+    <div class="sitemap-row cluster" style="background:var(--blue-light);">
+      <span class="sitemap-url">/blog/quan-ly-chi-tieu-gia-dinh</span>
+      <span class="sitemap-desc">📝 Blog Segment — "quản lý chi tiêu gia đình" · ~2K vol · Segment hộ gia đình trẻ · MoMo đã có bài, optimize thêm</span>
+      <span class="sitemap-priority tag tag-p2">P2 · Optimize bài có sẵn</span>
     </div>
   </div>
 
-  <h2 class="sh">🗂️ Loại hình trang & Mục tiêu từng type</h2>
+  <h2 class="sh">⚡ Insight quan trọng — MoMo đang làm sai gì</h2>
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title">❌ Vấn đề hiện tại</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+        MoMo có <strong>rất nhiều blog</strong> về PFM nhưng <strong>chưa có Transaction Pages</strong> cho transactional queries ("cách tạo hũ momo", "cách theo dõi chi tiêu tháng") dù đây là queries dẫn thẳng đến app action.<br><br>
+        Các blog hiện có <strong>không embed tool</strong> → cạnh tranh sòng phẳng với ngân hàng bằng text thuần túy → sẽ thua vì Domain Authority ngân hàng cao hơn.<br><br>
+        <strong>Feature page /quan-ly-chi-tieu</strong> thiếu FAQPage schema + SoftwareApplication schema → không eligible cho AI Overview citation.
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--green);">
+      <div class="card-title">✅ Sprint Action Plan</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+        <strong>Sprint 1 (CMS only, không cần Dev):</strong><br>
+        → Blog "6 hũ tài chính" + embed Hũ Planner tool<br>
+        → Blog "Quy tắc 50/30/20" + embed Budget Sim<br>
+        → Blog "App QLCT tốt nhất 2026" — honest comparison<br><br>
+        <strong>Sprint 2 (cần Dev):</strong><br>
+        → Transaction Page /thong-ke + /tao-ngan-sach<br>
+        → Enrich /quan-ly-chi-tieu: FAQPage + SoftwareApp schema + Budget Sim preview<br><br>
+        <strong>Sprint 3:</strong><br>
+        → Optimize 3 blog có sẵn: embed tool + update schema
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="geo" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">🤖 Overview · SEO / GEO Strategy</div>
+    <h1 class="page-title">SEO & GEO/AEO<br>Strategy</h1>
+    <p class="page-desc">Traditional SEO cho Google ranking + Generative Engine Optimization để được AI Overview, ChatGPT, Gemini cite. PFM là category AI thường được hỏi — cơ hội GEO cao nếu có đúng structure.</p>
+  </div>
+
+  <h2 class="sh">🔍 Onpage SEO — Signal Matrix</h2>
   <div class="tbl-wrap">
     <table class="data-table">
-      <thead><tr><th>Loại trang</th><th>Ví dụ URL</th><th>Mục tiêu SEO</th><th>Mục tiêu Business</th><th>CTA chính</th></tr></thead>
+      <thead><tr><th>Signal</th><th>Hiện trạng momo.vn</th><th>Yêu cầu cần đạt</th><th>Trang áp dụng</th></tr></thead>
       <tbody>
-        <tr><td><strong>Pillar Page</strong></td><td><code class="url">/quan-ly-chi-tieu</code></td><td>Rank head term, hub nội bộ</td><td>First impression, giới thiệu toàn bộ tính năng</td><td>Deep link → App QLCT</td></tr>
-        <tr><td><strong>Feature Page</strong></td><td><code class="url">/thong-ke</code>, <code class="url">/hu-chi-tieu</code></td><td>Rank mid-tail, informational</td><td>Giải thích tính năng cụ thể, tăng activation</td><td>Deep link → tính năng tương ứng</td></tr>
-        <tr><td><strong>Tool Page</strong></td><td><code class="url">/ngan-sach</code> (có Budget Sim)</td><td>Dwell time cao, backlink bait</td><td>Engagement → intent reveal → convert</td><td>"Áp dụng trong MoMo"</td></tr>
-        <tr><td><strong>Blog / How-to</strong></td><td><code class="url">/blog/quy-tac-50-30-20</code></td><td>Rank TOFU head terms</td><td>Awareness, internal link về feature pages</td><td>Soft CTA → feature page</td></tr>
-        <tr><td><strong>Sub-guide</strong></td><td><code class="url">/hu-chi-tieu/tao-hu</code></td><td>Long-tail how-to</td><td>Activation hướng dẫn step-by-step</td><td>Deep link → màn hình tạo hũ</td></tr>
+        <tr><td><strong>Title Tag</strong></td><td>Chung chung — thiếu modifier benefit</td><td>"Quản Lý Chi Tiêu MoMo — Tự Động, Không Cần Nhập Tay | MoMo" ≤60 ký tự</td><td>Pillar</td></tr>
+        <tr><td><strong>H1</strong></td><td>"Quản lý chi tiêu tự động với công nghệ AI" — AI positioning, miss head term</td><td>Chứa exact match keyword + differentiator phrase</td><td>Pillar + Features</td></tr>
+        <tr><td><strong>Semantic keywords</strong></td><td>Mỏng — thiếu NLP cluster đủ mạnh</td><td>Thu chi, ngân sách, hũ tiết kiệm, báo cáo tài chính, phân loại giao dịch</td><td>Mọi trang</td></tr>
+        <tr><td><strong>Internal linking</strong></td><td>Không có sub-pages để link đến</td><td>≥3 internal links/page khi cluster đủ pages</td><td>Toàn cluster</td></tr>
+        <tr><td><strong>Core Web Vitals</strong></td><td>Chưa audit [cần check PageSpeed]</td><td>LCP &lt;2.5s, CLS &lt;0.1 — đặc biệt tool pages có slider</td><td>Tool pages</td></tr>
       </tbody>
     </table>
   </div>
-</div>
 
-<!-- ══════════════════════════════════════════
-     SECTION 4: CONTENT STRUCTURE
-══════════════════════════════════════════ -->
-<div id="content" class="section">
-  <div class="page-header">
-    <div class="page-eyebrow">📄 Content Structure</div>
-    <h1 class="page-title">Content Structure<br>Từng Trang</h1>
-    <p class="page-desc">Anatomy từng trang chính trong cluster QLCT. Mỗi section có mục tiêu SEO + UX conversion rõ ràng. Không có section nào tồn tại chỉ để "có content".</p>
+  <h2 class="sh">🗂 Schema Blueprint — JTBD Mapped</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Schema Type</th><th>Trang</th><th>Job mapping</th><th>Critical fields</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><strong>FAQPage</strong></td><td>Pillar + /hu-chi-tieu + /ngan-sach</td><td>Anxiety Resolution Job — xử lý objection "có mất phí không? Có an toàn không?"</td><td>≥5 Q&A, answer ≤50 words, thuần informational</td></tr>
+        <tr class="row-highlight"><td><strong>SoftwareApplication</strong></td><td>Pillar page</td><td>Commercial Comparison Job — user đang compare apps</td><td>applicationCategory, ratingValue, ratingCount, operatingSystem</td></tr>
+        <tr><td><strong>HowTo</strong></td><td>/hu-chi-tieu/tao-hu, /ngan-sach/thiet-lap</td><td>Activation Decision Job — "Muốn bắt đầu ngay"</td><td>name, step[name + text + image], totalTime</td></tr>
+        <tr><td><strong>BreadcrumbList</strong></td><td>Mọi sub-pages</td><td>Navigation — cải thiện CTR từ SERP</td><td>Đúng hierarchy, tên match H1</td></tr>
+        <tr><td><strong>Article</strong></td><td>Mọi blog pages</td><td>Awareness/Research Job — E-E-A-T signals</td><td>author, datePublished, dateModified, publisher</td></tr>
+        <tr><td><strong>DefinedTerm (custom)</strong></td><td>/hu-chi-tieu, /phan-loai</td><td>GEO: định nghĩa được AI cite khi hỏi về thuật ngữ</td><td>name, description, url, inDefinedTermSet</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <h2 class="sh">📋 Trang Pillar: momo.vn/quan-ly-chi-tieu</h2>
-  <div class="anatomy-wrap">
-    <div class="anatomy-header-row">PAGE ANATOMY — /quan-ly-chi-tieu (Pillar)</div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">1</div>
-      <div class="anatomy-section-name">Hero Section</div>
-      <div class="anatomy-section-desc">H1 target keyword "Quản Lý Chi Tiêu". Subheadline nhấn mạnh điểm khác biệt: "Tự động từ giao dịch MoMo — không cần nhập tay". App mockup screenshot thống kê. Smart Banner download app.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span><span class="tag tag-seo">SEO</span></div>
+  <h2 class="sh">🤖 GEO Content Strategy — 4 AI Query Targets</h2>
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 GEO Target 1 — App QLCT không cần nhập tay</div>
+    <div class="geo-block-q">"App quản lý chi tiêu nào tự động không cần nhập tay ở Việt Nam?"</div>
+    <div class="geo-block-a">
+      <strong>Winning content structure:</strong> Definition block 2 câu ("MoMo QLCT tự động ghi chép từ mọi giao dịch MoMo — không cần nhập tay thủ công. AI phân loại theo danh mục với độ chính xác cao"). Comparison table: tự động vs nhập tay. SoftwareApplication schema. <strong>URL target:</strong> <code class="url">/quan-ly-chi-tieu</code> với updated copy.
     </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">2</div>
-      <div class="anatomy-section-name">Feature Grid (4 tính năng)</div>
-      <div class="anatomy-section-desc">4 card: Thống kê, So sánh, Hũ chi tiêu, Budget. Mỗi card có icon + mô tả ngắn + link đến sub-page tương ứng. Đây là hub navigation nội bộ.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-ux">UX</span><span class="tag tag-seo">SEO</span></div>
+  </div>
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 GEO Target 2 — 6 hũ tài chính</div>
+    <div class="geo-block-q">"6 hũ tài chính là gì? Cách áp dụng phương pháp JARS hiệu quả?"</div>
+    <div class="geo-block-a">
+      <strong>Winning content structure:</strong> Định nghĩa 1 câu + source T. Harv Eker. Ordered list 6 hũ có tên + % + mô tả ngắn. Ví dụ số thực tế với lương 10 triệu VND. Hũ Planner interactive tool. FAQPage schema: "Hũ chi tiêu khác tiết kiệm thế nào?", "MoMo có tính năng hũ chi tiêu không?" → AI sẽ cite vì MoMo có <em>product evidence</em> thực. <strong>URL target:</strong> <code class="url">/quan-ly-chi-tieu/hu-chi-tieu</code> + blog riêng.
     </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">3</div>
-      <div class="anatomy-section-name">Budget Simulator (Preview)</div>
-      <div class="anatomy-section-desc">Phiên bản thu gọn của Budget Simulator — nhập thu nhập, kéo thanh để chia 50/30/20. CTA "Xem đầy đủ" link xuống /ngan-sach. Tăng dwell time và giảm bounce rate.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-conv">Conversion</span></div>
+  </div>
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 GEO Target 3 — Quy tắc 50/30/20</div>
+    <div class="geo-block-q">"Quy tắc 50/30/20 là gì? Cách áp dụng với thu nhập 10–20 triệu VND?"</div>
+    <div class="geo-block-a">
+      <strong>Winning content structure:</strong> Định nghĩa + nguồn gốc (Elizabeth Warren). HTML table: thu nhập × nhu cầu 50% × mong muốn 30% × tiết kiệm 20% — với 5 mức lương 5/8/10/15/20 triệu. Budget Simulator interactive. HowTo schema áp dụng vào app MoMo. AI sẽ cite table và số liệu cụ thể. <strong>URL target:</strong> <code class="url">/blog/quy-tac-50-30-20</code>.
     </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">4</div>
-      <div class="anatomy-section-name">Social Proof</div>
-      <div class="anatomy-section-desc">Số liệu: "X triệu giao dịch được theo dõi mỗi tháng", rating app store, quote user. Tăng trust signal — quan trọng với YMYL-adjacent PFM content.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-trust">Trust</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">5</div>
-      <div class="anatomy-section-name">FAQ Block</div>
-      <div class="anatomy-section-desc">5–7 câu FAQ về QLCT MoMo: có mất phí không?, dữ liệu có an toàn không?, hũ chi tiêu khác tiết kiệm thế nào?. Target AEO snippets. Schema FAQPage.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-geo">GEO/AEO</span><span class="tag tag-seo">SEO</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">6</div>
-      <div class="anatomy-section-name">Blog Crosslinks</div>
-      <div class="anatomy-section-desc">3 bài blog liên quan: "Quy tắc 50/30/20", "6 hũ tài chính", "Cách lập ngân sách". Internal link tofu content → pillar page.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">7</div>
-      <div class="anatomy-section-name">Sticky CTA Bar</div>
-      <div class="anatomy-section-desc">Fixed bottom bar trên mobile: "Bắt đầu quản lý chi tiêu → Mở MoMo". Deep link vào đúng màn hình QLCT. Smart detection: nếu chưa cài app → link App Store.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span></div>
+  </div>
+  <div class="geo-block">
+    <div class="geo-block-label">🤖 GEO Target 4 — Danh mục chi tiêu</div>
+    <div class="geo-block-q">"Các danh mục chi tiêu cá nhân gồm những gì? Nên phân loại như thế nào?"</div>
+    <div class="geo-block-a">
+      <strong>Winning content structure:</strong> Ordered list (HTML `&lt;ol&gt;`) đúng 8 danh mục chuẩn: 1. Ăn uống, 2. Nhà ở, 3. Đi lại, 4. Sức khỏe, 5. Giáo dục, 6. Giải trí, 7. Mua sắm, 8. Tiết kiệm. Mỗi mục: mô tả 1 câu + ví dụ giao dịch thực tế trong MoMo. AI thích extract list có structure. FAQPage schema về phân loại. <strong>URL target:</strong> <code class="url">/quan-ly-chi-tieu/phan-loai</code>.
     </div>
   </div>
 
-  <h2 class="sh">🪣 Trang Feature: momo.vn/quan-ly-chi-tieu/hu-chi-tieu</h2>
-  <div class="anatomy-wrap">
-    <div class="anatomy-header-row">PAGE ANATOMY — /quan-ly-chi-tieu/hu-chi-tieu</div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">1</div>
-      <div class="anatomy-section-name">Hero + Definition</div>
-      <div class="anatomy-section-desc">H1: "Hũ Chi Tiêu MoMo là gì?". Giải thích khái niệm hũ chi tiêu, nguồn gốc (T. Harv Eker), ứng dụng trong app MoMo. Target snippet cho "hũ tiết kiệm là gì".</div>
-      <div class="anatomy-section-tag"><span class="tag tag-geo">AEO</span><span class="tag tag-seo">SEO</span></div>
+  <h2 class="sh">✅ E-E-A-T Checklist cho PFM Content</h2>
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <div class="card-title">✅ Cần có</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+        • Author byline: "Biên soạn bởi đội ngũ tài chính MoMo"<br>
+        • datePublished + dateModified hiển thị rõ<br>
+        • Disclaimer: "Thông tin mang tính tham khảo, không phải tư vấn tài chính chuyên nghiệp"<br>
+        • Trích dẫn nguồn số liệu (GSO, Appsflyer aggregated data nếu được phép)<br>
+        • Organization schema với contactPoint và address
+      </div>
     </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">2</div>
-      <div class="anatomy-section-name">Hũ Planner Interactive Tool</div>
-      <div class="anatomy-section-desc">Tool nhập thu nhập tháng → tự động chia theo 6 hũ tài chính hoặc custom. Xem số tiền cụ thể từng hũ. CTA "Tạo hũ này trong MoMo" với deep link.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-conv">Conversion</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">3</div>
-      <div class="anatomy-section-name">Các loại hũ phổ biến</div>
-      <div class="anatomy-section-desc">6 hũ mẫu: Sinh hoạt, Giáo dục, Tiết kiệm, Đầu tư, Giải trí, Từ thiện. Mỗi hũ có % khuyến nghị + ví dụ thực tế + danh mục giao dịch nào tính vào.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-ux">UX</span><span class="tag tag-seo">SEO</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">4</div>
-      <div class="anatomy-section-name">Hướng dẫn tạo hũ Step-by-step</div>
-      <div class="anatomy-section-desc">Video hoặc GIF demo + text bước: Vào app → QLCT → Hũ Chi Tiêu → Thêm Hũ. Target how-to schema. CTA cuối mỗi step có deep link tương ứng.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span><span class="tag tag-geo">AEO</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">5</div>
-      <div class="anatomy-section-name">FAQ + Cross-sell</div>
-      <div class="anatomy-section-desc">FAQ về hũ chi tiêu. Cross-sell: "Muốn tiết kiệm nhanh hơn? Xem Ví Trả Sau MoMo" — kết nối sang /vi-tra-sau khi user có intent tài chính.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-geo">AEO</span></div>
-    </div>
-  </div>
-
-  <h2 class="sh">📊 Trang Feature: momo.vn/quan-ly-chi-tieu/thong-ke</h2>
-  <div class="anatomy-wrap">
-    <div class="anatomy-header-row">PAGE ANATOMY — /quan-ly-chi-tieu/thong-ke</div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">1</div>
-      <div class="anatomy-section-name">Hero + Value Prop</div>
-      <div class="anatomy-section-desc">H1: "Thống Kê Chi Tiêu Tự Động". Nhấn mạnh: dữ liệu từ giao dịch thực, không cần nhập tay, xem ngay trong app. Screenshot biểu đồ tròn phân loại chi tiêu.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span><span class="tag tag-conv">Conversion</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">2</div>
-      <div class="anatomy-section-name">Demo Thống Kê Tương Tác</div>
-      <div class="anatomy-section-desc">Biểu đồ mẫu (Chart.js): phân bổ chi tiêu theo danh mục (ăn uống 35%, đi lại 20%...). Toggle theo tháng/quý. Không dùng data real của user — chỉ mock data illustrative.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-ux">UX</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">3</div>
-      <div class="anatomy-section-name">So sánh Thu vs Chi</div>
-      <div class="anatomy-section-desc">Giải thích tính năng so sánh tháng này vs tháng trước, xu hướng tăng/giảm. Screenshot từ app + mô tả usecase: "Tháng này ăn ngoài tăng 40%?"</div>
-      <div class="anatomy-section-tag"><span class="tag tag-ux">UX</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">4</div>
-      <div class="anatomy-section-name">Insights từ dữ liệu</div>
-      <div class="anatomy-section-desc">Content block: "MoMo phân tích xu hướng chi tiêu của bạn" — giải thích AI categorization tự động. Link sang /phan-loai để đọc thêm về danh mục.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-geo">GEO</span><span class="tag tag-seo">SEO</span></div>
-    </div>
-  </div>
-
-  <h2 class="sh">📋 Trang Feature+Tool: momo.vn/quan-ly-chi-tieu/ngan-sach</h2>
-  <div class="anatomy-wrap">
-    <div class="anatomy-header-row">PAGE ANATOMY — /quan-ly-chi-tieu/ngan-sach</div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">1</div>
-      <div class="anatomy-section-name">Hero — Lập Ngân Sách</div>
-      <div class="anatomy-section-desc">H1: "Lập Ngân Sách Chi Tiêu Cá Nhân". Giải thích ngắn tại sao budget quan trọng. Direct link sang Budget Simulator bên dưới.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">2</div>
-      <div class="anatomy-section-name">Budget Simulator (Full)</div>
-      <div class="anatomy-section-desc">Nhập thu nhập → chọn template (50/30/20, 60/20/20, custom) → kéo thanh điều chỉnh từng danh mục → xem số tiền chi tiết. Tâm điểm của trang, xem chi tiết ở section Tools.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-conv">Conversion</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">3</div>
-      <div class="anatomy-section-name">Phương pháp 50/30/20</div>
-      <div class="anatomy-section-desc">Giải thích quy tắc 50/30/20: 50% nhu cầu thiết yếu, 30% mong muốn, 20% tiết kiệm. Ví dụ thực tế với mức lương 10–15–20 triệu VND.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-geo">AEO</span><span class="tag tag-seo">SEO</span></div>
-    </div>
-    <div class="anatomy-row">
-      <div class="anatomy-order">4</div>
-      <div class="anatomy-section-name">Cách đặt budget trong MoMo</div>
-      <div class="anatomy-section-desc">Step-by-step hướng dẫn thiết lập budget từng danh mục trong app. HowTo schema. CTA với deep link → màn hình Budget MoMo.</div>
-      <div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span><span class="tag tag-geo">AEO</span></div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title">❌ Cần tránh</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.9;">
+        • Không cam kết kết quả tài chính cụ thể ("tiết kiệm được X triệu")<br>
+        • Không so sánh tiêu cực về đối thủ (Money Lover, MISA) — chỉ nêu MoMo features<br>
+        • Không dùng số liệu nội bộ chưa được Legal approve public<br>
+        • Không over-promise về độ chính xác AI phân loại<br>
+        • Content AI-generated không có human review → E-E-A-T yếu
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SECTION 5: UTILITY TOOLS
-══════════════════════════════════════════ -->
-<div id="tools" class="section">
+<!-- ══════════════════════════════════════
+  SECTION: CONTENT STRUCTURE
+══════════════════════════════════════ -->
+<div id="content-structure" class="section">
   <div class="page-header">
-    <div class="page-eyebrow">🛠️ Utility Tools Research</div>
-    <h1 class="page-title">Interactive Utility Tools<br>cho QLCT Website</h1>
-    <p class="page-desc">Nghiên cứu và spec 5 utility tools tích hợp vào các trang QLCT. Tools phục vụ 3 mục tiêu: tăng dwell time, reveal intent để convert, và cung cấp giá trị thực cho user trước khi dẫn vào app.</p>
+    <div class="page-eyebrow">📄 Content · Content Structure</div>
+    <h1 class="page-title">Content Structure<br>Anatomy Từng Trang</h1>
+    <p class="page-desc">Anatomy từng trang dựa trên JTBD Job Statement. Section order follow: Functional Job → Anxiety Resolution → Consumption Job (CTA). Không section nào tồn tại chỉ để "có content".</p>
   </div>
 
-  <div class="callout callout-teal">
-    <div class="callout-title">📐 Nguyên tắc thiết kế Tool</div>
-    Mỗi tool phải: (1) giải quyết một bài toán thực của user, (2) cho kết quả có ý nghĩa, (3) có CTA rõ ràng dẫn về tính năng tương ứng trong app. <strong>Tránh:</strong> tool cho kết quả chung chung, không có deep link, không gắn với business outcome.
+  <h2 class="sh">📋 Pillar: /quan-ly-chi-tieu</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">PAGE ANATOMY — /quan-ly-chi-tieu (Pillar) · Job: "Muốn biết tiền đi đâu không cần nhập tay"</div>
+    <div class="anatomy-row"><div class="anatomy-order">1</div><div class="anatomy-section-name">Hero — Functional Job</div><div class="anatomy-section-desc">H1 exact match + subheadline address top anxiety "không cần nhập tay". App screenshot thống kê. CTA primary: deep link. Trust số: "X triệu giao dịch/tháng". Smart Banner mobile.</div><div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span><span class="tag tag-seo">SEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">2</div><div class="anatomy-section-name">Feature Hub — 4 Job Clusters</div><div class="anatomy-section-desc">4 card: Thống kê, So sánh, Hũ chi tiêu, Budget. Mỗi card = 1 Job. Icon + 1 câu mô tả Job outcome + link sub-page. Hub navigation nội bộ.</div><div class="anatomy-section-tag"><span class="tag tag-ux">UX</span><span class="tag tag-seo">SEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">3</div><div class="anatomy-section-name">Budget Simulator Preview</div><div class="anatomy-section-desc">50/30/20 calculator thu gọn — reveal Consumption Job "muốn áp dụng ngay không cần tư duy". CTA "Áp dụng trong MoMo" → deep link budget screen.</div><div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-conv">Conversion</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">4</div><div class="anatomy-section-name">Anxiety Resolution Block</div><div class="anatomy-section-desc">"MoMo QLCT vs nhập tay thủ công" — address top anxiety. Comparison 2 cột: nhập tay (friction, sai, bỏ cuộc) vs MoMo (tự động, chính xác, luôn cập nhật). Social proof: rating + quote user.</div><div class="anatomy-section-tag"><span class="tag tag-trust">Trust</span><span class="tag tag-geo">AEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">5</div><div class="anatomy-section-name">FAQ Block (AEO/GEO)</div><div class="anatomy-section-desc">7 FAQ: phí, bảo mật, giao dịch ngoài MoMo, độ chính xác AI, hũ chi tiêu vs tiết kiệm, ngân sách theo danh mục, deeplink. FAQPage schema. Answer ≤50 words each.</div><div class="anatomy-section-tag"><span class="tag tag-geo">GEO/AEO</span><span class="tag tag-seo">SEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">6</div><div class="anatomy-section-name">Blog Cluster Links</div><div class="anatomy-section-desc">3 bài TOFU: "Quy tắc 50/30/20", "6 hũ tài chính", "Cách lập ngân sách". Hub & Spoke internal links. Không phải "bài viết liên quan" generic — phải đúng Job cluster.</div><div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">7</div><div class="anatomy-section-name">Sticky CTA Bar (mobile)</div><div class="anatomy-section-desc">"Bắt đầu quản lý chi tiêu → Mở MoMo" fixed bottom. Deep link đúng màn hình QLCT. Smart detect: installed → deep link | not installed → App Store. Xuất hiện sau scroll 30%.</div><div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span></div></div>
   </div>
 
-  <!-- TOOL 1: Budget Simulator -->
+  <h2 class="sh">🪣 Feature+Tool: /quan-ly-chi-tieu/hu-chi-tieu</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">PAGE ANATOMY — /hu-chi-tieu · Job: "Muốn phân chia tiền thành mục tiêu cụ thể khi nhận lương"</div>
+    <div class="anatomy-row"><div class="anatomy-order">1</div><div class="anatomy-section-name">Hero — Definition (GEO target)</div><div class="anatomy-section-desc">H1: "Hũ Chi Tiêu MoMo — Phân Chia Tiền Theo Mục Tiêu Tự Động". Định nghĩa 2 câu chuẩn GEO. Nguồn gốc T. Harv Eker. App mockup tạo hũ. DefinedTerm schema.</div><div class="anatomy-section-tag"><span class="tag tag-geo">GEO</span><span class="tag tag-seo">SEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">2</div><div class="anatomy-section-name">Hũ Planner — Interactive Tool</div><div class="anatomy-section-desc">Nhập thu nhập → chọn template 6 hũ hoặc custom → xem số tiền cụ thể. CTA mỗi hũ: "Tạo hũ [Tên] trong MoMo" → deep link pre-fill tên + số tiền. ICE score tool này rất cao.</div><div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-conv">Conversion</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">3</div><div class="anatomy-section-name">6 Loại Hũ (Ordered List)</div><div class="anatomy-section-desc">Ordered list HTML: Thiết Yếu 55%, Giáo Dục 10%, Hưởng Thụ 10%, Đầu Tư 10%, Tự Do Tài Chính 10%, Từ Thiện 5%. Mỗi hũ: % + ví dụ giao dịch MoMo. GEO-optimized list format.</div><div class="anatomy-section-tag"><span class="tag tag-geo">GEO</span><span class="tag tag-ux">UX</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">4</div><div class="anatomy-section-name">HowTo — Tạo Hũ Step-by-step</div><div class="anatomy-section-desc">App → QLCT → Hũ Chi Tiêu → Thêm Hũ → Đặt tên → Số tiền mục tiêu. 5 bước, có screenshot + deep link mỗi bước. HowTo schema + Featured Snippet targeting.</div><div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span><span class="tag tag-geo">AEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">5</div><div class="anatomy-section-name">FAQ + Cross-sell</div><div class="anatomy-section-desc">5 FAQ anxiety: hũ có bị xóa không, có đặt nhiều hũ không, có sync tự động không, hũ chi tiêu vs hũ tiết kiệm ngân hàng. Cross-sell → /vi-tra-sau: "Hũ Dự Phòng hết tiền? Ví Trả Sau giúp bạn vượt qua tình huống khẩn cấp".</div><div class="anatomy-section-tag"><span class="tag tag-geo">AEO</span></div></div>
+  </div>
+
+  <h2 class="sh">📋 Feature+Tool: /quan-ly-chi-tieu/ngan-sach</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">PAGE ANATOMY — /ngan-sach · Job: "Muốn đặt giới hạn chi tiêu và được cảnh báo khi sắp vượt"</div>
+    <div class="anatomy-row"><div class="anatomy-order">1</div><div class="anatomy-section-name">Hero — Pain + Solution</div><div class="anatomy-section-desc">H1: "Đặt Ngân Sách Chi Tiêu — Cảnh Báo Trước Khi Hết Tiền". Nhấn mạnh anxiety: "Không cần đợi cuối tháng mới biết vượt budget". Link Budget Simulator bên dưới.</div><div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span><span class="tag tag-conv">Conversion</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">2</div><div class="anatomy-section-name">Budget Simulator (Full)</div><div class="anatomy-section-desc">Nhập thu nhập → chọn template 50/30/20 / 60/20/20 / 70/20/10 / custom → kéo thanh từng danh mục → xem số tiền + tỷ lệ vs benchmark. CTA: "Áp dụng budget này vào MoMo ngay".</div><div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-conv">Conversion</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">3</div><div class="anatomy-section-name">Phương pháp 50/30/20</div><div class="anatomy-section-desc">Definition + nguồn gốc. HTML table: lương 5/8/10/15/20 triệu × 3 phần. Ví dụ thực tế từng phần với giao dịch MoMo. GEO-ready format — AI dễ cite bảng số liệu cụ thể.</div><div class="anatomy-section-tag"><span class="tag tag-geo">AEO</span><span class="tag tag-seo">SEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">4</div><div class="anatomy-section-name">HowTo Thiết Lập Budget</div><div class="anatomy-section-desc">Step-by-step đặt budget từng danh mục trong app MoMo. HowTo schema. CTA mỗi step có deep link tương ứng → màn hình Budget MoMo.</div><div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span><span class="tag tag-geo">AEO</span></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+  SECTION: CONTENT CLUSTER BLOG
+══════════════════════════════════════ -->
+<div id="content-cluster" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">🏛 Content · Pillar / Cluster Blog</div>
+    <h1 class="page-title">Pillar & Cluster Blog<br>Architecture</h1>
+    <p class="page-desc">Hub & Spoke content map. Pillar page build topical authority, cluster blogs capture TOFU traffic và link ngược về feature pages. Mỗi blog phải serve rõ 1 Job Statement — không viết "blog tổng hợp".</p>
+  </div>
+
+  <div class="link-tree">
+    <div class="link-tree-header">Pillar → Cluster Blog Map — momo.vn/quan-ly-chi-tieu</div>
+    <div class="link-node level-0"><span class="link-arrow">⬤</span><div class="link-node-main"><strong>/quan-ly-chi-tieu</strong><code class="link-node-url">PILLAR · "Muốn biết tiền đi đâu không cần nhập tay"</code></div></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/quy-tac-50-30-20<code class="link-node-url">TOFU · ~5K vol · Job: Muốn học cách lập budget từ đầu</code></div><span class="tag tag-p1">P1</span></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/6-hu-tai-chinh-la-gi<code class="link-node-url">TOFU · ~3K vol · Job: Muốn hiểu phương pháp hũ trước khi dùng</code></div><span class="tag tag-p1">P1 GEO</span></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/cach-lap-ngan-sach-ca-nhan<code class="link-node-url">TOFU · ~7K vol · Job: Muốn bước đầu tiên cụ thể để bắt đầu</code></div><span class="tag tag-p1">P1</span></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/app-quan-ly-chi-tieu-tot-nhat-2026<code class="link-node-url">MOFU · ~4K vol · Job: Muốn compare apps trước khi chọn</code></div><span class="tag tag-p1">P1 MOFU</span></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/quan-ly-chi-tieu-gia-dinh<code class="link-node-url">TOFU · ~2K vol · Job: Chia chi tiêu gia đình không cãi nhau</code></div><span class="tag tag-p2">P2</span></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/tiet-kiem-tien-khi-luong-thap<code class="link-node-url">TOFU · ~3K vol · Job: Muốn tiết kiệm được dù thu nhập hạn chế</code></div><span class="tag tag-p2">P2</span></div>
+  </div>
+
+  <h2 class="sh">📋 Blog Content Brief Template (JTBD-driven)</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Field</th><th>Spec</th><th>JTBD Rationale</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Word count</strong></td><td>1.200–2.000 từ (TOFU), 1.500+ (MOFU comparison)</td><td>Depth > length — mỗi section serve 1 Job dimension</td></tr>
+        <tr><td><strong>H1</strong></td><td>Exact match + benefit modifier phản ánh Functional Job outcome</td><td>"Quy tắc 50/30/20: Cách Chia Tiền Đơn Giản Không Cần Học Tài Chính"</td></tr>
+        <tr><td><strong>Opening hook</strong></td><td>Nhắc ngay Pain = Push Force trong câu đầu tiên</td><td>"Bạn đã bao giờ nhận lương xong 2 tuần là cạn kiệt mà không hiểu tại sao?"</td></tr>
+        <tr><td><strong>Tool embed</strong></td><td>≥1 tool sau intro ~200 words</td><td>Consumption Job: "Muốn áp dụng ngay không cần đọc hết bài"</td></tr>
+        <tr><td><strong>Internal links</strong></td><td>≥3: 1 pillar, 1 feature page, 1 blog cluster</td><td>Hub & Spoke — mỗi link phải contextual với câu xung quanh</td></tr>
+        <tr><td><strong>FAQ section</strong></td><td>≥3 Q&A từ Anxiety list, answer ≤50 words</td><td>FAQPage schema → AI Overview eligibility</td></tr>
+        <tr><td><strong>CTA cuối bài</strong></td><td>Deep link vào đúng feature trong app — không generic "Tải MoMo"</td><td>Conversion Job: "Mở MoMo → Bắt đầu ngân sách ngay"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🎯 P1 Blog: "App Quản Lý Chi Tiêu Tốt Nhất 2026" — Strategy note</h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">📌 MOFU Comparison Page — Key tactic để capture "app QLCT" organic traffic</div>
+    Query "app quản lý chi tiêu" ~8K vol/tháng đang bị dominated bởi Timo.vn, Cellphones.com.vn, Glints. Tất cả đều là blog tổng hợp viết về MoMo như một trong 10 apps — không phải từ góc độ MoMo là tác giả. Tạo page này từ góc độ "MoMo giới thiệu các lựa chọn QLCT" (bao gồm cả MoMo và competitors) = honest comparison = higher trust signal = AI citation. <strong>Không viết "MoMo tốt nhất" theo kiểu sales — viết theo kiểu "đây là các tiêu chí, đây là so sánh thực tế".</strong>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+  SECTION: CONTENT NICHES
+══════════════════════════════════════ -->
+<div id="content-niches" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">🎨 Content · Content Niches</div>
+    <h1 class="page-title">Content Niches<br>MoMo có thể Own</h1>
+    <p class="page-desc">Góc nội dung mà MoMo có <strong>lợi thế cạnh tranh thực sự</strong> — không phải mọi topic PFM đều là niche của MoMo. Mỗi niche gắn với product evidence từ tính năng trong app.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid var(--momo);">
+      <div class="card-title">🔁 "Chi tiêu thực từ giao dịch"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;"><strong>Unique niche:</strong> Chỉ MoMo có data giao dịch thực để phân loại tự động. Content: insight chi tiêu "người Việt ăn ngoài bao nhiêu/tháng", "tháng nào người Việt chi nhiều nhất". <strong>SERP opportunity:</strong> Zero competition trong niche này.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-title">🪣 "Hũ chi tiêu kỹ thuật số"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;"><strong>Product evidence:</strong> MoMo có Hũ Chi Tiêu trong app — ngân hàng chỉ có content lý thuyết. Content: "6 hũ tài chính áp dụng trực tiếp trong MoMo". <strong>GEO cơ hội cao</strong> vì có demo tính năng thực.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-title">📅 "Budget theo mùa lương VN"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;"><strong>Data advantage:</strong> MoMo biết tháng nào tiền điện cao nhất, Tết chi tiêu tăng bao nhiêu. Seasonal content: "Ngân sách Tết 2027", "Chi tiêu tháng 9 học phí tăng". <strong>Backlink bait:</strong> báo chí cite data.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--amber);">
+      <div class="card-title">💳 "Chi tiêu trong hệ sinh thái MoMo"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;"><strong>Ecosystem leverage:</strong> Mỗi giao dịch MoMo (điện, nước, nạp game, Grab) đều vào QLCT. Content: "Cách track toàn bộ chi tiêu hàng ngày qua MoMo". Cross-sell tự nhiên.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--teal);">
+      <div class="card-title">🎓 "PFM cho Gen Z VN không phức tạp"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;"><strong>Brand resonance:</strong> MoMo là app phổ biến nhất Gen Z VN. Tone không phán xét, mobile-first. "Budget lương đầu tiên", "Tiết kiệm khi là sinh viên không có thu nhập ổn". Low friction entry.</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--red);">
+      <div class="card-title">👨‍👩‍👧 "Budget gia đình trẻ VN"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;"><strong>Volume:</strong> "quản lý chi tiêu gia đình" ~2K vol, low KD. Hũ chi tiêu MoMo phù hợp cho gia đình đặt mục tiêu học phí, du lịch. Template "hũ gia đình cơ bản" là pull force mạnh.</div>
+    </div>
+  </div>
+
+  <h2 class="sh">🔴 Niche cần TRÁNH</h2>
+  <div class="callout callout-red">
+    <div class="callout-title">⚠️ 3 niche PFM MoMo không nên đi sâu</div>
+    <strong>(1) Đầu tư tài chính (cổ phiếu, crypto, bất động sản)</strong> — MoMo không phải investment platform, không có product evidence, YMYL rủi ro cao. <strong>(2) Tư vấn tài chính cá nhân cụ thể</strong> ("bạn nên tiết kiệm X triệu") — legal risk, E-E-A-T khó đạt. <strong>(3) So sánh quá chi tiết với Money Lover/MISA theo hướng "MoMo tốt hơn"</strong> — risk reputational, tốt hơn là focus vào differentiator tự nhiên.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+  SECTION: GROWTH — SUB-PAGES
+══════════════════════════════════════ -->
+<div id="growth-pages" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">📑 Growth · Sub-pages từ Sitemap</div>
+    <h1 class="page-title">Sub-pages<br>Build Spec theo Intent</h1>
+    <p class="page-desc">Spec chi tiết cho từng loại trang. Build order theo ICE score, mỗi trang có đúng 1 intent và 1 conversion goal. Không build trang chỉ vì "có URL là tốt".</p>
+  </div>
+
+  <h2 class="sh">📝 Blog Pages — Informational/Commercial Intent</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>URL</th><th>Target keyword</th><th>SERP gap</th><th>Differentiation vs SERP</th><th>Tool embed</th><th>ICE</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><code class="url">/blog/app-quan-ly-chi-tieu-tot-nhat</code></td><td>app quản lý chi tiêu tốt nhất (~8K)</td><td>MoMo chưa có bài, Timo/Glints win</td><td>MoMo viết honest comparison, tự include MoMo như 1 trong các options → credibility cao</td><td>Budget Sim mini embed sau intro</td><td><strong>672</strong></td></tr>
+        <tr class="row-highlight"><td><code class="url">/blog/6-hu-tai-chinh-la-gi</code></td><td>6 hũ tài chính (~6K)</td><td>VPBank, Techcombank win, MoMo chưa có</td><td>MoMo có Hũ Chi Tiêu trong app → product evidence thực, không chỉ lý thuyết</td><td>Hũ Planner tool embed</td><td><strong>576</strong></td></tr>
+        <tr class="row-highlight"><td><code class="url">/blog/quy-tac-50-30-20</code></td><td>quy tắc 50/30/20 (~5K)</td><td>Blog tài chính win, không có MoMo</td><td>Budget Simulator interactive → user apply ngay, không phải chỉ đọc</td><td>Budget Sim full embed</td><td><strong>504</strong></td></tr>
+        <tr><td><code class="url">/blog/bi-quyet-quan-ly-chi-tieu</code></td><td>quản lý chi tiêu cá nhân (~12K)</td><td>MoMo đã có nhiều bài → optimize không tạo mới</td><td>Consolidate + embed tool + update H1 match intent + FAQPage schema</td><td>Budget Sim mini</td><td><strong>288</strong> (optimize)</td></tr>
+        <tr><td><code class="url">/blog/cach-lap-ke-hoach-chi-tieu</code></td><td>cách lập ngân sách (~7K)</td><td>MoMo đã có bài → optimize</td><td>Embed Budget Simulator sau section 50/30/20 → immediate application</td><td>Budget Sim embed</td><td><strong>252</strong> (optimize)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📄 Transaction Pages — Transactional Intent</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>URL</th><th>Target keyword</th><th>SERP hiện tại</th><th>Page spec</th><th>Schema</th><th>ICE</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><code class="url">/quan-ly-chi-tieu/thong-ke</code></td><td>thống kê chi tiêu momo, xem lịch sử giao dịch (~4K)</td><td>FPTShop, TGDĐ blog how-to wins — MoMo không có page riêng</td><td>5 bước HowTo + screenshot + deep link từng bước · 400–600 từ</td><td>HowTo + BreadcrumbList</td><td><strong>384</strong></td></tr>
+        <tr class="row-highlight"><td><code class="url">/quan-ly-chi-tieu/tao-ngan-sach</code></td><td>cách tạo ngân sách trong momo (~800)</td><td>Không có đối thủ mạnh — cơ hội rank nhanh</td><td>4 bước HowTo + Budget Sim embed + deep link · 400–600 từ</td><td>HowTo + BreadcrumbList</td><td><strong>336</strong></td></tr>
+        <tr><td><code class="url">/quan-ly-chi-tieu/tao-hu</code></td><td>cách tạo hũ momo, cách lập hũ chi tiêu momo (~2K)</td><td>TikTok videos win — user muốn visual how-to</td><td>Step-by-step + GIF/screenshot từng bước + deep link vào màn hình tạo hũ · 400w</td><td>HowTo + BreadcrumbList</td><td><strong>294</strong></td></tr>
+        <tr><td><code class="url">/quan-ly-chi-tieu/phan-loai-giao-dich</code></td><td>cách phân loại giao dịch momo (~500)</td><td>MoMo news/blog hiện có — cần SEO-optimized page riêng</td><td>Explain AI auto-classify + manual override steps + deep link · 400w</td><td>HowTo + FAQPage</td><td><strong>216</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🏠 Feature Pages — Navigational Intent</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>URL</th><th>Target keyword</th><th>Status</th><th>Action cần làm</th><th>Schema thiếu</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><code class="url">/quan-ly-chi-tieu</code></td><td>momo quản lý chi tiêu (~2K) · rank #1 hiện tại</td><td>✅ Hiện có — rank #1 branded</td><td>Enrich: FAQPage 7+ Q&A, SoftwareApplication schema, Budget Sim preview, Hũ section, Trust numbers</td><td>FAQPage, SoftwareApplication, BreadcrumbList</td><td><span class="tag tag-p1">P1 Enrich</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">💡 Key Decision: Tại sao KHÔNG tạo sub-page /hu-chi-tieu hay /ngan-sach riêng?</div>
+    Queries như "hũ chi tiêu" và "ngân sách cá nhân" có intent <strong>Informational</strong> (SERP rank blog từ ngân hàng, blog tài chính) — không phải navigational về MoMo. Tạo sub-page feature tại /hu-chi-tieu hoặc /ngan-sach sẽ compete với intent sai và khó rank. <strong>Giải pháp đúng:</strong> (1) Blog về concept "6 hũ tài chính" với link về /quan-ly-chi-tieu, (2) Enrich pillar page /quan-ly-chi-tieu với section về Hũ và Budget. Khi volume branded query "hũ chi tiêu momo" tăng đủ lớn → mới tạo sub-page /tao-hu (Transaction Intent).
+  </div>
+</div>
+
+
+<div id="page-structure" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">🏗 Growth · Page Structure</div>
+    <h1 class="page-title">Page Structure<br>UX SEO Conversion Flow</h1>
+    <p class="page-desc">UX SEO Conversion wireframe level — layout follow JTBD order: Above fold = Functional Job → Mid = Anxiety Resolution → Bottom = Consumption Job CTA. Áp dụng cho mọi trang trong cluster.</p>
+  </div>
+
+  <h2 class="sh">📐 Universal Page Template — JTBD-ordered</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">JTBD CONVERSION LAYOUT — Áp dụng cho mọi trang QLCT cluster</div>
+    <div class="anatomy-row"><div class="anatomy-order">ATF</div><div class="anatomy-section-name">Above The Fold — Functional Job</div><div class="anatomy-section-desc">H1 phản ánh Functional Job outcome (không nhồi keyword). Subheadline address top Anxiety. Primary CTA: action verb + outcome rõ ("Bắt đầu ngay — không cần nhập tay"). Trust signal: user count / rating.</div><div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">S1</div><div class="anatomy-section-name">Pain Agitation — Push Force</div><div class="anatomy-section-desc">Nhắc pain = Push Force trong 2–3 câu. "Cuối tháng hết tiền không biết tại sao?" Bridge ngay: "MoMo giải quyết bằng cách..." Không dừng ở pain quá lâu.</div><div class="anatomy-section-tag"><span class="tag tag-ux">UX</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">S2</div><div class="anatomy-section-name">Solution Showcase — Product Fit</div><div class="anatomy-section-desc">Giải thích tính năng theo Functional Job. HowTo steps hoặc feature comparison table. Format match SERP winning format cho query đó. Schema: HowTo / ItemList.</div><div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span><span class="tag tag-geo">AEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">S3</div><div class="anatomy-section-name">Interactive Tool — Consumption Job</div><div class="anatomy-section-desc">Tool mini (simulator, planner, calculator) — user tự trải nghiệm kết quả. CTA ngay dưới tool: "Áp dụng kết quả này trong MoMo". Deep link pre-fill data từ tool output nếu có thể.</div><div class="anatomy-section-tag"><span class="tag tag-tool">Tool</span><span class="tag tag-conv">Conversion</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">S4</div><div class="anatomy-section-name">Trust & Anxiety Resolution</div><div class="anatomy-section-desc">Address top 2–3 Anxieties với proof points. Rating, user count, security badge. FAQ block — FAQPage schema. Answer mỗi anxiety bằng evidence không phải lời hứa.</div><div class="anatomy-section-tag"><span class="tag tag-trust">Trust</span><span class="tag tag-geo">GEO</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">S5</div><div class="anatomy-section-name">Bottom Conversion — Consumption Job</div><div class="anatomy-section-desc">CTA contextual match Consumption Job. Micro-copy giảm friction: "Miễn phí · Không cần thẻ · Sẵn sàng trong 30 giây". Deep link → đúng màn hình app, không phải homepage.</div><div class="anatomy-section-tag"><span class="tag tag-conv">Conversion</span></div></div>
+    <div class="anatomy-row"><div class="anatomy-order">S6</div><div class="anatomy-section-name">Hub & Spoke Related Links</div><div class="anatomy-section-desc">3 links contextual theo Job cluster — không phải "bài viết liên quan" generic. Mỗi link có anchor text exact match keyword sub-page. BreadcrumbList schema.</div><div class="anatomy-section-tag"><span class="tag tag-seo">SEO</span></div></div>
+  </div>
+
+  <h2 class="sh">📱 Web-to-App Conversion Touchpoints</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">AWARENESS</div>
+      <div class="funnel-stage-title">Organic Arrival</div>
+      <ul class="funnel-stage-items">
+        <li>Smart Banner sau 10s / 50% scroll</li>
+        <li>Copy: "Mở MoMo để [Functional Job]"</li>
+        <li>Không block content khi xuất hiện</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">CONSIDERATION</div>
+      <div class="funnel-stage-title">Tool Engagement</div>
+      <ul class="funnel-stage-items">
+        <li>Contextual CTA sau tool: "Áp dụng trong MoMo"</li>
+        <li>Copy so sánh: "Làm thủ công mất 5 phút — trong MoMo: 0 giây"</li>
+        <li>Intent reveal: user đã dùng tool = high intent</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">DECISION</div>
+      <div class="funnel-stage-title">Convert</div>
+      <ul class="funnel-stage-items">
+        <li>Sticky CTA bar mobile — luôn hiển thị</li>
+        <li>Deep link → đúng màn hình QLCT/Hũ/Budget</li>
+        <li>Micro-copy giảm friction: "Miễn phí · 30 giây"</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">ACTIVATION</div>
+      <div class="funnel-stage-title">App Action</div>
+      <ul class="funnel-stage-items">
+        <li>Fallback: App Store redirect nếu chưa cài</li>
+        <li>Detect: installed → deep link | not installed → store</li>
+        <li>Track: GA4 event web_to_app_convert + Appsflyer</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+  SECTION: SIMULATION
+══════════════════════════════════════ -->
+<div id="simulation" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">🧮 Growth · Simulation / Component</div>
+    <h1 class="page-title">Interactive Components<br>& Growth Experiments</h1>
+    <p class="page-desc">Spec 5 interactive components + 3 growth experiments ưu tiên. Mỗi component có ICE score và business rationale rõ. Experiments design theo JTBD hypothesis.</p>
+  </div>
+
+  <h2 class="sh">🛠 Component 1: Budget Simulator 50/30/20</h2>
   <div class="sim-wrap">
     <div class="sim-header">
       <div class="sim-header-deco"></div>
       <div class="sim-brand-pill">MoMo</div>
       <h3>Budget Simulator <span>50/30/20</span></h3>
-      <div class="sim-header-sub">Nhập thu nhập → tự động chia ngân sách theo phương pháp tài chính cá nhân</div>
+      <div class="sim-header-sub">Nhập thu nhập → tự động chia ngân sách · Áp dụng ngay vào MoMo</div>
     </div>
     <div class="sim-body">
       <div class="sim-input-row">
@@ -1087,14 +1282,9 @@ code.url {
         <div class="sim-amount-display">
           <span class="sim-amount-val" id="incomeDisplay">10.000.000</span>
           <span style="font-size:12px;color:var(--ink-3);">đ/tháng</span>
-        </div>
-        <br>
-        <input type="range" class="sim-slider" id="incomeSlider" min="3000000" max="50000000" step="500000" value="10000000"
-          oninput="updateBudgetSim()"
-          style="--pct:15%;">
-        <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-3);margin-top:4px;">
-          <span>3 triệu</span><span>50 triệu</span>
-        </div>
+        </div><br>
+        <input type="range" class="sim-slider" id="incomeSlider" min="3000000" max="50000000" step="500000" value="10000000" oninput="updateBudgetSim()" style="--pct:15%;">
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-3);margin-top:4px;"><span>3 triệu</span><span>50 triệu</span></div>
       </div>
       <div class="sim-input-row">
         <label class="sim-label">Chọn phương pháp ngân sách</label>
@@ -1102,569 +1292,329 @@ code.url {
           <button class="cat-btn active-cat" onclick="setBudgetMethod('502020',this)">50/30/20</button>
           <button class="cat-btn" onclick="setBudgetMethod('602020',this)">60/20/20</button>
           <button class="cat-btn" onclick="setBudgetMethod('703020',this)">70/20/10</button>
-          <button class="cat-btn" onclick="setBudgetMethod('custom',this)">Tùy chỉnh</button>
         </div>
       </div>
       <div class="sim-result-grid">
-        <div class="sim-result-card">
-          <div class="sim-result-label">🏠 Nhu cầu thiết yếu</div>
-          <div class="sim-result-val" id="budget-need">5.000.000đ</div>
-          <div class="sim-result-sub">50% thu nhập</div>
-        </div>
-        <div class="sim-result-card">
-          <div class="sim-result-label">🎉 Mong muốn cá nhân</div>
-          <div class="sim-result-val" id="budget-want">3.000.000đ</div>
-          <div class="sim-result-sub">30% thu nhập</div>
-        </div>
-        <div class="sim-result-card highlight">
-          <div class="sim-result-label">💰 Tiết kiệm / Đầu tư</div>
-          <div class="sim-result-val" id="budget-save">2.000.000đ</div>
-          <div class="sim-result-sub">20% thu nhập</div>
-        </div>
+        <div class="sim-result-card"><div class="sim-result-label">🏠 Nhu cầu thiết yếu</div><div class="sim-result-val" id="budget-need">5.000.000đ</div><div class="sim-result-sub">50% thu nhập</div></div>
+        <div class="sim-result-card"><div class="sim-result-label">🎉 Mong muốn</div><div class="sim-result-val" id="budget-want">3.000.000đ</div><div class="sim-result-sub">30% thu nhập</div></div>
+        <div class="sim-result-card highlight"><div class="sim-result-label">💰 Tiết kiệm / Đầu tư</div><div class="sim-result-val" id="budget-save">2.000.000đ</div><div class="sim-result-sub">20% thu nhập</div></div>
       </div>
-      <div style="margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
-        <div style="padding:9px 14px;background:#F5F1EE;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-3);">Phân bổ chi tiết Nhu Cầu Thiết Yếu</div>
-        <div style="padding:12px 14px;">
-          <div class="tool-spec-row"><span class="tool-spec-key">🍜 Ăn uống (~40%)</span><span class="sim-result-val" id="sub-food" style="font-size:13px;">2.000.000đ</span></div>
-          <div class="tool-spec-row"><span class="tool-spec-key">🚌 Đi lại (~20%)</span><span class="sim-result-val" id="sub-transit" style="font-size:13px;">1.000.000đ</span></div>
-          <div class="tool-spec-row"><span class="tool-spec-key">🏠 Nhà ở / Điện nước (~30%)</span><span class="sim-result-val" id="sub-house" style="font-size:13px;">1.500.000đ</span></div>
-          <div class="tool-spec-row"><span class="tool-spec-key">📱 Viễn thông (~10%)</span><span class="sim-result-val" id="sub-tel" style="font-size:13px;">500.000đ</span></div>
+      <div style="margin-top:14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <div style="padding:8px 13px;background:#F5F1EE;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-3);">Chi tiết Nhu Cầu Thiết Yếu</div>
+        <div style="padding:10px 13px;">
+          <div class="tool-spec-row"><span class="tool-spec-key">🍜 Ăn uống (40%)</span><span class="sim-result-val" id="sub-food" style="font-size:13px;">2.000.000đ</span></div>
+          <div class="tool-spec-row"><span class="tool-spec-key">🚌 Đi lại (20%)</span><span class="sim-result-val" id="sub-transit" style="font-size:13px;">1.000.000đ</span></div>
+          <div class="tool-spec-row"><span class="tool-spec-key">🏠 Nhà ở / Điện nước (30%)</span><span class="sim-result-val" id="sub-house" style="font-size:13px;">1.500.000đ</span></div>
+          <div class="tool-spec-row"><span class="tool-spec-key">📱 Viễn thông (10%)</span><span class="sim-result-val" id="sub-tel" style="font-size:13px;">500.000đ</span></div>
         </div>
       </div>
       <div class="sim-cta-bar">
-        <div>
-          <div class="sim-cta-title">Áp dụng ngân sách này vào MoMo</div>
-          <div class="sim-cta-sub">Thiết lập budget từng danh mục trong app — nhận cảnh báo khi vượt hạn mức</div>
-        </div>
+        <div><div class="sim-cta-title">Áp dụng ngân sách này vào MoMo</div><div class="sim-cta-sub">Thiết lập budget từng danh mục · Cảnh báo khi vượt hạn mức</div></div>
         <button class="sim-cta-btn">Mở MoMo → Ngân Sách</button>
       </div>
-      <div class="sim-disclaimer">💡 Số liệu tham khảo theo phương pháp 50/30/20 — điều chỉnh phù hợp với hoàn cảnh cá nhân</div>
+      <div class="sim-disclaimer">💡 Số liệu theo phương pháp 50/30/20 — điều chỉnh phù hợp hoàn cảnh cá nhân</div>
     </div>
   </div>
 
-  <h2 class="sh">🪣 Tool 2: Hũ Chi Tiêu Planner</h2>
-  <div class="tool-card">
-    <div class="tool-card-header">
-      <div>
-        <div class="tool-card-title">🪣 Hũ Chi Tiêu Planner — 6 Hũ Tài Chính</div>
-        <div class="tool-card-sub">Trang: /quan-ly-chi-tieu/hu-chi-tieu · P1</div>
-      </div>
-      <span class="tag tag-tool">Interactive Tool</span>
-    </div>
-    <div class="tool-card-body">
-      <div class="tool-spec-row"><span class="tool-spec-key">Input</span><span class="tool-spec-val">Thu nhập tháng + toggle chọn số hũ (3 hũ đơn giản / 6 hũ đầy đủ)</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Output</span><span class="tool-spec-val">Số tiền cụ thể từng hũ, % khuyến nghị, tên hũ gợi ý (Thiết Yếu, Du Lịch, Học Tập, Đầu Tư, Giải Trí, Từ Thiện)</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">CTA</span><span class="tool-spec-val">Mỗi hũ có nút "Tạo hũ [Tên] trong MoMo" → deep link vào màn hình tạo hũ với tên pre-fill</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">GEO value</span><span class="tool-spec-val">Tool này là structured data tốt để AI Overview cite khi hỏi về "6 hũ tài chính là gì"</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Tech</span><span class="tool-spec-val">Vanilla JS, không cần API, mobile-first, thêm share result via link hoặc screenshot</span></div>
+  <h2 class="sh">⚗️ Growth Experiments — JTBD-based Hypotheses</h2>
+  <div class="card" style="border-left:3px solid var(--momo);margin-bottom:12px;">
+    <div class="card-title">🧪 Experiment 1: CTA Copy Test — "Functional Job" vs "Feature"</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">
+      <strong>Hypothesis:</strong> "Chúng tôi tin rằng đổi CTA từ 'Tải MoMo ngay' → 'Xem tiền tháng này đi đâu — Mở MoMo' sẽ tăng deep link click rate từ baseline lên +30% vì JTBD research cho thấy Functional Job rõ ràng hơn feature name."<br>
+      <strong>ICE:</strong> Impact 8 · Confidence 7 · Ease 9 → <span class="tag tag-p1">ICE 504 — P1</span><br>
+      <strong>Primary metric:</strong> GA4 event: cta_click_rate · Target: +30% vs control<br>
+      <strong>Duration:</strong> 2 tuần, ≥500 sessions/variant
     </div>
   </div>
-
-  <h2 class="sh">📊 Tool 3: Chi Tiêu Breakdown Demo</h2>
-  <div class="tool-card">
-    <div class="tool-card-header">
-      <div>
-        <div class="tool-card-title">📊 Chi Tiêu Breakdown — Demo Biểu Đồ</div>
-        <div class="tool-card-sub">Trang: /quan-ly-chi-tieu/thong-ke · P1</div>
-      </div>
-      <span class="tag tag-tool">Interactive Chart</span>
-    </div>
-    <div class="tool-card-body">
-      <div class="tool-spec-row"><span class="tool-spec-key">Input</span><span class="tool-spec-val">Nhập số tiền từng danh mục (ăn uống, đi lại, mua sắm, giải trí...) trong tháng</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Output</span><span class="tool-spec-val">Pie chart phân bổ % + bar chart so sánh vs benchmark trung bình người cùng mức thu nhập</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">CTA</span><span class="tool-spec-val">"Xem thống kê thực của bạn trong MoMo" → deep link vào màn hình thống kê</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Benchmark data</span><span class="tool-spec-val">Mock benchmark (không phải real MoMo data) — cần disclaimer rõ ràng</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Tech</span><span class="tool-spec-val">Chart.js (pie + bar), responsive canvas, no-server</span></div>
+  <div class="card" style="border-left:3px solid var(--blue);margin-bottom:12px;">
+    <div class="card-title">🧪 Experiment 2: Tool Placement — Before vs After explanation</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">
+      <strong>Hypothesis:</strong> "Đặt Budget Simulator TRƯỚC khi giải thích 50/30/20 (Consumption Job first) sẽ tăng tool engagement rate vì user muốn áp dụng ngay, không đọc lý thuyết trước."<br>
+      <strong>ICE:</strong> Impact 7 · Confidence 6 · Ease 8 → <span class="tag tag-p2">ICE 336 — P2</span><br>
+      <strong>Primary metric:</strong> GA4 event: tool_interact / page_sessions ratio<br>
+      <strong>Duration:</strong> 2 tuần, ≥300 sessions/variant
     </div>
   </div>
-
-  <h2 class="sh">🎯 Tool 4: Chi Tiêu Mục Tiêu Calculator</h2>
-  <div class="tool-card">
-    <div class="tool-card-header">
-      <div>
-        <div class="tool-card-title">🎯 Tiết Kiệm Mục Tiêu Calculator</div>
-        <div class="tool-card-sub">Trang: /quan-ly-chi-tieu/hu-chi-tieu/tao-hu · P2</div>
-      </div>
-      <span class="tag tag-tool">Calculator</span>
-    </div>
-    <div class="tool-card-body">
-      <div class="tool-spec-row"><span class="tool-spec-key">Input</span><span class="tool-spec-val">Tên mục tiêu + số tiền cần đạt + thời hạn (tháng) + số tiền hiện có</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Output</span><span class="tool-spec-val">Số tiền cần bỏ vào hũ mỗi tháng, progress bar, ngày đạt được mục tiêu</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Ví dụ usecase</span><span class="tool-spec-val">Mua iPhone 16: 20 triệu — hiện có 5 triệu — 10 tháng → cần tiết kiệm 1.5 triệu/tháng</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">CTA</span><span class="tool-spec-val">"Tạo hũ [Tên mục tiêu] trong MoMo ngay" → deep link pre-fill tên hũ + số tiền mục tiêu</span></div>
-    </div>
-  </div>
-
-  <h2 class="sh">🏷️ Tool 5: Phân Loại Chi Tiêu Quiz</h2>
-  <div class="tool-card">
-    <div class="tool-card-header">
-      <div>
-        <div class="tool-card-title">🏷️ Quiz Phân Loại Chi Tiêu — Kiểm tra thói quen</div>
-        <div class="tool-card-sub">Trang: /quan-ly-chi-tieu/phan-loai · P3</div>
-      </div>
-      <span class="tag tag-tool">Quiz</span>
-    </div>
-    <div class="tool-card-body">
-      <div class="tool-spec-row"><span class="tool-spec-key">Format</span><span class="tool-spec-val">5 câu hỏi trắc nghiệm về thói quen chi tiêu (ăn ngoài bao nhiêu lần/tuần, v.v.)</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">Output</span><span class="tool-spec-val">Kết quả profile chi tiêu: "Bạn là người chi tiêu theo cảm xúc — đây là 3 gợi ý cải thiện"</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">CTA</span><span class="tool-spec-val">"Xem MoMo tự động phân loại chi tiêu của bạn" → feature page Phân Loại</span></div>
-      <div class="tool-spec-row"><span class="tool-spec-key">GEO value</span><span class="tool-spec-val">Quiz tạo unique content, giảm bounce rate, tăng tín hiệu engagement cho Google</span></div>
+  <div class="card" style="border-left:3px solid var(--green);">
+    <div class="card-title">🧪 Experiment 3: Deep Link vs App Store redirect</div>
+    <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">
+      <strong>Hypothesis:</strong> "Deep link vào đúng màn hình QLCT (thay vì App Store homepage redirect) sẽ tăng web-attributed activation rate vì giảm friction Consumption Job — user không phải tìm tính năng sau khi install."<br>
+      <strong>ICE:</strong> Impact 9 · Confidence 8 · Ease 6 → <span class="tag tag-p1">ICE 432 — P1</span><br>
+      <strong>Primary metric:</strong> Appsflyer: web_to_app_activate / install ratio<br>
+      <strong>Duration:</strong> 3 tuần, phụ thuộc volume organic install
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SECTION 6: SEO/GEO
-══════════════════════════════════════════ -->
-<div id="geo" class="section">
-  <div class="page-header">
-    <div class="page-eyebrow">🤖 SEO / GEO Strategy</div>
-    <h1 class="page-title">SEO & GEO/AEO<br>Strategy</h1>
-    <p class="page-desc">Chiến lược tối ưu cho cả Traditional Search (Google ranking) và Generative Engine Optimization (AI Overview, ChatGPT, Gemini). PFM là category được AI hỏi nhiều — cơ hội GEO cao.</p>
-  </div>
-
-  <h2 class="sh">🔍 Onpage SEO Signals</h2>
-  <div class="tbl-wrap">
-    <table class="data-table">
-      <thead><tr><th>Signal</th><th>Chỉ định cụ thể</th><th>Trang áp dụng</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Title Tag</strong></td><td>Quản Lý Chi Tiêu MoMo — Tự Động, Không Cần Nhập Tay | MoMo</td><td>Pillar</td></tr>
-        <tr><td><strong>H1</strong></td><td>Exact match keyword chính, không trùng title tag</td><td>Mọi trang</td></tr>
-        <tr><td><strong>Meta Description</strong></td><td>Có benefit + differentiator + soft CTA. ≤155 ký tự</td><td>Mọi trang</td></tr>
-        <tr><td><strong>Semantic Keywords</strong></td><td>NLP cluster: "thu chi", "ngân sách", "hũ tiết kiệm", "báo cáo tài chính cá nhân"</td><td>Pillar + Features</td></tr>
-        <tr><td><strong>Image Alt Text</strong></td><td>Mô tả screenshot app chứa keyword phụ</td><td>Mọi trang</td></tr>
-        <tr><td><strong>Internal Link Anchor</strong></td><td>Exact match anchor text cho sub-pages</td><td>Toàn cluster</td></tr>
-        <tr><td><strong>Core Web Vitals</strong></td><td>LCP &lt; 2.5s, CLS &lt; 0.1 (quan trọng với tool pages có slider)</td><td>Tool pages</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h2 class="sh">🗂️ Schema Markup Blueprint</h2>
-  <div class="tbl-wrap">
-    <table class="data-table">
-      <thead><tr><th>Schema Type</th><th>Trang</th><th>Mục tiêu</th></tr></thead>
-      <tbody>
-        <tr class="row-highlight"><td><strong>FAQPage</strong></td><td>Pillar + /hu-chi-tieu + /ngan-sach</td><td>FAQ snippet trong SERP, AEO cho AI Overview</td></tr>
-        <tr class="row-highlight"><td><strong>HowTo</strong></td><td>/hu-chi-tieu/tao-hu + /ngan-sach/thiet-lap</td><td>Rich result step-by-step trong SERP</td></tr>
-        <tr><td><strong>SoftwareApplication</strong></td><td>Pillar page</td><td>App rating, review count trong SERP</td></tr>
-        <tr><td><strong>BreadcrumbList</strong></td><td>Mọi sub-pages</td><td>Breadcrumb rich result, cải thiện CTR</td></tr>
-        <tr><td><strong>Article</strong></td><td>Blog pages</td><td>Author, datePublished, dateModified</td></tr>
-        <tr><td><strong>DefinedTerm (custom)</strong></td><td>/hu-chi-tieu, /ngan-sach</td><td>GEO: định nghĩa được AI cite khi hỏi về thuật ngữ</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h2 class="sh">🤖 GEO Content — AI Query Capture</h2>
-  <div class="callout callout-purple">
-    <div class="callout-title">🎯 GEO Strategy cho PFM</div>
-    AI Overview (và ChatGPT, Gemini) thường trả lời các câu hỏi "how to manage personal finance Vietnam" bằng cách cite các trang có cấu trúc rõ ràng: định nghĩa, danh sách có đánh số, FAQ format. MoMo cần tạo content có structure phù hợp để được cite. Không cần clickbait — cần clarity và authority.
-  </div>
-
-  <div class="geo-block">
-    <div class="geo-block-label">🤖 GEO Query 1 — Hũ Chi Tiêu</div>
-    <div class="geo-block-q">"Hũ chi tiêu là gì? Cách phân chia hũ tiết kiệm hiệu quả?"</div>
-    <div class="geo-block-a">
-      <strong>Content structure để AI cite:</strong> Định nghĩa 1–2 câu rõ ràng ("Hũ chi tiêu là phương pháp phân chia thu nhập thành nhiều quỹ riêng biệt, mỗi quỹ phục vụ một mục tiêu tài chính cụ thể"). Danh sách 6 hũ có tên + % + mục đích. FAQ block: "Hũ chi tiêu khác tiết kiệm truyền thống thế nào?". Tất cả dưới <code class="url">/hu-chi-tieu</code> với FAQPage schema + DefinedTerm.
-    </div>
-  </div>
-  <div class="geo-block">
-    <div class="geo-block-label">🤖 GEO Query 2 — Budget / 50/30/20</div>
-    <div class="geo-block-q">"Quy tắc 50/30/20 là gì? Cách áp dụng với thu nhập 10 triệu?"</div>
-    <div class="geo-block-a">
-      <strong>Content structure để AI cite:</strong> Định nghĩa quy tắc + nguồn gốc (Elizabeth Warren). Ví dụ số cụ thể với mức lương 10/15/20 triệu VND. Table HTML: cột thu nhập, cột nhu cầu (50%), cột mong muốn (30%), cột tiết kiệm (20%). Budget Simulator sau đó là confirmation tool. Schema: HowTo + FAQPage.
-    </div>
-  </div>
-  <div class="geo-block">
-    <div class="geo-block-label">🤖 GEO Query 3 — App PFM Vietnam</div>
-    <div class="geo-block-q">"App nào quản lý chi tiêu tốt nhất ở Việt Nam 2025?"</div>
-    <div class="geo-block-a">
-      <strong>Content structure để AI cite:</strong> So sánh page hoặc section "Tại sao chọn MoMo để quản lý chi tiêu?" với bảng tính năng: tự động từ giao dịch (✓ MoMo, ✗ Money Lover), không cần nhập tay, miễn phí, tích hợp hũ chi tiêu. SoftwareApplication schema với rating. <strong>Lưu ý:</strong> Tránh phát ngôn comparative tiêu cực về đối thủ — chỉ nêu tính năng MoMo.
-    </div>
-  </div>
-  <div class="geo-block">
-    <div class="geo-block-label">🤖 GEO Query 4 — Danh mục chi tiêu</div>
-    <div class="geo-block-q">"Các danh mục chi tiêu cá nhân gồm những gì?"</div>
-    <div class="geo-block-a">
-      <strong>Content structure để AI cite:</strong> Danh sách có đánh số (ordered list HTML) các danh mục: 1. Ăn uống, 2. Nhà ở, 3. Đi lại, 4. Giáo dục, 5. Sức khỏe, 6. Giải trí, 7. Mua sắm, 8. Tiết kiệm. Mỗi mục có mô tả 1 câu + ví dụ giao dịch. Đây là format AI dễ cite nhất.
-    </div>
-  </div>
-
-  <h2 class="sh">📋 E-E-A-T Signals cho PFM Content</h2>
-  <div class="grid-2">
-    <div class="card" style="border-left:3px solid var(--momo);">
-      <div class="card-title">✅ Cần có (E-E-A-T)</div>
-      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">
-        • Author byline: "Biên soạn bởi đội ngũ tài chính MoMo"<br>
-        • Ngày cập nhật (dateModified) hiển thị rõ<br>
-        • Trích dẫn nguồn khi nêu số liệu (GSO, MoMo internal)<br>
-        • Review bởi chuyên gia tài chính (nếu có thể)<br>
-        • Disclaimer YMYL: "Bài viết mang tính tham khảo, không phải tư vấn tài chính chuyên nghiệp"
-      </div>
-    </div>
-    <div class="card" style="border-left:3px solid var(--red);">
-      <div class="card-title">❌ Cần tránh</div>
-      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">
-        • Không cam kết số tiền tiết kiệm/đầu tư cụ thể<br>
-        • Không so sánh tiêu cực với đối thủ cụ thể<br>
-        • Không viết content kiểu "AI-generated" không có perspective<br>
-        • Không dùng số liệu không có nguồn ("theo nghiên cứu")<br>
-        • Không over-promise về kết quả tài chính
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     SECTION 7: ADS EMBED BLOG
-══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+  SECTION: ADS EMBED
+══════════════════════════════════════ -->
 <div id="ads" class="section">
   <div class="page-header">
-    <div class="page-eyebrow">📢 Ads Embed Blog</div>
-    <h1 class="page-title">Ads Embed Blog<br>& Contextual CTA</h1>
-    <p class="page-desc">Chiến lược đặt native ad units và contextual CTA trong content hub PFM. Mục tiêu: convert user đang đọc blog TOFU sang tìm hiểu tính năng QLCT, sau đó activate app.</p>
+    <div class="page-eyebrow">📢 Tactics · Ads Embed / Popup / Balloon</div>
+    <h1 class="page-title">Ads Embed, Popup<br>& Balloon Units</h1>
+    <p class="page-desc">Chiến lược đặt native units trong content hub PFM. Nguyên tắc: contextual với Job đang được serve, không interrupt reading flow. Thứ tự ưu tiên: Embed &gt; Balloon &gt; Popup.</p>
   </div>
 
-  <div class="callout callout-amber">
-    <div class="callout-title">⚠️ Nguyên tắc Ads Embed cho PFM Content</div>
-    PFM là category nhạy cảm — user đang đọc về quản lý tài chính không muốn bị interrupt bởi quảng cáo. Ads phải: (1) contextual với nội dung đang đọc, (2) cung cấp thêm giá trị không phải gián đoạn, (3) không mimick Google Ads (gây mất trust). Format tốt nhất: native informational block.
-  </div>
-
-  <h2 class="sh">📝 Blog: "Quy tắc 50/30/20" — Ads Placement Map</h2>
-  <div class="ads-block">
-    <div class="ads-block-header">
-      <span class="ads-block-title">📍 Vị trí 1 — After Intro (≈200 words)</span>
-      <span class="tag tag-tool">Tool Embed</span>
-    </div>
-    <div class="ads-block-body">
-      <div class="ads-unit">
-        <div class="ads-unit-label">🧮 Inline Budget Simulator — Mini Version</div>
-        Embed Budget Simulator thu gọn ngay sau khi giải thích xong quy tắc 50/30/20. User vừa hiểu khái niệm → ngay lập tức có thể áp dụng với thu nhập của họ. Tăng engagement mạnh.
-      </div>
-      <div class="ads-cta-preview">
-        <div>
-          <div class="ads-cta-text">Tính ngân sách 50/30/20 của bạn</div>
-          <div class="ads-cta-sub">Nhập thu nhập → xem ngay số tiền từng phần</div>
-        </div>
-        <div class="ads-cta-btn-preview">Tính ngay →</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ads-block">
-    <div class="ads-block-header">
-      <span class="ads-block-title">📍 Vị trí 2 — Mid Article (≈600 words)</span>
-      <span class="tag tag-conv">Feature CTA</span>
-    </div>
-    <div class="ads-block-body">
-      <div class="ads-unit">
-        <div class="ads-unit-label">📱 MoMo Feature Callout — Bắt đầu với Budget</div>
-        Sau khi giải thích xong cách lập budget thủ công, đặt callout "MoMo tự động làm việc này cho bạn" — không phải quảng cáo, là giải pháp tiếp theo tự nhiên.
-      </div>
-      <div class="ads-cta-preview">
-        <div>
-          <div class="ads-cta-text">MoMo tự động đặt budget theo danh mục</div>
-          <div class="ads-cta-sub">Không cần nhập tay — dữ liệu từ giao dịch thực của bạn</div>
-        </div>
-        <div class="ads-cta-btn-preview">Xem tính năng →</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ads-block">
-    <div class="ads-block-header">
-      <span class="ads-block-title">📍 Vị trí 3 — Bottom of Article</span>
-      <span class="tag tag-conv">Deep Link CTA</span>
-    </div>
-    <div class="ads-block-body">
-      <div class="ads-unit">
-        <div class="ads-unit-label">🚀 App Deep Link — Activation CTA</div>
-        Cuối bài blog, sau khi user đã đọc đủ content → đây là lúc dẫn thẳng vào app với deep link cụ thể. CTA mạnh hơn, trực tiếp hơn.
-      </div>
-      <div class="ads-cta-preview">
-        <div>
-          <div class="ads-cta-text">Bắt đầu quản lý chi tiêu ngay trong MoMo</div>
-          <div class="ads-cta-sub">Miễn phí · Tự động từ giao dịch · Đã có X triệu người dùng</div>
-        </div>
-        <div class="ads-cta-btn-preview">Mở MoMo →</div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">📝 Blog: "6 Hũ Tài Chính" — Ads Placement Map</h2>
-  <div class="ads-block">
-    <div class="ads-block-header">
-      <span class="ads-block-title">📍 Vị trí 1 — Giới thiệu từng hũ</span>
-      <span class="tag tag-tool">Tool Embed</span>
-    </div>
-    <div class="ads-block-body">
-      <div class="ads-unit">
-        <div class="ads-unit-label">🪣 Hũ Planner — Mini Embed</div>
-        Sau khi giới thiệu xong 6 hũ → embed mini Hũ Planner để user tính ngay số tiền từng hũ. Intent rõ ràng → convert cao.
-      </div>
-      <div class="ads-cta-preview">
-        <div>
-          <div class="ads-cta-text">Tính số tiền từng hũ của bạn</div>
-          <div class="ads-cta-sub">Nhập thu nhập → xem ngay 6 hũ tài chính cá nhân hóa</div>
-        </div>
-        <div class="ads-cta-btn-preview">Tính hũ của tôi →</div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">🔗 Cross-sell Ads — QLCT → Sản phẩm khác</h2>
-  <div class="cross-card">
-    <div class="cross-card-header">
-      <span class="cross-card-brand">💳 Ví Trả Sau (BNPL)</span>
-      <code class="cross-card-url">momo.vn/vi-tra-sau</code>
-    </div>
-    <div class="cross-card-body">
-      User đang dùng QLCT và thấy họ chi tiêu vượt budget → trigger tự nhiên cho Ví Trả Sau như giải pháp linh hoạt tài chính.
-      <div class="cross-trigger">
-        🎯 <strong>Trigger context:</strong> Sau section "Khi chi tiêu vượt budget, phải làm gì?" → "MoMo Ví Trả Sau giúp bạn linh hoạt dòng tiền khi cần — thanh toán sau, không lãi suất cố định"
-      </div>
-    </div>
-  </div>
-  <div class="cross-card">
-    <div class="cross-card-header">
-      <span class="cross-card-brand">💰 Vay Nhanh MoMo</span>
-      <code class="cross-card-url">momo.vn/vay-nhanh</code>
-    </div>
-    <div class="cross-card-body">
-      User đang đọc về hũ "Dự Phòng Khẩn Cấp" và nhận ra họ không có quỹ này → trigger cho Vay Nhanh.
-      <div class="cross-trigger">
-        🎯 <strong>Trigger context:</strong> Sau section "Tại sao cần hũ dự phòng?" → "Chưa có quỹ dự phòng? MoMo Vay Nhanh giải quyết tình huống khẩn cấp trong vài phút"
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     SECTION 8: INTERNAL LINK BUILDING
-══════════════════════════════════════════ -->
-<div id="links" class="section">
-  <div class="page-header">
-    <div class="page-eyebrow">🔗 Internal Link Building</div>
-    <h1 class="page-title">Internal Link Building<br>& Ecosystem Map</h1>
-    <p class="page-desc">Chiến lược internal linking cho cluster QLCT — bao gồm linking nội bộ trong cluster và cross-product linking với các vertical khác trong hệ sinh thái MoMo.</p>
-  </div>
-
-  <h2 class="sh">🗺️ Internal Link Architecture — QLCT Cluster</h2>
-  <div class="link-tree">
-    <div class="link-tree-header">Internal Link Flow — momo.vn/quan-ly-chi-tieu cluster</div>
-
-    <div class="link-node level-0">
-      <span class="link-arrow">⬤</span>
-      <div class="link-node-main">
-        <span>momo.vn/quan-ly-chi-tieu</span>
-        <code class="link-node-url">Pillar Hub</code>
-      </div>
-      <span class="tag tag-p1">Nhận link từ: Homepage, Blog, Cross-product</span>
-    </div>
-
-    <div class="link-node level-1">
-      <span class="link-arrow">↳</span>
-      <div class="link-node-main">
-        <span>/quan-ly-chi-tieu/thong-ke</span>
-        <code class="link-node-url">Feature</code>
-        <span class="link-node-desc">Anchor: "thống kê chi tiêu tự động", "xem báo cáo thu chi"</span>
-      </div>
-    </div>
-    <div class="link-node level-2">
-      <span class="link-arrow">↳</span>
-      <div class="link-node-main">
-        <span>/thong-ke/so-sanh</span>
-        <span class="link-node-desc">Anchor: "so sánh tháng này vs tháng trước"</span>
-      </div>
-    </div>
-
-    <div class="link-node level-1">
-      <span class="link-arrow">↳</span>
-      <div class="link-node-main">
-        <span>/quan-ly-chi-tieu/hu-chi-tieu</span>
-        <code class="link-node-url">Feature</code>
-        <span class="link-node-desc">Anchor: "hũ chi tiêu MoMo", "tạo hũ tiết kiệm"</span>
-      </div>
-    </div>
-    <div class="link-node level-2">
-      <span class="link-arrow">↳</span>
-      <div class="link-node-main">
-        <span>/hu-chi-tieu/tao-hu</span>
-        <span class="link-node-desc">Anchor: "cách tạo hũ từng bước", "hướng dẫn tạo hũ"</span>
-      </div>
-    </div>
-    <div class="link-node level-2">
-      <span class="link-arrow">↳</span>
-      <div class="link-node-main">
-        <span>/hu-chi-tieu/6-hu-tai-chinh</span>
-        <span class="link-node-desc">Anchor: "6 hũ tài chính", "phương pháp hũ tiết kiệm"</span>
-      </div>
-    </div>
-
-    <div class="link-node level-1">
-      <span class="link-arrow">↳</span>
-      <div class="link-node-main">
-        <span>/quan-ly-chi-tieu/ngan-sach</span>
-        <code class="link-node-url">Feature+Tool</code>
-        <span class="link-node-desc">Anchor: "đặt ngân sách chi tiêu", "budget theo danh mục"</span>
-      </div>
-    </div>
-    <div class="link-node level-1">
-      <span class="link-arrow">↳</span>
-      <div class="link-node-main">
-        <span>/quan-ly-chi-tieu/phan-loai</span>
-        <code class="link-node-url">Feature</code>
-        <span class="link-node-desc">Anchor: "phân loại giao dịch", "danh mục chi tiêu"</span>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sh">🔄 Cross-Product Internal Links</h2>
+  <h2 class="sh">📊 Format Matrix</h2>
   <div class="tbl-wrap">
     <table class="data-table">
-      <thead><tr><th>Từ trang QLCT</th><th>Link đến</th><th>Anchor text</th><th>Context trigger</th></tr></thead>
+      <thead><tr><th>Format</th><th>Vị trí</th><th>Trigger</th><th>JTBD Context</th><th>Risk</th></tr></thead>
       <tbody>
-        <tr><td><code class="url">/ngan-sach</code></td><td><code class="url">/vi-tra-sau</code></td><td>"linh hoạt chi tiêu khi vượt budget"</td><td>Section về xử lý vượt budget</td></tr>
-        <tr><td><code class="url">/hu-chi-tieu</code></td><td><code class="url">/vay-nhanh</code></td><td>"quỹ dự phòng khẩn cấp"</td><td>Section về hũ Dự Phòng</td></tr>
-        <tr><td><code class="url">/thong-ke</code></td><td><code class="url">/bao-hiem</code></td><td>"bảo hiểm sức khỏe trong danh mục chi tiêu"</td><td>Section danh mục Sức Khỏe</td></tr>
-        <tr><td><code class="url">/ngan-sach</code></td><td><code class="url">/tiet-kiem</code></td><td>"gửi tiết kiệm từ phần 20% tiết kiệm"</td><td>Section về hũ Tiết Kiệm</td></tr>
-        <tr><td><code class="url">Blog 50/30/20</code></td><td><code class="url">/quan-ly-chi-tieu</code></td><td>"ứng dụng 50/30/20 trong MoMo"</td><td>Conclusion section blog</td></tr>
+        <tr class="row-highlight"><td><strong>Embed (Inline)</strong></td><td>Sau intro ~200w</td><td>Content milestone — vừa giải thích xong concept</td><td>Consumption Job: user muốn áp dụng ngay</td><td>Thấp — không interrupt</td></tr>
+        <tr><td><strong>Balloon</strong></td><td>Bottom-right fixed</td><td>30s on-page hoặc scroll 50%</td><td>Awareness → Consideration transition</td><td>Thấp — dismiss dễ</td></tr>
+        <tr><td><strong>Popup</strong></td><td>Center overlay</td><td>Exit intent hoặc 60s dwell</td><td>BOFU pages — Decision Job stage only</td><td>Cao — chỉ dùng BOFU</td></tr>
       </tbody>
     </table>
   </div>
 
-  <h2 class="sh">📥 External Sites → QLCT Pages (Nhận link)</h2>
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">🎯 Link Bait Strategy</div>
-      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">
-        <strong>Budget Simulator</strong> → target báo kinh tế, blog tài chính cá nhân embed hoặc refer tool<br>
-        <strong>Hũ Planner</strong> → target cộng đồng Reddit/Facebook nhóm FIRE, tiết kiệm<br>
-        <strong>Blog 50/30/20</strong> → target các bài viết giáo dục tài chính cite MoMo<br>
-        <strong>Data statistics</strong> → release báo cáo "Thói quen chi tiêu người Việt" → báo chí cite + link
-      </div>
+  <h2 class="sh">📝 Blog "Quy tắc 50/30/20" — Placement Map</h2>
+  <div class="ads-block">
+    <div class="ads-block-header"><span class="ads-block-title">📍 Vị trí 1 — After Intro (≈200 words) · Consumption Job trigger</span><span class="tag tag-tool">Tool Embed</span></div>
+    <div class="ads-block-body">
+      <div class="ads-unit"><div class="ads-unit-label">🧮 Budget Simulator mini — "Áp dụng ngay với thu nhập của bạn"</div>User vừa hiểu quy tắc → muốn xem số tiền cụ thể của họ ngay. Embed Simulator thu gọn (chỉ slider income + 3 result boxes) không cần scroll xuống.</div>
+      <div class="ads-cta-preview"><div><div class="ads-cta-text">Tính ngân sách 50/30/20 của bạn</div><div class="ads-cta-sub">Nhập thu nhập → xem ngay số tiền từng phần</div></div><div class="ads-cta-btn-preview">Tính ngay →</div></div>
     </div>
-    <div class="card">
-      <div class="card-title">🤝 Partnership Link Building</div>
-      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;">
-        <strong>Đối tác siêu thị</strong> (WinMart, Co.op): cross-mention QLCT trong content của họ<br>
-        <strong>Grab/Be</strong>: mention tracking chi phí đi lại qua QLCT MoMo<br>
-        <strong>Điện lực EVN</strong>: tracking tiền điện trong danh mục QLCT<br>
-        <strong>HR/Payroll platforms</strong>: nhận lương qua MoMo → tự động vào QLCT
-      </div>
+  </div>
+  <div class="ads-block">
+    <div class="ads-block-header"><span class="ads-block-title">📍 Vị trí 2 — Mid Article (≈600 words) · Anxiety Resolution</span><span class="tag tag-conv">Feature CTA</span></div>
+    <div class="ads-block-body">
+      <div class="ads-unit"><div class="ads-unit-label">📱 MoMo Feature Callout — "Không cần tự tính — MoMo tự động làm việc này"</div>Address anxiety "tự tính rồi nhập tay mệt lắm" → Callout: "MoMo tự động set budget từ giao dịch thực. Không cần nhập tay."</div>
+      <div class="ads-cta-preview"><div><div class="ads-cta-text">MoMo tự động đặt budget theo danh mục giao dịch</div><div class="ads-cta-sub">Không cần nhập tay — dữ liệu từ giao dịch thực của bạn</div></div><div class="ads-cta-btn-preview">Xem tính năng →</div></div>
+    </div>
+  </div>
+
+  <h2 class="sh">🎈 Balloon Spec</h2>
+  <div class="ads-block">
+    <div class="ads-block-header"><span class="ads-block-title">🎈 Floating Balloon — QLCT cluster</span><span class="tag tag-conv">Balloon</span></div>
+    <div class="ads-block-body">
+      <div class="tool-spec-row"><span class="tool-spec-key">Vị trí</span><span class="tool-spec-val">Fixed bottom-right, 20px margin, z-index 150</span></div>
+      <div class="tool-spec-row"><span class="tool-spec-key">Trigger</span><span class="tool-spec-val">30s on-page HOẶC scroll 50% — không cả hai cùng lúc</span></div>
+      <div class="tool-spec-row"><span class="tool-spec-key">Content</span><span class="tool-spec-val">Contextual theo trang: blog → "Thử Budget Simulator →" | feature page → "Mở tính năng trong MoMo →"</span></div>
+      <div class="tool-spec-row"><span class="tool-spec-key">Dismiss</span><span class="tool-spec-val">X button, không re-appear trong session sau dismiss</span></div>
+      <div class="tool-spec-row"><span class="tool-spec-key">Mobile rule</span><span class="tool-spec-val">Ẩn nếu Sticky CTA Bar đang hiển thị — tránh double CTA</span></div>
+    </div>
+  </div>
+
+  <h2 class="sh">🪟 Popup Spec — BOFU Only</h2>
+  <div class="callout callout-red">
+    <div class="callout-title">⚠️ Popup chỉ deploy trên Transaction pages có intent cao</div>
+    Trang áp dụng: /hu-chi-tieu/tao-hu, /ngan-sach/thiet-lap. Không dùng trên blog TOFU. Frequency: 1 lần/session. Trigger: exit intent desktop hoặc dwell ≥60s. Mobile: bottom sheet 75vh.
+  </div>
+
+  <h2 class="sh">🔗 Cross-sell trong Ads Units</h2>
+  <div class="cross-card">
+    <div class="cross-card-header"><span class="cross-card-brand">💳 Ví Trả Sau (BNPL)</span><code class="cross-card-url">momo.vn/vi-tra-sau</code></div>
+    <div class="cross-card-body">User đang xem budget và thấy hũ Dự Phòng bị thiếu tiền → trigger tự nhiên.
+      <div class="cross-trigger">🎯 <strong>Trigger:</strong> Section "Khi vượt ngân sách phải làm gì?" → "Ví Trả Sau MoMo giúp linh hoạt dòng tiền khi cần thiết mà không lo lãi suất tháng đầu"</div>
+    </div>
+  </div>
+  <div class="cross-card">
+    <div class="cross-card-header"><span class="cross-card-brand">💰 Vay Nhanh MoMo</span><code class="cross-card-url">momo.vn/vay-nhanh</code></div>
+    <div class="cross-card-body">User đọc về hũ Dự Phòng và nhận ra mình không có → trigger cho Vay Nhanh.
+      <div class="cross-trigger">🎯 <strong>Trigger:</strong> Section "Hũ Dự Phòng Khẩn Cấp" → "Chưa có quỹ dự phòng? MoMo Vay Nhanh xử lý tình huống khẩn cấp trong vài phút"</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SECTION 9: CHECKLIST
-══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+  SECTION: INTERNAL LINKS
+══════════════════════════════════════ -->
+<div id="links" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">🔗 Tactics · Internal Link Cross-sale</div>
+    <h1 class="page-title">Internal Link<br>& Cross-sale Map</h1>
+    <p class="page-desc">Chiến lược internal linking theo JTBD flow — mỗi link phải contextual, đặt trong sentence có ý nghĩa, anchor text exact match keyword sub-page. Không "related articles" generic.</p>
+  </div>
+
+  <h2 class="sh">🗺 Internal Link Architecture</h2>
+  <div class="link-tree">
+    <div class="link-tree-header">Internal Link Flow — QLCT Hub & Spoke</div>
+    <div class="link-node level-0"><span class="link-arrow">⬤</span><div class="link-node-main"><strong>/quan-ly-chi-tieu</strong><code class="link-node-url">Pillar Hub · Nhận link từ: Homepage, Blog cluster, Cross-product pages</code></div><span class="tag tag-p1">Authority Hub</span></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/quan-ly-chi-tieu/thong-ke<code class="link-node-url">Anchor: "thống kê chi tiêu tự động", "xem báo cáo thu chi theo tháng"</code></div></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/quan-ly-chi-tieu/hu-chi-tieu<code class="link-node-url">Anchor: "hũ chi tiêu MoMo", "tạo hũ tiết kiệm mục tiêu"</code></div></div>
+    <div class="link-node level-2"><span class="link-arrow">↳</span><div class="link-node-main">/hu-chi-tieu/tao-hu<code class="link-node-url">Anchor: "cách tạo hũ từng bước", "hướng dẫn tạo hũ mục tiêu"</code></div></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/quan-ly-chi-tieu/ngan-sach<code class="link-node-url">Anchor: "đặt ngân sách chi tiêu", "lập ngân sách theo danh mục"</code></div></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/quy-tac-50-30-20<code class="link-node-url">Anchor: "quy tắc 50/30/20", "cách chia tiền lương theo tỷ lệ"</code></div></div>
+    <div class="link-node level-1"><span class="link-arrow">↳</span><div class="link-node-main">/blog/6-hu-tai-chinh-la-gi<code class="link-node-url">Anchor: "6 hũ tài chính", "phương pháp JARS hũ chi tiêu"</code></div></div>
+  </div>
+
+  <h2 class="sh">🔄 Cross-product Internal Links</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Từ trang QLCT</th><th>Link đến</th><th>Anchor text</th><th>JTBD trigger context</th></tr></thead>
+      <tbody>
+        <tr><td><code class="url">/ngan-sach</code></td><td><code class="url">/vi-tra-sau</code></td><td>"linh hoạt dòng tiền khi vượt budget"</td><td>Section về xử lý chi tiêu vượt hạn mức</td></tr>
+        <tr><td><code class="url">/hu-chi-tieu</code></td><td><code class="url">/vay-nhanh</code></td><td>"quỹ dự phòng khẩn cấp MoMo"</td><td>Section về hũ Dự Phòng — user nhận ra mình thiếu</td></tr>
+        <tr><td><code class="url">/thong-ke</code></td><td><code class="url">/bao-hiem</code></td><td>"bảo hiểm sức khỏe trong danh mục chi tiêu"</td><td>Section danh mục Sức Khỏe — trigger bảo hiểm</td></tr>
+        <tr><td><code class="url">/ngan-sach</code></td><td><code class="url">/tiet-kiem</code></td><td>"gửi tiết kiệm từ phần 20% tiết kiệm"</td><td>Section hũ Tiết Kiệm — sau khi set budget</td></tr>
+        <tr><td><code class="url">Blog 6 hũ tài chính</code></td><td><code class="url">/quan-ly-chi-tieu</code></td><td>"ứng dụng 6 hũ tài chính trong MoMo"</td><td>Conclusion section blog TOFU → product page</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📥 External Links → QLCT (Receiving)</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🎯 Link Bait — Data Report</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;"><strong>"Báo cáo Thói Quen Chi Tiêu Người Việt 2026"</strong><br>Aggregated anonymized data từ MoMo (cần Legal approve). Target: VnExpress, CafeBiz, Tuổi Trẻ cite với link về /quan-ly-chi-tieu. Timeline: Q1 hàng năm (sau Tết, trending).</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🛠 Link Bait — Budget Simulator</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8;"><strong>Reach out 20+ blog PFM VN</strong> với offer "embed tool miễn phí". Target anchor: "công cụ tính ngân sách 50/30/20". Landing: /ngan-sach. Cũng embed vào Zalo OA, Facebook Group tài chính cá nhân.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+  SECTION: CHECKLIST
+══════════════════════════════════════ -->
 <div id="checklist" class="section">
   <div class="page-header">
-    <div class="page-eyebrow">✅ Onpage & Publish Checklist</div>
-    <h1 class="page-title">Checklist Onpage<br>& Publish</h1>
-    <p class="page-desc">Checklist đầy đủ trước khi publish từng trang trong cluster QLCT. Chia theo nhóm: Technical SEO, Content Quality, GEO/Schema, Conversion, và QA Testing.</p>
+    <div class="page-eyebrow">✅ On Prod · Publish Checklist</div>
+    <h1 class="page-title">Publish Checklist<br>Onpage & Technical</h1>
+    <p class="page-desc">Checklist bắt buộc trước khi publish. P1 items phải pass 100% trước launch. P2 items hoàn thành trong 2 tuần sau launch. Tracking setup phải xong trước launch — không phải sau.</p>
   </div>
 
   <div class="callout callout-green">
-    <div class="callout-title">✅ Cách dùng checklist này</div>
-    Mỗi trang mới trong cluster QLCT phải pass toàn bộ P1 items trước khi publish. P2 items nên hoàn thành trong vòng 2 tuần sau launch. Tick checkbox để track tiến độ — trạng thái reset khi reload trang (internal tracking tool).
+    <div class="callout-title">✅ Rule: Tracking TRƯỚC launch</div>
+    GA4 events và Appsflyer deeplink tracking phải setup và verify trên staging TRƯỚC khi push prod. Không có tracking = không đo được experiment results = waste traffic.
   </div>
 
-  <!-- Technical SEO -->
   <div class="checklist-group">
     <div class="checklist-group-header" style="background:var(--blue-light);color:var(--blue);">🔧 Technical SEO <span class="tag tag-p1" style="margin-left:auto;">P1 — Bắt buộc</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1">Title Tag: ≤60 ký tự, chứa keyword chính, có brand "MoMo" ở cuối</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2">Meta Description: ≤155 ký tự, có benefit + CTA mềm</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3">H1: Exact match keyword chính, xuất hiện đúng một lần</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4">H2/H3 hierarchy: Đúng thứ tự, không skip level, có semantic keyword phụ</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5">Canonical URL: Tự reference, không có duplicate content</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c6"><label for="c6">Image Alt Text: Mô tả đầy đủ, có keyword phụ tự nhiên</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c7"><label for="c7">Page Speed: LCP &lt; 2.5s, CLS &lt; 0.1, FID &lt; 100ms (kiểm tra PageSpeed Insights)</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c8"><label for="c8">Mobile-first: Layout không bị vỡ trên mobile 375px</label><span class="check-tag tag tag-ux">UX</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c9"><label for="c9">OG Tags: og:title, og:description, og:image (1200x630px) đúng format</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="c10"><label for="c10">Indexable: Không có noindex tag, không bị block bởi robots.txt</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1">Title Tag: ≤60 ký tự, chứa keyword chính, brand "MoMo" ở cuối</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2">Meta Description: ≤155 ký tự, có Functional Job benefit + soft CTA</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3">H1: Phản ánh Functional Job outcome, exact match keyword, xuất hiện 1 lần</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4">H2/H3 hierarchy: Đúng thứ tự, semantic keyword phụ trong H2</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5">Canonical URL: Self-reference, không duplicate content</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c6"><label for="c6">Image Alt Text: Descriptive, có keyword phụ tự nhiên</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c7"><label for="c7">Core Web Vitals: LCP &lt;2.5s, CLS &lt;0.1, FID &lt;100ms (PageSpeed Insights)</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c8"><label for="c8">Mobile-first: Layout không vỡ trên 375px, CTA taps ≥44px target</label><span class="check-tag tag tag-ux">UX</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c9"><label for="c9">OG Tags: og:title, og:description, og:image (1200×630px) đúng format</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="c10"><label for="c10">Indexable: Không noindex, không block robots.txt, sitemap.xml updated</label><span class="check-tag tag tag-seo">SEO</span></div>
   </div>
 
-  <!-- Schema Markup -->
   <div class="checklist-group">
-    <div class="checklist-group-header" style="background:#EDE8FF;color:#3A1A90;">🗂️ Schema Markup & GEO <span class="tag tag-p1" style="margin-left:auto;">P1 — Bắt buộc</span></div>
-    <div class="checklist-item"><input type="checkbox" id="s1"><label for="s1">BreadcrumbList schema: Đúng hierarchy, tên breadcrumb match H1</label><span class="check-tag tag tag-geo">GEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="s2"><label for="s2">FAQPage schema: ≥5 câu Q&A có tính informational cao (áp dụng cho Pillar + Feature pages)</label><span class="check-tag tag tag-geo">GEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="s3"><label for="s3">HowTo schema: Các bước rõ ràng, có name + text + image cho từng step (áp dụng cho how-to pages)</label><span class="check-tag tag tag-geo">GEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="s4"><label for="s4">SoftwareApplication schema: Đúng applicationCategory, rating, operatingSystem (Pillar page)</label><span class="check-tag tag tag-geo">GEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="s5"><label for="s5">Validate schema: Google Rich Results Test pass, không có critical errors</label><span class="check-tag tag tag-geo">GEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="s6"><label for="s6">AEO Content Block: FAQ section hiển thị đúng, answer ≤50 words per question</label><span class="check-tag tag tag-geo">GEO</span></div>
+    <div class="checklist-group-header" style="background:#EDE8FF;color:#3A1A90;">🗂 Schema & GEO <span class="tag tag-p1" style="margin-left:auto;">P1 — Bắt buộc</span></div>
+    <div class="checklist-item"><input type="checkbox" id="s1"><label for="s1">BreadcrumbList schema: Hierarchy đúng, tên match H1</label><span class="check-tag tag tag-geo">GEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="s2"><label for="s2">FAQPage schema: ≥5 Q&A, answers address Anxiety list từ JTBD map</label><span class="check-tag tag tag-geo">GEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="s3"><label for="s3">HowTo schema: Steps đúng format (name + text + image), totalTime có giá trị</label><span class="check-tag tag tag-geo">GEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="s4"><label for="s4">SoftwareApplication schema (Pillar): applicationCategory, ratingValue, operatingSystem</label><span class="check-tag tag tag-geo">GEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="s5"><label for="s5">Google Rich Results Test: Pass, 0 critical errors</label><span class="check-tag tag tag-geo">GEO</span></div>
+    <div class="checklist-item"><input type="checkbox" id="s6"><label for="s6">FAQ section visible trên page, answer ≤50 words mỗi câu</label><span class="check-tag tag tag-geo">GEO</span></div>
   </div>
 
-  <!-- Content Quality -->
   <div class="checklist-group">
-    <div class="checklist-group-header" style="background:var(--green-light);color:#005A28;">📝 Content Quality <span class="tag tag-p1" style="margin-left:auto;">P1 — Bắt buộc</span></div>
-    <div class="checklist-item"><input type="checkbox" id="q1"><label for="q1">Word count: Pillar ≥1500 words, Feature ≥800 words, Blog ≥1200 words</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="q2"><label for="q2">Keyword density: Keyword chính xuất hiện tự nhiên ≥3 lần, không stuffing</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="q3"><label for="q3">E-E-A-T signals: Author info, ngày cập nhật, disclaimer YMYL hiển thị</label><span class="check-tag tag tag-trust">Trust</span></div>
-    <div class="checklist-item"><input type="checkbox" id="q4"><label for="q4">Số liệu có nguồn: Mọi stat đều có attribution hoặc được đánh dấu [nội bộ]</label><span class="check-tag tag tag-trust">Trust</span></div>
-    <div class="checklist-item"><input type="checkbox" id="q5"><label for="q5">Ngôn ngữ: Tiếng Việt chuẩn, không Việt-Anh lẫn lộn, đọc tự nhiên</label></div>
-    <div class="checklist-item"><input type="checkbox" id="q6"><label for="q6">Unique content: Không trùng lặp với trang QLCT khác trong site</label><span class="check-tag tag tag-seo">SEO</span></div>
-    <div class="checklist-item"><input type="checkbox" id="q7"><label for="q7">Internal links: ≥3 internal links đến sub-pages liên quan với anchor text đa dạng</label><span class="check-tag tag tag-seo">SEO</span></div>
+    <div class="checklist-group-header" style="background:var(--momo-ghost);color:var(--momo-dark);">🎯 JTBD & Conversion <span class="tag tag-p1" style="margin-left:auto;">P1 — Bắt buộc</span></div>
+    <div class="checklist-item"><input type="checkbox" id="cv1"><label for="cv1">Above-fold H1 phản ánh Functional Job outcome — không chỉ keyword</label><span class="check-tag tag tag-conv">Conversion</span></div>
+    <div class="checklist-item"><input type="checkbox" id="cv2"><label for="cv2">Subheadline address top Anxiety từ JTBD Anxiety list</label><span class="check-tag tag tag-conv">Conversion</span></div>
+    <div class="checklist-item"><input type="checkbox" id="cv3"><label for="cv3">Primary CTA: action verb + Functional Job outcome, không generic "Tải ngay"</label><span class="check-tag tag tag-conv">Conversion</span></div>
+    <div class="checklist-item"><input type="checkbox" id="cv4"><label for="cv4">Deep link verified: iOS + Android, đúng màn hình app, không redirect về homepage</label><span class="check-tag tag tag-conv">Conversion</span></div>
+    <div class="checklist-item"><input type="checkbox" id="cv5"><label for="cv5">Interactive tool hoạt động đúng trên mobile + desktop, no JS errors</label><span class="check-tag tag tag-tool">Tool</span></div>
+    <div class="checklist-item"><input type="checkbox" id="cv6"><label for="cv6">Sticky CTA bar mobile: không block content, xuất hiện sau scroll 30%</label><span class="check-tag tag tag-ux">UX</span></div>
   </div>
 
-  <!-- Conversion & UX -->
   <div class="checklist-group">
-    <div class="checklist-group-header" style="background:var(--momo-ghost);color:var(--momo-dark);">🎯 Conversion & UX <span class="tag tag-p1" style="margin-left:auto;">P1 — Bắt buộc</span></div>
-    <div class="checklist-item"><input type="checkbox" id="cv1"><label for="cv1">Primary CTA: Mỗi trang có ít nhất 1 CTA rõ ràng dẫn vào app với deep link đúng màn hình</label><span class="check-tag tag tag-conv">Conversion</span></div>
-    <div class="checklist-item"><input type="checkbox" id="cv2"><label for="cv2">Smart Banner: Hiển thị đúng trên mobile, deep link hoạt động (iOS + Android)</label><span class="check-tag tag tag-conv">Conversion</span></div>
-    <div class="checklist-item"><input type="checkbox" id="cv3"><label for="cv3">Sticky CTA Bar (mobile): Fixed bottom bar không che content quan trọng</label><span class="check-tag tag tag-ux">UX</span></div>
-    <div class="checklist-item"><input type="checkbox" id="cv4"><label for="cv4">Tool interactivity: Mọi interactive tool hoạt động đúng trên mobile + desktop</label><span class="check-tag tag tag-tool">Tool</span></div>
-    <div class="checklist-item"><input type="checkbox" id="cv5"><label for="cv5">CTA copy test: A/B ít nhất 2 variants CTA text trước khi lock (nếu có thể)</label><span class="check-tag tag tag-conv">Conversion</span></div>
+    <div class="checklist-group-header" style="background:var(--amber-light);color:var(--amber);">📊 Tracking — Setup TRƯỚC Launch <span class="tag tag-p1" style="margin-left:auto;">P1 — Bắt buộc</span></div>
+    <div class="checklist-item"><input type="checkbox" id="a1"><label for="a1">GA4 event: page_view, scroll_depth_50/75/100 firing đúng trên staging</label></div>
+    <div class="checklist-item"><input type="checkbox" id="a2"><label for="a2">GA4 event: cta_click với params {page_path, cta_position, cta_label}</label></div>
+    <div class="checklist-item"><input type="checkbox" id="a3"><label for="a3">GA4 event: tool_interact khi user tương tác với simulator/slider</label></div>
+    <div class="checklist-item"><input type="checkbox" id="a4"><label for="a4">GA4 event: web_to_app_convert khi click deep link / App Store CTA</label></div>
+    <div class="checklist-item"><input type="checkbox" id="a5"><label for="a5">Appsflyer: deeplink URL tagged đúng campaign source / medium / content</label></div>
+    <div class="checklist-item"><input type="checkbox" id="a6"><label for="a6">GSC: Submit URL sau publish, monitor indexing status sau 48h</label></div>
   </div>
 
-  <!-- Tracking & Analytics -->
   <div class="checklist-group">
-    <div class="checklist-group-header" style="background:var(--amber-light);color:var(--amber);">📊 Analytics & Tracking <span class="tag tag-p2" style="margin-left:auto;">P2 — Trong 2 tuần</span></div>
-    <div class="checklist-item"><input type="checkbox" id="a1"><label for="a1">GA4 event: Page view, scroll depth 50%/75%/100% đang fire đúng</label></div>
-    <div class="checklist-item"><input type="checkbox" id="a2"><label for="a2">GA4 event: CTA click tracking với event_name, page_path, cta_label</label></div>
-    <div class="checklist-item"><input type="checkbox" id="a3"><label for="a3">Tool engagement tracking: Simulator interaction → GA4 custom event "tool_interact"</label></div>
-    <div class="checklist-item"><input type="checkbox" id="a4"><label for="a4">GSC: URL submit to Google Search Console indexing request sau publish</label></div>
-    <div class="checklist-item"><input type="checkbox" id="a5"><label for="a5">Looker Studio dashboard: Trang mới được thêm vào tracking dashboard hiện có</label></div>
-    <div class="checklist-item"><input type="checkbox" id="a6"><label for="a6">Deep link tracking: App open events từ web pages được track trong Appsflyer</label></div>
-  </div>
-
-  <!-- Post-publish -->
-  <div class="checklist-group">
-    <div class="checklist-group-header" style="background:#F0EDE8;color:var(--ink-2);">🚀 Post-publish (30 ngày đầu) <span class="tag tag-p2" style="margin-left:auto;">P2 — Ongoing</span></div>
-    <div class="checklist-item"><input type="checkbox" id="p1"><label for="p1">GSC check sau 7 ngày: Page indexed, không có coverage errors</label></div>
-    <div class="checklist-item"><input type="checkbox" id="p2"><label for="p2">GSC check sau 14 ngày: Bắt đầu có impressions cho target keywords</label></div>
-    <div class="checklist-item"><input type="checkbox" id="p3"><label for="p3">GA4 check sau 30 ngày: Bounce rate, avg. engagement time, CVR CTA click</label></div>
-    <div class="checklist-item"><input type="checkbox" id="p4"><label for="p4">Rich Results Test: Re-check sau index để confirm schema rendering đúng</label></div>
-    <div class="checklist-item"><input type="checkbox" id="p5"><label for="p5">Backlink: Chia sẻ URL qua internal newsletter / social MoMo để tạo initial traffic signal</label></div>
-    <div class="checklist-item"><input type="checkbox" id="p6"><label for="p6">Content review: Sau 30 ngày, review keyword performance → update H2/FAQ nếu cần</label></div>
+    <div class="checklist-group-header" style="background:#F0EDE8;color:var(--ink-2);">🚀 Post-launch (30 ngày đầu) <span class="tag tag-p2" style="margin-left:auto;">P2 — Ongoing</span></div>
+    <div class="checklist-item"><input type="checkbox" id="p1"><label for="p1">GSC D+7: Page indexed, không coverage errors</label></div>
+    <div class="checklist-item"><input type="checkbox" id="p2"><label for="p2">GSC D+14: Bắt đầu có impressions cho target keywords</label></div>
+    <div class="checklist-item"><input type="checkbox" id="p3"><label for="p3">GA4 D+30: Review bounce rate, avg engagement time, CTA click rate — compare vs hypothesis</label></div>
+    <div class="checklist-item"><input type="checkbox" id="p4"><label for="p4">Rich Results Test D+30: Confirm schema rendering đúng sau index</label></div>
+    <div class="checklist-item"><input type="checkbox" id="p5"><label for="p5">Kick off Experiment 1 (CTA copy test) trong tuần đầu sau launch</label></div>
+    <div class="checklist-item"><input type="checkbox" id="p6"><label for="p6">D+30 review: Nếu CTR thấp → update title/meta. Nếu bounce cao → review above-fold JTBD alignment</label></div>
   </div>
 </div>
 
-</div><!-- end content-wrap -->
+<!-- ══════════════════════════════════════
+  SECTION: OFF-PAGE
+══════════════════════════════════════ -->
+<div id="offpage" class="section">
+  <div class="page-header">
+    <div class="page-eyebrow">🌐 On Prod · Off-page Strategy</div>
+    <h1 class="page-title">Off-page SEO<br>& Authority Building</h1>
+    <p class="page-desc">Off-page là multiplier — không thay thế được onpage solid. Ưu tiên leverage existing MoMo network và data advantage trước cold outreach. Link building theo JTBD: site nào serve cùng Job của user mới là đúng context.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">⚡ Off-page trong ngữ cảnh MoMo QLCT</div>
+    PFM không được báo chí chủ động viết nhiều → phải <strong>tạo lý do để được cite</strong>: publish data report, build tool đáng share, và leverage partner network. Priority: Data PR &gt; Tool seeding &gt; Partnership mention.
+  </div>
+
+  <h2 class="sh">🎯 Link Bait Priorities — ICE Ranked</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Tactic</th><th>Target publisher</th><th>Anchor URL</th><th>ICE</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td>1</td><td><strong>Báo cáo "Thói Quen Chi Tiêu Người Việt 2026"</strong> — annual report với MoMo aggregated data</td><td>VnExpress, CafeBiz, Tuổi Trẻ, Zing News</td><td><code class="url">/quan-ly-chi-tieu</code></td><td>720</td><td>Q1 hàng năm</td></tr>
+        <tr class="row-highlight"><td>2</td><td><strong>Budget Simulator embed offer</strong> — reach out 20+ blog PFM VN</td><td>Blog tài chính cá nhân, Prudential, Baoviet blogs</td><td><code class="url">/ngan-sach</code></td><td>504</td><td>Sprint 1 sau launch</td></tr>
+        <tr><td>3</td><td><strong>Community seeding</strong> — Hũ Planner trên Facebook Group FIRE VN, tiết kiệm</td><td>FB Groups: "Tiết kiệm thông minh", Reddit r/VietnamFinance</td><td><code class="url">/hu-chi-tieu</code></td><td>336</td><td>Ongoing 2×/tháng</td></tr>
+        <tr><td>4</td><td><strong>Partnership mention</strong> — WinMart, Grab cross-mention QLCT</td><td>WinMart blog, Grab Vietnam newsroom</td><td><code class="url">/quan-ly-chi-tieu</code></td><td>288</td><td>Q2</td></tr>
+        <tr><td>5</td><td><strong>Educational mention</strong> — blog trường ĐH kinh tế reference MoMo QLCT tool</td><td>UEH, NEU, FTU student blogs</td><td><code class="url">/blog/quy-tac-50-30-20</code></td><td>216</td><td>Q2–Q3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">🤖 GEO Citation Building</h2>
+  <div class="tbl-wrap">
+    <table class="data-table">
+      <thead><tr><th>Citation Source</th><th>Action</th><th>Expected GEO Impact</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight"><td><strong>Wikipedia — MoMo entry</strong></td><td>Update section "Dịch vụ" bổ sung "QLCT tự động bằng AI, tính năng Hũ Chi Tiêu, Budget" với citation từ báo chí</td><td>AI engines cite Wikipedia như primary source — impact tức thì</td><td><span class="tag tag-p1">P1</span></td></tr>
+        <tr><td><strong>App Store / CH Play listing</strong></td><td>Update description: "Quản lý chi tiêu tự động — phân loại AI, hũ chi tiêu, budget theo danh mục" + keywords</td><td>AI extract từ app store data khi trả lời về mobile PFM apps</td><td><span class="tag tag-p1">P1</span></td></tr>
+        <tr><td><strong>Google Business Profile</strong></td><td>Update services description, Q&A: "Quản lý chi tiêu tự động qua MoMo — miễn phí"</td><td>Google AI Overview ưu tiên GBP data cho brand queries</td><td><span class="tag tag-p2">P2</span></td></tr>
+        <tr><td><strong>Báo chí chính thống</strong></td><td>Ensure VnExpress, Tuổi Trẻ, CafeF có ≥1 bài/quý mention MoMo QLCT với số liệu mới</td><td>AI crawl báo uy tín — brand + service mention = citation signal</td><td><span class="tag tag-p2">P2</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📊 AI Citation Audit Protocol — Monthly</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">🤖 Monthly AI Test</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Hỏi ChatGPT/Gemini/Perplexity: "App nào tốt nhất để quản lý chi tiêu VN không cần nhập tay?", "6 hũ tài chính là gì?" — ghi lại MoMo được cite không, ở vị trí nào. Track % queries được cite theo thời gian.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 Brand Mention Monitor</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Google Alerts: "MoMo quản lý chi tiêu", "momo QLCT", "momo.vn/quan-ly-chi-tieu". Tần suất: daily digest. Unlinked mentions → reach out xin thêm link. Toxic links → Ahrefs alert.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📈 Success Milestone</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">KR3 target: MoMo được cite trong top 3 AI answers cho PFM queries VN sau 6 tháng. Baseline hiện tại: 0/5 queries tested. Check monthly và điều chỉnh content structure theo format AI prefer.</div>
+    </div>
+  </div>
+</div>
+
 
 <script>
 function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll(`.nav-btn[data-section="${id}"]`).forEach(b => b.classList.add('active'));
-  window.scrollTo({top:0, behavior:'smooth'});
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  const btn = document.getElementById('btn-' + id);
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Budget Simulator
+/* Budget Simulator */
 let budgetMethod = {need: 50, want: 30, save: 20};
 const methods = {
   '502020': {need:50, want:30, save:20},
   '602020': {need:60, want:20, save:20},
-  '703020': {need:70, want:20, save:10},
-  'custom': {need:50, want:30, save:20}
+  '703020': {need:70, want:20, save:10}
 };
-
-function fmt(n) {
-  return n.toLocaleString('vi-VN') + 'đ';
-}
-
+function fmt(n) { return n.toLocaleString('vi-VN') + 'đ'; }
 function updateBudgetSim() {
   const slider = document.getElementById('incomeSlider');
   if (!slider) return;
@@ -1672,34 +1622,26 @@ function updateBudgetSim() {
   const min = 3000000, max = 50000000;
   const pct = ((income - min) / (max - min) * 100).toFixed(1) + '%';
   slider.style.setProperty('--pct', pct);
-
   const disp = document.getElementById('incomeDisplay');
   if (disp) disp.textContent = income.toLocaleString('vi-VN');
-
   const needAmt = Math.round(income * budgetMethod.need / 100);
   const wantAmt = Math.round(income * budgetMethod.want / 100);
   const saveAmt = Math.round(income * budgetMethod.save / 100);
-
   const setEl = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = fmt(val); };
-  setEl('budget-need', needAmt);
-  setEl('budget-want', wantAmt);
-  setEl('budget-save', saveAmt);
-  setEl('sub-food', Math.round(needAmt * 0.40));
-  setEl('sub-transit', Math.round(needAmt * 0.20));
-  setEl('sub-house', Math.round(needAmt * 0.30));
-  setEl('sub-tel', Math.round(needAmt * 0.10));
+  setEl('budget-need', needAmt); setEl('budget-want', wantAmt); setEl('budget-save', saveAmt);
+  setEl('sub-food', Math.round(needAmt * 0.40)); setEl('sub-transit', Math.round(needAmt * 0.20));
+  setEl('sub-house', Math.round(needAmt * 0.30)); setEl('sub-tel', Math.round(needAmt * 0.10));
 }
-
 function setBudgetMethod(key, btn) {
-  if (key !== 'custom') {
-    budgetMethod = {...methods[key]};
-  }
+  if (methods[key]) budgetMethod = {...methods[key]};
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active-cat'));
   btn.classList.add('active-cat');
   updateBudgetSim();
 }
-
 updateBudgetSim();
 </script>
+</div><!-- end content-wrap -->
+</div><!-- end main-area -->
+</div><!-- end app-shell -->
 </body>
 </html>
