@@ -5,7 +5,6 @@ export const metadata: Metadata = {
   title: "Growth Profile",
   description: "Growth Profile tracking tool",
   icons: {
-    icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
 };
