@@ -261,4 +261,15 @@ export const projects: Project[] = [
     updatedAt: '2026-02-15',
     description: 'Playbook tối ưu Web-to-App pipeline: Deep links, Smart Banners, Contextual CTAs. Giảm friction từ organic click đến app install theo PLG mindset.',
   },
+  {
+    id: 'tracking-framework',
+    title: 'Tracking Framework',
+    subtitle: 'Knowledge & Guideline',
+    category: 'knowledge',
+    tags: ['Tracking', 'Analytics', 'Web-to-App'],
+    status: 'live',
+    updatedAt: '2026-04-09',
+    description: 'Framework thiết kế và audit tracking toàn diện cho Web-to-App: event taxonomy, dataLayer, UTM structure và debug checklist.',
+    htmlFile: '/projects/tracking-framework.html',
+  },
 ]
