@@ -614,6 +614,14 @@
   <a href="#naming" class="nav-item"><span class="nav-num">08</span>Naming Convention</a>
   <a href="#params" class="nav-item"><span class="nav-num">09</span>Shared Parameters</a>
   <a href="#formulas" class="nav-item"><span class="nav-num">10</span>Looker Formulas</a>
+  
+  <div class="nav-section">Case Study</div>
+  <a href="#cs-overview" class="nav-item"><span class="nav-num">A</span>Cinema — Overview</a>
+  <a href="#cs-events" class="nav-item"><span class="nav-num">B</span>Event Tracking Spec</a>
+  <a href="#cs-gtm" class="nav-item"><span class="nav-num">C</span>GTM Inventory</a>
+  <a href="#cs-ga4" class="nav-item"><span class="nav-num">D</span>GA4 Dimensions</a>
+  <a href="#cs-looker" class="nav-item"><span class="nav-num">E</span>Looker Dashboard</a>
+  <a href="#cs-issues" class="nav-item"><span class="nav-num">F</span>Known Issues</a>
   <a href="#qa" class="nav-item"><span class="nav-num">11</span>QA Checklist</a>
 </nav>
 
@@ -1378,6 +1386,461 @@ Event Name <span class="fn">REGEXP_MATCH</span> <span class="str">webads_popup.*
   </section>
 
   <!-- FOOTER -->
+  
+  <!-- ── DIVIDER ── -->
+  <div style="background:var(--dark);padding:48px 64px;margin-left:0;">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="width:4px;height:48px;background:var(--pink-light);border-radius:2px;"></div>
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--gray-500);margin-bottom:4px;">Appendix</div>
+        <div style="font-size:28px;font-weight:800;color:var(--white);letter-spacing:-0.5px;">Use Case Mẫu — <span style="color:var(--pink-light);">Cinema</span></div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.5);margin-top:6px;">Case study đầy đủ: từ phân tích → GTM setup → GA4 → Looker Studio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A. OVERVIEW -->
+  <section class="section" id="cs-overview">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--gray-700);">A</div>
+      <div class="section-title-group">
+        <h2>Tổng quan Use Case</h2>
+        <p>Cinema — momo.vn/cinema</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🎬</div>
+        <h3>Use Case</h3>
+        <p>MDS - Cinema · Advanced MiniWeb (API) · <strong>Live</strong></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <h3>Page Type</h3>
+        <p>Advanced MiniWeb — multi-step flow: tìm phim → chọn suất → chọn ghế → đặt vé → thanh toán qua App</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>KPI chính</h3>
+        <p>Click to App (đặt vé) từ web · Funnel drop-off rate · Film/Cinema engagement</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📁</div>
+        <h3>GTM Folder</h3>
+        <p><code>[S] - Cinema</code> · 12 tags active · 2 sub-folders: Cinema Snapshot Icon</p>
+      </div>
+    </div>
+
+    <h3>User Journey</h3>
+    <div class="flow" style="flex-wrap:nowrap;overflow-x:auto;padding-bottom:16px;">
+      <div class="flow-step" style="min-width:120px;">
+        <div class="flow-box">
+          <div class="flow-num">1</div>
+          <div class="flow-title">Landing</div>
+          <div class="flow-sub">/cinema</div>
+        </div>
+      </div>
+      <div class="flow-step" style="min-width:120px;">
+        <div class="flow-box">
+          <div class="flow-num">2</div>
+          <div class="flow-title">Chọn Phim</div>
+          <div class="flow-sub">Xem trailer, review</div>
+        </div>
+      </div>
+      <div class="flow-step" style="min-width:120px;">
+        <div class="flow-box">
+          <div class="flow-num">3</div>
+          <div class="flow-title">Chọn Suất</div>
+          <div class="flow-sub">Show time</div>
+        </div>
+      </div>
+      <div class="flow-step" style="min-width:120px;">
+        <div class="flow-box">
+          <div class="flow-num">4</div>
+          <div class="flow-title">Chọn Ghế</div>
+          <div class="flow-sub">Seat selection</div>
+        </div>
+      </div>
+      <div class="flow-step" style="min-width:120px;">
+        <div class="flow-box">
+          <div class="flow-num">5</div>
+          <div class="flow-title">Popcorn</div>
+          <div class="flow-sub">Add-on selection</div>
+        </div>
+      </div>
+      <div class="flow-step" style="min-width:120px;">
+        <div class="flow-box">
+          <div class="flow-num">6</div>
+          <div class="flow-title">Đặt Vé</div>
+          <div class="flow-sub">Click to App / QR</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B. EVENT TRACKING SPEC -->
+  <section class="section" id="cs-events" style="background:var(--gray-100);">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--gray-700);">B</div>
+      <div class="section-title-group">
+        <h2>Event Tracking Spec</h2>
+        <p>Toàn bộ events đang active trong GTM container</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Lưu ý kiến trúc</strong>
+      Cinema dùng <strong>2 trigger types</strong>: Custom Event (từ dataLayer) cho funnel chính, và CSS Selector Click trigger cho các button phụ (trailer, review, snapshot). Đây là legacy pattern — use case mới nên dùng dataLayer-first hoàn toàn.
+    </div>
+
+    <h3>Funnel Events — <code>engage_product_funnel</code></h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>No.</th><th>Tag Name</th><th>GA4 Event</th><th>funnel_step</th><th>Params</th><th>Trigger Type</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>[CINE] - Funnel - 1_click_showtime</code></td>
+            <td><code>engage_product_funnel</code></td>
+            <td><code>1. Show Time</code></td>
+            <td>ShowTime · FilmName · Cinema.Name</td>
+            <td><span class="badge badge-orange">CSS Selector</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>[CINE] - Funnel - 2_click_seat</code></td>
+            <td><code>engage_product_funnel</code></td>
+            <td><code>2. Seat</code></td>
+            <td>ShowTime · FilmName · Cinema.Name</td>
+            <td><span class="badge badge-orange">CSS Selector</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>[CINE] - Funnel - 3_click_popcorn</code></td>
+            <td><code>engage_product_funnel</code></td>
+            <td><code>3. Popcorn &amp; Drink</code></td>
+            <td>ShowTime · FilmName · Cinema.Name</td>
+            <td><span class="badge badge-orange">CSS Selector</span></td>
+          </tr>
+          <tr>
+            <td>4a</td>
+            <td><code>[CINE] - Funnel - 4_click_bookticket</code></td>
+            <td><code>engage_product_funnel</code></td>
+            <td><code>4. Book Ticket</code></td>
+            <td>ShowTime · FilmName · Cinema.Name</td>
+            <td><span class="badge badge-orange">CSS Selector</span></td>
+          </tr>
+          <tr>
+            <td>4b</td>
+            <td><code>[CINE] - Funnel - 4_click_bookticket (qrcode)</code></td>
+            <td><code>engage_product_funnel</code></td>
+            <td><code>4. Book Ticket (qrcode)</code></td>
+            <td>ShowTime · FilmName · Cinema.Name</td>
+            <td><span class="badge badge-blue">Element Visibility</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Engagement Events — <code>component_click_cta</code></h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tag Name</th><th>component_name</th><th>component_category2</th><th>Trigger</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>[CINE] - Button - movie.info_trailer</code></td>
+            <td><code>movie.info_trailer</code></td>
+            <td><code>play_video</code></td>
+            <td>CSS: .tracking-click-play-trailer</td>
+          </tr>
+          <tr>
+            <td><code>[CINE] - Button - movie.info_review</code></td>
+            <td><code>movie.info_review</code></td>
+            <td><code>view_review</code></td>
+            <td>CSS: .tracking-click-view-review</td>
+          </tr>
+          <tr>
+            <td><code>[CINE] Snapshot - Click View More</code></td>
+            <td><code>cine_snapshot_view.more</code></td>
+            <td><code>cine_snapshot</code></td>
+            <td>CSS: .tracking-snapshot-viewmore</td>
+          </tr>
+          <tr>
+            <td><code>[CINE] Snapshot - Click Close Icon</code></td>
+            <td><code>cine_snapshot_close.icon</code></td>
+            <td><code>cine_snapshot</code></td>
+            <td>CSS: div.tracking-snapshot-close *</td>
+          </tr>
+          <tr>
+            <td><code>[CINE] Snapshot - Click Info Icon</code></td>
+            <td><code>cine_snapshot_info.icon</code></td>
+            <td><code>cine_snapshot</code></td>
+            <td>CSS: button.tracking-snapshot-info *</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Variables — Cinema-specific</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Variable Name</th><th>Type</th><th>Source</th><th>Dùng cho</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Cinema.FilmName</code></td>
+            <td>DLV</td>
+            <td><code>Cinema.FilmName</code></td>
+            <td><code>step_value_2</code> trong funnel</td>
+          </tr>
+          <tr>
+            <td><code>Cinema.Name</code></td>
+            <td>DLV</td>
+            <td><code>Cinema.Name</code></td>
+            <td><code>step_value_3</code> trong funnel</td>
+          </tr>
+          <tr>
+            <td><code>Cinema.ShowTime</code></td>
+            <td>DLV</td>
+            <td><code>Cinema.ShowTime</code></td>
+            <td><code>step_value_1</code> trong funnel</td>
+          </tr>
+          <tr>
+            <td><code>Cinema Cineplex Desktop Mobile - Engage</code></td>
+            <td>Custom JS</td>
+            <td>DOM traverse</td>
+            <td>Lấy tên phim từ UI (responsive)</td>
+          </tr>
+          <tr>
+            <td><code>Cinema Cineplex Desktop Mobile - Purchase</code></td>
+            <td>Custom JS</td>
+            <td>DOM traverse</td>
+            <td>Lấy tên phim tại màn hình đặt vé</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>dataLayer spec — Funnel steps</h3>
+
+    <div class="code-block">
+      <div class="code-label">JavaScript / dataLayer — Cinema Funnel</div>
+      <pre><span class="cmt">// Dev push khi user chọn suất chiếu</span>
+<span class="kw">window</span>.dataLayer.<span class="fn">push</span>({
+  <span class="key">event</span>:        <span class="str">"popup.cinema.seat-popcorn"</span>,  <span class="cmt">// trigger event name</span>
+  <span class="key">Cinema</span>: {
+    <span class="key">ShowTime</span>:  <span class="str">"19:30 - 12/04/2026"</span>,
+    <span class="key">FilmName</span>:  <span class="str">"Avengers: Doomsday"</span>,
+    <span class="key">Name</span>:      <span class="str">"CGV Vincom Center"</span>,
+  }
+});
+
+<span class="cmt">// GTM bắt bằng CSS Selector trigger:</span>
+<span class="cmt">// {{Click Element}} CSS_SELECTOR .tracking-engage-btn-showtime</span>
+<span class="cmt">// {{Page Path}} MATCH_REGEX /cinema</span></pre>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Known Issue — CSS Selector Fragility</strong>
+      Funnel tracking của Cinema đang dùng CSS class selector (.tracking-engage-btn-showtime, .tracking-engage-btn-cineseat...) thay vì dataLayer-first. Nếu Dev đổi tên class → tracking vỡ ngay lập tức mà không có cảnh báo. <strong>Đề xuất:</strong> Migrate sang dataLayer.push() ở sprint tiếp theo.
+    </div>
+  </section>
+
+  <!-- C. GTM INVENTORY -->
+  <section class="section" id="cs-gtm">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--gray-700);">C</div>
+      <div class="section-title-group">
+        <h2>GTM Inventory</h2>
+        <p>Mapping đầy đủ Tag → Trigger → Variable</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tag ID</th><th>Tag Name</th><th>GA4 Event</th><th>Key Params</th><th>Trigger ID</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>296</td><td>[CINE] Funnel 1_click_showtime</td><td><code>engage_product_funnel</code></td><td>funnel_step=1 · ShowTime · FilmName</td><td>146</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>297</td><td>[CINE] Funnel 2_click_seat</td><td><code>engage_product_funnel</code></td><td>funnel_step=2 · ShowTime · FilmName</td><td>303</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>298</td><td>[CINE] Funnel 3_click_popcorn</td><td><code>engage_product_funnel</code></td><td>funnel_step=3 · ShowTime · FilmName</td><td>202</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>299</td><td>[CINE] Funnel 4_bookticket (qrcode)</td><td><code>engage_product_funnel</code></td><td>funnel_step=4 · ShowTime · FilmName</td><td>207</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>300</td><td>[CINE] Funnel 4_bookticket</td><td><code>engage_product_funnel</code></td><td>funnel_step=4 · ShowTime · FilmName</td><td>205</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>572</td><td>[CINE] Button movie.info_trailer</td><td><code>component_click_cta</code></td><td>component_name=movie.info_trailer</td><td>571</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>574</td><td>[CINE] Button movie.info_review</td><td><code>component_click_cta</code></td><td>component_name=movie.info_review</td><td>573</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>663</td><td>[CINE] Snapshot Click View More</td><td><code>component_click_cta</code></td><td>component_name=cine_snapshot_view.more</td><td>662</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>665</td><td>[CINE] Snapshot Click Close Icon</td><td><code>component_click_cta</code></td><td>component_name=cine_snapshot_close.icon</td><td>664</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>667</td><td>[CINE] Snapshot Click Info Icon</td><td><code>component_click_cta</code></td><td>component_name=cine_snapshot_info.icon</td><td>666</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td>218-223</td><td>GA Event - Funnel Cinema (UA)</td><td>—</td><td>—</td><td>—</td><td><span class="badge badge-gray">⚠️ UA Legacy</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- D. GA4 DIMENSIONS -->
+  <section class="section" id="cs-ga4" style="background:var(--gray-100);">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--gray-700);">D</div>
+      <div class="section-title-group">
+        <h2>GA4 Custom Dimensions</h2>
+        <p>Dimensions cần register để query Cinema data</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Dimension Name</th><th>Parameter</th><th>Scope</th><th>Sample Value</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Funnel Step</strong></td><td><code>funnel_step</code></td><td>Event</td><td><code>1. Show Time</code></td><td><span class="badge badge-green">Register</span></td></tr>
+          <tr><td><strong>Step Value 1</strong></td><td><code>step_value_1</code></td><td>Event</td><td><code>Showtime: 19:30</code></td><td><span class="badge badge-green">Register</span></td></tr>
+          <tr><td><strong>Step Value 2</strong></td><td><code>step_value_2</code></td><td>Event</td><td><code>Movie: Avengers</code></td><td><span class="badge badge-green">Register</span></td></tr>
+          <tr><td><strong>Step Value 3</strong></td><td><code>step_value_3</code></td><td>Event</td><td><code>Cinema: CGV Vincom</code></td><td><span class="badge badge-green">Register</span></td></tr>
+          <tr><td><strong>Component Name</strong></td><td><code>component_name</code></td><td>Event</td><td><code>movie.info_trailer</code></td><td><span class="badge badge-blue">Shared</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Shared Dimensions</strong>
+      <code>funnel_step</code>, <code>step_value_1/2/3</code>, <code>component_name</code> là <strong>shared dimensions</strong> — dùng chung với các use case khác (BHOTO, OTA Bus). Không cần tạo riêng cho Cinema.
+    </div>
+  </section>
+
+  <!-- E. LOOKER DASHBOARD -->
+  <section class="section" id="cs-looker">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--gray-700);">E</div>
+      <div class="section-title-group">
+        <h2>Looker Studio Dashboard Mẫu</h2>
+        <p>Cấu trúc dashboard và các calculated fields cho Cinema</p>
+      </div>
+    </div>
+
+    <h3>Layout Dashboard Cinema</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Row 1 — Scorecards</h3>
+        <p>Total Sessions · Funnel Step 1 (ShowTime clicks) · Step 4 (Book Ticket) · Funnel CVR (Step1→Step4)</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📉</div>
+        <h3>Row 2 — Funnel Chart</h3>
+        <p>Bar chart: Step 1 → 2 → 3 → 4 (event count per step) · Filter: engage_product_funnel + page /cinema</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎬</div>
+        <h3>Row 3 — Film Table</h3>
+        <p>Dimension: step_value_2 (FilmName) · Metrics: Views, Clicks per step · Sort: Step 4 DESC</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Row 4 — Cinema Table</h3>
+        <p>Dimension: step_value_3 (Cinema.Name) · Metrics: BookTicket clicks · Top cinema chains</p>
+      </div>
+    </div>
+
+    <h3>Calculated Fields</h3>
+
+    <div class="code-block">
+      <div class="code-label">Looker Studio / Cinema Funnel Fields</div>
+      <pre><span class="cmt">// Funnel Step 1 — ShowTime Clicks</span>
+<span class="kw">CASE</span> <span class="kw">WHEN</span> funnel_step = <span class="str">"1. Show Time"</span> <span class="kw">THEN</span> <span class="val">1</span> <span class="kw">ELSE</span> <span class="val">0</span> <span class="kw">END</span>
+<span class="cmt">// Aggregation: SUM</span>
+
+<span class="cmt">// Funnel Step 4 — Book Ticket (cả QR lẫn direct)</span>
+<span class="kw">CASE</span> <span class="kw">WHEN</span> <span class="fn">REGEXP_CONTAINS</span>(funnel_step, <span class="str">"4. Book Ticket"</span>) <span class="kw">THEN</span> <span class="val">1</span> <span class="kw">ELSE</span> <span class="val">0</span> <span class="kw">END</span>
+<span class="cmt">// Aggregation: SUM</span>
+
+<span class="cmt">// Funnel CVR (Step 1 → Step 4)</span>
+<span class="fn">SUM</span>(Funnel Step 4) / <span class="fn">SUM</span>(Funnel Step 1)
+<span class="cmt">// Format: Percent · Chart filter: Event Name = engage_product_funnel</span>
+
+<span class="cmt">// Film Name — extract từ step_value_2</span>
+<span class="fn">REGEXP_EXTRACT</span>(step_value_2, <span class="str">"Movie: (.+)"</span>)
+<span class="cmt">// "Movie: Avengers" → "Avengers"</span></pre>
+    </div>
+
+    <h3>Filters cần apply trên chart</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Chart</th><th>Filter</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Funnel chart + Film table</td><td><code>Event Name = engage_product_funnel</code></td></tr>
+          <tr><td>Engagement table</td><td><code>Event Name = component_click_cta</code> AND <code>component_category = Cinema</code></td></tr>
+          <tr><td>Tất cả charts</td><td><code>Page Path CONTAINS /cinema</code> — loại bỏ event từ trang khác</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- F. KNOWN ISSUES -->
+  <section class="section" id="cs-issues" style="background:var(--gray-100);">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--gray-700);">F</div>
+      <div class="section-title-group">
+        <h2>Known Issues & Cải tiến</h2>
+        <p>Những gì đang hoạt động, những gì cần fix</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Issue</th><th>Impact</th><th>Root Cause</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>6 UA legacy tags</strong> vẫn còn trong folder [UA] - Cinema</td>
+            <td><span class="badge badge-orange">Medium</span></td>
+            <td>Chưa migrate sau GA4 launch</td>
+            <td>Pause → Delete sau khi verify GA4 đủ data</td>
+          </tr>
+          <tr>
+            <td><strong>CSS Selector trigger</strong> cho funnel thay vì dataLayer</td>
+            <td><span class="badge badge-pink">High</span></td>
+            <td>Legacy implementation trước khi có convention</td>
+            <td>Migrate sang dataLayer.push() ở sprint tiếp theo</td>
+          </tr>
+          <tr>
+            <td><strong>Cinema DLV thiếu default value</strong> (Cinema.Name, Cinema.ShowTime, Cinema.FilmName)</td>
+            <td><span class="badge badge-orange">Medium</span></td>
+            <td>setDefaultValue = false</td>
+            <td>Edit 3 DLVs → bật default = "(not set)"</td>
+          </tr>
+          <tr>
+            <td><strong>Chưa có use_case param</strong> trong Cinema events</td>
+            <td><span class="badge badge-orange">Medium</span></td>
+            <td>Được build trước khi có shared dimension convention</td>
+            <td>Thêm <code>use_case = "cinema"</code> vào tất cả tags</td>
+          </tr>
+          <tr>
+            <td><strong>Typo trigger</strong>: "Seat & Popcorm" (thiếu n)</td>
+            <td><span class="badge badge-gray">Low</span></td>
+            <td>Typo từ ban đầu</td>
+            <td>Đổi tên trigger cho nhất quán (không ảnh hưởng logic)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <div class="doc-footer">
     <strong>MoMo Web Tracking Methodology</strong> — Internal Document v1.0 · 2026<br>
     Maintained by <strong>SEO & GEO Team</strong> · GTM: <strong>GTM-P9JDDJZ</strong> · GA4: <strong>G-02G70QKZ26</strong>
