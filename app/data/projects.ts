@@ -231,16 +231,6 @@ export const projects: Project[] = [
     htmlFile: '/projects/quan-ly-chi-tieu.html',
   },
   {
-    id: 'geo-framework',
-    title: 'GEO Framework',
-    subtitle: 'Knowledge & Guideline',
-    category: 'knowledge',
-    tags: ['GEO', 'AI Overview', 'SGE'],
-    status: 'live',
-    updatedAt: '2026-03-10',
-    description: 'Framework tối ưu nội dung cho AI-generated answers (SGE, Perplexity, ChatGPT). Áp dụng cho Fintech với YMYL considerations.',
-  },
-  {
     id: 'jtbd',
     title: 'JTBD Analysis',
     subtitle: 'Knowledge & Guideline',
@@ -271,5 +261,16 @@ export const projects: Project[] = [
     updatedAt: '2026-04-09',
     description: 'Framework thiết kế và audit tracking toàn diện cho Web-to-App: event taxonomy, dataLayer, UTM structure và debug checklist.',
     htmlFile: '/projects/tracking-framework.html',
+  },
+  {
+    id: 'geo-framework',
+    title: 'GEO Framework',
+    subtitle: 'Knowledge & Guideline',
+    category: 'knowledge',
+    tags: ['GEO', 'SEO', 'AEO'],
+    status: 'live',
+    updatedAt: '2026-04-09',
+    description: 'Bộ tiêu chuẩn nội dung cho toàn bộ Use Case Tài chính và Bảo hiểm trên momo.vn.',
+    htmlFile: '/projects/geo-framework.html',
   },
 ]
