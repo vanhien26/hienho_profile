@@ -231,6 +231,17 @@ export const projects: Project[] = [
     htmlFile: '/projects/quan-ly-chi-tieu.html',
   },
   {
+    id: 'geo-framework',
+    title: 'GEO Framework',
+    subtitle: 'Knowledge & Guideline',
+    category: 'knowledge',
+    tags: ['GEO', 'SEO', 'AEO'],
+    status: 'live',
+    updatedAt: '2026-04-09',
+    description: 'Bộ tiêu chuẩn nội dung cho toàn bộ Use Case Tài chính và Bảo hiểm trên momo.vn.',
+    htmlFile: '/projects/geo-framework.html',
+  },
+  {
     id: 'jtbd',
     title: 'JTBD Analysis',
     subtitle: 'Knowledge & Guideline',
