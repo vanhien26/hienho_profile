@@ -1,8 +1,8 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
-import { projects } from './data/projects'
+import { projects, Project } from './data/projects'
 import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search, Globe, Target, Map, BarChart2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -28,6 +28,95 @@ const knowledgeIconBg: Record<string, string> = {
   'geo-framework': '#E0F2FE',
   'jtbd': '#EDE9FE',
   'web-to-app': '#DCFCE7',
+}
+
+function HoverPreview({ project, anchorRect }: { project: Project; anchorRect: DOMRect }) {
+  const dc = project.division ? divisionColors[project.division] : null
+  const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1440
+  const spaceRight = viewportW - anchorRect.right
+  const showLeft = spaceRight < 320
+
+  const style: React.CSSProperties = {
+    position: 'fixed',
+    top: Math.min(anchorRect.top, window.innerHeight - 280),
+    ...(showLeft
+      ? { right: viewportW - anchorRect.left + 8 }
+      : { left: anchorRect.right + 8 }),
+    width: 280,
+    zIndex: 999,
+    pointerEvents: 'none',
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96, y: 4 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.96, y: 4 }}
+      transition={{ duration: 0.15, ease: 'easeOut' }}
+      style={style}
+    >
+      <div
+        className="rounded-2xl overflow-hidden"
+        style={{
+          background: '#fff',
+          border: '1px solid #E5E7EB',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08)',
+        }}
+      >
+        {/* Coloured top strip */}
+        <div className="h-1" style={{ background: dc ? dc.border : '#AE2070' }} />
+
+        <div className="p-4">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-2">
+            {dc && (
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md" style={{ background: dc.bg, color: dc.text }}>
+                {project.division}
+              </span>
+            )}
+            <span className="text-[10px]" style={{ color: 'var(--ink-ghost)' }}>
+              {new Date(project.updatedAt).toLocaleDateString('vi-VN', { month: 'short', year: 'numeric' })}
+            </span>
+          </div>
+
+          <p className="font-bold text-[14px] leading-snug mb-0.5" style={{ color: 'var(--ink)' }}>
+            {project.title}
+          </p>
+          <p className="text-[10px] font-mono mb-2 truncate" style={{ color: 'var(--ink-ghost)' }}>
+            {project.subtitle}
+          </p>
+          <p className="text-[11px] leading-relaxed" style={{ color: 'var(--ink-2)' }}>
+            {project.description}
+          </p>
+
+          {project.metrics && (
+            <div className="flex gap-3 mt-3 pt-2.5" style={{ borderTop: '1px solid var(--border)' }}>
+              {project.metrics.map(m => (
+                <div key={m.label}>
+                  <div className="text-xs font-black" style={{ color: 'var(--pink)' }}>{m.value}</div>
+                  <div className="text-[9px]" style={{ color: 'var(--ink-ghost)' }}>{m.label}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {project.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2.5">
+              {project.tags.map(t => (
+                <span key={t} className="text-[9px] font-semibold px-1.5 py-0.5 rounded" style={{ background: '#F1F5F9', color: 'var(--ink-3)' }}>
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-3 pt-2.5 flex items-center gap-1" style={{ borderTop: '1px solid var(--border)' }}>
+            <span className="text-[10px] font-semibold" style={{ color: 'var(--pink)' }}>Click để xem tài liệu →</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
 }
 
 function HamburgerButton({ onClick }: { onClick: () => void }) {
@@ -63,6 +152,8 @@ export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeDivision, setActiveDivision] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [hoveredProject, setHoveredProject] = useState<{ project: Project; rect: DOMRect } | null>(null)
+  const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const useCaseProjects = projects.filter(p => p.category === 'use-case')
   const knowledgeProjects = projects.filter(p => p.category === 'knowledge')
 
@@ -94,6 +185,12 @@ export default function HomePage() {
     <div className="flex min-h-screen w-full">
       <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <HamburgerButton onClick={() => setSidebarOpen(true)} />
+
+      <AnimatePresence>
+        {hoveredProject && (
+          <HoverPreview project={hoveredProject.project} anchorRect={hoveredProject.rect} />
+        )}
+      </AnimatePresence>
 
       <main className="flex-1 overflow-y-auto w-full">
         {/* Profile Header / Banner */}
@@ -347,10 +444,14 @@ export default function HomePage() {
                           onMouseEnter={(e) => {
                             e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
                             e.currentTarget.style.borderColor = dc ? dc.text + '40' : '#AE207040'
+                            const rect = e.currentTarget.getBoundingClientRect()
+                            hoverTimeout.current = setTimeout(() => setHoveredProject({ project: p, rect }), 400)
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.boxShadow = 'var(--shadow-sm)'
                             e.currentTarget.style.borderColor = 'var(--border)'
+                            if (hoverTimeout.current) clearTimeout(hoverTimeout.current)
+                            setHoveredProject(null)
                           }}
                         >
                           {/* Left border accent */}
@@ -461,10 +562,14 @@ export default function HomePage() {
                         onMouseEnter={(e) => {
                           e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
                           e.currentTarget.style.borderColor = '#7C3AED40'
+                          const rect = e.currentTarget.getBoundingClientRect()
+                          hoverTimeout.current = setTimeout(() => setHoveredProject({ project: p, rect }), 400)
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.boxShadow = 'var(--shadow-sm)'
                           e.currentTarget.style.borderColor = 'var(--border)'
+                          if (hoverTimeout.current) clearTimeout(hoverTimeout.current)
+                          setHoveredProject(null)
                         }}
                       >
                         {/* Left border accent — purple for knowledge */}
