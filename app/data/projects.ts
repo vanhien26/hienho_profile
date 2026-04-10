@@ -273,15 +273,4 @@ export const projects: Project[] = [
     description: 'Framework thiết kế và audit tracking toàn diện cho Web-to-App: event taxonomy, dataLayer, UTM structure và debug checklist.',
     htmlFile: '/projects/tracking-framework.html',
   },
-  {
-    id: 'geo-framework',
-    title: 'GEO Framework',
-    subtitle: 'Knowledge & Guideline',
-    category: 'knowledge',
-    tags: ['GEO', 'SEO', 'AEO'],
-    status: 'live',
-    updatedAt: '2026-04-09',
-    description: 'Bộ tiêu chuẩn nội dung cho toàn bộ Use Case Tài chính và Bảo hiểm trên momo.vn.',
-    htmlFile: '/projects/geo-framework.html',
-  },
 ]
