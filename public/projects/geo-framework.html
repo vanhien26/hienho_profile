@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MoMo GEO/YMYL Content Framework — Finance & Insurance</title>
+<title>MoMo GEO/YMYL Content Framework v2 — Finance & Insurance</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -36,7 +36,6 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; -webkit-text-size-adjust:100%; }
 
-/* LAYOUT */
 .layout { display:block; min-height:100vh; }
 
 /* MOBILE HEADER */
@@ -71,11 +70,9 @@ body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(
 .mob-hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
 .mob-hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(4.5px,-4.5px); background:var(--pink); }
 
-/* SIDEBAR OVERLAY */
 .sidebar-overlay {
   display:none; position:fixed; inset:0;
-  background:rgba(24,18,14,0.5);
-  z-index:250;
+  background:rgba(24,18,14,0.5); z-index:250;
 }
 .sidebar-overlay.open { display:block; }
 
@@ -147,10 +144,8 @@ body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(
 .page-title { font-size:22px; font-weight:900; letter-spacing:-0.5px; line-height:1.2; color:var(--ink); margin-bottom:8px; }
 .page-desc { font-size:13.5px; color:var(--ink-2); line-height:1.7; }
 
-/* HEADINGS */
 h2.sh { font-size:16px; font-weight:800; letter-spacing:-0.3px; margin-bottom:14px; color:var(--ink); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 h3.sh3 { font-size:13.5px; font-weight:700; margin-bottom:10px; color:var(--ink); }
-h4.sh4 { font-size:12.5px; font-weight:700; margin-bottom:7px; color:var(--ink-2); }
 
 /* TAGS */
 .tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
@@ -172,9 +167,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
 .data-table tbody tr:last-child td { border-bottom:none; }
 .data-table tbody tr:hover { background:#FAFAF8; }
-.data-table .cat-row td { background:#F8F5F1; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); }
 
-/* DIVIDER */
 .divider { height:1px; background:var(--border); margin:32px 0; }
 
 /* CALLOUT */
@@ -193,7 +186,6 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 /* GRID */
 .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
 .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
-
 @media(max-width:640px) { .grid-2,.grid-3 { grid-template-columns:1fr; } }
 
 /* STAT ROW */
@@ -203,7 +195,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .stat-lbl { font-size:11.5px; color:var(--ink-3); font-weight:500; }
 .stat-sub { font-size:10px; color:var(--ink-3); margin-top:3px; }
 
-/* DEFINITION CARDS */
+/* DEF CARDS */
 .def-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
 @media(max-width:768px) { .def-grid { grid-template-columns:1fr; } }
 .def-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 20px; overflow:hidden; position:relative; }
@@ -246,13 +238,14 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .cl-table .cat-header.amber td { background:var(--amber-light); color:var(--amber); border-top-color:#FFD0A0; }
 .cl-table .cat-header.purple td { background:var(--purple-light); color:var(--purple); border-top-color:#C0A0FF; }
 .cl-table .cat-header.red td { background:var(--red-light); color:var(--red); border-top-color:#FFB0B0; }
+.cl-table .cat-header.teal td { background:var(--teal-light); color:var(--teal); border-top-color:#80C8C8; }
 .check-yes { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; background:var(--green-light); border:1.5px solid #A0DEB8; border-radius:4px; color:var(--green); font-size:11px; font-weight:800; cursor:pointer; transition:all 0.15s; user-select:none; }
 .check-yes.checked { background:var(--green); border-color:var(--green); color:#fff; }
 .check-no { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; background:#F0EDE8; border:1.5px solid var(--border); border-radius:4px; color:var(--ink-3); font-size:11px; cursor:pointer; transition:all 0.15s; user-select:none; }
 .check-no.checked { background:var(--red); border-color:var(--red); color:#fff; }
 td.done-col { text-align:center; width:60px; }
 
-/* YMYL WARNING BOX */
+/* YMYL WARN */
 .ymyl-warn { background:#FFF0E0; border:1.5px solid #FFB870; border-radius:var(--r); padding:16px 20px; margin-bottom:20px; }
 .ymyl-warn-title { font-size:13px; font-weight:800; color:var(--amber); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
 .ymyl-warn ul { padding-left:16px; }
@@ -262,76 +255,48 @@ td.done-col { text-align:center; width:60px; }
 .progress-bar-wrap { background:#F0EDE8; border-radius:20px; height:8px; margin-bottom:4px; overflow:hidden; }
 .progress-bar { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--pink),var(--pink-0)); transition:width 0.4s; }
 
-/* SCORE BADGE */
-.score-badge { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; font-size:13px; font-weight:900; flex-shrink:0; }
-.score-green { background:var(--green-light); color:var(--green); border:2px solid #80D0A0; }
-.score-amber { background:var(--amber-light); color:var(--amber); border:2px solid #FFB870; }
-.score-red { background:var(--red-light); color:var(--red); border:2px solid #FFB0B0; }
+/* ENTITY PILLS */
+.entity-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
+.entity-pill { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; background:#F0EDE8; color:var(--ink-2); border:1px solid var(--border); }
+.entity-pill.brand { background:var(--pink-m2); color:var(--pink); border-color:var(--pink-m1); }
+.entity-pill.reg { background:var(--blue-light); color:var(--blue); border-color:#B0C8FF; }
+.entity-pill.competitor { background:#F0EDE8; color:var(--ink-3); border-color:var(--border); }
 
 /* PROCESS STEPS */
-.process-steps { display:flex; gap:0; margin-bottom:28px; position:relative; }
-.process-steps::before { content:''; position:absolute; top:20px; left:24px; right:24px; height:2px; background:var(--border); z-index:0; }
-@media(max-width:640px) { .process-steps { flex-direction:column; gap:8px; } .process-steps::before { display:none; } }
-.process-step { flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; z-index:1; padding:0 8px; }
-.process-step-num { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:900; color:#fff; margin-bottom:10px; flex-shrink:0; }
-.process-step-title { font-size:12px; font-weight:700; margin-bottom:3px; }
-.process-step-desc { font-size:11px; color:var(--ink-3); line-height:1.4; }
+.process-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:28px; }
+@media(max-width:700px) { .process-steps { grid-template-columns:1fr 1fr; } }
+@media(max-width:400px) { .process-steps { grid-template-columns:1fr; } }
+.process-step { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:16px 14px; }
+.process-step-num { width:28px; height:28px; border-radius:50%; color:#fff; font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; margin-bottom:10px; }
+.process-step-title { font-size:13px; font-weight:800; margin-bottom:6px; color:var(--ink); }
+.process-step-desc { font-size:11.5px; color:var(--ink-2); line-height:1.55; }
 
-/* TABS */
-.tab-bar { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); overflow-x:auto; }
-.tab-btn { padding:9px 16px; font-size:12.5px; font-weight:700; color:var(--ink-3); cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-2px; white-space:nowrap; transition:all 0.13s; background:none; border-top:none; border-left:none; border-right:none; }
-.tab-btn:hover { color:var(--ink); }
-.tab-btn.active { color:var(--pink); border-bottom-color:var(--pink); }
-.tab-content { display:none; }
-.tab-content.active { display:block; }
+/* IG CARD */
+.ig-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; margin-bottom:14px; }
+.ig-card-title { font-size:13px; font-weight:800; margin-bottom:8px; color:var(--ink); }
+.ig-card p { font-size:12.5px; color:var(--ink-2); line-height:1.65; margin-bottom:10px; }
+.example { font-family:'JetBrains Mono',monospace; font-size:11.5px; background:#F6F3EF; border-left:3px solid var(--pink); padding:10px 14px; border-radius:0 6px 6px 0; color:var(--ink-2); line-height:1.65; }
 
-/* ACCORDION */
-.acc-item { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:8px; overflow:hidden; }
-.acc-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; cursor:pointer; transition:background 0.12s; }
-.acc-header:hover { background:var(--bg); }
-.acc-title { font-size:13.5px; font-weight:700; }
-.acc-arrow { font-size:11px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
-.acc-arrow.open { transform:rotate(90deg); }
-.acc-body { display:none; border-top:1px solid var(--border); padding:16px 18px; }
-.acc-body.open { display:block; }
+/* AVOID BOX */
+.avoid-box { background:#FFF8F8; border:1.5px solid #FFD0D0; border-radius:var(--r); padding:16px 20px; margin-bottom:20px; }
+.avoid-box-title { font-size:13px; font-weight:800; color:var(--red); margin-bottom:10px; display:flex; align-items:center; gap:7px; }
+.avoid-item { display:flex; align-items:flex-start; gap:9px; padding:6px 0; border-bottom:1px solid #FFE8E8; font-size:12.5px; color:#6B1A1A; line-height:1.5; }
+.avoid-item:last-child { border-bottom:none; }
+.avoid-item::before { content:"✕"; font-size:11px; color:var(--red); flex-shrink:0; margin-top:2px; font-weight:800; }
 
-/* GEO ENTITY PILL */
-.entity-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
-.entity-pill { display:inline-flex; align-items:center; gap:5px; background:#F0EDE8; border:1px solid var(--border); border-radius:20px; padding:3px 10px 3px 8px; font-size:12px; font-weight:600; color:var(--ink-2); }
-.entity-pill.brand { background:var(--pink-m2); border-color:var(--pink-m1); color:var(--pink); }
-.entity-pill.reg { background:var(--blue-light); border-color:#B0C8FF; color:var(--blue); }
-.entity-pill.competitor { background:#F0EDE8; border-color:var(--border); color:var(--ink-3); }
-
-/* INFORMATION GAIN CARD */
-.ig-card { background:var(--surface); border:1.5px dashed var(--purple); border-radius:var(--r); padding:16px 20px; margin-bottom:12px; }
-.ig-card-title { font-size:13px; font-weight:800; color:var(--purple); margin-bottom:6px; }
-.ig-card p { font-size:12.5px; color:var(--ink-2); line-height:1.6; }
-.ig-card .example { background:var(--purple-light); border-radius:6px; padding:8px 12px; margin-top:8px; font-size:12px; color:#4A1A90; font-style:italic; }
-
-/* MOBILE RESPONSIVE */
-@media(max-width:640px) {
-  .stat-row { grid-template-columns:1fr 1fr; }
-  .eeat-grid { grid-template-columns:1fr 1fr; }
-  .cl-table { font-size:12px; }
-  .cl-table th, .cl-table td { padding:8px 10px; }
-}
+/* SELF-ASSESS CARDS */
+.sa-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:28px; }
+@media(max-width:640px) { .sa-grid { grid-template-columns:1fr; } }
+.sa-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.sa-card-head { padding:10px 16px; font-size:12px; font-weight:800; border-bottom:1px solid var(--border); }
+.sa-card-body { padding:12px 16px; }
+.sa-item { display:flex; align-items:flex-start; gap:8px; padding:5px 0; border-bottom:1px solid var(--border); font-size:12px; color:var(--ink-2); line-height:1.45; }
+.sa-item:last-child { border-bottom:none; }
+.sa-item::before { content:"?"; font-size:10px; font-weight:800; color:var(--blue); flex-shrink:0; margin-top:2px; width:14px; text-align:center; }
 </style>
 </head>
 <body>
-
 <div class="layout">
-
-<!-- MOBILE HEADER -->
-<header class="mob-header">
-  <div class="mob-brand">
-    <div class="brand-logo">MoMo</div>
-    <div class="brand-label">GEO/YMYL<br>Content Framework</div>
-  </div>
-  <button class="mob-hamburger" id="hamburger" onclick="toggleSidebar()">
-    <span></span><span></span><span></span>
-  </button>
-</header>
-
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <!-- SIDEBAR -->
@@ -344,67 +309,90 @@ td.done-col { text-align:center; width:60px; }
   <div class="nav-section">
     <span class="nav-section-label">Overview</span>
     <div class="nav-item active" onclick="showSection('overview',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">Tổng quan Framework</span>
+      <span class="nav-dot"></span><span class="nav-lbl">Tổng quan & Phạm vi</span>
     </div>
     <div class="nav-item" onclick="showSection('definitions',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">GEO / AEO / YMYL</span>
-    </div>
-    <div class="nav-item" onclick="showSection('eeat',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">E-E-A-T & Trust Signals</span>
+      <span class="nav-dot"></span><span class="nav-lbl">GEO · AEO · YMYL Định nghĩa</span>
     </div>
   </div>
 
   <div class="nav-section">
-    <span class="nav-section-label">Use Case: Finance</span>
+    <span class="nav-section-label">Tiêu chuẩn nội dung</span>
+    <div class="nav-item" onclick="showSection('eeat',this)">
+      <span class="nav-dot"></span><span class="nav-lbl">E-E-A-T & Trust Signals</span>
+    </div>
+    <div class="nav-item" onclick="showSection('people-first',this)">
+      <span class="nav-dot"></span><span class="nav-lbl">People-First Content</span>
+    </div>
+    <div class="nav-item" onclick="showSection('self-assess',this)">
+      <span class="nav-dot"></span><span class="nav-lbl">Self-Assessment Questions</span>
+    </div>
+    <div class="nav-item" onclick="showSection('avoid',this)">
+      <span class="nav-dot"></span><span class="nav-lbl">Dấu hiệu cần tránh</span>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Finance Use Cases</span>
     <div class="nav-item" onclick="showSection('finance-geo',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">GEO/AEO Checklist</span>
+      <span class="nav-dot"></span><span class="nav-lbl">GEO/AEO Checklist</span>
     </div>
     <div class="nav-item" onclick="showSection('finance-ymyl',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">YMYL Checklist</span>
+      <span class="nav-dot"></span><span class="nav-lbl">YMYL Checklist</span>
     </div>
   </div>
 
   <div class="nav-section">
-    <span class="nav-section-label">Use Case: Insurance</span>
+    <span class="nav-section-label">Insurance Use Cases</span>
     <div class="nav-item" onclick="showSection('ins-geo',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">GEO/AEO Checklist</span>
+      <span class="nav-dot"></span><span class="nav-lbl">GEO/AEO Checklist</span>
     </div>
     <div class="nav-item" onclick="showSection('ins-ymyl',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">YMYL Checklist</span>
+      <span class="nav-dot"></span><span class="nav-lbl">YMYL Checklist</span>
     </div>
   </div>
 
   <div class="nav-section">
     <span class="nav-section-label">Reference</span>
     <div class="nav-item" onclick="showSection('entities',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">GEO Entities Map</span>
+      <span class="nav-dot"></span><span class="nav-lbl">GEO Entities Map</span>
     </div>
     <div class="nav-item" onclick="showSection('workflow',this)">
-      <div class="nav-dot"></div><span class="nav-lbl">Content Workflow</span>
+      <span class="nav-dot"></span><span class="nav-lbl">Workflow & Audit Schedule</span>
     </div>
   </div>
 
   <div class="sidebar-footer">
-    <div class="version-tag">GEO Content Framework v1.0<br>SEO & GEO Team — MoMo<br>Internal Use Only</div>
+    <div class="version-tag">v2.0 · April 2026<br>SEO & GEO Team · MoMo</div>
   </div>
 </nav>
 
-<!-- CONTENT -->
+<!-- MOBILE HEADER -->
+<div class="mob-header">
+  <div class="mob-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-label">GEO/YMYL Framework</div>
+  </div>
+  <button class="mob-hamburger" id="hamburger" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
 <main class="content">
 
-<!-- ═══════════════ OVERVIEW ═══════════════ -->
+<!-- ═══ OVERVIEW ═══ -->
 <div class="section active" id="s-overview">
   <div class="page-header">
-    <div class="page-eyebrow">SEO & GEO Team · Internal Framework</div>
+    <div class="page-eyebrow">SEO & GEO Team · Internal Framework · v2.0</div>
     <div class="page-title">GEO/YMYL Content Framework<br>Finance & Insurance</div>
-    <div class="page-desc">Bộ tiêu chuẩn nội dung cho toàn bộ Use Case Tài chính và Bảo hiểm trên momo.vn — tối ưu đồng thời cho Traditional SEO, GEO (AI citation), AEO (Featured Snippet), và YMYL compliance.</div>
+    <div class="page-desc">Bộ tiêu chuẩn nội dung cho toàn bộ Use Case Tài chính và Bảo hiểm trên momo.vn - tối ưu đồng thời cho Traditional SEO, GEO (AI citation), AEO (Featured Snippet), và YMYL compliance. Tổng hợp từ Google Search Quality Evaluator Guidelines, People-First Content guidelines và thực tiễn Fintech Việt Nam.</div>
   </div>
 
   <div class="stat-row">
     <div class="stat-card">
       <div class="stat-num" style="color:var(--purple)">GEO</div>
       <div class="stat-lbl">AI Citation Optimization</div>
-      <div class="stat-sub">ChatGPT · Gemini · Perplexity</div>
+      <div class="stat-sub">ChatGPT · Gemini · Perplexity · Copilot</div>
     </div>
     <div class="stat-card">
       <div class="stat-num" style="color:var(--blue)">AEO</div>
@@ -414,7 +402,7 @@ td.done-col { text-align:center; width:60px; }
     <div class="stat-card">
       <div class="stat-num" style="color:var(--red)">YMYL</div>
       <div class="stat-lbl">Your Money or Your Life</div>
-      <div class="stat-sub">Finance · Insurance · Legal · Health</div>
+      <div class="stat-sub">Finance · Insurance · Legal · Civic</div>
     </div>
     <div class="stat-card">
       <div class="stat-num" style="color:var(--amber)">E-E-A-T</div>
@@ -425,77 +413,77 @@ td.done-col { text-align:center; width:60px; }
 
   <div class="callout callout-red">
     <div class="callout-title">⚠ MoMo thuộc đồng thời 3+ nhóm YMYL</div>
-    Finance & Money (Vay Nhanh, Ví Trả Sau, CIC Score) · Insurance (Bảo hiểm xe máy, sức khỏe, du lịch) · Legal (điều khoản hợp đồng, nghĩa vụ vay nợ) · Civic (quy định NHNN, thuế). Mọi content sai lệch dù nhỏ đều có thể gây rủi ro pháp lý và Google penalty toàn domain.
+    Finance &amp; Money (Vay Nhanh, Ví Trả Sau, CIC Score) · Insurance (xe máy, ô tô, sức khỏe, du lịch) · Legal (điều khoản hợp đồng, nghĩa vụ vay nợ) · Civic (quy định NHNN, thuế). Mọi content sai lệch dù nhỏ đều có thể gây rủi ro pháp lý và Google penalty toàn domain www.momo.vn.
   </div>
 
   <h2 class="sh">Phạm vi áp dụng</h2>
   <table class="data-table">
     <thead><tr><th>Nhóm YMYL</th><th>Ví dụ Use Case tại MoMo</th><th>Rủi ro nếu content sai</th></tr></thead>
     <tbody>
-      <tr><td><span class="tag tag-finance">Finance &amp; Money</span></td><td>Vay Nhanh, Ví Trả Sau, CIC Score, thẻ tín dụng</td><td style="color:var(--red)">Người dùng ra quyết định tài chính sai, mất tiền</td></tr>
-      <tr><td><span class="tag tag-ins">Insurance</span></td><td>Bảo hiểm sức khỏe, xe máy, du lịch — điều khoản, quyền lợi</td><td style="color:var(--red)">Hiểu sai quyền lợi, không được bồi thường</td></tr>
-      <tr><td><span class="tag" style="background:#F0EDE8;color:var(--ink-2)">Health</span></td><td>Bảo hiểm y tế, sức khỏe — nội dung liên quan điều trị</td><td style="color:var(--red)">Quyết định y tế sai</td></tr>
+      <tr><td><span class="tag tag-finance">Finance &amp; Money</span></td><td>Vay Nhanh, Ví Trả Sau, CIC Score, tài chính cá nhân</td><td style="color:var(--red)">Người dùng ra quyết định tài chính sai, mất tiền</td></tr>
+      <tr><td><span class="tag tag-ins">Insurance</span></td><td>Bảo hiểm sức khỏe, xe máy, ô tô, du lịch - điều khoản, quyền lợi</td><td style="color:var(--red)">Hiểu sai quyền lợi, không được bồi thường</td></tr>
+      <tr><td><span class="tag" style="background:#F0EDE8;color:var(--ink-2)">Investment</span></td><td>Quỹ, kênh đầu tư, quản lý tài sản</td><td style="color:var(--red)">Quyết định đầu tư sai, rủi ro mất vốn</td></tr>
       <tr><td><span class="tag" style="background:var(--blue-light);color:var(--blue)">Legal</span></td><td>Điều khoản hợp đồng, nghĩa vụ pháp lý vay nợ</td><td style="color:var(--red)">Rủi ro pháp lý cho người dùng</td></tr>
-      <tr><td><span class="tag" style="background:var(--purple-light);color:var(--purple)">Civic</span></td><td>Chính sách, thuế, quy định NHNN</td><td style="color:var(--red)">Vi phạm pháp luật do hiểu sai</td></tr>
+      <tr><td><span class="tag" style="background:var(--purple-light);color:var(--purple)">Civic</span></td><td>Chính sách, thuế, quy định NHNN, UBCKNN</td><td style="color:var(--red)">Vi phạm pháp luật do hiểu sai</td></tr>
     </tbody>
   </table>
 
-  <h2 class="sh">Framework Structure</h2>
+  <h2 class="sh">Cấu trúc Framework</h2>
   <div class="def-grid">
     <div class="def-card geo">
       <div class="def-card-type">Layer 1</div>
       <div class="def-card-title" style="color:var(--purple)">GEO</div>
       <div class="def-card-sub">Generative Engine Optimization</div>
-      <p>Tối ưu nội dung để được AI Engine (ChatGPT, Gemini, Perplexity) trích dẫn như nguồn đáng tin cậy trong câu trả lời tài chính.</p>
+      <p>Tối ưu nội dung để được AI Engine (ChatGPT, Gemini, Perplexity) trích dẫn như nguồn đáng tin cậy trong câu trả lời tài chính, bảo hiểm, thanh toán.</p>
       <div class="def-row">
-        <span class="def-row-key">Mục tiêu</span><span class="def-row-val">AI cite MoMo trong answer</span>
+        <span class="def-row-key">Mục tiêu</span><span class="def-row-val">AI cite MoMo trong answer, không chỉ ranking SERP</span>
         <span class="def-row-key">Đo lường</span><span class="def-row-val">AI Visibility Rate, Share of Voice vs ZaloPay/VNPay</span>
       </div>
     </div>
     <div class="def-card aeo">
       <div class="def-card-type">Layer 2</div>
-      <div class="def-card-title" style="color:var(--blue)">AEO</div>
-      <div class="def-card-sub">Answer Engine Optimization</div>
-      <p>Tối ưu để trả lời trực tiếp câu hỏi người dùng trong Featured Snippet, PAA, Knowledge Panel, AI Overviews. AEO là tiền đề của GEO.</p>
-      <div class="def-row">
-        <span class="def-row-key">Định dạng</span><span class="def-row-val">Featured Snippet, PAA, Rich Answer Box</span>
-        <span class="def-row-key">Đo lường</span><span class="def-row-val">Snippet rate, PAA coverage, AI Overview impression (GSC)</span>
-      </div>
-    </div>
-    <div class="def-card ymyl">
-      <div class="def-card-type">Layer 3</div>
-      <div class="def-card-title" style="color:var(--red)">YMYL</div>
+      <div class="def-card-title" style="color:var(--blue)">YMYL</div>
       <div class="def-card-sub">Your Money or Your Life</div>
       <p>Nhóm nội dung mà chất lượng thông tin kém có thể gây hại trực tiếp đến tài chính, sức khỏe, an toàn người dùng. Google penalize mạnh domain có YMYL content kém.</p>
       <div class="def-row">
         <span class="def-row-key">Nguồn</span><span class="def-row-val">Search Quality Evaluator Guidelines (SQEG)</span>
-        <span class="def-row-key">Bắt buộc</span><span class="def-row-val">Review bởi Legal / Compliance trước publish</span>
+        <span class="def-row-key">Bắt buộc</span><span class="def-row-val">Review bởi Legal/Compliance/PO trước publish</span>
+      </div>
+    </div>
+    <div class="def-card ymyl">
+      <div class="def-card-type">Layer 3</div>
+      <div class="def-card-title" style="color:var(--red)">E-E-A-T</div>
+      <div class="def-card-sub">Experience · Expertise · Authority · Trust</div>
+      <p>Bộ tín hiệu chất lượng nội dung của Google - đồng thời là tiêu chí AI Engine dùng để xác định nội dung đáng trích dẫn. <strong>Trustworthiness là yếu tố quan trọng nhất.</strong></p>
+      <div class="def-row">
+        <span class="def-row-key">Áp dụng</span><span class="def-row-val">Mọi bài viết, landing page, blog tài chính</span>
+        <span class="def-row-key">Trọng tâm</span><span class="def-row-val">Trust = dẫn nguồn + minh bạch rủi ro + cập nhật</span>
       </div>
     </div>
   </div>
 
   <div class="callout callout-purple">
-    <div class="callout-title">Khác biệt cốt lõi: SEO vs GEO</div>
-    SEO tối ưu để xuất hiện trên SERP (ranking #1). GEO tối ưu để được AI cite trong AI-generated answer — không nhất thiết cần ranking #1. Nội dung có cấu trúc rõ ràng, dữ kiện xác thực, và E-E-A-T cao sẽ được AI Engine ưu tiên trích dẫn qua RAG pipeline.
+    <div class="callout-title">Nguyên tắc cốt lõi: Nội dung phục vụ người dùng - không phải công cụ tìm kiếm</div>
+    Mục tiêu của mọi content là giúp người dùng đạt được mục tiêu thực tế - ra quyết định tài chính đúng đắn, tránh rủi ro. Không phải để thu hút traffic. GEO và SEO là kết quả phụ của nội dung chất lượng thực sự, không phải mục đích chính.
   </div>
 </div>
 
-<!-- ═══════════════ DEFINITIONS ═══════════════ -->
+<!-- ═══ DEFINITIONS ═══ -->
 <div class="section" id="s-definitions">
   <div class="page-header">
     <div class="page-eyebrow">Section 01</div>
-    <div class="page-title">GEO · AEO · YMYL — Định nghĩa</div>
+    <div class="page-title">GEO · AEO · YMYL - Định nghĩa</div>
     <div class="page-desc">Nền tảng lý thuyết và cơ chế hoạt động của ba framework cốt lõi.</div>
   </div>
 
   <h2 class="sh"><span class="tag tag-geo">GEO</span> Generative Engine Optimization</h2>
   <div class="card">
-    <div style="font-size:13px;color:var(--ink-2);line-height:1.7;margin-bottom:14px;">GEO là tập hợp các kỹ thuật và chiến lược tối ưu nội dung nhằm tăng khả năng được các AI Search Engine (ChatGPT, Gemini, Perplexity, Copilot...) <strong>trích dẫn, hiển thị, hoặc giới thiệu thương hiệu</strong> khi người dùng đặt câu hỏi liên quan.</div>
+    <div style="font-size:13px;color:var(--ink-2);line-height:1.7;margin-bottom:14px;">GEO là tập hợp kỹ thuật và chiến lược tối ưu nội dung nhằm tăng khả năng được các AI Search Engine (ChatGPT, Gemini, Perplexity, Copilot) <strong>trích dẫn, hiển thị, hoặc giới thiệu thương hiệu</strong> khi người dùng đặt câu hỏi liên quan.</div>
     <table class="data-table" style="margin-bottom:0">
       <thead><tr><th style="width:140px">Khía cạnh</th><th>Chi tiết</th></tr></thead>
       <tbody>
         <tr><td><strong>Mục tiêu</strong></td><td>Nội dung MoMo được AI Engine tổng hợp và trích dẫn như nguồn đáng tin cậy trong các câu trả lời tài chính, bảo hiểm, thanh toán</td></tr>
-        <tr><td><strong>Khác với SEO</strong></td><td>SEO tối ưu ranking. GEO tối ưu để được AI cite — không nhất thiết cần ranking #1</td></tr>
+        <tr><td><strong>Khác với SEO</strong></td><td>SEO tối ưu ranking. GEO tối ưu để được AI cite - không nhất thiết cần ranking #1</td></tr>
         <tr><td><strong>Cơ chế</strong></td><td>AI Engine thu thập từ web crawl, RAG pipeline. Nội dung có cấu trúc rõ, dữ kiện xác thực, E-E-A-T cao được ưu tiên</td></tr>
         <tr><td><strong>Tracking</strong></td><td>AI Visibility Rate: % prompt liên quan có mention MoMo. Share of Voice vs ZaloPay, VNPay, Agribank</td></tr>
       </tbody>
@@ -523,129 +511,266 @@ td.done-col { text-align:center; width:60px; }
   <h2 class="sh"><span class="tag tag-ymyl">YMYL</span> Your Money or Your Life</h2>
   <div class="callout callout-red">
     <div class="callout-title">Lưu ý quan trọng</div>
-    Mọi nội dung về sản phẩm tài chính (vay, tín dụng, đầu tư) và bảo hiểm đều thuộc YMYL. YMYL content <strong>bắt buộc phải qua review</strong> bởi người có chuyên môn (Legal, Compliance, Business Owner) trước khi publish. Google sẽ penalize trang web có YMYL content kém chất lượng — ảnh hưởng toàn bộ domain www.momo.vn
+    Mọi nội dung về sản phẩm tài chính (vay, tín dụng, đầu tư) và bảo hiểm đều thuộc YMYL. YMYL content <strong>bắt buộc phải qua review</strong> bởi người có chuyên môn (Legal, Compliance, Business Owner) trước khi publish. Google penalize mạnh domain có YMYL content kém - ảnh hưởng toàn bộ domain www.momo.vn.
   </div>
 
-  <h2 class="sh">E-E-A-T 2026 — Xu hướng mới</h2>
+  <h2 class="sh">E-E-A-T 2026 - Bối cảnh AI</h2>
   <div class="callout callout-amber">
-    <div class="callout-title">Chuyển dịch AI trong E-E-A-T</div>
-    Sự gia tăng của nội dung do AI tạo ra đã biến E-E-A-T trở thành bộ lọc chất lượng chính. Bản cập nhật cốt lõi tháng 2/2026 ưu tiên nội dung chuyên gia do con người dẫn dắt hơn thông tin do máy tạo ra. AI Visibility Rate phụ thuộc vào việc hệ thống đánh giá xem thực thể đứng sau nội dung có thẩm quyền và kiểm chứng hay không.
+    <div class="callout-title">Chuyển dịch quan trọng trong E-E-A-T</div>
+    Sự gia tăng của nội dung AI-generated đã biến E-E-A-T thành bộ lọc chất lượng chính. Google Core Update 2025-2026 ưu tiên nội dung chuyên gia do con người dẫn dắt hơn thông tin do máy tạo ra. AI Visibility Rate phụ thuộc vào việc AI Engine đánh giá thực thể đứng sau nội dung có thẩm quyền và kiểm chứng được hay không. <strong>Trustworthiness (độ tin cậy) là yếu tố quan trọng nhất trong 4 tiêu chí E-E-A-T</strong> - đặc biệt với YMYL Fintech.
   </div>
 </div>
 
-<!-- ═══════════════ E-E-A-T ═══════════════ -->
+<!-- ═══ E-E-A-T ═══ -->
 <div class="section" id="s-eeat">
   <div class="page-header">
     <div class="page-eyebrow">Section 02</div>
-    <div class="page-title">E-E-A-T & Trust Signals</div>
-    <div class="page-desc">Framework đánh giá chất lượng nội dung của Google Search Quality Rater Guidelines. Đây đồng thời là tín hiệu mà AI Engine dùng để xác định nội dung đáng trích dẫn.</div>
+    <div class="page-title">E-E-A-T Checklist & Trust Signals</div>
+    <div class="page-desc">Framework đánh giá chất lượng nội dung của Google Search Quality Rater Guidelines - đồng thời là tín hiệu mà AI Engine dùng để xác định nội dung đáng trích dẫn. Áp dụng cho toàn bộ content Finance và Insurance trên momo.vn.</div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">Trustworthiness = Tiêu chí quan trọng nhất</div>
+    Google nhấn mạnh trong SQEG: với YMYL, <strong>Trustworthiness là nền tảng</strong>. E (Experience), E (Expertise), A (Authoritativeness) đều phục vụ Trust. Nội dung có chuyên môn cao nhưng không minh bạch nguồn, không cập nhật, không dẫn chứng rủi ro vẫn bị đánh giá thấp.
   </div>
 
   <div class="eeat-grid">
     <div class="eeat-card eeat-E1">
       <div class="eeat-card-head">⚡ Experience</div>
       <div class="eeat-card-body">
-        <div class="eeat-item">Tác giả có kinh nghiệm thực tế trong lĩnh vực</div>
-        <div class="eeat-item">Nội dung dựa trên trải nghiệm cá nhân hoặc case study thực tế</div>
-        <div class="eeat-item">Có chứng minh bằng số liệu, ảnh, video, dữ liệu gốc</div>
-        <div class="eeat-item">Rõ ràng về bối cảnh tạo ra nội dung</div>
+        <div class="eeat-item">Tác giả có trải nghiệm thực tế sử dụng sản phẩm Fintech (quy trình vay, claim bảo hiểm, quản lý danh mục)</div>
+        <div class="eeat-item">Nội dung có case study, câu chuyện thực từ người dùng hoặc đội ngũ nội bộ</div>
+        <div class="eeat-item">Có bằng chứng thực tế: số liệu, ảnh, screenshots UI sản phẩm, dữ liệu gốc từ platform</div>
+        <div class="eeat-item">Rõ ràng về bối cảnh tạo ra nội dung - không chỉ đọc tài liệu hay viết lại</div>
       </div>
     </div>
     <div class="eeat-card eeat-E2">
       <div class="eeat-card-head">🎓 Expertise</div>
       <div class="eeat-card-body">
-        <div class="eeat-item">Tác giả có chuyên môn được xác nhận (bằng cấp, chứng chỉ)</div>
-        <div class="eeat-item">Nội dung chính xác về mặt kỹ thuật</div>
-        <div class="eeat-item">Có trích dẫn nguồn chính thống (NHNN, FiinRatings...)</div>
-        <div class="eeat-item">Độ sâu nội dung phù hợp với chủ đề</div>
+        <div class="eeat-item">Nội dung do chuyên gia thực sự (có chứng chỉ, kinh nghiệm ngân hàng/bảo hiểm/quỹ) viết hoặc duyệt</div>
+        <div class="eeat-item">Dẫn chứng rõ bằng luật pháp Việt Nam (Luật Các TCTD, Luật KDBH, Thông tư NHNN)</div>
+        <div class="eeat-item">Không có lỗi sai sự thật dễ kiểm chứng - mọi con số đều có nguồn</div>
+        <div class="eeat-item">Độ sâu phân tích phù hợp: kịch bản rủi ro, tính toán thực tế, so sánh có căn cứ</div>
       </div>
     </div>
     <div class="eeat-card eeat-A">
       <div class="eeat-card-head">🏛 Authoritativeness</div>
       <div class="eeat-card-body">
-        <div class="eeat-item">Tên miền/thương hiệu được nhắc tới bởi nguồn uy tín</div>
-        <div class="eeat-item">Có backlink từ báo chí, cơ quan chính phủ, học thuật</div>
-        <div class="eeat-item">Tác giả được trích dẫn hoặc đề cập bên ngoài</div>
-        <div class="eeat-item">Hiện diện rõ ràng trên Wikipedia, Wikidata</div>
+        <div class="eeat-item">Tên miền/thương hiệu được nhắc tới bởi báo chí, cơ quan nhà nước, hiệp hội ngành</div>
+        <div class="eeat-item">Backlink từ nguồn uy tín: báo kinh tế, cơ quan chính phủ, học thuật</div>
+        <div class="eeat-item">Trang giới thiệu tác giả rõ chuyên môn - không dùng byline chung "MoMo Team"</div>
+        <div class="eeat-item">Hiện diện trên Wikipedia, Wikidata - Organization schema với sameAs</div>
       </div>
     </div>
     <div class="eeat-card eeat-T">
       <div class="eeat-card-head">🔒 Trustworthiness</div>
       <div class="eeat-card-body">
-        <div class="eeat-item">HTTPS, policy rõ ràng (Privacy, ToS, Cookie)</div>
-        <div class="eeat-item">Thông tin liên hệ và địa chỉ doanh nghiệp xác thực</div>
-        <div class="eeat-item">Review thực tế, ratings minh bạch</div>
-        <div class="eeat-item">Không có popup xâm phạm, quảng cáo lừa đảo</div>
+        <div class="eeat-item">Dẫn nguồn rõ ràng, minh bạch: link chính thức, báo cáo tài chính, điều khoản dịch vụ</div>
+        <div class="eeat-item">Nêu đầy đủ rủi ro, lãi suất thực, phí ẩn, điều kiện vay, quyền lợi &amp; nghĩa vụ</div>
+        <div class="eeat-item">Disclaimer pháp lý: "không phải tư vấn tài chính cá nhân hóa" khi cần thiết</div>
+        <div class="eeat-item">Cập nhật khi luật/phí/lãi suất thay đổi - ngày cập nhật hiển thị rõ trên UI và schema</div>
       </div>
     </div>
   </div>
 
-  <h2 class="sh">E-E-A-T Checklist — Tác giả & Nguồn Thông Tin</h2>
+  <h2 class="sh">E-E-A-T Checklist - Triển khai thực tế</h2>
   <table class="cl-table">
-    <thead><tr><th style="width:35%">Tiêu chí</th><th>Mô tả</th><th style="width:60px">Done?</th></tr></thead>
+    <thead><tr><th style="width:35%">Tiêu chí</th><th>Mô tả chi tiết</th><th style="width:60px">Done?</th></tr></thead>
     <tbody>
       <tr class="cat-header"><td colspan="3">Tác giả & Nguồn Thông Tin</td></tr>
-      <tr><td><strong>Author Box</strong></td><td>Mỗi bài viết có thông tin tác giả: tên, chức danh, chuyên môn, số năm kinh nghiệm</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Expert Quote</strong></td><td>Trích dẫn ý kiến từ chuyên gia nội bộ (Finance, Legal, Product) hoặc chuyên gia độc lập có tên tuổi</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Source Citation</strong></td><td>Mọi số liệu (lãi suất, thống kê thị trường) phải ghi rõ nguồn: NHNN, NAPAS, FiinRatings, Nielsen...</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Review Date</strong></td><td>Ngày tạo và ngày cập nhật nội dung hiển thị rõ trong schema và UI</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr class="cat-header blue"><td colspan="3">Tín Hiệu Kỹ Thuật & Thương Hiệu</td></tr>
-      <tr><td><strong>Schema Markup</strong></td><td>Article, FAQPage, HowTo, FinancialProduct, Review — triển khai đầy đủ theo use case</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Entity Markup</strong></td><td>MoMo được liên kết tới Wikidata entity và Knowledge Graph thông qua sameAs trong Organization schema</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Brand Mentions</strong></td><td>Xây dựng unlinked brand mentions trên báo chí uy tín (VnExpress, Tuổi Trẻ, Nhà Đầu Tư, Tiền Phong...)</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>SSL & Security</strong></td><td>HTTPS, badge bảo mật, chính sách bảo mật dữ liệu minh bạch</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr class="cat-header green"><td colspan="3">Tín Hiệu Người Dùng</td></tr>
-      <tr><td><strong>Review & Rating</strong></td><td>Hiển thị đánh giá thực từ người dùng (Google Reviews, App Store, CH Play) với schema AggregateRating</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Social Proof</strong></td><td>Số lượng người dùng, giải thưởng ngành (nếu có phép công bố). VD: "30 triệu người dùng đang tin dùng MoMo"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Contact & Support</strong></td><td>Thông tin liên hệ CSKH rõ ràng, thời gian hỗ trợ, địa chỉ doanh nghiệp hợp lệ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Author Box</strong></td><td>Mỗi bài viết có: tên tác giả, chức danh, chuyên môn, số năm kinh nghiệm trong lĩnh vực Fintech/Finance</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Expert Review</strong></td><td>Có ghi rõ "Được kiểm duyệt bởi [tên]" - chuyên gia nội bộ (Finance, Legal, PO) hoặc chuyên gia độc lập</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Source Citation</strong></td><td>Mọi số liệu (lãi suất, thống kê thị trường) có nguồn rõ: NHNN, NAPAS, FiinRatings, Bộ Tài chính, UBCKNN</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Publish &amp; Update Date</strong></td><td>Ngày tạo và ngày cập nhật hiển thị rõ trong schema datePublished/dateModified và UI</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Disclaimer tài chính</strong></td><td>Ghi rõ "Thông tin mang tính tham khảo, không phải tư vấn tài chính cá nhân" - hiển thị rõ ràng ngay đầu bài</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header blue"><td colspan="3">Tín Hiệu Kỹ Thuật & Schema</td></tr>
+      <tr><td><strong>Schema Markup</strong></td><td>Article, FAQPage, HowTo, FinancialProduct, InsuranceAgency, Review - triển khai đầy đủ theo use case</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Author + ReviewedBy Schema</strong></td><td>Person schema cho author và reviewer - liên kết với LinkedIn, schema.org</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Entity Markup</strong></td><td>MoMo liên kết tới Wikidata entity và Knowledge Graph qua sameAs trong Organization schema</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Brand Mentions off-page</strong></td><td>Xây dựng unlinked brand mentions trên báo uy tín: VnExpress, Tuổi Trẻ, Nhà Đầu Tư, Tiền Phong, Cafef</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>SSL &amp; Security Signals</strong></td><td>HTTPS, badge bảo mật, chính sách bảo mật dữ liệu người dùng minh bạch</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header green"><td colspan="3">Tín Hiệu Người Dùng & Social Proof</td></tr>
+      <tr><td><strong>Review &amp; Rating</strong></td><td>Hiển thị đánh giá thực từ người dùng (Google Reviews, App Store, CH Play) với schema AggregateRating</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Social Proof có số liệu</strong></td><td>Số lượng người dùng, giải thưởng ngành. VD: "30 triệu người dùng đang tin dùng MoMo" - số liệu phải có căn cứ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Contact &amp; Support</strong></td><td>Thông tin liên hệ CSKH rõ, thời gian hỗ trợ, địa chỉ doanh nghiệp hợp lệ theo đăng ký</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
     </tbody>
   </table>
 
   <div class="callout callout-amber">
-    <div class="callout-title">E-E-A-T Authorship (Nice to have)</div>
-    <strong>Named author byline</strong> — Mỗi bài có tên tác giả thật, không dùng "MoMo Team" chung chung. <strong>Author page trên momo.vn</strong> — Trang riêng gồm: tên, ảnh, chức danh, kinh nghiệm, link LinkedIn. <strong>Person schema markup</strong> — Structured data author + reviewedBy cho mỗi bài. <strong>First-hand experience signals</strong> — Ảnh thực, screenshots sản phẩm MoMo, case study từ dữ liệu nội bộ.
+    <div class="callout-title">Nice to have - Authorship nâng cao</div>
+    <strong>Named author byline</strong> - Mỗi bài có tên tác giả thật, không dùng "MoMo Team" chung chung. <strong>Author page riêng</strong> - Trang trên momo.vn gồm: tên, ảnh, chức danh, kinh nghiệm, link LinkedIn. <strong>First-hand experience signals</strong> - Ảnh thực, screenshots sản phẩm MoMo, case study từ dữ liệu nội bộ có permission.
   </div>
 </div>
 
-<!-- ═══════════════ FINANCE GEO ═══════════════ -->
-<div class="section" id="s-finance-geo">
+<!-- ═══ PEOPLE FIRST ═══ -->
+<div class="section" id="s-people-first">
   <div class="page-header">
-    <div class="page-eyebrow">Use Case: Financial Services · GEO/AEO</div>
-    <div class="page-title">GEO/AEO Checklist — Tài chính</div>
-    <div class="page-desc">Áp dụng cho: Vay Nhanh, Ví Trả Sau, Điểm Tín Dụng, Quản Lý Chi Tiêu, Quỹ và các sản phẩm tài chính khác.</div>
+    <div class="page-eyebrow">Section 03</div>
+    <div class="page-title">People-First Content Checklist</div>
+    <div class="page-desc">Google yêu cầu nội dung chủ yếu tạo ra để giúp con người, không phải để thao túng thứ hạng tìm kiếm. Áp dụng trước khi publish mọi bài viết thuộc Finance và Insurance.</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">Tiêu chí gốc từ Google Helpful Content Guidelines</div>
+    Checklist này tổng hợp không thiên vị bất kỳ framework SEO hay đối thủ nào - chỉ dựa sát vào các đặc điểm nội dung hữu ích và câu hỏi tự đánh giá mà Google nêu rõ trong SQEG. <strong>Mục tiêu: nội dung phải giúp người dùng đạt được mục tiêu thực tế</strong>, không phải để thu hút traffic.
+  </div>
+
+  <h2 class="sh">Checklist Nội dung Hữu ích</h2>
+  <table class="cl-table">
+    <thead><tr><th style="width:55%">Tiêu chí</th><th>Lý do quan trọng với MoMo</th><th style="width:60px">Pass?</th></tr></thead>
+    <tbody>
+      <tr class="cat-header"><td colspan="3">Giá trị và Mục đích rõ ràng</td></tr>
+      <tr><td><strong>Mục đích nội dung rõ và phục vụ đúng đối tượng</strong> - người dùng MoMo hoặc khách hàng Fintech tiềm năng khi truy cập trực tiếp</td><td>Nội dung không phục vụ ai thực sự = dấu hiệu SEO-first, bị Google penalize</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Sau khi đọc, người dùng đủ thông tin để hành động</strong> - vay hay không, mua bảo hiểm nào, đầu tư kênh nào</td><td>Đây là JTBD cốt lõi của content tài chính - giải quyết được thì content có giá trị</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Có phân tích chuyên sâu vượt mức thông thường</strong> - so sánh thực tế, công cụ tính toán, kịch bản rủi ro</td><td>Nội dung shallow = không được AI Engine cite; chỉ mô tả chung chung không giúp được ai</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Giá trị vượt trội so với trang khác trong SERP</strong> - không sao chép, không viết lại, có góc nhìn độc đáo từ thực tiễn Việt Nam</td><td>Information Gain là tín hiệu GEO quan trọng - MoMo có lợi thế về first-party data</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header blue"><td colspan="3">Chất lượng biên soạn</td></tr>
+      <tr><td><strong>Tiêu đề và meta description ngắn gọn, hữu ích, không phóng đại</strong> - VD: "Cách tính lãi suất vay trả góp 0% thực tế 2026" thay vì "Vay ngay 100 triệu không lãi suất"</td><td>Tiêu đề gây sốc = mất trust ngay lần đầu - ảnh hưởng E-E-A-T cả domain</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Nội dung trình bày bài bản</strong> - không lỗi chính tả, không cẩu thả, không xuất bản gấp rút</td><td>Với YMYL, lỗi chính tả hoặc số liệu sai là dấu hiệu thiếu trustworthiness</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Nội dung đáng để người dùng bookmark/chia sẻ</strong> cho bạn bè, gia đình khi họ cần quyết định tài chính</td><td>Shareability là tín hiệu content genuinely useful - không phải nội dung SEO farm</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Có khả năng được tạp chí tài chính hoặc cơ quan nhà nước trích dẫn/tham khảo</strong></td><td>Citation potential = Authority signal cho cả SEO lẫn GEO</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header green"><td colspan="3">Tính toàn vẹn thông tin</td></tr>
+      <tr><td><strong>Nội dung đầy đủ và toàn diện</strong> - bao gồm cả rủi ro, điều kiện, trường hợp xấu nhất</td><td>Bài viết chỉ nêu lợi ích = misleading = YMYL violation</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Có báo cáo/nghiên cứu/phân tích do team tự thực hiện</strong> hoặc first-party data từ platform</td><td>Original research là dạng Information Gain mạnh nhất - không thể replicate</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Phân tích thú vị/chuyên sâu hơn mức thông thường</strong> - không dừng lại ở giải thích khái niệm cơ bản</td><td>Depth = tín hiệu Expertise; AI Engine ưu tiên nội dung có insights không tìm được ở nơi khác</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SELF-ASSESS ═══ -->
+<div class="section" id="s-self-assess">
+  <div class="page-header">
+    <div class="page-eyebrow">Section 04</div>
+    <div class="page-title">Self-Assessment Questions</div>
+    <div class="page-desc">Câu hỏi tự đánh giá trước khi publish - tổng hợp từ khuyến nghị chính thức của Google. Người viết và người duyệt đều phải tự hỏi các câu này. Nếu không trả lời được "Có" cho đa số - <strong>đừng publish.</strong></div>
+  </div>
+
+  <div class="sa-grid">
+    <div class="sa-card">
+      <div class="sa-card-head" style="background:var(--amber-light);color:var(--amber)">Về Chất lượng & Giá trị</div>
+      <div class="sa-card-body">
+        <div class="sa-item">Bài viết có chứa thông tin/báo cáo/nghiên cứu do chính team tự thực hiện hoặc phân tích sâu - không chỉ tổng hợp từ nguồn khác?</div>
+        <div class="sa-item">Bài viết có đầy đủ, toàn diện về chủ đề - bao gồm rủi ro, điều kiện, trường hợp xấu nhất?</div>
+        <div class="sa-item">Bài viết có phân tích thú vị/chuyên sâu hơn mức thông thường?</div>
+        <div class="sa-item">Người dùng có cảm thấy đã nắm đủ thông tin để đưa ra quyết định sau khi đọc?</div>
+      </div>
+    </div>
+    <div class="sa-card">
+      <div class="sa-card-head" style="background:var(--blue-light);color:var(--blue)">Về Chuyên môn & Độ tin cậy</div>
+      <div class="sa-card-body">
+        <div class="sa-item">Người đọc có cảm thấy nội dung đáng tin cậy - có nguồn, có chuyên gia, có giới thiệu tác giả rõ?</div>
+        <div class="sa-item">Nếu người ngoài tìm hiểu về MoMo, họ có tin đây là nguồn thông tin tài chính có căn cứ không?</div>
+        <div class="sa-item">Bài viết có được chuyên gia trong lĩnh vực (tín dụng/bảo hiểm/đầu tư) viết hoặc duyệt không?</div>
+        <div class="sa-item">Mọi số liệu đều có thể truy nguyên về nguồn gốc chính thống?</div>
+      </div>
+    </div>
+    <div class="sa-card">
+      <div class="sa-card-head" style="background:var(--green-light);color:var(--green)">Về People-First</div>
+      <div class="sa-card-body">
+        <div class="sa-item">Đối tượng mục tiêu (người dùng Fintech) sẽ thấy bài viết hữu ích ngay khi truy cập trực tiếp - không cần tìm kiếm thêm?</div>
+        <div class="sa-item">Bài viết có trình bày kiến thức thực tiễn từ việc thực sự sử dụng/tìm hiểu sản phẩm không?</div>
+        <div class="sa-item">Sau khi đọc, người dùng có cảm thấy hài lòng và đủ thông tin để hành động không?</div>
+        <div class="sa-item">Bài viết có xứng đáng được chia sẻ cho người thân khi họ cần tư vấn tài chính không?</div>
+      </div>
+    </div>
+    <div class="sa-card">
+      <div class="sa-card-head" style="background:var(--purple-light);color:var(--purple)">Về YMYL Compliance</div>
+      <div class="sa-card-body">
+        <div class="sa-item">Mọi con số (lãi suất, phí, hạn mức, quyền lợi bảo hiểm) đã được PO/Legal xác nhận bằng văn bản?</div>
+        <div class="sa-item">Rủi ro tài chính, điều khoản loại trừ, điều kiện vay đã được trình bày trung thực và đầy đủ?</div>
+        <div class="sa-item">Disclaimer pháp lý đã được đặt đúng vị trí - không bị ẩn hay giảm kích thước?</div>
+        <div class="sa-item">Có set reminder audit lại sau 6 tháng (hoặc khi có thay đổi sản phẩm/pháp luật)?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AVOID ═══ -->
+<div class="section" id="s-avoid">
+  <div class="page-header">
+    <div class="page-eyebrow">Section 05</div>
+    <div class="page-title">Dấu hiệu cần tránh — Search Engine-First Content</div>
+    <div class="page-desc">Các dấu hiệu Google dùng để nhận diện nội dung ưu tiên công cụ tìm kiếm thay vì phục vụ người dùng. Bất kỳ dấu hiệu nào dưới đây xuất hiện - Google có thể penalize toàn bộ domain.</div>
   </div>
 
   <div class="callout callout-red">
-    <div class="callout-title">⚠ YMYL Alert — Finance</div>
-    Nội dung vay, tín dụng, lãi suất ảnh hưởng trực tiếp tới quyết định tài chính của người dùng. Mọi con số (lãi suất, phí, hạn mức) phải được Project Owner / Legal xác nhận trước publish. Không được dùng ngôn ngữ cam kết ("chắc chắn vay được", "lãi suất thấp nhất") nếu không có bằng chứng.
+    <div class="callout-title">⚠ Cảnh báo nghiêm trọng</div>
+    Những dấu hiệu này không chỉ ảnh hưởng bài viết có vấn đề - chúng có thể kéo xuống toàn bộ momo.vn nếu tích tụ đủ nhiều. Với domain Fintech YMYL, mức độ penalize cao hơn domain thông thường.
+  </div>
+
+  <h2 class="sh">Checklist Dấu hiệu cần tránh</h2>
+  <table class="cl-table">
+    <thead><tr><th style="width:45%">Dấu hiệu vi phạm</th><th>Tại sao nguy hiểm với momo.vn</th><th style="width:70px">Vi phạm?</th></tr></thead>
+    <tbody>
+      <tr class="cat-header red"><td colspan="3">Mục đích và Chất lượng</td></tr>
+      <tr><td><strong>Bài viết chủ yếu để "thu hút traffic tìm kiếm"</strong> - không phải phục vụ người dùng thực sự</td><td>People-First = Google có thể nhận diện qua engagement metrics và quality rater</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Hứa hẹn "câu trả lời tuyệt đối"</strong> cho vấn đề không có đáp án duy nhất - VD: "Đầu tư gì để giàu nhanh", "Vay tiền ở đâu tốt nhất"</td><td>Với YMYL Finance, tuyên bố tuyệt đối không có căn cứ = misleading = rủi ro pháp lý</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Tóm tắt nội dung của người khác</strong> mà không thêm giá trị đáng kể</td><td>Thin content - không có Information Gain - không được AI Engine cite</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header red"><td colspan="3">Sản xuất và Keyword</td></tr>
+      <tr><td><strong>Sản xuất hàng loạt nội dung trên nhiều chủ đề</strong> chỉ vì trending - không có chuyên môn thực sự về chủ đề đó</td><td>Content farm signal - Google Core Update penalize mạnh các domain có behavior này</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Lặp từ khóa vô nghĩa</strong> hoặc chọn chủ đề chỉ vì volume search cao mà team chưa có kinh nghiệm thực tế</td><td>Keyword stuffing = Expertise signal thấp - đặc biệt nghiêm trọng với YMYL</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Ngôn ngữ cam kết không có căn cứ</strong> - "Vay nhanh nhất", "Lãi suất thấp nhất thị trường", "Chắc chắn được duyệt"</td><td>Misleading claims = rủi ro pháp lý trực tiếp + YMYL penalty + mất trust người dùng</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header red"><td colspan="3">Freshness và Cập nhật</td></tr>
+      <tr><td><strong>Thay đổi ngày đăng chỉ để trông "mới"</strong> mà không cập nhật nội dung thực</td><td>Deceptive freshness signal - Google có thể nhận diện qua indexing pattern</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>YMYL content cũ > 6 tháng không được audit</strong> - lãi suất sai, điều khoản lỗi thời vẫn tồn tại trên site</td><td>Nội dung tài chính cũ = liability pháp lý + domain authority damage ngay cả khi traffic = 0</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header red"><td colspan="3">YMYL Specific</td></tr>
+      <tr><td><strong>Che giấu điều khoản loại trừ, phí ẩn, rủi ro tín dụng</strong> trong nội dung bảo hiểm và cho vay</td><td>Violation nghiêm trọng nhất - ảnh hưởng trực tiếp quyền lợi người dùng + rủi ro pháp lý cho MoMo</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Publish mà không qua review Legal/Compliance/PO</strong> đối với content lãi suất, quyền lợi bảo hiểm, điều kiện vay</td><td>YMYL without expert review = Google penalize nặng nhất trong SQEG</td><td class="done-col"><span class="check-no" onclick="toggleCheck(this)">○</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="avoid-box">
+    <div class="avoid-box-title">⛔ Dạng ngôn ngữ cần tránh hoàn toàn</div>
+    <div class="avoid-item">"Vay tiền online <strong>không cần kiểm tra lịch sử tín dụng</strong>" - sai về thực tế và gây hiểu lầm</div>
+    <div class="avoid-item">"Lãi suất 0% mãi mãi" hoặc bất kỳ cam kết tỷ lệ vĩnh viễn nào</div>
+    <div class="avoid-item">"Chắc chắn được duyệt vay" - không ai có thể cam kết điều này</div>
+    <div class="avoid-item">"Bảo hiểm <strong>toàn diện</strong>" mà không mô tả rõ phạm vi - gây hiểu sai quyền lợi</div>
+    <div class="avoid-item">"Đầu tư X đảm bảo lợi nhuận Y%" - vi phạm quy định UBCKNN</div>
+    <div class="avoid-item">Bất kỳ claim nào về "tốt nhất", "duy nhất", "số 1" mà không có bằng chứng xác thực</div>
+  </div>
+</div>
+
+<!-- ═══ FINANCE GEO ═══ -->
+<div class="section" id="s-finance-geo">
+  <div class="page-header">
+    <div class="page-eyebrow">Use Case: Financial Services · GEO/AEO</div>
+    <div class="page-title">GEO/AEO Checklist - Tài chính</div>
+    <div class="page-desc">Áp dụng cho: Vay Nhanh, Ví Trả Sau, Điểm Tín Dụng CIC, Quản Lý Chi Tiêu và các sản phẩm tài chính của MoMo.</div>
+  </div>
+
+  <div class="callout callout-red">
+    <div class="callout-title">⚠ YMYL Alert - Finance</div>
+    Nội dung vay, tín dụng, lãi suất ảnh hưởng trực tiếp tới quyết định tài chính người dùng. Mọi con số (lãi suất, phí, hạn mức) phải được Project Owner/Legal xác nhận. Không dùng ngôn ngữ cam kết ("chắc chắn vay được", "lãi suất thấp nhất") nếu không có bằng chứng. Nêu đầy đủ APR thực, phí phạt, điều kiện duyệt, rủi ro tín dụng đen, quyền lợi người vay theo luật.
   </div>
 
   <table class="cl-table">
     <thead><tr><th style="width:35%">Tiêu chí</th><th>Mô tả chi tiết</th><th style="width:60px">Done?</th></tr></thead>
     <tbody>
       <tr class="cat-header"><td colspan="3">Intent & Structure</td></tr>
-      <tr><td><strong>Xác định Từ Khóa Chính</strong></td><td>Phân loại intent: Informational / Commercial / Transactional</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Title Tag</strong></td><td>Chứa core entity + query term. VD: "Vay Nhanh MoMo - Vay Tiền Online Không Tài Sản Thế Chấp"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>H1 trả lời search intent</strong></td><td>Khớp với title, không lặp từ khóa nhân tạo</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Answer-first structure</strong></td><td>Đoạn đầu tiên trả lời câu hỏi trong 40-60 từ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Phân loại Search Intent</strong></td><td>Informational ("vay tiền là gì") / Commercial ("so sánh vay nhanh") / Transactional ("đăng ký vay nhanh momo"). Mỗi loại có cấu trúc khác nhau</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Title Tag chuẩn</strong></td><td>Core entity + query term + năm. VD: "Vay Nhanh MoMo - Vay Tiền Online Không Tài Sản Thế Chấp 2026"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Answer-first structure</strong></td><td>Đoạn đầu tiên trả lời search query chính trong 40-60 từ - đây là đoạn AI Engine thường trích xuất</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>H2/H3 có thể extract độc lập</strong></td><td>Mỗi section H2 là một đơn vị thông tin hoàn chỉnh - AI có thể đọc riêng và hiểu được</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header blue"><td colspan="3">Content Format cho AI Citation</td></tr>
-      <tr><td><strong>FAQ section structured Q&A</strong></td><td>Tối thiểu 5-8 câu hỏi thực từ PAA (People Also Ask) / Search Console</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Definition block</strong></td><td>Định nghĩa thuật ngữ tài chính. VD: "Điểm tín dụng CIC là gì? [Định nghĩa 1-2 câu]"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Step-by-step (HowTo)</strong></td><td>Quy trình vay: 1-2-3 bước có đánh số rõ ràng</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Comparison table</strong></td><td>Bảng so sánh Vay Nhanh / Ví Trả Sau vs đối thủ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Statistic blocks với nguồn</strong></td><td>VD: "Theo NHNN Q3/2024, tổng dư nợ tín dụng tiêu dùng..." — ghi rõ nguồn</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr class="cat-header purple"><td colspan="3">Information Gain — First-party Data</td></tr>
-      <tr><td><strong>Hình ảnh xác thực</strong></td><td>Ảnh thực về giải ngân, cấp hạn mức thành công — được xin phép từ customer</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Screenshots quy trình</strong></td><td>Screenshots UI sản phẩm thực — không dùng stock photo</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Platform-exclusive insight</strong></td><td>Góc nhìn chỉ MoMo có. VD: "Từ dữ liệu MoMo, 70% người vay lần đầu chọn kỳ hạn 3 tháng"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>FAQ Section structured Q&A</strong></td><td>Tối thiểu 5-8 câu hỏi thực từ PAA/Search Console. Format: Q đặt câu hỏi - A trả lời trực tiếp trong 50-100 từ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Definition blocks</strong></td><td>Định nghĩa thuật ngữ tài chính theo format AEO: "[Thuật ngữ] là [định nghĩa 1-2 câu ngắn gọn]"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Step-by-step HowTo có đánh số</strong></td><td>Quy trình vay: bước 1, 2, 3 rõ ràng. Cả Google lẫn AI Engine ưu tiên format này cho query "cách vay..."</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Comparison table</strong></td><td>So sánh Vay Nhanh/Ví Trả Sau vs đối thủ (FE Credit, Home Credit, MBBank). Trung thực - không chỉ nêu ưu điểm MoMo</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Statistic blocks có nguồn</strong></td><td>VD: "Theo NHNN Q3/2024, tổng dư nợ tín dụng tiêu dùng đạt X nghìn tỷ" - ghi rõ nguồn và thời điểm</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Công cụ tính toán thực tế</strong></td><td>Calculator lãi suất, bảng kỳ hạn, ước tính tổng chi phí vay - đây là dạng PLG tool tăng engagement và GEO citation</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header purple"><td colspan="3">Information Gain - First-party Data</td></tr>
+      <tr><td><strong>Platform-exclusive insight</strong></td><td>Góc nhìn chỉ MoMo có. VD: "Từ dữ liệu 30 triệu người dùng MoMo, 70% người vay lần đầu chọn kỳ hạn 3 tháng"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Screenshots UI sản phẩm thực</strong></td><td>Không dùng stock photo - chỉ ảnh thực tế từ app MoMo. AI Engine detect originality qua image metadata</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Case study người dùng thực</strong></td><td>Câu chuyện cụ thể (với permission): "Anh Minh, 29 tuổi, TP.HCM - vay Vay Nhanh 5 triệu, trả trong 3 tháng"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header green"><td colspan="3">GEO Entities & Brand Signals</td></tr>
-      <tr><td><strong>Brand mention tự nhiên</strong></td><td>MoMo, Vay Nhanh, Ví Trả Sau xuất hiện trong body text</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Co-occurrence với relevant entities</strong></td><td>Đề cập: NHNN, FE Credit, CIC, điểm tín dụng, lãi suất</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Internal link tới hub page</strong></td><td>Đặt link về Landing Page Sản Phẩm/Dịch Vụ chính</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Brand mention tự nhiên trong body text</strong></td><td>MoMo, Vay Nhanh, Ví Trả Sau xuất hiện trong text - không nhồi nhét, xuất hiện ở context phù hợp</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Co-occurrence với regulatory entities</strong></td><td>Đề cập: NHNN, FiinRatings, CIC, NAPAS - tăng authority signal và giảm AI hallucination khi cite</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Co-occurrence với competitor entities</strong></td><td>So sánh trung thực với FE Credit, Home Credit, ZaloPay - tăng E-E-A-T qua comparison context</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Internal link tới hub/landing page</strong></td><td>Deep link về /vay-nhanh hoặc /diem-tin-dung với anchor text tự nhiên</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
     </tbody>
   </table>
 
-  <h2 class="sh">GEO Entities — Finance Use Case</h2>
+  <h2 class="sh">GEO Entities - Finance Use Case</h2>
   <div class="entity-row">
     <span class="entity-pill brand">MoMo</span>
     <span class="entity-pill brand">Vay Nhanh</span>
@@ -653,113 +778,123 @@ td.done-col { text-align:center; width:60px; }
     <span class="entity-pill brand">CIC Score</span>
     <span class="entity-pill reg">NHNN</span>
     <span class="entity-pill reg">Thông tư 39/2016</span>
+    <span class="entity-pill reg">Luật Các TCTD 2024</span>
     <span class="entity-pill reg">NAPAS</span>
     <span class="entity-pill reg">FiinRatings</span>
     <span class="entity-pill competitor">FE Credit</span>
     <span class="entity-pill competitor">Home Credit</span>
+    <span class="entity-pill competitor">MBBank</span>
     <span class="entity-pill competitor">ZaloPay</span>
     <span class="entity-pill">lãi suất tiêu dùng</span>
+    <span class="entity-pill">APR thực</span>
     <span class="entity-pill">tín dụng cá nhân</span>
     <span class="entity-pill">vay không thế chấp</span>
+    <span class="entity-pill">điểm tín dụng</span>
+    <span class="entity-pill">tín dụng đen</span>
   </div>
 
   <h2 class="sh">Information Gain Templates</h2>
   <div class="ig-card">
     <div class="ig-card-title">📊 Statistic Block Template</div>
-    <p>Dùng data từ NHNN, NAPAS, hoặc first-party MoMo data để tạo nội dung không thể replicate.</p>
-    <div class="example">"Theo báo cáo NHNN Q3/2024, tổng dư nợ tín dụng tiêu dùng đạt X nghìn tỷ đồng, trong đó vay online chiếm Y%. Riêng tại MoMo, Z% người dùng vay lần đầu được giải ngân trong vòng 5 phút."</div>
+    <p>Dùng data từ NHNN, NAPAS hoặc first-party MoMo data để tạo nội dung không thể replicate. Mọi statistic phải ghi rõ nguồn và thời điểm.</p>
+    <div class="example">"Theo báo cáo NHNN Q3/2024, tổng dư nợ tín dụng tiêu dùng đạt X nghìn tỷ đồng, trong đó vay online chiếm Y%. Riêng tại MoMo, Z% người dùng vay lần đầu được giải ngân trong vòng 5 phút sau khi duyệt hồ sơ."</div>
   </div>
   <div class="ig-card">
     <div class="ig-card-title">🔬 Platform-Exclusive Insight Template</div>
-    <p>Góc nhìn từ phía platform mà blog tài chính bên ngoài không thể có — đây là lợi thế cạnh tranh GEO lớn nhất.</p>
-    <div class="example">"Từ dữ liệu 30 triệu người dùng MoMo, 70% người vay lần đầu chọn kỳ hạn 3 tháng. Nhóm 25-35 tuổi có tỷ lệ hoàn trả đúng hạn cao nhất đạt 94%."</div>
+    <p>Góc nhìn từ phía platform mà blog tài chính bên ngoài không thể có - đây là lợi thế GEO lớn nhất của MoMo.</p>
+    <div class="example">"Từ dữ liệu 30 triệu người dùng MoMo, 70% người vay lần đầu chọn kỳ hạn 3 tháng. Nhóm 25-35 tuổi tại TP.HCM có tỷ lệ hoàn trả đúng hạn cao nhất đạt 94%, so với trung bình thị trường 78% (nguồn FiinRatings 2024)."</div>
   </div>
 </div>
 
-<!-- ═══════════════ FINANCE YMYL ═══════════════ -->
+<!-- ═══ FINANCE YMYL ═══ -->
 <div class="section" id="s-finance-ymyl">
   <div class="page-header">
     <div class="page-eyebrow">Use Case: Financial Services · YMYL</div>
-    <div class="page-title">YMYL Checklist — Tài chính</div>
-    <div class="page-desc">Compliance checklist bắt buộc cho toàn bộ nội dung Finance. Mọi mục "Done?" phải được confirm bởi Project Owner hoặc Legal trước publish.</div>
+    <div class="page-title">YMYL Checklist - Tài chính</div>
+    <div class="page-desc">Compliance checklist bắt buộc cho toàn bộ nội dung Finance. Mọi mục "Done?" phải được confirm bởi Project Owner hoặc Legal trước publish. Áp dụng cho: Vay Nhanh, Ví Trả Sau, CIC, tài chính cá nhân.</div>
   </div>
 
   <div class="ymyl-warn">
-    <div class="ymyl-warn-title">⚠ Finance YMYL — Nguyên tắc bắt buộc</div>
+    <div class="ymyl-warn-title">⚠ Finance YMYL - Nguyên tắc bắt buộc</div>
     <ul>
-      <li>Mọi con số (lãi suất, phí, hạn mức) phải được <strong>Project Owner / Legal</strong> xác nhận trước publish</li>
-      <li>Không được dùng ngôn ngữ cam kết ("chắc chắn vay được", "lãi suất thấp nhất thị trường") nếu không có bằng chứng</li>
-      <li>Điều kiện vay phải được mô tả đầy đủ — không bỏ sót điều khoản quan trọng (độ tuổi, giới hạn khu vực)</li>
-      <li>YMYL content cũ không cập nhật = liability, không phải asset. Audit bắt buộc mỗi 6 tháng</li>
+      <li>Mọi con số (lãi suất, phí, hạn mức) phải được <strong>Project Owner/Legal</strong> xác nhận bằng văn bản trước publish</li>
+      <li>Phải nêu <strong>APR thực tế</strong> (Annual Percentage Rate), không chỉ lãi suất danh nghĩa hàng tháng</li>
+      <li>Không được dùng ngôn ngữ cam kết ("chắc chắn vay được", "lãi suất thấp nhất thị trường") nếu không verify được</li>
+      <li>Điều kiện vay phải mô tả đầy đủ - không bỏ sót điều khoản quan trọng (độ tuổi, khu vực, thu nhập tối thiểu)</li>
+      <li>Phải nêu rủi ro tín dụng đen và quyền lợi người vay theo quy định pháp luật hiện hành</li>
     </ul>
   </div>
 
   <table class="cl-table">
-    <thead><tr><th style="width:35%">Hạng mục</th><th>Tiêu chí</th><th style="width:60px">Done?</th></tr></thead>
+    <thead><tr><th style="width:35%">Hạng mục</th><th>Tiêu chí chi tiết</th><th style="width:60px">Done?</th></tr></thead>
     <tbody>
       <tr class="cat-header"><td colspan="3">Accuracy & Verification</td></tr>
-      <tr><td><strong>Lãi suất, phí đã được xác nhận</strong></td><td>Confirm bởi Project Owner/Legal. Yes/No rõ ràng trong internal doc</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Điều kiện vay chính xác</strong></td><td>Không bỏ sót điều khoản quan trọng (độ tuổi, giới hạn khu vực, thu nhập tối thiểu)</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Cảnh báo rủi ro tài chính</strong></td><td>VD: "Vay quá khả năng trả có thể ảnh hưởng điểm tín dụng của bạn"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Không có tuyên bố cam kết</strong></td><td>Tránh: "vay nhanh nhất", "lãi thấp nhất thị trường" nếu không verify được</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Lãi suất, phí xác nhận bởi PO/Legal</strong></td><td>Confirm bằng văn bản/email. Lưu record cho audit trail. Yes/No rõ ràng trong internal doc</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>APR thực được công bố</strong></td><td>Annual Percentage Rate bao gồm lãi suất + phí. Không chỉ nêu "lãi suất 0%" nếu có phí xử lý hồ sơ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Điều kiện vay đầy đủ</strong></td><td>Không bỏ sót: độ tuổi, giới hạn khu vực, thu nhập tối thiểu, điều kiện CCCD/hộ khẩu</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Phí ẩn được công bố minh bạch</strong></td><td>Phí xử lý hồ sơ, phí trả trước hạn, phí phạt chậm trả - liệt kê đầy đủ, không giấu</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Cảnh báo rủi ro tín dụng</strong></td><td>VD: "Vay quá khả năng trả có thể ảnh hưởng điểm tín dụng CIC và khả năng vay trong tương lai"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Không có tuyên bố cam kết vô căn cứ</strong></td><td>Tránh: "vay nhanh nhất", "lãi thấp nhất thị trường", "chắc chắn duyệt trong X phút"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header blue"><td colspan="3">Regulatory Compliance</td></tr>
-      <tr><td><strong>Tuân thủ quy định NHNN</strong></td><td>Tham chiếu Thông tư 39/2016/TT-NHNN hoặc phiên bản mới nhất còn hiệu lực</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Disclaimer pháp lý hiển thị rõ</strong></td><td>Bên dưới Sapo bài viết: "Thông tin mang tính tham khảo, không phải tư vấn tài chính"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Giấy phép hoạt động</strong></td><td>Đề cập khi nội dung liên quan đến sản phẩm tín dụng chính thức</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Tuân thủ quy định NHNN</strong></td><td>Tham chiếu Thông tư 39/2016/TT-NHNN hoặc phiên bản mới nhất còn hiệu lực - verify với Legal</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Disclaimer pháp lý hiển thị rõ</strong></td><td>Vị trí: ngay bên dưới sapo bài viết. Nội dung: "Thông tin mang tính tham khảo, không phải tư vấn tài chính cá nhân hóa"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Đề cập giấy phép hoạt động</strong></td><td>Khi nội dung liên quan đến sản phẩm tín dụng chính thức - dẫn link tới giấy phép NHNN</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Quyền lợi người vay theo luật</strong></td><td>Đề cập quyền được nhận thông tin đầy đủ về chi phí vay, quyền phản ánh khiếu nại</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header green"><td colspan="3">User Protection</td></tr>
-      <tr><td><strong>CTA không gây hiểu lầm</strong></td><td>Không dùng "Vay ngay - 0% lãi" nếu chỉ là ưu đãi kỳ đầu</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Thông tin phí ẩn được công bố</strong></td><td>Phí xử lý hồ sơ, phí trả trước hạn (nếu có)</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Link tới trang điều khoản</strong></td><td>Internal link tới trang T&C của sản phẩm (nếu có)</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>CTA không gây hiểu lầm</strong></td><td>Không dùng "Vay ngay - 0% lãi" nếu chỉ là ưu đãi kỳ đầu. Ghi rõ điều kiện áp dụng</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Link tới trang điều khoản</strong></td><td>Internal link tới T&C của sản phẩm - bắt buộc hiển thị trước CTA đăng ký/vay</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Cảnh báo tín dụng đen</strong></td><td>Nếu content so sánh hoặc đề cập vay ngoài, cần cảnh báo rõ rủi ro tín dụng đen theo quy định</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header amber"><td colspan="3">Content Freshness</td></tr>
-      <tr><td><strong>Lãi suất, phí đúng thời điểm</strong></td><td>Check với BO nếu sản phẩm đã thay đổi điều kiện</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Thông tư tham chiếu còn hiệu lực</strong></td><td>VD: Thông tư 39/2016 đã được sửa đổi bởi TT nào chưa?</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Bài viết > 6 tháng đã audit</strong></td><td>YMYL content cũ không cập nhật = liability, không phải asset</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Lãi suất, phí đúng thời điểm</strong></td><td>Check với PO nếu sản phẩm thay đổi điều kiện. Set calendar reminder mỗi khi có product update</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Thông tư tham chiếu còn hiệu lực</strong></td><td>Thông tư 39/2016 - kiểm tra phiên bản sửa đổi mới nhất. Legal confirm trước khi cite</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Bài viết > 6 tháng đã audit</strong></td><td>YMYL content cũ không cập nhật = liability, không phải asset. Đặt audit reminder bắt buộc khi publish</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
     </tbody>
   </table>
 </div>
 
-<!-- ═══════════════ INSURANCE GEO ═══════════════ -->
+<!-- ═══ INSURANCE GEO ═══ -->
 <div class="section" id="s-ins-geo">
   <div class="page-header">
     <div class="page-eyebrow">Use Case: Insurance · GEO/AEO</div>
-    <div class="page-title">GEO/AEO Checklist — Bảo hiểm</div>
+    <div class="page-title">GEO/AEO Checklist - Bảo hiểm</div>
     <div class="page-desc">Áp dụng cho: Bảo hiểm xe máy, ô tô, sức khỏe, du lịch và các sản phẩm bảo hiểm của MoMo.</div>
   </div>
 
   <div class="callout callout-red">
-    <div class="callout-title">⚠ YMYL Alert — Insurance</div>
-    Nội dung bảo hiểm ảnh hưởng trực tiếp đến quyết định bảo vệ tài chính và sức khỏe người dùng. Mô tả sai quyền lợi, điều khoản loại trừ có thể gây khiếu nại và rủi ro pháp lý nghiêm trọng. Bắt buộc review bởi đơn vị Compliance hoặc đối tác bảo hiểm trước publish.
+    <div class="callout-title">⚠ YMYL Alert - Insurance</div>
+    Nội dung bảo hiểm ảnh hưởng trực tiếp đến quyết định bảo vệ tài chính và sức khỏe người dùng. Mô tả sai quyền lợi, điều khoản loại trừ có thể gây khiếu nại và rủi ro pháp lý nghiêm trọng. Bắt buộc so sánh quyền lợi, điều khoản loại trừ, thời gian chờ, quy trình bồi thường thực tế. Review bởi Compliance hoặc đối tác bảo hiểm trước publish.
   </div>
 
   <table class="cl-table">
     <thead><tr><th style="width:35%">Tiêu chí</th><th>Mô tả chi tiết</th><th style="width:60px">Done?</th></tr></thead>
     <tbody>
       <tr class="cat-header"><td colspan="3">Intent & Structure</td></tr>
-      <tr><td><strong>Phân biệt intent: mua / so sánh / tìm hiểu</strong></td><td>Commercial: "mua bảo hiểm xe máy online" vs Info: "bảo hiểm xe máy là gì"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Answer-first cho câu hỏi định nghĩa</strong></td><td>Đoạn đầu trả lời "X là gì" trong 50 từ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Structured content H2/H3</strong></td><td>AI có thể extract từng section độc lập</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Phân biệt intent: mua / so sánh / tìm hiểu</strong></td><td>Commercial: "mua bảo hiểm xe máy online" vs Informational: "bảo hiểm xe máy bắt buộc là gì"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Answer-first cho câu hỏi định nghĩa</strong></td><td>Đoạn đầu trả lời "X là gì" trong 50 từ - format AI Engine thường extract</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Structured H2/H3 extract độc lập</strong></td><td>Mỗi section độc lập: "Điều khoản loại trừ là gì", "Thời gian chờ bao lâu", "Quy trình claim như thế nào"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header blue"><td colspan="3">Content Format cho AI Citation</td></tr>
-      <tr><td><strong>FAQ quyền lợi & điều khoản loại trừ</strong></td><td>Tối thiểu 6 câu hỏi thường gặp — tập trung vào pain points thực</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Comparison table gói bảo hiểm</strong></td><td>Cột: phạm vi bảo hiểm, mức bồi thường, phí bảo hiểm</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Definition thuật ngữ bảo hiểm</strong></td><td>Điều khoản loại trừ, thời gian chờ, mức khấu trừ — định nghĩa rõ từng khái niệm</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Claims process step-by-step</strong></td><td>Quy trình yêu cầu bồi thường có đánh số</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Use case / scenario cụ thể</strong></td><td>VD: "Nếu xe bị mất cắp, được bồi thường như thế nào"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr class="cat-header purple"><td colspan="3">Information Gain — First-party Data</td></tr>
-      <tr><td><strong>Hình ảnh xác thực</strong></td><td>Ảnh thực về hóa đơn, bồi thường — được xin phép từ customer</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Screenshots UI sản phẩm</strong></td><td>Không dùng stock photo — chỉ dùng ảnh thực tế từ app MoMo</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Platform-exclusive insight</strong></td><td>VD: "Từ dữ liệu MoMo, 40% freelancer mua bảo hiểm kỳ hạn 3 tháng"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>FAQ quyền lợi & điều khoản loại trừ</strong></td><td>Tối thiểu 6 câu hỏi - tập trung vào pain points thực: "Tai nạn không lỗi có được bồi thường không?"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Comparison table gói bảo hiểm</strong></td><td>Cột: phạm vi bảo hiểm, mức bồi thường tối đa, phí bảo hiểm, thời gian chờ. So sánh trung thực với đối tác</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Definition thuật ngữ bảo hiểm</strong></td><td>Điều khoản loại trừ, thời gian chờ, mức khấu trừ, quyền lợi bồi thường - định nghĩa rõ từng khái niệm</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Claims process step-by-step</strong></td><td>Quy trình yêu cầu bồi thường có đánh số: cụ thể thời gian giải quyết, tài liệu cần chuẩn bị</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Use case / scenario cụ thể</strong></td><td>VD: "Nếu xe bị mất cắp, quy trình bồi thường như thế nào?" - scenario-based giúp AI cite cụ thể hơn</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr class="cat-header purple"><td colspan="3">Information Gain - First-party Data</td></tr>
+      <tr><td><strong>Platform-exclusive insight</strong></td><td>VD: "Từ dữ liệu MoMo, 40% freelancer mua bảo hiểm kỳ hạn 3 tháng thay vì 1 năm"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Screenshots UI sản phẩm thực</strong></td><td>Không dùng stock photo - chỉ ảnh thực tế từ flow mua bảo hiểm trên app MoMo</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Ảnh xác thực về quy trình bồi thường</strong></td><td>Ảnh thực về hóa đơn, kết quả bồi thường - xin phép từ khách hàng, có ẩn thông tin cá nhân</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header green"><td colspan="3">GEO Entities & Authority</td></tr>
-      <tr><td><strong>Co-entity với đối tác bảo hiểm</strong></td><td>Bảo Minh, PTI, Bảo Việt... (nếu applicable)</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Reference Luật Kinh doanh Bảo hiểm</strong></td><td>Tăng authority, giảm hallucination risk của AI khi cite MoMo</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Internal link tới landing page</strong></td><td>Dẫn link về trang mua bảo hiểm chính thức</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Co-entity với đối tác bảo hiểm</strong></td><td>Bảo Minh, PTI, Bảo Việt, PVI, Prudential (nếu applicable) - co-citation tăng credibility</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Reference Luật KDBH 2022 và Nghị định 46/2023</strong></td><td>Tăng authority, giảm AI hallucination risk. Cite số văn bản pháp luật cụ thể</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Internal link tới landing page mua</strong></td><td>Deep link về trang mua bảo hiểm với anchor text tự nhiên theo intent</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
     </tbody>
   </table>
 
-  <h2 class="sh">GEO Entities — Insurance Use Case</h2>
+  <h2 class="sh">GEO Entities - Insurance Use Case</h2>
   <div class="entity-row">
     <span class="entity-pill brand">MoMo</span>
     <span class="entity-pill brand">Bảo hiểm MoMo</span>
     <span class="entity-pill reg">Luật KDBH 2022</span>
+    <span class="entity-pill reg">Nghị định 46/2023</span>
     <span class="entity-pill reg">Cục Quản lý Giám sát BH</span>
     <span class="entity-pill reg">Bộ Tài chính</span>
     <span class="entity-pill competitor">Bảo Minh</span>
@@ -770,68 +905,71 @@ td.done-col { text-align:center; width:60px; }
     <span class="entity-pill">thời gian chờ</span>
     <span class="entity-pill">mức khấu trừ</span>
     <span class="entity-pill">quyền lợi bồi thường</span>
+    <span class="entity-pill">phí bảo hiểm</span>
   </div>
 </div>
 
-<!-- ═══════════════ INSURANCE YMYL ═══════════════ -->
+<!-- ═══ INSURANCE YMYL ═══ -->
 <div class="section" id="s-ins-ymyl">
   <div class="page-header">
     <div class="page-eyebrow">Use Case: Insurance · YMYL</div>
-    <div class="page-title">YMYL Checklist — Bảo hiểm</div>
+    <div class="page-title">YMYL Checklist - Bảo hiểm</div>
     <div class="page-desc">Compliance checklist bắt buộc cho toàn bộ nội dung Insurance. Phải có sign-off từ Compliance hoặc đối tác bảo hiểm trước publish.</div>
   </div>
 
   <div class="ymyl-warn">
-    <div class="ymyl-warn-title">⚠ Insurance YMYL — Nguyên tắc bắt buộc</div>
+    <div class="ymyl-warn-title">⚠ Insurance YMYL - Nguyên tắc bắt buộc</div>
     <ul>
       <li>Quyền lợi bảo hiểm phải được xác nhận bởi <strong>đơn vị bảo hiểm hoặc Compliance MoMo</strong></li>
-      <li>Điều khoản loại trừ phải được liệt kê đầy đủ — không che giấu các trường hợp không được bồi thường</li>
+      <li>Điều khoản loại trừ phải được liệt kê đầy đủ - không che giấu các trường hợp không được bồi thường</li>
       <li>Tránh: "bảo hiểm toàn diện" nếu không mô tả rõ phạm vi bảo hiểm thực tế</li>
-      <li>Thời gian chờ phải ghi rõ — đặc biệt với bảo hiểm sức khỏe, bảo hiểm nhân thọ</li>
+      <li>Thời gian chờ phải ghi rõ - đặc biệt với bảo hiểm sức khỏe, bảo hiểm nhân thọ</li>
+      <li>Phải so sánh quyền lợi, điều khoản loại trừ, thời gian chờ, quy trình bồi thường thực tế</li>
     </ul>
   </div>
 
   <table class="cl-table">
-    <thead><tr><th style="width:35%">Hạng mục</th><th>Tiêu chí</th><th style="width:60px">Done?</th></tr></thead>
+    <thead><tr><th style="width:35%">Hạng mục</th><th>Tiêu chí chi tiết</th><th style="width:60px">Done?</th></tr></thead>
     <tbody>
       <tr class="cat-header"><td colspan="3">Accuracy & Verification</td></tr>
-      <tr><td><strong>Quyền lợi xác nhận bởi đối tác</strong></td><td>Sign-off từ đơn vị bảo hiểm hoặc Compliance MoMo</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Điều khoản loại trừ đầy đủ</strong></td><td>Không che giấu các trường hợp không được bồi thường</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Phí bảo hiểm, mức bồi thường chính xác</strong></td><td>Khớp với trang product chính thức tại thời điểm publish</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Thời gian chờ ghi rõ</strong></td><td>Đặc biệt với bảo hiểm sức khỏe, bảo hiểm nhân thọ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Quyền lợi xác nhận bởi đối tác/Compliance</strong></td><td>Sign-off từ đơn vị bảo hiểm hoặc Compliance MoMo - bằng văn bản, lưu audit trail</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Điều khoản loại trừ đầy đủ</strong></td><td>Liệt kê tất cả trường hợp không được bồi thường - không che giấu dù nhỏ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Phí bảo hiểm, mức bồi thường chính xác</strong></td><td>Khớp với trang product chính thức tại thời điểm publish - ghi rõ ngày hiệu lực</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Thời gian chờ ghi rõ</strong></td><td>Đặc biệt với bảo hiểm sức khỏe, bảo hiểm nhân thọ - số ngày cụ thể, không dùng "một thời gian"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Quy trình bồi thường thực tế</strong></td><td>Thời gian giải quyết thực tế, tài liệu cần chuẩn bị đầy đủ - không chỉ mô tả "nhanh chóng, đơn giản"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header blue"><td colspan="3">Regulatory Compliance</td></tr>
-      <tr><td><strong>Tuân thủ Luật KDBH 2022</strong></td><td>Nội dung không trái với quy định pháp luật hiện hành</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Không quảng cáo quá mức</strong></td><td>Tránh: "bảo hiểm toàn diện" nếu không mô tả rõ phạm vi</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Disclaimer tư vấn chuyên nghiệp</strong></td><td>"Vui lòng đọc kỹ điều khoản trước khi mua"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Tuân thủ Luật KDBH 2022 &amp; Nghị định 46/2023</strong></td><td>Nội dung không trái với quy định pháp luật hiện hành - Legal verify trước publish</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Không quảng cáo quá mức</strong></td><td>Tránh: "bảo hiểm toàn diện" nếu không mô tả rõ phạm vi. Tránh: "bồi thường 100%" nếu có mức khấu trừ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Disclaimer tư vấn chuyên nghiệp</strong></td><td>"Vui lòng đọc kỹ điều khoản bảo hiểm trước khi mua. Thông tin chỉ mang tính tham khảo"</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header green"><td colspan="3">User Protection</td></tr>
-      <tr><td><strong>CTA mua bảo hiểm minh bạch</strong></td><td>Link tới trang điều khoản đầy đủ trước khi chuyển đổi</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Quy trình claim mô tả thực tế</strong></td><td>Thời gian giải quyết, tài liệu cần chuẩn bị</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Thông tin CSKH bảo hiểm</strong></td><td>Hotline hoặc email hỗ trợ bảo hiểm cụ thể</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>CTA mua bảo hiểm minh bạch</strong></td><td>Link tới trang điều khoản đầy đủ TRƯỚC khi chuyển đổi - không ẩn terms trong checkbox nhỏ</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Thông tin CSKH bảo hiểm cụ thể</strong></td><td>Hotline hoặc email hỗ trợ bảo hiểm riêng - không chỉ hotline MoMo chung</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Hướng dẫn khiếu nại</strong></td><td>Mô tả quy trình khiếu nại nếu không hài lòng với kết quả bồi thường - quyền lợi người dùng</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
       <tr class="cat-header amber"><td colspan="3">Content Freshness</td></tr>
-      <tr><td><strong>Phí bảo hiểm đúng thời điểm</strong></td><td>Check với BO nếu sản phẩm đã thay đổi điều kiện</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Thông tư tham chiếu còn hiệu lực</strong></td><td>Kiểm tra Luật KDBH 2022 và các văn bản hướng dẫn mới nhất</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
-      <tr><td><strong>Bài viết > 6 tháng đã audit</strong></td><td>YMYL content cũ không cập nhật = liability, không phải asset</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Phí bảo hiểm đúng thời điểm</strong></td><td>Check với PO/đối tác khi sản phẩm thay đổi điều kiện. Ghi rõ ngày kiểm tra gần nhất</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Văn bản pháp lý tham chiếu còn hiệu lực</strong></td><td>Kiểm tra Luật KDBH 2022 và các văn bản hướng dẫn mới nhất - Legal confirm</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
+      <tr><td><strong>Bài viết > 6 tháng đã audit</strong></td><td>YMYL content cũ không cập nhật = liability, không phải asset. Đặt audit reminder khi publish</td><td class="done-col"><span class="check-yes" onclick="toggleCheck(this)">○</span></td></tr>
     </tbody>
   </table>
 </div>
 
-<!-- ═══════════════ ENTITIES MAP ═══════════════ -->
+<!-- ═══ ENTITIES MAP ═══ -->
 <div class="section" id="s-entities">
   <div class="page-header">
     <div class="page-eyebrow">Reference</div>
     <div class="page-title">GEO Entities Map</div>
-    <div class="page-desc">Danh sách entities cần đề cập trong nội dung để tăng AI citation probability. Co-occurrence với entities liên quan là tín hiệu GEO quan trọng.</div>
+    <div class="page-desc">Danh sách entities cần đề cập trong nội dung để tăng AI citation probability. Co-occurrence với entities liên quan là tín hiệu GEO quan trọng - giúp AI Engine định vị MoMo trong correct semantic context.</div>
   </div>
 
   <h2 class="sh">Finance Entities</h2>
   <table class="data-table">
     <thead><tr><th>Nhóm</th><th>Entity</th><th>Vai trò GEO</th><th>Ghi chú</th></tr></thead>
     <tbody>
-      <tr><td><span class="tag tag-finance">Brand</span></td><td>MoMo, Vay Nhanh, Ví Trả Sau, CIC Score</td><td>Brand recall trong AI answer</td><td>Mention tự nhiên trong body text</td></tr>
-      <tr><td><span class="tag tag-aeo">Regulatory</span></td><td>NHNN, NAPAS, FiinRatings, CIC</td><td>Authority & Trust signal</td><td>Tăng khả năng AI cite do regulatory credibility</td></tr>
-      <tr><td><span class="tag" style="background:#F0EDE8;color:var(--ink-2)">Competitor</span></td><td>FE Credit, Home Credit, MBBank, Timo</td><td>Comparison context</td><td>So sánh trung thực tăng E-E-A-T</td></tr>
-      <tr><td><span class="tag" style="background:var(--green-light);color:var(--green)">Concept</span></td><td>lãi suất tiêu dùng, tín dụng cá nhân, điểm tín dụng, vay không thế chấp</td><td>Semantic relevance</td><td>Cluster từ khóa xung quanh Pillar Page</td></tr>
-      <tr><td><span class="tag" style="background:var(--purple-light);color:var(--purple)">Legal</span></td><td>Thông tư 39/2016/TT-NHNN, Luật Các TCTD 2024</td><td>YMYL compliance + AI trust</td><td>Reference giảm hallucination risk</td></tr>
+      <tr><td><span class="tag tag-finance">Brand</span></td><td>MoMo, Vay Nhanh, Ví Trả Sau, CIC Score</td><td>Brand recall trong AI answer</td><td>Mention tự nhiên trong body text - không nhồi nhét</td></tr>
+      <tr><td><span class="tag tag-aeo">Regulatory</span></td><td>NHNN, NAPAS, FiinRatings, CIC, Luật Các TCTD 2024</td><td>Authority &amp; Trust signal</td><td>Tăng khả năng AI cite do regulatory credibility</td></tr>
+      <tr><td><span class="tag" style="background:#F0EDE8;color:var(--ink-2)">Competitor</span></td><td>FE Credit, Home Credit, MBBank, Timo, ZaloPay</td><td>Comparison context</td><td>So sánh trung thực tăng E-E-A-T - không chỉ nêu ưu điểm MoMo</td></tr>
+      <tr><td><span class="tag" style="background:var(--green-light);color:var(--green)">Concept</span></td><td>lãi suất tiêu dùng, APR, tín dụng cá nhân, điểm tín dụng, vay không thế chấp, tín dụng đen</td><td>Semantic relevance</td><td>Cluster từ khóa xung quanh Pillar Page</td></tr>
+      <tr><td><span class="tag" style="background:var(--purple-light);color:var(--purple)">Legal</span></td><td>Thông tư 39/2016/TT-NHNN, Luật Các TCTD 2024, Luật Bảo vệ người tiêu dùng</td><td>YMYL compliance + AI trust</td><td>Reference giảm hallucination risk của AI khi cite MoMo</td></tr>
     </tbody>
   </table>
 
@@ -840,19 +978,19 @@ td.done-col { text-align:center; width:60px; }
     <thead><tr><th>Nhóm</th><th>Entity</th><th>Vai trò GEO</th><th>Ghi chú</th></tr></thead>
     <tbody>
       <tr><td><span class="tag tag-ins">Brand</span></td><td>MoMo, Bảo hiểm MoMo, tên sản phẩm cụ thể</td><td>Brand recall trong AI answer</td><td>Mention tự nhiên trong body text</td></tr>
-      <tr><td><span class="tag tag-aeo">Regulatory</span></td><td>Cục Quản lý Giám sát BH, Bộ Tài chính, ISA</td><td>Authority & Trust signal</td><td>Cite từ nguồn chính phủ</td></tr>
+      <tr><td><span class="tag tag-aeo">Regulatory</span></td><td>Cục Quản lý Giám sát BH, Bộ Tài chính, ISA, UBCKNN</td><td>Authority &amp; Trust signal</td><td>Cite từ nguồn chính phủ</td></tr>
       <tr><td><span class="tag" style="background:#F0EDE8;color:var(--ink-2)">Partner</span></td><td>Bảo Minh, PTI, Bảo Việt, PVI, Prudential</td><td>Co-citation authority</td><td>Đề cập tên đối tác tăng credibility</td></tr>
-      <tr><td><span class="tag" style="background:var(--green-light);color:var(--green)">Concept</span></td><td>điều khoản loại trừ, thời gian chờ, mức khấu trừ, quyền lợi bồi thường</td><td>Semantic completeness</td><td>AI expect các term này trong insurance content</td></tr>
-      <tr><td><span class="tag" style="background:var(--purple-light);color:var(--purple)">Legal</span></td><td>Luật Kinh doanh Bảo hiểm 2022, Nghị định 46/2023</td><td>YMYL compliance</td><td>Reference bắt buộc</td></tr>
+      <tr><td><span class="tag" style="background:var(--green-light);color:var(--green)">Concept</span></td><td>điều khoản loại trừ, thời gian chờ, mức khấu trừ, quyền lợi bồi thường, phí bảo hiểm</td><td>Semantic completeness</td><td>AI Engine expect các term này trong insurance content</td></tr>
+      <tr><td><span class="tag" style="background:var(--purple-light);color:var(--purple)">Legal</span></td><td>Luật Kinh doanh Bảo hiểm 2022, Nghị định 46/2023/NĐ-CP</td><td>YMYL compliance</td><td>Reference bắt buộc - số văn bản pháp luật cụ thể</td></tr>
     </tbody>
   </table>
 </div>
 
-<!-- ═══════════════ WORKFLOW ═══════════════ -->
+<!-- ═══ WORKFLOW ═══ -->
 <div class="section" id="s-workflow">
   <div class="page-header">
     <div class="page-eyebrow">Reference</div>
-    <div class="page-title">Content Workflow — YMYL Approval</div>
+    <div class="page-title">Content Workflow - YMYL Approval</div>
     <div class="page-desc">Quy trình sản xuất và phê duyệt content cho Finance & Insurance. Mọi YMYL content phải đi qua đầy đủ các bước này trước khi publish.</div>
   </div>
 
@@ -861,27 +999,27 @@ td.done-col { text-align:center; width:60px; }
     <div class="process-step">
       <div class="process-step-num" style="background:var(--purple)">1</div>
       <div class="process-step-title">Brief & Intent</div>
-      <div class="process-step-desc">Xác định keyword, search intent, JTBD. Confirm với PO về thông tin sản phẩm mới nhất.</div>
+      <div class="process-step-desc">Xác định keyword, search intent, JTBD. Confirm với PO về thông tin sản phẩm mới nhất trước khi viết.</div>
     </div>
     <div class="process-step">
       <div class="process-step-num" style="background:var(--blue)">2</div>
       <div class="process-step-title">Draft Content</div>
-      <div class="process-step-desc">Viết theo GEO/AEO checklist. Tích hợp E-E-A-T signals. Chưa publish.</div>
+      <div class="process-step-desc">Viết theo GEO/AEO checklist và E-E-A-T standards. Tích hợp People-First criteria. Chưa publish.</div>
     </div>
     <div class="process-step">
       <div class="process-step-num" style="background:var(--amber)">3</div>
       <div class="process-step-title">YMYL Review</div>
-      <div class="process-step-desc">Review bởi Legal / Compliance / PO. Verify mọi số liệu, điều khoản, phí.</div>
+      <div class="process-step-desc">Review bởi Legal/Compliance/PO. Verify mọi số liệu, điều khoản, phí. Self-assess checklist pass.</div>
     </div>
     <div class="process-step">
       <div class="process-step-num" style="background:var(--teal)">4</div>
       <div class="process-step-title">Sign-off</div>
-      <div class="process-step-desc">Nhận approval bằng văn bản / email. Lưu record cho audit trail.</div>
+      <div class="process-step-desc">Nhận approval bằng văn bản/email. Lưu record cho audit trail. Set reminder audit 6 tháng.</div>
     </div>
     <div class="process-step">
       <div class="process-step-num" style="background:var(--green)">5</div>
       <div class="process-step-title">Publish & Track</div>
-      <div class="process-step-desc">Publish với đầy đủ schema markup. Set reminder audit sau 6 tháng.</div>
+      <div class="process-step-desc">Publish với đầy đủ schema markup. Monitor AI visibility và GEO signals sau 30/60/90 ngày.</div>
     </div>
   </div>
 
@@ -889,20 +1027,21 @@ td.done-col { text-align:center; width:60px; }
   <table class="data-table">
     <thead><tr><th>Loại content</th><th>Tần suất audit</th><th>Trigger bắt buộc review ngay</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td>Lãi suất, phí vay</td><td>Mỗi khi có thay đổi</td><td>Sản phẩm update điều kiện</td><td>PO + SEO Team</td></tr>
-      <tr><td>Điều kiện vay, hạn mức</td><td>Mỗi 3 tháng</td><td>NHNN ban hành thông tư mới</td><td>Legal + SEO Team</td></tr>
-      <tr><td>Quyền lợi bảo hiểm</td><td>Mỗi khi đối tác update gói</td><td>Đối tác thay đổi điều khoản</td><td>Compliance + PO</td></tr>
-      <tr><td>Regulatory reference</td><td>Mỗi 6 tháng</td><td>Có văn bản pháp luật thay thế</td><td>Legal</td></tr>
-      <tr><td>Blog evergreen tài chính</td><td>Mỗi 6 tháng</td><td>Số liệu thị trường lỗi thời</td><td>SEO Team</td></tr>
+      <tr><td>Lãi suất, phí vay, APR</td><td>Mỗi khi có thay đổi sản phẩm</td><td>PO update điều kiện sản phẩm</td><td>PO + SEO Team</td></tr>
+      <tr><td>Điều kiện vay, hạn mức tín dụng</td><td>Mỗi 3 tháng</td><td>NHNN ban hành thông tư mới</td><td>Legal + SEO Team</td></tr>
+      <tr><td>Quyền lợi bảo hiểm, phí, điều khoản</td><td>Mỗi khi đối tác update gói</td><td>Đối tác thay đổi điều khoản sản phẩm</td><td>Compliance + PO</td></tr>
+      <tr><td>Regulatory reference (thông tư, nghị định)</td><td>Mỗi 6 tháng</td><td>Có văn bản pháp luật thay thế/sửa đổi</td><td>Legal</td></tr>
+      <tr><td>Blog evergreen tài chính - đầu tư</td><td>Mỗi 6 tháng</td><td>Số liệu thị trường lỗi thời, UBCKNN có quy định mới</td><td>SEO Team</td></tr>
+      <tr><td>Comparison pages (so sánh sản phẩm)</td><td>Mỗi 3 tháng</td><td>Đối thủ thay đổi sản phẩm, mất tính chính xác</td><td>SEO Team + PO</td></tr>
     </tbody>
   </table>
 
-  <div class="callout callout-green">
-    <div class="callout-title">Golden Rule</div>
-    YMYL content cũ không cập nhật = liability, không phải asset. Một bài viết với lãi suất sai lệch vẫn tồn tại trên momo.vn là rủi ro pháp lý và domain authority ngay cả khi traffic của bài đó bằng 0.
+  <div class="callout callout-red">
+    <div class="callout-title">Golden Rule - YMYL</div>
+    YMYL content cũ không cập nhật = liability, không phải asset. Một bài viết với lãi suất sai lệch hoặc điều khoản bảo hiểm lỗi thời vẫn tồn tại trên momo.vn là rủi ro pháp lý và domain authority - ngay cả khi traffic của bài đó bằng 0.
   </div>
 
-  <h2 class="sh">Schema Markup — Finance & Insurance</h2>
+  <h2 class="sh">Schema Markup - Finance & Insurance</h2>
   <table class="data-table">
     <thead><tr><th>Schema Type</th><th>Dùng cho</th><th>Key properties</th></tr></thead>
     <tbody>
@@ -912,13 +1051,14 @@ td.done-col { text-align:center; width:60px; }
       <tr><td><code class="url">FinancialProduct</code></td><td>Landing page Vay Nhanh, Ví Trả Sau</td><td>name, feesAndCommissionsSpecification, annualPercentageRate</td></tr>
       <tr><td><code class="url">InsuranceAgency</code></td><td>Landing page bảo hiểm</td><td>name, areaServed, hasOfferCatalog</td></tr>
       <tr><td><code class="url">Review / AggregateRating</code></td><td>Social proof trên landing pages</td><td>ratingValue, reviewCount, bestRating</td></tr>
+      <tr><td><code class="url">Person</code></td><td>Trang tác giả, reviewer chuyên gia</td><td>name, jobTitle, worksFor, sameAs (LinkedIn)</td></tr>
       <tr><td><code class="url">Organization + sameAs</code></td><td>Toàn bộ domain momo.vn</td><td>sameAs với Wikidata, Google Knowledge Graph</td></tr>
     </tbody>
   </table>
 </div>
 
-</main><!-- /content -->
-</div><!-- /layout -->
+</main>
+</div>
 
 <script>
 function showSection(id, el) {
@@ -926,7 +1066,6 @@ function showSection(id, el) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('s-' + id).classList.add('active');
   el.classList.add('active');
-  // close sidebar on mobile
   if (window.innerWidth < 900) {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('open');
@@ -946,22 +1085,8 @@ function toggleSidebar() {
 
 function toggleCheck(el) {
   el.classList.toggle('checked');
-  if (el.classList.contains('checked')) {
-    el.textContent = '✓';
-  } else {
-    el.textContent = '○';
-  }
+  el.textContent = el.classList.contains('checked') ? '✓' : '○';
 }
-
-// Accordion
-document.querySelectorAll('.acc-header').forEach(h => {
-  h.addEventListener('click', function() {
-    const body = this.nextElementSibling;
-    const arrow = this.querySelector('.acc-arrow');
-    body.classList.toggle('open');
-    arrow.classList.toggle('open');
-  });
-});
 </script>
 </body>
 </html>
