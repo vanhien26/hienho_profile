@@ -75,7 +75,7 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
               style={{ background: '#FFEFF4' }}
             >
               <span className="font-black text-xs tracking-tight" style={{ color: '#AE2070' }}>MoMo</span>
-              <span className="text-xs font-medium" style={{ color: '#AE2070', opacity: 0.6 }}>Growth</span>
+              <span className="text-xs font-medium" style={{ color: '#AE2070', opacity: 0.6 }}>Out-App Traffic</span>
             </div>
             <div className="flex items-center gap-2.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}

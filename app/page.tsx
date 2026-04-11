@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects, Project } from './data/projects'
@@ -154,6 +154,13 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [hoveredProject, setHoveredProject] = useState<{ project: Project; rect: DOMRect } | null>(null)
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeout.current) clearTimeout(hoverTimeout.current)
+    }
+  }, [])
+
   const useCaseProjects = projects.filter(p => p.category === 'use-case')
   const knowledgeProjects = projects.filter(p => p.category === 'knowledge')
 
