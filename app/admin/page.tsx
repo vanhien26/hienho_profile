@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Sidebar from '../components/Sidebar'
 import { projects, Project } from '../data/projects'
-import { Menu, Shield, LayoutDashboard, Tag, Plus, X, LogOut } from 'lucide-react'
+import { Menu, Shield, LayoutDashboard, Tag, Plus, X, FileText, LogOut } from 'lucide-react'
 
 function HamburgerButton({ onClick }: { onClick: () => void }) {
   return (
@@ -128,7 +128,7 @@ export default function AdminPage() {
         </div>
 
         <div className="px-6 sm:px-10 py-8 space-y-8">
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-3">
             <Link href="/new-project" className="rounded-3xl border border-[#E9D6E3] bg-white p-6 shadow-sm transition hover:shadow-md">
               <div className="flex items-center gap-3 mb-3">
                 <LayoutDashboard size={20} className="text-[#AE2070]" />
@@ -155,6 +155,14 @@ export default function AdminPage() {
                   </span>
                 )}
               </div>
+            </Link>
+
+            <Link href="/admin/use-cases" className="rounded-3xl border border-[#E9D6E3] bg-white p-6 shadow-sm transition hover:shadow-md">
+              <div className="flex items-center gap-3 mb-3">
+                <FileText size={20} className="text-[#AE2070]" />
+                <h2 className="text-lg font-bold text-[#18120E]">Use Case CRUD</h2>
+              </div>
+              <p className="text-sm text-[#6B4D60]">Quản lý danh sách Mini Web / Use Case: thêm, sửa, xóa dữ liệu.</p>
             </Link>
           </div>
 
