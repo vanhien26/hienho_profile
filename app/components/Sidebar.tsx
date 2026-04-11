@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { Home, FileText, BookOpen, ChevronDown, X } from 'lucide-react'
+import { Home, FileText, BookOpen, ChevronDown, X, Lightbulb } from 'lucide-react'
 import { projects } from '../data/projects'
 
 export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobileOpen?: boolean; onClose?: () => void; alwaysOverlay?: boolean }) {
@@ -18,7 +18,8 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
 
   const mainLinks = [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'Mini Web 2026', href: '/mini-web-2026', icon: FileText },
+    { label: 'Use Case', href: '/use-case', icon: FileText },
+    { label: 'New Project', href: '/new-project', icon: Lightbulb },
   ]
 
   const navTree = [

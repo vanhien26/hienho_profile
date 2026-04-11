@@ -13,8 +13,18 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     const saved = localStorage.getItem('profile_authorized_2026')
-    if (saved === 'true') {
-      setIsAuthorized(true)
+    if (saved) {
+      try {
+        const data = JSON.parse(saved)
+        const now = Date.now()
+        if (data.authorized && (now - data.timestamp) < 60 * 60 * 1000) { // 1 hour
+          setIsAuthorized(true)
+        } else {
+          localStorage.removeItem('profile_authorized_2026')
+        }
+      } catch {
+        localStorage.removeItem('profile_authorized_2026')
+      }
     }
     setIsLoading(false)
   }, [])
@@ -23,7 +33,10 @@ export default function PasscodeGuard({ children }: { children: React.ReactNode 
     e.preventDefault()
     if (passcode === CORRECT_PASSCODE) {
       setIsAuthorized(true)
-      localStorage.setItem('profile_authorized_2026', 'true')
+      localStorage.setItem('profile_authorized_2026', JSON.stringify({
+        authorized: true,
+        timestamp: Date.now()
+      }))
       setError(false)
     } else {
       setError(true)

@@ -3,7 +3,9 @@ import { useState } from 'react'
 import Sidebar from '../../components/Sidebar'
 import Link from 'next/link'
 import { Project } from '../../data/projects'
-import { Menu, Home, FileText, Lightbulb } from 'lucide-react'
+import { Menu, Home, FileText, Lightbulb, Edit, Save, X } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { useForm } from 'react-hook-form'
 
 const tagColors: Record<string, string[]> = {
   SEO: ['#E6EEFF', '#1848B8'],
@@ -38,6 +40,12 @@ function getTagColors(tag: string): string[] {
   return tagColors[tag] || tagColors['default']
 }
 
+function parseMetricValue(value: string): number {
+  // Remove non-numeric characters and parse
+  const num = parseFloat(value.replace(/[^\d.]/g, ''))
+  return isNaN(num) ? 0 : num
+}
+
 function HamburgerButton({ onClick }: { onClick: () => void }) {
   return (
     <button
@@ -53,6 +61,23 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
 export default function ProjectDetailClient({ project }: { project: Project }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [isEditing, setIsEditing] = useState(false)
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      title: project.title,
+      subtitle: project.subtitle,
+      description: project.description,
+      tags: project.tags.join(', '),
+      status: project.status,
+    }
+  })
+
+  const onSubmit = (data: any) => {
+    // For now, just log - in real app, save to backend
+    console.log('Updated project:', data)
+    setIsEditing(false)
+    // Could update local state or refetch
+  }
 
   return (
     <div className="flex min-h-screen w-full">
@@ -103,41 +128,117 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 px-4 sm:px-8 py-3 flex-shrink-0"
               style={{ background: '#F6F3EF', borderBottom: '1px solid var(--border)' }}
             >
-              <div className="min-w-0">
-                <h1 className="text-sm font-black truncate" style={{ color: 'var(--ink)' }}>
-                  {project.title}
-                </h1>
-                <code className="text-[10px] font-mono" style={{ color: 'var(--ink-3)' }}>
-                  {project.subtitle}
-                </code>
-              </div>
-              <div className="flex gap-1.5 flex-wrap">
-                {project.tags.map(t => {
-                  const [bg, color] = getTagColors(t)
-                  return (
-                    <span
-                      key={t}
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                      style={{ background: bg, color }}
-                    >
-                      {t}
-                    </span>
-                  )
-                })}
-              </div>
-              {project.metrics && (
-                <div className="sm:ml-auto flex gap-4 sm:gap-6">
-                  {project.metrics.map(m => (
-                    <div key={m.label} className="text-center">
-                      <div className="text-base font-black" style={{ color: '#AE2070' }}>
-                        {m.value}
-                      </div>
-                      <div className="text-[9px]" style={{ color: 'var(--ink-3)' }}>
-                        {m.label}
-                      </div>
+              <div className="min-w-0 flex-1">
+                {isEditing ? (
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+                    <input
+                      {...register('title', { required: 'Title is required' })}
+                      className="w-full px-3 py-2 border rounded text-sm"
+                      placeholder="Project title"
+                    />
+                    {errors.title && <p className="text-red-500 text-xs">{errors.title.message}</p>}
+                    
+                    <input
+                      {...register('subtitle')}
+                      className="w-full px-3 py-2 border rounded text-sm"
+                      placeholder="Subtitle"
+                    />
+                    
+                    <textarea
+                      {...register('description', { required: 'Description is required' })}
+                      className="w-full px-3 py-2 border rounded text-sm"
+                      rows={2}
+                      placeholder="Description"
+                    />
+                    {errors.description && <p className="text-red-500 text-xs">{errors.description.message}</p>}
+                    
+                    <input
+                      {...register('tags')}
+                      className="w-full px-3 py-2 border rounded text-sm"
+                      placeholder="Tags (comma separated)"
+                    />
+                    
+                    <select {...register('status')} className="w-full px-3 py-2 border rounded text-sm">
+                      <option value="live">Live</option>
+                      <option value="review">Review</option>
+                      <option value="draft">Draft</option>
+                    </select>
+                    
+                    <div className="flex gap-2">
+                      <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded text-sm flex items-center gap-1">
+                        <Save size={14} /> Save
+                      </button>
+                      <button type="button" onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-500 text-white rounded text-sm flex items-center gap-1">
+                        <X size={14} /> Cancel
+                      </button>
                     </div>
-                  ))}
+                  </form>
+                ) : (
+                  <>
+                    <h1 className="text-sm font-black truncate" style={{ color: 'var(--ink)' }}>
+                      {project.title}
+                    </h1>
+                    <code className="text-[10px] font-mono" style={{ color: 'var(--ink-3)' }}>
+                      {project.subtitle}
+                    </code>
+                  </>
+                )}
+              </div>
+              
+              {!isEditing && (
+                <div className="flex gap-1.5 flex-wrap">
+                  {project.tags.map(t => {
+                    const [bg, color] = getTagColors(t)
+                    return (
+                      <span
+                        key={t}
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                        style={{ background: bg, color }}
+                      >
+                        {t}
+                      </span>
+                    )
+                  })}
                 </div>
+              )}
+              
+              {!isEditing && (
+                <>
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="px-3 py-2 bg-blue-500 text-white rounded text-sm flex items-center gap-1 hover:bg-blue-600"
+                  >
+                    <Edit size={14} /> Edit
+                  </button>
+                  
+                  {project.metrics && (
+                    <div className="sm:ml-auto flex gap-4 sm:gap-6">
+                      {project.metrics.map(m => (
+                        <div key={m.label} className="text-center">
+                          <div className="text-base font-black" style={{ color: '#AE2070' }}>
+                            {m.value}
+                          </div>
+                          <div className="text-[9px]" style={{ color: 'var(--ink-3)' }}>
+                            {m.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {project.metrics && project.metrics.length > 1 && (
+                    <div className="sm:ml-auto mt-2 sm:mt-0">
+                      <ResponsiveContainer width="100%" height={80}>
+                        <BarChart data={project.metrics.map(m => ({ name: m.label, value: parseMetricValue(m.value) }))}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="name" fontSize={10} />
+                          <YAxis fontSize={10} />
+                          <Tooltip />
+                          <Bar dataKey="value" fill="#AE2070" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 

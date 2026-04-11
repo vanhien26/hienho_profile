@@ -12,7 +12,7 @@
 ## Phase 1: Core Enhancements (Next)
 - [ ] Full-text search (fuse.js)
 - [ ] Metrics charts (Recharts) 
-- [ ] Integrate mini_webs.ts tab → Main page chỉ show Knowledge docs, Mini Web Registry separate tab (/mini-web-2026) **🔄 In Progress**
+- [ ] Integrate mini_webs.ts tab → Main page chỉ show Knowledge docs, Mini Web Registry separate tab (/use-case) **🔄 In Progress**
 
 ## Phase 2: CMS Features
 - [ ] Inline project editor (React Hook Form)

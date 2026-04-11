@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { projects, Project } from './data/projects'
 import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search, Globe, Target, Map, BarChart2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Fuse from 'fuse.js'
 
 const divisionColors: Record<string, { bg: string; text: string; border: string }> = {
   FS: { bg: '#FFEFF4', text: '#A50064', border: '#A50064' },
@@ -157,18 +158,32 @@ export default function HomePage() {
   const useCaseProjects = projects.filter(p => p.category === 'use-case')
   const knowledgeProjects = projects.filter(p => p.category === 'knowledge')
 
+  // Setup Fuse for fuzzy search
+  const fuse = new Fuse(useCaseProjects, {
+    keys: ['title', 'description', 'tags', 'subtitle'],
+    threshold: 0.3, // Lower = more strict
+    includeScore: true,
+  })
+
   const filteredUseCases = useCaseProjects.filter(p => {
     const matchesDivision = activeDivision ? p.division === activeDivision : true
-    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+    if (!searchQuery.trim()) return matchesDivision
+    
+    const result = fuse.search(searchQuery)
+    const matchesSearch = result.some(r => r.item.id === p.id)
     return matchesDivision && matchesSearch
   })
 
+  const knowledgeFuse = new Fuse(knowledgeProjects, {
+    keys: ['title', 'description', 'tags', 'subtitle'],
+    threshold: 0.3,
+    includeScore: true,
+  })
+
   const filteredKnowledge = knowledgeProjects.filter(p => {
-    return p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+    if (!searchQuery.trim()) return true
+    const result = knowledgeFuse.search(searchQuery)
+    return result.some(r => r.item.id === p.id)
   })
 
   const allDivisions = Array.from(new Set(useCaseProjects.map(p => p.division).filter(Boolean))) as string[]
@@ -194,13 +209,7 @@ export default function HomePage() {
 
       <main className="flex-1 overflow-y-auto w-full">
         {/* Profile Header / Banner */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative overflow-hidden"
-          style={{ minHeight: 220 }}
-        >
+        <div className="relative overflow-hidden" style={{ minHeight: 220 }}>
           {/* Background */}
           <div
             className="absolute inset-0"
@@ -226,15 +235,10 @@ export default function HomePage() {
           />
 
           {/* MoMo Logo - top right */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="absolute top-4 right-6 sm:right-12 z-10"
-          >
+          <div className="absolute top-4 right-6 sm:right-12 z-10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/momo-logo-white.png" alt="MoMo" className="h-10 sm:h-12 w-auto opacity-70" />
-          </motion.div>
+          </div>
 
           <div className="relative px-6 sm:px-12 pt-8 sm:pt-10 pb-0 flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-8">
             {/* Avatar */}
@@ -259,47 +263,23 @@ export default function HomePage() {
             </motion.div>
             {/* Info */}
             <div className="pb-4 sm:pb-8 text-center sm:text-left">
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3"
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3"
                 style={{ background: 'rgba(174,32,112,0.3)', color: '#F5BCDA', border: '1px solid rgba(174,32,112,0.4)' }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
                 Growth Traffic Portfolio
-              </motion.div>
-              <motion.h1
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none"
-              >
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none">
                 Van Hien (Klaus)
-              </motion.h1>
-              <motion.p
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-white/60 text-sm font-medium mt-1.5"
-              >
+              </h1>
+              <p className="text-white/60 text-sm font-medium mt-1.5">
                 SEO & GEO Lead ·{' '}
                 <span className="text-white/80 font-semibold">MoMo (momo.vn)</span>
-              </motion.p>
-              <motion.p
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="text-white/40 text-xs mt-2 max-w-md leading-relaxed"
-              >
+              </p>
+              <p className="text-white/40 text-xs mt-2 max-w-md leading-relaxed">
                 Web Growth Traffic & Web to App Optimization
-              </motion.p>
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                className="flex flex-wrap items-center gap-3 mt-3"
-              >
+              </p>
+              <div className="flex flex-wrap items-center gap-3 mt-3">
                 <span className="text-white/50 text-xs flex items-center gap-1.5">
                   <Phone size={12} />
                   090 6973942
@@ -318,13 +298,13 @@ export default function HomePage() {
                   <MessageCircle size={12} />
                   Chat
                 </a>
-              </motion.div>
+              </div>
             </div>
           </div>
 
           {/* Spacer */}
           <div className="mt-6 sm:mt-10" />
-        </motion.div>
+        </div>
 
         {/* Content */}
         <div className="px-4 sm:px-8 lg:px-12 py-8 sm:py-10">
@@ -418,7 +398,7 @@ export default function HomePage() {
             {/* Use Case Grid */}
             <motion.div
               variants={containerVariants}
-              initial="hidden"
+              initial={false}
               animate="visible"
               key={activeDivision || 'all'}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
@@ -540,7 +520,7 @@ export default function HomePage() {
 
             <motion.div
               variants={containerVariants}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true }}
               key={`knowledge-${searchQuery}`}

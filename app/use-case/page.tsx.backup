@@ -32,6 +32,8 @@ export default function MiniWebRegistryPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [activeDivision, setActiveDivision] = useState<string | null>(null)
+  const [activeUseCase, setActiveUseCase] = useState<string | null>(null)
+  const [activePageType, setActivePageType] = useState<string | null>(null)
 
   const filteredData = miniWebs.filter(item => {
     const matchesSearch = 
@@ -40,11 +42,15 @@ export default function MiniWebRegistryPage() {
       item.url.toLowerCase().includes(searchQuery.toLowerCase())
     
     const matchesDivision = activeDivision ? item.division === activeDivision : true
+    const matchesUseCase = activeUseCase ? item.useCase === activeUseCase : true
+    const matchesPageType = activePageType ? item.pageType === activePageType : true
     
-    return matchesSearch && matchesDivision
+    return matchesSearch && matchesDivision && matchesUseCase && matchesPageType
   })
 
   const divisions = Array.from(new Set(miniWebs.map(i => i.division)))
+  const useCases = Array.from(new Set(miniWebs.map(i => i.useCase)))
+  const pageTypes = Array.from(new Set(miniWebs.map(i => i.pageType)))
 
   return (
     <div className="flex min-h-screen w-full bg-[#F6F3EF]">
@@ -53,7 +59,7 @@ export default function MiniWebRegistryPage() {
 
       <main className="flex-1 min-w-0 flex flex-col h-screen">
         {/* Header */}
-        <div className="bg-white border-bottom border-[#E4DDD6] px-6 sm:px-10 py-6 flex-shrink-0">
+        <div className="bg-white border-b border-[#E4DDD6] px-6 sm:px-10 py-6 flex-shrink-0">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-black tracking-tight text-[#18120E]">Mini Web Registry 2026</h1>
@@ -72,7 +78,9 @@ export default function MiniWebRegistryPage() {
             </div>
           </div>
 
+          {/* Division Filter */}
           <div className="flex flex-wrap items-center gap-2 mt-6">
+            <span className="text-[10px] font-bold text-[#8C7D74] mr-2">DIVISION:</span>
             <button
               onClick={() => setActiveDivision(null)}
               className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${!activeDivision ? 'bg-[#18120E] text-white' : 'bg-gray-100 text-[#8C7D74] hover:bg-gray-200'}`}
@@ -89,7 +97,62 @@ export default function MiniWebRegistryPage() {
               </button>
             ))}
           </div>
-        </div>
+
+          {/* Use Case Filter */}
+          <div className="flex flex-wrap items-center gap-2 mt-4">
+            <span className="text-[10px] font-bold text-[#8C7D74] mr-2">USE CASE:</span>
+            <button
+              onClick={() => setActiveUseCase(null)}
+              className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${!activeUseCase ? 'bg-[#18120E] text-white' : 'bg-gray-100 text-[#8C7D74] hover:bg-gray-200'}`}
+            >
+              ALL
+            </button>
+            {useCases.map(useCase => (
+              <button
+                key={useCase}
+                onClick={() => setActiveUseCase(useCase)}
+                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${activeUseCase === useCase ? 'bg-[#AE2070] text-white' : 'bg-white border border-[#E4DDD6] text-[#8C7D74] hover:bg-gray-50'}`}
+              >
+                {useCase}
+              </button>
+            ))}
+          </div>
+
+          {/* Page Type Filter */}
+          <div className="flex flex-wrap items-center gap-2 mt-4">
+            <span className="text-[10px] font-bold text-[#8C7D74] mr-2">PAGE TYPE:</span>
+            <button
+              onClick={() => setActivePageType(null)}
+              className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${!activePageType ? 'bg-[#18120E] text-white' : 'bg-gray-100 text-[#8C7D74] hover:bg-gray-200'}`}
+            >
+              ALL
+            </button>
+            {pageTypes.map(pageType => (
+              <button
+                key={pageType}
+                onClick={() => setActivePageType(pageType)}
+                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${activePageType === pageType ? 'bg-[#AE2070] text-white' : 'bg-white border border-[#E4DDD6] text-[#8C7D74] hover:bg-gray-50'}`}
+              >
+                {pageType}
+              </button>
+            ))}
+          </div>
+
+          {/* Clear All Filters */}
+          {(activeDivision || activeUseCase || activePageType) && (
+            <div className="mt-4">
+              <button
+                onClick={() => {
+                  setActiveDivision(null)
+                  setActiveUseCase(null)
+                  setActivePageType(null)
+                }}
+                className="px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-xs font-bold hover:bg-red-100 transition-all"
+              >
+                Clear All Filters
+              </button>
+            </div>
+          )}
 
         {/* Table Container */}
         <div className="flex-1 overflow-auto px-6 sm:px-10 py-6">
