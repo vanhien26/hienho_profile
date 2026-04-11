@@ -32,7 +32,7 @@ export default function MiniWebRegistryPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [activeDivision, setActiveDivision] = useState<string | null>(null)
-  const [activeUseCase, setActiveUseCase] = useState<string | null>(null)
+  const [activePageType, setActivePageType] = useState<string | null>(null)
 
   const filteredData = miniWebs.filter(item => {
     const matchesSearch =
@@ -41,13 +41,13 @@ export default function MiniWebRegistryPage() {
       item.url.toLowerCase().includes(searchQuery.toLowerCase())
 
     const matchesDivision = activeDivision ? item.division === activeDivision : true
-    const matchesUseCase = activeUseCase ? item.useCase === activeUseCase : true
+    const matchesPageType = activePageType ? item.pageType === activePageType : true
 
-    return matchesSearch && matchesDivision && matchesUseCase
+    return matchesSearch && matchesDivision && matchesPageType
   })
 
   const divisions = Array.from(new Set(miniWebs.map(i => i.division)))
-  const useCases = Array.from(new Set(miniWebs.map(i => i.useCase)))
+  const pageTypes = Array.from(new Set(miniWebs.map(i => i.pageType)))
 
   return (
     <div className="flex min-h-screen w-full bg-[#F6F3EF]">
@@ -97,35 +97,35 @@ export default function MiniWebRegistryPage() {
             </div>
           </div>
 
-          {/* Use Case Filter */}
+          {/* Page Type Filter */}
           <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 mt-4">
-            <span className="text-[10px] font-bold text-[#8C7D74] sm:mr-2">USE CASE:</span>
+            <span className="text-[10px] font-bold text-[#8C7D74] sm:mr-2">PAGE TYPE:</span>
             <div className="flex flex-wrap items-center gap-2">
               <button
-                onClick={() => setActiveUseCase(null)}
-                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${!activeUseCase ? 'bg-[#18120E] text-white' : 'bg-gray-100 text-[#8C7D74] hover:bg-gray-200'}`}
+                onClick={() => setActivePageType(null)}
+                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${!activePageType ? 'bg-[#18120E] text-white' : 'bg-gray-100 text-[#8C7D74] hover:bg-gray-200'}`}
               >
                 ALL
               </button>
-              {useCases.map(useCase => (
+              {pageTypes.map(pageType => (
                 <button
-                  key={useCase}
-                  onClick={() => setActiveUseCase(useCase)}
-                  className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${activeUseCase === useCase ? 'bg-[#AE2070] text-white' : 'bg-white border border-[#E4DDD6] text-[#8C7D74] hover:bg-gray-50'}`}
+                  key={pageType}
+                  onClick={() => setActivePageType(pageType)}
+                  className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${activePageType === pageType ? 'bg-[#AE2070] text-white' : 'bg-white border border-[#E4DDD6] text-[#8C7D74] hover:bg-gray-50'}`}
                 >
-                  {useCase}
+                  {pageType}
                 </button>
               ))}
             </div>
           </div>
 
           {/* Clear All Filters */}
-          {(activeDivision || activeUseCase) && (
+          {(activeDivision || activePageType) && (
             <div className="mt-4 flex justify-center sm:justify-start">
               <button
                 onClick={() => {
                   setActiveDivision(null)
-                  setActiveUseCase(null)
+                  setActivePageType(null)
                 }}
                 className="px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-xs font-bold hover:bg-red-100 transition-all"
               >
