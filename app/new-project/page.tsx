@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, FormEvent } from 'react'
 import Sidebar from '../components/Sidebar'
+import { projects } from '../data/projects'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { Menu, Plus, X, Save } from 'lucide-react'
 
@@ -10,7 +11,7 @@ interface NewProjectForm {
   subtitle: string
   category: 'use-case' | 'knowledge'
   division?: string
-  tags: { value: string }[]
+  tags: string[]
   status: 'live' | 'draft' | 'review'
   description: string
   htmlFile?: string
@@ -49,18 +50,15 @@ export default function NewProjectPage() {
     }
   }, [])
 
-  const { register, handleSubmit, control, reset, formState: { errors } } = useForm<NewProjectForm>({
+  const tagOptions = Array.from(new Set(projects.flatMap((project) => project.tags))).sort((a, b) => a.localeCompare(b))
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<NewProjectForm>({
     defaultValues: {
       category: 'use-case',
       status: 'draft',
-      tags: [{ value: '' }],
+      tags: [],
       metrics: [{ label: '', value: '' }]
     }
-  })
-
-  const { fields: tagFields, append: appendTag, remove: removeTag } = useFieldArray({
-    control,
-    name: 'tags'
   })
 
   const { fields: metricFields, append: appendMetric, remove: removeMetric } = useFieldArray({
@@ -68,12 +66,18 @@ export default function NewProjectPage() {
     name: 'metrics'
   })
 
+  const toggleTag = (tag: string) => {
+    setSelectedTags((current) =>
+      current.includes(tag) ? current.filter((item) => item !== tag) : [...current, tag]
+    )
+  }
+
   const onSubmit = (data: NewProjectForm) => {
     // Clean up data
     const cleanedData = {
       ...data,
-      tags: data.tags.map(t => t.value).filter(tag => tag.trim()),
-      metrics: data.metrics.filter(m => m.label.trim() && m.value.trim()),
+      tags: selectedTags,
+      metrics: data.metrics.filter((m) => m.label.trim() && m.value.trim()),
       updatedAt: new Date().toISOString().split('T')[0], // YYYY-MM-DD
     }
 
@@ -82,38 +86,48 @@ export default function NewProjectPage() {
 
     // Reset form
     reset()
+    setSelectedTags([])
   }
 
   const handleCodeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (codeInput === '2026') {
+    if (codeInput === '1507') {
       localStorage.setItem('newProjectAuth', JSON.stringify({ timestamp: Date.now() }))
       setHasAccess(true)
       setAuthError('')
     } else {
-      setAuthError('Mã code không đúng. Vui lòng thử lại.')
+      setAuthError('Mã truy cập không đúng. Vui lòng nhập lại 4 chữ số.')
     }
   }
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-          <h1 className="text-xl font-bold text-gray-900 mb-3">Truy cập New Project</h1>
-          <p className="text-sm text-gray-600 mb-4">Nhập mã truy cập để vào trang tạo dự án. Liên hệ quản trị để lấy mã.</p>
-          <form onSubmit={handleCodeSubmit} className="space-y-4">
-            <input
-              type="password"
-              value={codeInput}
-              onChange={(e) => setCodeInput(e.target.value)}
-              placeholder="Nhập mã code"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {authError && <p className="text-red-500 text-sm">{authError}</p>}
-            <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              Xác nhận
-            </button>
-          </form>
+      <div className="min-h-screen flex items-center justify-center bg-[#F5EBF5] px-4">
+        <div className="w-full max-w-md bg-white rounded-[28px] border border-[#E6D5E0] shadow-[0_24px_80px_rgba(174,32,112,0.12)] overflow-hidden">
+          <div className="px-8 py-6" style={{ background: 'linear-gradient(135deg, #AE2070 0%, #D97706 100%)' }}>
+            <h1 className="text-2xl font-black text-white tracking-tight">Truy cập New Project</h1>
+            <p className="text-sm text-[#FFE6F0] mt-2">Mã truy cập là thông tin riêng tư của bạn. Nhập đúng 4 chữ số để mở quyền tạo dự án.</p>
+          </div>
+
+          <div className="px-8 py-8">
+            <form onSubmit={handleCodeSubmit} className="space-y-4">
+              <input
+                type="password"
+                value={codeInput}
+                onChange={(e) => setCodeInput(e.target.value)}
+                maxLength={4}
+                placeholder="••••"
+                className="w-full px-4 py-3 rounded-2xl border border-[#E5D0DD] bg-[#FCF4FA] text-lg tracking-[0.35em] text-center outline-none transition duration-200 focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+              />
+              {authError && <p className="text-sm text-[#D92D3B]">{authError}</p>}
+              <button
+                type="submit"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 bg-[#AE2070] text-white font-semibold shadow-[0_16px_32px_rgba(174,32,112,0.24)] hover:bg-[#C84C8C] transition"
+              >
+                Xác nhận mã
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     )
@@ -221,29 +235,37 @@ export default function NewProjectPage() {
               {/* Tags */}
               <div className="space-y-4">
                 <h2 className="text-lg font-bold text-[#18120E]">Tags</h2>
-                {tagFields.map((field, index) => (
-                  <div key={field.id} className="flex gap-2">
-                    <input
-                      {...register(`tags.${index}.value`)}
-                      className="flex-1 px-3 py-2 border rounded-lg text-sm"
-                      placeholder="Tag name"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeTag(index)}
-                      className="px-3 py-2 bg-red-500 text-white rounded-lg"
-                    >
-                      <X size={14} />
-                    </button>
+                <p className="text-sm text-[#6B4D60]">Chọn tag hiện có từ tất cả Use Case và Knowledge Document.</p>
+                <div className="flex flex-wrap gap-2">
+                  {tagOptions.map((tag) => {
+                    const isActive = selectedTags.includes(tag)
+                    return (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => toggleTag(tag)}
+                        className={`px-3 py-2 rounded-full text-sm transition ${isActive ? 'bg-[#AE2070] text-white' : 'bg-[#F3E6F3] text-[#5B3A52] hover:bg-[#E9D1E2]'}`}
+                      >
+                        {tag}
+                      </button>
+                    )
+                  })}
+                </div>
+                {selectedTags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {selectedTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center gap-2 rounded-full bg-[#FCE7F3] px-3 py-1 text-xs font-semibold text-[#7E3A56]"
+                      >
+                        {tag}
+                        <button type="button" onClick={() => toggleTag(tag)} className="text-[#7E3A56] hover:text-[#AE2070]">
+                          <X size={12} />
+                        </button>
+                      </span>
+                    ))}
                   </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => appendTag({ value: '' })}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm flex items-center gap-2"
-                >
-                  <Plus size={14} /> Add Tag
-                </button>
+                )}
               </div>
 
               {/* Metrics */}

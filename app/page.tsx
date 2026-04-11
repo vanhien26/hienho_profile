@@ -3,7 +3,7 @@ import { useState, useRef } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects, Project } from './data/projects'
-import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search, Globe, Target, Map, BarChart2 } from 'lucide-react'
+import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search, Globe, Target, Map, BarChart2, Shield } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Fuse from 'fuse.js'
 
@@ -603,6 +603,34 @@ export default function HomePage() {
 
         </div>
       </main>
+
+      {/* Floating New Project Button */}
+      <Link
+        href="/admin"
+        className="fixed bottom-6 right-6 z-50 group"
+      >
+        <div
+          className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl"
+          style={{
+            background: 'linear-gradient(135deg, #AE2070 0%, #D97706 100%)',
+            boxShadow: '0 8px 32px rgba(174,32,112,0.4)',
+          }}
+        >
+          <Shield size={24} color="white" className="transition-transform duration-300" />
+        </div>
+
+        {/* Tooltip */}
+        <div
+          className="absolute bottom-full right-0 mb-2 px-3 py-1.5 rounded-lg text-xs font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+          style={{ background: '#18120E', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}
+        >
+          Admin Access
+          <div
+            className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent"
+            style={{ borderTopColor: '#18120E' }}
+          />
+        </div>
+      </Link>
     </div>
   )
 }
