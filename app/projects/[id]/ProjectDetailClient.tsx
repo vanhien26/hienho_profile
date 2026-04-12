@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react'
 import Sidebar from '../../components/Sidebar'
 import Link from 'next/link'
 import { Project } from '../../data/projects'
-import { Menu, Home, FileText, Lightbulb, Edit, Save, X } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { Home, FileText, Lightbulb, Edit, Save, X } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { useSidebar } from '../../context/sidebar'
 
 const tagColors: Record<string, string[]> = {
   SEO: ['#E6EEFF', '#1848B8'],
@@ -40,39 +40,20 @@ function getTagColors(tag: string): string[] {
   return tagColors[tag] || tagColors['default']
 }
 
-function parseMetricValue(value: string): number {
-  // Remove non-numeric characters and parse
-  const num = parseFloat(value.replace(/[^\d.]/g, ''))
-  return isNaN(num) ? 0 : num
-}
-
-function HamburgerButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="fixed top-4 left-4 z-30 flex items-center justify-center w-10 h-10 rounded-lg"
-      style={{ background: '#18120E', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
-    >
-      <Menu size={18} color="white" />
-    </button>
-  )
-}
-
 export default function ProjectDetailClient({ project }: { project: Project }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { open: sidebarOpen, setOpen: setSidebarOpen } = useSidebar()
   const [loading, setLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [globalTags, setGlobalTags] = useState<string[]>([])
+  const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('adminTags')
     if (saved) {
-      try {
-        setGlobalTags(JSON.parse(saved))
-      } catch {
-        setGlobalTags([])
-      }
+      try { setGlobalTags(JSON.parse(saved)) } catch { setGlobalTags([]) }
     }
+    const adminAccess = localStorage.getItem('adminAccess')
+    setIsAdmin(!!adminAccess)
   }, [])
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
@@ -95,7 +76,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
   return (
     <div className="flex min-h-screen w-full">
       <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} alwaysOverlay />
-      <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
       <main className="flex-1 flex flex-col overflow-hidden w-full">
         {/* Breadcrumb bar */}
@@ -229,13 +209,15 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               
               {!isEditing && (
                 <>
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="px-3 py-2 bg-blue-500 text-white rounded text-sm flex items-center gap-1 hover:bg-blue-600"
-                  >
-                    <Edit size={14} /> Edit
-                  </button>
-                  
+                  {isAdmin && (
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="px-3 py-2 bg-blue-500 text-white rounded text-sm flex items-center gap-1 hover:bg-blue-600 flex-shrink-0"
+                    >
+                      <Edit size={14} /> Edit
+                    </button>
+                  )}
+
                   {project.metrics && (
                     <div className="sm:ml-auto flex gap-4 sm:gap-6">
                       {project.metrics.map(m => (
@@ -248,19 +230,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                           </div>
                         </div>
                       ))}
-                    </div>
-                  )}
-                  {project.metrics && project.metrics.length > 1 && (
-                    <div className="sm:ml-auto mt-2 sm:mt-0">
-                      <ResponsiveContainer width="100%" height={80}>
-                        <BarChart data={project.metrics.map(m => ({ name: m.label, value: parseMetricValue(m.value) }))}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" fontSize={10} />
-                          <YAxis fontSize={10} />
-                          <Tooltip />
-                          <Bar dataKey="value" fill="#AE2070" />
-                        </BarChart>
-                      </ResponsiveContainer>
                     </div>
                   )}
                 </>
