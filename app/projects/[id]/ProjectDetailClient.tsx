@@ -118,118 +118,113 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           <div className="flex-1 flex flex-col">
             {/* Meta bar */}
             <div
-              className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 px-4 sm:px-8 py-3 flex-shrink-0"
+              className="px-4 sm:px-8 py-2.5 flex-shrink-0"
               style={{ background: '#F6F3EF', borderBottom: '1px solid var(--border)' }}
             >
-              <div className="min-w-0 flex-1">
-                {isEditing ? (
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-                    <input
-                      {...register('title', { required: 'Title is required' })}
-                      className="w-full px-3 py-2 border rounded text-sm"
-                      placeholder="Project title"
-                    />
-                    {errors.title && <p className="text-red-500 text-xs">{errors.title.message}</p>}
-                    
-                    <input
-                      {...register('subtitle')}
-                      className="w-full px-3 py-2 border rounded text-sm"
-                      placeholder="Subtitle"
-                    />
-                    
-                    <textarea
-                      {...register('description', { required: 'Description is required' })}
-                      className="w-full px-3 py-2 border rounded text-sm"
-                      rows={2}
-                      placeholder="Description"
-                    />
-                    {errors.description && <p className="text-red-500 text-xs">{errors.description.message}</p>}
-                    
-                    <div className="space-y-2">
-                      <label className="block text-xs font-medium text-gray-700 mb-1">Tags (from Tag Management)</label>
-                      <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border rounded bg-gray-50">
-                        {globalTags.map(tag => (
-                          <label key={tag} className="flex items-center gap-1 text-xs">
-                            <input
-                              type="checkbox"
-                              value={tag}
-                              className="rounded"
-                              {...register('tags', { required: false })}
-                            />
-                            <span className="px-2 py-1 rounded-full bg-blue-100 text-blue-800">{tag}</span>
-                          </label>
-                        ))}
-                      </div>
-                      <p className="text-xs text-gray-500">Global tags from /admin/tags. Check to assign.</p>
-                    </div>
-                    
-                    <select {...register('status')} className="w-full px-3 py-2 border rounded text-sm">
-                      <option value="live">Live</option>
-                      <option value="review">Review</option>
-                      <option value="draft">Draft</option>
-                    </select>
-                    
-                    <div className="flex gap-2">
-                      <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded text-sm flex items-center gap-1">
-                        <Save size={14} /> Save
-                      </button>
-                      <button type="button" onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-500 text-white rounded text-sm flex items-center gap-1">
-                        <X size={14} /> Cancel
-                      </button>
-                    </div>
-                  </form>
-                ) : (
-                  <>
-                    <h1 className="text-sm font-black truncate" style={{ color: 'var(--ink)' }}>
-                      {project.title}
-                    </h1>
-                    <code className="text-[10px] font-mono" style={{ color: 'var(--ink-3)' }}>
-                      {project.subtitle}
-                    </code>
-                  </>
-                )}
-              </div>
-              
-              {!isEditing && (
-                <div className="flex gap-1.5 flex-wrap">
-                  {project.tags.map(t => {
-                    const [bg, color] = getTagColors(t)
-                    return (
-                      <span
-                        key={t}
-                        className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                        style={{ background: bg, color }}
-                      >
-                        {t}
-                      </span>
-                    )
-                  })}
-                </div>
-              )}
-              
-              {!isEditing && (
-                <>
-                  {isAdmin && (
-                    <button
-                      onClick={() => setIsEditing(true)}
-                      className="px-3 py-2 bg-blue-500 text-white rounded text-sm flex items-center gap-1 hover:bg-blue-600 flex-shrink-0"
-                    >
-                      <Edit size={14} /> Edit
-                    </button>
-                  )}
-
-                  {project.metrics && (
-                    <div className="sm:ml-auto flex gap-4 sm:gap-6">
-                      {project.metrics.map(m => (
-                        <div key={m.label} className="text-center">
-                          <div className="text-base font-black" style={{ color: '#AE2070' }}>
-                            {m.value}
-                          </div>
-                          <div className="text-[9px]" style={{ color: 'var(--ink-3)' }}>
-                            {m.label}
-                          </div>
-                        </div>
+              {isEditing ? (
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 py-1">
+                  <input
+                    {...register('title', { required: 'Title is required' })}
+                    className="w-full px-3 py-2 border rounded text-sm"
+                    placeholder="Project title"
+                  />
+                  {errors.title && <p className="text-red-500 text-xs">{errors.title.message}</p>}
+                  <input
+                    {...register('subtitle')}
+                    className="w-full px-3 py-2 border rounded text-sm"
+                    placeholder="Subtitle"
+                  />
+                  <textarea
+                    {...register('description', { required: 'Description is required' })}
+                    className="w-full px-3 py-2 border rounded text-sm"
+                    rows={2}
+                    placeholder="Description"
+                  />
+                  {errors.description && <p className="text-red-500 text-xs">{errors.description.message}</p>}
+                  <div className="space-y-2">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Tags (from Tag Management)</label>
+                    <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border rounded bg-gray-50">
+                      {globalTags.map(tag => (
+                        <label key={tag} className="flex items-center gap-1 text-xs">
+                          <input type="checkbox" value={tag} className="rounded" {...register('tags', { required: false })} />
+                          <span className="px-2 py-1 rounded-full bg-blue-100 text-blue-800">{tag}</span>
+                        </label>
                       ))}
+                    </div>
+                  </div>
+                  <select {...register('status')} className="w-full px-3 py-2 border rounded text-sm">
+                    <option value="live">Live</option>
+                    <option value="review">Review</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                  <div className="flex gap-2">
+                    <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded text-sm flex items-center gap-1">
+                      <Save size={14} /> Save
+                    </button>
+                    <button type="button" onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-500 text-white rounded text-sm flex items-center gap-1">
+                      <X size={14} /> Cancel
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <>
+                  {/* Row 1: title + metrics + edit */}
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <h1 className="text-sm font-black truncate leading-tight" style={{ color: 'var(--ink)' }}>
+                        {project.title}
+                      </h1>
+                      <code className="text-[10px] font-mono truncate block" style={{ color: 'var(--ink-3)' }}>
+                        {project.subtitle}
+                      </code>
+                    </div>
+
+                    {project.metrics && (
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        {project.metrics.map(m => (
+                          <div key={m.label} className="text-center hidden sm:block">
+                            <div className="text-sm font-black leading-tight" style={{ color: '#AE2070' }}>{m.value}</div>
+                            <div className="text-[9px] leading-tight" style={{ color: 'var(--ink-3)' }}>{m.label}</div>
+                          </div>
+                        ))}
+                        {/* Mobile: compact metric pills */}
+                        <div className="flex gap-1.5 sm:hidden">
+                          {project.metrics.map(m => (
+                            <span key={m.label} className="text-[10px] font-black px-1.5 py-0.5 rounded-md" style={{ background: '#FFEFF4', color: '#AE2070' }}>
+                              {m.value}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {isAdmin && (
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:bg-blue-600"
+                        style={{ background: '#3B82F6', color: '#fff' }}
+                      >
+                        <Edit size={13} />
+                        <span className="hidden sm:inline">Edit</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Row 2: tags — horizontal scroll on mobile */}
+                  {project.tags.length > 0 && (
+                    <div className="flex gap-1.5 mt-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
+                      {project.tags.map(t => {
+                        const [bg, color] = getTagColors(t)
+                        return (
+                          <span
+                            key={t}
+                            className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0"
+                            style={{ background: bg, color }}
+                          >
+                            {t}
+                          </span>
+                        )
+                      })}
                     </div>
                   )}
                 </>
