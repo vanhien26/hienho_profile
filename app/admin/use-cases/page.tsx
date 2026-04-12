@@ -35,7 +35,14 @@ export default function AdminUseCasesPage() {
   const [authError, setAuthError] = useState('')
   const [entries, setEntries] = useState<MiniWebEntry[]>([])
   const [formState, setFormState] = useState<MiniWebEntry>(defaultEntry)
-  const [editingIndex, setEditingIndex] = useState<number | null>(null)
+  const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null)
+  const [tempRowData, setTempRowData] = useState<MiniWebEntry | null>(null)
+  const [droplists, setDroplists] = useState({
+    divisions: [] as string[],
+    useCases: [] as string[],
+    pageTypes: [] as string[],
+    statuses: ['Live', 'Monitor', 'Stop'] as string[]
+  })
   const [formError, setFormError] = useState('')
 
   useEffect(() => {
@@ -64,6 +71,12 @@ export default function AdminUseCasesPage() {
       }
     }
     setEntries(miniWebs)
+    
+    // Extract droplists from data
+    const divisions = Array.from(new Set(miniWebs.map(e => e.division))).sort() as string[]
+    const useCases = Array.from(new Set(miniWebs.map(e => e.useCase))).sort() as string[]
+    const pageTypes = Array.from(new Set(miniWebs.map(e => e.pageType))).sort() as string[]
+    setDroplists({ divisions, useCases, pageTypes, statuses: ['Live', 'Monitor', 'Stop'] })
   }, [])
 
   const persistEntries = (nextEntries: MiniWebEntry[]) => {
@@ -89,7 +102,7 @@ export default function AdminUseCasesPage() {
   }
 
   const resetForm = () => {
-    setEditingIndex(null)
+    setEditingRowIndex(null)
     setFormState(defaultEntry)
     setFormError('')
   }
@@ -111,30 +124,23 @@ export default function AdminUseCasesPage() {
       return
     }
 
-    if (editingIndex !== null) {
-      const nextEntries = [...entries]
-      nextEntries[editingIndex] = trimmed
-      persistEntries(nextEntries)
-      resetForm()
-      return
-    }
+    // Right sidebar now only for Add New, no edit logic
 
     persistEntries([...entries, trimmed])
     resetForm()
   }
 
-  const handleEdit = (index: number) => {
-    setEditingIndex(index)
-    setFormState(entries[index])
-    setFormError('')
+  const handleEditRow = (index: number) => {
+    setEditingRowIndex(index)
   }
 
   const handleDelete = (index: number) => {
     if (!window.confirm('Bạn có chắc muốn xóa use case này không?')) return
     const nextEntries = entries.filter((_, idx) => idx !== index)
     persistEntries(nextEntries)
-    if (editingIndex === index) {
-      resetForm()
+    if (editingRowIndex === index) {
+      setEditingRowIndex(null)
+      setTempRowData(null)
     }
   }
 
@@ -182,7 +188,7 @@ export default function AdminUseCasesPage() {
       <div className="flex-1 overflow-y-auto">
         <div className="bg-white border-b border-[#E4DDD6] px-6 sm:px-10 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-[#18120E]">Use Case CRUD</h1>
+            <h1 className="text-2xl font-black tracking-tight text-[#18120E]">Use Case</h1>
             <p className="text-sm text-[#8C7D74] mt-2">Quản lý danh sách Use Case / Mini Web trực tiếp từ admin.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -231,10 +237,10 @@ export default function AdminUseCasesPage() {
                         <td className="px-4 py-3 text-xs text-[#4A3F38]">{item.status}</td>
                         <td className="px-4 py-3 flex flex-wrap gap-2">
                           <button
-                            onClick={() => handleEdit(index)}
-                            className="rounded-2xl bg-[#F3E6F3] px-3 py-2 text-[10px] font-semibold text-[#5B3A53] hover:bg-[#EAD4E6] transition"
-                          >
-                            Edit
+                          onClick={() => handleEditRow(index)}
+                          className="rounded-2xl bg-[#F3E6F3] px-3 py-2 text-[10px] font-semibold text-[#5B3A53] hover:bg-[#EAD4E6] transition"
+                        >
+                          Edit
                           </button>
                           <button
                             onClick={() => handleDelete(index)}
@@ -254,7 +260,7 @@ export default function AdminUseCasesPage() {
               <div className="flex items-center gap-3 mb-5">
                 <FileText size={20} className="text-[#AE2070]" />
                 <div>
-                  <h2 className="text-lg font-bold text-[#18120E]">{editingIndex !== null ? 'Chỉnh Use Case' : 'Thêm Use Case mới'}</h2>
+                  <h2 className="text-lg font-bold text-[#18120E]">Thêm Use Case mới</h2>
                   <p className="text-sm text-[#6B4D60]">Nhập thông tin chi tiết của Mini Web / Use Case.</p>
                 </div>
               </div>
@@ -347,7 +353,7 @@ export default function AdminUseCasesPage() {
                     onClick={handleSave}
                     className="inline-flex items-center gap-2 rounded-2xl bg-[#AE2070] px-5 py-3 text-sm font-semibold text-white hover:bg-[#C84C8C] transition"
                   >
-                    <Save size={16} /> {editingIndex !== null ? 'Lưu thay đổi' : 'Thêm Use Case'}
+                    <Save size={16} /> Thêm Use Case
                   </button>
                   <button
                     type="button"

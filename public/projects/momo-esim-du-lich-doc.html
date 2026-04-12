@@ -1,1315 +1,1280 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MoMo eSIM Du Lịch — Web Growth Strategy</title>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --pink: #AE2070;
-      --pink-light: #F5E0EC;
-      --green: #00A64F;
-      --green-light: #E0F5EA;
-      --blue: #1848B8;
-      --blue-light: #E6EEFF;
-      --amber: #C05000;
-      --amber-light: #FFF0E0;
-      --red: #C42020;
-      --red-light: #FFE8E8;
-      --teal: #00787A;
-      --teal-light: #E0F6F6;
-      --ink: #18120E;
-      --ink-2: #4A3F38;
-      --ink-3: #8C7D74;
-      --bg: #F6F3EF;
-      --surface: #FFFFFF;
-      --border: #E4DDD6;
-      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-      --shadow: 0 4px 20px rgba(0,0,0,0.08);
-      --r: 10px;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eSIM Du Lịch — Web Growth Strategy · MoMo</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══ CSS VARIABLES ══ */
+:root {
+  --pink:    #F95396;
+  --pink-0:  #FF9DBE;
+  --pink-m1: #FEC8DC;
+  --pink-m2: #FFEFF4;
+  --green:        #00A64F;
+  --green-light:  #E0F5EA;
+  --blue:         #1848B8;
+  --blue-light:   #E6EEFF;
+  --amber:        #C05000;
+  --amber-light:  #FFF0E0;
+  --red:          #C42020;
+  --red-light:    #FFE8E8;
+  --purple:       #6B30C0;
+  --purple-light: #EFE6FF;
+  --teal:         #007B7F;
+  --teal-light:   #E0F5F5;
+  --ink:     #18120E;
+  --ink-2:   #4A3F38;
+  --ink-3:   #8C7D74;
+  --bg:      #F6F3EF;
+  --surface: #FFFFFF;
+  --border:  #E4DDD6;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow:    0 4px 20px rgba(0,0,0,0.08);
+  --r: 10px;
+}
 
-    /* ── LAYOUT ── */
-    .layout { display:flex; min-height:100vh; }
-    .sidebar { width:252px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
-    .sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
-    .brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
-    .brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
-    .nav-section { padding:16px 0 0; }
-    .nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
-    .nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; }
-    .nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
-    .nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
-    .nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
-    .sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
-    .version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
 
-    /* ── CONTENT ── */
-    .content { flex:1; overflow-y:auto; min-width:0; }
-    .section { display:none; padding:40px 48px; }
-    .section.active { display:block; }
+/* ══ BASE LAYOUT (mobile-first) ══ */
+.layout { display:block; min-height:100vh; }
 
-    /* ── HEADER ── */
-    .page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
-    .page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
-    .page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
-    .page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+/* ── MOBILE HEADER ── */
+.mob-header {
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:300;
+  height:52px; padding:0 16px;
+  background:#fff;
+  border-bottom:2px solid var(--pink-m1);
+  box-shadow:0 2px 10px rgba(249,83,150,0.08);
+}
+.mob-brand { display:flex; align-items:center; gap:9px; }
+.brand-logo {
+  background:linear-gradient(135deg,var(--pink) 0%,#D0206A 100%);
+  color:#fff; font-weight:900; font-size:15px;
+  padding:4px 10px; border-radius:7px; letter-spacing:-0.5px;
+}
+.brand-label { font-size:10.5px; font-weight:700; color:var(--ink-3); line-height:1.3; }
 
-    /* ── STATS ── */
-    .stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
-    .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
-    .stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
-    .stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
-    .stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+/* ── HAMBURGER ── */
+.mob-hamburger {
+  display:flex; flex-direction:column; gap:4.5px;
+  cursor:pointer; padding:7px; border-radius:6px;
+  background:transparent; border:none;
+  transition:background 0.12s;
+}
+.mob-hamburger:hover { background:var(--pink-m2); }
+.mob-hamburger span {
+  display:block; width:20px; height:2px;
+  background:var(--ink-2); border-radius:2px;
+  transition:all 0.22s cubic-bezier(0.4,0,0.2,1);
+}
+.mob-hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(4.5px,4.5px); background:var(--pink); }
+.mob-hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+.mob-hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(4.5px,-4.5px); background:var(--pink); }
 
-    /* ── HEADINGS ── */
-    h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
-    h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+/* ── OVERLAY ── */
+.sidebar-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(24,18,14,0.5); z-index:250;
+}
+.sidebar-overlay.open { display:block; }
 
-    /* ── TAGS ── */
-    .tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
-    .tag-tofu { background:#E0F4E8; color:#0B6130; }
-    .tag-mofu { background:var(--blue-light); color:var(--blue); }
-    .tag-bofu { background:var(--pink-light); color:var(--pink); }
-    .tag-info { background:#E6EEFF; color:#1848B8; }
-    .tag-trans { background:var(--amber-light); color:var(--amber); }
-    .tag-p0 { background:#FFE0EC; color:#8B0030; border:1.5px solid var(--pink); }
-    .tag-p1 { background:var(--pink-light); color:var(--pink); }
-    .tag-p2 { background:#FFF3DC; color:#8B5800; }
-    .tag-p3 { background:#F0EDE8; color:var(--ink-3); }
-    .tag-new { background:var(--green-light); color:#006B30; border:1.5px dashed var(--green); }
-    .tag-geo { background:var(--teal-light); color:var(--teal); }
-    .tag-warn { background:var(--red-light); color:var(--red); }
-    .tag-en { background:#F0EDE8; color:var(--ink-2); font-family:'JetBrains Mono',monospace; }
+/* ── SIDEBAR ── */
+.sidebar {
+  position:fixed; top:0; left:0;
+  width:256px; height:100vh;
+  background:#18120E;
+  display:flex; flex-direction:column;
+  z-index:260;
+  transform:translateX(-100%);
+  transition:transform 0.26s cubic-bezier(0.4,0,0.2,1);
+  overflow-y:auto; overflow-x:hidden;
+}
+.sidebar.open { transform:translateX(0); box-shadow:4px 0 24px rgba(0,0,0,0.3); }
 
-    code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+/* ── SIDEBAR INTERNALS ── */
+.sidebar-brand {
+  display:flex; align-items:center; gap:10px;
+  padding:18px 18px 15px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;
+}
+.sidebar-brand .brand-logo { font-size:14px; padding:3px 9px; }
+.sidebar-brand .brand-label { color:rgba(255,255,255,0.45); font-size:10px; line-height:1.4; }
 
-    /* ── TABLE ── */
-    .data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
-    .data-table thead tr { background:#F0EDE8; }
-    .data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
-    .data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
-    .data-table tbody tr:last-child td { border-bottom:none; }
-    .data-table tbody tr:hover { background:#FAFAF8; }
-    .data-table tbody tr.row-highlight { background:#F0FFF6; }
-    .data-table tbody tr.row-warn { background:#FFF8F0; }
+.nav-section { padding:18px 0 4px; flex-shrink:0; }
+.nav-section-label {
+  display:block;
+  font-size:9px; font-weight:800; letter-spacing:1.6px;
+  text-transform:uppercase; color:var(--pink-0);
+  padding:0 18px 6px;
+}
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 18px 9px 16px;
+  cursor:pointer;
+  color:rgba(255,255,255,0.52);
+  font-size:12.5px; font-weight:500;
+  border-left:3px solid transparent;
+  transition:all 0.13s; user-select:none; line-height:1.3;
+}
+.nav-item:hover  { color:rgba(255,255,255,0.9); background:rgba(255,255,255,0.05); border-left-color:var(--pink-m1); }
+.nav-item.active { color:#fff; background:rgba(249,83,150,0.14); border-left-color:var(--pink); font-weight:700; }
+.nav-dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,0.18); flex-shrink:0; transition:background 0.13s; }
+.nav-item.active .nav-dot { background:var(--pink); box-shadow:0 0 6px var(--pink); }
+.nav-item:hover .nav-dot  { background:rgba(255,255,255,0.45); }
+.nav-lbl { flex:1; }
 
-    /* ── FUNNEL ── */
-    .funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
-    .funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
-    .funnel-stage:last-child { border-right:none; }
-    .funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
-    .funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
-    .funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
-    .funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
-    .fs-tofu { border-top:3px solid var(--green); }
-    .fs-tofu .funnel-stage-label { color:var(--green); }
-    .fs-mofu { border-top:3px solid var(--blue); }
-    .fs-mofu .funnel-stage-label { color:var(--blue); }
-    .fs-bofu { border-top:3px solid var(--pink); }
-    .fs-bofu .funnel-stage-label { color:var(--pink); }
-    .fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
-    .fs-convert .funnel-stage-label { color:var(--amber); }
+.sidebar-footer {
+  margin-top:auto; padding:14px 18px;
+  border-top:1px solid rgba(255,255,255,0.07); flex-shrink:0;
+}
+.version-tag { font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(255,255,255,0.22); line-height:1.8; }
 
-    /* ── CALLOUT ── */
-    .callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
-    .callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
-    .callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
-    .callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
-    .callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
-    .callout-teal { background:var(--teal-light); border:1px solid #A0D8D8; color:#004A4C; }
-    .callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+/* ── CONTENT ── */
+.section { display:none; padding:24px 16px 40px; }
+.section.active { display:block; }
 
-    /* ── VERDICT ── */
-    .verdict-bar { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:22px 28px; margin-bottom:28px; display:flex; align-items:center; gap:24px; }
-    .verdict-score { width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:22px; font-weight:900; letter-spacing:-1px; }
-    .verdict-text { flex:1; }
-    .verdict-title { font-size:16px; font-weight:800; margin-bottom:4px; }
-    .verdict-desc { font-size:13px; color:var(--ink-2); line-height:1.6; }
+/* ══ DESKTOP 900px+ ══ */
+@media (min-width:900px) {
+  .mob-header { display:none; }
+  .sidebar-overlay { display:none !important; }
+  .sidebar { transform:none !important; position:fixed; box-shadow:none; }
+  .layout { margin-left:256px; }
+  .section { padding:36px 44px 48px; }
+}
 
-    /* ── CARD ── */
-    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
+/* ── GRIDS ── */
+.grid-2 { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+.grid-3 { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+@media (min-width:640px) {
+  .grid-2 { grid-template-columns:1fr 1fr; }
+  .grid-3 { grid-template-columns:1fr 1fr; }
+  .grid-4 { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:1024px) {
+  .grid-3 { grid-template-columns:1fr 1fr 1fr; }
+}
 
-    /* ── PRIORITY GRID ── */
-    .priority-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
-    .priority-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-    .priority-col-header { padding:11px 16px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px; }
-    .priority-col-body { padding:12px; background:var(--surface); }
-    .priority-item { font-size:12px; padding:7px 10px; border-radius:6px; margin-bottom:5px; border:1px solid var(--border); background:var(--bg); line-height:1.4; }
-    .priority-item b { display:block; font-weight:700; color:var(--ink); }
-    .priority-item span { color:var(--ink-3); font-size:11px; }
-    .priority-item.p0-item { border:1.5px solid var(--pink); background:#FFF5F9; }
+/* ── TABLE ── */
+.table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:24px; border-radius:var(--r); }
+.table-scroll .data-table { margin-bottom:0; min-width:540px; }
+.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
+.data-table thead tr { background:#F0EDE8; }
+.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:hover { background:#FAFAF8; }
+.data-table tbody tr.row-highlight { background:#F0FFF6; }
+.data-table tbody tr.row-warn { background:#FFF8F0; }
 
-    /* ── GRID ── */
-    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
-    .divider { height:1px; background:var(--border); margin:32px 0; }
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
+.page-title { font-size:22px; font-weight:900; letter-spacing:-0.5px; line-height:1.2; color:var(--ink); margin-bottom:8px; }
+.page-desc { font-size:13.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+@media (min-width:1024px) {
+  .page-title { font-size:28px; letter-spacing:-1px; }
+}
 
-    /* ── TREE ── */
-    .tree-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:36px; }
-    .tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-    .tree-box-header { padding:14px 18px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
-    .tree-box-title { font-size:14px; font-weight:800; }
-    .tree-box-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-top:1px; }
-    .tree-body { padding:14px 18px; }
+/* ── HEADINGS ── */
+h2.sh  { font-size:16px; font-weight:800; letter-spacing:-0.3px; margin-bottom:14px; color:var(--ink); display:flex; align-items:center; gap:10px; }
+h3.sh3 { font-size:13.5px; font-weight:700; margin-bottom:10px; color:var(--ink); }
+@media (min-width:1024px) { h2.sh { font-size:17px; } }
 
-    /* ── IA TREE ── */
-    .ia-tree { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; font-size:12.5px; }
-    .ia-tree-header { padding:12px 18px; background:var(--ink); color:white; font-family:'JetBrains Mono',monospace; font-size:11px; display:flex; align-items:center; gap:8px; }
-    .ia-root { padding:14px 18px 4px; font-weight:800; font-size:13px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
-    .ia-child { padding:8px 18px 8px 36px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
-    .ia-child:last-child { border-bottom:none; }
-    .ia-child-url { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-2); flex:1; }
-    .ia-sv { font-size:11px; font-weight:700; color:var(--ink-3); min-width:60px; text-align:right; }
+/* ── TAGS ── */
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
+.tag-p1   { background:var(--pink-m2); color:var(--pink); }
+.tag-p2   { background:#FFF3DC; color:#8B5800; }
+.tag-p3   { background:#F0EDE8; color:var(--ink-3); }
+.tag-p0   { background:var(--pink-m2); color:var(--pink); border:1.5px solid var(--pink); }
+.tag-tofu { background:#E0F4E8; color:#0B6130; }
+.tag-mofu { background:var(--blue-light); color:var(--blue); }
+.tag-bofu { background:var(--pink-m2); color:var(--pink); }
+.tag-info { background:var(--blue-light); color:var(--blue); }
+.tag-trans { background:var(--amber-light); color:var(--amber); }
+.tag-geo  { background:var(--teal-light); color:var(--teal); }
+.tag-new  { background:var(--green-light); color:#006B30; border:1.5px dashed var(--green); }
+.tag-warn { background:var(--red-light); color:var(--red); }
+.tag-en   { background:#F0EDE8; color:var(--ink-2); font-family:'JetBrains Mono',monospace; }
+.tag-conv { background:var(--pink-m2); color:var(--pink); }
 
-    /* ── PAGE SPEC ── */
-    .page-spec { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
-    .page-spec-header { padding:14px 20px; display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); cursor:pointer; }
-    .page-spec-header:hover { background:var(--bg); }
-    .page-spec-url { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--ink); }
-    .page-spec-desc { font-size:12px; color:var(--ink-3); margin-top:2px; }
-    .page-spec-body { display:none; }
-    .page-spec-body.open { display:block; }
-    .page-spec-section { border-bottom:1px solid var(--border); padding:14px 20px; }
-    .page-spec-section:last-child { border-bottom:none; }
-    .page-spec-section-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
-    .ps-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; margin-left:auto; }
-    .ps-toggle.open { transform:rotate(90deg); }
+code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); word-break:break-all; }
 
-    /* ── COMP LIST ── */
-    .comp-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
-    .comp-req { display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:5px; background:var(--pink-light); color:var(--pink); border:1px solid #FFBDD9; }
-    .comp-opt { display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:5px; background:var(--blue-light); color:var(--blue); border:1px solid #B0C8FF; }
-    .comp-num { display:inline-block; width:16px; height:16px; border-radius:3px; background:var(--ink-3); color:white; font-size:9px; font-weight:800; text-align:center; line-height:16px; margin-right:2px; }
+/* ── CALLOUT ── */
+.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
+.callout-red    { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
+.callout-amber  { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
+.callout-green  { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
+.callout-blue   { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
+.callout-teal   { background:var(--teal-light); border:1px solid #A0D8D8; color:#004A4C; }
+.callout-purple { background:var(--purple-light); border:1px solid #C0A0FF; color:var(--purple); }
+.callout-title  { font-weight:800; margin-bottom:4px; font-size:13px; }
 
-    /* ── SCHEMA BADGE ── */
-    .cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
-    .cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11.5px; padding:2px 8px; border-radius:4px; display:inline-block; margin:2px; }
+/* ── STAT ROW ── */
+.stat-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:28px; }
+@media (min-width:640px) { .stat-row { grid-template-columns:repeat(4,1fr); } }
+.stat-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 18px; }
+.stat-num  { font-size:26px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
+.stat-lbl  { font-size:12px; color:var(--ink-3); font-weight:500; }
+.stat-sub  { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+@media (min-width:1024px) { .stat-num { font-size:28px; } }
 
-    /* ── AEO BLOCK ── */
-    .aeo-block { background:var(--teal-light); border:1.5px solid #80CCCC; border-radius:var(--r); padding:18px 22px; margin-bottom:14px; }
-    .aeo-q { font-size:13px; font-weight:800; color:var(--teal); margin-bottom:8px; display:flex; align-items:flex-start; gap:8px; }
-    .aeo-a { font-size:13px; color:#003A3C; line-height:1.7; }
-    .aeo-a strong { color:var(--teal); }
+/* ── CARD ── */
+.card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:18px 20px; margin-bottom:14px; }
+.card-title { font-size:13.5px; font-weight:700; margin-bottom:6px; }
 
-    /* ── ACTION ITEM ── */
-    .action-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; margin-bottom:8px; display:flex; align-items:flex-start; gap:14px; }
-    .action-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; color:white; }
-    .action-body { flex:1; }
-    .action-title { font-size:13px; font-weight:700; margin-bottom:2px; }
-    .action-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
-    .action-meta { display:flex; gap:8px; margin-top:6px; }
+/* ── FUNNEL FLOW ── */
+.funnel-flow { display:flex; flex-direction:column; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
+.funnel-stage { flex:1; padding:16px; border-bottom:1px solid var(--border); }
+.funnel-stage:last-child { border-bottom:none; }
+.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
+.funnel-stage-title { font-size:14px; font-weight:800; margin-bottom:8px; }
+.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
+.funnel-stage-items li::before { content:"· "; color:var(--ink-3); }
+.fs-tofu { border-top:3px solid var(--green); } .fs-tofu .funnel-stage-label { color:var(--green); }
+.fs-mofu { border-top:3px solid var(--blue); } .fs-mofu .funnel-stage-label { color:var(--blue); }
+.fs-bofu { border-top:3px solid var(--pink); } .fs-bofu .funnel-stage-label { color:var(--pink); }
+.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
+.fs-convert .funnel-stage-label { color:var(--amber); }
+@media (min-width:640px) {
+  .funnel-flow { flex-direction:row; }
+  .funnel-stage { border-bottom:none; border-right:1px solid var(--border); }
+  .funnel-stage:last-child { border-right:none; }
+}
 
-    /* ── CHECKLIST ── */
-    .checklist { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
-    .checklist-header { padding:12px 18px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
-    .checklist-title { font-size:14px; font-weight:800; }
-    .checklist-item { display:flex; align-items:flex-start; gap:12px; padding:10px 18px; border-bottom:1px solid var(--border); font-size:13px; }
-    .checklist-item:last-child { border-bottom:none; }
-    .check-box { width:16px; height:16px; border:2px solid var(--border); border-radius:3px; flex-shrink:0; margin-top:2px; background:white; }
-    .checklist-text { flex:1; line-height:1.5; }
-    .checklist-text .check-note { font-size:11.5px; color:var(--ink-3); margin-top:2px; display:block; }
+/* ── DIVIDER ── */
+.divider { height:1px; background:var(--border); margin:24px 0; }
 
-    /* ── BLOG CARD ── */
-    .blog-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
-    .blog-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-    .blog-card-tier { font-size:9.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:6px 14px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
-    .blog-card-body { padding:14px; }
-    .blog-card-title { font-size:13px; font-weight:700; margin-bottom:6px; line-height:1.4; }
-    .blog-card-kw { font-size:11px; color:var(--ink-3); margin-bottom:8px; }
-    .blog-card-meta { display:flex; gap:6px; flex-wrap:wrap; }
+/* ── VERDICT BAR ── */
+.verdict-bar { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:24px; display:flex; flex-direction:column; gap:16px; align-items:flex-start; }
+.verdict-score { width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; font-weight:900; letter-spacing:-1px; }
+.verdict-text { flex:1; }
+.verdict-title { font-size:15px; font-weight:800; margin-bottom:4px; }
+.verdict-desc  { font-size:12.5px; color:var(--ink-2); line-height:1.6; }
+@media (min-width:640px) {
+  .verdict-bar { flex-direction:row; align-items:center; }
+}
 
-    /* ── CROSSSELL ── */
-    .crosssell-table { width:100%; border-collapse:collapse; margin-bottom:20px; font-size:12.5px; }
-    .crosssell-table th { background:#F0EDE8; padding:9px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
-    .crosssell-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
-    .crosssell-table tbody tr:last-child td { border-bottom:none; }
-    .crosssell-table tbody tr:hover { background:#FAFAF8; }
-    .trigger-pill { display:inline-block; background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; }
+/* ── TREE GRID ── */
+.tree-grid { display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:28px; }
+@media (min-width:640px) { .tree-grid { grid-template-columns:1fr 1fr; } }
+.tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.tree-box-header { padding:12px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+.tree-box-title  { font-size:13px; font-weight:800; }
+.tree-box-url    { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-top:2px; }
+.tree-body { padding:14px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.8; }
 
-    /* ── METRICS TABLE ── */
-    .metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
-    .metric-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 20px; }
-    .metric-tool { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
-    .metric-name { font-size:13px; font-weight:800; margin-bottom:4px; }
-    .metric-target { font-size:12px; color:var(--green); font-weight:700; }
+/* ── IA TREE ── */
+.ia-tree { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; font-size:12.5px; }
+.ia-tree-header { padding:10px 16px; background:var(--ink); color:white; font-family:'JetBrains Mono',monospace; font-size:10px; display:flex; align-items:center; gap:8px; }
+.ia-root { padding:12px 16px 8px; font-weight:800; font-size:13px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.ia-child { padding:8px 16px 8px 32px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.ia-child:last-child { border-bottom:none; }
+.ia-child-url { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-2); flex:1; min-width:160px; }
+.ia-sv { font-size:11px; font-weight:700; color:var(--ink-3); white-space:nowrap; }
 
-    @media (max-width:1100px) {
-      .sidebar { width:200px; }
-      .section { padding:28px; }
-      .stat-row { grid-template-columns:repeat(2,1fr); }
-      .tree-grid,.grid-2,.blog-grid { grid-template-columns:1fr; }
-      .priority-grid { grid-template-columns:1fr; }
-      .funnel-flow { flex-direction:column; }
-      .funnel-stage { border-right:none; border-bottom:1px solid var(--border); }
-      .metrics-row { grid-template-columns:1fr 1fr; }
-    }
-  </style>
+/* ── PRIORITY GRID ── */
+.priority-grid { display:grid; grid-template-columns:1fr; gap:14px; margin-bottom:28px; }
+@media (min-width:640px) { .priority-grid { grid-template-columns:1fr 1fr; } }
+@media (min-width:1024px) { .priority-grid { grid-template-columns:1fr 1fr 1fr; } }
+.priority-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.priority-col-header { padding:11px 16px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px; }
+.priority-col-body { padding:12px; background:var(--surface); }
+.priority-item { font-size:12px; padding:8px 10px; border-radius:6px; margin-bottom:6px; border:1px solid var(--border); background:var(--bg); line-height:1.5; }
+.priority-item b { display:block; font-weight:700; color:var(--ink); margin-bottom:2px; }
+.priority-item span { color:var(--ink-3); font-size:11px; }
+.priority-item.p0-item { border:1.5px solid var(--pink); background:var(--pink-m2); }
+
+/* ── PAGE SPEC ACCORDION ── */
+.page-spec { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:16px; overflow:hidden; }
+.page-spec-header { padding:14px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border); cursor:pointer; justify-content:space-between; }
+.page-spec-header:hover { background:var(--bg); }
+.page-spec-url { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--ink); }
+.page-spec-desc { font-size:12px; color:var(--ink-3); margin-top:2px; }
+.page-spec-body { display:none; }
+.page-spec-body.open { display:block; }
+.page-spec-section { border-bottom:1px solid var(--border); padding:12px 16px; }
+.page-spec-section:last-child { border-bottom:none; }
+.page-spec-section-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
+.ps-toggle { font-size:11px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
+.ps-toggle.open { transform:rotate(90deg); }
+
+/* ── COMP BADGES ── */
+.comp-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.comp-req { display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:5px; background:var(--pink-m2); color:var(--pink); border:1px solid var(--pink-m1); }
+.comp-opt { display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:5px; background:var(--blue-light); color:var(--blue); border:1px solid #B0C8FF; }
+
+/* ── SCHEMA BADGE ── */
+.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
+.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11px; padding:2px 7px; border-radius:4px; display:inline-block; margin:2px; }
+
+/* ── AEO BLOCK ── */
+.aeo-block { background:var(--teal-light); border:1.5px solid #80CCCC; border-radius:var(--r); padding:16px 18px; margin-bottom:12px; }
+.aeo-q { font-size:13px; font-weight:800; color:var(--teal); margin-bottom:8px; display:flex; align-items:flex-start; gap:8px; }
+.aeo-a { font-size:13px; color:#003A3C; line-height:1.7; }
+.aeo-a strong { color:var(--teal); }
+
+/* ── ANATOMY ── */
+.anatomy-wrap { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
+.anatomy-header-row { padding:10px 14px; background:#F0EDE8; border-bottom:1px solid var(--border); font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); }
+.anatomy-row { display:flex; flex-direction:column; border-bottom:1px solid var(--border); }
+.anatomy-row:last-child { border-bottom:none; }
+.anatomy-section { padding:10px 14px 4px; background:var(--bg); border-bottom:1px solid var(--border); font-weight:700; font-size:11.5px; color:var(--ink); display:flex; align-items:center; gap:6px; }
+.anatomy-section::before { content:"▸"; color:var(--pink); font-size:10px; }
+.anatomy-content { padding:10px 14px; font-size:12px; color:var(--ink-2); line-height:1.6; }
+.anatomy-note { padding:6px 14px 10px; font-size:11px; color:var(--ink-3); line-height:1.5; border-top:1px dashed var(--border); background:var(--bg); }
+@media (min-width:640px) {
+  .anatomy-row { flex-direction:row; }
+  .anatomy-section { width:180px; flex-shrink:0; border-bottom:none; border-right:1px solid var(--border); }
+  .anatomy-section::before { display:none; }
+  .anatomy-content { flex:1; }
+  .anatomy-note { border-top:none; border-left:1px solid var(--border); width:160px; flex-shrink:0; }
+}
+@media (min-width:1024px) { .anatomy-section { width:200px; } .anatomy-note { width:180px; } }
+
+/* ── BLOG GRID ── */
+.blog-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+@media (min-width:640px) { .blog-grid { grid-template-columns:1fr 1fr; } }
+.blog-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.blog-card-tier { font-size:9.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:6px 14px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.blog-card-body { padding:14px; }
+.blog-card-title { font-size:13px; font-weight:700; margin-bottom:6px; line-height:1.4; }
+.blog-card-kw { font-size:11px; color:var(--ink-3); margin-bottom:8px; }
+.blog-card-meta { display:flex; gap:6px; flex-wrap:wrap; }
+
+/* ── CHECKLIST ── */
+.checklist { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
+.checklist-header { padding:12px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+.checklist-title { font-size:13.5px; font-weight:800; }
+.checklist-item { display:flex; align-items:flex-start; gap:12px; padding:10px 16px; border-bottom:1px solid var(--border); font-size:13px; }
+.checklist-item:last-child { border-bottom:none; }
+.check-box { width:16px; height:16px; border:2px solid var(--border); border-radius:3px; flex-shrink:0; margin-top:2px; background:white; }
+.checklist-text { flex:1; line-height:1.5; }
+.checklist-text .check-note { font-size:11.5px; color:var(--ink-3); margin-top:2px; display:block; }
+
+/* ── METRIC CARDS ── */
+.metrics-row { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
+@media (min-width:640px) { .metrics-row { grid-template-columns:1fr 1fr; } }
+@media (min-width:1024px) { .metrics-row { grid-template-columns:repeat(3,1fr); } }
+.metric-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px; }
+.metric-tool { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
+.metric-name { font-size:13px; font-weight:800; margin-bottom:4px; }
+.metric-target { font-size:12px; color:var(--green); font-weight:700; }
+
+/* ── CROSSSELL TABLE ── */
+.crosssell-table { width:100%; border-collapse:collapse; margin-bottom:20px; font-size:12.5px; }
+.crosssell-table th { background:#F0EDE8; padding:9px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
+.crosssell-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+.crosssell-table tbody tr:last-child td { border-bottom:none; }
+.crosssell-table tbody tr:hover { background:#FAFAF8; }
+.trigger-pill { display:inline-block; background:var(--blue-light); color:var(--blue); border:1px solid #BFDBFE; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; }
+
+/* ── C-BADGE ── */
+.c-badge { color:white; font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; display:inline-block; }
+</style>
 </head>
 <body>
 <div class="layout">
 
-  <!-- ══ SIDEBAR ══ -->
-  <aside class="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-logo">MoMo</div>
-      <div class="brand-sub">eSIM Du Lịch · Telco Vertical<br>SEO × GEO × AEO × Click-to-App</div>
+<!-- ── MOBILE HEADER ── -->
+<header class="mob-header">
+  <div class="mob-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-label">eSIM Du Lịch<br>Web Growth Strategy</div>
+  </div>
+  <button class="mob-hamburger" id="hamburger" aria-label="Menu" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ── OVERLAY ── -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-label">eSIM Du Lịch<br>SEO × GEO × Web-to-App</div>
+  </div>
+  <nav>
+    <div class="nav-section">
+      <span class="nav-section-label">Tổng Quan</span>
+      <div class="nav-item active" onclick="go('overview')"><span class="nav-dot"></span><span class="nav-lbl">Market Intelligence</span></div>
+      <div class="nav-item" onclick="go('keywords')"><span class="nav-dot"></span><span class="nav-lbl">Keyword Universe</span></div>
+      <div class="nav-item" onclick="go('geo')"><span class="nav-dot"></span><span class="nav-lbl">GEO / AEO Behavior</span></div>
     </div>
-    <nav>
-      <div class="nav-section">
-        <div class="nav-label">Tổng quan</div>
-        <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">🗺</span> Market Intelligence</div>
-        <div class="nav-item" onclick="go('keywords')"><span class="nav-icon">🔑</span> Keyword Universe</div>
-        <div class="nav-item" onclick="go('geo')"><span class="nav-icon">🤖</span> GEO / AEO Behavior</div>
-      </div>
-      <div class="nav-section">
-        <div class="nav-label">Architecture</div>
-        <div class="nav-item" onclick="go('ia')"><span class="nav-icon">🏗</span> Information Architecture</div>
-        <div class="nav-item" onclick="go('hub')"><span class="nav-icon">📄</span> Hub Page Blueprint</div>
-        <div class="nav-item" onclick="go('destination')"><span class="nav-icon">🌏</span> Destination Pages</div>
-      </div>
-      <div class="nav-section">
-        <div class="nav-label">Content</div>
-        <div class="nav-item" onclick="go('direction')"><span class="nav-icon">✍️</span> Content Direction</div>
-        <div class="nav-item" onclick="go('blog')"><span class="nav-icon">📝</span> Blog Strategy</div>
-      </div>
-      <div class="nav-section">
-        <div class="nav-label">Growth</div>
-        <div class="nav-item" onclick="go('intlink')"><span class="nav-icon">🔗</span> Internal Link & Cross-sell</div>
-        <div class="nav-item" onclick="go('schema')"><span class="nav-icon">🧬</span> Schema & AEO Markup</div>
-      </div>
-      <div class="nav-section">
-        <div class="nav-label">Vận hành</div>
-        <div class="nav-item" onclick="go('checklist')"><span class="nav-icon">☑️</span> Publish Checklist</div>
-        <div class="nav-item" onclick="go('metrics')"><span class="nav-icon">📊</span> Metrics & North Star</div>
-      </div>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="version-tag">v1.0 · Mar 2026</div>
-      <div class="version-tag">Klaus Bot 2 · SEO & GEO Lead</div>
+    <div class="nav-section">
+      <span class="nav-section-label">Architecture</span>
+      <div class="nav-item" onclick="go('ia')"><span class="nav-dot"></span><span class="nav-lbl">Information Architecture</span></div>
+      <div class="nav-item" onclick="go('hub')"><span class="nav-dot"></span><span class="nav-lbl">Hub Page Blueprint</span></div>
+      <div class="nav-item" onclick="go('destination')"><span class="nav-dot"></span><span class="nav-lbl">Destination Pages</span></div>
     </div>
-  </aside>
+    <div class="nav-section">
+      <span class="nav-section-label">Content</span>
+      <div class="nav-item" onclick="go('direction')"><span class="nav-dot"></span><span class="nav-lbl">Content Direction</span></div>
+      <div class="nav-item" onclick="go('blog')"><span class="nav-dot"></span><span class="nav-lbl">Blog Strategy</span></div>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Growth</span>
+      <div class="nav-item" onclick="go('intlink')"><span class="nav-dot"></span><span class="nav-lbl">Internal Link & Cross-sell</span></div>
+      <div class="nav-item" onclick="go('schema')"><span class="nav-dot"></span><span class="nav-lbl">Schema & AEO Markup</span></div>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Vận Hành</span>
+      <div class="nav-item" onclick="go('checklist')"><span class="nav-dot"></span><span class="nav-lbl">Publish Checklist</span></div>
+      <div class="nav-item" onclick="go('metrics')"><span class="nav-dot"></span><span class="nav-lbl">Metrics & North Star</span></div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="version-tag">momo-esim-du-lich-doc.html</div>
+    <div class="version-tag">v2.0 · Apr 2026 · Klaus</div>
+  </div>
+</aside>
 
-  <main class="content">
+<main>
 
-    <!-- ══════════════════════════════════════ -->
-    <!-- 1. MARKET INTELLIGENCE -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section active" id="s-overview">
-      <div class="page-header">
-        <div class="page-eyebrow">Telco Vertical · Web Growth Strategy</div>
-        <div class="page-title">MoMo eSIM Du Lịch — Master Strategy Doc</div>
-        <div class="page-desc">Organic growth plan cho <code class="url">momo.vn/esim-du-lich</code> — tổng hợp market intelligence, keyword universe, GEO/AEO behavior, content architecture và click-to-app strategy. Mar 2026.</div>
-      </div>
+<!-- ══════════════════════════════════════ -->
+<!-- 1. MARKET INTELLIGENCE -->
+<!-- ══════════════════════════════════════ -->
+<section class="section active" id="s-overview">
+  <div class="page-header">
+    <div class="page-eyebrow">Telco Vertical · Web Growth Strategy</div>
+    <div class="page-title">MoMo eSIM Du Lịch — Master Strategy Doc</div>
+    <div class="page-desc">Organic growth plan cho <code class="url">momo.vn/esim-du-lich</code> — tổng hợp market intelligence, keyword universe, GEO/AEO behavior, content architecture và click-to-app strategy. Mar 2026.</div>
+  </div>
 
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="stat-num" style="color:var(--blue)">38K</div>
-          <div class="stat-lbl">Tổng SV/tháng (keyword pool)</div>
-          <div class="stat-sub">~380 keywords · 15+ clusters</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" style="color:var(--pink)">7,850</div>
-          <div class="stat-lbl">SV cluster Trung Quốc</div>
-          <div class="stat-sub">Cluster lớn nhất · P0 priority</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" style="color:var(--amber)">14%</div>
-          <div class="stat-lbl">CAGR thị trường eSIM global</div>
-          <div class="stat-sub">$2.45B (2024) → dự báo 2032</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" style="color:var(--green)">11</div>
-          <div class="stat-lbl">Destination pages cần build</div>
-          <div class="stat-sub">1 Hub + 10 quốc gia/khu vực</div>
-        </div>
-      </div>
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--blue)">38K</div>
+      <div class="stat-lbl">Tổng SV/tháng (keyword pool)</div>
+      <div class="stat-sub">~380 keywords · 15+ clusters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--pink)">7,850</div>
+      <div class="stat-lbl">SV cluster Trung Quốc</div>
+      <div class="stat-sub">Cluster lớn nhất · P0 priority</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">14%</div>
+      <div class="stat-lbl">CAGR thị trường eSIM global</div>
+      <div class="stat-sub">$2.45B (2024) → dự báo 2032</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">11</div>
+      <div class="stat-lbl">Destination pages cần build</div>
+      <div class="stat-sub">1 Hub + 10 quốc gia/khu vực</div>
+    </div>
+  </div>
 
-      <h2 class="sh">↗ Inbound Funnel Architecture</h2>
-      <div class="funnel-flow">
-        <div class="funnel-stage fs-tofu">
-          <div class="funnel-stage-label">TOFU — Nhận thức</div>
-          <div class="funnel-stage-title">Giáo dục & Intent</div>
-          <ul class="funnel-stage-items">
-            <li>eSIM du lịch là gì?</li>
-            <li>eSIM vs SIM vật lý</li>
-            <li>Điện thoại nào hỗ trợ eSIM?</li>
-            <li>Nên mua eSIM hay chuyển vùng?</li>
-            <li style="color:var(--green);font-weight:600">★ Blog cluster Tier 1</li>
-          </ul>
-        </div>
-        <div class="funnel-stage fs-mofu">
-          <div class="funnel-stage-label">MOFU — Cân nhắc</div>
-          <div class="funnel-stage-title">So sánh & Điểm đến</div>
-          <ul class="funnel-stage-items">
-            <li>eSIM TQ có vào Google không?</li>
-            <li>Kinh nghiệm eSIM Nhật/Thái</li>
-            <li>So sánh Airalo vs Gohub vs MoMo</li>
-            <li>Cách kích hoạt eSIM</li>
-            <li style="color:var(--green);font-weight:600">★ Blog cluster Tier 2</li>
-          </ul>
-        </div>
-        <div class="funnel-stage fs-bofu">
-          <div class="funnel-stage-label">BOFU — Quyết định</div>
-          <div class="funnel-stage-title">Destination Pages</div>
-          <ul class="funnel-stage-items">
-            <li>eSIM Trung Quốc · Thái Lan · Nhật</li>
-            <li>Bảng gói cước theo ngày</li>
-            <li>FAQ specific per country</li>
-            <li>Bilingual title signals</li>
-            <li style="color:var(--pink);font-weight:600">★ Deep link → MoMo App</li>
-          </ul>
-        </div>
-        <div class="funnel-stage fs-convert">
-          <div class="funnel-stage-label">CONVERT — App</div>
-          <div class="funnel-stage-title">Click-to-App</div>
-          <ul class="funnel-stage-items">
-            <li>Smart Banner / App Clip</li>
-            <li>Deep link to eSIM screen</li>
-            <li>Chọn gói → Thanh toán MoMo</li>
-            <li>Nhận QR → Kích hoạt</li>
-            <li>UTM tracking per page</li>
-          </ul>
-        </div>
-      </div>
+  <h2 class="sh">↗ Inbound Funnel Architecture</h2>
+  <div class="funnel-flow">
+    <div class="funnel-stage fs-tofu">
+      <div class="funnel-stage-label">TOFU — Nhận thức</div>
+      <div class="funnel-stage-title">Giáo dục & Intent</div>
+      <ul class="funnel-stage-items">
+        <li>eSIM du lịch là gì?</li>
+        <li>eSIM vs SIM vật lý</li>
+        <li>Điện thoại nào hỗ trợ eSIM?</li>
+        <li>Nên mua eSIM hay chuyển vùng?</li>
+        <li style="color:var(--green);font-weight:600">★ Blog cluster Tier 1</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="funnel-stage-label">MOFU — Cân nhắc</div>
+      <div class="funnel-stage-title">So sánh & Điểm đến</div>
+      <ul class="funnel-stage-items">
+        <li>eSIM TQ có vào Google không?</li>
+        <li>Kinh nghiệm eSIM Nhật/Thái</li>
+        <li>So sánh Airalo vs Gohub vs MoMo</li>
+        <li>Cách kích hoạt eSIM</li>
+        <li style="color:var(--green);font-weight:600">★ Blog cluster Tier 2</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="funnel-stage-label">BOFU — Quyết định</div>
+      <div class="funnel-stage-title">Destination Pages</div>
+      <ul class="funnel-stage-items">
+        <li>eSIM Trung Quốc · Thái Lan · Nhật</li>
+        <li>Bảng gói cước theo ngày</li>
+        <li>FAQ specific per country</li>
+        <li>Bilingual title signals</li>
+        <li style="color:var(--pink);font-weight:600">★ Deep link → MoMo App</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="funnel-stage-label">CONVERT — App</div>
+      <div class="funnel-stage-title">Click-to-App</div>
+      <ul class="funnel-stage-items">
+        <li>Smart Banner / App Clip</li>
+        <li>Deep link to eSIM screen</li>
+        <li>Chọn gói → Thanh toán MoMo</li>
+        <li>Nhận QR → Kích hoạt</li>
+        <li>UTM tracking per page</li>
+      </ul>
+    </div>
+  </div>
 
-      <div class="divider"></div>
-      <h2 class="sh">🏢 Competitive Landscape</h2>
-      <div class="callout callout-blue">
-        <div class="callout-title">Strategic Position của MoMo</div>
-        MoMo phân phối eSIM của <strong>Gohub</strong> (đối tác đã xác nhận, raise $500K Iterative 6/2024). Lợi thế cạnh tranh là <strong>distribution + trust + payment seamless</strong> — không cải thiện được bằng content, chỉ khai thác được bằng conversion optimization. Chiến lược web tập trung vào <strong>top-of-funnel capture</strong> và <strong>bottom-of-funnel conversion to app</strong>.
-      </div>
-      <table class="data-table">
-        <thead>
-          <tr><th>Player</th><th>Điểm mạnh</th><th>Điểm yếu vs MoMo</th><th>Branded KW</th></tr>
-        </thead>
-        <tbody>
-          <tr class="row-highlight">
-            <td><strong>Gohub</strong> <span class="tag tag-new" style="font-size:10px">Partner</span></td>
-            <td>Dẫn đầu thị trường · 195+ quốc gia · Tích hợp MoMo</td>
-            <td>Brand awareness hạn chế với user phổ thông</td>
-            <td><code class="url">sim gohub</code> · <code class="url">esim gigago</code></td>
-          </tr>
-          <tr>
-            <td><strong>Gloka</strong></td>
-            <td>B2C mạnh · SEO tốt · Phủ rộng</td>
-            <td>Không có siêu app distribution</td>
-            <td><code class="url">sim gloka</code> · <code class="url">sim du lịch gloka</code></td>
-          </tr>
-          <tr>
-            <td><strong>Airalo</strong></td>
-            <td>Global #1 · Brand recognition cao</td>
-            <td>Không bản địa hóa cho người Việt</td>
-            <td><code class="url">esim airalo</code></td>
-          </tr>
-          <tr>
-            <td><strong>Klook</strong></td>
-            <td>OTA distribution · SV đáng kể</td>
-            <td>Không phải core product</td>
-            <td><code class="url">klook esim</code> · <code class="url">mua sim klook</code></td>
-          </tr>
-          <tr>
-            <td><strong>InfiGate/VNA</strong></td>
-            <td>Tích hợp VNA Lotusmiles (10/2025)</td>
-            <td>Mới gia nhập · chưa có traction</td>
-            <td>—</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+  <div class="divider"></div>
+  <h2 class="sh">🏢 Competitive Landscape</h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">💡 Strategic Position của MoMo</div>
+    MoMo phân phối eSIM của <strong>Gohub</strong> (đối tác đã xác nhận, raise $500K Iterative 6/2024). Lợi thế cạnh tranh là <strong>distribution + trust + payment seamless</strong> - không cải thiện được bằng content, chỉ khai thác được bằng conversion optimization. Chiến lược web tập trung vào <strong>top-of-funnel capture</strong> và <strong>bottom-of-funnel conversion to app</strong>.
+  </div>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Player</th><th>Điểm mạnh</th><th>Điểm yếu vs MoMo</th><th>Branded KW</th></tr>
+      </thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>Gohub</strong> <span class="tag tag-new" style="font-size:10px">Partner</span></td>
+          <td>Dẫn đầu thị trường · 195+ quốc gia · Tích hợp MoMo</td>
+          <td>Brand awareness hạn chế với user phổ thông</td>
+          <td><code class="url">sim gohub</code> · <code class="url">esim gigago</code></td>
+        </tr>
+        <tr>
+          <td><strong>Gloka</strong></td>
+          <td>B2C mạnh · SEO tốt · Phủ rộng</td>
+          <td>Không có siêu app distribution</td>
+          <td><code class="url">sim gloka</code> · <code class="url">sim du lịch gloka</code></td>
+        </tr>
+        <tr>
+          <td><strong>Airalo</strong></td>
+          <td>Global #1 · Brand recognition cao</td>
+          <td>Không bản địa hóa cho người Việt</td>
+          <td><code class="url">esim airalo</code></td>
+        </tr>
+        <tr>
+          <td><strong>Klook</strong></td>
+          <td>OTA distribution · SV đáng kể</td>
+          <td>Không phải core product</td>
+          <td><code class="url">klook esim</code> · <code class="url">mua sim klook</code></td>
+        </tr>
+        <tr>
+          <td><strong>InfiGate/VNA</strong></td>
+          <td>Tích hợp VNA Lotusmiles (10/2025)</td>
+          <td>Mới gia nhập · chưa có traction</td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-    <!-- ══════════════════════════════════════ -->
-    <!-- 2. KEYWORD UNIVERSE -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-keywords">
-      <div class="page-header">
-        <div class="page-eyebrow">Keyword Analysis · 380 keywords · 38,050 SV/tháng</div>
-        <div class="page-title">Keyword Universe & Cluster Analysis</div>
-        <div class="page-desc">Phân tầng toàn bộ keyword pool theo cluster địa lý và loại intent. Kèm 4 observation chiến lược cần action.</div>
-      </div>
+<!-- ══════════════════════════════════════ -->
+<!-- 2. KEYWORD UNIVERSE -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-keywords">
+  <div class="page-header">
+    <div class="page-eyebrow">Keyword Analysis · 380 keywords · 38,050 SV/tháng</div>
+    <div class="page-title">Keyword Universe & Cluster Analysis</div>
+    <div class="page-desc">Phân tầng toàn bộ keyword pool theo cluster địa lý và loại intent. Kèm 4 observation chiến lược cần action.</div>
+  </div>
 
-      <h2 class="sh">📊 Cluster Volume Summary</h2>
-      <table class="data-table">
-        <thead>
-          <tr><th>Cluster</th><th style="text-align:right">SV</th><th>Từ khóa đại diện</th><th>Intent chính</th><th>Priority</th></tr>
-        </thead>
-        <tbody>
-          <tr class="row-highlight">
-            <td><strong>eSIM Chung</strong></td>
-            <td style="text-align:right;font-weight:800;color:var(--blue)">8,510</td>
-            <td><span class="cs-kw">esim du lịch</span> <span class="cs-kw">esim quốc tế</span></td>
-            <td><span class="tag tag-info">Informational</span> → <span class="tag tag-mofu">Commercial</span></td>
-            <td><span class="tag tag-p0">P0</span></td>
-          </tr>
-          <tr class="row-highlight">
-            <td><strong>eSIM + Sim Trung Quốc</strong></td>
-            <td style="text-align:right;font-weight:800;color:var(--pink)">7,850</td>
-            <td><span class="cs-kw">sim trung quốc</span> <span class="cs-kw">esim trung quốc</span></td>
-            <td><span class="tag tag-bofu">Commercial-Trans</span></td>
-            <td><span class="tag tag-p0">P0</span></td>
-          </tr>
-          <tr>
-            <td><strong>Sim Ngoại Quốc Chung</strong></td>
-            <td style="text-align:right;font-weight:700">4,100</td>
-            <td><span class="cs-kw">sim du lịch</span> <span class="cs-kw">sim du lịch quốc tế</span></td>
-            <td><span class="tag tag-info">Informational</span></td>
-            <td><span class="tag tag-p0">P0</span></td>
-          </tr>
-          <tr>
-            <td><strong>Thái Lan</strong></td>
-            <td style="text-align:right;font-weight:700">3,930</td>
-            <td><span class="cs-kw">sim thái lan</span> <span class="cs-kw">esim thailand</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p0">P0</span></td>
-          </tr>
-          <tr>
-            <td><strong>Nhật Bản</strong></td>
-            <td style="text-align:right;font-weight:700">1,950</td>
-            <td><span class="cs-kw">esim nhật bản</span> <span class="cs-kw">sim nhật bản</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p1">P1</span></td>
-          </tr>
-          <tr>
-            <td><strong>Singapore</strong></td>
-            <td style="text-align:right;font-weight:700">1,530</td>
-            <td><span class="cs-kw">sim singapore</span> <span class="cs-kw">singapore esim</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p1">P1</span></td>
-          </tr>
-          <tr>
-            <td><strong>Cẩm nang / How-to</strong></td>
-            <td style="text-align:right;font-weight:700">1,430</td>
-            <td><span class="cs-kw">cách chuyển vùng quốc tế viettel</span></td>
-            <td><span class="tag tag-info">Informational</span></td>
-            <td><span class="tag tag-p0">P0 Blog</span></td>
-          </tr>
-          <tr>
-            <td><strong>Hàn Quốc</strong></td>
-            <td style="text-align:right;font-weight:700">1,160</td>
-            <td><span class="cs-kw">sim hàn quốc</span> <span class="cs-kw">korea esim</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p1">P1</span></td>
-          </tr>
-          <tr>
-            <td><strong>Châu Âu</strong></td>
-            <td style="text-align:right;font-weight:700">1,090</td>
-            <td><span class="cs-kw">sim châu âu</span> <span class="cs-kw">esim europe</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p2">P2</span></td>
-          </tr>
-          <tr>
-            <td><strong>Mỹ</strong></td>
-            <td style="text-align:right;font-weight:700">900</td>
-            <td><span class="cs-kw">sim mỹ</span> <span class="cs-kw">esim usa</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p2">P2</span></td>
-          </tr>
-          <tr>
-            <td><strong>Úc</strong></td>
-            <td style="text-align:right;font-weight:700">790</td>
-            <td><span class="cs-kw">sim úc</span> <span class="cs-kw">esim australia</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p2">P2</span></td>
-          </tr>
-          <tr>
-            <td><strong>Đài Loan · Malaysia · Campuchia</strong></td>
-            <td style="text-align:right;font-weight:700">1,860</td>
-            <td><span class="cs-kw">sim đài loan</span> <span class="cs-kw">sim malaysia</span></td>
-            <td><span class="tag tag-trans">Transactional</span></td>
-            <td><span class="tag tag-p3">P3</span></td>
-          </tr>
-        </tbody>
-      </table>
+  <h2 class="sh">📊 Cluster Volume Summary</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>Cluster</th><th style="text-align:right">SV</th><th>Từ khóa đại diện</th><th>Intent chính</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>eSIM Chung</strong></td>
+          <td style="text-align:right;font-weight:800;color:var(--blue)">8,510</td>
+          <td><span class="cs-kw">esim du lịch</span> <span class="cs-kw">esim quốc tế</span></td>
+          <td><span class="tag tag-info">Informational</span> → <span class="tag tag-mofu">Commercial</span></td>
+          <td><span class="tag tag-p0">P0</span></td>
+        </tr>
+        <tr class="row-highlight">
+          <td><strong>eSIM + Sim Trung Quốc</strong></td>
+          <td style="text-align:right;font-weight:800;color:var(--pink)">7,850</td>
+          <td><span class="cs-kw">sim trung quốc</span> <span class="cs-kw">esim trung quốc</span></td>
+          <td><span class="tag tag-bofu">Commercial-Trans</span></td>
+          <td><span class="tag tag-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Sim Ngoại Quốc Chung</strong></td>
+          <td style="text-align:right;font-weight:700">4,100</td>
+          <td><span class="cs-kw">sim du lịch</span> <span class="cs-kw">sim du lịch quốc tế</span></td>
+          <td><span class="tag tag-info">Informational</span></td>
+          <td><span class="tag tag-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Thái Lan</strong></td>
+          <td style="text-align:right;font-weight:700">3,930</td>
+          <td><span class="cs-kw">sim thái lan</span> <span class="cs-kw">esim thailand</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Nhật Bản</strong></td>
+          <td style="text-align:right;font-weight:700">1,950</td>
+          <td><span class="cs-kw">esim nhật bản</span> <span class="cs-kw">sim nhật bản</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Singapore</strong></td>
+          <td style="text-align:right;font-weight:700">1,530</td>
+          <td><span class="cs-kw">sim singapore</span> <span class="cs-kw">singapore esim</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Cẩm nang / How-to</strong></td>
+          <td style="text-align:right;font-weight:700">1,430</td>
+          <td><span class="cs-kw">cách chuyển vùng quốc tế viettel</span></td>
+          <td><span class="tag tag-info">Informational</span></td>
+          <td><span class="tag tag-p0">P0 Blog</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hàn Quốc</strong></td>
+          <td style="text-align:right;font-weight:700">1,160</td>
+          <td><span class="cs-kw">sim hàn quốc</span> <span class="cs-kw">korea esim</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Châu Âu</strong></td>
+          <td style="text-align:right;font-weight:700">1,090</td>
+          <td><span class="cs-kw">sim châu âu</span> <span class="cs-kw">esim europe</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Mỹ</strong></td>
+          <td style="text-align:right;font-weight:700">900</td>
+          <td><span class="cs-kw">sim mỹ</span> <span class="cs-kw">esim usa</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Úc</strong></td>
+          <td style="text-align:right;font-weight:700">790</td>
+          <td><span class="cs-kw">sim úc</span> <span class="cs-kw">esim australia</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Đài Loan · Malaysia · Campuchia</strong></td>
+          <td style="text-align:right;font-weight:700">1,860</td>
+          <td><span class="cs-kw">sim đài loan</span> <span class="cs-kw">sim malaysia</span></td>
+          <td><span class="tag tag-trans">Transactional</span></td>
+          <td><span class="tag tag-p3">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <h2 class="sh">⚡ 4 Observations Chiến Lược</h2>
-      <div class="callout callout-red">
-        <div class="callout-title">🚨 OB1 — Competitor intent cần intercept ngay</div>
-        <code class="url">cách chuyển vùng quốc tế sim viettel</code> (1,000 SV) + <code class="url">cách chuyển vùng quốc tế sim mobi</code> (260 SV) = <strong>1,260 SV người đang tìm giải pháp thay thế</strong>. Đây là moment họ dễ bị thuyết phục chuyển sang eSIM nhất. Cần bài blog so sánh rõ ràng intercept query này trước đối thủ.
-      </div>
-      <div class="callout callout-amber">
-        <div class="callout-title">⚠️ OB2 — Tiếng Anh đáng kể, đừng bỏ qua</div>
-        <code class="url">esim thailand</code> (480) · <code class="url">china esim</code> (170) · <code class="url">korea esim</code> (110) · <code class="url">singapore esim</code> (70) · <code class="url">esim usa</code> (70) · <code class="url">esim australia</code> (90). Người Việt search bằng English khi biết rõ điểm đến. Không cần trang riêng — dùng bilingual title tag + H2 trong body.
-      </div>
-      <div class="callout callout-amber">
-        <div class="callout-title">⚠️ OB3 — Không target keyword sai sản phẩm</div>
-        <code class="url">mua sim trung quốc vĩnh viễn</code> (390 SV) — nhu cầu SIM vật lý dùng lâu dài, khác hoàn toàn với eSIM du lịch tạm thời. Target sẽ tăng bounce rate và hurt conversion. Loại khỏi danh sách.
-      </div>
-      <div class="callout callout-teal">
-        <div class="callout-title">🤖 OB4 — Branded competitor keywords → Blog comparison</div>
-        <code class="url">sim klook</code> (50) · <code class="url">esim gigago</code> (70) · <code class="url">sim gloka</code> (20) · <code class="url">sim way2go</code> (20). Không target trên landing page. Intercept bằng blog comparison article — cần approval stakeholder trước khi viết.
-      </div>
+  <h2 class="sh">⚡ 4 Observations Chiến Lược</h2>
+  <div class="callout callout-red">
+    <div class="callout-title">🚨 OB1 - Competitor intent cần intercept ngay</div>
+    <code class="url">cách chuyển vùng quốc tế sim viettel</code> (1,000 SV) + <code class="url">cách chuyển vùng quốc tế sim mobi</code> (260 SV) = <strong>1,260 SV người đang tìm giải pháp thay thế</strong>. Đây là moment họ dễ bị thuyết phục chuyển sang eSIM nhất. Cần bài blog so sánh rõ ràng intercept query này trước đối thủ.
+  </div>
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ OB2 - Tiếng Anh đáng kể, đừng bỏ qua</div>
+    <code class="url">esim thailand</code> (480) · <code class="url">china esim</code> (170) · <code class="url">korea esim</code> (110) · <code class="url">singapore esim</code> (70). Người Việt search bằng English khi biết rõ điểm đến. Không cần trang riêng - dùng bilingual title tag + H2 trong body.
+  </div>
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ OB3 - Không target keyword sai sản phẩm</div>
+    <code class="url">mua sim trung quốc vĩnh viễn</code> (390 SV) - nhu cầu SIM vật lý dùng lâu dài, khác hoàn toàn với eSIM du lịch tạm thời. Target sẽ tăng bounce rate và hurt conversion. Loại khỏi danh sách.
+  </div>
+  <div class="callout callout-teal">
+    <div class="callout-title">🤖 OB4 - Branded competitor keywords → Blog comparison</div>
+    <code class="url">sim klook</code> (50) · <code class="url">esim gigago</code> (70) · <code class="url">sim gloka</code> (20). Không target trên landing page. Intercept bằng blog comparison article - cần approval stakeholder trước khi viết.
+  </div>
 
-      <div class="divider"></div>
-      <h2 class="sh">🎯 Top 10 Keywords Ưu Tiên</h2>
-      <table class="data-table">
-        <thead>
-          <tr><th>#</th><th>Keyword</th><th style="text-align:right">SV</th><th>Intent</th><th>Target page</th></tr>
-        </thead>
-        <tbody>
-          <tr class="row-highlight"><td>1</td><td><strong>esim du lịch</strong></td><td style="text-align:right;font-weight:800;color:var(--pink)">1,600</td><td><span class="tag tag-info">Info-Commercial</span></td><td><code class="url">/esim-du-lich</code> Hub</td></tr>
-          <tr class="row-highlight"><td>2</td><td><strong>sim trung quốc</strong></td><td style="text-align:right;font-weight:800;color:var(--pink)">1,300</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/trung-quoc</code></td></tr>
-          <tr><td>3</td><td><strong>sim du lịch quốc tế</strong></td><td style="text-align:right;font-weight:700">1,000</td><td><span class="tag tag-info">Informational</span></td><td><code class="url">/esim-du-lich</code> Hub</td></tr>
-          <tr><td>4</td><td><strong>sim thái lan</strong></td><td style="text-align:right;font-weight:700">720</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/thai-lan</code></td></tr>
-          <tr><td>5</td><td><strong>esim trung quốc</strong></td><td style="text-align:right;font-weight:700">720</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/trung-quoc</code></td></tr>
-          <tr><td>6</td><td><strong>sim singapore</strong></td><td style="text-align:right;font-weight:700">480</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/singapore</code></td></tr>
-          <tr><td>7</td><td><strong>esim thailand</strong> <span class="tag tag-en">EN</span></td><td style="text-align:right;font-weight:700">480</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/thai-lan</code></td></tr>
-          <tr><td>8</td><td><strong>sim hàn quốc</strong></td><td style="text-align:right;font-weight:700">390</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/han-quoc</code></td></tr>
-          <tr><td>9</td><td><strong>sim nhật bản</strong></td><td style="text-align:right;font-weight:700">320</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/nhat-ban</code></td></tr>
-          <tr><td>10</td><td><strong>sim châu âu</strong></td><td style="text-align:right;font-weight:700">320</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/chau-au</code></td></tr>
-        </tbody>
-      </table>
-    </section>
+  <div class="divider"></div>
+  <h2 class="sh">🎯 Top 10 Keywords Ưu Tiên</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th>#</th><th>Keyword</th><th style="text-align:right">SV</th><th>Intent</th><th>Target page</th></tr>
+      </thead>
+      <tbody>
+        <tr class="row-highlight"><td>1</td><td><strong>esim du lịch</strong></td><td style="text-align:right;font-weight:800;color:var(--pink)">1,600</td><td><span class="tag tag-info">Info-Commercial</span></td><td><code class="url">/esim-du-lich</code> Hub</td></tr>
+        <tr class="row-highlight"><td>2</td><td><strong>sim trung quốc</strong></td><td style="text-align:right;font-weight:800;color:var(--pink)">1,300</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/trung-quoc</code></td></tr>
+        <tr><td>3</td><td><strong>sim du lịch quốc tế</strong></td><td style="text-align:right;font-weight:700">1,000</td><td><span class="tag tag-info">Informational</span></td><td><code class="url">/esim-du-lich</code> Hub</td></tr>
+        <tr><td>4</td><td><strong>sim thái lan</strong></td><td style="text-align:right;font-weight:700">720</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/thai-lan</code></td></tr>
+        <tr><td>5</td><td><strong>esim trung quốc</strong></td><td style="text-align:right;font-weight:700">720</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/trung-quoc</code></td></tr>
+        <tr><td>6</td><td><strong>sim singapore</strong></td><td style="text-align:right;font-weight:700">480</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/singapore</code></td></tr>
+        <tr><td>7</td><td><strong>esim thailand</strong> <span class="tag tag-en">EN</span></td><td style="text-align:right;font-weight:700">480</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/thai-lan</code></td></tr>
+        <tr><td>8</td><td><strong>sim hàn quốc</strong></td><td style="text-align:right;font-weight:700">390</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/han-quoc</code></td></tr>
+        <tr><td>9</td><td><strong>sim nhật bản</strong></td><td style="text-align:right;font-weight:700">320</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/nhat-ban</code></td></tr>
+        <tr><td>10</td><td><strong>sim châu âu</strong></td><td style="text-align:right;font-weight:700">320</td><td><span class="tag tag-trans">Transactional</span></td><td><code class="url">/esim-du-lich/chau-au</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-    <!-- ══════════════════════════════════════ -->
-    <!-- 3. GEO / AEO -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-geo">
-      <div class="page-header">
-        <div class="page-eyebrow">Generative Engine Optimization · Answer Engine Optimization</div>
-        <div class="page-title">GEO / AEO Behavior Analysis</div>
-        <div class="page-desc">Cách AI Overviews, ChatGPT, Gemini xử lý queries trong vertical eSIM du lịch và signal content cần có để được cite.</div>
-      </div>
+<!-- ══════════════════════════════════════ -->
+<!-- 3. GEO / AEO -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-geo">
+  <div class="page-header">
+    <div class="page-eyebrow">Generative Engine Optimization · Answer Engine Optimization</div>
+    <div class="page-title">GEO / AEO Behavior Analysis</div>
+    <div class="page-desc">Cách AI Overviews, ChatGPT, Gemini xử lý queries trong vertical eSIM du lịch và signal content cần có để được cite.</div>
+  </div>
 
-      <div class="grid-2" style="margin-bottom:28px">
-        <div class="card">
-          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Query Dạng Informational</div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px">"esim du lịch là gì" · "eSIM vs SIM"</div>
-          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">AI Overview xuất hiện cao. Cite các trang có <strong>FAQ schema</strong> + <strong>How-to schema</strong> rõ ràng. MoMo cần có <em>answer block</em> cho từng câu hỏi ngay trong trang — đoạn 40–60 từ, câu đầu đã là answer.</div>
-        </div>
-        <div class="card">
-          <div style="font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Query Dạng Transactional</div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px">"mua esim trung quốc" · "esim thái lan giá"</div>
-          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">AI Overview ít xuất hiện. Google ưu tiên Shopping + organic có <strong>Product schema</strong> + <strong>PriceSpecification</strong>. Destination page cần giá hiển thị rõ ràng và structured data đúng format.</div>
-        </div>
-        <div class="card">
-          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Query Dạng Comparison</div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px">"esim vs sim vật lý" · "nên mua sim hay roaming"</div>
-          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">AI tổng hợp từ nhiều nguồn. MoMo cần đứng trong set được cite bằng cách viết <strong>comparison block rõ ràng</strong>, có bảng, có verdict 1 câu. Tránh marketing fluff — AI nhận ra và bỏ qua.</div>
-        </div>
-        <div class="card">
-          <div style="font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">GEO Trust Signals</div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:6px">Để AI muốn cite MoMo</div>
-          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Author E-E-A-T · Timestamp cập nhật rõ · Link đến nguồn chính (Apple support, Google về eSIM) · Schema FAQPage + HowTo + Product · Claim + nguồn cho mọi số liệu.</div>
-        </div>
-      </div>
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--green)">
+      <div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Query Dạng Informational</div>
+      <div class="card-title">\"esim du lịch là gì\" · \"eSIM vs SIM\"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">AI Overview xuất hiện cao. Cite các trang có <strong>FAQ schema</strong> + <strong>How-to schema</strong> rõ ràng. Cần có <em>answer block</em> cho từng câu hỏi ngay trong trang - đoạn 40-60 từ, câu đầu đã là answer.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber)">
+      <div style="font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Query Dạng Transactional</div>
+      <div class="card-title">\"mua esim trung quốc\" · \"esim thái lan giá\"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">AI Overview ít xuất hiện. Google ưu tiên Shopping + organic có <strong>Product schema</strong> + <strong>PriceSpecification</strong>. Destination page cần giá hiển thị rõ ràng và structured data đúng format.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--blue)">
+      <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Query Dạng Comparison</div>
+      <div class="card-title">\"esim vs sim vật lý\" · \"nên mua sim hay roaming\"</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">AI tổng hợp từ nhiều nguồn. Cần đứng trong set được cite bằng cách viết <strong>comparison block rõ ràng</strong>, có bảng, có verdict 1 câu. Tránh marketing fluff - AI nhận ra và bỏ qua.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--teal)">
+      <div style="font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">GEO Trust Signals</div>
+      <div class="card-title">Để AI muốn cite MoMo</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Author E-E-A-T · Timestamp cập nhật rõ · Link đến nguồn chính (Apple support, Google về eSIM) · Schema FAQPage + HowTo + Product · Claim + nguồn cho mọi số liệu.</div>
+    </div>
+  </div>
 
-      <h2 class="sh">🤖 8 AEO Priority Questions</h2>
-      <div class="callout callout-teal" style="margin-bottom:20px">
-        <div class="callout-title">Format Answer Block chuẩn để AI cite</div>
-        Mỗi câu hỏi cần 1 đoạn 40–60 từ · Câu đầu tiên là câu trả lời chính · Không marketing jargon · Có thể thêm context 60–100 từ sau đó.
-      </div>
+  <h2 class="sh">🤖 8 AEO Priority Questions</h2>
+  <div class="callout callout-teal">
+    <div class="callout-title">Format Answer Block chuẩn để AI cite</div>
+    Mỗi câu hỏi cần 1 đoạn 40-60 từ · Câu đầu tiên là câu trả lời chính · Không marketing jargon · Có thể thêm context 60-100 từ sau đó.
+  </div>
 
-      <div class="aeo-block">
-        <div class="aeo-q">❓ eSIM du lịch là gì? Khác SIM vật lý thế nào?</div>
-        <div class="aeo-a">eSIM (embedded SIM) là SIM điện tử tích hợp sẵn trong điện thoại, được kích hoạt qua QR code mà không cần cắm SIM vật lý. Khi đi du lịch, bạn mua eSIM online, nhận QR code, quét là có mạng ngay khi xuống máy bay — không cần xếp hàng mua SIM tại sân bay.</div>
-      </div>
-      <div class="aeo-block">
-        <div class="aeo-q">❓ Nên mua eSIM hay chuyển vùng quốc tế?</div>
-        <div class="aeo-a">eSIM du lịch rẻ hơn chuyển vùng từ <strong>60–80%</strong> và không cần đăng ký hay hủy gói sau chuyến đi. Chuyển vùng quốc tế phù hợp nếu bạn chỉ đi 1–2 ngày và cần giữ số điện thoại Việt Nam để nhận OTP liên tục.</div>
-      </div>
-      <div class="aeo-block">
-        <div class="aeo-q">❓ Điện thoại nào hỗ trợ eSIM?</div>
-        <div class="aeo-a">iPhone XS (2018) trở lên, Samsung Galaxy S21 trở lên, Google Pixel 3 trở lên đều hỗ trợ eSIM. Đến 2025–2026, hầu hết flagship đều tương thích. Kiểm tra nhanh: vào Cài đặt → Thông tin điện thoại → xem có mục "eSIM" hay không.</div>
-      </div>
-      <div class="aeo-block">
-        <div class="aeo-q">❓ Mua eSIM bao lâu trước chuyến đi?</div>
-        <div class="aeo-a">Nên mua eSIM trước 1–3 ngày để có thời gian cài đặt và test kết nối. eSIM MoMo giao trong vài phút qua QR code, có thể cài ngay — nhưng không nên để sát giờ bay vì cần kiểm tra thiết bị tương thích.</div>
-      </div>
-      <div class="aeo-block">
-        <div class="aeo-q">❓ eSIM Trung Quốc có dùng được Google, Facebook không?</div>
-        <div class="aeo-a">Trung Quốc chặn Google, Facebook, Instagram (Great Firewall). eSIM thông thường <strong>không bypass được</strong> trừ khi gói eSIM đó có tích hợp VPN hoặc dùng mạng quốc tế riêng. Trước khi mua, xác nhận với nhà cung cấp gói có support VPN hay không.</div>
-      </div>
-      <div class="aeo-block">
-        <div class="aeo-q">❓ 1 eSIM dùng được mấy máy?</div>
-        <div class="aeo-a">Mỗi eSIM du lịch chỉ dùng được cho <strong>1 thiết bị</strong>. Sau khi quét QR code và cài vào máy, mã QR đó không thể dùng lại trên máy khác. Nếu đi cùng nhiều người, mỗi người cần mua 1 gói riêng.</div>
-      </div>
-      <div class="aeo-block">
-        <div class="aeo-q">❓ Mua eSIM du lịch ở đâu uy tín?</div>
-        <div class="aeo-a">Có thể mua qua các nền tảng uy tín như MoMo, Airalo, Gohub, Klook. MoMo cung cấp eSIM qua đối tác Gohub, hỗ trợ 150+ quốc gia, thanh toán bằng ví MoMo, hoàn tiền nếu không kết nối được.</div>
-      </div>
-      <div class="aeo-block">
-        <div class="aeo-q">❓ Cách kích hoạt eSIM như thế nào?</div>
-        <div class="aeo-a">Sau khi mua: (1) Vào Cài đặt → Điện thoại → Thêm eSIM; (2) Chọn "Quét QR code"; (3) Quét mã nhận được sau khi mua; (4) Xác nhận cài đặt. Toàn bộ quá trình mất khoảng 2–3 phút. Nên kích hoạt khi còn ở VN để test trước.</div>
-      </div>
-    </section>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ eSIM du lịch là gì? Khác SIM vật lý thế nào?</div>
+    <div class="aeo-a">eSIM (embedded SIM) là SIM điện tử tích hợp sẵn trong điện thoại, được kích hoạt qua QR code mà không cần cắm SIM vật lý. Khi đi du lịch, bạn mua eSIM online, nhận QR code, quét là có mạng ngay khi xuống máy bay - không cần xếp hàng mua SIM tại sân bay.</div>
+  </div>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ Nên mua eSIM hay chuyển vùng quốc tế?</div>
+    <div class="aeo-a">eSIM du lịch rẻ hơn chuyển vùng từ <strong>60-80%</strong> và không cần đăng ký hay hủy gói sau chuyến đi. Chuyển vùng quốc tế phù hợp nếu bạn chỉ đi 1-2 ngày và cần giữ số điện thoại Việt Nam để nhận OTP liên tục.</div>
+  </div>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ Điện thoại nào hỗ trợ eSIM?</div>
+    <div class="aeo-a">iPhone XS (2018) trở lên, Samsung Galaxy S21 trở lên, Google Pixel 3 trở lên đều hỗ trợ eSIM. Đến 2025-2026, hầu hết flagship đều tương thích. Kiểm tra nhanh: vào Cài đặt → Thông tin điện thoại → xem có mục "eSIM" hay không.</div>
+  </div>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ Mua eSIM bao lâu trước chuyến đi?</div>
+    <div class="aeo-a">Nên mua eSIM trước 1-3 ngày để có thời gian cài đặt và test kết nối. eSIM MoMo giao trong vài phút qua QR code, có thể cài ngay - nhưng không nên để sát giờ bay vì cần kiểm tra thiết bị tương thích.</div>
+  </div>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ eSIM Trung Quốc có dùng được Google, Facebook không?</div>
+    <div class="aeo-a">Trung Quốc chặn Google, Facebook, Instagram (Great Firewall). eSIM thông thường <strong>không bypass được</strong> trừ khi gói eSIM đó có tích hợp VPN hoặc dùng mạng quốc tế riêng. Trước khi mua, xác nhận với nhà cung cấp gói có support VPN hay không.</div>
+  </div>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ 1 eSIM dùng được mấy máy?</div>
+    <div class="aeo-a">Mỗi eSIM du lịch chỉ dùng được cho <strong>1 thiết bị</strong>. Sau khi quét QR code và cài vào máy, mã QR đó không thể dùng lại trên máy khác. Nếu đi cùng nhiều người, mỗi người cần mua 1 gói riêng.</div>
+  </div>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ Mua eSIM du lịch ở đâu uy tín?</div>
+    <div class="aeo-a">Có thể mua qua các nền tảng uy tín như MoMo, Airalo, Gohub, Klook. MoMo cung cấp eSIM qua đối tác Gohub, hỗ trợ 150+ quốc gia, thanh toán bằng ví MoMo, hoàn tiền nếu không kết nối được.</div>
+  </div>
+  <div class="aeo-block">
+    <div class="aeo-q">❓ Cách kích hoạt eSIM như thế nào?</div>
+    <div class="aeo-a">Sau khi mua: (1) Vào Cài đặt → Điện thoại → Thêm eSIM; (2) Chọn "Quét QR code"; (3) Quét mã nhận được sau khi mua; (4) Xác nhận cài đặt. Toàn bộ quá trình mất khoảng 2-3 phút. Nên kích hoạt khi còn ở VN để test trước.</div>
+  </div>
+</section>
 
-    <!-- ══════════════════════════════════════ -->
-    <!-- 4. INFORMATION ARCHITECTURE -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-ia">
-      <div class="page-header">
-        <div class="page-eyebrow">URL Structure · Information Architecture</div>
-        <div class="page-title">Kiến Trúc URL & Sitemap</div>
-        <div class="page-desc">1 Hub Pillar + 10 Destination Pages + Blog Cluster. Priority build schedule theo Search Volume cluster.</div>
+<!-- ══════════════════════════════════════ -->
+<!-- 4. INFORMATION ARCHITECTURE -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-ia">
+  <div class="page-header">
+    <div class="page-eyebrow">URL Structure · Information Architecture</div>
+    <div class="page-title">Kiến Trúc URL & Sitemap</div>
+    <div class="page-desc">1 Hub Pillar + 10 Destination Pages + Blog Cluster. Priority build schedule theo Search Volume cluster.</div>
+  </div>
+
+  <div class="ia-tree">
+    <div class="ia-tree-header">📂 momo.vn/esim-du-lich — Full Sitemap</div>
+    <div class="ia-root"><span style="font-size:18px">🏠</span> <code class="url">/esim-du-lich</code> <span class="tag tag-p0" style="margin-left:8px">Hub Pillar</span> <span style="margin-left:auto;font-size:12px;color:var(--ink-3);font-weight:700">SV: 8,510+</span></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/trung-quoc</div><span class="tag tag-p0">P0</span><div class="ia-sv">7,850 SV</div><span style="font-size:11px;color:var(--red);font-weight:700;margin-left:4px">⚠️ GFW</span></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/thai-lan</div><span class="tag tag-p0">P0</span><div class="ia-sv">3,930 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/nhat-ban</div><span class="tag tag-p1">P1</span><div class="ia-sv">1,950 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/singapore</div><span class="tag tag-p1">P1</span><div class="ia-sv">1,530 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/han-quoc</div><span class="tag tag-p1">P1</span><div class="ia-sv">1,160 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/chau-au</div><span class="tag tag-p2">P2</span><div class="ia-sv">1,090 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/my</div><span class="tag tag-p2">P2</span><div class="ia-sv">900 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/uc</div><span class="tag tag-p2">P2</span><div class="ia-sv">790 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">├──</span><div class="ia-child-url">/esim-du-lich/dai-loan</div><span class="tag tag-p3">P3</span><div class="ia-sv">700 SV</div></div>
+    <div class="ia-child"><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-3)">└──</span><div class="ia-child-url">/esim-du-lich/malaysia</div><span class="tag tag-p3">P3</span><div class="ia-sv">610 SV</div></div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">💡 Blog Cluster</div>
+    <code class="url">/tin-tuc/esim-la-gi</code> · <code class="url">/tin-tuc/esim-vs-sim-vat-ly</code> · <code class="url">/tin-tuc/esim-vs-chuyen-vung-quoc-te</code> · <code class="url">/tin-tuc/cach-kich-hoat-esim</code> · <code class="url">/tin-tuc/esim-trung-quoc-co-vao-duoc-google-khong</code> và thêm 5-8 bài destination-specific. Nếu không có blog → nhúng FAQ accordion vào trang hub.
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sh">🗓 Priority Build Schedule</h2>
+  <div class="priority-grid">
+    <div class="priority-col">
+      <div class="priority-col-header" style="background:var(--pink-m2);color:var(--pink)">🔴 P0 — Sprint 1</div>
+      <div class="priority-col-body">
+        <div class="priority-item p0-item"><b>/esim-du-lich (Hub)</b><span>H1 · Answer block · Destination grid · How-to · FAQ</span></div>
+        <div class="priority-item p0-item"><b>/esim-du-lich/trung-quoc</b><span>SV 7,850 · ⚠️ Cần address Great Firewall</span></div>
+        <div class="priority-item p0-item"><b>/esim-du-lich/thai-lan</b><span>SV 3,930 · Bilingual title (Thailand eSIM)</span></div>
+        <div class="priority-item p0-item"><b>Blog: Chuyển vùng vs eSIM</b><span>Intercept 1,260 SV competitor query</span></div>
       </div>
-
-      <div class="ia-tree">
-        <div class="ia-tree-header">📂 momo.vn/esim-du-lich — Full Sitemap</div>
-        <div class="ia-root"><span style="font-size:18px">🏠</span> <code class="url">/esim-du-lich</code> <span class="tag tag-p0" style="margin-left:8px">Hub Pillar</span> <span style="margin-left:auto;font-size:12px;color:var(--ink-3);font-weight:700">SV: 8,510+</span></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/trung-quoc</div><span class="tag tag-p0">P0</span><div class="ia-sv">7,850 SV</div><span style="font-size:11px;color:var(--red);font-weight:700;margin-left:8px">⚠️ GFW</span></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/thai-lan</div><span class="tag tag-p0">P0</span><div class="ia-sv">3,930 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/nhat-ban</div><span class="tag tag-p1">P1</span><div class="ia-sv">1,950 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/singapore</div><span class="tag tag-p1">P1</span><div class="ia-sv">1,530 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/han-quoc</div><span class="tag tag-p1">P1</span><div class="ia-sv">1,160 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/chau-au</div><span class="tag tag-p2">P2</span><div class="ia-sv">1,090 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/my</div><span class="tag tag-p2">P2</span><div class="ia-sv">900 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/uc</div><span class="tag tag-p2">P2</span><div class="ia-sv">790 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">├──</span><div class="ia-child-url">/esim-du-lich/dai-loan</div><span class="tag tag-p3">P3</span><div class="ia-sv">700 SV</div></div>
-        <div class="ia-child"><span style="color:var(--ink-3);font-family:JetBrains Mono,monospace">└──</span><div class="ia-child-url">/esim-du-lich/malaysia</div><span class="tag tag-p3">P3</span><div class="ia-sv">610 SV</div></div>
+    </div>
+    <div class="priority-col">
+      <div class="priority-col-header" style="background:var(--amber-light);color:var(--amber)">🟡 P1 — Sprint 2</div>
+      <div class="priority-col-body">
+        <div class="priority-item"><b>/esim-du-lich/nhat-ban</b><span>SV 1,950</span></div>
+        <div class="priority-item"><b>/esim-du-lich/singapore</b><span>SV 1,530</span></div>
+        <div class="priority-item"><b>/esim-du-lich/han-quoc</b><span>SV 1,160</span></div>
+        <div class="priority-item"><b>Blog: eSIM là gì A-Z</b><span>AEO · How-to · Schema</span></div>
+        <div class="priority-item"><b>Blog: Điện thoại hỗ trợ eSIM</b><span>2026 update</span></div>
       </div>
-
-      <div class="callout callout-blue" style="margin-top:8px">
-        <div class="callout-title">Blog Cluster — Nếu MoMo có /tin-tuc/ hoặc blog riêng</div>
-        <code class="url">/tin-tuc/esim-la-gi</code> · <code class="url">/tin-tuc/esim-vs-sim-vat-ly</code> · <code class="url">/tin-tuc/esim-vs-chuyen-vung-quoc-te</code> · <code class="url">/tin-tuc/cach-kich-hoat-esim</code> · <code class="url">/tin-tuc/esim-trung-quoc-co-vao-duoc-google-khong</code> · và thêm 5–8 bài destination-specific. Nếu không có blog → nhúng FAQ accordion vào trang hub.
+    </div>
+    <div class="priority-col">
+      <div class="priority-col-header" style="background:#F0EDE8;color:var(--ink-3)">⚪ P2/P3 — Sprint 3+</div>
+      <div class="priority-col-body">
+        <div class="priority-item"><b>/esim-du-lich/chau-au</b><span>SV 1,090 · Regional cluster</span></div>
+        <div class="priority-item"><b>/esim-du-lich/my</b><span>SV 900</span></div>
+        <div class="priority-item"><b>/esim-du-lich/uc</b><span>SV 790</span></div>
+        <div class="priority-item"><b>/esim-du-lich/dai-loan</b><span>SV 700</span></div>
+        <div class="priority-item"><b>Blog: Comparison competitors</b><span>Cần approval stakeholder</span></div>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="divider"></div>
-      <h2 class="sh">🗓 Priority Build Schedule</h2>
-      <div class="priority-grid">
-        <div class="priority-col">
-          <div class="priority-col-header" style="background:var(--pink-light);color:var(--pink)">🔴 P0 — Sprint 1</div>
-          <div class="priority-col-body">
-            <div class="priority-item p0-item"><b>/esim-du-lich (Hub)</b><span>H1 · Answer block · Destination grid · How-to · FAQ</span></div>
-            <div class="priority-item p0-item"><b>/esim-du-lich/trung-quoc</b><span>SV 7,850 · ⚠️ Cần address Great Firewall</span></div>
-            <div class="priority-item p0-item"><b>/esim-du-lich/thai-lan</b><span>SV 3,930 · Bilingual title (Thailand eSIM)</span></div>
-            <div class="priority-item p0-item"><b>Blog: Chuyển vùng vs eSIM</b><span>Intercept 1,260 SV competitor query</span></div>
-          </div>
-        </div>
-        <div class="priority-col">
-          <div class="priority-col-header" style="background:var(--amber-light);color:var(--amber)">🟡 P1 — Sprint 2</div>
-          <div class="priority-col-body">
-            <div class="priority-item"><b>/esim-du-lich/nhat-ban</b><span>SV 1,950</span></div>
-            <div class="priority-item"><b>/esim-du-lich/singapore</b><span>SV 1,530</span></div>
-            <div class="priority-item"><b>/esim-du-lich/han-quoc</b><span>SV 1,160</span></div>
-            <div class="priority-item"><b>Blog: eSIM là gì A-Z</b><span>AEO · How-to · Schema</span></div>
-            <div class="priority-item"><b>Blog: Điện thoại hỗ trợ eSIM</b><span>2026 update</span></div>
-          </div>
-        </div>
-        <div class="priority-col">
-          <div class="priority-col-header" style="background:#F0EDE8;color:var(--ink-3)">⚪ P2/P3 — Sprint 3+</div>
-          <div class="priority-col-body">
-            <div class="priority-item"><b>/esim-du-lich/chau-au</b><span>SV 1,090 · Regional cluster</span></div>
-            <div class="priority-item"><b>/esim-du-lich/my</b><span>SV 900</span></div>
-            <div class="priority-item"><b>/esim-du-lich/uc</b><span>SV 790</span></div>
-            <div class="priority-item"><b>/esim-du-lich/dai-loan</b><span>SV 700</span></div>
-            <div class="priority-item"><b>Blog: Comparison competitors</b><span>Cần approval stakeholder</span></div>
-          </div>
-        </div>
+<!-- ══════════════════════════════════════ -->
+<!-- 5. HUB PAGE BLUEPRINT -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-hub">
+  <div class="page-header">
+    <div class="page-eyebrow">Page Blueprint · Hub Pillar</div>
+    <div class="page-title">Hub Page: /esim-du-lich</div>
+    <div class="page-desc">Blueprint component-level cho trang hub. Mixed intent: Informational + Commercial + Transactional. Mỗi block có mục tiêu rõ ràng và schema mapping.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--pink);margin-bottom:20px">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:6px">JTBD của trang này</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:4px">"Tôi sắp đi du lịch nước ngoài và muốn có internet ngay khi xuống máy bay, không muốn xếp hàng mua SIM ở sân bay và không muốn trả phí roaming đắt đỏ."</div>
+    <div style="font-size:12.5px;color:var(--ink-3)">Target KW chính: esim du lịch (1,600) · esim quốc tế (210) · mua esim du lịch (70) · esim du lịch là gì (30)</div>
+  </div>
+
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Blueprint Components — Hub Page /esim-du-lich</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--pink)">C1</span> HERO</div>
+      <div class="anatomy-content"><strong>H1:</strong> "Mua eSIM Du Lịch Quốc Tế - Kết Nối Ngay Khi Hạ Cánh"<br>Sub: Kích hoạt bằng QR code · Hỗ trợ 150+ quốc gia · Tiết kiệm đến 80% so với roaming<br>CTA Primary: [Mua eSIM Ngay] → deep link · CTA Secondary: [Xem gói theo điểm đến] → anchor scroll</div>
+      <div class="anatomy-note"><span class="cs-schema">WebPage</span> <span class="cs-schema">BreadcrumbList</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--teal)">C2</span> ANSWER BLOCK</div>
+      <div class="anatomy-content"><strong>H2:</strong> "eSIM Du Lịch Là Gì?" → 60-80 word answer block, plain language, không marketing fluff. Comparison table: eSIM vs SIM vật lý vs Chuyển vùng (3 cột · 4-5 tiêu chí). <em>Quan trọng nhất cho AI citation - đặt ngay sau hero.</em></div>
+      <div class="anatomy-note"><span class="cs-schema">FAQPage</span> <span class="tag tag-geo">AEO Core</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--blue)">C3</span> DESTINATION GRID</div>
+      <div class="anatomy-content"><strong>H2:</strong> "Chọn eSIM Theo Điểm Đến" - Grid 10 điểm đến. Mỗi card: Tên + Flag emoji + Giá từ X.000đ + số ngày phổ biến + CTA → link to destination subpages</div>
+      <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Hub → Spoke</div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--green)">C4</span> HOW-TO</div>
+      <div class="anatomy-content"><strong>H2:</strong> "Cách Mua Và Kích Hoạt eSIM Trên MoMo" - 4 bước: Mở app → Chọn gói → Thanh toán → Nhận QR/kích hoạt. Numbered list, mỗi bước actionable.</div>
+      <div class="anatomy-note"><span class="cs-schema">HowTo</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--amber)">C5</span> FAQ BLOCK</div>
+      <div class="anatomy-content">8 câu hỏi AEO Priority (xem section GEO/AEO). Accordion format trên web. Schema FAQPage → xem mẫu JSON-LD tại section Schema & AEO Markup.</div>
+      <div class="anatomy-note"><span class="cs-schema">FAQPage</span> <span class="tag tag-geo">AEO Core</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--ink-3)">C6</span> CROSS-SELL</div>
+      <div class="anatomy-content">"Chuẩn bị thêm cho chuyến đi" → link đến bảo hiểm du lịch, đổi ngoại tệ. "Cẩm nang eSIM Du Lịch" → 4-6 bài blog liên quan dạng card.</div>
+      <div class="anatomy-note"><span class="tag tag-tofu">Ecosystem</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 6. DESTINATION PAGES -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-destination">
+  <div class="page-header">
+    <div class="page-eyebrow">Page Blueprint · Destination Template</div>
+    <div class="page-title">Destination Pages — Template & Priority</div>
+    <div class="page-desc">1 template áp dụng cho tất cả 10 destination pages. Mỗi trang có FAQ riêng theo quốc gia. Critical flag: Trung Quốc cần xử lý Great Firewall.</div>
+  </div>
+
+  <div class="callout callout-red">
+    <div class="callout-title">🚨 Critical Flag - /esim-du-lich/trung-quoc (SV 7,850)</div>
+    Người dùng có nhu cầu đặc thù - eSIM ở TQ phải hỗ trợ VPN hoặc pass Great Firewall để dùng Google/Facebook. Content <strong>bắt buộc phải address vấn đề này trung thực</strong>. Nếu gói Gohub không bypass GFW - nói rõ. Không nói sẽ bị review bomb, hurt brand trust MoMo.
+  </div>
+
+  <h2 class="sh">📋 Destination Page Template</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Template Components — /esim-du-lich/{country}</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--pink)">C1</span> HERO</div>
+      <div class="anatomy-content"><strong>H1 Pattern:</strong> "eSIM Du Lịch [Quốc Gia] ([EN Name] eSIM) - [Ngày phổ biến] / [GB] / Từ [Giá]đ"<br>Ví dụ: "eSIM Du Lịch Thái Lan (Thailand eSIM) - 7 Ngày / Không Giới Hạn / Từ 99.000đ"<br>Breadcrumb: Trang chủ → eSIM Du Lịch → [Quốc Gia]</div>
+      <div class="anatomy-note"><span class="cs-schema">Product</span> <span class="cs-schema">AggregateOffer</span> <span class="cs-schema">BreadcrumbList</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--blue)">C2</span> PRODUCT TABLE</div>
+      <div class="anatomy-content">Bảng gói theo ngày: Thời hạn (3/5/7/15/30 ngày) · Dung lượng · Tốc độ (4G/5G) · Giá · [Mua Ngay] → deep link MoMo App. Giá phải dynamic - không hardcode.</div>
+      <div class="anatomy-note"><span class="cs-schema">Offer</span> <span class="cs-schema">PriceSpecification</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--amber)">C3</span> DESTINATION FAQ</div>
+      <div class="anatomy-content">100-150 từ context về điểm đến · 5-7 FAQ riêng theo quốc gia.<br>TQ: eSIM TQ có vào Google không? · Cần VPN không? · Thái Lan: Unlimited không? · AIS hay True Move? · Nhật: có nhắn tin về VN không? · Châu Âu: 1 eSIM mấy nước Schengen?</div>
+      <div class="anatomy-note"><span class="cs-schema">FAQPage</span> <span class="tag tag-geo">Country-specific AEO</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section"><span class="c-badge" style="background:var(--green)">C4</span> RELATED + CTA</div>
+      <div class="anatomy-content">Cross-link 3-4 destinations gần về địa lý/use case. Nhật → Singapore, Hàn Quốc, Đài Loan. Floating CTA button "Mua eSIM [Quốc Gia]" visible toàn bộ scroll.<br>UTM: <code class="url">utm_source=web&utm_medium=esim-destination&utm_campaign={country}</code></div>
+      <div class="anatomy-note"><span class="tag tag-conv">Sticky CTA</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sh">🌏 Bilingual Title Strategy</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Destination</th><th>Title Tag Pattern</th><th>H2 Body (Bilingual)</th><th>EN SV</th></tr></thead>
+      <tbody>
+        <tr><td>Thái Lan</td><td>"eSIM Thái Lan (Thailand eSIM) - Gói Cước & Mua Ngay"</td><td>"Thailand eSIM Plans for Vietnamese Travelers"</td><td style="font-weight:700;color:var(--pink)">480</td></tr>
+        <tr><td>Trung Quốc</td><td>"eSIM Trung Quốc (China eSIM) - Kết Nối Không Giới Hạn"</td><td>"China eSIM — What You Need to Know"</td><td style="font-weight:700">170</td></tr>
+        <tr><td>Hàn Quốc</td><td>"eSIM Hàn Quốc (Korea eSIM) - Mua Nhanh Kích Hoạt Ngay"</td><td>"Korea eSIM - Compare Plans"</td><td style="font-weight:700">110</td></tr>
+        <tr><td>Singapore</td><td>"eSIM Singapore - Gói Data & Giá Tốt Nhất 2026"</td><td>"Singapore eSIM Options Compared"</td><td style="font-weight:700">70</td></tr>
+        <tr><td>Châu Âu</td><td>"eSIM Châu Âu (Europe eSIM) - 1 Gói Cho Cả Schengen"</td><td>"Europe eSIM - Cover Multiple Countries"</td><td style="font-weight:700">70</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 7. CONTENT DIRECTION -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-direction">
+  <div class="page-header">
+    <div class="page-eyebrow">Content Strategy · Tone & Voice · Content Types</div>
+    <div class="page-title">Content Direction</div>
+    <div class="page-desc">Tone guide, voice rules, content type mapping và bilingual strategy cho toàn bộ eSIM Du Lịch cluster.</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--green)">
+      <div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">✅ Đúng hướng</div>
+      <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
+        · Bắt đầu từ pain point cụ thể<br>
+        · Plain language, không jargon marketing<br>
+        · Claim + evidence (số liệu, so sánh giá)<br>
+        · Verdict/conclusion rõ ràng ở cuối mỗi section<br>
+        · Timestamp cập nhật visible<br>
+        · Tiếng Việt phổ thông + giữ nguyên eSIM, QR code, 4G/5G
       </div>
-    </section>
-
-    <!-- ══════════════════════════════════════ -->
-    <!-- 5. HUB PAGE BLUEPRINT -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-hub">
-      <div class="page-header">
-        <div class="page-eyebrow">Page Blueprint · Hub Pillar</div>
-        <div class="page-title">Hub Page: /esim-du-lich</div>
-        <div class="page-desc">Blueprint component-level cho trang hub. Mixed intent: Informational + Commercial + Transactional. Mỗi block có mục tiêu rõ ràng và schema mapping.</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red)">
+      <div style="font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">❌ Tránh</div>
+      <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
+        · "Top 10 lý do nên dùng eSIM" - không AI cite, không organic value<br>
+        · Thin content: bảng gói + 50 từ = không đủ<br>
+        · Giá hardcode không update → outdated nhanh<br>
+        · Không address Great Firewall với TQ page<br>
+        · Marketing superlative không có bằng chứng
       </div>
+    </div>
+  </div>
 
-      <div class="card" style="margin-bottom:20px;border-left:3px solid var(--pink)">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:6px">JTBD của trang này</div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:4px">"Tôi sắp đi du lịch nước ngoài và muốn có internet ngay khi xuống máy bay, không muốn xếp hàng mua SIM ở sân bay và không muốn trả phí roaming đắt đỏ."</div>
-        <div style="font-size:12.5px;color:var(--ink-3)">Target KW chính: esim du lịch (1,600) · esim quốc tế (210) · mua esim du lịch (70) · esim du lịch là gì (30)</div>
+  <h2 class="sh">📐 Content Type Spec</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Type</th><th>Áp dụng cho</th><th>Word count</th><th>CTA</th><th>Schema</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Transaction Content</strong></td>
+          <td>Hub page + Destination pages</td>
+          <td>&lt;800 từ body (không tính FAQ)</td>
+          <td>Deep link → App</td>
+          <td><span class="cs-schema">Product</span><span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span></td>
+        </tr>
+        <tr>
+          <td><strong>Informational Blog</strong></td>
+          <td>Blog cluster Tier 1</td>
+          <td>1,000-2,000 từ</td>
+          <td>Link về destination page</td>
+          <td><span class="cs-schema">Article</span><span class="cs-schema">FAQPage</span></td>
+        </tr>
+        <tr>
+          <td><strong>Experience Blog</strong></td>
+          <td>Blog Tier 2 · "Kinh nghiệm" format</td>
+          <td>800-1,500 từ</td>
+          <td>Link về destination page</td>
+          <td><span class="cs-schema">Article</span><span class="cs-schema">FAQPage</span></td>
+        </tr>
+        <tr>
+          <td><strong>Comparison Blog</strong></td>
+          <td>Blog Tier 3 · Competitor</td>
+          <td>1,200-2,000 từ · Bắt buộc có bảng</td>
+          <td>Link về hub</td>
+          <td><span class="cs-schema">Article</span><span class="cs-schema">FAQPage</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 8. BLOG STRATEGY -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-blog">
+  <div class="page-header">
+    <div class="page-eyebrow">Blog Cluster · Content Calendar</div>
+    <div class="page-title">Blog Strategy — 3 Tiers</div>
+    <div class="page-desc">Blog mục tiêu capture informational queries mà landing page không làm tốt, sau đó funnel về transaction page.</div>
+  </div>
+
+  <h2 class="sh">Tier 1 — Must-have (Informational · AEO Priority)</h2>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-card-tier"><span>📚 Tier 1 · P0</span><span class="tag tag-geo">AEO Priority</span></div>
+      <div class="blog-card-body">
+        <div class="blog-card-title">eSIM Là Gì? Hướng Dẫn Mua & Kích Hoạt Từ A Đến Z</div>
+        <div class="blog-card-kw">Target: esim du lịch là gì · cách kích hoạt esim (SV ~200)</div>
+        <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="cs-schema">Article+HowTo+FAQ</span></div>
       </div>
-
-      <!-- Component list -->
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--pink);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C1</span> <span style="font-size:14px;font-weight:800">HERO BLOCK</span></div>
-            <div class="page-spec-desc">H1 · Sub headline · Dual CTA · Trust stats</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Content</div>
-            <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
-              <strong>H1:</strong> "Mua eSIM Du Lịch Quốc Tế — Kết Nối Ngay Khi Hạ Cánh"<br>
-              <strong>Sub:</strong> Kích hoạt bằng QR code · Hỗ trợ 150+ quốc gia · Tiết kiệm đến 80% so với roaming<br>
-              <strong>CTA Primary:</strong> [Mua eSIM Ngay] → deep link to MoMo App<br>
-              <strong>CTA Secondary:</strong> [Xem gói theo điểm đến] → anchor scroll to Destination Grid
-            </div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Schema</div>
-            <span class="cs-schema">WebPage</span><span class="cs-schema">BreadcrumbList</span>
-          </div>
-        </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-tier"><span>🆚 Tier 1 · P0</span><span class="tag tag-geo">AEO Priority</span></div>
+      <div class="blog-card-body">
+        <div class="blog-card-title">Chuyển Vùng Quốc Tế vs Mua eSIM: Cái Nào Rẻ Hơn?</div>
+        <div class="blog-card-kw">Target: cách chuyển vùng quốc tế viettel/mobi (SV 1,260) ← Intercept competitor</div>
+        <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="cs-schema">Article+FAQPage</span></div>
       </div>
-
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--teal);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C2</span> <span style="font-size:14px;font-weight:800">ANSWER BLOCK — AEO Core</span></div>
-            <div class="page-spec-desc">Quan trọng nhất cho AI citation. Đặt ngay sau hero.</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Content</div>
-            <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
-              <strong>H2:</strong> "eSIM Du Lịch Là Gì?"<br>
-              → 60–80 word answer block, plain language, không marketing fluff<br>
-              → Comparison table 1 dòng: eSIM vs SIM vật lý vs Chuyển vùng (3 cột · 4–5 tiêu chí)
-            </div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Schema</div>
-            <span class="cs-schema">FAQPage</span>
-          </div>
-        </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-tier"><span>🛒 Tier 1 · P0</span><span class="tag tag-geo">How-to</span></div>
+      <div class="blog-card-body">
+        <div class="blog-card-title">Cách Mua eSIM Trên MoMo — Hướng Dẫn Bước Bước</div>
+        <div class="blog-card-kw">Target: mua esim du lịch · cách dùng esim du lịch (SV ~200)</div>
+        <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="cs-schema">Article+HowTo</span></div>
       </div>
-
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--blue);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C3</span> <span style="font-size:14px;font-weight:800">DESTINATION GRID</span></div>
-            <div class="page-spec-desc">Card grid 10 điểm đến → link to destination subpages</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Content</div>
-            <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
-              <strong>H2:</strong> "Chọn eSIM Theo Điểm Đến"<br>
-              Grid: TQ · Thái · Nhật · HQ · Singapore · Châu Âu · Mỹ · Úc · Đài Loan · Malaysia<br>
-              Mỗi card: Tên + Flag emoji + Giá từ X.000đ + số ngày phổ biến + CTA
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-card-tier"><span>📱 Tier 1 · P1</span><span class="tag tag-info">Device Guide</span></div>
+      <div class="blog-card-body">
+        <div class="blog-card-title">Điện Thoại Nào Hỗ Trợ eSIM? Danh Sách Cập Nhật 2026</div>
+        <div class="blog-card-kw">Target: 1 esim dùng được mấy máy · điện thoại hỗ trợ esim (SV ~50)</div>
+        <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="cs-schema">Article+FAQPage</span></div>
       </div>
+    </div>
+  </div>
 
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--green);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C4</span> <span style="font-size:14px;font-weight:800">HOW-TO BLOCK</span></div>
-            <div class="page-spec-desc">4 bước mua & kích hoạt · Schema HowTo</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Content</div>
-            <div style="font-size:13px;color:var(--ink-2);line-height:1.8">
-              <strong>H2:</strong> "Cách Mua Và Kích Hoạt eSIM Trên MoMo"<br>
-              Bước 1: Mở app MoMo → tìm eSIM du lịch<br>
-              Bước 2: Chọn điểm đến + gói cước phù hợp<br>
-              Bước 3: Thanh toán (ví MoMo / thẻ nội địa)<br>
-              Bước 4: Nhận QR code → vào Cài đặt → quét để kích hoạt
-            </div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Schema</div>
-            <span class="cs-schema">HowTo</span>
-          </div>
-        </div>
-      </div>
+  <h2 class="sh">Tier 2 — Destination-Specific (Experience · "Kinh nghiệm" format)</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Tiêu đề</th><th>Target keyword</th><th style="text-align:right">Est. SV</th><th>Funnel</th></tr></thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>eSIM Trung Quốc: Có Vào Được Google/Facebook Không?</strong></td>
+          <td><span class="cs-kw">esim trung quốc</span> <span class="cs-kw">sim vpn china</span></td>
+          <td style="text-align:right;font-weight:700">~790</td>
+          <td><span class="tag tag-mofu">MOFU</span></td>
+        </tr>
+        <tr>
+          <td><strong>eSIM Thái Lan: AIS vs DTAC vs Gói MoMo - Nên Chọn Gì?</strong></td>
+          <td><span class="cs-kw">esim thailand</span> <span class="cs-kw">sim dtac thái lan</span></td>
+          <td style="text-align:right;font-weight:700">~530</td>
+          <td><span class="tag tag-mofu">MOFU</span></td>
+        </tr>
+        <tr>
+          <td><strong>Kinh Nghiệm Mua eSIM Nhật Bản - Gói Nào Tốt Nhất?</strong></td>
+          <td><span class="cs-kw">esim nhật bản</span> <span class="cs-kw">kinh nghiệm mua sim nhật</span></td>
+          <td style="text-align:right;font-weight:700">~340</td>
+          <td><span class="tag tag-mofu">MOFU</span></td>
+        </tr>
+        <tr>
+          <td><strong>Mua eSIM Châu Âu: 1 Gói Cho Cả Schengen Hay Mua Từng Nước?</strong></td>
+          <td><span class="cs-kw">esim du lịch châu âu</span> <span class="cs-kw">sim châu âu</span></td>
+          <td style="text-align:right;font-weight:700">~220</td>
+          <td><span class="tag tag-mofu">MOFU</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--amber);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C5</span> <span style="font-size:14px;font-weight:800">FAQ BLOCK — AEO Core</span></div>
-            <div class="page-spec-desc">8 câu hỏi · Schema FAQPage · AI citation priority</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Danh sách câu hỏi (8 AEO Questions)</div>
-            <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
-              1. eSIM du lịch là gì? Khác SIM vật lý thế nào?<br>
-              2. Nên mua eSIM hay chuyển vùng quốc tế?<br>
-              3. Điện thoại nào hỗ trợ eSIM?<br>
-              4. Mua eSIM bao lâu trước chuyến đi?<br>
-              5. eSIM Trung Quốc có vào Google, Facebook không?<br>
-              6. 1 eSIM dùng được mấy máy?<br>
-              7. Mua eSIM du lịch ở đâu uy tín?<br>
-              8. Cách kích hoạt eSIM như thế nào?
-            </div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Schema</div>
-            <span class="cs-schema">FAQPage</span><span style="font-size:12px;color:var(--ink-3);margin-left:8px">→ xem mẫu JSON-LD tại tab Schema & AEO Markup</span>
-          </div>
-        </div>
-      </div>
+  <h2 class="sh">Tier 3 — Competitor Comparison (Cần approval stakeholder)</h2>
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Sensitive - Cần approval trước khi triển khai</div>
+    Bài comparison trực tiếp với competitor (Airalo, Klook, Gohub) cần review pháp lý và commercial approval. Không triển khai độc lập.
+  </div>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Tiêu đề</th><th>Target keyword</th><th style="text-align:right">Est. SV</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Klook eSIM vs MoMo eSIM: Giá Nào Rẻ Hơn?</strong></td><td><span class="cs-kw">klook esim</span> <span class="cs-kw">mua sim klook</span></td><td style="text-align:right;font-weight:700">~180</td></tr>
+        <tr><td><strong>Airalo vs Gohub vs MoMo eSIM: So Sánh Chi Tiết</strong></td><td><span class="cs-kw">esim airalo</span></td><td style="text-align:right;font-weight:700">~120</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--ink-3);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C6</span> <span style="font-size:14px;font-weight:800">CROSS-SELL + BLOG LINK BLOCK</span></div>
-            <div class="page-spec-desc">Cross-sell ecosystem + Cẩm nang link</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Content</div>
-            <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
-              "Chuẩn bị thêm cho chuyến đi" → link đến bảo hiểm du lịch (nếu MoMo có), đổi ngoại tệ<br>
-              "Cẩm nang eSIM Du Lịch" → 4–6 bài blog liên quan dạng card
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="divider"></div>
+  <h2 class="sh">📋 Blog Post Spec — Template chuẩn</h2>
+  <div class="anatomy-wrap">
+    <div class="anatomy-header-row">Blog Post Template — Checklist trước khi viết</div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Structure</div>
+      <div class="anatomy-content"><strong>Intro (100 từ):</strong> Pain point → Preview giải pháp<br><strong>Answer Block AEO (60 từ):</strong> Ngay sau intro - câu trả lời ngắn nhất có thể<br><strong>Body sections (H2s):</strong> 3-5 sections, 150-300 từ mỗi section<br><strong>Comparison table:</strong> Bắt buộc với comparison posts<br><strong>Verdict:</strong> 80 từ, plain, actionable<br><strong>CTA block:</strong> Link về destination page + "Mua Ngay Trên MoMo"<br><strong>FAQ (3-5 câu):</strong> Schema FAQPage</div>
+      <div class="anatomy-note"><span class="tag tag-geo">GEO checklist</span></div>
+    </div>
+    <div class="anatomy-row">
+      <div class="anatomy-section">Specs</div>
+      <div class="anatomy-content">Word count: 1,000-1,800 từ · Internal links: 2-3 link đến destination page, 1 link đến hub · Update cadence: mỗi 6 tháng hoặc khi giá gói thay đổi · Author bio với expertise label (E-E-A-T signal)</div>
+      <div class="anatomy-note">E-E-A-T signal</div>
+    </div>
+  </div>
+</section>
 
-    <!-- ══════════════════════════════════════ -->
-    <!-- 6. DESTINATION PAGES -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-destination">
-      <div class="page-header">
-        <div class="page-eyebrow">Page Blueprint · Destination Template</div>
-        <div class="page-title">Destination Pages — Template & Priority</div>
-        <div class="page-desc">1 template áp dụng cho tất cả 10 destination pages. Mỗi trang có FAQ riêng theo quốc gia. Critical flag: Trung Quốc cần xử lý Great Firewall.</div>
-      </div>
+<!-- ══════════════════════════════════════ -->
+<!-- 9. INTERNAL LINK & CROSS-SELL -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-intlink">
+  <div class="page-header">
+    <div class="page-eyebrow">Internal Link Architecture · Cross-sell Ecosystem</div>
+    <div class="page-title">Internal Link & Cross-sell Strategy</div>
+    <div class="page-desc">Link architecture theo user journey logic. Cross-sell được trigger bằng context (biết user sắp đi đâu) - không phải banner generic.</div>
+  </div>
 
-      <div class="callout callout-red">
-        <div class="callout-title">🚨 Critical Flag — /esim-du-lich/trung-quoc (SV 7,850)</div>
-        Người dùng có nhu cầu đặc thù — eSIM ở TQ phải hỗ trợ VPN hoặc pass Great Firewall để dùng Google/Facebook. Keyword <code class="url">sim vpn china</code> (10 SV) và implicit intent xuất hiện trong nhiều query TQ. Content <strong>bắt buộc phải address vấn đề này trung thực</strong>. Nếu gói Gohub không bypass GFW — nói rõ. Không nói sẽ bị review bomb, hurt brand trust MoMo.
-      </div>
-
-      <h2 class="sh">📋 Destination Page Template</h2>
-
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--pink);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C1</span> <span style="font-size:14px;font-weight:800">HERO — Giá + Gói</span></div>
-            <div class="page-spec-desc">H1 với giá từ · Breadcrumb · Schema Product</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">H1 Pattern</div>
-            <div style="font-size:13px;color:var(--ink-2)">"eSIM Du Lịch [Quốc Gia] — [Ngày phổ biến] / [GB] / Từ [Giá]đ"<br>Ví dụ: "eSIM Du Lịch Thái Lan (Thailand eSIM) — 7 Ngày / Không Giới Hạn / Từ 99.000đ"</div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Schema</div>
-            <span class="cs-schema">Product</span><span class="cs-schema">AggregateOffer</span><span class="cs-schema">BreadcrumbList</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--blue);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C2</span> <span style="font-size:14px;font-weight:800">PRODUCT TABLE</span></div>
-            <div class="page-spec-desc">Bảng gói theo ngày · Nút mua deep link</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Cột bảng</div>
-            <div style="font-size:13px;color:var(--ink-2)">Thời hạn (3/5/7/15/30 ngày) · Dung lượng · Tốc độ (4G/5G) · Giá · [Mua Ngay] → deep link MoMo App</div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Schema</div>
-            <span class="cs-schema">Offer</span><span class="cs-schema">PriceSpecification</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--amber);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C3</span> <span style="font-size:14px;font-weight:800">DESTINATION CONTEXT + COUNTRY-SPECIFIC FAQ</span></div>
-            <div class="page-spec-desc">100–150 từ context · 5–7 FAQ riêng theo quốc gia</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Country FAQ Examples</div>
-            <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
-              <strong>Trung Quốc:</strong> eSIM TQ có vào Google không? · Cần VPN không? · Mạng 5G có hỗ trợ không?<br>
-              <strong>Thái Lan:</strong> eSIM Thailand có unlimited không? · AIS hay True Move tốt hơn?<br>
-              <strong>Nhật Bản:</strong> eSIM Nhật có nhắn tin về VN không? · Dùng được ở vùng nông thôn không?<br>
-              <strong>Châu Âu:</strong> 1 eSIM dùng được mấy nước Schengen? · Có support 5G không?
-            </div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Schema</div>
-            <span class="cs-schema">FAQPage</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="background:var(--green);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px">C4</span> <span style="font-size:14px;font-weight:800">RELATED DESTINATIONS + CTA STICKY</span></div>
-            <div class="page-spec-desc">Cross-link 3–4 destinations · Floating CTA button</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Internal Link Logic</div>
-            <div style="font-size:12.5px;color:var(--ink-2)">Link sang 3–4 điểm đến gần về địa lý hoặc use case. Ví dụ: Nhật → Singapore, Hàn Quốc, Đài Loan. Châu Âu → Mỹ, Úc, Canada.</div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">CTA Sticky</div>
-            <div style="font-size:12.5px;color:var(--ink-2)">Floating button "Mua eSIM [Quốc Gia]" visible toàn bộ scroll. UTM: <code class="url">utm_source=web&utm_medium=esim-destination&utm_campaign=trung-quoc</code></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <h2 class="sh">🌏 Bilingual Title Strategy</h2>
-      <table class="data-table">
-        <thead><tr><th>Destination</th><th>Title Tag Pattern</th><th>H2 Body (Bilingual)</th><th>EN SV</th></tr></thead>
-        <tbody>
-          <tr><td>Thái Lan</td><td>"eSIM Thái Lan (Thailand eSIM) — Gói Cước & Mua Ngay"</td><td>"Thailand eSIM Plans for Vietnamese Travelers"</td><td style="font-weight:700;color:var(--pink)">480</td></tr>
-          <tr><td>Trung Quốc</td><td>"eSIM Trung Quốc (China eSIM) — Kết Nối Không Giới Hạn"</td><td>"China eSIM — What You Need to Know"</td><td style="font-weight:700">170</td></tr>
-          <tr><td>Hàn Quốc</td><td>"eSIM Hàn Quốc (Korea eSIM) — Mua Nhanh Kích Hoạt Ngay"</td><td>"Korea eSIM — Compare Plans"</td><td style="font-weight:700">110</td></tr>
-          <tr><td>Singapore</td><td>"eSIM Singapore — Gói Data & Giá Tốt Nhất 2026"</td><td>"Singapore eSIM Options Compared"</td><td style="font-weight:700">70</td></tr>
-          <tr><td>Châu Âu</td><td>"eSIM Châu Âu (Europe eSIM) — 1 Gói Cho Cả Schengen"</td><td>"Europe eSIM — Cover Multiple Countries"</td><td style="font-weight:700">70</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- ══════════════════════════════════════ -->
-    <!-- 7. CONTENT DIRECTION -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-direction">
-      <div class="page-header">
-        <div class="page-eyebrow">Content Strategy · Tone & Voice · Content Types</div>
-        <div class="page-title">Content Direction</div>
-        <div class="page-desc">Tone guide, voice rules, content type mapping và bilingual strategy cho toàn bộ eSIM Du Lịch cluster.</div>
-      </div>
-
-      <div class="grid-2">
-        <div class="card" style="border-left:3px solid var(--green)">
-          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">✅ Đúng hướng</div>
-          <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
-            · Bắt đầu từ pain point cụ thể<br>
-            · Plain language, không jargon marketing<br>
-            · Claim + evidence (số liệu, so sánh giá)<br>
-            · Verdict/conclusion rõ ràng ở cuối mỗi section<br>
-            · Timestamp cập nhật visible<br>
-            · Tiếng Việt phổ thông + giữ nguyên eSIM, QR code, 4G/5G
-          </div>
-        </div>
-        <div class="card" style="border-left:3px solid var(--red)">
-          <div style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">❌ Tránh</div>
-          <div style="font-size:13px;color:var(--ink-2);line-height:1.7">
-            · "Top 10 lý do nên dùng eSIM" — không AI cite, không organic value<br>
-            · Thin content: bảng gói + 50 từ = không đủ<br>
-            · Giá hardcode không update → outdated nhanh<br>
-            · Không address Great Firewall với TQ page<br>
-            · Marketing superlative: "Tốt nhất", "Rẻ nhất" không có bằng chứng
-          </div>
-        </div>
-      </div>
-
-      <h2 class="sh">📐 Content Type Spec</h2>
-      <table class="data-table">
-        <thead><tr><th>Type</th><th>Áp dụng cho</th><th>Word count</th><th>CTA</th><th>Schema</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>Transaction Content</strong></td>
-            <td>Hub page + Destination pages</td>
-            <td>&lt;800 từ body (không tính FAQ)</td>
-            <td>Deep link → App</td>
-            <td><span class="cs-schema">Product</span><span class="cs-schema">FAQPage</span><span class="cs-schema">HowTo</span></td>
-          </tr>
-          <tr>
-            <td><strong>Informational Blog</strong></td>
-            <td>Blog cluster Tier 1</td>
-            <td>1,000–2,000 từ</td>
-            <td>Link về destination page</td>
-            <td><span class="cs-schema">Article</span><span class="cs-schema">FAQPage</span></td>
-          </tr>
-          <tr>
-            <td><strong>Experience Blog</strong></td>
-            <td>Blog cluster Tier 2 · "Kinh nghiệm" format</td>
-            <td>800–1,500 từ</td>
-            <td>Link về destination page</td>
-            <td><span class="cs-schema">Article</span><span class="cs-schema">FAQPage</span></td>
-          </tr>
-          <tr>
-            <td><strong>Comparison Blog</strong></td>
-            <td>Blog cluster Tier 3 · Competitor</td>
-            <td>1,200–2,000 từ · Bắt buộc có bảng</td>
-            <td>Link về hub</td>
-            <td><span class="cs-schema">Article</span><span class="cs-schema">FAQPage</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- ══════════════════════════════════════ -->
-    <!-- 8. BLOG STRATEGY -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-blog">
-      <div class="page-header">
-        <div class="page-eyebrow">Blog Cluster · Content Calendar</div>
-        <div class="page-title">Blog Strategy — 3 Tiers</div>
-        <div class="page-desc">Blog mục tiêu capture informational queries mà landing page không làm tốt, sau đó funnel về transaction page.</div>
-      </div>
-
-      <h2 class="sh">Tier 1 — Must-have (Informational · AEO Priority)</h2>
-      <div class="blog-grid">
-        <div class="blog-card">
-          <div class="blog-card-tier"><span>📚 Tier 1 · P0</span><span class="tag tag-geo">AEO Priority</span></div>
-          <div class="blog-card-body">
-            <div class="blog-card-title">eSIM Là Gì? Hướng Dẫn Mua & Kích Hoạt Từ A Đến Z</div>
-            <div class="blog-card-kw">Target: esim du lịch là gì · cách kích hoạt esim (SV ~200)</div>
-            <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="cs-schema">Article+HowTo+FAQ</span></div>
-          </div>
-        </div>
-        <div class="blog-card">
-          <div class="blog-card-tier"><span>🆚 Tier 1 · P0</span><span class="tag tag-geo">AEO Priority</span></div>
-          <div class="blog-card-body">
-            <div class="blog-card-title">Chuyển Vùng Quốc Tế vs Mua eSIM: Cái Nào Rẻ Hơn?</div>
-            <div class="blog-card-kw">Target: cách chuyển vùng quốc tế viettel/mobi (SV 1,260) ← Intercept competitor</div>
-            <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="cs-schema">Article+FAQPage</span></div>
-          </div>
-        </div>
-        <div class="blog-card">
-          <div class="blog-card-tier"><span>🛒 Tier 1 · P0</span><span class="tag tag-geo">How-to</span></div>
-          <div class="blog-card-body">
-            <div class="blog-card-title">Cách Mua eSIM Trên MoMo — Hướng Dẫn Bước Bước</div>
-            <div class="blog-card-kw">Target: mua esim du lịch · cách dùng esim du lịch (SV ~200)</div>
-            <div class="blog-card-meta"><span class="tag tag-mofu">MOFU</span><span class="cs-schema">Article+HowTo</span></div>
-          </div>
-        </div>
-        <div class="blog-card">
-          <div class="blog-card-tier"><span>📱 Tier 1 · P1</span><span class="tag tag-info">Device Guide</span></div>
-          <div class="blog-card-body">
-            <div class="blog-card-title">Điện Thoại Nào Hỗ Trợ eSIM? Danh Sách Cập Nhật 2026</div>
-            <div class="blog-card-kw">Target: 1 esim dùng được mấy máy · 1 esim là gì (SV ~50)</div>
-            <div class="blog-card-meta"><span class="tag tag-tofu">TOFU</span><span class="cs-schema">Article+FAQPage</span></div>
-          </div>
+  <div class="tree-grid">
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:var(--pink-m2)">
+        <span style="font-size:20px">🏠</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--pink)">Hub: /esim-du-lich</div>
+          <div class="tree-box-url">Trang cha · Link ra</div>
         </div>
       </div>
-
-      <h2 class="sh">Tier 2 — Destination-Specific (Experience · "Kinh nghiệm" format)</h2>
-      <table class="data-table">
-        <thead><tr><th>Tiêu đề</th><th>Target keyword</th><th style="text-align:right">SV</th><th>Funnel</th></tr></thead>
-        <tbody>
-          <tr class="row-highlight">
-            <td><strong>eSIM Trung Quốc: Có Vào Được Google/Facebook Không?</strong></td>
-            <td><span class="cs-kw">esim trung quốc</span> <span class="cs-kw">sim vpn china</span></td>
-            <td style="text-align:right;font-weight:700">~790</td>
-            <td><span class="tag tag-mofu">MOFU</span></td>
-          </tr>
-          <tr>
-            <td><strong>eSIM Thái Lan: AIS vs DTAC vs Gói MoMo — Nên Chọn Gì?</strong></td>
-            <td><span class="cs-kw">esim thailand</span> <span class="cs-kw">sim dtac thái lan</span></td>
-            <td style="text-align:right;font-weight:700">~530</td>
-            <td><span class="tag tag-mofu">MOFU</span></td>
-          </tr>
-          <tr>
-            <td><strong>Kinh Nghiệm Mua eSIM Nhật Bản — Gói Nào Tốt Nhất?</strong></td>
-            <td><span class="cs-kw">esim nhật bản</span> <span class="cs-kw">kinh nghiệm mua sim nhật</span></td>
-            <td style="text-align:right;font-weight:700">~340</td>
-            <td><span class="tag tag-mofu">MOFU</span></td>
-          </tr>
-          <tr>
-            <td><strong>Mua eSIM Châu Âu: 1 Gói Cho Cả Schengen Hay Mua Từng Nước?</strong></td>
-            <td><span class="cs-kw">esim du lịch châu âu</span> <span class="cs-kw">sim châu âu</span></td>
-            <td style="text-align:right;font-weight:700">~220</td>
-            <td><span class="tag tag-mofu">MOFU</span></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2 class="sh">Tier 3 — Competitor Comparison (Cần approval stakeholder)</h2>
-      <div class="callout callout-amber">
-        <div class="callout-title">⚠️ Sensitive — Cần approval trước khi triển khai</div>
-        Bài comparison trực tiếp với competitor (Airalo, Klook, Gohub) cần review pháp lý và commercial approval. Không triển khai độc lập.
+      <div class="tree-body">
+        ↓ Link xuống tất cả destination pages qua Destination Grid<br>
+        ↓ Link đến blog cluster qua "Cẩm nang" section<br>
+        <span style="color:var(--ink-3)">Không link ngược từ destination lên hub ngoài breadcrumb</span>
       </div>
-      <table class="data-table">
-        <thead><tr><th>Tiêu đề</th><th>Target keyword</th><th style="text-align:right">SV</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Klook eSIM vs MoMo eSIM: Giá Nào Rẻ Hơn?</strong></td><td><span class="cs-kw">klook esim</span> <span class="cs-kw">mua sim klook</span></td><td style="text-align:right;font-weight:700">~180</td></tr>
-          <tr><td><strong>Airalo vs Gohub vs MoMo eSIM: So Sánh Chi Tiết</strong></td><td><span class="cs-kw">esim airalo</span></td><td style="text-align:right;font-weight:700">~120</td></tr>
-        </tbody>
-      </table>
-
-      <div class="divider"></div>
-      <h2 class="sh">📋 Blog Post Spec — Template chuẩn</h2>
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)" style="cursor:pointer">
-          <div>
-            <div style="font-size:14px;font-weight:800">Blog Post Template — Checklist trước khi viết</div>
-            <div class="page-spec-desc">Áp dụng cho mọi bài blog trong cluster</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Structure (bắt buộc)</div>
-            <div style="font-size:13px;color:var(--ink-2);line-height:1.8">
-              <strong>Intro (100 từ):</strong> Pain point → Preview giải pháp<br>
-              <strong>Answer Block AEO (60 từ):</strong> Ngay sau intro — câu trả lời ngắn nhất có thể<br>
-              <strong>Body sections (H2s):</strong> 3–5 sections, 150–300 từ mỗi section<br>
-              <strong>Comparison table:</strong> Bắt buộc với comparison posts<br>
-              <strong>Verdict:</strong> 80 từ, plain, actionable<br>
-              <strong>CTA block:</strong> Link về destination page + "Mua Ngay Trên MoMo"<br>
-              <strong>FAQ (3–5 câu):</strong> Schema FAQPage
-            </div>
-          </div>
-          <div class="page-spec-section">
-            <div class="page-spec-section-title">Specs</div>
-            <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7">
-              Word count: 1,000–1,800 từ · Internal links: 2–3 link đến destination page, 1 link đến hub · Update cadence: mỗi 6 tháng hoặc khi giá gói thay đổi · Author bio với expertise label (E-E-A-T signal)
-            </div>
-          </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:var(--blue-light)">
+        <span style="font-size:20px">🌏</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--blue)">Destination Pages</div>
+          <div class="tree-box-url">/esim-du-lich/{country}</div>
         </div>
       </div>
-    </section>
-
-    <!-- ══════════════════════════════════════ -->
-    <!-- 9. INTERNAL LINK & CROSS-SELL -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-intlink">
-      <div class="page-header">
-        <div class="page-eyebrow">Internal Link Architecture · Cross-sell Ecosystem</div>
-        <div class="page-title">Internal Link & Cross-sell Strategy</div>
-        <div class="page-desc">Link architecture theo user journey logic. Cross-sell được trigger bằng context (biết user sắp đi đâu) — không phải banner generic.</div>
+      <div class="tree-body">
+        ↑ Link lên Hub qua breadcrumb<br>
+        ↔ Link sang 3-4 destination gần nhất<br>
+        ↓ Link đến blog liên quan (country-specific)<br>
+        <span style="color:var(--ink-3)">TQ → link blog "eSIM TQ có vào Google không?"</span>
       </div>
-
-      <div class="tree-grid">
-        <div class="tree-box">
-          <div class="tree-box-header" style="background:var(--pink-light)">
-            <span style="font-size:20px">🏠</span>
-            <div>
-              <div class="tree-box-title" style="color:var(--pink)">Hub: /esim-du-lich</div>
-              <div class="tree-box-url">Trang cha · Link ra</div>
-            </div>
-          </div>
-          <div class="tree-body">
-            <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
-              ↓ Link xuống tất cả destination pages qua Destination Grid<br>
-              ↓ Link đến blog cluster qua "Cẩm nang" section<br>
-              <span style="color:var(--ink-3)">Không link ngược từ destination lên hub ngoài breadcrumb</span>
-            </div>
-          </div>
-        </div>
-        <div class="tree-box">
-          <div class="tree-box-header" style="background:var(--blue-light)">
-            <span style="font-size:20px">🌏</span>
-            <div>
-              <div class="tree-box-title" style="color:var(--blue)">Destination Pages</div>
-              <div class="tree-box-url">/esim-du-lich/{country}</div>
-            </div>
-          </div>
-          <div class="tree-body">
-            <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
-              ↑ Link lên Hub qua breadcrumb<br>
-              ↔ Link sang 3–4 destination gần nhất<br>
-              ↓ Link đến blog liên quan (country-specific)<br>
-              <span style="color:var(--ink-3)">TQ → link blog "eSIM TQ có vào Google không?"</span>
-            </div>
-          </div>
-        </div>
-        <div class="tree-box">
-          <div class="tree-box-header" style="background:var(--green-light)">
-            <span style="font-size:20px">📝</span>
-            <div>
-              <div class="tree-box-title" style="color:var(--green)">Blog Posts</div>
-              <div class="tree-box-url">/tin-tuc/esim-*</div>
-            </div>
-          </div>
-          <div class="tree-body">
-            <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
-              ↑ Link lên Hub hoặc destination liên quan (trong body text)<br>
-              ↓ CTA cuối bài → transaction/destination page<br>
-              <span style="color:var(--ink-3)">Không link giữa 2 blog posts trừ khi highly related</span>
-            </div>
-          </div>
-        </div>
-        <div class="tree-box">
-          <div class="tree-box-header" style="background:var(--amber-light)">
-            <span style="font-size:20px">⚠️</span>
-            <div>
-              <div class="tree-box-title" style="color:var(--amber)">Anchor Text Rules</div>
-              <div class="tree-box-url">Đa dạng hóa — tối đa 3 lần/trang</div>
-            </div>
-          </div>
-          <div class="tree-body">
-            <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
-              "eSIM du lịch Trung Quốc" (exact match)<br>
-              "mua eSIM đi Trung Quốc" (intent-based)<br>
-              "xem gói eSIM cho chuyến TQ" (contextual)<br>
-              <span style="color:var(--red)">❌ Không lặp cùng 1 anchor text quá 3 lần/trang</span>
-            </div>
-          </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:var(--green-light)">
+        <span style="font-size:20px">📝</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--green)">Blog Posts</div>
+          <div class="tree-box-url">/tin-tuc/esim-*</div>
         </div>
       </div>
-
-      <h2 class="sh">🔄 Cross-sell Ecosystem</h2>
-      <div class="callout callout-green">
-        <div class="callout-title">Leverage Point lớn nhất</div>
-        Cross-sell hiệu quả nhất khi triggered bằng <strong>context</strong> — đã biết user sắp đi đâu (đã mua vé, đổi tiền). Nếu MoMo có data này từ sản phẩm khác, đây là cơ hội personalization mạnh nhất, không cần content.
+      <div class="tree-body">
+        ↑ Link lên Hub hoặc destination liên quan (trong body text)<br>
+        ↓ CTA cuối bài → transaction/destination page<br>
+        <span style="color:var(--ink-3)">Không link giữa 2 blog posts trừ khi highly related</span>
       </div>
-
-      <h3 class="sh3">eSIM → MoMo Products</h3>
-      <table class="crosssell-table">
-        <thead><tr><th>Điểm trong hành trình</th><th>Trigger</th><th>Cross-sell target</th><th>Format</th></tr></thead>
-        <tbody>
-          <tr><td>Sau khi mua eSIM</td><td><span class="trigger-pill">Post-purchase</span></td><td>Bảo hiểm du lịch quốc tế</td><td>In-page banner "Chuẩn bị thêm"</td></tr>
-          <tr><td>Trên trang checkout</td><td><span class="trigger-pill">Checkout page</span></td><td>Bảo hiểm du lịch</td><td>Upsell widget</td></tr>
-          <tr><td>Sau khi kích hoạt eSIM</td><td><span class="trigger-pill">Post-activation</span></td><td>MoMo Pay / Ví điện tử</td><td>Push notification</td></tr>
-        </tbody>
-      </table>
-
-      <h3 class="sh3">MoMo Products → eSIM</h3>
-      <table class="crosssell-table">
-        <thead><tr><th>Source page / Touch point</th><th>Context signal</th><th>Cross-sell</th></tr></thead>
-        <tbody>
-          <tr><td>Trang đặt vé máy bay (nếu có)</td><td>"Bạn sắp bay đến [điểm đến]?"</td><td>eSIM tương ứng điểm đến (dynamic)</td></tr>
-          <tr><td>Blog du lịch / checklist chuẩn bị</td><td>Contextual mention trong content</td><td>Link inline đến eSIM hub</td></tr>
-          <tr><td>Trang thanh toán quốc tế</td><td>"Đi nước ngoài cần kết nối"</td><td>eSIM banner contextual</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- ══════════════════════════════════════ -->
-    <!-- 10. SCHEMA & AEO MARKUP -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-schema">
-      <div class="page-header">
-        <div class="page-eyebrow">Structured Data · Schema Markup · GEO Signals</div>
-        <div class="page-title">Schema & AEO Markup</div>
-        <div class="page-desc">Blueprint JSON-LD cho từng page type + 6 GEO content signals cần implement. Validate bằng Google Rich Results Test sau khi deploy.</div>
-      </div>
-
-      <h2 class="sh">🧬 Schema Blueprint Per Page Type</h2>
-
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="font-size:14px;font-weight:800">Hub Page — <code class="url">/esim-du-lich</code></div>
-            <div class="page-spec-desc">WebPage + FAQPage + BreadcrumbList</div>
-          </div>
-          <span class="ps-toggle">▶</span>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:var(--amber-light)">
+        <span style="font-size:20px">⚠️</span>
+        <div>
+          <div class="tree-box-title" style="color:var(--amber)">Anchor Text Rules</div>
+          <div class="tree-box-url">Đa dạng hóa - tối đa 3 lần/trang</div>
         </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <pre style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);background:var(--bg);padding:16px;border-radius:8px;overflow-x:auto;line-height:1.7">{
+      </div>
+      <div class="tree-body">
+        "eSIM du lịch Trung Quốc" (exact match)<br>
+        "mua eSIM đi Trung Quốc" (intent-based)<br>
+        "xem gói eSIM cho chuyến TQ" (contextual)<br>
+        <span style="color:var(--red)">❌ Không lặp cùng 1 anchor text quá 3 lần/trang</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🔄 Cross-sell Ecosystem</h2>
+  <div class="callout callout-green">
+    <div class="callout-title">✅ Leverage Point lớn nhất</div>
+    Cross-sell hiệu quả nhất khi triggered bằng <strong>context</strong> - đã biết user sắp đi đâu (đã mua vé, đổi tiền). Nếu MoMo có data này từ sản phẩm khác, đây là cơ hội personalization mạnh nhất, không cần content.
+  </div>
+
+  <h3 class="sh3">eSIM → MoMo Products</h3>
+  <div class="table-scroll">
+    <table class="crosssell-table">
+      <thead><tr><th>Điểm trong hành trình</th><th>Trigger</th><th>Cross-sell target</th><th>Format</th></tr></thead>
+      <tbody>
+        <tr><td>Sau khi mua eSIM</td><td><span class="trigger-pill">Post-purchase</span></td><td>Bảo hiểm du lịch quốc tế</td><td>In-page banner "Chuẩn bị thêm"</td></tr>
+        <tr><td>Trên trang checkout</td><td><span class="trigger-pill">Checkout page</span></td><td>Bảo hiểm du lịch</td><td>Upsell widget</td></tr>
+        <tr><td>Sau khi kích hoạt eSIM</td><td><span class="trigger-pill">Post-activation</span></td><td>MoMo Pay / Ví điện tử</td><td>Push notification</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sh3">MoMo Products → eSIM</h3>
+  <div class="table-scroll">
+    <table class="crosssell-table">
+      <thead><tr><th>Source page / Touch point</th><th>Context signal</th><th>Cross-sell</th></tr></thead>
+      <tbody>
+        <tr><td>Trang đặt vé máy bay (nếu có)</td><td>"Bạn sắp bay đến [điểm đến]?"</td><td>eSIM tương ứng điểm đến (dynamic)</td></tr>
+        <tr><td>Blog du lịch / checklist chuẩn bị</td><td>Contextual mention trong content</td><td>Link inline đến eSIM hub</td></tr>
+        <tr><td>Trang thanh toán quốc tế</td><td>"Đi nước ngoài cần kết nối"</td><td>eSIM banner contextual</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ -->
+<!-- 10. SCHEMA & AEO MARKUP -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-schema">
+  <div class="page-header">
+    <div class="page-eyebrow">Structured Data · Schema Markup · GEO Signals</div>
+    <div class="page-title">Schema & AEO Markup</div>
+    <div class="page-desc">Blueprint JSON-LD cho từng page type + 6 GEO content signals cần implement. Validate bằng Google Rich Results Test sau khi deploy.</div>
+  </div>
+
+  <h2 class="sh">🧬 Schema Blueprint Per Page Type</h2>
+
+  <div class="page-spec">
+    <div class="page-spec-header" onclick="togglePS(this)">
+      <div>
+        <div style="font-size:14px;font-weight:800">Hub Page — <code class="url">/esim-du-lich</code></div>
+        <div class="page-spec-desc">WebPage + FAQPage + BreadcrumbList</div>
+      </div>
+      <span class="ps-toggle">▶</span>
+    </div>
+    <div class="page-spec-body">
+      <div class="page-spec-section">
+        <pre style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-2);background:var(--bg);padding:14px;border-radius:8px;overflow-x:auto;line-height:1.7">{
   "@context": "https://schema.org",
   "@type": ["WebPage", "FAQPage"],
   "name": "eSIM Du Lịch Quốc Tế | MoMo",
-  "description": "Mua eSIM du lịch quốc tế tại MoMo...",
   "mainEntity": [
     {
       "@type": "Question",
       "name": "eSIM du lịch là gì?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "eSIM (embedded SIM) là SIM điện tử tích hợp sẵn trong điện thoại..."
+        "text": "eSIM là SIM điện tử tích hợp sẵn..."
       }
     }
     // ... 7 câu hỏi còn lại
@@ -1322,50 +1287,48 @@
     ]
   }
 }</pre>
-          </div>
-        </div>
       </div>
+    </div>
+  </div>
 
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="font-size:14px;font-weight:800">Destination Pages — <code class="url">/esim-du-lich/{country}</code></div>
-            <div class="page-spec-desc">Product + AggregateOffer + FAQPage</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <pre style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);background:var(--bg);padding:16px;border-radius:8px;overflow-x:auto;line-height:1.7">{
+  <div class="page-spec">
+    <div class="page-spec-header" onclick="togglePS(this)">
+      <div>
+        <div style="font-size:14px;font-weight:800">Destination Pages — <code class="url">/esim-du-lich/{country}</code></div>
+        <div class="page-spec-desc">Product + AggregateOffer + FAQPage</div>
+      </div>
+      <span class="ps-toggle">▶</span>
+    </div>
+    <div class="page-spec-body">
+      <div class="page-spec-section">
+        <pre style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-2);background:var(--bg);padding:14px;border-radius:8px;overflow-x:auto;line-height:1.7">{
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "eSIM Du Lịch Trung Quốc",
-  "description": "eSIM du lịch Trung Quốc 3–30 ngày...",
   "brand": { "@type": "Brand", "name": "MoMo" },
   "offers": {
     "@type": "AggregateOffer",
     "lowPrice": "XX000",
-    "highPrice": "XX000",
     "priceCurrency": "VND",
     "offerCount": "5"
   }
 }
 // + FAQPage schema riêng cho Q&A country-specific</pre>
-          </div>
-        </div>
       </div>
+    </div>
+  </div>
 
-      <div class="page-spec">
-        <div class="page-spec-header" onclick="toggleSpec(this)">
-          <div>
-            <div style="font-size:14px;font-weight:800">Blog Posts</div>
-            <div class="page-spec-desc">Article + FAQPage (+ HowTo nếu có step)</div>
-          </div>
-          <span class="ps-toggle">▶</span>
-        </div>
-        <div class="page-spec-body">
-          <div class="page-spec-section">
-            <pre style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);background:var(--bg);padding:16px;border-radius:8px;overflow-x:auto;line-height:1.7">{
+  <div class="page-spec">
+    <div class="page-spec-header" onclick="togglePS(this)">
+      <div>
+        <div style="font-size:14px;font-weight:800">Blog Posts</div>
+        <div class="page-spec-desc">Article + FAQPage (+ HowTo nếu có step)</div>
+      </div>
+      <span class="ps-toggle">▶</span>
+    </div>
+    <div class="page-spec-body">
+      <div class="page-spec-section">
+        <pre style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-2);background:var(--bg);padding:14px;border-radius:8px;overflow-x:auto;line-height:1.7">{
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "eSIM vs SIM Vật Lý: Nên Chọn Gì Khi Đi Du Lịch?",
@@ -1378,180 +1341,209 @@
   },
   "publisher": { "@type": "Organization", "name": "MoMo" }
 }</pre>
-          </div>
-        </div>
       </div>
+    </div>
+  </div>
 
-      <div class="divider"></div>
-      <h2 class="sh">📡 6 GEO Content Signals</h2>
-      <div class="grid-2">
-        <div class="aeo-block">
-          <div class="aeo-q" style="font-size:12px">01 · Claim + Source</div>
-          <div class="aeo-a" style="font-size:12.5px">Mỗi số liệu phải có nguồn rõ ràng. Ví dụ: "Theo Tổng cục Thống kê, H1/2025 Việt Nam đón 10,7 triệu lượt khách quốc tế." AI chỉ cite content có evidence — không cite marketing claims.</div>
-        </div>
-        <div class="aeo-block">
-          <div class="aeo-q" style="font-size:12px">02 · Canonical Definition</div>
-          <div class="aeo-a" style="font-size:12.5px">Trang hub phải có 1 đoạn định nghĩa chuẩn về eSIM du lịch — rõ ràng, không jargon — để trở thành nguồn AI muốn cite. 40–60 từ, không bullet points.</div>
-        </div>
-        <div class="aeo-block">
-          <div class="aeo-q" style="font-size:12px">03 · Comparison Table</div>
-          <div class="aeo-a" style="font-size:12.5px">Bảng so sánh eSIM vs SIM vật lý vs Roaming với 5–6 tiêu chí = content dạng AI thích tổng hợp nhất. Mỗi ô phải là plain data, không marketing adjective.</div>
-        </div>
-        <div class="aeo-block">
-          <div class="aeo-q" style="font-size:12px">04 · Step-by-step Numbered List</div>
-          <div class="aeo-a" style="font-size:12.5px">HowTo schema + numbered list → AI dễ extract để trả lời "Làm thế nào để kích hoạt eSIM". Mỗi bước phải actionable, không abstract.</div>
-        </div>
-        <div class="aeo-block">
-          <div class="aeo-q" style="font-size:12px">05 · Update Timestamp</div>
-          <div class="aeo-a" style="font-size:12.5px">Thêm "Cập nhật: [Tháng/Năm]" visible ngay đầu trang + dateModified trong Article schema. AI ưu tiên content fresh — đặc biệt với giá và gói cước.</div>
-        </div>
-        <div class="aeo-block">
-          <div class="aeo-q" style="font-size:12px">06 · Tránh AI Ignore Pattern</div>
-          <div class="aeo-a" style="font-size:12.5px">❌ Đoạn text quảng cáo dài · bullet points không có context · thông tin quan trọng chỉ ở trong ảnh (không indexable) · heading dạng "Tại sao chọn MoMo?" mà không có answer.</div>
-        </div>
-      </div>
-    </section>
+  <div class="divider"></div>
+  <h2 class="sh">📡 6 GEO Content Signals</h2>
+  <div class="grid-2">
+    <div class="aeo-block">
+      <div class="aeo-q" style="font-size:12px">01 · Claim + Source</div>
+      <div class="aeo-a" style="font-size:12.5px">Mỗi số liệu phải có nguồn rõ ràng. Ví dụ: "Theo Tổng cục Thống kê, H1/2025 VN đón 10,7 triệu lượt khách quốc tế." AI chỉ cite content có evidence - không cite marketing claims.</div>
+    </div>
+    <div class="aeo-block">
+      <div class="aeo-q" style="font-size:12px">02 · Canonical Definition</div>
+      <div class="aeo-a" style="font-size:12.5px">Trang hub phải có 1 đoạn định nghĩa chuẩn về eSIM du lịch - rõ ràng, không jargon - để trở thành nguồn AI muốn cite. 40-60 từ, không bullet points.</div>
+    </div>
+    <div class="aeo-block">
+      <div class="aeo-q" style="font-size:12px">03 · Comparison Table</div>
+      <div class="aeo-a" style="font-size:12.5px">Bảng so sánh eSIM vs SIM vật lý vs Roaming với 5-6 tiêu chí = content dạng AI thích tổng hợp nhất. Mỗi ô phải là plain data, không marketing adjective.</div>
+    </div>
+    <div class="aeo-block">
+      <div class="aeo-q" style="font-size:12px">04 · Step-by-step Numbered List</div>
+      <div class="aeo-a" style="font-size:12.5px">HowTo schema + numbered list → AI dễ extract để trả lời "Làm thế nào để kích hoạt eSIM". Mỗi bước phải actionable, không abstract.</div>
+    </div>
+    <div class="aeo-block">
+      <div class="aeo-q" style="font-size:12px">05 · Update Timestamp</div>
+      <div class="aeo-a" style="font-size:12.5px">Thêm "Cập nhật: [Tháng/Năm]" visible ngay đầu trang + dateModified trong Article schema. AI ưu tiên content fresh - đặc biệt với giá và gói cước.</div>
+    </div>
+    <div class="aeo-block">
+      <div class="aeo-q" style="font-size:12px">06 · Tránh AI Ignore Pattern</div>
+      <div class="aeo-a" style="font-size:12.5px">❌ Đoạn text quảng cáo dài · bullet points không có context · thông tin quan trọng chỉ ở trong ảnh (không indexable) · heading "Tại sao chọn MoMo?" mà không có answer.</div>
+    </div>
+  </div>
+</section>
 
-    <!-- ══════════════════════════════════════ -->
-    <!-- 11. PUBLISH CHECKLIST -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-checklist">
-      <div class="page-header">
-        <div class="page-eyebrow">Publish Checklist · 3 Types</div>
-        <div class="page-title">Publish Checklist</div>
-        <div class="page-desc">3 checklist riêng cho trang sản phẩm, blog, và click-to-app optimization. Tất cả phải pass trước khi submit GSC.</div>
-      </div>
+<!-- ══════════════════════════════════════ -->
+<!-- 11. PUBLISH CHECKLIST -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-checklist">
+  <div class="page-header">
+    <div class="page-eyebrow">Publish Checklist · 3 Types</div>
+    <div class="page-title">Publish Checklist</div>
+    <div class="page-desc">3 checklist riêng cho trang sản phẩm, blog, và click-to-app optimization. Tất cả phải pass trước khi submit GSC.</div>
+  </div>
 
-      <div class="checklist">
-        <div class="checklist-header" style="background:var(--pink-light)">
-          <span style="font-size:18px">📄</span>
-          <div class="checklist-title" style="color:var(--pink)">Checklist A — Trang Sản Phẩm (Hub & Destination)</div>
-        </div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">H1 chứa keyword chính, unique trên toàn site<span class="check-note">Không trùng H1 với bất kỳ trang nào khác trong cluster</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Title tag: 50–60 ký tự, có keyword chính + "MoMo"<span class="check-note">Ví dụ: "eSIM Du Lịch Thái Lan — Mua Ngay Trên MoMo"</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Meta description: 120–155 ký tự, có CTA ngầm<span class="check-note">Test bằng Google SERP Snippet Preview tool</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">URL slug: lowercase, hyphenated, không dấu, ngắn</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema FAQPage: validate bằng Google Rich Results Test<span class="check-note">0 error, ≥5 FAQ được eligible</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema Product + Offer (destination pages): có giá, priceCurrency, availability<span class="check-note">Giá phải dynamic nếu thay đổi theo ngày — không hardcode</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Deep link App: test trên cả iOS + Android trước publish</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Internal links: ≥2 link đến trang liên quan, anchor text đa dạng</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Alt text tất cả hình ảnh: descriptive, keyword nếu relevant</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Core Web Vitals: LCP &lt;2.5s · CLS &lt;0.1 · đặc biệt trên mobile</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Canonical tag: self-referencing, tránh duplicate từ filter/sort params</div></div>
-      </div>
+  <div class="checklist">
+    <div class="checklist-header" style="background:var(--pink-m2)">
+      <span style="font-size:18px">📄</span>
+      <div class="checklist-title" style="color:var(--pink)">Checklist A — Trang Sản Phẩm (Hub & Destination)</div>
+    </div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">H1 chứa keyword chính, unique trên toàn site<span class="check-note">Không trùng H1 với bất kỳ trang nào khác trong cluster</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Title tag: 50-60 ký tự, có keyword chính + "MoMo"<span class="check-note">Ví dụ: "eSIM Du Lịch Thái Lan - Mua Ngay Trên MoMo"</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Meta description: 120-155 ký tự, có CTA ngầm<span class="check-note">Test bằng Google SERP Snippet Preview tool</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">URL slug: lowercase, hyphenated, không dấu, ngắn</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema FAQPage: validate bằng Google Rich Results Test<span class="check-note">0 error, ≥5 FAQ được eligible</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema Product + Offer (destination pages): có giá, priceCurrency, availability<span class="check-note">Giá phải dynamic nếu thay đổi theo ngày - không hardcode</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Deep link App: test trên cả iOS + Android trước publish</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Internal links: ≥2 link đến trang liên quan, anchor text đa dạng</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Alt text tất cả hình ảnh: descriptive, keyword nếu relevant</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Core Web Vitals: LCP &lt;2.5s · CLS &lt;0.1 · đặc biệt trên mobile</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Canonical tag: self-referencing, tránh duplicate từ filter/sort params</div></div>
+  </div>
 
-      <div class="checklist">
-        <div class="checklist-header" style="background:var(--blue-light)">
-          <span style="font-size:18px">📝</span>
-          <div class="checklist-title" style="color:var(--blue)">Checklist B — Blog Posts</div>
-        </div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Target keyword xuất hiện trong: H1, 150 từ đầu, ≥1 H2, URL slug</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Answer Block AEO: có 1 đoạn 40–60 từ trả lời trực tiếp target query<span class="check-note">Câu đầu tiên = câu trả lời chính. Không bắt đầu bằng "Bạn đã bao giờ..."</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema Article: datePublished, dateModified, author có jobTitle (E-E-A-T)</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema FAQPage (nếu có FAQ section)</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Internal links: ≥2 link đến destination/transaction page liên quan</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Outbound link: ≥1 link đến nguồn uy tín (Apple support eSIM, Google Search Central, nhà mạng)</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">CTA block cuối bài: rõ ràng, link về trang eSIM</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Featured image: 1200×630px · alt text · compress &lt;150KB</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Content Quality Gate: không paraphrase competitor · không claim giá đối thủ không verify</div></div>
-      </div>
+  <div class="checklist">
+    <div class="checklist-header" style="background:var(--blue-light)">
+      <span style="font-size:18px">📝</span>
+      <div class="checklist-title" style="color:var(--blue)">Checklist B — Blog Posts</div>
+    </div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Target keyword xuất hiện trong: H1, 150 từ đầu, ≥1 H2, URL slug</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Answer Block AEO: có 1 đoạn 40-60 từ trả lời trực tiếp target query<span class="check-note">Câu đầu tiên = câu trả lời chính. Không bắt đầu bằng "Bạn đã bao giờ..."</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema Article: datePublished, dateModified, author có jobTitle (E-E-A-T)</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Schema FAQPage (nếu có FAQ section)</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Internal links: ≥2 link đến destination/transaction page liên quan</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Outbound link: ≥1 link đến nguồn uy tín (Apple support eSIM, Google Search Central)</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">CTA block cuối bài: rõ ràng, link về trang eSIM</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Featured image: 1200×630px · alt text · compress &lt;150KB</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Content Quality Gate: không paraphrase competitor · không claim giá đối thủ không verify</div></div>
+  </div>
 
-      <div class="checklist">
-        <div class="checklist-header" style="background:var(--amber-light)">
-          <span style="font-size:18px">📱</span>
-          <div class="checklist-title" style="color:var(--amber)">Checklist C — Click-to-App Optimization</div>
-        </div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Smart Banner / App Clip: hiển thị "Mở trong MoMo" trên mobile browser</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Deep link dẫn thẳng vào màn hình eSIM tương ứng<span class="check-note">Không phải homepage app. Test cả trường hợp chưa cài app → fallback App Store / CH Play</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">CTA Sticky: floating button visible toàn bộ scroll — không ẩn sau 50% scroll</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">UTM tracking đúng format cho mỗi CTA<span class="check-note">utm_source=web · utm_medium=esim-{page-type} · utm_campaign={country}</span></div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">GA4 event tracking: ghi lại click CTA event trước khi go-live (baseline measurement)</div></div>
-        <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Post-publish: submit URL GSC → Request Indexing trong 48h</div></div>
-      </div>
-    </section>
+  <div class="checklist">
+    <div class="checklist-header" style="background:var(--amber-light)">
+      <span style="font-size:18px">📱</span>
+      <div class="checklist-title" style="color:var(--amber)">Checklist C — Click-to-App Optimization</div>
+    </div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Smart Banner / App Clip: hiển thị "Mở trong MoMo" trên mobile browser</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Deep link dẫn thẳng vào màn hình eSIM tương ứng<span class="check-note">Không phải homepage app. Test cả trường hợp chưa cài app → fallback App Store / CH Play</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">CTA Sticky: floating button visible toàn bộ scroll - không ẩn sau 50% scroll</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">UTM tracking đúng format cho mỗi CTA<span class="check-note">utm_source=web · utm_medium=esim-{page-type} · utm_campaign={country}</span></div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">GA4 event tracking: ghi lại click CTA event trước khi go-live (baseline measurement)</div></div>
+    <div class="checklist-item"><div class="check-box"></div><div class="checklist-text">Post-publish: submit URL GSC → Request Indexing trong 48h</div></div>
+  </div>
+</section>
 
-    <!-- ══════════════════════════════════════ -->
-    <!-- 12. METRICS -->
-    <!-- ══════════════════════════════════════ -->
-    <section class="section" id="s-metrics">
-      <div class="page-header">
-        <div class="page-eyebrow">North Star Metrics · Monitoring Framework</div>
-        <div class="page-title">Metrics & North Star</div>
-        <div class="page-desc">Metrics theo từng tầng funnel. Monitor weekly trong 30 ngày đầu sau mỗi publish sprint, sau đó chuyển sang monthly review.</div>
-      </div>
+<!-- ══════════════════════════════════════ -->
+<!-- 12. METRICS -->
+<!-- ══════════════════════════════════════ -->
+<section class="section" id="s-metrics">
+  <div class="page-header">
+    <div class="page-eyebrow">North Star Metrics · Monitoring Framework</div>
+    <div class="page-title">Metrics & North Star</div>
+    <div class="page-desc">Metrics theo từng tầng funnel. Monitor weekly trong 30 ngày đầu sau mỗi publish sprint, sau đó chuyển sang monthly review.</div>
+  </div>
 
-      <div class="verdict-bar">
-        <div class="verdict-score" style="background:linear-gradient(135deg,#FFF0E0,#FFE0C0);color:var(--amber)">6T</div>
-        <div class="verdict-text">
-          <div class="verdict-title">Target 6 tháng sau full launch</div>
-          <div class="verdict-desc">Organic clicks toàn cluster tăng +40% từ baseline · Top 10 cho 5 keywords P0 · Click-to-App rate &gt;3% trên mobile traffic · ≥3 FAQ queries xuất hiện trong AI Overview.</div>
-        </div>
-      </div>
+  <div class="verdict-bar">
+    <div class="verdict-score" style="background:linear-gradient(135deg,var(--pink-m2),#FFD0E8);color:var(--pink)">6T</div>
+    <div class="verdict-text">
+      <div class="verdict-title">Target 6 tháng sau full launch</div>
+      <div class="verdict-desc">Organic clicks toàn cluster tăng +40% từ baseline · Top 10 cho 5 keywords P0 · Click-to-App rate >3% trên mobile traffic · ≥3 FAQ queries xuất hiện trong AI Overview.</div>
+    </div>
+  </div>
 
-      <div class="metrics-row">
-        <div class="metric-card">
-          <div class="metric-tool">GSC</div>
-          <div class="metric-name">Organic Clicks — /esim-du-lich/*</div>
-          <div class="metric-target">+40% sau 6 tháng</div>
-          <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Monitor: Weekly · Segment theo device</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-tool">GSC</div>
-          <div class="metric-name">Average Position — P0 Keywords</div>
-          <div class="metric-target">Top 10 cho 5 từ khóa P0</div>
-          <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Baseline: đo ngay sau publish sprint 1</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-tool">GSC / Manual</div>
-          <div class="metric-name">AI Overview Appearances</div>
-          <div class="metric-target">≥3 FAQ queries cited</div>
-          <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Check manual hàng tuần với 8 AEO questions</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-tool">GA4 + Appsflyer</div>
-          <div class="metric-name">Click-to-App Rate (Web → App)</div>
-          <div class="metric-target">&gt;3% trên mobile traffic</div>
-          <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">UTM tracking per page · CTA click event</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-tool">Appsflyer</div>
-          <div class="metric-name">New Users từ Telco/eSIM Funnel</div>
-          <div class="metric-target">Track weekly — grow MoM</div>
-          <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Segment: new install vs returning via deep link</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-tool">GSC Enhancements</div>
-          <div class="metric-name">FAQ Schema Eligibility</div>
-          <div class="metric-target">0 error · ≥5 FAQ indexed</div>
-          <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Check sau mỗi deploy · Rich Results Test</div>
-        </div>
-      </div>
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-tool">GSC</div>
+      <div class="metric-name">Organic Clicks — /esim-du-lich/*</div>
+      <div class="metric-target">+40% sau 6 tháng</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Monitor: Weekly · Segment theo device</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-tool">GSC</div>
+      <div class="metric-name">Average Position — P0 Keywords</div>
+      <div class="metric-target">Top 10 cho 5 từ khóa P0</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Baseline: đo ngay sau publish sprint 1</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-tool">GSC / Manual</div>
+      <div class="metric-name">AI Overview Appearances</div>
+      <div class="metric-target">≥3 FAQ queries cited</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Check manual hàng tuần với 8 AEO questions</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-tool">GA4 + Appsflyer</div>
+      <div class="metric-name">Click-to-App Rate (Web → App)</div>
+      <div class="metric-target">&gt;3% trên mobile traffic</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">UTM tracking per page · CTA click event</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-tool">Appsflyer</div>
+      <div class="metric-name">New Users từ Telco/eSIM Funnel</div>
+      <div class="metric-target">Track weekly — grow MoM</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Segment: new install vs returning via deep link</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-tool">GSC Enhancements</div>
+      <div class="metric-name">FAQ Schema Eligibility</div>
+      <div class="metric-target">0 error · ≥5 FAQ indexed</div>
+      <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">Check sau mỗi deploy · Rich Results Test</div>
+    </div>
+  </div>
 
-      <div class="divider"></div>
-      <div class="callout callout-green">
-        <div class="callout-title">✅ Disclaimer</div>
-        Tài liệu này không bao gồm roadmap thực thi. Mọi ưu tiên sprint cần đối chiếu với Dev capacity và CMS limitations thực tế của MoMo Web Team. Giá sản phẩm và danh sách gói eSIM cần xác nhận với Gohub trước khi đưa vào trang product.
-      </div>
-    </section>
+  <div class="divider"></div>
+  <div class="callout callout-green">
+    <div class="callout-title">✅ Disclaimer</div>
+    Tài liệu này không bao gồm roadmap thực thi. Mọi ưu tiên sprint cần đối chiếu với Dev capacity và CMS limitations thực tế của MoMo Web Team. Giá sản phẩm và danh sách gói eSIM cần xác nhận với Gohub trước khi đưa vào trang product.
+  </div>
+</section>
 
-  </main>
+</main>
 </div>
 
 <script>
-  function go(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    const target = document.getElementById('s-' + id);
-    if (target) target.classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
+/* ── Sidebar toggle (mobile) ── */
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const burger  = document.getElementById('hamburger');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+}
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const burger  = document.getElementById('hamburger');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}
 
-  function toggleSpec(header) {
-    const body = header.nextElementSibling;
-    const toggle = header.querySelector('.ps-toggle');
-    if (body) body.classList.toggle('open');
-    if (toggle) toggle.classList.toggle('open');
-  }
+/* ── Navigation ── */
+function go(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('s-' + id);
+  if (target) target.classList.add('active');
+  if (event && event.currentTarget) event.currentTarget.classList.add('active');
+  window.scrollTo({ top:0, behavior:'instant' });
+  if (window.innerWidth < 900) closeSidebar();
+}
+
+/* ── Page spec accordion ── */
+function togglePS(header) {
+  const body   = header.nextElementSibling;
+  const toggle = header.querySelector('.ps-toggle');
+  if (body)   body.classList.toggle('open');
+  if (toggle) toggle.classList.toggle('open');
+}
+
+/* ── Keyboard UX ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSidebar();
+});
 </script>
 </body>
 </html>

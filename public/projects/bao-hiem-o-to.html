@@ -1,1412 +1,508 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MoMo Bảo Hiểm Ô Tô — Master Strategy Doc</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --pink: #AE2070;
-      --pink-light: #F5E0EC;
-      --green: #00A64F;
-      --green-light: #E0F5EA;
-      --blue: #1848B8;
-      --blue-light: #E6EEFF;
-      --amber: #C05000;
-      --amber-light: #FFF0E0;
-      --red: #C42020;
-      --red-light: #FFE8E8;
-      --ink: #18120E;
-      --ink-2: #4A3F38;
-      --ink-3: #8C7D74;
-      --bg: #F6F3EF;
-      --surface: #FFFFFF;
-      --border: #E4DDD6;
-      --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      --r: 10px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Be Vietnam Pro', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* ─── LAYOUT ─── */
-    .layout {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      width: 250px;
-      flex-shrink: 0;
-      background: var(--ink);
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .sidebar-brand {
-      padding: 24px 20px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .brand-logo {
-      background: var(--pink);
-      color: white;
-      font-weight: 900;
-      font-size: 17px;
-      padding: 5px 12px;
-      border-radius: 6px;
-      display: inline-block;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-
-    .brand-sub {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.45);
-      line-height: 1.4;
-    }
-
-    .nav-section {
-      padding: 16px 0 0;
-    }
-
-    .nav-label {
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.3);
-      padding: 0 20px 8px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 20px;
-      cursor: pointer;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 12.5px;
-      font-weight: 500;
-      transition: all 0.15s;
-      border-left: 2px solid transparent;
-    }
-
-    .nav-item:hover {
-      color: white;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .nav-item.active {
-      color: white;
-      background: rgba(255, 255, 255, 0.08);
-      border-left-color: var(--pink);
-    }
-
-    .nav-item .nav-icon {
-      font-size: 14px;
-      width: 20px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 16px 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .version-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.25);
-    }
-
-    /* ─── CONTENT ─── */
-    .content {
-      flex: 1;
-      overflow-y: auto;
-      min-width: 0;
-    }
-
-    .section {
-      display: none;
-      padding: 40px 48px;
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    /* ─── HEADER ─── */
-    .page-header {
-      margin-bottom: 36px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .page-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 8px;
-    }
-
-    .page-title {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      line-height: 1.15;
-      color: var(--ink);
-      margin-bottom: 10px;
-    }
-
-    .page-desc {
-      font-size: 14.5px;
-      color: var(--ink-2);
-      max-width: 680px;
-      line-height: 1.7;
-    }
-
-    /* ─── STATS ─── */
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 36px;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 18px 20px;
-    }
-
-    .stat-num {
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: -1.5px;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .stat-lbl {
-      font-size: 12px;
-      color: var(--ink-3);
-      font-weight: 500;
-    }
-
-    .stat-sub {
-      font-size: 10.5px;
-      color: var(--ink-3);
-      margin-top: 4px;
-    }
-
-    /* ─── HEADINGS ─── */
-    h2.sh {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.4px;
-      margin-bottom: 16px;
-      color: var(--ink);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    h3.sh3 {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--ink);
-    }
-
-    /* ─── TAGS ─── */
-    .tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-    }
-
-    .tag-tofu {
-      background: #E0F4E8;
-      color: #0B6130;
-    }
-
-    .tag-mofu {
-      background: var(--blue-light);
-      color: var(--blue);
-    }
-
-    .tag-bofu {
-      background: var(--pink-light);
-      color: var(--pink);
-    }
-
-    .tag-crisis {
-      background: #FFE8E8;
-      color: #B01010;
-    }
-
-    .tag-p1 {
-      background: var(--pink-light);
-      color: var(--pink);
-    }
-
-    .tag-p2 {
-      background: #FFF3DC;
-      color: #8B5800;
-    }
-
-    .tag-p3 {
-      background: #F0EDE8;
-      color: var(--ink-3);
-    }
-
-    .tag-content {
-      background: var(--blue-light);
-      color: var(--blue);
-    }
-
-    .tag-trans {
-      background: var(--amber-light);
-      color: var(--amber);
-    }
-
-    .tag-template {
-      background: var(--green-light);
-      color: #006B30;
-    }
-
-    .tag-new {
-      background: #E0F4E8;
-      color: #006B30;
-      border: 1.5px dashed #00A64F;
-    }
-
-    .tag-review {
-      background: #FFF0E0;
-      color: #C05000;
-      border: 1.5px dashed #C05000;
-    }
-
-    code.url {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      background: #F0EDE8;
-      padding: 1px 7px;
-      border-radius: 4px;
-      color: var(--ink-2);
-    }
-
-    /* ─── TABLE ─── */
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-      font-size: 13px;
-      margin-bottom: 28px;
-    }
-
-    .data-table thead tr {
-      background: #F0EDE8;
-    }
-
-    .data-table th {
-      padding: 10px 14px;
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--ink-3);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .data-table td {
-      padding: 11px 14px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-
-    .data-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .data-table tbody tr:hover {
-      background: #FAFAF8;
-    }
-
-    .data-table tbody tr.row-new {
-      background: #F0FFF6;
-    }
-
-    .data-table tbody tr.row-new:hover {
-      background: #E0F5EA;
-    }
-
-    /* ─── FUNNEL ─── */
-    .funnel-flow {
-      display: flex;
-      gap: 0;
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-      margin-bottom: 28px;
-    }
-
-    .funnel-stage {
-      flex: 1;
-      padding: 18px 16px;
-      border-right: 1px solid var(--border);
-    }
-
-    .funnel-stage:last-child {
-      border-right: none;
-    }
-
-    .funnel-stage-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .funnel-stage-title {
-      font-size: 15px;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .funnel-stage-items {
-      list-style: none;
-      font-size: 12px;
-      color: var(--ink-2);
-      line-height: 1.7;
-    }
-
-    .funnel-stage-items li::before {
-      content: "·  ";
-      color: var(--ink-3);
-    }
-
-    .fs-tofu {
-      border-top: 3px solid var(--green);
-    }
-
-    .fs-tofu .funnel-stage-label {
-      color: var(--green);
-    }
-
-    .fs-mofu {
-      border-top: 3px solid var(--blue);
-    }
-
-    .fs-mofu .funnel-stage-label {
-      color: var(--blue);
-    }
-
-    .fs-bofu {
-      border-top: 3px solid var(--pink);
-    }
-
-    .fs-bofu .funnel-stage-label {
-      color: var(--pink);
-    }
-
-    .fs-convert {
-      border-top: 3px solid var(--amber);
-      background: linear-gradient(135deg, #FFF8F0, #FFF3E0);
-    }
-
-    .fs-convert .funnel-stage-label {
-      color: var(--amber);
-    }
-
-    /* ─── TREE ─── */
-    .tree-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 36px;
-    }
-
-    .tree-box {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-    }
-
-    .tree-box-header {
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .tree-box-title {
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .tree-box-url {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--ink-3);
-      margin-top: 1px;
-    }
-
-    .tree-body {
-      padding: 14px 18px;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 32px 0;
-    }
-
-    /* ─── CALLOUT ─── */
-    .callout {
-      border-radius: var(--r);
-      padding: 16px 20px;
-      margin-bottom: 20px;
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .callout-red {
-      background: var(--red-light);
-      border: 1px solid #FFD0D0;
-      color: #8B1A1A;
-    }
-
-    .callout-amber {
-      background: var(--amber-light);
-      border: 1px solid #FFD0A0;
-      color: #7A3A00;
-    }
-
-    .callout-green {
-      background: var(--green-light);
-      border: 1px solid #A0DEB8;
-      color: #0B5020;
-    }
-
-    .callout-blue {
-      background: var(--blue-light);
-      border: 1px solid #B0C8FF;
-      color: #0D3080;
-    }
-
-    .callout-title {
-      font-weight: 800;
-      margin-bottom: 4px;
-      font-size: 13px;
-    }
-
-    /* ─── VERDICT ─── */
-    .verdict-bar {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      padding: 22px 28px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .verdict-score {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-
-    .verdict-text {
-      flex: 1;
-    }
-
-    .verdict-title {
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .verdict-desc {
-      font-size: 13px;
-      color: var(--ink-2);
-      line-height: 1.6;
-    }
-
-    /* ─── CARDS ─── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 20px 24px;
-      margin-bottom: 14px;
-    }
-
-    .card-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: var(--ink);
-    }
-
-    /* ─── CONTENT STRUCTURE ─── */
-    .cs-page {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-
-    .cs-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      cursor: pointer;
-      background: var(--surface);
-      transition: background 0.12s;
-    }
-
-    .cs-header:hover {
-      background: var(--bg);
-    }
-
-    .cs-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .cs-page-title {
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .cs-toggle {
-      font-size: 12px;
-      color: var(--ink-3);
-      transition: transform 0.2s;
-    }
-
-    .cs-toggle.open {
-      transform: rotate(90deg);
-    }
-
-    .cs-body {
-      display: none;
-      border-top: 1px solid var(--border);
-    }
-
-    .cs-body.open {
-      display: block;
-    }
-
-    .cs-section {
-      border-bottom: 1px solid var(--border);
-      padding: 16px 20px;
-    }
-
-    .cs-section:last-child {
-      border-bottom: none;
-    }
-
-    .cs-section-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--ink-3);
-      margin-bottom: 8px;
-    }
-
-    .cs-keyword-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 10px;
-    }
-
-    .cs-kw {
-      background: #F0EDE8;
-      color: var(--ink-2);
-      font-size: 11.5px;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    .cs-component {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: var(--amber-light);
-      color: var(--amber);
-      border: 1px solid #FFD0A0;
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin: 2px;
-    }
-
-    .cs-content-block {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 10px 14px;
-      margin-bottom: 8px;
-      font-size: 12.5px;
-    }
-
-    .cs-block-title {
-      font-weight: 700;
-      margin-bottom: 3px;
-    }
-
-    .cs-block-desc {
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    .cs-schema {
-      display: inline-block;
-      background: var(--green-light);
-      color: var(--green);
-      border: 1px solid #A0DEB8;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin: 2px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* ─── TEMPLATE MAP ─── */
-    .template-map {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    .tm-card {
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-    }
-
-    .tm-header {
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tm-title {
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .tm-count {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    .tm-body {
-      padding: 12px 16px;
-      background: var(--surface);
-    }
-
-    .tm-url {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--ink-3);
-      margin-bottom: 8px;
-    }
-
-    .tm-fields {
-      font-size: 12px;
-      color: var(--ink-2);
-    }
-
-    .tm-field {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 4px;
-    }
-
-    .tm-field::before {
-      content: "→";
-      color: var(--ink-3);
-      flex-shrink: 0;
-    }
-
-    /* ─── DESIGN ─── */
-    .dp-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-bottom: 28px;
-    }
-
-    .dp-card {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      padding: 22px;
-    }
-
-    .dp-card-num {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--ink-3);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .dp-card-title {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      margin-bottom: 10px;
-    }
-
-    .dp-card-body {
-      font-size: 13px;
-      color: var(--ink-2);
-      line-height: 1.7;
-    }
-
-    .dp-do-dont {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .dp-do {
-      background: var(--green-light);
-      border-radius: 6px;
-      padding: 10px 12px;
-      font-size: 12px;
-    }
-
-    .dp-dont {
-      background: var(--red-light);
-      border-radius: 6px;
-      padding: 10px 12px;
-      font-size: 12px;
-    }
-
-    .dp-label {
-      font-size: 10px;
-      font-weight: 800;
-      margin-bottom: 3px;
-    }
-
-    /* ─── PRIORITY ─── */
-    .priority-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    .priority-col {
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-    }
-
-    .priority-col-header {
-      padding: 11px 16px;
-      font-size: 12px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .priority-col-body {
-      padding: 12px;
-      background: var(--surface);
-    }
-
-    .priority-item {
-      font-size: 12px;
-      padding: 7px 10px;
-      border-radius: 6px;
-      margin-bottom: 5px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      line-height: 1.4;
-    }
-
-    .priority-item b {
-      display: block;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .priority-item span {
-      color: var(--ink-3);
-      font-size: 11px;
-    }
-
-    .priority-item.new-item {
-      border: 1.5px dashed var(--green);
-      background: #F0FFF6;
-    }
-
-    /* ─── COMP SPEC ─── */
-    .comp-spec {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-
-    .comp-spec-header {
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .comp-spec-title {
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .comp-spec-type {
-      font-size: 11px;
-      color: var(--ink-3);
-      margin-top: 2px;
-    }
-
-    .comp-spec-body {
-      padding: 0;
-    }
-
-    .comp-spec-row {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    .comp-spec-row:last-child {
-      border-bottom: none;
-    }
-
-    .comp-spec-key {
-      width: 140px;
-      flex-shrink: 0;
-      padding: 10px 16px;
-      font-weight: 700;
-      color: var(--ink-3);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      background: var(--bg);
-    }
-
-    .comp-spec-val {
-      padding: 10px 16px;
-      color: var(--ink-2);
-      flex: 1;
-    }
-
-    /* ─── ACTION ITEMS ─── */
-    .action-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 14px 18px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-    }
-
-    .action-num {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 800;
-      flex-shrink: 0;
-      color: white;
-    }
-
-    .action-body {
-      flex: 1;
-    }
-
-    .action-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .action-desc {
-      font-size: 12px;
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    .action-meta {
-      display: flex;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    /* ─── PROGRESS ─── */
-    .progress-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 18px 22px;
-      margin-bottom: 28px;
-    }
-
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .progress-track {
-      height: 14px;
-      background: #F0EDE8;
-      border-radius: 7px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 7px;
-    }
-
-    .progress-marker {
-      position: absolute;
-      top: -4px;
-      height: 22px;
-      width: 2px;
-    }
-
-    .progress-legend {
-      display: flex;
-      gap: 16px;
-      margin-top: 10px;
-      font-size: 11px;
-      color: var(--ink-3);
-    }
-
-    /* ─── GRID ─── */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    /* palette */
-    .palette {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-
-    .swatch {
-      width: 72px;
-    }
-
-    .swatch-color {
-      height: 48px;
-      border-radius: 8px;
-      margin-bottom: 6px;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-    }
-
-    .swatch-name {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .swatch-hex {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--ink-3);
-    }
-
-    /* ─── ADS BLOG EMBED ─── */
-    .ads-blog-embed {
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-      margin: 24px 0;
-      background: var(--surface);
-    }
-
-    .ads-blog-label {
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      padding: 6px 14px;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .ads-blog-label::before {
-      content: "";
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--amber);
-    }
-
-    .ads-blog-banner {
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .ads-blog-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--pink), var(--blue));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      flex-shrink: 0;
-    }
-
-    .ads-blog-text {
-      flex: 1;
-    }
-
-    .ads-blog-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 3px;
-    }
-
-    .ads-blog-desc {
-      font-size: 12px;
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    .ads-blog-cta {
-      background: var(--pink);
-      color: white;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 8px 16px;
-      border-radius: 6px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .ads-blog-variants {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      padding: 0 20px 20px;
-    }
-
-    .ads-blog-variant {
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .ads-blog-variant-header {
-      padding: 10px 14px;
-      font-size: 11px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .ads-blog-variant-body {
-      padding: 10px 14px;
-      background: var(--surface);
-      font-size: 12px;
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-
-    /* ─── PAGE STRUCTURE SPEC ─── */
-    .page-spec {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--r);
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-
-    .page-spec-header {
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-    }
-
-    .page-spec-header:hover {
-      background: var(--bg);
-    }
-
-    .page-spec-url {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .page-spec-desc {
-      font-size: 12px;
-      color: var(--ink-3);
-      margin-top: 2px;
-    }
-
-    .page-spec-body {
-      display: none;
-    }
-
-    .page-spec-body.open {
-      display: block;
-    }
-
-    .page-spec-section {
-      border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
-    }
-
-    .page-spec-section:last-child {
-      border-bottom: none;
-    }
-
-    .page-spec-section-title {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--ink-3);
-      margin-bottom: 8px;
-    }
-
-    .page-spec-comp-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .page-spec-comp {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 5px;
-    }
-
-    .page-spec-comp-required {
-      background: var(--pink-light);
-      color: var(--pink);
-      border: 1px solid #FFBDD9;
-    }
-
-    .page-spec-comp-optional {
-      background: var(--blue-light);
-      color: var(--blue);
-      border: 1px solid #B0C8FF;
-    }
-
-    .comp-order {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border-radius: 3px;
-      background: var(--ink-3);
-      color: white;
-      font-size: 9px;
-      font-weight: 800;
-      text-align: center;
-      line-height: 16px;
-      margin-right: 2px;
-    }
-
-    @media (max-width:1100px) {
-      .sidebar {
-        width: 200px;
-      }
-
-      .section {
-        padding: 28px;
-      }
-
-      .stat-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .tree-grid,
-      .dp-grid,
-      .template-map,
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .priority-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .funnel-flow {
-        flex-direction: column;
-      }
-
-      .funnel-stage {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .ads-blog-variants {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảo Hiểm Ô Tô Vật Chất — MoMo Web Growth Strategy</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   CSS VARIABLES — MoMo Brand System
+══════════════════════════════════════ */
+:root {
+  --pink:        #F95396;
+  --pink-0:      #FF9DBE;
+  --pink-m1:     #FEC8DC;
+  --pink-m2:     #FFEFF4;
+  --green:       #00A64F;
+  --green-light: #E0F5EA;
+  --blue:        #1848B8;
+  --blue-light:  #E6EEFF;
+  --amber:       #C05000;
+  --amber-light: #FFF0E0;
+  --red:         #C42020;
+  --red-light:   #FFE8E8;
+  --purple:      #6B30C0;
+  --purple-light:#EFE6FF;
+  --teal:        #007B7F;
+  --teal-light:  #E0F5F5;
+  --ink:         #18120E;
+  --ink-2:       #4A3F38;
+  --ink-3:       #8C7D74;
+  --bg:          #F6F3EF;
+  --surface:     #FFFFFF;
+  --border:      #E4DDD6;
+  --shadow-sm:   0 1px 4px rgba(0,0,0,0.06);
+  --shadow:      0 4px 20px rgba(0,0,0,0.08);
+  --r:           10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;}
+
+/* ══════════════════════════════════════
+   LAYOUT — Mobile-first
+══════════════════════════════════════ */
+.layout{display:block;min-height:100vh;}
+
+/* ── Mobile header ── */
+.mob-header{
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:300;
+  height:52px;padding:0 16px;
+  background:#fff;
+  border-bottom:2px solid var(--pink-m1);
+  box-shadow:0 2px 10px rgba(249,83,150,0.08);
+}
+.mob-brand{display:flex;align-items:center;gap:9px;}
+.brand-logo{
+  background:linear-gradient(135deg,var(--pink) 0%,#D0206A 100%);
+  color:#fff;font-weight:900;font-size:15px;
+  padding:4px 10px;border-radius:7px;letter-spacing:-0.5px;
+}
+.brand-label{font-size:10.5px;font-weight:700;color:var(--ink-3);line-height:1.3;}
+.mob-hamburger{
+  display:flex;flex-direction:column;gap:4.5px;
+  cursor:pointer;padding:7px;border-radius:6px;
+  background:transparent;border:none;transition:background 0.12s;
+}
+.mob-hamburger:hover{background:var(--pink-m2);}
+.mob-hamburger span{display:block;width:20px;height:2px;background:var(--ink-2);border-radius:2px;transition:all 0.22s cubic-bezier(0.4,0,0.2,1);}
+.mob-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px);background:var(--pink);}
+.mob-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.mob-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px);background:var(--pink);}
+
+/* ── Overlay ── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(24,18,14,0.5);z-index:250;}
+.sidebar-overlay.open{display:block;}
+
+/* ── Sidebar ── */
+.sidebar{
+  position:fixed;top:0;left:0;
+  width:256px;height:100vh;
+  background:#18120E;
+  display:flex;flex-direction:column;
+  z-index:260;
+  transform:translateX(-100%);
+  transition:transform 0.26s cubic-bezier(0.4,0,0.2,1);
+  overflow-y:auto;overflow-x:hidden;
+}
+.sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,0.3);}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:18px 18px 15px;border-bottom:1px solid rgba(255,255,255,0.07);flex-shrink:0;}
+.sidebar-brand .brand-logo{font-size:14px;padding:3px 9px;}
+.sidebar-brand .brand-label{color:rgba(255,255,255,0.45);font-size:10px;line-height:1.4;}
+.nav-section{padding:18px 0 4px;flex-shrink:0;}
+.nav-section-label{display:block;font-size:9px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--pink-0);padding:0 18px 6px;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 18px 9px 16px;
+  cursor:pointer;color:rgba(255,255,255,0.52);
+  font-size:12.5px;font-weight:500;
+  border-left:3px solid transparent;
+  transition:all 0.13s;user-select:none;line-height:1.3;
+}
+.nav-item:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.05);border-left-color:var(--pink-m1);}
+.nav-item.active{color:#fff;background:rgba(249,83,150,0.14);border-left-color:var(--pink);font-weight:700;}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.18);flex-shrink:0;transition:background 0.13s;}
+.nav-item.active .nav-dot{background:var(--pink);box-shadow:0 0 6px var(--pink);}
+.nav-item:hover .nav-dot{background:rgba(255,255,255,0.45);}
+.nav-lbl{flex:1;}
+.sidebar-footer{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0;}
+.version-tag{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,0.22);line-height:1.8;}
+
+/* ── Section / Content ── */
+.section{display:none;padding:24px 16px 40px;}
+.section.active{display:block;}
+
+/* ══════════════════════════════════════
+   COMPONENTS
+══════════════════════════════════════ */
+
+/* ─ Page Header ─ */
+.page-header{margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--border);}
+.page-eyebrow{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.page-title{font-size:22px;font-weight:900;letter-spacing:-0.5px;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.page-desc{font-size:13.5px;color:var(--ink-2);max-width:680px;line-height:1.7;}
+
+/* ─ Stats Row ─ */
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.stat-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;}
+.stat-num{font-size:24px;font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:3px;}
+.stat-lbl{font-size:11.5px;color:var(--ink-3);font-weight:500;}
+.stat-sub{font-size:10px;color:var(--ink-3);margin-top:3px;}
+
+/* ─ Section Headings ─ */
+h2.sh{font-size:16px;font-weight:800;letter-spacing:-0.3px;margin-bottom:14px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+h3.sh3{font-size:13.5px;font-weight:700;margin-bottom:10px;color:var(--ink);}
+
+/* ─ Tags ─ */
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10.5px;font-weight:700;letter-spacing:0.2px;}
+.tag-p1{background:var(--pink-m2);color:var(--pink);}
+.tag-p2{background:#FFF3DC;color:#8B5800;}
+.tag-p3{background:#F0EDE8;color:var(--ink-3);}
+.tag-tofu{background:var(--green-light);color:#0B6130;}
+.tag-mofu{background:var(--blue-light);color:var(--blue);}
+.tag-bofu{background:var(--pink-m2);color:var(--pink);}
+.tag-crisis{background:var(--red-light);color:var(--red);}
+.tag-conv{background:var(--amber-light);color:var(--amber);}
+.tag-new{background:var(--green-light);color:#006B30;border:1.5px dashed var(--green);}
+.tag-review{background:var(--amber-light);color:var(--amber);border:1.5px dashed var(--amber);}
+.tag-content{background:var(--blue-light);color:var(--blue);}
+.tag-trans{background:var(--amber-light);color:var(--amber);}
+.tag-template{background:var(--green-light);color:#006B30;}
+.tag-review{background:var(--amber-light);color:var(--amber);border:1.5px dashed var(--amber);}
+.tag-pseo{background:var(--purple-light);color:var(--purple);}
+.tag-seo{background:var(--teal-light);color:var(--teal);}
+.tag-ai{background:#FFF0E0;color:#8B4000;}
+.tag-ux{background:var(--blue-light);color:var(--blue);}
+.tag-trust{background:var(--green-light);color:var(--green);}
+
+code.url{font-family:'JetBrains Mono',monospace;font-size:11px;background:#F0EDE8;padding:1px 6px;border-radius:4px;color:var(--ink-2);word-break:break-all;}
+
+/* ─ Callout ─ */
+.callout{border-radius:var(--r);padding:13px 16px;margin-bottom:18px;font-size:12.5px;line-height:1.7;}
+.callout-red{background:var(--red-light);border:1px solid #FFD0D0;color:#8B1A1A;}
+.callout-amber{background:var(--amber-light);border:1px solid #FFD0A0;color:#7A3A00;}
+.callout-green{background:var(--green-light);border:1px solid #A0DEB8;color:#0B5020;}
+.callout-blue{background:var(--blue-light);border:1px solid #B0C8FF;color:#0D3080;}
+.callout-purple{background:var(--purple-light);border:1px solid #C0A0FF;color:#4B1080;}
+.callout-title{font-weight:800;margin-bottom:3px;font-size:12.5px;}
+
+/* ─ Verdict bar ─ */
+.verdict-bar{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:24px;display:flex;flex-direction:column;gap:14px;}
+.verdict-score{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;font-weight:900;letter-spacing:-0.5px;}
+.verdict-text{flex:1;}
+.verdict-title{font-size:14px;font-weight:800;margin-bottom:3px;}
+.verdict-desc{font-size:12.5px;color:var(--ink-2);line-height:1.6;}
+
+/* ─ Data Table ─ */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:22px;border-radius:var(--r);}
+.table-scroll .data-table{margin-bottom:0;min-width:540px;}
+.data-table{width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;font-size:12.5px;}
+.data-table thead tr{background:#F0EDE8;}
+.data-table th{padding:9px 12px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-3);border-bottom:1px solid var(--border);}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+.data-table tbody tr:last-child td{border-bottom:none;}
+.data-table tbody tr:hover{background:#FAFAF8;}
+.data-table tbody tr.row-new{background:#F0FFF6;}
+.data-table tbody tr.row-new:hover{background:#E0F5EA;}
+.data-table tbody tr.row-highlight{background:#FFFBF0;}
+
+/* ─ Funnel Flow ─ */
+.funnel-flow{display:flex;flex-direction:column;gap:0;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px;}
+.funnel-stage{flex:1;padding:14px;border-bottom:1px solid var(--border);}
+.funnel-stage:last-child{border-bottom:none;}
+.funnel-stage-label{font-size:9.5px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;}
+.funnel-stage-title{font-size:14px;font-weight:800;margin-bottom:8px;}
+.funnel-stage-items{list-style:none;font-size:12px;color:var(--ink-2);line-height:1.7;}
+.funnel-stage-items li::before{content:"·  ";color:var(--ink-3);}
+.fs-tofu{border-top:3px solid var(--green);}
+.fs-tofu .funnel-stage-label{color:var(--green);}
+.fs-mofu{border-top:3px solid var(--blue);}
+.fs-mofu .funnel-stage-label{color:var(--blue);}
+.fs-bofu{border-top:3px solid var(--pink);}
+.fs-bofu .funnel-stage-label{color:var(--pink);}
+.fs-convert{border-top:3px solid var(--amber);background:linear-gradient(135deg,#FFF8F0,#FFF3E0);}
+.fs-convert .funnel-stage-label{color:var(--amber);}
+
+/* ─ Tree Grid ─ */
+.tree-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:24px;}
+.tree-box{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.tree-box-header{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.tree-box-title{font-size:13px;font-weight:800;}
+.tree-box-url{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-3);margin-top:1px;}
+.tree-body{padding:12px 16px;}
+.tree-item{font-size:11.5px;padding:3px 0;display:flex;align-items:flex-start;gap:6px;color:var(--ink-2);}
+.tree-depth-0{font-weight:600;color:var(--ink);}
+.tree-depth-1{padding-left:12px;}
+.tree-depth-2{padding-left:24px;color:var(--ink-3);font-size:11px;}
+.tree-badge{font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;}
+
+/* ─ Anatomy ─ */
+.anatomy-wrap{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.anatomy-header-row{padding:9px 14px;background:#F0EDE8;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);}
+.anatomy-row{display:flex;flex-direction:column;border-bottom:1px solid var(--border);}
+.anatomy-row:last-child{border-bottom:none;}
+.anatomy-section{padding:9px 14px 4px;background:var(--bg);border-bottom:1px solid var(--border);font-weight:700;font-size:11.5px;color:var(--ink);display:flex;align-items:center;gap:6px;}
+.anatomy-section::before{content:"▸";color:var(--pink);font-size:10px;}
+.anatomy-content{padding:9px 14px;font-size:12px;color:var(--ink-2);line-height:1.6;}
+.anatomy-note{padding:6px 14px 9px;font-size:11px;color:var(--ink-3);line-height:1.5;border-top:1px dashed var(--border);background:var(--bg);}
+
+/* ─ Card ─ */
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:12px;}
+.card-title{font-size:13.5px;font-weight:700;margin-bottom:3px;color:var(--ink);}
+.card-body{font-size:12.5px;color:var(--ink-2);line-height:1.7;}
+
+/* ─ Grids ─ */
+.grid-2{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:22px;}
+.grid-3{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:22px;}
+.grid-4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;}
+
+/* ─ Divider ─ */
+.divider{height:1px;background:var(--border);margin:22px 0;}
+
+/* ─ Progress ─ */
+.progress-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:22px;}
+.progress-label{display:flex;justify-content:space-between;font-size:11.5px;font-weight:600;margin-bottom:7px;}
+.progress-track{height:10px;background:#F0EDE8;border-radius:7px;overflow:hidden;position:relative;}
+.progress-fill{height:100%;border-radius:7px;}
+.progress-marker{position:absolute;top:-4px;height:18px;width:2px;}
+.progress-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:10.5px;color:var(--ink-3);}
+
+/* ─ CS Accordion ─ */
+.cs-page{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:14px;overflow:hidden;}
+.cs-header{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;cursor:pointer;gap:10px;}
+.cs-header:hover{background:var(--bg);}
+.cs-header-left{display:flex;align-items:center;gap:10px;min-width:0;}
+.cs-page-title{font-size:13px;font-weight:700;}
+.cs-toggle{font-size:11px;color:var(--ink-3);transition:transform 0.2s;flex-shrink:0;}
+.cs-toggle.open{transform:rotate(90deg);}
+.cs-body{display:none;border-top:1px solid var(--border);}
+.cs-body.open{display:block;}
+.cs-section{border-bottom:1px solid var(--border);padding:12px 15px;}
+.cs-section:last-child{border-bottom:none;}
+.cs-section-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:7px;}
+.cs-keyword-row{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
+.cs-kw{background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;}
+.cs-component{display:inline-flex;align-items:center;gap:4px;background:var(--amber-light);color:var(--amber);border:1px solid #FFD0A0;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin:2px;}
+.cs-content-block{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 12px;margin-bottom:7px;font-size:12px;}
+.cs-block-title{font-weight:700;margin-bottom:2px;}
+.cs-block-desc{color:var(--ink-2);line-height:1.5;}
+.cs-schema{display:inline-block;background:var(--green-light);color:var(--green);border:1px solid #A0DEB8;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:4px;margin:2px;font-family:'JetBrains Mono',monospace;}
+
+/* ─ Template map / comp-spec ─ */
+.template-map{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:22px;}
+.tm-card{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.tm-header{padding:11px 15px;display:flex;align-items:center;justify-content:space-between;}
+.tm-title{font-size:12.5px;font-weight:800;}
+.tm-count{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.tm-body{padding:11px 15px;background:var(--surface);}
+.tm-url{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-3);margin-bottom:7px;}
+.tm-fields{font-size:12px;color:var(--ink-2);}
+.tm-field{display:flex;gap:6px;margin-bottom:3px;}
+.tm-field::before{content:"→";color:var(--ink-3);flex-shrink:0;}
+
+.comp-spec{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;}
+.comp-spec-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.comp-spec-title{font-size:14px;font-weight:800;}
+.comp-spec-type{font-size:11px;color:var(--ink-3);margin-top:2px;}
+.comp-spec-body{padding:0;}
+.comp-spec-row{display:flex;flex-direction:column;border-bottom:1px solid var(--border);font-size:12.5px;}
+.comp-spec-row:last-child{border-bottom:none;}
+.comp-spec-key{padding:8px 14px 4px;font-weight:700;color:var(--ink-3);font-size:10px;text-transform:uppercase;letter-spacing:0.3px;background:var(--bg);}
+.comp-spec-val{padding:4px 14px 10px;color:var(--ink-2);}
+
+/* ─ Design Principles ─ */
+.dp-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:24px;}
+.dp-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;}
+.dp-card-num{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--ink-3);text-transform:uppercase;margin-bottom:5px;}
+.dp-card-title{font-size:15px;font-weight:800;letter-spacing:-0.3px;margin-bottom:8px;}
+.dp-card-body{font-size:12.5px;color:var(--ink-2);line-height:1.7;}
+.dp-do-dont{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.dp-do{background:var(--green-light);border-radius:6px;padding:8px 10px;font-size:11.5px;}
+.dp-dont{background:var(--red-light);border-radius:6px;padding:8px 10px;font-size:11.5px;}
+.dp-label{font-size:9.5px;font-weight:800;margin-bottom:2px;}
+
+/* ─ Action Items ─ */
+.action-item{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 15px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;}
+.action-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;color:white;}
+.action-body{flex:1;}
+.action-title{font-size:13px;font-weight:700;margin-bottom:2px;}
+.action-desc{font-size:12px;color:var(--ink-2);line-height:1.5;}
+.action-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+
+/* ─ Priority grid ─ */
+.priority-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:22px;}
+.priority-col{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.priority-col-header{padding:10px 14px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.priority-col-body{padding:10px;background:var(--surface);}
+.priority-item{font-size:12px;padding:6px 10px;border-radius:6px;margin-bottom:4px;border:1.5px solid var(--border);background:var(--bg);line-height:1.4;}
+.priority-item b{display:block;font-weight:700;color:var(--ink);}
+.priority-item span{color:var(--ink-3);font-size:11px;}
+.priority-item.new-item{border:1.5px dashed var(--green);background:#F0FFF6;}
+
+/* ─ pSEO block ─ */
+.pseo-wrap{background:linear-gradient(135deg,var(--purple-light),#F8F4FF);border:1.5px solid #C0A0FF;border-radius:var(--r);padding:14px 16px;margin-bottom:14px;}
+.pseo-title{font-size:13px;font-weight:800;color:var(--purple);margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+.pseo-desc{font-size:12px;color:var(--ink-2);line-height:1.6;margin-bottom:8px;}
+.pseo-template-row{display:grid;grid-template-columns:1fr;gap:8px;}
+.pseo-template{background:white;border:1px solid #C0A0FF;border-radius:7px;padding:9px 12px;font-size:12px;}
+.pseo-template-label{font-weight:700;color:var(--purple);margin-bottom:2px;font-size:10px;text-transform:uppercase;}
+.pseo-template-url{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-3);margin-bottom:3px;}
+.pseo-template-vol{font-size:11px;color:var(--ink-3);}
+
+/* ─ Ads Blog Embed ─ */
+.ads-blog-embed{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin:18px 0;background:var(--surface);}
+.ads-blog-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);padding:5px 12px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;}
+.ads-blog-label::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);}
+.ads-blog-banner{padding:14px 16px;display:flex;align-items:center;gap:14px;}
+.ads-blog-icon{width:44px;height:44px;border-radius:9px;background:linear-gradient(135deg,var(--pink),var(--blue));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ads-blog-text{flex:1;}
+.ads-blog-title{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.ads-blog-desc{font-size:11.5px;color:var(--ink-2);line-height:1.5;}
+.ads-blog-cta{background:var(--pink);color:white;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
+.ads-blog-variants{display:grid;grid-template-columns:1fr;gap:12px;padding:0 16px 16px;}
+.ads-blog-variant{border:1.5px solid var(--border);border-radius:8px;overflow:hidden;}
+.ads-blog-variant-header{padding:9px 13px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:space-between;}
+.ads-blog-variant-body{padding:10px 13px;background:var(--surface);font-size:12px;color:var(--ink-2);line-height:1.5;}
+
+/* ─ Page Spec ─ */
+.page-spec{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;}
+.page-spec-header{padding:12px 15px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);cursor:pointer;}
+.page-spec-header:hover{background:var(--bg);}
+.page-spec-url{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink);}
+.page-spec-desc{font-size:12px;color:var(--ink-3);margin-top:2px;}
+.page-spec-body{display:none;}
+.page-spec-body.open{display:block;}
+.page-spec-section{border-bottom:1px solid var(--border);padding:12px 15px;}
+.page-spec-section:last-child{border-bottom:none;}
+.page-spec-section-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:7px;}
+.page-spec-comp-list{display:flex;flex-wrap:wrap;gap:5px;}
+.page-spec-comp{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:5px;}
+.page-spec-comp-required{background:var(--pink-m2);color:var(--pink);border:1px solid var(--pink-m1);}
+.page-spec-comp-optional{background:var(--blue-light);color:var(--blue);border:1px solid #B0C8FF;}
+.comp-order{display:inline-block;width:15px;height:15px;border-radius:3px;background:var(--ink-3);color:white;font-size:9px;font-weight:800;text-align:center;line-height:15px;margin-right:1px;}
+
+/* ─ Palette swatches ─ */
+.palette{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.swatch{width:64px;}
+.swatch-color{height:44px;border-radius:7px;margin-bottom:5px;border:1px solid rgba(0,0,0,0.06);}
+.swatch-name{font-size:10.5px;font-weight:700;color:var(--ink);}
+.swatch-hex{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-3);}
+
+/* ─ Checklist (CL accordion) ─ */
+.cl-product{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:14px;overflow:hidden;}
+.cl-product-header{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer;}
+.cl-product-header:hover{background:var(--bg);}
+.cl-product-icon{font-size:20px;flex-shrink:0;}
+.cl-product-meta{flex:1;min-width:0;}
+.cl-product-name{font-size:13px;font-weight:800;}
+.cl-product-sub{font-size:11px;color:var(--ink-3);margin-top:2px;}
+.cl-product-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0;}
+.cl-product-toggle{font-size:11px;color:var(--ink-3);transition:transform 0.2s;flex-shrink:0;}
+.cl-product-toggle.open{transform:rotate(90deg);}
+.cl-product-body{display:none;border-top:1px solid var(--border);}
+.cl-product-body.open{display:block;}
+.cl-group{padding:12px 15px;border-bottom:1px solid var(--border);}
+.cl-group:last-child{border-bottom:none;}
+.cl-group-title{font-size:10.5px;font-weight:700;color:var(--ink-2);margin-bottom:7px;text-transform:uppercase;letter-spacing:0.5px;}
+.cl-grid{display:grid;grid-template-columns:1fr;gap:4px;}
+.cl-item{display:flex;gap:8px;align-items:flex-start;padding:3px 0;}
+.cl-check{width:13px;height:13px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;margin-top:2px;}
+.cl-item-text{font-size:12px;color:var(--ink-2);line-height:1.5;}
+
+/* ══════════════════════════════════════
+   DESKTOP OVERRIDES  900px+
+══════════════════════════════════════ */
+@media (min-width:900px){
+  .mob-header{display:none;}
+  .sidebar-overlay{display:none !important;}
+  .sidebar{transform:none !important;position:fixed;box-shadow:none;}
+  .layout{margin-left:256px;}
+  .section{padding:36px 44px 48px;}
+  .page-title{font-size:28px;letter-spacing:-1px;}
+  .stat-row{grid-template-columns:repeat(4,1fr);}
+  .funnel-flow{flex-direction:row;}
+  .funnel-stage{border-bottom:none;border-right:1px solid var(--border);}
+  .funnel-stage:last-child{border-right:none;}
+  .tree-grid{grid-template-columns:1fr 1fr;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:1fr 1fr;}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  .anatomy-row{flex-direction:row;}
+  .anatomy-section{width:180px;flex-shrink:0;border-bottom:none;border-right:1px solid var(--border);}
+  .anatomy-section::before{display:none;}
+  .anatomy-content{flex:1;}
+  .anatomy-note{border-top:none;border-left:1px solid var(--border);width:160px;flex-shrink:0;}
+  .verdict-bar{flex-direction:row;align-items:center;}
+  .comp-spec-row{flex-direction:row;}
+  .comp-spec-key{width:130px;flex-shrink:0;padding:10px 14px;border-right:1px solid var(--border);background:var(--bg);}
+  .comp-spec-val{padding:10px 14px;flex:1;}
+  .template-map{grid-template-columns:1fr 1fr;}
+  .dp-grid{grid-template-columns:1fr 1fr;}
+  .priority-grid{grid-template-columns:repeat(3,1fr);}
+  .pseo-template-row{grid-template-columns:1fr 1fr;}
+  .ads-blog-variants{grid-template-columns:1fr 1fr;}
+  .cl-grid{grid-template-columns:1fr 1fr;}
+}
+@media (min-width:1024px){
+  .grid-3{grid-template-columns:1fr 1fr 1fr;}
+  .anatomy-section{width:200px;}
+  .anatomy-note{width:180px;}
+  .pseo-template-row{grid-template-columns:1fr 1fr 1fr;}
+  .stat-num{font-size:28px;}
+}
+</style>
 </head>
-
 <body>
-  <div class="layout">
+<div class="layout">
 
-    <!-- ══════ SIDEBAR ══════ -->
-    <aside class="sidebar">
-      <div class="sidebar-brand">
-        <div class="brand-logo">MoMo</div>
-        <div class="brand-sub">Bảo Hiểm Ô Tô Vật Chất<br>Master Strategy + Review</div>
-      </div>
-      <nav>
-        <div class="nav-section">
-          <div class="nav-label">Tổng quan</div>
-          <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">🗺</span> Overview & Funnel</div>
-          <div class="nav-item" onclick="go('kpi')"><span class="nav-icon">📊</span> KPI & Traffic Analysis</div>
-        </div>
-        <div class="nav-section">
-          <div class="nav-label">Sitemap</div>
-          <div class="nav-item" onclick="go('sitemap-blog')"><span class="nav-icon">📚</span> Content Hub Sitemap</div>
-          <div class="nav-item" onclick="go('sitemap-trans')"><span class="nav-icon">💳</span> Transaction Hub Sitemap
-          </div>
-        </div>
-        <div class="nav-section">
-          <div class="nav-label">Content</div>
-          <div class="nav-item" onclick="go('content-hub')"><span class="nav-icon">📝</span> Cấu Trúc Blog</div>
-          <div class="nav-item" onclick="go('content-structure')"><span class="nav-icon">🧩</span> Content Structure
-          </div>
-        </div>
-        <div class="nav-section">
-          <div class="nav-label">Transaction</div>
-          <div class="nav-item" onclick="go('trans-hub')"><span class="nav-icon">⚙️</span> Template System</div>
-          <div class="nav-item" onclick="go('components')"><span class="nav-icon">🔧</span> Component Specs</div>
-        </div>
-        <div class="nav-section">
-          <div class="nav-label">Expansion</div>
-          <div class="nav-item" onclick="go('pseo')"><span class="nav-icon">🚀</span> pSEO Expansion</div>
-          <div class="nav-item" onclick="go('content-pages')"><span class="nav-icon">📄</span> Content Structure Pages
-          </div>
-          <div class="nav-item" onclick="go('design')"><span class="nav-icon">🎨</span> Design Principles</div>
-          <div class="nav-item" onclick="go('growth')"><span class="nav-icon">📈</span> Growth Tactics</div>
-        </div>
-        <div class="nav-section">
-          <div class="nav-label">Vận hành</div>
-          <div class="nav-item" onclick="go('checklist')"><span class="nav-icon">☑️</span> Checklist Publish</div>
-          <div class="nav-item" onclick="go('actions')"><span class="nav-icon">✅</span> Action Items</div>
-        </div>
-      </nav>
-      <div class="sidebar-footer">
-        <div class="version-tag">v3.0 · March 2026</div>
-        <div class="version-tag">+ Content Pages + Ads Blog</div>
-      </div>
-    </aside>
+<!-- ══ MOBILE HEADER ══ -->
+<header class="mob-header">
+  <div class="mob-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-label">Bảo Hiểm Ô Tô<br>Web Growth Strategy</div>
+  </div>
+  <button class="mob-hamburger" id="hamburger" aria-label="Menu" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
 
-    <main class="content">
+<!-- ══ OVERLAY ══ -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-      <!-- ═══════════════════════════════════ -->
-      <!-- 1. OVERVIEW -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section active" id="s-overview">
-        <div class="page-header">
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-label">Bảo Hiểm Ô Tô<br>Master Strategy v3.0</div>
+  </div>
+  <nav>
+    <div class="nav-section">
+      <span class="nav-section-label">Tổng Quan</span>
+      <div class="nav-item active" onclick="go('overview')"><span class="nav-dot"></span><span class="nav-lbl">Overview &amp; Funnel</span></div>
+      <div class="nav-item" onclick="go('kpi')"><span class="nav-dot"></span><span class="nav-lbl">KPI &amp; Traffic Analysis</span></div>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Sitemap</span>
+      <div class="nav-item" onclick="go('sitemap-blog')"><span class="nav-dot"></span><span class="nav-lbl">Content Hub Sitemap</span></div>
+      <div class="nav-item" onclick="go('sitemap-trans')"><span class="nav-dot"></span><span class="nav-lbl">Transaction Hub Sitemap</span></div>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Content</span>
+      <div class="nav-item" onclick="go('content-hub')"><span class="nav-dot"></span><span class="nav-lbl">Cấu Trúc Blog</span></div>
+      <div class="nav-item" onclick="go('content-structure')"><span class="nav-dot"></span><span class="nav-lbl">Content Structure</span></div>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Transaction</span>
+      <div class="nav-item" onclick="go('trans-hub')"><span class="nav-dot"></span><span class="nav-lbl">Template System</span></div>
+      <div class="nav-item" onclick="go('components')"><span class="nav-dot"></span><span class="nav-lbl">Component Specs</span></div>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Expansion</span>
+      <div class="nav-item" onclick="go('pseo')"><span class="nav-dot"></span><span class="nav-lbl">pSEO Expansion</span></div>
+      <div class="nav-item" onclick="go('content-pages')"><span class="nav-dot"></span><span class="nav-lbl">Content Structure Pages</span></div>
+      <div class="nav-item" onclick="go('design')"><span class="nav-dot"></span><span class="nav-lbl">Design Principles</span></div>
+      <div class="nav-item" onclick="go('growth')"><span class="nav-dot"></span><span class="nav-lbl">Growth Tactics</span></div>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Vận Hành</span>
+      <div class="nav-item" onclick="go('checklist')"><span class="nav-dot"></span><span class="nav-lbl">Checklist Publish</span></div>
+      <div class="nav-item" onclick="go('actions')"><span class="nav-dot"></span><span class="nav-lbl">Action Items</span></div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="version-tag">bao-hiem-o-to.html</div>
+    <div class="version-tag">v3.0 · March 2026</div>
+    <div class="version-tag">SEO &amp; GEO Lead · MoMo</div>
+  </div>
+</aside>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main>
+
+
+<section class="section active" id="s-overview">
+<div class="page-header">
           <div class="page-eyebrow">Master Strategy + Review</div>
           <div class="page-title">Bảo Hiểm Ô Tô Vật Chất — MoMo</div>
           <div class="page-desc">Chiến lược nội dung, sitemap, design principles cho <code
@@ -1615,14 +711,10 @@
             </div>
           </div>
         </div>
-      </section>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 2. KPI -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-kpi">
-        <div class="page-header">
+<section class="section" id="s-kpi">
+<div class="page-header">
           <div class="page-eyebrow">KPI & Traffic Analysis</div>
           <div class="page-title">Kiểm Tra Thực Tế — 200K Traffic/Năm</div>
           <div class="page-desc">BU target 200.000 traffic năm 2026. Q1 thực tế mới đạt 19.000. Bài toán ngược: cần gì
@@ -1645,7 +737,7 @@
         </div>
 
         <h2 class="sh">📊 Traffic Projection</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th>Quarter</th>
@@ -1686,11 +778,10 @@
               <td><span class="tag tag-new">Achievable</span></td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <div class="divider"></div>
         <h2 class="sh">🔍 Search Volume Ceiling — Vertical BH Ô Tô VN</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th>Keyword Cluster</th>
@@ -1740,21 +831,16 @@
               <td style="font-weight:800" colspan="4">Tổng addressable: ~30.000–50.000 searches/tháng toàn VN</td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <div class="callout callout-blue">
           <div class="callout-title">💡 Kết luận</div>
           78 URLs capture ~30-40% traffic share → ~120-180K/năm. Bổ sung pSEO (Hãng+Model + calculator result pages) lên
           130-150 URLs → 200K achievable. Rủi ro lớn nhất: execution chậm miss mùa mưa T5-T10.
         </div>
-      </section>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 3. CONTENT HUB SITEMAP -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-sitemap-blog">
-        <div class="page-header">
+<section class="section" id="s-sitemap-blog">
+<div class="page-header">
           <div class="page-eyebrow">Content Hub Sitemap</div>
           <div class="page-title">Toàn Bộ Blog URLs — Gốc + Bổ Sung</div>
           <div class="page-desc">50–60 bài viết tổ chức thành 7 clusters + 1 pillar page. Các trang <span
@@ -1767,7 +853,7 @@
           audit toàn bộ → redirect 301 → tránh cannibalization. Đây là action item #1.
         </div>
 
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th>URL</th>
@@ -2188,15 +1274,11 @@
               <td><span class="tag tag-p2">P2</span></td>
             </tr>
           </tbody>
-        </table>
-      </section>
+        </table></div>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 4. TRANSACTION HUB SITEMAP -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-sitemap-trans">
-        <div class="page-header">
+<section class="section" id="s-sitemap-trans">
+<div class="page-header">
           <div class="page-eyebrow">Transaction Hub Sitemap</div>
           <div class="page-title">Toàn Bộ Landing Page URLs — Gốc + pSEO</div>
           <div class="page-desc">42 trang gốc + 35-50 trang pSEO expansion (Hãng+Model, Calculator results). 5
@@ -2209,7 +1291,7 @@
           build trang cho số đối tác thực tế — tránh thin content.
         </div>
 
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th>URL</th>
@@ -2584,25 +1666,18 @@
               <td><span class="tag tag-p2">P2</span></td>
             </tr>
           </tbody>
-        </table>
-      </section>
+        </table></div>
+</section>
 
-
-      <!-- Remaining sections: Content Hub, Content Structure, Template, Components, pSEO, Design, Priority, Actions -->
-      <!-- (continued below) -->
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 5. CONTENT HUB STRUCTURE -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-content-hub">
-        <div class="page-header">
+<section class="section" id="s-content-hub">
+<div class="page-header">
           <div class="page-eyebrow">Content Hub</div>
           <div class="page-title">Cấu Trúc Blog — 7 Clusters + Pillar</div>
           <div class="page-desc">50-60 bài viết tổ chức thành 7 clusters + 1 pillar page. Mỗi cluster có internal
             linking riêng và CTA dẫn về Transaction Hub.</div>
         </div>
 
-        <table class="data-table" style="margin-bottom:28px">
+        <div class="table-scroll"><table class="data-table" style="margin-bottom:28px">
           <thead>
             <tr>
               <th>Cluster</th>
@@ -2670,10 +1745,9 @@
               <td>/hang-xe/[brand]/[model], /tinh-phi</td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <h2 class="sh">📅 Seasonal Publishing Calendar</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th>Thời điểm</th>
@@ -2714,15 +1788,11 @@
               <td>SEO organic</td>
             </tr>
           </tbody>
-        </table>
-      </section>
+        </table></div>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 6. CONTENT STRUCTURE -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-content-structure">
-        <div class="page-header">
+<section class="section" id="s-content-structure">
+<div class="page-header">
           <div class="page-eyebrow">Content Structure</div>
           <div class="page-title">Cấu Trúc Nội Dung Chi Tiết</div>
           <div class="page-desc">Cấu trúc chuẩn cho từng loại trang — áp dụng nhất quán để build content nhanh và đảm
@@ -2777,7 +1847,7 @@
                 <div class="cs-block-title">FAQ Section (3–5 Q&A)</div>
                 <div class="cs-block-desc">Schema FAQ markup. Target "People Also Ask" + AI Overviews.</div>
               </div>
-              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-light)">
+              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-m2)">
                 <div class="cs-block-title" style="color:var(--pink)">CTA Block — Bắt buộc cuối bài</div>
                 <div class="cs-block-desc">"Nhập biển số xe để xem ngay gói phù hợp → [Widget hoặc link về /vat-chat/]"
                 </div>
@@ -2826,7 +1896,7 @@
                 <div class="cs-block-title">Checklist / Steps có thể download</div>
                 <div class="cs-block-desc">"5 bước cần làm ngay khi xe bị ngập" — shareable, tăng backlinks</div>
               </div>
-              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-light)">
+              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-m2)">
                 <div class="cs-block-title" style="color:var(--pink)">CTA Urgency</div>
                 <div class="cs-block-desc">"Mùa mưa đã đến — Kiểm tra gói BH của bạn có điều khoản thủy kích chưa → Nhập
                   biển số"</div>
@@ -2867,7 +1937,7 @@
                 <div class="cs-block-title">So sánh quy trình theo đối tác</div>
                 <div class="cs-block-desc">PJICO: 7 ngày · Bảo Việt: 10 ngày · BSH: 5 ngày — dẫn về /doi-tac/</div>
               </div>
-              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-light)">
+              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-m2)">
                 <div class="cs-block-title" style="color:var(--pink)">CTA — Chọn công ty bồi thường nhanh</div>
                 <div class="cs-block-desc">"So sánh tốc độ bồi thường của công ty BH → Nhập xe và chọn gói phù hợp"
                 </div>
@@ -2904,7 +1974,7 @@
                 <div class="cs-block-title">"Chọn [A] nếu..." / "Chọn [B] nếu..."</div>
                 <div class="cs-block-desc">Decision framework rõ ràng theo persona/nhu cầu</div>
               </div>
-              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-light)">
+              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-m2)">
                 <div class="cs-block-title" style="color:var(--pink)">CTA — So sánh giá ngay cho xe của bạn</div>
                 <div class="cs-block-desc">"Nhập biển số → xem giá cả 2 hãng cho xe cụ thể của bạn"</div>
               </div>
@@ -2929,7 +1999,7 @@
           <div class="cs-body open">
             <div class="cs-section">
               <div class="cs-section-label">Vai trò chiến lược</div>
-              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-light)">
+              <div class="cs-content-block" style="border:1.5px solid var(--pink);background:var(--pink-m2)">
                 <div class="cs-block-title" style="color:var(--pink)">Gateway Page — Cửa ngõ toàn bộ vertical BH ô tô
                 </div>
                 <div class="cs-block-desc">Đây là trang rank cho head keyword "bảo hiểm ô tô" (SV 8K-12K/tháng). Vai trò
@@ -3081,7 +2151,7 @@
                   online trong 5 phút."</div>
               </div>
               <div class="cs-content-block"
-                style="border:2px solid var(--pink);background:linear-gradient(135deg,#FFF8F0,var(--pink-light))">
+                style="border:2px solid var(--pink);background:linear-gradient(135deg,#FFF8F0,var(--pink-m2))">
                 <div class="cs-block-title" style="color:var(--pink);font-size:14px">① Hero Section — Primary Conversion
                   Zone</div>
                 <div class="cs-block-desc">
@@ -3402,14 +2472,10 @@
             </div>
           </div>
         </div>
-      </section>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 7. TEMPLATE SYSTEM -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-trans-hub">
-        <div class="page-header">
+<section class="section" id="s-trans-hub">
+<div class="page-header">
           <div class="page-eyebrow">Template System</div>
           <div class="page-title">5 Templates — 80+ Trang</div>
           <div class="page-desc">Dev template một lần, scale bằng JSON config. Thêm trang mới = thêm config, không cần
@@ -3436,12 +2502,12 @@
             </div>
           </div>
           <div class="tm-card">
-            <div class="tm-header" style="background:var(--pink-light)">
+            <div class="tm-header" style="background:var(--pink-m2)">
               <div>
                 <div class="tm-title" style="color:var(--pink)">brand-template</div>
                 <div style="font-size:11px;color:var(--pink);opacity:0.6;font-family:'JetBrains Mono',monospace">
                   /hang-xe/[slug]</div>
-              </div><span class="tm-count" style="background:var(--pink-light);color:var(--pink)">15 trang</span>
+              </div><span class="tm-count" style="background:var(--pink-m2);color:var(--pink)">15 trang</span>
             </div>
             <div class="tm-body">
               <div class="tm-fields">
@@ -3515,14 +2581,10 @@
             </div>
           </div>
         </div>
-      </section>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 8. COMPONENTS -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-components">
-        <div class="page-header">
+<section class="section" id="s-components">
+<div class="page-header">
           <div class="page-eyebrow">Component Specs</div>
           <div class="page-title">Các Component Chính</div>
           <div class="page-desc">Specs chi tiết cho các component tương tác quan trọng nhất — dùng chung toàn bộ
@@ -3635,14 +2697,709 @@
             </div>
           </div>
         </div>
-      </section>
+</section>
 
+<section class="section" id="s-pseo">
+<div class="page-header">
+  <div class="page-eyebrow">pSEO Expansion Plan</div>
+  <div class="page-title">Programmatic SEO — Keyword Pool &amp; Template Spec</div>
+  <div class="page-desc">3 dimensions · 34–41 URLs mới · Mỗi dimension có keyword pool riêng, template riêng, và content spec đủ để build không cần brief lại từ đầu.</div>
+</div>
 
-      <!-- ═══════════════════════════════════ -->
-      <!-- NEW: CONTENT STRUCTURE PAGES -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-content-pages">
-        <div class="page-header">
+<!-- ═══ OVERVIEW TABLE ═══ -->
+<h2 class="sh">📊 Tổng quan 3 Dimensions</h2>
+<div class="table-scroll"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Keyword Pattern</th>
+      <th>Total Vol. ước tính</th>
+      <th>Competition</th>
+      <th>URLs</th>
+      <th>Template</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:700;color:var(--green)">Hãng + Model xe</td>
+      <td>"bảo hiểm [brand] [model]" · "phí bảo hiểm [model]"</td>
+      <td><strong>8.000–15.000</strong> /tháng</td>
+      <td><span class="tag tag-tofu">Rất thấp</span></td>
+      <td><strong>+15–20</strong></td>
+      <td><code class="url">brand-model</code></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:var(--amber)">Tình huống / Rủi ro</td>
+      <td>"bảo hiểm [xe] bị [tình huống]" · "[rủi ro] xe có được bồi thường"</td>
+      <td><strong>12.000–20.000</strong> /tháng</td>
+      <td><span class="tag tag-p2">Thấp–TB</span></td>
+      <td><strong>+8–10</strong></td>
+      <td><code class="url">scenario</code></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:var(--blue)">Đối tác BH</td>
+      <td>"bảo hiểm [partner] ô tô" · "đánh giá [partner] bảo hiểm xe"</td>
+      <td><strong>5.000–9.000</strong> /tháng</td>
+      <td><span class="tag tag-p2">TB</span></td>
+      <td><strong>+11</strong></td>
+      <td><code class="url">partner</code></td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr style="background:#F0EDE8">
+      <td colspan="4" style="font-weight:800">TỔNG addressable từ pSEO</td>
+      <td style="font-weight:800;color:var(--green)">+34–41</td>
+      <td colspan="2" style="color:var(--ink-3);font-size:12px">~25.000–44.000 SV/tháng [CẦN VERIFY Ahrefs]</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<div class="callout callout-blue">
+  <div class="callout-title">💡 Logic pSEO tại MoMo</div>
+  Không phải mọi keyword đều cần trang riêng. Điều kiện apply pSEO: (1) Keyword có search demand độc lập ≥100 SV/tháng, (2) Intent đủ specific để tạo unique content block ≥200 chữ, (3) Template đã validate có conversion trước khi scale. Thiếu một trong ba → không build.
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══ DIMENSION 1: HÃNG + MODEL ═══ -->
+<h2 class="sh">🚗 Dimension 1 — Hãng + Model xe</h2>
+
+<h3 class="sh3">Keyword Pool — Top Models theo Volume</h3>
+<div class="table-scroll"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Hãng</th>
+      <th>Model</th>
+      <th>Keyword chính</th>
+      <th>SV/tháng</th>
+      <th>Keyword phụ</th>
+      <th>SV phụ</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="row-new">
+      <td style="font-weight:700">VinFast</td>
+      <td style="font-weight:600">VF5</td>
+      <td><code class="url">bảo hiểm vinfast vf5</code></td>
+      <td>800–1.200</td>
+      <td>phí bảo hiểm vf5, bảo hiểm xe điện vf5</td>
+      <td>400–600</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr class="row-new">
+      <td style="font-weight:700">VinFast</td>
+      <td style="font-weight:600">VF8</td>
+      <td><code class="url">bảo hiểm vinfast vf8</code></td>
+      <td>600–900</td>
+      <td>phí bảo hiểm vf8, bảo hiểm vf8 bao nhiêu</td>
+      <td>300–500</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Toyota</td>
+      <td style="font-weight:600">Vios</td>
+      <td><code class="url">bảo hiểm toyota vios</code></td>
+      <td>700–1.000</td>
+      <td>phí bảo hiểm vios 2024, bảo hiểm vios bao nhiêu</td>
+      <td>500–700</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Toyota</td>
+      <td style="font-weight:600">Fortuner</td>
+      <td><code class="url">bảo hiểm toyota fortuner</code></td>
+      <td>500–800</td>
+      <td>phí bảo hiểm fortuner, bảo hiểm fortuner 2024</td>
+      <td>300–500</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Hyundai</td>
+      <td style="font-weight:600">Accent</td>
+      <td><code class="url">bảo hiểm hyundai accent</code></td>
+      <td>400–700</td>
+      <td>phí bảo hiểm accent, bảo hiểm accent 2023</td>
+      <td>200–400</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Mazda</td>
+      <td style="font-weight:600">CX-5</td>
+      <td><code class="url">bảo hiểm mazda cx5</code></td>
+      <td>400–600</td>
+      <td>phí bảo hiểm cx5, bảo hiểm mazda cx-5 bao nhiêu</td>
+      <td>200–350</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Ford</td>
+      <td style="font-weight:600">Ranger</td>
+      <td><code class="url">bảo hiểm ford ranger</code></td>
+      <td>350–550</td>
+      <td>phí bảo hiểm ranger bán tải, bảo hiểm ranger 2024</td>
+      <td>200–300</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">KIA</td>
+      <td style="font-weight:600">Seltos</td>
+      <td><code class="url">bảo hiểm kia seltos</code></td>
+      <td>300–500</td>
+      <td>phí bảo hiểm seltos, bảo hiểm seltos bao nhiêu</td>
+      <td>150–250</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Honda</td>
+      <td style="font-weight:600">CR-V</td>
+      <td><code class="url">bảo hiểm honda crv</code></td>
+      <td>300–500</td>
+      <td>phí bảo hiểm crv, bảo hiểm honda crv 2024</td>
+      <td>150–250</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">VinFast</td>
+      <td style="font-weight:600">VF3</td>
+      <td><code class="url">bảo hiểm vinfast vf3</code></td>
+      <td>250–450</td>
+      <td>phí bảo hiểm vf3, bảo hiểm vf3 bao nhiêu tiền</td>
+      <td>150–250</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr style="background:#F0EDE8">
+      <td colspan="5" style="font-weight:800">Tổng Top 10 models</td>
+      <td style="font-weight:800;color:var(--green)">~5.100–8.200</td>
+      <td><span class="tag tag-new">SV/tháng</span></td>
+    </tr>
+  </tbody>
+</table></div>
+
+<div class="callout callout-amber">
+  <div class="callout-title">⚠️ Số liệu volume</div>
+  Ước tính từ benchmark tương tự + pattern search "bảo hiểm + [brand]". <strong>Cần verify lại bằng Ahrefs/GSC trước khi prioritize build order.</strong> Các model xe mới ra (VF3, VF6, VF7) có volume thấp hiện tại nhưng trend tăng — ưu tiên build sớm để capture khi volume peak.
+</div>
+
+<!-- Template Spec - Hãng Model -->
+<h3 class="sh3">Template Spec — <code class="url">brand-model-template</code></h3>
+<div class="anatomy-wrap">
+  <div class="anatomy-header-row">URL · Title · Meta · H1 · Content Block — Pattern chuẩn cho mọi trang model xe</div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">URL Pattern</div>
+    <div class="anatomy-content">
+      <code class="url">/bao-hiem-o-to/vat-chat/hang-xe/{brand-slug}/{model-slug}</code><br>
+      <span style="font-size:12px;color:var(--ink-3);margin-top:4px;display:block">VD: <code class="url">/bao-hiem-o-to/vat-chat/hang-xe/vinfast/vf5</code> · <code class="url">/hang-xe/toyota/vios</code></span>
+      <span style="font-size:12px;color:var(--ink-3)">Rule: lowercase, gạch ngang, không dấu. brand-slug = "vinfast" / "toyota" / "hyundai". model-slug = "vf5" / "vios" / "cx5".</span>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Canonical self-ref. Breadcrumb 4 cấp.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Title Tag</div>
+    <div class="anatomy-content">
+      <strong>Formula:</strong> <code class="url">Bảo Hiểm {Brand} {Model} {Năm} — So Sánh Phí & Mua Online | MoMo</code><br>
+      <span style="font-size:12px;color:var(--ink-3)">VD: "Bảo Hiểm VinFast VF5 2024 — So Sánh Phí &amp; Mua Online | MoMo"</span><br>
+      <span style="font-size:12px;color:var(--ink-3)">Độ dài target: ≤60 ký tự. Nếu tên model dài → bỏ năm: "Bảo Hiểm Toyota Fortuner — So Sánh Phí | MoMo"</span>
+    </div>
+    <div class="anatomy-note">≤60 chars. Keyword chính ở đầu.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Meta Description</div>
+    <div class="anatomy-content">
+      <strong>Formula:</strong> <code class="url">Phí bảo hiểm {Model} từ {X}–{Y} triệu/năm. So sánh {N}+ gói từ các hãng BH. Nhập biển số xem giá chính xác — mua online qua MoMo.</code><br>
+      <span style="font-size:12px;color:var(--ink-3)">VD: "Phí bảo hiểm VF5 từ 4–8 triệu/năm. So sánh 11 gói từ các hãng BH. Nhập biển số xem giá chính xác — mua online qua MoMo."</span>
+    </div>
+    <div class="anatomy-note">≤155 chars. CTA + số cụ thể.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">H1</div>
+    <div class="anatomy-content">
+      <strong>Formula:</strong> <code class="url">Bảo Hiểm {Brand} {Model} — Phí & Gói Phù Hợp {Năm}</code><br>
+      <span style="font-size:12px;color:var(--ink-3)">VD: "Bảo Hiểm VinFast VF5 — Phí &amp; Gói Phù Hợp 2026"</span><br>
+      <span style="font-size:12px;color:var(--ink-3)">Khác title tag. H1 không cần "MoMo" — để tự nhiên.</span>
+    </div>
+    <div class="anatomy-note">Unique. ≤70 chars.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">AEO Snippet</div>
+    <div class="anatomy-content">
+      <strong>Formula (40–60 chữ, đặt trước H1):</strong><br>
+      <em>"Phí bảo hiểm vật chất {Model} dao động {X}–{Y} triệu/năm tùy năm sản xuất và gói chọn. Xe {đặc điểm: điện/bán tải/SUV} có {lưu ý đặc thù}. So sánh từ {N} hãng BH tại MoMo."</em><br>
+      <span style="font-size:12px;color:var(--ink-3);margin-top:4px;display:block">VD VF5: "Phí bảo hiểm vật chất VinFast VF5 dao động 4–8 triệu/năm tùy năm sản xuất. Xe điện có đặc thù riêng về bảo hiểm pin. So sánh từ 11 hãng BH tại MoMo."</span>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-ai">GEO</span> Đặt TRƯỚC mục lục. Format: trả lời thẳng.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Bảng phí năm SX</div>
+    <div class="anatomy-content">
+      <strong>Unique data block — bắt buộc, không thể copy từ brand page cha:</strong><br>
+      <span style="font-size:12px;color:var(--ink-2)">Bảng 5 hàng × 3 cột: Năm SX | Giá trị xe ước tính | Phí BH vật chất ước tính (0.8–1.2% × giá xe). Ví dụ VF5:</span>
+      <div style="margin-top:8px;font-size:11.5px;background:var(--bg);border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace;color:var(--ink-2)">
+        2024 | ~480tr   | 3.8–5.8 triệu/năm<br>
+        2023 | ~460tr   | 3.7–5.5 triệu/năm<br>
+        2022 | ~440tr   | 3.5–5.3 triệu/năm
+      </div>
+      <span style="font-size:11.5px;color:var(--ink-3);margin-top:5px;display:block">Formula phí = Giá xe × 0.8% (gói cơ bản) đến × 1.2% (gói mở rộng). Ghi rõ "(ước tính — phụ thuộc hãng BH và điều kiện xe)".</span>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Unique data. Google ưu tiên cite trang có bảng phí structured.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Content body</div>
+    <div class="anatomy-content">
+      <strong>≥300 chữ unique — cấu trúc chuẩn:</strong>
+      <div style="margin-top:8px;font-size:12px;color:var(--ink-2);line-height:1.8">
+        <strong>H2 1:</strong> {Brand} {Model} — Đặc điểm ảnh hưởng đến phí BH<br>
+        → Phân khúc + giá bán TB + đặc thù (xe điện / bán tải / SUV / sedan)<br>
+        → Lưu ý bảo hiểm riêng: xe điện cần điều khoản pin; xe bán tải phí cao hơn 15–20%<br><br>
+        <strong>H2 2:</strong> Chủ {Model} thường chọn gói nào?<br>
+        → Data từ MoMo (nếu có): top 3 gói bán chạy nhất cho model này<br>
+        → Gợi ý theo mức dùng: cá nhân / xe gia đình / xe trả góp<br><br>
+        <strong>H2 3:</strong> So sánh phí BH {Model} từ các hãng<br>
+        → Trigger form báo giá (pre-fill Brand + Model)<br>
+        → Comparison table gọi API hoặc static data<br>
+      </div>
+    </div>
+    <div class="anatomy-note">≥300 chữ. KHÔNG duplicate từ brand page. Cite model-specific data.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">FAQ (Schema)</div>
+    <div class="anatomy-content">
+      <strong>5–7 Q&amp;A đặc thù model — KHÔNG copy từ brand page:</strong>
+      <div style="margin-top:8px;font-size:12px;color:var(--ink-2);line-height:1.8">
+        Q1: "Phí bảo hiểm {Model} {Năm hiện tại} là bao nhiêu?"<br>
+        Q2: "Chủ {Model} thường chọn gói BH nào?"<br>
+        Q3: "BH {Model} có bao gồm kính không?"<br>
+        Q4: "{Lưu ý đặc thù model — VD: 'Xe điện VF5 có cần BH pin riêng?'}"<br>
+        Q5: "Mua BH {Model} qua MoMo có ưu đãi gì?"
+      </div>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-ai">FAQPage</span> Schema bắt buộc. Unique per model.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Internal links</div>
+    <div class="anatomy-content">
+      4 chiều bắt buộc:<br>
+      <span style="font-size:12px;color:var(--ink-2)">
+        ↑ Brand page cha: <code class="url">/hang-xe/{brand}</code><br>
+        ↔ Siblings: 3–4 model khác cùng hãng<br>
+        → Blog: bài "BH {Brand} {Model} nên mua gói nào?" (nếu có)<br>
+        → Đối tác: trang partner BH phổ biến nhất cho model này
+      </span>
+    </div>
+    <div class="anatomy-note">Min 4 links ra. BreadcrumbList schema.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">JSON Config</div>
+    <div class="anatomy-content">
+      <strong>Mỗi model = 1 JSON config. Dev không cần touch code khi thêm model mới:</strong>
+      <div style="margin-top:8px;font-size:11px;background:#1E1410;color:#E0D8D0;border-radius:7px;padding:12px 14px;font-family:'JetBrains Mono',monospace;line-height:1.8">
+        {<br>
+        &nbsp;&nbsp;"brand": "VinFast", "brandSlug": "vinfast",<br>
+        &nbsp;&nbsp;"model": "VF5", "modelSlug": "vf5",<br>
+        &nbsp;&nbsp;"segment": "xe-dien", "seats": 5,<br>
+        &nbsp;&nbsp;"priceRange": [420, 500], <span style="color:#8C7D74">// triệu VND</span><br>
+        &nbsp;&nbsp;"yearRange": [2022, 2025],<br>
+        &nbsp;&nbsp;"fuelType": "electric",<br>
+        &nbsp;&nbsp;"specialNotes": ["pin-xe-dien", "khong-thuy-kich"],<br>
+        &nbsp;&nbsp;"priceTable": [<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{"year":2024,"carValue":480,"feeMin":3.8,"feeMax":5.8}<br>
+        &nbsp;&nbsp;],<br>
+        &nbsp;&nbsp;"popularPartners": ["pjico","bao-viet","bsh"],<br>
+        &nbsp;&nbsp;"faq": [{"q":"...","a":"..."}],<br>
+        &nbsp;&nbsp;"relatedModels": ["vf3","vf6","vf7","vf8"]<br>
+        }
+      </div>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-pseo">pSEO</span> 1 JSON = 1 trang. Scale không cần dev.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══ DIMENSION 2: TÌNH HUỐNG ═══ -->
+<h2 class="sh">⚠️ Dimension 2 — Tình Huống / Rủi Ro</h2>
+
+<h3 class="sh3">Keyword Pool — 8 Tình Huống Chính</h3>
+<div class="table-scroll"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Tình huống</th>
+      <th>Keyword chính</th>
+      <th>SV/tháng</th>
+      <th>Keyword phụ</th>
+      <th>Intent</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:700">💧 Ngập nước / Thủy kích</td>
+      <td><code class="url">bảo hiểm xe ngập nước</code></td>
+      <td>2.500–4.000</td>
+      <td>bảo hiểm thủy kích, xe ngập nước bồi thường bao nhiêu</td>
+      <td><span class="tag tag-crisis">CRISIS</span></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">💥 Va chạm / Tai nạn</td>
+      <td><code class="url">bảo hiểm va chạm ô tô</code></td>
+      <td>1.500–2.500</td>
+      <td>bảo hiểm tai nạn giao thông, đâm xe bảo hiểm đền không</td>
+      <td><span class="tag tag-crisis">CRISIS</span></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">🌪️ Thiên tai (bão lũ cây đổ)</td>
+      <td><code class="url">bảo hiểm xe thiên tai</code></td>
+      <td>1.200–2.000</td>
+      <td>xe bị cây đổ bảo hiểm, bão lũ xe bị hỏng bảo hiểm</td>
+      <td><span class="tag tag-crisis">CRISIS</span></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">🔑 Mất cắp phụ tùng</td>
+      <td><code class="url">bảo hiểm mất cắp phụ tùng xe</code></td>
+      <td>800–1.400</td>
+      <td>gương xe bị vặt bảo hiểm, logo xe bị trộm bảo hiểm</td>
+      <td><span class="tag tag-mofu">MOFU</span></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">🚗 Trộm toàn bộ xe</td>
+      <td><code class="url">bảo hiểm mất cắp xe ô tô</code></td>
+      <td>700–1.200</td>
+      <td>xe bị trộm bảo hiểm bồi thường, trộm xe bảo hiểm đền bao nhiêu</td>
+      <td><span class="tag tag-mofu">MOFU</span></td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">🔥 Cháy nổ</td>
+      <td><code class="url">bảo hiểm cháy nổ xe ô tô</code></td>
+      <td>500–900</td>
+      <td>xe bị cháy bảo hiểm đền không, bảo hiểm chập điện xe</td>
+      <td><span class="tag tag-mofu">MOFU</span></td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">⚡ Xe điện đặc thù</td>
+      <td><code class="url">bảo hiểm xe điện ô tô</code></td>
+      <td>800–1.300</td>
+      <td>bảo hiểm pin xe điện, bảo hiểm vinfast xe điện</td>
+      <td><span class="tag tag-bofu">BOFU</span></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">💳 Xe trả góp</td>
+      <td><code class="url">bảo hiểm xe trả góp ngân hàng</code></td>
+      <td>600–1.000</td>
+      <td>bảo hiểm xe vay ngân hàng bắt buộc, xe trả góp cần mua bảo hiểm gì</td>
+      <td><span class="tag tag-bofu">BOFU</span></td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr style="background:#F0EDE8">
+      <td colspan="2" style="font-weight:800">Tổng 8 tình huống</td>
+      <td style="font-weight:800;color:var(--green)">8.600–14.300</td>
+      <td colspan="3" style="color:var(--ink-3);font-size:12px">SV/tháng [CẦN VERIFY Ahrefs]</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<!-- Template Spec - Tình huống -->
+<h3 class="sh3">Template Spec — <code class="url">scenario-template</code></h3>
+<div class="anatomy-wrap">
+  <div class="anatomy-header-row">URL · Title · H1 · Content Block — Pattern chuẩn cho trang tình huống / rủi ro</div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">URL Pattern</div>
+    <div class="anatomy-content">
+      <code class="url">/bao-hiem-o-to/vat-chat/tinh-huong/{scenario-slug}</code><br>
+      <span style="font-size:12px;color:var(--ink-3);margin-top:4px;display:block">VD: <code class="url">/tinh-huong/ngap-nuoc</code> · <code class="url">/tinh-huong/va-cham</code> · <code class="url">/tinh-huong/xe-dien</code></span>
+    </div>
+    <div class="anatomy-note">Breadcrumb 3 cấp. Canonical self-ref.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Title Tag</div>
+    <div class="anatomy-content">
+      <strong>Formula:</strong> <code class="url">Bảo Hiểm Ô Tô {Tình Huống} — Điều Khoản & So Sánh Gói | MoMo</code><br>
+      <span style="font-size:12px;color:var(--ink-3)">VD: "Bảo Hiểm Ô Tô Ngập Nước — Điều Khoản &amp; So Sánh Gói | MoMo"</span><br>
+      <span style="font-size:12px;color:var(--ink-3)">Crisis pages: thêm urgency → "Xe Bị Ngập Nước — BH Bồi Thường Thế Nào? | MoMo"</span>
+    </div>
+    <div class="anatomy-note">≤60 chars. Crisis → urgency tone.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">AEO Snippet</div>
+    <div class="anatomy-content">
+      <strong>Formula (40–60 chữ):</strong><br>
+      <em>"Bảo hiểm vật chất ô tô {có/không} bồi thường khi {tình huống} nếu {điều kiện}. {Lưu ý điều khoản quan trọng nhất}. Kiểm tra gói BH của bạn tại MoMo."</em><br>
+      <span style="font-size:12px;color:var(--ink-3);margin-top:4px;display:block">VD ngập nước: "Bảo hiểm vật chất có điều khoản thủy kích sẽ bồi thường khi xe ngập nước do mưa lũ. Không có điều khoản này → KHÔNG bồi thường. Kiểm tra gói BH của bạn tại MoMo."</span>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-ai">GEO</span> Direct answer. Không dùng "có thể" hay "tuỳ".</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Content body</div>
+    <div class="anatomy-content">
+      <strong>≥400 chữ — cấu trúc chuẩn crisis page:</strong>
+      <div style="margin-top:8px;font-size:12px;color:var(--ink-2);line-height:1.8">
+        <strong>H2 1:</strong> {Tình huống} — BH vật chất có bồi thường không?<br>
+        → Trả lời thẳng YES/NO/DEPENDS với điều kiện cụ thể<br>
+        → Cite điều khoản cụ thể (Điều khoản bổ sung, Nghị định 67/2023)<br><br>
+        <strong>H2 2:</strong> Điều kiện để được bồi thường<br>
+        → Checklist: cần có gói gì, cần xuất trình gì, thời hạn khai báo<br><br>
+        <strong>H2 3:</strong> Quy trình xử lý khi gặp {tình huống}<br>
+        → 4–5 bước cụ thể: chụp ảnh → khai báo → giám định → nhận bồi thường<br><br>
+        <strong>H2 4:</strong> So sánh gói BH cover {tình huống} này<br>
+        → Trigger Comparison Table (filter sẵn theo điều khoản liên quan)
+      </div>
+    </div>
+    <div class="anatomy-note">LCP &lt;2.0s. Không animation hero. Crisis = fast load.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">FAQ Schema</div>
+    <div class="anatomy-content">
+      <strong>5 Q&amp;A đặc thù tình huống:</strong>
+      <div style="margin-top:6px;font-size:12px;color:var(--ink-2);line-height:1.8">
+        Q1: "{Tình huống} BH vật chất có đền không?"<br>
+        Q2: "Cần làm gì ngay khi {tình huống}?"<br>
+        Q3: "BH không có điều khoản {X} thì sao?"<br>
+        Q4: "Thời hạn khai báo tai nạn là bao lâu?"<br>
+        Q5: "Claim online qua MoMo được không?"
+      </div>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-ai">FAQPage</span> Schema. Target PAA Google.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══ DIMENSION 3: ĐỐI TÁC ═══ -->
+<h2 class="sh">🏢 Dimension 3 — Đối Tác Bảo Hiểm</h2>
+
+<h3 class="sh3">Keyword Pool — 11 Đối Tác</h3>
+<div class="table-scroll"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Đối tác</th>
+      <th>Keyword chính</th>
+      <th>SV/tháng</th>
+      <th>Keyword phụ</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:700">PJICO</td>
+      <td><code class="url">bảo hiểm PJICO ô tô</code></td>
+      <td>1.200–2.000</td>
+      <td>PJICO có uy tín không, đánh giá bảo hiểm PJICO xe, mua PJICO qua MoMo</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Bảo Việt</td>
+      <td><code class="url">bảo hiểm Bảo Việt ô tô</code></td>
+      <td>1.000–1.800</td>
+      <td>Bảo Việt bồi thường nhanh không, đánh giá Bảo Việt xe</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">BSH</td>
+      <td><code class="url">bảo hiểm BSH ô tô</code></td>
+      <td>400–700</td>
+      <td>BSH ô tô uy tín không, phí BH BSH xe</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">MIC</td>
+      <td><code class="url">bảo hiểm MIC ô tô</code></td>
+      <td>300–600</td>
+      <td>MIC quân đội bảo hiểm xe, đánh giá BH MIC</td>
+      <td><span class="tag tag-p1">P1</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">PTI</td>
+      <td><code class="url">bảo hiểm PTI ô tô</code></td>
+      <td>300–500</td>
+      <td>PTI bảo hiểm xe có tốt không, phí BH PTI</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">VBI</td>
+      <td><code class="url">bảo hiểm VBI ô tô</code></td>
+      <td>250–450</td>
+      <td>VBI bảo hiểm Vietinbank xe, đánh giá VBI</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">ABIC</td>
+      <td><code class="url">bảo hiểm ABIC ô tô</code></td>
+      <td>200–400</td>
+      <td>ABIC Agribank bảo hiểm xe, phí BH ABIC</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">BIC</td>
+      <td><code class="url">bảo hiểm BIC ô tô</code></td>
+      <td>200–350</td>
+      <td>BIC BIDV bảo hiểm xe, đánh giá BH BIC</td>
+      <td><span class="tag tag-p2">P2</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">TIC</td>
+      <td><code class="url">bảo hiểm TIC ô tô</code></td>
+      <td>150–300</td>
+      <td>TIC bảo hiểm tiền giang, phí BH TIC</td>
+      <td><span class="tag tag-p3">P3</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">Fubon</td>
+      <td><code class="url">bảo hiểm Fubon ô tô</code></td>
+      <td>150–280</td>
+      <td>Fubon insurance xe hơi, bảo hiểm Fubon có tốt không</td>
+      <td><span class="tag tag-p3">P3</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight:700">VNI</td>
+      <td><code class="url">bảo hiểm VNI ô tô</code></td>
+      <td>150–250</td>
+      <td>VNI bảo hiểm xe, đánh giá bảo hiểm VNI</td>
+      <td><span class="tag tag-p3">P3</span></td>
+    </tr>
+    <tr style="background:#F0EDE8">
+      <td colspan="2" style="font-weight:800">Tổng 11 đối tác</td>
+      <td style="font-weight:800;color:var(--green)">4.300–7.600</td>
+      <td colspan="2" style="color:var(--ink-3);font-size:12px">SV/tháng [CẦN VERIFY Ahrefs]</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<!-- Template Spec - Partner -->
+<h3 class="sh3">Template Spec — <code class="url">partner-template</code></h3>
+<div class="anatomy-wrap">
+  <div class="anatomy-header-row">URL · Title · H1 · Content Block — Pattern chuẩn cho trang đối tác BH</div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">URL Pattern</div>
+    <div class="anatomy-content">
+      <code class="url">/bao-hiem-o-to/vat-chat/doi-tac/{partner-slug}</code><br>
+      <span style="font-size:12px;color:var(--ink-3);margin-top:4px;display:block">VD: <code class="url">/doi-tac/pjico</code> · <code class="url">/doi-tac/bao-viet</code> · <code class="url">/doi-tac/bsh</code></span>
+    </div>
+    <div class="anatomy-note">Breadcrumb 3 cấp. No-follow outbound links đến site đối tác.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Title Tag</div>
+    <div class="anatomy-content">
+      <strong>Formula:</strong> <code class="url">Bảo Hiểm {Partner} Ô Tô — Đánh Giá & Mua Ngay | MoMo</code><br>
+      <span style="font-size:12px;color:var(--ink-3)">VD: "Bảo Hiểm PJICO Ô Tô — Đánh Giá &amp; Mua Ngay | MoMo"</span>
+    </div>
+    <div class="anatomy-note">≤60 chars. Brand name đối tác ở đầu.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">AEO Snippet</div>
+    <div class="anatomy-content">
+      <strong>Formula (40–60 chữ):</strong><br>
+      <em>"{Partner} là công ty bảo hiểm {X} với {N} garage liên kết toàn quốc. Rating {điểm}/5 từ {K} người dùng MoMo. Phí bảo hiểm ô tô vật chất từ {X} triệu/năm."</em>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-ai">GEO</span> Fact-based. Không dùng "uy tín hàng đầu" nếu không có data.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">Honest Pros/Cons</div>
+    <div class="anatomy-content">
+      <strong>Bắt buộc — Design Principle #06. Không được inflate tất cả lên "tốt":</strong>
+      <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+        <div style="background:var(--green-light);border-radius:6px;padding:8px 10px;">
+          <div style="font-weight:700;color:var(--green);margin-bottom:4px;font-size:10.5px">✅ ĐIỂM MẠNH</div>
+          Từ data thực: tốc độ BT, số garage, rating, điều khoản đặc thù
+        </div>
+        <div style="background:var(--red-light);border-radius:6px;padding:8px 10px;">
+          <div style="font-weight:700;color:var(--red);margin-bottom:4px;font-size:10.5px">⚠️ HẠN CHẾ</div>
+          Từ review thực: form claim phức tạp, ít garage tỉnh lẻ, phí cao
+        </div>
+      </div>
+    </div>
+    <div class="anatomy-note">E-E-A-T critical. Honest review = trust ×3.</div>
+  </div>
+
+  <div class="anatomy-row">
+    <div class="anatomy-section">JSON Config</div>
+    <div class="anatomy-content">
+      <div style="font-size:11px;background:#1E1410;color:#E0D8D0;border-radius:7px;padding:12px 14px;font-family:'JetBrains Mono',monospace;line-height:1.8">
+        {<br>
+        &nbsp;&nbsp;"partnerCode": "pjico", "partnerName": "PJICO",<br>
+        &nbsp;&nbsp;"logo": "/assets/partners/pjico.svg",<br>
+        &nbsp;&nbsp;"garageCount": 350, "hotline": "1900-xxxx",<br>
+        &nbsp;&nbsp;"rating": 4.3, "reviewCount": 1240,<br>
+        &nbsp;&nbsp;"claimSpeed": "3–5 ngày làm việc",<br>
+        &nbsp;&nbsp;"strengths": ["Phí cạnh tranh","Bồi thường nhanh"],<br>
+        &nbsp;&nbsp;"weaknesses": ["Ít garage tỉnh lẻ"],<br>
+        &nbsp;&nbsp;"packages": [{...}],<br>
+        &nbsp;&nbsp;"faq": [{...}]<br>
+        }
+      </div>
+    </div>
+    <div class="anatomy-note"><span class="tag tag-pseo">pSEO</span> 1 JSON = 1 partner page.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══ BUILD ORDER ═══ -->
+<h2 class="sh">🗓 Build Order — Theo ROI</h2>
+<div class="grid-3">
+  <div class="card" style="border-top:3px solid var(--red)">
+    <div class="card-title" style="color:var(--red)">Phase 1 — Làm ngay</div>
+    <div class="card-body">
+      <strong>Tình huống crisis:</strong> Ngập nước, Va chạm, Thiên tai (SV cao + competition thấp)<br><br>
+      <strong>Top model xe:</strong> VF5, VF8, Vios, Fortuner, Accent (volume &gt;500 SV/tháng)<br><br>
+      <strong>2 partner lớn:</strong> PJICO + Bảo Việt (volume cao nhất)<br><br>
+      <span style="font-size:11.5px;color:var(--ink-3)">→ ~15 trang · ~2 tuần build</span>
+    </div>
+  </div>
+  <div class="card" style="border-top:3px solid var(--amber)">
+    <div class="card-title" style="color:var(--amber)">Phase 2 — Sau 4 tuần</div>
+    <div class="card-body">
+      <strong>Tình huống còn lại:</strong> Mất cắp PhuTung, Trộm xe, Xe điện, Xe trả góp<br><br>
+      <strong>Model xe tiếp:</strong> CX-5, Ranger, Seltos, CR-V, VF3<br><br>
+      <strong>Partner tier 2:</strong> BSH, MIC, PTI, VBI, ABIC, BIC<br><br>
+      <span style="font-size:11.5px;color:var(--ink-3)">→ ~20 trang · ~3 tuần build</span>
+    </div>
+  </div>
+  <div class="card" style="border-top:3px solid var(--green)">
+    <div class="card-title" style="color:var(--green)">Phase 3 — Scale</div>
+    <div class="card-body">
+      <strong>Long tail models:</strong> Xpander, Outlander, Santa Fe, Tucson<br><br>
+      <strong>Partner tier 3:</strong> TIC, Fubon, VNI<br><br>
+      <strong>Xe TQ / luxury:</strong> Haval H6, MG ZS, Mercedes C-Class (AOV cao)<br><br>
+      <span style="font-size:11.5px;color:var(--ink-3)">→ ~15 trang · Ongoing</span>
+    </div>
+  </div>
+</div>
+
+<div class="callout callout-amber">
+  <div class="callout-title">⚠️ Quality Guard — Anti Thin Content</div>
+  Mỗi trang pSEO cần pass đủ 3 gate trước khi publish: (1) <strong>Unique content block ≥300 chữ</strong> — không copy từ trang cha, (2) <strong>Unique data</strong> — bảng phí theo năm SX, số garage, rating thực, (3) <strong>FAQ unique ≥5 Q&amp;A</strong> — không trùng với trang model khác. Thiếu 1 trong 3 → noindex tạm, bổ sung rồi mới index.
+</div>
+</section>
+
+<section class="section" id="s-content-pages">
+<div class="page-header">
           <div class="page-eyebrow">Content Structure — Page by Page</div>
           <div class="page-title">Cấu Trúc Nội Dung Từng Trang</div>
           <div class="page-desc">Spec chi tiết sections và components cho từng trang trong sitemap — từ trang chủ BH đến
@@ -4204,74 +3961,10 @@
             </div>
           </div>
         </div>
+</section>
 
-      </section>
-
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 9. pSEO EXPANSION -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-pseo">
-        <div class="page-header">
-          <div class="page-eyebrow">pSEO Expansion Plan</div>
-          <div class="page-title">Mở Rộng Programmatic — Từ 78 → 160+ URLs</div>
-          <div class="page-desc">Lever lớn nhất để bridge gap traffic. Dùng lại template system có sẵn + 2 template mới.
-          </div>
-        </div>
-
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Dimension</th>
-              <th>Variables</th>
-              <th>Trang mới</th>
-              <th>Template</th>
-              <th>Effort</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="font-weight:700">Hãng + Model xe</td>
-              <td>VF5, VF8, Vios, Fortuner, Accent, CX-5, Ranger, Xpander...</td>
-              <td><strong style="color:var(--green)">+15–20</strong></td>
-              <td><code class="url">hãng-model</code></td>
-              <td><span class="tag tag-tofu">Thấp</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight:700">Tình huống (tinh-huong)</td>
-              <td>Ngập nước, va chạm, thiên tai, cháy nổ, trộm cắp...</td>
-              <td><strong style="color:var(--blue)">+8–10</strong></td>
-              <td><code class="url">scenario</code></td>
-              <td><span class="tag tag-tofu">Thấp</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight:700">Đối tác (doi-tac)</td>
-              <td>PJICO, Bảo Việt, BSH, MIC, PTI, VBI, ABIC, BIC, TIC...</td>
-              <td><strong style="color:var(--blue)">+11</strong></td>
-              <td><code class="url">partner</code></td>
-              <td><span class="tag tag-p2">TB</span></td>
-            </tr>
-            <tr style="background:#F0EDE8">
-              <td style="font-weight:800" colspan="2">TỔNG pSEO EXPANSION</td>
-              <td style="font-weight:800;color:var(--green)">+34–41</td>
-              <td colspan="2">42 gốc → 76-83 URLs Transaction Hub</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="callout callout-amber">
-          <div class="callout-title">⚠️ Quality Guard cho pSEO</div>
-          Mỗi trang pSEO cần unique content block ≥200-300 chữ: thống kê tai nạn/ngập local, danh sách garage liên kết,
-          lưu ý đặc thù model xe. Dùng AI + editorial review. Không để Google classify thin content.
-        </div>
-      </section>
-
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 10. DESIGN PRINCIPLES -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-design">
-        <div class="page-header">
+<section class="section" id="s-design">
+<div class="page-header">
           <div class="page-eyebrow">Design Principles</div>
           <div class="page-title">Nguyên Tắc Thiết Kế</div>
           <div class="page-desc">8 nguyên tắc cốt lõi + copywriting principles.</div>
@@ -4383,14 +4076,10 @@
             </div>
           </div>
         </div>
-      </section>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 11. GROWTH TACTICS -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-growth">
-        <div class="page-header">
+<section class="section" id="s-growth">
+<div class="page-header">
           <div class="page-eyebrow">Growth Tactics</div>
           <div class="page-title">📈 Tactics Tăng Traffic, OnPage & Conversion</div>
           <div class="page-desc">7 tactics đã nghiên cứu — chia theo 3 batch triển khai. Context: MoMo là fintech YMYL →
@@ -4399,7 +4088,7 @@
 
         <!-- SCORING TABLE -->
         <h2 class="sh">📊 Scoring Tổng Quan</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th>Tactic</th>
@@ -4485,8 +4174,7 @@
               <td><span class="tag tag-mofu">Batch 3</span></td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <div class="divider"></div>
 
         <!-- ─── BATCH 1: LÀM NGAY ─── -->
@@ -4757,7 +4445,7 @@
 
               <!-- Variant 4: Cross-sell MoMo -->
               <div class="ads-blog-variant">
-                <div class="ads-blog-variant-header" style="background:var(--pink-light)">
+                <div class="ads-blog-variant-header" style="background:var(--pink-m2)">
                   <span style="color:var(--pink)">🔀 Variant 4 — MoMo Cross-sell</span>
                   <span class="tag tag-p2">Claim/Renewal Blog</span>
                 </div>
@@ -4900,14 +4588,10 @@
             <div class="stat-sub">Cross-sell + Related Posts + Sticky CTA</div>
           </div>
         </div>
-      </section>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 12. CHECKLIST PUBLISH -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-checklist">
-        <div class="page-header">
+<section class="section" id="s-checklist">
+<div class="page-header">
           <div class="page-eyebrow">Publish Checklist</div>
           <div class="page-title">☑️ Checklist SEO/GEO — Khi Publish Từng Trang</div>
           <div class="page-desc">Dùng checklist này cho MỌI trang con trước khi go-live. Đảm bảo SEO on-page, AEO
@@ -4915,7 +4599,7 @@
         </div>
 
         <h2 class="sh">📝 On-Page SEO — Bắt buộc 100% trang</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th style="width:40px">✓</th>
@@ -4983,10 +4667,9 @@
               <td>Rich Results Test</td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <h2 class="sh">🧠 AEO/GEO — Tối ưu cho AI Search</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th style="width:40px">✓</th>
@@ -5039,10 +4722,9 @@
               <td>Blog · Landing có bảng phí</td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <h2 class="sh">⚡ Technical & CWV</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th style="width:40px">✓</th>
@@ -5095,10 +4777,9 @@
               <td>View source</td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <h2 class="sh">🔗 Content Quality & Linking</h2>
-        <table class="data-table">
+        <div class="table-scroll"><table class="data-table">
           <thead>
             <tr>
               <th style="width:40px">✓</th>
@@ -5151,8 +4832,7 @@
               <td>Blog · Landing</td>
             </tr>
           </tbody>
-        </table>
-
+        </table></div>
         <h2 class="sh">📋 Checklist theo Loại Trang</h2>
         <div class="grid-2">
           <div class="card" style="border-left:3px solid var(--blue)">
@@ -5212,14 +4892,10 @@
             </div>
           </div>
         </div>
-      </section>
+</section>
 
-
-      <!-- ═══════════════════════════════════ -->
-      <!-- 12. ACTION ITEMS -->
-      <!-- ═══════════════════════════════════ -->
-      <section class="section" id="s-actions">
-        <div class="page-header">
+<section class="section" id="s-actions">
+<div class="page-header">
           <div class="page-eyebrow">Action Items</div>
           <div class="page-title">10 Actions — Sắp Theo Ưu Tiên</div>
           <div class="page-desc">Impact × Effort. Bắt đầu từ #1.</div>
@@ -5340,26 +5016,58 @@
               200K achievable. Dùng Checklist Publish cho mỗi trang để đảm bảo quality nhất quán.</div>
           </div>
         </div>
-      </section>
+</section>
 
-    </main>
-  </div>
+</main>
+</div>
 
-  <script>
-    function go(id) {
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById('s-' + id).classList.add('active');
-      event.currentTarget.classList.add('active');
-      document.querySelector('.content').scrollTop = 0;
-    }
-    function toggleCS(header) {
-      const body = header.nextElementSibling;
-      const toggle = header.querySelector('.cs-toggle');
-      body.classList.toggle('open');
-      toggle.classList.toggle('open');
-    }
-  </script>
+<script>
+function toggleSidebar(){
+  const s=document.getElementById('sidebar');
+  const o=document.getElementById('overlay');
+  const b=document.getElementById('hamburger');
+  s.classList.toggle('open');
+  o.classList.toggle('open');
+  b.classList.toggle('open');
+  document.body.style.overflow=s.classList.contains('open')?'hidden':'';
+}
+function closeSidebar(){
+  const s=document.getElementById('sidebar');
+  const o=document.getElementById('overlay');
+  const b=document.getElementById('hamburger');
+  s.classList.remove('open');
+  o.classList.remove('open');
+  b.classList.remove('open');
+  document.body.style.overflow='';
+}
+function go(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const target=document.getElementById('s-'+id);
+  if(target)target.classList.add('active');
+  if(event&&event.currentTarget)event.currentTarget.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  if(window.innerWidth<900)closeSidebar();
+}
+function toggleCS(header){
+  const body=header.nextElementSibling;
+  const toggle=header.querySelector('.cs-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+function toggleCL(header){
+  const body=header.nextElementSibling;
+  const toggle=header.querySelector('.cl-product-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+function togglePS(header){
+  const body=header.nextElementSibling;
+  const toggle=header.querySelector('.cs-toggle');
+  if(body){body.classList.toggle('open');}
+  if(toggle){toggle.classList.toggle('open');}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+</script>
 </body>
-
 </html>

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Sidebar from '../../components/Sidebar'
 import Link from 'next/link'
 import { Project } from '../../data/projects'
@@ -62,6 +62,19 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
+  const [globalTags, setGlobalTags] = useState<string[]>([])
+
+  useEffect(() => {
+    const saved = localStorage.getItem('adminTags')
+    if (saved) {
+      try {
+        setGlobalTags(JSON.parse(saved))
+      } catch {
+        setGlobalTags([])
+      }
+    }
+  }, [])
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
       title: project.title,
@@ -152,11 +165,23 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     />
                     {errors.description && <p className="text-red-500 text-xs">{errors.description.message}</p>}
                     
-                    <input
-                      {...register('tags')}
-                      className="w-full px-3 py-2 border rounded text-sm"
-                      placeholder="Tags (comma separated)"
-                    />
+                    <div className="space-y-2">
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Tags (from Tag Management)</label>
+                      <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border rounded bg-gray-50">
+                        {globalTags.map(tag => (
+                          <label key={tag} className="flex items-center gap-1 text-xs">
+                            <input
+                              type="checkbox"
+                              value={tag}
+                              className="rounded"
+                              {...register('tags', { required: false })}
+                            />
+                            <span className="px-2 py-1 rounded-full bg-blue-100 text-blue-800">{tag}</span>
+                          </label>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-500">Global tags from /admin/tags. Check to assign.</p>
+                    </div>
                     
                     <select {...register('status')} className="w-full px-3 py-2 border rounded text-sm">
                       <option value="live">Live</option>

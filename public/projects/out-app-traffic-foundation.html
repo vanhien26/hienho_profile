@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO/GEO Foundation Hub - Out-App Traffic | MoMo</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-card: #fafafa;
+    --bg-card2: #f4f4f6;
+    --text-primary: #111118;
+    --text-secondary: #52515f;
+    --text-muted: #9996b0;
+    --accent: #d6006e;
+    --accent-light: #AE2070;
+    --accent-dim: rgba(214,0,110,0.07);
+    --accent-dim2: rgba(214,0,110,0.12);
+    --green: #0ea874;
+    --green-dim: rgba(14,168,116,0.09);
+    --yellow: #d97706;
+    --yellow-dim: rgba(217,119,6,0.09);
+    --blue: #2563eb;
+    --blue-dim: rgba(37,99,235,0.08);
+    --border: #e8e5ef;
+    --border-strong: #d4cfe3;
+    --pink-ghost: #FFEFF4;
+    --pink-border: #FEC8DC;
+    --font: 'Be Vietnam Pro', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --sidebar-w: 260px;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 12px rgba(0,0,0,0.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* MOBILE NAV BAR (hidden on desktop) */
+  .mobile-topbar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    z-index: 200;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .mobile-logo {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .mobile-logo span { color: var(--accent); }
+
+  .burger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .burger span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 99;
+  }
+
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-dim);
+    border: 1px solid var(--pink-border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .logo-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .sidebar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  .sidebar-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  .nav-section {
+    padding: 16px 12px 8px;
+  }
+
+  .nav-section-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    padding: 0 8px;
+    margin-bottom: 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  .nav-icon {
+    font-size: 13px;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .version-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* MAIN */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 40px 48px;
+    max-width: 1100px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--pink-ghost) 0%, #fff5f9 60%, #ffffff 100%);
+    border: 1px solid var(--pink-border);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(214,0,110,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .tag-pink { background: var(--accent-dim2); color: var(--accent); border: 1px solid var(--pink-border); }
+  .tag-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(14,168,116,0.2); }
+  .tag-yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(217,119,6,0.2); }
+  .tag-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(37,99,235,0.15); }
+  .tag-gray { background: var(--bg-card2); color: var(--text-secondary); border: 1px solid var(--border); }
+
+  .hero-title {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .hero-title span { color: var(--accent); }
+
+  .hero-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 620px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .metric-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .metric-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .metric-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .metric-value.accent { color: var(--accent); }
+  .metric-value.green { color: var(--green); }
+
+  .metric-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 40px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    min-width: 24px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .section-badge { margin-left: auto; }
+
+  /* VISION BLOCK */
+  .vision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .vision-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .vision-card.featured {
+    border-color: var(--pink-border);
+    background: linear-gradient(135deg, var(--pink-ghost) 0%, #fff 100%);
+    grid-column: 1 / -1;
+  }
+
+  .vc-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .vc-content {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  .vc-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    line-height: 1.6;
+  }
+
+  /* ROLE BLOCKS */
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .role-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .role-card.primary {
+    border-color: var(--pink-border);
+    background: linear-gradient(135deg, var(--pink-ghost) 0%, #fff 100%);
+  }
+
+  .role-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .role-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+
+  .role-item:last-child { border-bottom: none; }
+
+  .role-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .role-dot.green { background: var(--green); }
+  .role-dot.yellow { background: var(--yellow); }
+
+  /* USE CASE TABLE */
+  .uc-table-wrap {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .uc-filter-bar {
+    display: flex;
+    gap: 8px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    background: var(--bg-card);
+  }
+
+  .filter-btn {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent-dim2);
+    border-color: var(--pink-border);
+    color: var(--accent);
+  }
+
+  /* Mobile card view for table */
+  .uc-table-desktop { display: block; }
+  .uc-cards-mobile { display: none; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+
+  tbody tr:hover { background: var(--bg-card); }
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 11px 16px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    vertical-align: middle;
+  }
+
+  td:first-child {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .status-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+  }
+
+  .s-active { background: var(--green-dim); color: var(--green); }
+  .s-active .status-dot { background: var(--green); }
+  .s-pending { background: var(--yellow-dim); color: var(--yellow); }
+  .s-pending .status-dot { background: var(--yellow); }
+
+  .owner-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .o-outapp { background: var(--accent-dim2); color: var(--accent); }
+  .o-inbound { background: var(--blue-dim); color: var(--blue); }
+  .o-none { background: var(--bg-card2); color: var(--text-muted); font-style: italic; }
+
+  .role-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .role-tag.own { color: var(--accent); }
+  .role-tag.consult { color: var(--blue); }
+  .role-tag.monitor { color: var(--yellow); }
+
+  /* MECHANISM */
+  .mechanism-flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .flow-step {
+    padding: 20px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    background: #fff;
+  }
+
+  .flow-step:last-child { border-right: none; }
+
+  .flow-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .flow-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .flow-desc {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .flow-arrow {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--text-muted);
+    z-index: 1;
+  }
+
+  /* CADENCE */
+  .cadence-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .cadence-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .cadence-icon { font-size: 16px; }
+
+  .cadence-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .cadence-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cadence-item {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.5;
+  }
+
+  .cadence-item::before {
+    content: '›';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .cadence-item:last-child { border-bottom: none; }
+
+  /* METRIC FRAMEWORK */
+  .metric-framework {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .mf-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mf-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .mf-body {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .mf-block-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .mf-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+
+  .mf-item:last-child { border-bottom: none; }
+
+  .mf-item-label { color: var(--text-secondary); }
+
+  .mf-item-tool {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--green-dim);
+    border: 1px solid rgba(14,168,116,0.2);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .info-box-icon { flex-shrink: 0; font-size: 14px; }
+
+  .warn-box {
+    background: var(--yellow-dim);
+    border: 1px solid rgba(217,119,6,0.2);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  /* STANDARD SECTION */
+  .standard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .std-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .std-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .std-item {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    display: flex;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .std-item::before {
+    content: '–';
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* VERTICAL GROUP TAG */
+  .vg-tag {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding: 2px 6px;
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  /* GROUP HEADER ROW */
+  tr.group-row td {
+    background: var(--bg-card);
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 16px;
+  }
+
+  /* SCOPES */
+  .scopes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .scope-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scope-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .scope-card.s1::before { background: var(--accent); }
+  .scope-card.s2::before { background: var(--green); }
+  .scope-card.s3::before { background: var(--blue); }
+
+  .scope-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.08em;
+  }
+
+  .scope-num.s1 { color: var(--accent); }
+  .scope-num.s2 { color: var(--green); }
+  .scope-num.s3 { color: var(--blue); }
+
+  .scope-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .scope-subtitle {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .scope-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .scope-item:last-child { border-bottom: none; }
+
+  .scope-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .scope-dot.s1 { background: var(--accent); }
+  .scope-dot.s2 { background: var(--green); }
+  .scope-dot.s3 { background: var(--blue); }
+
+  .scope-sub-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+  }
+
+  .scope-sub-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .scope-sub-item {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .scope-sub-item:last-child { border-bottom: none; }
+
+  .scope-sub-item::before {
+    content: '›';
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* ========================
+     MOBILE RESPONSIVE
+  ======================== */
+  @media (max-width: 768px) {
+    .mobile-topbar { display: flex; }
+
+    .sidebar {
+      transform: translateX(-100%);
+      top: 0;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay.open { display: block; }
+
+    .main {
+      margin-left: 0;
+      padding: 72px 16px 32px;
+      max-width: 100%;
+    }
+
+    .hero {
+      padding: 24px 20px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title { font-size: 20px; }
+    .hero-desc { font-size: 13px; }
+
+    .hero-metrics {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .vision-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .vision-card.featured { grid-column: 1; }
+
+    .role-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .scopes-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .mechanism-flow {
+      grid-template-columns: 1fr;
+    }
+
+    .flow-step {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .flow-step:last-child { border-bottom: none; }
+
+    .flow-arrow { display: none; }
+
+    .cadence-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .standard-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .mf-body {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    /* Table → card view on mobile */
+    .uc-table-desktop { display: none; }
+    .uc-cards-mobile { display: block; }
+
+    .uc-card {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+
+    .uc-card:last-child { border-bottom: none; }
+
+    .uc-card-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .uc-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .uc-card-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .section-title { font-size: 14px; }
+
+    .uc-filter-bar {
+      padding: 12px;
+      gap: 6px;
+    }
+
+    .filter-btn {
+      font-size: 10px;
+      padding: 4px 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE TOPBAR -->
+<div class="mobile-topbar">
+  <div class="mobile-logo">SEO/GEO Hub <span>· MoMo</span></div>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-badge">
+      <div class="logo-dot"></div>
+      <span class="logo-label">Out-App Traffic</span>
+    </div>
+    <div class="sidebar-title">SEO/GEO Foundation Hub</div>
+    <div class="sidebar-sub">momo.vn - Internal Strategy Doc</div>
+  </div>
+
+  <nav class="nav-section">
+    <div class="nav-section-label">Overview</div>
+    <a href="#vision" class="nav-item active">
+      <span class="nav-icon">◎</span> Vision & North Star
+    </a>
+    <a href="#role" class="nav-item">
+      <span class="nav-icon">⬡</span> Vai trò & Ranh giới
+    </a>
+    <a href="#scopes" class="nav-item">
+      <span class="nav-icon">◑</span> Scopes
+    </a>
+  </nav>
+
+  <nav class="nav-section">
+    <div class="nav-section-label">Use Case Universe</div>
+    <a href="#usecase" class="nav-item">
+      <span class="nav-icon">⊞</span> All Use Cases
+    </a>
+    <a href="#ownership" class="nav-item">
+      <span class="nav-icon">◈</span> Ownership Matrix
+    </a>
+  </nav>
+
+  <nav class="nav-section">
+    <div class="nav-section-label">How We Operate</div>
+    <a href="#mechanism" class="nav-item">
+      <span class="nav-icon">⟳</span> Cơ chế vận hành
+    </a>
+    <a href="#cadence" class="nav-item">
+      <span class="nav-icon">◷</span> Audit Cadence
+    </a>
+    <a href="#standard" class="nav-item">
+      <span class="nav-icon">◻</span> Standards & Guidelines
+    </a>
+  </nav>
+
+  <nav class="nav-section">
+    <div class="nav-section-label">Measurement</div>
+    <a href="#metrics" class="nav-item">
+      <span class="nav-icon">◬</span> Metric Framework
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="version-tag">v1.0 · Apr 2026</div>
+    <div class="version-tag" style="margin-top:3px;color:#3a3848;">Author: Klaus · Out-App Traffic</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="vision">
+    <div class="hero-eyebrow">
+      <span class="tag tag-pink">Foundation Document</span>
+      <span class="tag tag-gray">Internal - Out-App Traffic</span>
+    </div>
+    <h1 class="hero-title">SEO/GEO Foundation Hub<br>MoMo.vn</h1>
+    <p class="hero-desc">
+      Out-App Traffic là layer nền của toàn bộ hệ thống Organic Search trên momo.vn. Không phải execution team cho tất cả use case - nhưng là đơn vị quy hoạch, nắm bắt tình hình, và đảm bảo mọi dự án SEO/GEO đi đúng hướng, dù ai là owner.
+    </p>
+    <div class="hero-metrics">
+      <div class="metric-card">
+        <div class="metric-label">Vision</div>
+        <div class="metric-value accent" style="font-size:13px;line-height:1.4;">Trusted Source về Financial Services</div>
+        <div class="metric-desc">Trên Google Search & AI Agents (Gemini, ChatGPT, Perplexity)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">North Star Metric</div>
+        <div class="metric-value green">Qualified Traffic</div>
+        <div class="metric-desc">Từ Google Organic + AI Referral - không phải raw sessions</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Scope hiện tại</div>
+        <div class="metric-value" style="font-size:22px;">14</div>
+        <div class="metric-desc">Use Case đang theo dõi trên momo.vn</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VAI TRÒ -->
+  <div class="section" id="role">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Vai trò & Ranh giới trách nhiệm</h2>
+    </div>
+
+    <div class="vision-grid">
+      <div class="vision-card featured">
+        <div class="vc-label">Định nghĩa vai trò</div>
+        <div class="vc-content">Out-App Traffic = Foundation Layer, không phải Universal Execution Team</div>
+        <div class="vc-sub">Out-App Traffic chọn lọc các use case có business impact cao để own KPI trực tiếp. Với phần còn lại, Out-App Traffic vận hành như một Center of Excellence: đặt standards, audit định kỳ, và là final gate về direction trước khi bất kỳ team nào triển khai SEO trên momo.vn.</div>
+      </div>
+      <div class="vision-card">
+        <div class="vc-label">Own KPI trực tiếp</div>
+        <div class="vc-content">Quản Lý Chi Tiêu</div>
+        <div class="vc-sub">Use case Out-App Traffic fully own - từ strategy, content, đến KPI Qualified Traffic và Web-to-App Conversion.</div>
+      </div>
+      <div class="vision-card">
+        <div class="vc-label">Có thể expand</div>
+        <div class="vc-content">Sell thêm use case vào ownership khi có capacity và business case</div>
+        <div class="vc-sub">Ưu tiên: use case có search demand lớn, conversion intent cao, hoặc chưa có team nào capable triển khai đúng.</div>
+      </div>
+    </div>
+
+    <div class="role-grid">
+      <div class="role-card primary">
+        <div class="role-title">
+          <span class="tag tag-pink">Out-App Traffic</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot"></div>
+          <span>Own toàn bộ KPI của use case được chọn (Qualified Traffic, New Users from Organic)</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot"></div>
+          <span>Đặt SEO/GEO Standard áp dụng cho toàn bộ momo.vn - mọi team phải follow</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot"></div>
+          <span>Là final gate về hướng chiến lược SEO trước khi bất kỳ use case nào go live</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot"></div>
+          <span>Audit định kỳ tất cả use case, bất kể ai là owner KPI</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot"></div>
+          <span>Track signal AI Referral (GEO): MoMo được cite bởi ChatGPT/Gemini/Perplexity không?</span>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-title">
+          <span class="tag tag-blue">Inbound Marketing</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot green"></div>
+          <span>Execution layer cho các use case được giao: Ví Trả Sau, Vay Nhanh, Bảo Hiểm, Phạt Nguội, Check CIC</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot green"></div>
+          <span>Own KPI riêng của từng use case được assign</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot yellow"></div>
+          <span>Phải align với Out-App Traffic về strategy direction, keyword architecture, và content standard trước khi triển khai</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot yellow"></div>
+          <span>Nhận audit report từ Out-App Traffic theo cadence monthly/quarterly</span>
+        </div>
+        <div class="role-item">
+          <div class="role-dot yellow"></div>
+          <span>Raise request khi cần Out-App review direction hoặc unblock vấn đề technical SEO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SCOPES -->
+  <div class="section" id="scopes">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Scopes của Out-App Traffic</h2>
+      <span class="section-badge"><span class="tag tag-gray">3 scopes</span></span>
+    </div>
+
+    <div class="scopes-grid">
+
+      <!-- SCOPE 1 -->
+      <div class="scope-card s1">
+        <div class="scope-num s1">SCOPE 01</div>
+        <div class="scope-title">Foundation &<br>Website Oversight</div>
+        <div class="scope-subtitle">Kiểm soát toàn hệ thống</div>
+        <div class="scope-item">
+          <div class="scope-dot s1"></div>
+          <span>Đảm bảo Site Health tổng thể momo.vn - Core Web Vitals, crawlability, indexing, schema</span>
+        </div>
+        <div class="scope-item">
+          <div class="scope-dot s1"></div>
+          <span>Monitor performance từng use case: traffic, ranking, AI visibility - bất kể ai là owner</span>
+        </div>
+        <div class="scope-item">
+          <div class="scope-dot s1"></div>
+          <span>Kiểm soát toàn bộ những gì đang xảy ra trên web: use case nào đang chạy, đang làm gì (sản phẩm, content, off-page)</span>
+        </div>
+        <div class="scope-item">
+          <div class="scope-dot s1"></div>
+          <span>Layer duy nhất nhìn được toàn hệ thống - không team nào khác có visibility này</span>
+        </div>
+      </div>
+
+      <!-- SCOPE 2 -->
+      <div class="scope-card s2">
+        <div class="scope-num s2">SCOPE 02</div>
+        <div class="scope-title">Own Growth<br>Projects</div>
+        <div class="scope-subtitle">SEO/GEO execution trực tiếp</div>
+        <div class="scope-item">
+          <div class="scope-dot s2"></div>
+          <span>Chịu trách nhiệm chính các dự án được đề ra để thúc đẩy <strong>New User/MAU từ Organic Traffic</strong></span>
+        </div>
+        <div class="scope-item">
+          <div class="scope-dot s2"></div>
+          <span>Own toàn bộ từ strategy, content, đến KPI - không phụ thuộc team khác để execute</span>
+        </div>
+        <div class="scope-sub-block">
+          <div class="scope-sub-label">Dự án đang own</div>
+          <div class="scope-sub-item"><strong>Quản Lý Chi Tiêu</strong> - Use case SEO/GEO đầy đủ</div>
+          <div class="scope-sub-item"><strong>Merchant Page</strong> - Programmatic SEO toàn bộ merchant trên MoMo. Dual objective: thu hút user tìm kiếm merchant qua Google + tăng visibility để merchant muốn lên MoMo</div>
+        </div>
+      </div>
+
+      <!-- SCOPE 3 -->
+      <div class="scope-card s3">
+        <div class="scope-num s3">SCOPE 03</div>
+        <div class="scope-title">Consult &<br>Quality Gate</div>
+        <div class="scope-subtitle">Tư vấn - kiểm soát chất lượng</div>
+        <div class="scope-item">
+          <div class="scope-dot s3"></div>
+          <span>Đặt SEO/GEO Standard áp dụng toàn momo.vn - là final gate trước khi bất kỳ use case nào go live</span>
+        </div>
+        <div class="scope-sub-block">
+          <div class="scope-sub-label">Đối tượng tư vấn</div>
+          <div class="scope-sub-item"><strong>Inbound Marketing</strong> - trụ cột SEO của website, đồng hành execution cho các use case được assign</div>
+          <div class="scope-sub-item"><strong>Business Units</strong> - Out-App chủ động identify opportunity và pitch plan cho BU; hoặc BU raise nhu cầu. Inbound tham gia triển khai cùng</div>
+        </div>
+        <div class="scope-item" style="margin-top:10px;">
+          <div class="scope-dot s3"></div>
+          <span>Audit định kỳ monthly/quarterly toàn bộ use case - phát hiện vấn đề, đề xuất fix</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-box">
+      <span class="info-box-icon">💡</span>
+      <span>Ba Scopes này không tách rời nhau. Scope 1 (Oversight) cho phép Scope 3 (Consult) có data thực để tư vấn, không phải tư vấn chay. Scope 2 (Own Projects) là nơi Out-App Traffic proof concept - những pattern thành công ở đây sẽ được replicate và standardize cho toàn hệ thống.</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- USE CASE UNIVERSE -->
+  <div class="section" id="usecase">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Use Case Universe</h2>
+      <span class="section-badge"><span class="tag tag-gray">14 use cases tracked</span></span>
+    </div>
+
+    <div class="uc-table-wrap">
+      <div class="uc-filter-bar">
+        <button class="filter-btn active" onclick="filterTable('all', this)">Tất cả (14)</button>
+        <button class="filter-btn" onclick="filterTable('own', this)">Out-App Own (2)</button>
+        <button class="filter-btn" onclick="filterTable('inbound', this)">Inbound Active (7)</button>
+        <button class="filter-btn" onclick="filterTable('pending', this)">Pending Allocation (5)</button>
+      </div>
+      <table id="ucTable">
+        <thead>
+          <tr>
+            <th>Use Case</th>
+            <th>Vertical</th>
+            <th>Status</th>
+            <th>KPI Owner</th>
+            <th>Out-App Role</th>
+            <th>Ghi chú</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- GROUP: Out-App Own -->
+          <tr class="group-row">
+            <td colspan="6">● Out-App Traffic - Own KPI</td>
+          </tr>
+          <tr data-group="own">
+            <td>Quản Lý Chi Tiêu</td>
+            <td><span class="vg-tag">Financial Tool</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-outapp">Out-App Traffic</span></td>
+            <td><span class="role-tag own">Own</span></td>
+            <td>Fully owned - strategy, content, KPI</td>
+          </tr>
+          <tr data-group="own">
+            <td>Merchant Page</td>
+            <td><span class="vg-tag">Programmatic</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-outapp">Out-App Traffic</span></td>
+            <td><span class="role-tag own">Own</span></td>
+            <td>Programmatic SEO - toàn bộ merchant, dual objective: user + merchant acquisition</td>
+          </tr>
+
+          <!-- GROUP: Inbound Active -->
+          <tr class="group-row">
+            <td colspan="6">● Inbound Marketing - Active</td>
+          </tr>
+          <tr data-group="inbound">
+            <td>Ví Trả Sau (BNPL)</td>
+            <td><span class="vg-tag">Credit</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-inbound">Inbound Marketing</span></td>
+            <td><span class="role-tag consult">Consult / Audit</span></td>
+            <td>Cùng nhóm Credit với Vay Nhanh, CIC</td>
+          </tr>
+          <tr data-group="inbound">
+            <td>Vay Nhanh</td>
+            <td><span class="vg-tag">Credit</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-inbound">Inbound Marketing</span></td>
+            <td><span class="role-tag consult">Consult / Audit</span></td>
+            <td>High intent cluster</td>
+          </tr>
+          <tr data-group="inbound">
+            <td>Bảo Hiểm Y Tế</td>
+            <td><span class="vg-tag">Insurance</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-inbound">Inbound Marketing</span></td>
+            <td><span class="role-tag consult">Consult / Audit</span></td>
+            <td>-</td>
+          </tr>
+          <tr data-group="inbound">
+            <td>Bảo Hiểm Xe Máy</td>
+            <td><span class="vg-tag">Insurance</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-inbound">Inbound Marketing</span></td>
+            <td><span class="role-tag consult">Consult / Audit</span></td>
+            <td>-</td>
+          </tr>
+          <tr data-group="inbound">
+            <td>Bảo Hiểm Ô Tô</td>
+            <td><span class="vg-tag">Insurance</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-inbound">Inbound Marketing</span></td>
+            <td><span class="role-tag consult">Consult / Audit</span></td>
+            <td>-</td>
+          </tr>
+          <tr data-group="inbound">
+            <td>Tra Cứu Phạt Nguội</td>
+            <td><span class="vg-tag">Utility</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-inbound">Inbound Marketing</span></td>
+            <td><span class="role-tag consult">Consult / Audit</span></td>
+            <td>Out-App sell vào Inbound - nhóm Credit/Utility</td>
+          </tr>
+          <tr data-group="inbound">
+            <td>Check CIC</td>
+            <td><span class="vg-tag">Credit</span></td>
+            <td><span class="status-badge s-active"><span class="status-dot"></span>Active</span></td>
+            <td><span class="owner-tag o-inbound">Inbound Marketing</span></td>
+            <td><span class="role-tag consult">Consult / Audit</span></td>
+            <td>Out-App sell vào Inbound - nhóm Credit</td>
+          </tr>
+
+          <!-- GROUP: Pending -->
+          <tr class="group-row">
+            <td colspan="6">⚠ Pending Allocation - chưa có team incharge</td>
+          </tr>
+          <tr data-group="pending">
+            <td>Telco - eSIM Du Lịch</td>
+            <td><span class="vg-tag">Telco</span></td>
+            <td><span class="status-badge s-pending"><span class="status-dot"></span>Pending</span></td>
+            <td><span class="owner-tag o-none">Chưa xác định</span></td>
+            <td><span class="role-tag monitor">Monitor</span></td>
+            <td>Cần allocate owner</td>
+          </tr>
+          <tr data-group="pending">
+            <td>Telco - Sim Số Đẹp</td>
+            <td><span class="vg-tag">Telco</span></td>
+            <td><span class="status-badge s-pending"><span class="status-dot"></span>Pending</span></td>
+            <td><span class="owner-tag o-none">Chưa xác định</span></td>
+            <td><span class="role-tag monitor">Monitor</span></td>
+            <td>Cần allocate owner</td>
+          </tr>
+          <tr data-group="pending">
+            <td>Telco - Nạp Data</td>
+            <td><span class="vg-tag">Telco</span></td>
+            <td><span class="status-badge s-pending"><span class="status-dot"></span>Pending</span></td>
+            <td><span class="owner-tag o-none">Chưa xác định</span></td>
+            <td><span class="role-tag monitor">Monitor</span></td>
+            <td>Cần allocate owner</td>
+          </tr>
+          <tr data-group="pending">
+            <td>OTA - Bus</td>
+            <td><span class="vg-tag">Travel</span></td>
+            <td><span class="status-badge s-pending"><span class="status-dot"></span>Pending</span></td>
+            <td><span class="owner-tag o-none">Chưa xác định</span></td>
+            <td><span class="role-tag monitor">Monitor</span></td>
+            <td>Dang dở, cần allocate</td>
+          </tr>
+          <tr data-group="pending">
+            <td>Cinema</td>
+            <td><span class="vg-tag">Lifestyle</span></td>
+            <td><span class="status-badge s-pending"><span class="status-dot"></span>Pending</span></td>
+            <td><span class="owner-tag o-none">Chưa xác định</span></td>
+            <td><span class="role-tag monitor">Monitor</span></td>
+            <td>Active nhưng thả trôi - cần owner</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MOBILE CARD VIEW -->
+    <div class="uc-cards-mobile" id="ucCardsMobile">
+      <!-- Cards injected by JS -->
+    </div>
+      <span class="info-box-icon">⚠</span>
+      <span>5 use case trong nhóm <strong>Pending Allocation</strong> (Telco x3, OTA Bus, Cinema) hiện không có team nào incharge về SEO. Out-App Traffic đang monitor traffic signal. Nếu phát hiện tăng/giảm bất thường, sẽ escalate để allocate owner hoặc Out-App tự pitch làm.</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CƠ CHẾ VẬN HÀNH -->
+  <div class="section" id="mechanism">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Cơ chế vận hành</h2>
+    </div>
+
+    <div class="mechanism-flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-title">Out-App đặt Standard</div>
+        <div class="flow-desc">Keyword architecture, content format, GEO/AEO checklist, technical SEO baseline áp dụng cho mọi use case trên momo.vn.</div>
+        <div class="flow-arrow">›</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-title">Inbound nhận direction</div>
+        <div class="flow-desc">Trước khi triển khai use case mới hoặc thay đổi lớn, Inbound align với Out-App về strategy direction. Out-App là final gate.</div>
+        <div class="flow-arrow">›</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-title">Inbound execute</div>
+        <div class="flow-desc">Inbound tự triển khai theo standard đã align - content, on-page, interlinking, schema. Out-App không micromanage daily execution.</div>
+        <div class="flow-arrow">›</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-title">Out-App audit & feedback</div>
+        <div class="flow-desc">Monthly: traffic alert. Quarterly: deep audit toàn bộ use case. Phát hiện vấn đề → Out-App raise, Inbound fix theo timeline thống nhất.</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <span class="info-box-icon">💡</span>
+      <span>Out-App Traffic không cần approve từng bài viết hay từng page. Standard đặt ra là đủ để Inbound tự-execute đúng. Audit định kỳ là cơ chế kiểm soát - không phải approval loop. Điều này giữ được tốc độ execution của Inbound mà vẫn đảm bảo quality gate.</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- AUDIT CADENCE -->
+  <div class="section" id="cadence">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Audit Cadence</h2>
+    </div>
+
+    <div class="cadence-grid">
+      <div class="cadence-card">
+        <div class="cadence-head">
+          <span class="cadence-icon">📅</span>
+          <span class="cadence-title">Monthly - Traffic Alert</span>
+        </div>
+        <div class="cadence-item">Check GSC impressions/clicks MoM cho tất cả use case</div>
+        <div class="cadence-item">Flag bất kỳ use case nào drop >15% traffic liên tiếp 2 tuần</div>
+        <div class="cadence-item">Monitor AI Referral signal từ Gemini, ChatGPT, Perplexity</div>
+        <div class="cadence-item">Review Pending Allocation: có use case nào cần escalate chưa?</div>
+        <div class="cadence-item">Output: 1 page alert report gửi relevant stakeholders</div>
+      </div>
+      <div class="cadence-card">
+        <div class="cadence-head">
+          <span class="cadence-icon">🔍</span>
+          <span class="cadence-title">Quarterly - Deep Audit</span>
+        </div>
+        <div class="cadence-item">Audit toàn bộ use case Inbound đang chạy: on-page, content, interlinking, schema</div>
+        <div class="cadence-item">SERP movement analysis: ranking thay đổi thế nào với competitor</div>
+        <div class="cadence-item">GEO audit: MoMo có được cite trong AI Overview và LLM responses không?</div>
+        <div class="cadence-item">Đề xuất priority fixes và quick wins cho Inbound</div>
+        <div class="cadence-item">Review Pending Allocation: pitch plan cho management nếu cần owner mới</div>
+        <div class="cadence-item">Output: Audit report đầy đủ + action list có prioritization</div>
+      </div>
+      <div class="cadence-card">
+        <div class="cadence-head">
+          <span class="cadence-icon">⚡</span>
+          <span class="cadence-title">Trigger-based - Ad Hoc</span>
+        </div>
+        <div class="cadence-item">Google algorithm update lớn → audit impact ngay trong 48h</div>
+        <div class="cadence-item">Competitor launch use case mới cạnh tranh trực tiếp</div>
+        <div class="cadence-item">Traffic drop đột ngột >30% trên bất kỳ use case nào</div>
+        <div class="cadence-item">AI Overview xuất hiện mới trên keyword cluster quan trọng</div>
+        <div class="cadence-item">Product change lớn từ Cell Team ảnh hưởng đến URL/content</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- STANDARDS -->
+  <div class="section" id="standard">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Standards & Guidelines (áp dụng toàn momo.vn)</h2>
+    </div>
+
+    <div class="standard-grid">
+      <div class="std-card">
+        <div class="std-title">🏗 Site Architecture</div>
+        <div class="std-item">Hub & Spoke model: mỗi use case có 1 pillar page + cluster pages</div>
+        <div class="std-item">URL structure: momo.vn/[use-case]/ cho hub, momo.vn/[use-case]/[sub-topic]/ cho spoke</div>
+        <div class="std-item">Không duplicate URL, không cannibalize keyword giữa các use case</div>
+        <div class="std-item">Internal linking: hub phải link ra cluster, cluster phải link về hub</div>
+      </div>
+      <div class="std-card">
+        <div class="std-title">🔑 Keyword Architecture</div>
+        <div class="std-item">Mỗi use case phải có keyword universe rõ ràng theo 4 intent tier: Informational, Commercial, Transactional, Navigational</div>
+        <div class="std-item">Không assign cùng 1 primary keyword cho 2 page khác nhau</div>
+        <div class="std-item">Search volume phải verify từ GSC hoặc tool (Ahrefs/Semrush) - không estimate tay</div>
+      </div>
+      <div class="std-card">
+        <div class="std-title">✍ Content Standard</div>
+        <div class="std-item">Opening phải direct answer - không mở bài kiểu "Bạn đang tìm hiểu về..."</div>
+        <div class="std-item">GEO/AEO checklist: FAQ schema, direct answer block, entity mention rõ ràng</div>
+        <div class="std-item">E-E-A-T signals: cite nguồn có thẩm quyền (Ngân hàng Nhà nước, Bộ Tài chính...)</div>
+        <div class="std-item">Blog: chỉ làm Evergreen và How-to - không làm content news ngắn hạn</div>
+      </div>
+      <div class="std-card">
+        <div class="std-title">📲 Web-to-App Conversion</div>
+        <div class="std-item">Mỗi page phải có ít nhất 1 CTA dẫn vào app qua deeplink - không dùng generic app store link</div>
+        <div class="std-item">Smart Banner: hiển thị đúng context của page, không spam toàn site</div>
+        <div class="std-item">PLG first: utility/tool phục vụ user job trước - conversion là hệ quả</div>
+        <div class="std-item">Tracking: mọi CTA phải có GA4 event + Appsflyer attribution</div>
+      </div>
+      <div class="std-card">
+        <div class="std-title">⚙ Technical SEO Baseline</div>
+        <div class="std-item">Core Web Vitals: LCP &lt;2.5s, CLS &lt;0.1, INP &lt;200ms trên mobile</div>
+        <div class="std-item">Structured data: tối thiểu FAQPage schema cho mọi page content</div>
+        <div class="std-item">Canonical tag: bắt buộc trên mọi page - không để duplicate content</div>
+        <div class="std-item">Mobile-first: mọi page phải pass Google Mobile-Friendly Test</div>
+      </div>
+      <div class="std-card">
+        <div class="std-title">🤖 GEO / AEO Standard</div>
+        <div class="std-item">MoMo phải được mention rõ ràng trong định nghĩa, so sánh, hướng dẫn - không chỉ trong CTA</div>
+        <div class="std-item">Direct answer block: 40-60 từ, đặt ngay sau H1 hoặc H2 đầu tiên</div>
+        <div class="std-item">Entity relationship: link ra authority sources để LLM có thể verify claim</div>
+        <div class="std-item">Monitor: check AI Overview và LLM citation monthly</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- METRICS -->
+  <div class="section" id="metrics">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Metric Framework</h2>
+    </div>
+
+    <div class="metric-framework">
+      <div class="mf-header">
+        <span class="tag tag-pink">North Star</span>
+        <span class="mf-title">Qualified Traffic - định nghĩa</span>
+      </div>
+      <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); font-size:12.5px; color: var(--text-secondary); line-height: 1.7;">
+        <strong style="color:var(--text-primary);">Qualified Traffic</strong> = Sessions từ Google Organic hoặc AI Referral (ChatGPT, Gemini, Perplexity, Copilot...) mà user có engagement thực sự: thời gian trên trang >30s, hoặc click vào CTA/deeplink, hoặc scroll >50% page. Loại bỏ: bot traffic, direct/dark social bị misclassified, và sessions bounce trong 5 giây.
+      </div>
+      <div class="mf-body">
+        <div>
+          <div class="mf-block-title">Funnel Metrics - Out-App Own</div>
+          <div class="mf-item">
+            <span class="mf-item-label">GSC Impressions (all use cases)</span>
+            <span class="mf-item-tool">GSC</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">Qualified Traffic (Organic + AI)</span>
+            <span class="mf-item-tool">GA4 + GSC</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">CTA Click Rate (deeplink)</span>
+            <span class="mf-item-tool">GA4</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">Web-to-App Conversion Rate</span>
+            <span class="mf-item-tool">GA4 + Appsflyer</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">New Users from Organic</span>
+            <span class="mf-item-tool">Appsflyer</span>
+          </div>
+        </div>
+        <div>
+          <div class="mf-block-title">Monitor Metrics - All Use Cases</div>
+          <div class="mf-item">
+            <span class="mf-item-label">Organic Traffic MoM per use case</span>
+            <span class="mf-item-tool">GSC / GA4</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">Average Position per cluster</span>
+            <span class="mf-item-tool">GSC</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">AI Referral Sessions</span>
+            <span class="mf-item-tool">GA4</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">AI Overview Presence (monitored)</span>
+            <span class="mf-item-tool">Manual / Tool</span>
+          </div>
+          <div class="mf-item">
+            <span class="mf-item-label">LLM Citation (MoMo được nhắc?)</span>
+            <span class="mf-item-tool">GEO Monitor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:16px;">
+      <span class="info-box-icon">📊</span>
+      <span>Dashboard: Looker Studio - kết nối GSC + GA4 + Appsflyer. Một view tổng hợp tất cả use case để Out-App có thể phát hiện anomaly nhanh mà không cần vào từng tool riêng lẻ.</span>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // Burger menu
+  const burger = document.getElementById('burgerBtn');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  function toggleSidebar() {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+
+  burger && burger.addEventListener('click', toggleSidebar);
+  overlay && overlay.addEventListener('click', toggleSidebar);
+
+  // Close sidebar on nav item click (mobile)
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+    });
+  });
+
+  // Use case data for mobile cards
+  const ucData = [
+    { name: 'Quản Lý Chi Tiêu', vertical: 'Financial Tool', group: 'own', status: 'active', owner: 'Out-App Traffic', ownerClass: 'o-outapp', role: 'Own', roleClass: 'own', note: 'Fully owned - strategy, content, KPI' },
+    { name: 'Merchant Page', vertical: 'Programmatic', group: 'own', status: 'active', owner: 'Out-App Traffic', ownerClass: 'o-outapp', role: 'Own', roleClass: 'own', note: 'Programmatic SEO toàn bộ merchant, dual objective: user + merchant acquisition' },
+    { name: 'Ví Trả Sau (BNPL)', vertical: 'Credit', group: 'inbound', status: 'active', owner: 'Inbound Marketing', ownerClass: 'o-inbound', role: 'Consult / Audit', roleClass: 'consult', note: 'Cùng nhóm Credit với Vay Nhanh, CIC' },
+    { name: 'Vay Nhanh', vertical: 'Credit', group: 'inbound', status: 'active', owner: 'Inbound Marketing', ownerClass: 'o-inbound', role: 'Consult / Audit', roleClass: 'consult', note: 'High intent cluster' },
+    { name: 'Bảo Hiểm Y Tế', vertical: 'Insurance', group: 'inbound', status: 'active', owner: 'Inbound Marketing', ownerClass: 'o-inbound', role: 'Consult / Audit', roleClass: 'consult', note: '' },
+    { name: 'Bảo Hiểm Xe Máy', vertical: 'Insurance', group: 'inbound', status: 'active', owner: 'Inbound Marketing', ownerClass: 'o-inbound', role: 'Consult / Audit', roleClass: 'consult', note: '' },
+    { name: 'Bảo Hiểm Ô Tô', vertical: 'Insurance', group: 'inbound', status: 'active', owner: 'Inbound Marketing', ownerClass: 'o-inbound', role: 'Consult / Audit', roleClass: 'consult', note: '' },
+    { name: 'Tra Cứu Phạt Nguội', vertical: 'Utility', group: 'inbound', status: 'active', owner: 'Inbound Marketing', ownerClass: 'o-inbound', role: 'Consult / Audit', roleClass: 'consult', note: 'Out-App sell vào Inbound' },
+    { name: 'Check CIC', vertical: 'Credit', group: 'inbound', status: 'active', owner: 'Inbound Marketing', ownerClass: 'o-inbound', role: 'Consult / Audit', roleClass: 'consult', note: 'Out-App sell vào Inbound' },
+    { name: 'Telco - eSIM Du Lịch', vertical: 'Telco', group: 'pending', status: 'pending', owner: 'Chưa xác định', ownerClass: 'o-none', role: 'Monitor', roleClass: 'monitor', note: 'Cần allocate owner' },
+    { name: 'Telco - Sim Số Đẹp', vertical: 'Telco', group: 'pending', status: 'pending', owner: 'Chưa xác định', ownerClass: 'o-none', role: 'Monitor', roleClass: 'monitor', note: 'Cần allocate owner' },
+    { name: 'Telco - Nạp Data', vertical: 'Telco', group: 'pending', status: 'pending', owner: 'Chưa xác định', ownerClass: 'o-none', role: 'Monitor', roleClass: 'monitor', note: 'Cần allocate owner' },
+    { name: 'OTA - Bus', vertical: 'Travel', group: 'pending', status: 'pending', owner: 'Chưa xác định', ownerClass: 'o-none', role: 'Monitor', roleClass: 'monitor', note: 'Dang dở, cần allocate' },
+    { name: 'Cinema', vertical: 'Lifestyle', group: 'pending', status: 'pending', owner: 'Chưa xác định', ownerClass: 'o-none', role: 'Monitor', roleClass: 'monitor', note: 'Active nhưng thả trôi' },
+  ];
+
+  function renderCards(group) {
+    const container = document.getElementById('ucCardsMobile');
+    if (!container) return;
+    const filtered = group === 'all' ? ucData : ucData.filter(d => d.group === group);
+    container.innerHTML = filtered.map(d => `
+      <div class="uc-card">
+        <div class="uc-card-name">${d.name}</div>
+        <div class="uc-card-meta">
+          <span class="vg-tag">${d.vertical}</span>
+          <span class="status-badge ${d.status === 'active' ? 's-active' : 's-pending'}">
+            <span class="status-dot"></span>${d.status === 'active' ? 'Active' : 'Pending'}
+          </span>
+          <span class="owner-tag ${d.ownerClass}">${d.owner}</span>
+          <span class="role-tag ${d.roleClass}">${d.role}</span>
+        </div>
+        ${d.note ? `<div class="uc-card-note">${d.note}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  renderCards('all');
+
+  // Table + card filter
+  function filterTable(group, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Desktop table
+    const rows = document.querySelectorAll('#ucTable tbody tr');
+    rows.forEach(row => {
+      if (row.classList.contains('group-row')) {
+        row.style.display = group === 'all' ? '' : 'none';
+        return;
+      }
+      const rowGroup = row.getAttribute('data-group');
+      row.style.display = (group === 'all' || rowGroup === group) ? '' : 'none';
+    });
+
+    if (group !== 'all') {
+      document.querySelectorAll('#ucTable tbody tr.group-row').forEach(gr => {
+        const next = gr.nextElementSibling;
+        if (next && next.getAttribute('data-group') === group) {
+          gr.style.display = '';
+        }
+      });
+    }
+
+    // Mobile cards
+    renderCards(group);
+  }
+
+  // Active nav
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    item.addEventListener('click', function() {
+      navItems.forEach(n => n.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

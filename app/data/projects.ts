@@ -17,6 +17,17 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'out-app-traffic',
+    title: 'Out-App Traffic',
+    subtitle: 'Scopes & Foundation',
+    category: 'knowledge',
+    tags: ['SEO', 'GEO', 'Foundation'],
+    status: 'live',
+    updatedAt: '2026-04-10',
+    description: 'Scopes & Foundation cho các SEO/GEO projects của MoMo.vn',
+    htmlFile: '/projects/out-app-traffic-foundation.html'
+  },
+  {
     id: 'vay-nhanh',
     title: 'Vay Nhanh',
     subtitle: 'momo.vn/vay-nhanh',
