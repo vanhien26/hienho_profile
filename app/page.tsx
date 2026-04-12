@@ -3,8 +3,9 @@ import { useState, useRef, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects, Project } from './data/projects'
-import { Menu, Phone, Mail, MessageCircle, FileText, BookOpen, Search, Globe, Target, Map, BarChart2, Shield } from 'lucide-react'
+import { Phone, Mail, MessageCircle, FileText, BookOpen, Search, Globe, Target, Map, BarChart2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useSidebar } from './context/sidebar'
 import Fuse from 'fuse.js'
 
 const divisionColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -120,17 +121,6 @@ function HoverPreview({ project, anchorRect }: { project: Project; anchorRect: D
   )
 }
 
-function HamburgerButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-xl"
-      style={{ background: '#FFFFFF', boxShadow: 'var(--shadow-md)', border: '1px solid #E5E7EB' }}
-    >
-      <Menu size={18} color="#111827" />
-    </button>
-  )
-}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -150,7 +140,7 @@ const cardVariants = {
 }
 
 export default function HomePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { open: sidebarOpen, setOpen: setSidebarOpen } = useSidebar()
   const [activeDivision, setActiveDivision] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [hoveredProject, setHoveredProject] = useState<{ project: Project; rect: DOMRect } | null>(null)
@@ -206,7 +196,6 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen w-full">
       <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
       <AnimatePresence>
         {hoveredProject && (

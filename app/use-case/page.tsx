@@ -2,20 +2,9 @@
 import { useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import { miniWebs } from '../data/mini_webs'
-import { Menu, Search, ExternalLink, Filter, ArrowUpDown } from 'lucide-react'
+import { Search, ExternalLink, Filter, ArrowUpDown } from 'lucide-react'
 import { motion } from 'framer-motion'
-
-function HamburgerButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="fixed top-4 left-4 z-30 lg:hidden flex items-center justify-center w-10 h-10 rounded-lg"
-      style={{ background: '#18120E', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
-    >
-      <Menu size={18} color="white" />
-    </button>
-  )
-}
+import { useSidebar } from '../context/sidebar'
 
 const divisionColors: Record<string, { bg: string; text: string }> = {
   FS: { bg: '#F5E0EC', text: '#AE2070' },
@@ -29,7 +18,7 @@ const divisionColors: Record<string, { bg: string; text: string }> = {
 }
 
 export default function MiniWebRegistryPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { open: sidebarOpen, setOpen: setSidebarOpen } = useSidebar()
   const [searchQuery, setSearchQuery] = useState('')
   const [activeDivision, setActiveDivision] = useState<string | null>(null)
   const [activePageType, setActivePageType] = useState<string | null>(null)
@@ -52,7 +41,6 @@ export default function MiniWebRegistryPage() {
   return (
     <div className="flex min-h-screen w-full bg-[#F6F3EF]">
       <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <HamburgerButton onClick={() => setSidebarOpen(true)} />
 
       <main className="flex-1 min-w-0 flex flex-col h-screen">
         {/* Header */}
