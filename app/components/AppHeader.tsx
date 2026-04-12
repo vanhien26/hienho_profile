@@ -17,9 +17,9 @@ export default function AppHeader() {
           >
             <Menu size={18} color="#AE2070" />
           </button>
-          <div className="text-sm font-semibold text-[#3C2D35]">
+          <Link href="/" className="text-sm font-semibold text-[#3C2D35] hover:opacity-75 transition-opacity">
             GPD <span style={{ fontWeight: 'bold', color: '#AE2070' }}>- Out-App Traffic</span>
-          </div>
+          </Link>
         </div>
         <Link
           href="/admin"
