@@ -114,7 +114,7 @@ export const projects: Project[] = [
     title: 'Đối Tác',
     subtitle: 'momo.vn/doi-tac',
     category: 'use-case',
-    division: 'FS',
+    division: 'GPD',
     tags: ['Directory', 'Schema', 'Credit Ecosystem'],
     status: 'draft',
     updatedAt: '2026-03-25',
