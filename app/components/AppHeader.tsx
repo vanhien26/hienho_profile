@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Shield, Menu } from 'lucide-react'
-import GrowthIcon from '../../public/growth.svg'
+import { Shield, Menu, TrendingUp } from 'lucide-react'
 import { useSidebar } from '../context/sidebar'
 
 export default function AppHeader() {
@@ -19,7 +18,7 @@ export default function AppHeader() {
             <Menu size={18} color="#AE2070" />
           </button>
           <Link href="/" className="inline-flex items-center gap-2 rounded-full border border-[#E4DDD6] bg-[#FBF7F8] px-4 py-2 text-sm font-semibold text-[#5B3A53] shadow-sm transition hover:bg-[#F3E6F5]">
-            <GrowthIcon className="w-5 h-5" style={{ color: '#AE2070' }} />
+            <TrendingUp className="w-5 h-5" color="#AE2070" />
             <span style={{ fontWeight: 'bold', color: '#AE2070' }}>GPD</span>
           </Link>
         </div>
