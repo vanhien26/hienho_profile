@@ -18,7 +18,7 @@ export default function AppHeader() {
             <Menu size={18} color="#AE2070" />
           </button>
           <Link href="/" className="inline-flex items-center gap-2 rounded-full border border-[#E4DDD6] bg-[#FBF7F8] px-4 py-2 text-sm font-semibold text-[#5B3A53] shadow-sm transition hover:bg-[#F3E6F5]">
-            <TrendingUp size={20} color="#AE2070" />
+            <TrendingUp size={20} strokeWidth={2.5} style={{ color: '#AE2070' }} />
             <span style={{ fontWeight: 'bold', color: '#AE2070' }}>GPD</span>
           </Link>
         </div>
