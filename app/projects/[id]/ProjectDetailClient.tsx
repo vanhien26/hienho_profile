@@ -74,26 +74,30 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       <main className="flex-1 flex flex-col overflow-hidden w-full">
         {/* Breadcrumb bar */}
         <div
-          className="flex items-center gap-2 sm:gap-3 pl-16 pr-4 sm:pr-8 py-3.5 flex-shrink-0 overflow-x-auto"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 px-4 sm:px-6 lg:px-8 py-3.5 flex-shrink-0"
           style={{ background: '#FFFFFF', borderBottom: '1px solid var(--border)' }}
         >
-          <Link
-            href="/"
-            className="text-xs font-medium flex items-center gap-1.5 hover:opacity-70 transition-opacity flex-shrink-0"
-            style={{ color: 'var(--ink-3)' }}
-          >
-            <Home size={12} /> Home
-          </Link>
-          <span style={{ color: 'var(--border)' }} className="flex-shrink-0">/</span>
-          <span className="text-xs font-medium flex-shrink-0 hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
-            {project.category === 'use-case' ? 'Use Case Document' : 'Knowledge & Guideline'}
-          </span>
-          <span style={{ color: 'var(--border)' }} className="flex-shrink-0 hidden sm:inline">/</span>
-          <span className="text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>
-            {project.title}
-          </span>
+          {/* Breadcrumb items with horizontal scroll on mobile */}
+          <div className="overflow-x-auto flex items-center gap-2 flex-shrink-0 scrollbar-hide">
+            <Link
+              href="/"
+              className="text-xs font-medium flex items-center gap-1.5 hover:opacity-70 transition-opacity flex-shrink-0"
+              style={{ color: 'var(--ink-3)' }}
+            >
+              <Home size={12} /> Home
+            </Link>
+            <span style={{ color: 'var(--border)' }} className="flex-shrink-0">/</span>
+            <span className="text-xs font-medium flex-shrink-0 hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
+              {project.category === 'use-case' ? 'Use Case Document' : 'Knowledge & Guideline'}
+            </span>
+            <span style={{ color: 'var(--border)' }} className="flex-shrink-0 hidden sm:inline">/</span>
+            <span className="text-xs font-semibold flex-shrink-0" style={{ color: 'var(--ink)' }}>
+              {project.title}
+            </span>
+          </div>
 
-          <div className="ml-auto flex items-center gap-3 flex-shrink-0">
+          {/* Division badge and date - on same line on tablet+, separate line on mobile */}
+          <div className="flex items-center gap-3 flex-shrink-0 sm:ml-auto">
             {project.division && (
               <span
                 className="text-[10px] font-bold px-2.5 py-1 rounded-full"
@@ -102,7 +106,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 {project.division}
               </span>
             )}
-            <span className="text-[10px] hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
+            <span className="text-[10px]" style={{ color: 'var(--ink-3)' }}>
               Updated {new Date(project.updatedAt).toLocaleDateString('vi-VN')}
             </span>
           </div>
@@ -159,57 +163,63 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 </form>
               ) : (
                 <>
-                  {/* Row 1: title + metrics + edit */}
-                  <div className="flex items-center gap-3 min-w-0">
+                  {/* Row 1: title + subtitle (responsive layout) */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 min-w-0">
                     <div className="min-w-0 flex-1">
-                      <h1 className="text-sm font-black truncate leading-tight" style={{ color: 'var(--ink)' }}>
+                      <h1 className="text-sm font-black leading-tight" style={{ color: 'var(--ink)' }}>
                         {project.title}
                       </h1>
-                      <code className="text-[10px] font-mono truncate block" style={{ color: 'var(--ink-3)' }}>
+                      <code className="text-xs font-mono block" style={{ color: 'var(--ink-3)' }}>
                         {project.subtitle}
                       </code>
                     </div>
 
-                    {project.metrics && (
-                      <div className="flex items-center gap-3 flex-shrink-0">
-                        {project.metrics.map(m => (
-                          <div key={m.label} className="text-center hidden sm:block">
-                            <div className="text-sm font-black leading-tight" style={{ color: '#AE2070' }}>{m.value}</div>
-                            <div className="text-[9px] leading-tight" style={{ color: 'var(--ink-3)' }}>{m.label}</div>
-                          </div>
-                        ))}
-                        {/* Mobile: compact metric pills */}
-                        <div className="flex gap-1.5 sm:hidden">
+                    {/* Metrics and edit button - desktop horizontal */}
+                    <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
+                      {project.metrics && (
+                        <div className="flex items-center gap-3 flex-shrink-0">
                           {project.metrics.map(m => (
-                            <span key={m.label} className="text-[10px] font-black px-1.5 py-0.5 rounded-md" style={{ background: '#FFEFF4', color: '#AE2070' }}>
-                              {m.value}
-                            </span>
+                            <div key={m.label} className="text-center">
+                              <div className="text-sm font-black leading-tight" style={{ color: '#AE2070' }}>{m.value}</div>
+                              <div className="text-[9px] leading-tight" style={{ color: 'var(--ink-3)' }}>{m.label}</div>
+                            </div>
                           ))}
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {isAdmin && (
-                      <button
-                        onClick={() => setIsEditing(true)}
-                        className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:bg-blue-600"
-                        style={{ background: '#3B82F6', color: '#fff' }}
-                      >
-                        <Edit size={13} />
-                        <span className="hidden sm:inline">Edit</span>
-                      </button>
-                    )}
+                      {isAdmin && (
+                        <button
+                          onClick={() => setIsEditing(true)}
+                          className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:bg-blue-600"
+                          style={{ background: '#3B82F6', color: '#fff' }}
+                        >
+                          <Edit size={13} />
+                          <span>Edit</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Row 2: tags — horizontal scroll on mobile */}
+                  {/* Row 2: mobile metrics pills (only on mobile) */}
+                  {project.metrics && (
+                    <div className="flex gap-1.5 sm:hidden">
+                      {project.metrics.map(m => (
+                        <span key={m.label} className="text-[10px] font-black px-1.5 py-0.5 rounded-md" style={{ background: '#FFEFF4', color: '#AE2070' }}>
+                          {m.value}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Row 3: tags — horizontal scroll on mobile, wrap on tablet+ */}
                   {project.tags.length > 0 && (
-                    <div className="flex gap-1.5 mt-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
+                    <div className="flex gap-1.5 mt-1.5 overflow-x-auto pb-0.5 sm:overflow-x-visible sm:flex-wrap sm:pb-0 scrollbar-hide">
                       {project.tags.map(t => {
                         const [bg, color] = getTagColors(t)
                         return (
                           <span
                             key={t}
-                            className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0"
+                            className="text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap sm:whitespace-normal flex-shrink-0 sm:flex-shrink"
                             style={{ background: bg, color }}
                           >
                             {t}
