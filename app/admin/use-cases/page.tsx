@@ -107,7 +107,7 @@ export default function AdminUseCasesPage() {
     setFormError('')
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const trimmed = {
       ...formState,
       division: formState.division.trim(),
@@ -124,10 +124,24 @@ export default function AdminUseCasesPage() {
       return
     }
 
-    // Right sidebar now only for Add New, no edit logic
+    try {
+      const response = await fetch('/api/use-cases', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(trimmed),
+      })
 
-    persistEntries([...entries, trimmed])
-    resetForm()
+      if (!response.ok) {
+        const error = await response.json()
+        setFormError(error.error || 'Lỗi khi lưu use-case')
+        return
+      }
+
+      persistEntries([...entries, trimmed])
+      resetForm()
+    } catch (error) {
+      setFormError('Lỗi khi lưu use-case: ' + (error instanceof Error ? error.message : 'Unknown error'))
+    }
   }
 
   const handleEditRow = (index: number) => {
@@ -257,68 +271,82 @@ export default function AdminUseCasesPage() {
             </div>
 
             <div className="rounded-3xl border border-[#E9D6E3] bg-white p-6 shadow-sm">
-              <div className="flex items-center gap-3 mb-5">
-                <FileText size={20} className="text-[#AE2070]" />
-                <div>
-                  <h2 className="text-lg font-bold text-[#18120E]">Thêm Use Case mới</h2>
-                  <p className="text-sm text-[#6B4D60]">Nhập thông tin chi tiết của Mini Web / Use Case.</p>
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <FileText size={20} className="text-[#AE2070]" />
+                  <div>
+                    <h2 className="text-lg font-bold text-[#18120E]">Thêm Use Case mới</h2>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-3">
+                <div className="grid gap-3 grid-cols-2">
                   <label className="block text-xs font-semibold text-[#5B3A53]">
-                    Division
-                    <input
+                    Division *
+                    <select
                       value={formState.division}
                       onChange={(e) => setFormState({ ...formState, division: e.target.value })}
-                      className="mt-2 w-full rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
-                    />
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    >
+                      <option value="">Chọn Division</option>
+                      {droplists.divisions.map(div => (
+                        <option key={div} value={div}>{div}</option>
+                      ))}
+                    </select>
                   </label>
                   <label className="block text-xs font-semibold text-[#5B3A53]">
-                    Use Case
+                    Use Case *
                     <input
                       value={formState.useCase}
                       onChange={(e) => setFormState({ ...formState, useCase: e.target.value })}
-                      className="mt-2 w-full rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                      placeholder="Nhập Use Case"
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                     />
                   </label>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-3 grid-cols-2">
                   <label className="block text-xs font-semibold text-[#5B3A53]">
-                    Service Name
+                    Service Name *
                     <input
                       value={formState.serviceName}
                       onChange={(e) => setFormState({ ...formState, serviceName: e.target.value })}
-                      className="mt-2 w-full rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                      placeholder="Tên dịch vụ"
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                     />
                   </label>
                   <label className="block text-xs font-semibold text-[#5B3A53]">
-                    URL
+                    URL *
                     <input
                       value={formState.url}
                       onChange={(e) => setFormState({ ...formState, url: e.target.value })}
-                      className="mt-2 w-full rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                      placeholder="https://momo.vn/..."
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                     />
                   </label>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-3 grid-cols-2">
                   <label className="block text-xs font-semibold text-[#5B3A53]">
-                    Page Type
-                    <input
+                    Page Type *
+                    <select
                       value={formState.pageType}
                       onChange={(e) => setFormState({ ...formState, pageType: e.target.value })}
-                      className="mt-2 w-full rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
-                    />
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    >
+                      <option value="">Chọn Page Type</option>
+                      {droplists.pageTypes.map(type => (
+                        <option key={type} value={type}>{type}</option>
+                      ))}
+                    </select>
                   </label>
                   <label className="block text-xs font-semibold text-[#5B3A53]">
                     Status
                     <select
                       value={formState.status}
                       onChange={(e) => setFormState({ ...formState, status: e.target.value })}
-                      className="mt-2 w-full rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                     >
                       <option value="Live">Live</option>
                       <option value="Monitor">Monitor</option>
@@ -332,7 +360,8 @@ export default function AdminUseCasesPage() {
                   <input
                     value={formState.product}
                     onChange={(e) => setFormState({ ...formState, product: e.target.value })}
-                    className="mt-2 w-full rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    placeholder="(Tùy chọn)"
+                    className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                   />
                 </label>
 
@@ -341,26 +370,27 @@ export default function AdminUseCasesPage() {
                   <textarea
                     value={formState.note}
                     onChange={(e) => setFormState({ ...formState, note: e.target.value })}
-                    className="mt-2 w-full min-h-[96px] rounded-2xl border border-[#E5D0DD] bg-[#FAF4FB] px-4 py-3 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    placeholder="(Tùy chọn)"
+                    className="mt-1 w-full h-16 rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                   />
                 </label>
 
-                {formError && <p className="text-sm text-[#D92D3B]">{formError}</p>}
+                {formError && <p className="text-xs text-[#D92D3B] bg-[#FEE7ED] rounded-lg p-3">{formError}</p>}
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex gap-2 pt-2">
                   <button
                     type="button"
                     onClick={handleSave}
-                    className="inline-flex items-center gap-2 rounded-2xl bg-[#AE2070] px-5 py-3 text-sm font-semibold text-white hover:bg-[#C84C8C] transition"
+                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#AE2070] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#C84C8C] transition"
                   >
-                    <Save size={16} /> Thêm Use Case
+                    <Plus size={16} /> Thêm
                   </button>
                   <button
                     type="button"
                     onClick={resetForm}
-                    className="inline-flex items-center gap-2 rounded-2xl border border-[#E4DDD6] bg-white px-5 py-3 text-sm font-semibold text-[#5B3A53] hover:bg-[#F3F3F3] transition"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E4DDD6] bg-white px-4 py-2.5 text-sm font-semibold text-[#5B3A53] hover:bg-[#F9F9F9] transition"
                   >
-                    Hủy
+                    <X size={16} /> Xóa
                   </button>
                 </div>
               </div>
