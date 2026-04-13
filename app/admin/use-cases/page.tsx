@@ -23,6 +23,7 @@ const defaultEntry: MiniWebEntry = {
   product: '',
   serviceName: '',
   url: '',
+  demoWebUrl: '',
   status: 'Live',
   pageType: '',
   note: '',
@@ -115,6 +116,7 @@ export default function AdminUseCasesPage() {
       product: formState.product.trim(),
       serviceName: formState.serviceName.trim(),
       url: formState.url.trim(),
+      demoWebUrl: formState.demoWebUrl?.trim() || '',
       pageType: formState.pageType.trim(),
       note: formState.note?.trim() || '',
     }
@@ -329,6 +331,15 @@ export default function AdminUseCasesPage() {
 
                 <div className="grid gap-3 grid-cols-2">
                   <label className="block text-xs font-semibold text-[#5B3A53]">
+                    Demo Web URL
+                    <input
+                      value={formState.demoWebUrl || ''}
+                      onChange={(e) => setFormState({ ...formState, demoWebUrl: e.target.value })}
+                      placeholder="https://merchant-page.vercel.app/..."
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    />
+                  </label>
+                  <label className="block text-xs font-semibold text-[#5B3A53]">
                     Page Type *
                     <select
                       value={formState.pageType}
@@ -341,6 +352,9 @@ export default function AdminUseCasesPage() {
                       ))}
                     </select>
                   </label>
+                </div>
+
+                <div className="grid gap-3 grid-cols-2">
                   <label className="block text-xs font-semibold text-[#5B3A53]">
                     Status
                     <select

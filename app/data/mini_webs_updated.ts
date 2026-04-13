@@ -4,6 +4,7 @@ export interface MiniWebEntry {
   product: string
   serviceName: string
   url: string
+  demoWebUrl?: string
   status: string
   pageType: string
   note?: string
