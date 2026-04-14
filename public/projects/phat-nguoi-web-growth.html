@@ -212,20 +212,20 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; margin-bottom:14px; }
 .card-title { font-size:13.5px; font-weight:700; margin-bottom:8px; color:var(--ink); }
 
-.overview-meta-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+.overview-meta-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
 .meta-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 20px; }
 .meta-card-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:6px; }
 .meta-card-value { font-size:15px; font-weight:800; color:var(--ink); }
 .meta-card-sub { font-size:11.5px; color:var(--ink-3); margin-top:3px; }
 
-.scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.scope-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
 .scope-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
 .scope-card-header { padding:10px 16px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; display:flex; align-items:center; gap:8px; }
 .scope-card-body { padding:12px 16px; font-size:12.5px; color:var(--ink-2); line-height:1.7; }
 .scope-card-body li { list-style:none; padding:2px 0; }
 .scope-card-body li::before { content:"→ "; color:var(--ink-3); font-size:11px; }
 
-.persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+.persona-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:24px; }
 .persona-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
 .persona-header { padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
 .persona-title { font-size:13px; font-weight:800; }
@@ -245,7 +245,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .kw-vol { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-3); }
 .kw-intent { font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; }
 .kw-intent-info { background:#E0F4E8; color:#0B6130; }
-.kw-intent-trans { background:var(--pink-light); color:var(--pink); }
+.kw-intent-trans { background:var(--pink-m2); color:var(--pink); }
 .kw-intent-nav { background:var(--blue-light); color:var(--blue); }
 .kw-intent-comm { background:var(--amber-light); color:var(--amber); }
 
@@ -287,7 +287,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .sitemap-header { background:var(--ink); color:white; padding:12px 20px; font-size:12px; font-weight:700; font-family:'JetBrains Mono',monospace; }
 .sitemap-node { display:flex; align-items:flex-start; gap:12px; padding:10px 20px; border-bottom:1px solid var(--border); }
 .sitemap-node:last-child { border-bottom:none; }
-.sitemap-node.root { background:linear-gradient(90deg,#F5E0EC,var(--surface)); font-weight:800; }
+.sitemap-node.root { background:linear-gradient(90deg,var(--pink-m2),var(--surface)); font-weight:800; }
 .sitemap-node.child { padding-left:44px; background:var(--surface); }
 .sitemap-node.grandchild { padding-left:68px; background:#FAFAF8; }
 .sitemap-node-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
@@ -396,6 +396,16 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 .deeplink-url { font-size:12px; color:#7DFFBE; word-break:break-all; margin-bottom:8px; }
 .deeplink-params { font-size:11px; color:rgba(255,255,255,0.5); }
 .deeplink-params span { color:#FFD0A0; }
+
+/* ── Custom grid responsive ── */
+@media (min-width:640px) {
+  .overview-meta-grid { grid-template-columns:1fr 1fr 1fr; }
+  .scope-grid { grid-template-columns:1fr 1fr; }
+  .persona-grid { grid-template-columns:1fr 1fr; }
+}
+@media (min-width:900px) {
+  .stat-num { font-size:28px; }
+}
 </style>
 </head>
 <body>
@@ -1282,7 +1292,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
     </div>
     <div class="phase-col">
-      <div class="phase-header" style="background:var(--pink-light);color:var(--pink);">Phase 3 — Tháng 5–6<br><small style="font-weight:400;">Blog Scaling</small></div>
+      <div class="phase-header" style="background:var(--pink-m2);color:var(--pink);">Phase 3 — Tháng 5–6<br><small style="font-weight:400;">Blog Scaling</small></div>
       <div class="phase-body">
         <li>Blog Evergreen: mức phạt xe tải, xe khách</li>
         <li>Blog How-to: xe tải nhiều lỗi tồn đọng</li>
@@ -2357,7 +2367,7 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
         <div class="cl-product-name">Web-to-App Funnel — Deeplink & CTA</div>
         <div class="cl-product-sub">Kiểm tra toàn bộ funnel chuyển đổi Web sang App</div>
       </div>
-      <div class="cl-product-badge" style="background:var(--pink-light);color:var(--pink);">P1 · Core KPI</div>
+      <div class="cl-product-badge" style="background:var(--pink-m2);color:var(--pink);">P1 · Core KPI</div>
       <div class="cl-product-toggle">▶</div>
     </div>
     <div class="cl-product-body">
