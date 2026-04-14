@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Sidebar from '../components/Sidebar'
-import { miniWebs } from '../data/mini_webs'
+import { useCases } from '../data/use-cases'
 import { Search, ExternalLink, Filter, ArrowUpDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useSidebar } from '../context/sidebar'
@@ -23,11 +23,12 @@ export default function MiniWebRegistryPage() {
   const [activeDivision, setActiveDivision] = useState<string | null>(null)
   const [activePageType, setActivePageType] = useState<string | null>(null)
 
-  const filteredData = miniWebs.filter(item => {
+  const filteredData = useCases.filter(item => {
     const matchesSearch =
       item.serviceName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.useCase.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.url.toLowerCase().includes(searchQuery.toLowerCase())
+      item.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.description?.toLowerCase().includes(searchQuery.toLowerCase())
 
     const matchesDivision = activeDivision ? item.division === activeDivision : true
     const matchesPageType = activePageType ? item.pageType === activePageType : true
@@ -35,8 +36,8 @@ export default function MiniWebRegistryPage() {
     return matchesSearch && matchesDivision && matchesPageType
   })
 
-  const divisions = Array.from(new Set(miniWebs.map(i => i.division)))
-  const pageTypes = Array.from(new Set(miniWebs.map(i => i.pageType)))
+  const divisions = Array.from(new Set(useCases.map(i => i.division)))
+  const pageTypes = Array.from(new Set(useCases.map(i => i.pageType)))
 
   return (
     <div className="flex min-h-screen w-full bg-[#F6F3EF]">
@@ -133,7 +134,7 @@ export default function MiniWebRegistryPage() {
                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-[#8C7D74]">Division</th>
                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-[#8C7D74]">Service Name</th>
                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-[#8C7D74]">Use Case</th>
-                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-[#8C7D74]">URL Path</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-[#8C7D74]">URL</th>
                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-[#8C7D74]">Status</th>
                   </tr>
                 </thead>
@@ -189,7 +190,7 @@ export default function MiniWebRegistryPage() {
 
           <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-4 sm:px-0">
             <p className="text-[10px] text-[#8C7D74] font-medium">
-              Hiển thị <strong>{filteredData.length}</strong> / <strong>{miniWebs.length}</strong> dịch vụ
+              Hiển thị <strong>{filteredData.length}</strong> / <strong>{useCases.length}</strong> dịch vụ
             </p>
             <p className="text-[10px] text-[#8C7D74] font-medium underline cursor-pointer hover:text-[#AE2070]">
               Tải file Excel (Coming soon)
