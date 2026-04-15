@@ -15,6 +15,7 @@ const divisionColors: Record<string, { bg: string; text: string }> = {
   SP: { bg: '#F0EDE8', text: '#8C7D74' },
   GPD: { bg: '#E6EEFF', text: '#1848B8' },
   BMC: { bg: '#F5E0EC', text: '#AE2070' },
+  CX: { bg: '#E6EEFF', text: '#1848B8' },
 }
 
 export default function MiniWebRegistryPage() {
