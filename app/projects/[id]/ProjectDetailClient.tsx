@@ -96,8 +96,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             </span>
           </div>
 
-          {/* Division badge and date - on same line on tablet+, separate line on mobile */}
-          <div className="flex items-center gap-3 flex-shrink-0 sm:ml-auto">
+          {/* Division badge and date - centered on mobile, right-aligned on tablet+ */}
+          <div className="flex items-center justify-center sm:justify-end gap-3 flex-shrink-0 sm:ml-auto">
             {project.division && (
               <span
                 className="text-[10px] font-bold px-2.5 py-1 rounded-full"
@@ -116,7 +116,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           <div className="flex-1 flex flex-col">
             {/* Meta bar */}
             <div
-              className="px-4 sm:px-8 py-2.5 flex-shrink-0"
+              className="px-4 sm:px-6 lg:px-8 py-4 sm:py-3 flex-shrink-0"
               style={{ background: '#F6F3EF', borderBottom: '1px solid var(--border)' }}
             >
               {isEditing ? (
@@ -163,21 +163,23 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 </form>
               ) : (
                 <>
-                  {/* Row 1: title + subtitle (responsive layout) */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 min-w-0">
+                  {/* Main content area - responsive layout */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 min-w-0">
+                    {/* Title and subtitle section - full width on mobile, auto on tablet+ */}
                     <div className="min-w-0 flex-1">
                       <h1 className="text-sm font-black leading-tight" style={{ color: 'var(--ink)' }}>
                         {project.title}
                       </h1>
-                      <code className="text-xs font-mono block" style={{ color: 'var(--ink-3)' }}>
+                      <code className="text-xs font-mono block mt-0.5" style={{ color: 'var(--ink-3)' }}>
                         {project.subtitle}
                       </code>
                     </div>
 
-                    {/* Metrics and edit button - desktop horizontal */}
-                    <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
-                      {project.metrics && (
-                        <div className="flex items-center gap-3 flex-shrink-0">
+                    {/* Metrics and edit button - right-aligned on tablet+ */}
+                    {project.metrics && (
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-shrink-0">
+                        {/* Desktop metrics - horizontal layout */}
+                        <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
                           {project.metrics.map(m => (
                             <div key={m.label} className="text-center">
                               <div className="text-sm font-black leading-tight" style={{ color: '#AE2070' }}>{m.value}</div>
@@ -185,35 +187,46 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                             </div>
                           ))}
                         </div>
-                      )}
 
-                      {isAdmin && (
-                        <button
-                          onClick={() => setIsEditing(true)}
-                          className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:bg-blue-600"
-                          style={{ background: '#3B82F6', color: '#fff' }}
-                        >
-                          <Edit size={13} />
-                          <span>Edit</span>
-                        </button>
-                      )}
-                    </div>
+                        {/* Mobile metrics pills */}
+                        <div className="flex gap-1.5 sm:hidden">
+                          {project.metrics.map(m => (
+                            <span key={m.label} className="text-[10px] font-black px-1.5 py-0.5 rounded-md" style={{ background: '#FFEFF4', color: '#AE2070' }}>
+                              {m.value}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Edit button - hidden on mobile, visible on tablet+ */}
+                        {isAdmin && (
+                          <button
+                            onClick={() => setIsEditing(true)}
+                            className="hidden sm:flex flex-shrink-0 items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:bg-blue-600"
+                            style={{ background: '#3B82F6', color: '#fff' }}
+                          >
+                            <Edit size={13} />
+                            <span>Edit</span>
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Edit button for mobile - if no metrics */}
+                    {!project.metrics && isAdmin && (
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="hidden sm:flex flex-shrink-0 items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:bg-blue-600"
+                        style={{ background: '#3B82F6', color: '#fff' }}
+                      >
+                        <Edit size={13} />
+                        <span>Edit</span>
+                      </button>
+                    )}
                   </div>
-
-                  {/* Row 2: mobile metrics pills (only on mobile) */}
-                  {project.metrics && (
-                    <div className="flex gap-1.5 sm:hidden">
-                      {project.metrics.map(m => (
-                        <span key={m.label} className="text-[10px] font-black px-1.5 py-0.5 rounded-md" style={{ background: '#FFEFF4', color: '#AE2070' }}>
-                          {m.value}
-                        </span>
-                      ))}
-                    </div>
-                  )}
 
                   {/* Row 3: tags — horizontal scroll on mobile, wrap on tablet+ */}
                   {project.tags.length > 0 && (
-                    <div className="flex gap-1.5 mt-1.5 overflow-x-auto pb-0.5 sm:overflow-x-visible sm:flex-wrap sm:pb-0 scrollbar-hide">
+                    <div className="flex gap-1.5 mt-3 sm:mt-2 overflow-x-auto pb-0.5 sm:overflow-x-visible sm:flex-wrap sm:pb-0 scrollbar-hide">
                       {project.tags.map(t => {
                         const [bg, color] = getTagColors(t)
                         return (
