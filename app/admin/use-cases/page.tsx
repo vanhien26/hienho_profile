@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Sidebar from '../../components/Sidebar'
-import { miniWebs, MiniWebEntry } from '../../data/mini_webs'
+import { useCases, UseCase } from '../../data/use-cases'
 import { Menu, Shield, FileText, Plus, Save, X, ArrowLeft, LogOut } from 'lucide-react'
 
 function HamburgerButton({ onClick }: { onClick: () => void }) {
@@ -17,15 +17,23 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
   )
 }
 
-const defaultEntry: MiniWebEntry = {
+const defaultEntry: UseCase = {
+  id: '',
   division: '',
+  serviceName: '',
   useCase: '',
   product: '',
-  serviceName: '',
-  url: '',
-  status: 'Live',
   pageType: '',
+  status: 'Live',
+  url: '',
+  urlPath: '',
+  description: '',
+  owner: '',
+  launchDate: '',
+  updateDate: new Date().toISOString().split('T')[0],
   note: '',
+  tags: [],
+  priority: 'Medium',
 }
 
 export default function AdminUseCasesPage() {
@@ -33,10 +41,10 @@ export default function AdminUseCasesPage() {
   const [hasAccess, setHasAccess] = useState(false)
   const [codeInput, setCodeInput] = useState('')
   const [authError, setAuthError] = useState('')
-  const [entries, setEntries] = useState<MiniWebEntry[]>([])
-  const [formState, setFormState] = useState<MiniWebEntry>(defaultEntry)
+  const [entries, setEntries] = useState<UseCase[]>([])
+  const [formState, setFormState] = useState<UseCase>(defaultEntry)
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null)
-  const [tempRowData, setTempRowData] = useState<MiniWebEntry | null>(null)
+  const [tempRowData, setTempRowData] = useState<UseCase | null>(null)
   const [droplists, setDroplists] = useState({
     divisions: [] as string[],
     useCases: [] as string[],
@@ -63,23 +71,23 @@ export default function AdminUseCasesPage() {
       try {
         const parsed = JSON.parse(persisted)
         if (Array.isArray(parsed) && parsed.every((item: unknown) => typeof item === 'object' && item !== null)) {
-          setEntries(parsed as MiniWebEntry[])
+          setEntries(parsed as UseCase[])
           return
         }
       } catch {
         // ignore invalid persisted data
       }
     }
-    setEntries(miniWebs)
-    
+    setEntries(useCases)
+
     // Extract droplists from data
-    const divisions = Array.from(new Set(miniWebs.map(e => e.division))).sort() as string[]
-    const useCases = Array.from(new Set(miniWebs.map(e => e.useCase))).sort() as string[]
-    const pageTypes = Array.from(new Set(miniWebs.map(e => e.pageType))).sort() as string[]
-    setDroplists({ divisions, useCases, pageTypes, statuses: ['Live', 'Monitor', 'Stop'] })
+    const divisions = Array.from(new Set(useCases.map(e => e.division))).sort() as string[]
+    const useCaseNames = Array.from(new Set(useCases.map(e => e.useCase))).sort() as string[]
+    const pageTypes = Array.from(new Set(useCases.map(e => e.pageType))).sort() as string[]
+    setDroplists({ divisions, useCases: useCaseNames, pageTypes, statuses: ['Live', 'Monitor', 'Stop'] })
   }, [])
 
-  const persistEntries = (nextEntries: MiniWebEntry[]) => {
+  const persistEntries = (nextEntries: UseCase[]) => {
     setEntries(nextEntries)
     localStorage.setItem('adminUseCases', JSON.stringify(nextEntries))
   }
@@ -107,16 +115,22 @@ export default function AdminUseCasesPage() {
     setFormError('')
   }
 
-  const handleSave = async () => {
+  const handleSave = () => {
     const trimmed = {
       ...formState,
+      id: formState.id || `uc-${Date.now()}`,
       division: formState.division.trim(),
       useCase: formState.useCase.trim(),
       product: formState.product.trim(),
       serviceName: formState.serviceName.trim(),
       url: formState.url.trim(),
+      urlPath: formState.urlPath.trim(),
       pageType: formState.pageType.trim(),
+      description: formState.description?.trim() || '',
       note: formState.note?.trim() || '',
+      owner: formState.owner?.trim() || '',
+      launchDate: formState.launchDate || '',
+      updateDate: new Date().toISOString().split('T')[0],
     }
 
     if (!trimmed.division || !trimmed.useCase || !trimmed.serviceName || !trimmed.url || !trimmed.pageType) {
@@ -124,28 +138,20 @@ export default function AdminUseCasesPage() {
       return
     }
 
-    try {
-      const response = await fetch('/api/use-cases', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(trimmed),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        setFormError(error.error || 'Lỗi khi lưu use-case')
-        return
-      }
-
+    if (editingRowIndex !== null) {
+      // Update existing entry
+      const nextEntries = entries.map((item, idx) => idx === editingRowIndex ? trimmed : item)
+      persistEntries(nextEntries)
+    } else {
+      // Add new entry
       persistEntries([...entries, trimmed])
-      resetForm()
-    } catch (error) {
-      setFormError('Lỗi khi lưu use-case: ' + (error instanceof Error ? error.message : 'Unknown error'))
     }
+    resetForm()
   }
 
   const handleEditRow = (index: number) => {
     setEditingRowIndex(index)
+    setFormState(entries[index])
   }
 
   const handleDelete = (index: number) => {
@@ -275,12 +281,12 @@ export default function AdminUseCasesPage() {
                 <div className="flex items-center gap-3">
                   <FileText size={20} className="text-[#AE2070]" />
                   <div>
-                    <h2 className="text-lg font-bold text-[#18120E]">Thêm Use Case mới</h2>
+                    <h2 className="text-lg font-bold text-[#18120E]">{editingRowIndex !== null ? 'Cập nhật' : 'Thêm'} Use Case</h2>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
                 <div className="grid gap-3 grid-cols-2">
                   <label className="block text-xs font-semibold text-[#5B3A53]">
                     Division *
@@ -366,12 +372,53 @@ export default function AdminUseCasesPage() {
                 </label>
 
                 <label className="block text-xs font-semibold text-[#5B3A53]">
+                  URL Path
+                  <input
+                    value={formState.urlPath}
+                    onChange={(e) => setFormState({ ...formState, urlPath: e.target.value })}
+                    placeholder="(Tùy chọn)"
+                    className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                  />
+                </label>
+
+                <label className="block text-xs font-semibold text-[#5B3A53]">
+                  Description
+                  <textarea
+                    value={formState.description}
+                    onChange={(e) => setFormState({ ...formState, description: e.target.value })}
+                    placeholder="(Tùy chọn)"
+                    className="mt-1 w-full h-12 rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                  />
+                </label>
+
+                <div className="grid gap-3 grid-cols-2">
+                  <label className="block text-xs font-semibold text-[#5B3A53]">
+                    Owner
+                    <input
+                      value={formState.owner}
+                      onChange={(e) => setFormState({ ...formState, owner: e.target.value })}
+                      placeholder="(Tùy chọn)"
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    />
+                  </label>
+                  <label className="block text-xs font-semibold text-[#5B3A53]">
+                    Launch Date
+                    <input
+                      type="date"
+                      value={formState.launchDate}
+                      onChange={(e) => setFormState({ ...formState, launchDate: e.target.value })}
+                      className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    />
+                  </label>
+                </div>
+
+                <label className="block text-xs font-semibold text-[#5B3A53]">
                   Note
                   <textarea
                     value={formState.note}
                     onChange={(e) => setFormState({ ...formState, note: e.target.value })}
                     placeholder="(Tùy chọn)"
-                    className="mt-1 w-full h-16 rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
+                    className="mt-1 w-full h-12 rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                   />
                 </label>
 
@@ -383,7 +430,7 @@ export default function AdminUseCasesPage() {
                     onClick={handleSave}
                     className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#AE2070] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#C84C8C] transition"
                   >
-                    <Plus size={16} /> Thêm
+                    <Save size={16} /> {editingRowIndex !== null ? 'Cập nhật' : 'Thêm'}
                   </button>
                   <button
                     type="button"
