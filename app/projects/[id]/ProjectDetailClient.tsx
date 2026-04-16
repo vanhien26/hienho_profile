@@ -50,6 +50,17 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
     setIsAdmin(!!localStorage.getItem('adminAccess'))
   }, [])
 
+  // Fallback timeout for iframe loading - if onLoad doesn't fire within 5 seconds, hide spinner
+  useEffect(() => {
+    if (!loading) return
+
+    const loadingTimeout = setTimeout(() => {
+      setLoading(false)
+    }, 5000)
+
+    return () => clearTimeout(loadingTimeout)
+  }, [loading])
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
       title: project.title,
@@ -258,9 +269,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               <iframe
                 src={project.htmlFile}
                 onLoad={() => setLoading(false)}
+                onError={() => {
+                  // If iframe fails to load, hide spinner anyway
+                  setLoading(false)
+                }}
                 className="w-full h-full border-0"
                 style={{ minHeight: 'calc(100vh - 116px)' }}
                 title={project.title}
+                sandbox="allow-same-origin allow-scripts"
               />
             </div>
           </div>
