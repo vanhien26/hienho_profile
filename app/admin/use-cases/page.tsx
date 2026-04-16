@@ -19,7 +19,7 @@ function HamburgerButton({ onClick }: { onClick: () => void }) {
 
 const defaultEntry: UseCase = {
   id: '',
-  division: '',
+  division: 'FS',
   serviceName: '',
   useCase: '',
   product: '',
@@ -116,10 +116,10 @@ export default function AdminUseCasesPage() {
   }
 
   const handleSave = () => {
-    const trimmed = {
+    const trimmed: UseCase = {
       ...formState,
       id: formState.id || `uc-${Date.now()}`,
-      division: formState.division.trim(),
+      division: formState.division.trim() as 'FS' | 'OTA' | 'GPD' | 'MDS' | 'BMC' | 'CX' | 'PS',
       useCase: formState.useCase.trim(),
       product: formState.product.trim(),
       serviceName: formState.serviceName.trim(),
@@ -292,7 +292,7 @@ export default function AdminUseCasesPage() {
                     Division *
                     <select
                       value={formState.division}
-                      onChange={(e) => setFormState({ ...formState, division: e.target.value })}
+                      onChange={(e) => setFormState({ ...formState, division: e.target.value as 'FS' | 'OTA' | 'GPD' | 'MDS' | 'BMC' | 'CX' | 'PS' })}
                       className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                     >
                       <option value="">Chọn Division</option>
@@ -351,7 +351,7 @@ export default function AdminUseCasesPage() {
                     Status
                     <select
                       value={formState.status}
-                      onChange={(e) => setFormState({ ...formState, status: e.target.value })}
+                      onChange={(e) => setFormState({ ...formState, status: e.target.value as 'Live' | 'Monitor' | 'Stop' | 'Draft' })}
                       className="mt-1 w-full rounded-xl border border-[#E5D0DD] bg-[#FAF4FB] px-3 py-2 text-sm outline-none focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
                     >
                       <option value="Live">Live</option>
