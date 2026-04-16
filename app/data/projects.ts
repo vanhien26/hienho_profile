@@ -188,7 +188,7 @@ export const projects: Project[] = [
   {
     id: 'esim-du-lich',
     title: 'eSIM Du Lịch',
-    subtitle: 'momo.vn/esim',
+    subtitle: 'momo.vn/esim-du-lich',
     category: 'use-case',
     division: 'UTI',
     tags: ['SEO', 'Content Clusters', 'pSEO'],
@@ -197,7 +197,7 @@ export const projects: Project[] = [
     description: 'eSIM Du Lịch: mua eSIM quốc tế trên MoMo. pSEO theo quốc gia, destination-based content clustering.',
     htmlFile: '/projects/momo-esim-du-lich-doc.html',
     metrics: [
-      { label: 'Countries', value: '40+' },
+      { label: 'Countries', value: '200+' },
       { label: 'Content pages', value: '15+' },
     ],
   },

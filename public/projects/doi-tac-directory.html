@@ -3,328 +3,416 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MoMo Đối Tác — Growth Strategy & Content Architecture</title>
+<title>Đối Tác MoMo — Web Growth Strategy v1.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --pink: #AE2070;
-  --pink-light: #F5E0EC;
-  --green: #00A64F;
-  --green-light: #E0F5EA;
-  --blue: #1848B8;
-  --blue-light: #E6EEFF;
-  --amber: #C05000;
-  --amber-light: #FFF0E0;
-  --red: #C42020;
-  --red-light: #FFE8E8;
-  --purple: #6B30C0;
+  --pink:    #F95396;
+  --pink-0:  #FF9DBE;
+  --pink-m1: #FEC8DC;
+  --pink-m2: #FFEFF4;
+  --green:        #00A64F;
+  --green-light:  #E0F5EA;
+  --blue:         #1848B8;
+  --blue-light:   #E6EEFF;
+  --amber:        #C05000;
+  --amber-light:  #FFF0E0;
+  --red:          #C42020;
+  --red-light:    #FFE8E8;
+  --purple:       #6B30C0;
   --purple-light: #EFE6FF;
-  --teal: #007B7F;
-  --teal-light: #E0F5F5;
-  --ink: #18120E;
-  --ink-2: #4A3F38;
-  --ink-3: #8C7D74;
-  --bg: #F6F3EF;
+  --teal:         #007B7F;
+  --teal-light:   #E0F5F5;
+  --ink:     #18120E;
+  --ink-2:   #4A3F38;
+  --ink-3:   #8C7D74;
+  --bg:      #F6F3EF;
   --surface: #FFFFFF;
-  --border: #E4DDD6;
+  --border:  #E4DDD6;
   --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow:    0 4px 20px rgba(0,0,0,0.08);
   --r: 10px;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;}
 
-/* ─── LAYOUT ─── */
-.layout { display:flex; min-height:100vh; }
-.sidebar { width:260px; flex-shrink:0; background:var(--ink); position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
-.sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
-.brand-logo { background:var(--pink); color:white; font-weight:900; font-size:17px; padding:5px 12px; border-radius:6px; display:inline-block; letter-spacing:-0.5px; margin-bottom:8px; }
-.brand-sub { font-size:11px; color:rgba(255,255,255,0.45); line-height:1.4; }
-.nav-section { padding:16px 0 0; }
-.nav-label { font-size:9.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:0 20px 8px; }
-.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; cursor:pointer; color:rgba(255,255,255,0.6); font-size:12.5px; font-weight:500; transition:all 0.15s; border-left:2px solid transparent; user-select:none; }
-.nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
-.nav-item.active { color:white; background:rgba(255,255,255,0.08); border-left-color:var(--pink); }
-.nav-item .nav-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
-.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
-.version-tag { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(255,255,255,0.25); }
+/* ── LAYOUT ── */
+.layout{display:block;min-height:100vh;}
 
-/* ─── CONTENT ─── */
-.content { flex:1; overflow-y:auto; min-width:0; }
-.section { display:none; padding:40px 48px; }
-.section.active { display:block; }
+/* ── MOBILE HEADER ── */
+.mob-header{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;height:52px;padding:0 16px;background:#fff;border-bottom:2px solid var(--pink-m1);box-shadow:0 2px 10px rgba(249,83,150,0.08);}
+.mob-brand{display:flex;align-items:center;gap:9px;}
+.brand-logo{background:linear-gradient(135deg,var(--pink) 0%,#D0206A 100%);color:#fff;font-weight:900;font-size:15px;padding:4px 10px;border-radius:7px;letter-spacing:-0.5px;}
+.brand-label{font-size:10.5px;font-weight:700;color:var(--ink-3);line-height:1.3;}
+.mob-hamburger{display:flex;flex-direction:column;gap:4.5px;cursor:pointer;padding:7px;border-radius:6px;background:transparent;border:none;transition:background 0.12s;}
+.mob-hamburger:hover{background:var(--pink-m2);}
+.mob-hamburger span{display:block;width:20px;height:2px;background:var(--ink-2);border-radius:2px;transition:all 0.22s cubic-bezier(0.4,0,0.2,1);}
+.mob-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px);background:var(--pink);}
+.mob-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.mob-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px);background:var(--pink);}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(24,18,14,0.5);z-index:250;}
+.sidebar-overlay.open{display:block;}
 
-/* ─── HEADER ─── */
-.page-header { margin-bottom:36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
-.page-eyebrow { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px; }
-.page-title { font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1.15; color:var(--ink); margin-bottom:10px; }
-.page-desc { font-size:14.5px; color:var(--ink-2); max-width:680px; line-height:1.7; }
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;top:0;left:0;width:256px;height:100vh;background:#18120E;display:flex;flex-direction:column;z-index:260;transform:translateX(-100%);transition:transform 0.26s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;overflow-x:hidden;}
+.sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,0.3);}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:18px 18px 15px;border-bottom:1px solid rgba(255,255,255,0.07);flex-shrink:0;}
+.sidebar-brand .brand-logo{font-size:14px;padding:3px 9px;}
+.sidebar-brand .brand-label{color:rgba(255,255,255,0.45);font-size:10px;line-height:1.4;}
+.nav-section{padding:18px 0 4px;flex-shrink:0;}
+.nav-section-label{display:block;font-size:9px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--pink-0);padding:0 18px 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 18px 9px 16px;cursor:pointer;color:rgba(255,255,255,0.52);font-size:12.5px;font-weight:500;border-left:3px solid transparent;transition:all 0.13s;user-select:none;line-height:1.3;}
+.nav-item:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.05);border-left-color:var(--pink-m1);}
+.nav-item.active{color:#fff;background:rgba(249,83,150,0.14);border-left-color:var(--pink);font-weight:700;}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.18);flex-shrink:0;transition:background 0.13s;}
+.nav-item.active .nav-dot{background:var(--pink);box-shadow:0 0 6px var(--pink);}
+.nav-item:hover .nav-dot{background:rgba(255,255,255,0.45);}
+.nav-lbl{flex:1;}
+.sidebar-footer{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0;}
+.version-tag{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,0.22);line-height:1.8;}
 
-/* ─── STATS ─── */
-.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:36px; }
-.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; }
-.stat-num { font-size:30px; font-weight:900; letter-spacing:-1.5px; line-height:1; margin-bottom:4px; }
-.stat-lbl { font-size:12px; color:var(--ink-3); font-weight:500; }
-.stat-sub { font-size:10.5px; color:var(--ink-3); margin-top:4px; }
+/* ── CONTENT ── */
+.section{display:none;padding:24px 16px 40px;}
+.section.active{display:block;}
 
-/* ─── HEADINGS ─── */
-h2.sh { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:16px; color:var(--ink); display:flex; align-items:center; gap:10px; }
-h3.sh3 { font-size:14px; font-weight:700; margin-bottom:12px; color:var(--ink); }
-h4.sh4 { font-size:13px; font-weight:700; margin-bottom:8px; color:var(--ink-2); }
+/* ── DESKTOP ── */
+@media(min-width:900px){
+  .mob-header{display:none;}
+  .sidebar-overlay{display:none !important;}
+  .sidebar{transform:none !important;position:fixed;box-shadow:none;}
+  .layout{margin-left:256px;}
+  .section{padding:36px 44px 48px;}
+}
 
-/* ─── TAGS ─── */
-.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.2px; }
-.tag-p1 { background:var(--pink-light); color:var(--pink); }
-.tag-p2 { background:#FFF3DC; color:#8B5800; }
-.tag-p3 { background:#F0EDE8; color:var(--ink-3); }
-.tag-new { background:#E0F4E8; color:#006B30; border:1.5px dashed #00A64F; }
-.tag-pseo { background:var(--purple-light); color:var(--purple); }
-.tag-seo { background:var(--blue-light); color:var(--blue); }
-.tag-conv { background:var(--pink-light); color:var(--pink); }
-.tag-intent { background:#FFF3DC; color:#8B5800; }
-.tag-ai { background:var(--purple-light); color:var(--purple); border:1.5px dashed var(--purple); }
-.tag-vts { background:var(--pink-light); color:var(--pink); border:1px solid var(--pink); }
+/* ── HEADER ── */
+.page-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.page-eyebrow{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.page-title{font-size:22px;font-weight:900;letter-spacing:-0.5px;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.page-desc{font-size:13.5px;color:var(--ink-2);line-height:1.7;}
+@media(min-width:1024px){.page-title{font-size:28px;letter-spacing:-1px;}}
 
-code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0EDE8; padding:1px 7px; border-radius:4px; color:var(--ink-2); }
+/* ── TAGS ── */
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;}
+.tag-tofu{background:#E0F4E8;color:#0B6130;}
+.tag-mofu{background:var(--blue-light);color:var(--blue);}
+.tag-bofu{background:var(--pink-m2);color:var(--pink);}
+.tag-p1{background:var(--pink-m2);color:var(--pink);}
+.tag-p2{background:#FFF3DC;color:#8B5800;}
+.tag-p3{background:#F0EDE8;color:var(--ink-3);}
+.tag-new{background:#E0F4E8;color:#006B30;border:1.5px dashed #00A64F;}
+.tag-pseo{background:var(--purple-light);color:var(--purple);}
+.tag-seo{background:var(--blue-light);color:var(--blue);}
+.tag-conv{background:var(--pink-m2);color:var(--pink);}
+.tag-trust{background:#FFF3DC;color:#8B5800;}
+.tag-ai{background:var(--purple-light);color:var(--purple);border:1.5px dashed var(--purple);}
+.tag-vts{background:var(--pink-m2);color:var(--pink);border:1px solid var(--pink);}
+code.url{font-family:'JetBrains Mono',monospace;font-size:11px;background:#F0EDE8;padding:1px 7px;border-radius:4px;color:var(--ink-2);word-break:break-all;}
 
-/* ─── TABLE ─── */
-.data-table { width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; font-size:13px; margin-bottom:28px; }
-.data-table thead tr { background:#F0EDE8; }
-.data-table th { padding:10px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); border-bottom:1px solid var(--border); }
-.data-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
-.data-table tbody tr:last-child td { border-bottom:none; }
-.data-table tbody tr:hover { background:#FAFAF8; }
-.data-table tbody tr.row-highlight { background:var(--pink-light); }
-.data-table tbody tr.row-vts { background:#FFF0E0; }
+/* ── STAT ── */
+.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;}
+.stat-num{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:4px;}
+.stat-lbl{font-size:11.5px;color:var(--ink-3);font-weight:500;}
+.stat-sub{font-size:10px;color:var(--ink-3);margin-top:3px;}
+@media(min-width:640px){.stat-row{grid-template-columns:repeat(4,1fr);}}
 
-/* ─── FUNNEL ─── */
-.funnel-flow { display:flex; gap:0; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:28px; }
-.funnel-stage { flex:1; padding:18px 16px; border-right:1px solid var(--border); }
-.funnel-stage:last-child { border-right:none; }
-.funnel-stage-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:6px; }
-.funnel-stage-title { font-size:15px; font-weight:800; margin-bottom:10px; }
-.funnel-stage-items { list-style:none; font-size:12px; color:var(--ink-2); line-height:1.7; }
-.funnel-stage-items li::before { content:"·  "; color:var(--ink-3); }
-.fs-tofu { border-top:3px solid var(--green); }
-.fs-tofu .funnel-stage-label { color:var(--green); }
-.fs-mofu { border-top:3px solid var(--blue); }
-.fs-mofu .funnel-stage-label { color:var(--blue); }
-.fs-bofu { border-top:3px solid var(--pink); }
-.fs-bofu .funnel-stage-label { color:var(--pink); }
-.fs-convert { border-top:3px solid var(--amber); background:linear-gradient(135deg,#FFF8F0,#FFF3E0); }
-.fs-convert .funnel-stage-label { color:var(--amber); }
+/* ── HEADINGS ── */
+h2.sh{font-size:16px;font-weight:800;letter-spacing:-0.3px;margin-bottom:14px;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+h3.sh3{font-size:13.5px;font-weight:700;margin-bottom:10px;color:var(--ink);}
+@media(min-width:1024px){h2.sh{font-size:17px;}}
 
-/* ─── TREE ─── */
-.tree-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:36px; }
-.tree-box { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-.tree-box-header { padding:14px 18px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
-.tree-box-title { font-size:14px; font-weight:800; }
-.tree-box-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-top:1px; }
-.tree-body { padding:14px 18px; }
-.tree-item { font-size:12.5px; padding:5px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
-.tree-item:last-child { border-bottom:none; }
-.tree-depth-0 { font-weight:800; color:var(--ink); }
-.tree-depth-1 { padding-left:14px; color:var(--ink-2); }
-.tree-depth-2 { padding-left:28px; color:var(--ink-3); font-size:11.5px; }
-.tree-url { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); }
-.tree-badge { font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; flex-shrink:0; }
+/* ── TABLE ── */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:24px;border-radius:var(--r);}
+.table-scroll .data-table{margin-bottom:0;min-width:540px;}
+.data-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;font-size:12.5px;margin-bottom:24px;}
+.data-table thead tr{background:#F0EDE8;}
+.data-table th{padding:9px 12px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-3);border-bottom:1px solid var(--border);}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;word-break:break-word;}
+.data-table tbody tr:last-child td{border-bottom:none;}
+.data-table tbody tr:hover{background:#FAFAF8;}
+.data-table tbody tr.row-new{background:#F0FFF6;}
+.data-table tbody tr.row-highlight{background:var(--pink-m2);}
+.data-table tbody tr.row-vts{background:#FFF0E0;}
 
-/* ─── DIVIDER ─── */
-.divider { height:1px; background:var(--border); margin:32px 0; }
+/* ── CALLOUT ── */
+.callout{border-radius:var(--r);padding:14px 16px;margin-bottom:16px;font-size:12.5px;line-height:1.7;}
+.callout-red{background:var(--red-light);border:1px solid #FFD0D0;color:#8B1A1A;}
+.callout-amber{background:var(--amber-light);border:1px solid #FFD0A0;color:#7A3A00;}
+.callout-green{background:var(--green-light);border:1px solid #A0DEB8;color:#0B5020;}
+.callout-blue{background:var(--blue-light);border:1px solid #B0C8FF;color:#0D3080;}
+.callout-purple{background:var(--purple-light);border:1px solid #C0A0FF;color:#4A1A90;}
+.callout-pink{background:var(--pink-m2);border:1px solid var(--pink-m1);color:#8B104A;}
+.callout-title{font-weight:800;margin-bottom:4px;font-size:12.5px;}
 
-/* ─── CALLOUT ─── */
-.callout { border-radius:var(--r); padding:16px 20px; margin-bottom:20px; font-size:13px; line-height:1.7; }
-.callout-red { background:var(--red-light); border:1px solid #FFD0D0; color:#8B1A1A; }
-.callout-amber { background:var(--amber-light); border:1px solid #FFD0A0; color:#7A3A00; }
-.callout-green { background:var(--green-light); border:1px solid #A0DEB8; color:#0B5020; }
-.callout-blue { background:var(--blue-light); border:1px solid #B0C8FF; color:#0D3080; }
-.callout-purple { background:var(--purple-light); border:1px solid #C0A0FF; color:#4A1A90; }
-.callout-pink { background:var(--pink-light); border:1px solid #F0A0C8; color:#7A1050; }
-.callout-title { font-weight:800; margin-bottom:4px; font-size:13px; }
+/* ── CARD ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:12px;}
+.card-title{font-size:13.5px;font-weight:700;margin-bottom:7px;color:var(--ink);}
 
-/* ─── CARDS ─── */
-.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; margin-bottom:14px; }
-.card-title { font-size:14px; font-weight:700; margin-bottom:8px; color:var(--ink); }
+/* ── GRIDS ── */
+.grid-2{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:24px;}
+.grid-3{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:24px;}
+.grid-4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+@media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr;}.grid-3{grid-template-columns:1fr 1fr;}.grid-4{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:1024px){.grid-3{grid-template-columns:1fr 1fr 1fr;}}
 
-/* ─── GRID ─── */
-.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
-.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
+/* ── FUNNEL ── */
+.funnel-flow{display:flex;flex-direction:column;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px;}
+.funnel-stage{flex:1;padding:14px 16px;border-bottom:1px solid var(--border);}
+.funnel-stage:last-child{border-bottom:none;}
+.funnel-stage-label{font-size:9.5px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;}
+.funnel-stage-title{font-size:14px;font-weight:800;margin-bottom:8px;}
+.funnel-stage-items{list-style:none;font-size:11.5px;color:var(--ink-2);line-height:1.7;}
+.funnel-stage-items li::before{content:"·  ";color:var(--ink-3);}
+.fs-tofu{border-top:3px solid var(--green);}.fs-tofu .funnel-stage-label{color:var(--green);}
+.fs-mofu{border-top:3px solid var(--blue);}.fs-mofu .funnel-stage-label{color:var(--blue);}
+.fs-bofu{border-top:3px solid var(--pink);}.fs-bofu .funnel-stage-label{color:var(--pink);}
+.fs-convert{border-top:3px solid var(--amber);background:linear-gradient(135deg,#FFF8F0,#FFF3E0);}.fs-convert .funnel-stage-label{color:var(--amber);}
+@media(min-width:640px){.funnel-flow{flex-direction:row;}.funnel-stage{border-bottom:none;border-right:1px solid var(--border);}.funnel-stage:last-child{border-right:none;}}
 
-/* ─── CONTENT STRUCTURE ─── */
-.cs-page { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
-.cs-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; background:var(--surface); transition:background 0.12s; }
-.cs-header:hover { background:var(--bg); }
-.cs-header-left { display:flex; align-items:center; gap:12px; }
-.cs-page-title { font-size:14px; font-weight:700; }
-.cs-toggle { font-size:12px; color:var(--ink-3); transition:transform 0.2s; }
-.cs-toggle.open { transform:rotate(90deg); }
-.cs-body { display:none; border-top:1px solid var(--border); }
-.cs-body.open { display:block; }
-.cs-section { border-bottom:1px solid var(--border); padding:16px 20px; }
-.cs-section:last-child { border-bottom:none; }
-.cs-section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--ink-3); margin-bottom:8px; }
-.cs-keyword-row { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
-.cs-kw { background:#F0EDE8; color:var(--ink-2); font-size:11.5px; padding:2px 8px; border-radius:4px; }
-.cs-kw-vts { background:var(--pink-light); color:var(--pink); font-size:11.5px; padding:2px 8px; border-radius:4px; border:1px dashed var(--pink); font-weight:600; }
-.cs-component { display:inline-flex; align-items:center; gap:4px; background:var(--amber-light); color:var(--amber); border:1px solid #FFD0A0; font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:4px; margin:2px; }
-.cs-content-block { background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:10px 14px; margin-bottom:8px; font-size:12.5px; }
-.cs-block-title { font-weight:700; margin-bottom:3px; }
-.cs-block-desc { color:var(--ink-2); line-height:1.5; }
-.cs-schema { display:inline-block; background:var(--green-light); color:var(--green); border:1px solid #A0DEB8; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; font-family:'JetBrains Mono',monospace; }
-.cs-ai { display:inline-block; background:var(--purple-light); color:var(--purple); border:1px solid #C0A0FF; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; margin:2px; }
+/* ── TREE ── */
+.tree-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:28px;}
+.tree-box{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.tree-box-header{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.tree-box-title{font-size:13px;font-weight:800;}
+.tree-box-url{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-3);}
+.tree-body{padding:12px 16px;}
+.tree-item{font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:7px;line-height:1.4;}
+.tree-item:last-child{border-bottom:none;}
+.tree-depth-0{font-weight:800;color:var(--ink);}
+.tree-depth-1{padding-left:12px;color:var(--ink-2);}
+.tree-depth-2{padding-left:24px;color:var(--ink-3);font-size:11px;}
+.tree-badge{font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;}
+@media(min-width:640px){.tree-grid{grid-template-columns:1fr 1fr;}}
 
-/* ─── PRIORITY ─── */
-.priority-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
-.priority-col { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-.priority-col-header { padding:11px 16px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px; }
-.priority-col-body { padding:12px; background:var(--surface); }
-.priority-item { font-size:12px; padding:7px 10px; border-radius:6px; margin-bottom:5px; border:1px solid var(--border); background:var(--bg); line-height:1.4; }
-.priority-item b { display:block; font-weight:700; color:var(--ink); }
-.priority-item span { color:var(--ink-3); font-size:11px; }
-.priority-item.vts-item { border:1.5px dashed var(--pink); background:var(--pink-light); }
+/* ── ANATOMY ── */
+.anatomy-wrap{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.anatomy-header-row{padding:10px 14px;background:#F0EDE8;border-bottom:1px solid var(--border);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);}
+.anatomy-row{display:flex;flex-direction:column;border-bottom:1px solid var(--border);}
+.anatomy-row:last-child{border-bottom:none;}
+.anatomy-section{padding:10px 14px 4px;background:var(--bg);border-bottom:1px solid var(--border);font-weight:700;font-size:11.5px;color:var(--ink);display:flex;align-items:center;gap:6px;}
+.anatomy-section::before{content:"▸";color:var(--pink);font-size:10px;}
+.anatomy-content{padding:10px 14px;font-size:12px;color:var(--ink-2);line-height:1.6;}
+.anatomy-note{padding:6px 14px 10px;font-size:11px;color:var(--ink-3);line-height:1.5;border-top:1px dashed var(--border);background:var(--bg);}
+@media(min-width:640px){.anatomy-row{flex-direction:row;}.anatomy-section{width:180px;flex-shrink:0;border-bottom:none;border-right:1px solid var(--border);}.anatomy-section::before{display:none;}.anatomy-content{flex:1;}.anatomy-note{border-top:none;border-left:1px solid var(--border);width:160px;flex-shrink:0;}}
+@media(min-width:1024px){.anatomy-section{width:200px;}.anatomy-note{width:180px;}}
 
-/* ─── ACTION ITEMS ─── */
-.action-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; margin-bottom:8px; display:flex; align-items:flex-start; gap:14px; }
-.action-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; color:white; }
-.action-body { flex:1; }
-.action-title { font-size:13px; font-weight:700; margin-bottom:2px; }
-.action-desc { font-size:12px; color:var(--ink-2); line-height:1.5; }
-.action-meta { display:flex; gap:8px; margin-top:6px; }
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:24px 0;}
 
-/* ─── SCENARIO ─── */
-.scenario-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
-.scenario-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-.scenario-header { padding:12px 18px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
-.scenario-title { font-size:13px; font-weight:800; }
-.scenario-body { padding:14px 18px; }
-.scenario-step { display:flex; gap:10px; margin-bottom:10px; align-items:flex-start; }
-.step-num { min-width:22px; height:22px; background:var(--ink); color:white; border-radius:50%; font-size:10px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
-.step-text { font-size:12.5px; color:var(--ink-2); line-height:1.5; }
-.scenario-result { background:var(--green-light); border:1px solid #A0DEB8; border-radius:6px; padding:8px 12px; font-size:12px; color:#0B5020; font-weight:600; margin-top:4px; }
-.scenario-result-pink { background:var(--pink-light); border:1px solid #F0A0C8; border-radius:6px; padding:8px 12px; font-size:12px; color:#7A1050; font-weight:600; margin-top:4px; }
+/* ── ROADMAP ── */
+.roadmap-col{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.roadmap-col-header{padding:10px 14px;display:flex;align-items:center;gap:10px;}
+.roadmap-col-body{padding:10px 14px;background:var(--surface);}
+.roadmap-item{font-size:11.5px;color:var(--ink-2);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:6px;line-height:1.4;}
+.roadmap-item:last-child{border-bottom:none;}
+.roadmap-item::before{content:"✓";color:var(--green);font-size:10.5px;flex-shrink:0;margin-top:1px;}
+.roadmap-item.vts-task::before{content:"💳";font-size:10px;}
 
-/* ─── CHECKLIST ─── */
-.cl-product { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); margin-bottom:20px; overflow:hidden; }
-.cl-product-header { display:flex; align-items:center; gap:14px; padding:14px 20px; cursor:pointer; transition:background 0.12s; }
-.cl-product-header:hover { background:var(--bg); }
-.cl-product-icon { font-size:20px; flex-shrink:0; }
-.cl-product-meta { flex:1; }
-.cl-product-name { font-size:14px; font-weight:800; }
-.cl-product-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
-.cl-product-badge { font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:20px; flex-shrink:0; }
-.cl-product-toggle { font-size:11px; color:var(--ink-3); transition:transform 0.2s; flex-shrink:0; }
-.cl-product-toggle.open { transform:rotate(90deg); }
-.cl-product-body { display:none; border-top:1px solid var(--border); padding:20px; }
-.cl-product-body.open { display:block; }
-.cl-group { margin-bottom:20px; }
-.cl-group-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-3); margin-bottom:10px; padding-bottom:6px; border-bottom:1px dashed var(--border); }
-.cl-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
-.cl-item { display:flex; gap:8px; align-items:flex-start; background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:8px 10px; }
-.cl-check { width:16px; height:16px; border:1.5px solid var(--border); border-radius:3px; flex-shrink:0; margin-top:1px; background:white; }
-.cl-item-text { font-size:12px; color:var(--ink-2); line-height:1.4; }
-.cl-note { background:var(--amber-light); border:1px solid #FFD0A0; border-radius:6px; padding:10px 14px; font-size:12px; color:#7A3A00; line-height:1.5; margin-top:10px; }
+/* ── CS ACCORDION ── */
+.cs-page{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;}
+.cs-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;gap:10px;}
+.cs-header:hover{background:var(--bg);}
+.cs-header-left{display:flex;align-items:center;gap:10px;min-width:0;}
+.cs-page-title{font-size:13px;font-weight:700;}
+.cs-toggle{font-size:11px;color:var(--ink-3);transition:transform 0.2s;flex-shrink:0;}
+.cs-toggle.open{transform:rotate(90deg);}
+.cs-body{display:none;border-top:1px solid var(--border);}
+.cs-body.open{display:block;}
+.cs-section{border-bottom:1px solid var(--border);padding:14px 16px;}
+.cs-section:last-child{border-bottom:none;}
+.cs-section-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:7px;}
+.cs-keyword-row{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
+.cs-kw{background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 7px;border-radius:4px;}
+.cs-kw-vts{background:var(--pink-m2);color:var(--pink);font-size:11px;padding:2px 7px;border-radius:4px;border:1px dashed var(--pink);font-weight:600;}
+.cs-component{display:inline-flex;align-items:center;gap:4px;background:var(--amber-light);color:var(--amber);border:1px solid #FFD0A0;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin:2px;}
+.cs-content-block{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 12px;margin-bottom:7px;font-size:12px;}
+.cs-content-block.vts-block{background:var(--pink-m2);border:1.5px dashed var(--pink);}
+.cs-block-title{font-weight:700;margin-bottom:2px;}
+.cs-block-desc{color:var(--ink-2);line-height:1.5;}
+.cs-schema{display:inline-block;background:var(--green-light);color:var(--green);border:1px solid #A0DEB8;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:4px;margin:2px;font-family:'JetBrains Mono',monospace;}
+.cs-ai{display:inline-block;background:var(--purple-light);color:var(--purple);border:1px solid #C0A0FF;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:4px;margin:2px;}
 
-/* ─── ROADMAP ─── */
-.roadmap-row { display:grid; grid-template-columns:120px 1fr; gap:0; margin-bottom:10px; }
-.roadmap-phase { background:var(--ink); color:white; border-radius:8px 0 0 8px; padding:14px 16px; display:flex; flex-direction:column; justify-content:center; }
-.roadmap-phase-label { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.4); }
-.roadmap-phase-name { font-size:13px; font-weight:800; color:white; margin-top:3px; }
-.roadmap-body { border:1.5px solid var(--border); border-left:none; border-radius:0 8px 8px 0; padding:14px 18px; background:var(--surface); }
-.roadmap-body-title { font-size:13px; font-weight:700; margin-bottom:6px; }
-.roadmap-tasks { display:flex; flex-wrap:wrap; gap:5px; }
-.roadmap-task { font-size:11.5px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:2px 9px; color:var(--ink-2); }
-.roadmap-task.vts { background:var(--pink-light); border-color:var(--pink); color:var(--pink); font-weight:600; }
+/* ── CL ACCORDION ── */
+.cl-product{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;}
+.cl-product-header{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;}
+.cl-product-header:hover{background:var(--bg);}
+.cl-product-icon{font-size:20px;flex-shrink:0;}
+.cl-product-meta{flex:1;min-width:0;}
+.cl-product-name{font-size:13px;font-weight:800;}
+.cl-product-sub{font-size:11px;color:var(--ink-3);margin-top:2px;}
+.cl-product-badge{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0;}
+.cl-product-toggle{font-size:11px;color:var(--ink-3);transition:transform 0.2s;flex-shrink:0;}
+.cl-product-toggle.open{transform:rotate(90deg);}
+.cl-product-body{display:none;border-top:1px solid var(--border);}
+.cl-product-body.open{display:block;}
+.cl-group{padding:14px 16px;border-bottom:1px solid var(--border);}
+.cl-group:last-child{border-bottom:none;}
+.cl-group-title{font-size:11px;font-weight:700;color:var(--ink-2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;}
+.cl-grid{display:grid;grid-template-columns:1fr;gap:4px;}
+.cl-item{display:flex;gap:8px;align-items:flex-start;padding:4px 0;}
+.cl-check{width:13px;height:13px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;margin-top:2px;}
+.cl-item-text{font-size:12px;color:var(--ink-2);line-height:1.5;}
+@media(min-width:640px){.cl-grid{grid-template-columns:1fr 1fr;}.cl-product-badge{display:block;}}
 
-/* ─── INTENT CLUSTER ─── */
-.intent-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px; }
-.intent-card { border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; }
-.intent-header { padding:12px 16px; display:flex; align-items:center; gap:8px; }
-.intent-icon { font-size:18px; }
-.intent-title { font-size:13px; font-weight:800; }
-.intent-sub { font-size:10.5px; color:var(--ink-3); margin-top:1px; }
-.intent-body { padding:12px 16px; background:var(--surface); }
-.intent-kw { font-size:11.5px; color:var(--ink-2); padding:4px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:6px; }
-.intent-kw:last-child { border-bottom:none; }
-.intent-vol { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3); margin-left:auto; }
+/* ── SCENARIO ── */
+.scenario-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:24px;}
+.scenario-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.scenario-header{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.scenario-title{font-size:13px;font-weight:700;}
+.scenario-body{padding:14px 16px;}
+.scenario-step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;font-size:12.5px;}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--pink);color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.step-text{color:var(--ink-2);line-height:1.5;padding-top:2px;}
+.scenario-result{background:var(--green-light);border:1px solid #A0DEB8;border-radius:6px;padding:7px 12px;font-size:11.5px;font-weight:700;color:#0B5020;margin-top:6px;}
+.scenario-result-pink{background:var(--pink-m2);border:1px solid var(--pink-m1);border-radius:6px;padding:7px 12px;font-size:11.5px;font-weight:700;color:var(--pink);margin-top:6px;}
+@media(min-width:640px){.scenario-grid{grid-template-columns:1fr 1fr;}}
+
+/* ── KPI ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;}
+.kpi-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;}
+.kpi-icon{font-size:22px;margin-bottom:6px;}
+.kpi-value{font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:3px;}
+.kpi-label{font-size:11.5px;color:var(--ink-3);font-weight:500;}
+.kpi-note{font-size:10px;color:var(--ink-3);margin-top:3px;}
+@media(min-width:640px){.kpi-grid{grid-template-columns:repeat(4,1fr);}}
+
+/* ── PROGRESS ── */
+.progress-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;}
+.progress-label{display:flex;justify-content:space-between;font-size:11.5px;font-weight:600;margin-bottom:7px;}
+.progress-track{height:10px;background:#F0EDE8;border-radius:7px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:7px;}
+
+/* ── INTENT CLUSTER (custom) ── */
+.intent-cluster{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;}
+.intent-cluster-header{padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.intent-cluster-kw{padding:0 16px 12px;display:flex;flex-wrap:wrap;gap:4px;}
+.intent-kw-pill{font-size:11.5px;background:#F0EDE8;color:var(--ink-2);padding:3px 10px;border-radius:20px;display:flex;align-items:center;gap:5px;}
+.intent-vol{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-3);}
+
+/* ── WIREFRAME ── */
+.wireframe{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:24px;}
+.wf-row{background:#F0EDE8;border-radius:6px;padding:10px 14px;margin-bottom:8px;text-align:center;font-size:12px;font-weight:700;color:var(--ink-2);}
+.wf-row.wf-pink{background:var(--pink-m2);border:1.5px dashed var(--pink-m1);color:var(--pink);font-weight:800;}
+.wf-row.wf-label{font-size:9.5px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:var(--ink-3);background:transparent;border-bottom:1px solid var(--border);border-radius:0;margin-bottom:12px;padding-bottom:8px;text-align:left;}
+.wf-grid{display:grid;gap:8px;margin-bottom:8px;}
+.wf-col{background:#F0EDE8;border-radius:6px;padding:10px;text-align:center;font-size:11.5px;font-weight:700;color:var(--ink-2);}
+
+/* ── PRIORITY LIST ── */
+.priority-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:24px;}
+.priority-col{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.priority-col-header{padding:11px 16px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.priority-col-body{padding:12px;background:var(--surface);}
+.priority-item{font-size:12px;padding:7px 10px;border-radius:6px;margin-bottom:5px;border:1px solid var(--border);background:var(--bg);line-height:1.4;}
+.priority-item b{display:block;font-weight:700;color:var(--ink);}
+.priority-item span{color:var(--ink-3);font-size:11px;}
+.priority-item.vts-item{border:1.5px dashed var(--pink);background:var(--pink-m2);}
+@media(min-width:640px){.priority-grid{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
 <div class="layout">
 
-<!-- ═══════════════════════════════════ -->
+<!-- MOBILE HEADER -->
+<header class="mob-header">
+  <div class="mob-brand">
+    <div class="brand-logo">MoMo</div>
+    <div class="brand-label">Đối Tác<br>Strategy v1.0</div>
+  </div>
+  <button class="mob-hamburger" id="hamburger" aria-label="Menu" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
 <!-- SIDEBAR -->
-<!-- ═══════════════════════════════════ -->
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <div class="brand-logo">MoMo</div>
-    <div class="brand-sub">Đối Tác — Growth Strategy<br>& Content Architecture v1.0</div>
+    <div class="brand-label">Đối Tác<br>Growth Strategy</div>
   </div>
-
-  <div class="nav-section">
-    <div class="nav-label">Chiến Lược</div>
-    <div class="nav-item active" onclick="go('overview')">
-      <span class="nav-icon">🗺</span> Tổng Quan & Sitemap
+  <nav>
+    <div class="nav-section">
+      <span class="nav-section-label">Chiến Lược</span>
+      <div class="nav-item active" onclick="go('overview')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Tổng Quan & Mục Tiêu</span>
+      </div>
+      <div class="nav-item" onclick="go('jtbd')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">JTBD Analysis</span>
+      </div>
+      <div class="nav-item" onclick="go('intent')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Search Intent Clusters</span>
+      </div>
+      <div class="nav-item" onclick="go('funnel')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Funnel & User Journey</span>
+      </div>
     </div>
-    <div class="nav-item" onclick="go('intent')">
-      <span class="nav-icon">🎯</span> Search Intent Clusters
+    <div class="nav-section">
+      <span class="nav-section-label">Content Architecture</span>
+      <div class="nav-item" onclick="go('sitemap')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Sitemap 3 Cấp</span>
+      </div>
+      <div class="nav-item" onclick="go('hub')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Hub — /doi-tac</span>
+      </div>
+      <div class="nav-item" onclick="go('category')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Category — /{ten-category}</span>
+      </div>
+      <div class="nav-item" onclick="go('brand')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Brand — /{ten-brand}</span>
+      </div>
     </div>
-    <div class="nav-item" onclick="go('funnel')">
-      <span class="nav-icon">🔻</span> Content Funnel & User Journey
+    <div class="nav-section">
+      <span class="nav-section-label">Kỹ Thuật & Growth</span>
+      <div class="nav-item" onclick="go('seo')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">SEO / GEO Technical</span>
+      </div>
+      <div class="nav-item" onclick="go('vts')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Ví Trả Sau Strategy</span>
+      </div>
+      <div class="nav-item" onclick="go('w2a')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Web-to-App Conversion</span>
+      </div>
+      <div class="nav-item" onclick="go('checklist')">
+        <span class="nav-dot"></span>
+        <span class="nav-lbl">Launch Checklist</span>
+      </div>
     </div>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-label">Content Architecture</div>
-    <div class="nav-item" onclick="go('hub')">
-      <span class="nav-icon">🏠</span> Hub /doi-tac
-    </div>
-    <div class="nav-item" onclick="go('category')">
-      <span class="nav-icon">📂</span> Category /{ten-category}
-    </div>
-    <div class="nav-item" onclick="go('brand')">
-      <span class="nav-icon">🏪</span> Brand Page /{ten-brand}
-    </div>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-label">Kỹ Thuật & Triển Khai</div>
-    <div class="nav-item" onclick="go('seo')">
-      <span class="nav-icon">⚙️</span> SEO / GEO Technical
-    </div>
-    <div class="nav-item" onclick="go('vts')">
-      <span class="nav-icon">💳</span> Ví Trả Sau Strategy
-    </div>
-    <div class="nav-item" onclick="go('conversion')">
-      <span class="nav-icon">📲</span> Web-to-App Conversion
-    </div>
-    <div class="nav-item" onclick="go('checklist')">
-      <span class="nav-icon">✅</span> Launch Checklist
-    </div>
-  </div>
-
+  </nav>
   <div class="sidebar-footer">
-    <div class="version-tag">doi-tac-strategy · v1.0 · 2026</div>
+    <div class="version-tag">doi-tac-strategy.html</div>
+    <div class="version-tag">v1.0 · 2026</div>
   </div>
 </aside>
 
-<!-- ═══════════════════════════════════ -->
-<!-- MAIN CONTENT -->
-<!-- ═══════════════════════════════════ -->
 <main class="content">
 
-<!-- ═══ 1. OVERVIEW ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 1. OVERVIEW                -->
+<!-- ═══════════════════════════ -->
 <section class="section active" id="s-overview">
   <div class="page-header">
-    <div class="page-eyebrow">Growth Strategy — /doi-tac · momo.vn</div>
-    <div class="page-title">Trang Đối Tác MoMo — Architecture & Inbound Strategy</div>
-    <div class="page-desc">Xây dựng <strong>/doi-tac</strong> như một Inbound Growth Engine: tiếp cận người dùng đang tìm kiếm thanh toán và ưu đãi tại đối tác — dẫn dắt họ vào App qua Ví Trả Sau và contextual CTA. Không phải trang danh bạ tĩnh — đây là phễu acquisition có intent cao.</div>
+    <div class="page-eyebrow">Use Case Document — /doi-tac · momo.vn</div>
+    <div class="page-title">Đối Tác MoMo — Web Growth Strategy</div>
+    <div class="page-desc">Xây dựng <strong>/doi-tac</strong> như một Inbound Growth Engine: capture người dùng đang tìm kiếm thanh toán và ưu đãi tại đối tác - dẫn dắt họ vào App qua Ví Trả Sau và Deep Link. Không phải trang danh bạ tĩnh.</div>
   </div>
 
   <div class="stat-row">
     <div class="stat-card">
-      <div class="stat-num" style="color:var(--pink)">2</div>
-      <div class="stat-lbl">Intent Clusters</div>
-      <div class="stat-sub">Thanh toán · Ưu đãi</div>
+      <div class="stat-num" style="color:var(--pink)">3</div>
+      <div class="stat-lbl">Cấp URL</div>
+      <div class="stat-sub">/doi-tac → /{category} → /{brand}</div>
     </div>
     <div class="stat-card">
       <div class="stat-num" style="color:var(--blue)">9</div>
@@ -332,346 +420,364 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       <div class="stat-sub">Ẩm thực · TMĐT · Du lịch · ...</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num" style="color:var(--green)">3</div>
-      <div class="stat-lbl">Cấp URL</div>
-      <div class="stat-sub">/doi-tac → /{cat} → /{brand}</div>
+      <div class="stat-num" style="color:var(--green)">2</div>
+      <div class="stat-lbl">Intent Clusters</div>
+      <div class="stat-sub">Thanh toán · Ưu đãi</div>
     </div>
     <div class="stat-card">
       <div class="stat-num" style="color:var(--amber)">💳</div>
-      <div class="stat-lbl">Ví Trả Sau</div>
-      <div class="stat-sub">Điểm nhấn conversion chính</div>
+      <div class="stat-lbl">Primary CTA</div>
+      <div class="stat-sub">Ví Trả Sau activation</div>
     </div>
   </div>
 
-  <h2 class="sh">🗺 Sitemap 3 Cấp</h2>
-  <div class="tree-grid">
-    <div class="tree-box">
-      <div class="tree-box-header" style="background:var(--pink-light);">
-        <div>
-          <div class="tree-box-title">📍 Cấu Trúc URL</div>
-          <div class="tree-box-url">momo.vn/doi-tac/*</div>
-        </div>
-      </div>
-      <div class="tree-body">
-        <div class="tree-item tree-depth-0">
-          <span>🏠</span>
-          <div>
-            <div><strong>/doi-tac</strong> <span class="tree-badge tag-p1">Hub</span></div>
-            <div class="tree-url">Trang tổng hợp — toàn bộ danh mục</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-1">
-          <span>📂</span>
-          <div>
-            <div>/doi-tac/<strong>sieu-thi</strong> <span class="tree-badge tag-p1">P1</span></div>
-            <div class="tree-url">Category — Siêu thị & Bán lẻ</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-1">
-          <span>📂</span>
-          <div>
-            <div>/doi-tac/<strong>am-thuc</strong> <span class="tree-badge tag-p1">P1</span></div>
-            <div class="tree-url">Category — Ẩm thực & F&B</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-1">
-          <span>📂</span>
-          <div>
-            <div>/doi-tac/<strong>thuong-mai-dien-tu</strong> <span class="tree-badge tag-p1">P1</span></div>
-            <div class="tree-url">Category — TMĐT</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-1">
-          <span>📂</span>
-          <div>
-            <div>/doi-tac/<strong>du-lich</strong> <span class="tree-badge tag-p1">P1</span></div>
-            <div class="tree-url">Category — Du lịch</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-1">
-          <span>📂</span>
-          <div>
-            <div>/doi-tac/<strong>[ten-category]</strong> <span class="tree-badge tag-p2">9 cats</span></div>
-            <div class="tree-url">+ giai-tri · di-lai · suc-khoe · giao-duc · tien-ich</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-2">
-          <span>🏪</span>
-          <div>
-            <div>/doi-tac/<strong>shopee</strong> <span class="tree-badge tag-p1">P1</span></div>
-            <div class="tree-url">Brand page — flat URL, không cần /{cat}/</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-2">
-          <span>🏪</span>
-          <div>
-            <div>/doi-tac/<strong>grab-food</strong> <span class="tree-badge tag-p1">P1</span></div>
-            <div class="tree-url">Brand page</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-2">
-          <span>🏪</span>
-          <div>
-            <div>/doi-tac/<strong>winmart</strong> <span class="tree-badge tag-p1">P1</span></div>
-            <div class="tree-url">Brand page</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-2">
-          <span>🏪</span>
-          <div>
-            <div>/doi-tac/<strong>[ten-brand]</strong> <span class="tree-badge tag-pseo">100–300+</span></div>
-            <div class="tree-url">Brand pages — flat /doi-tac/{brand}</div>
-          </div>
-        </div>
-      </div>
+  <h2 class="sh">🎯 Mục Tiêu Chiến Lược</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title" style="color:var(--green)">📥 Inbound Acquisition</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Capture organic traffic từ user đang tìm "Shopee có nhận MoMo không", "MoMo ưu đãi ăn uống" - convert thành App session.</div>
     </div>
-
-    <div class="tree-box">
-      <div class="tree-box-header" style="background:var(--blue-light);">
-        <div>
-          <div class="tree-box-title">🎯 Mục Tiêu Từng Cấp</div>
-          <div class="tree-box-url">Job-to-be-done mapping</div>
-        </div>
-      </div>
-      <div class="tree-body">
-        <div class="tree-item tree-depth-0">
-          <span>🏠</span>
-          <div>
-            <div><strong>/doi-tac</strong> — Discovery Hub</div>
-            <div class="tree-url">JTBD: "MoMo chấp nhận ở đâu?" "MoMo có ưu đãi gì?"</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-1">
-          <span>📂</span>
-          <div>
-            <div><strong>/doi-tac/sieu-thi</strong> — Category</div>
-            <div class="tree-url">JTBD: "Siêu thị nào nhận MoMo?" "MoMo ưu đãi siêu thị"</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-1">
-          <span>📂</span>
-          <div>
-            <div><strong>/doi-tac/am-thuc</strong> — Category</div>
-            <div class="tree-url">JTBD: "Đặt đồ ăn bằng MoMo" "Ưu đãi ăn uống MoMo"</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-2">
-          <span>🏪</span>
-          <div>
-            <div><strong>/doi-tac/shopee</strong> — Brand</div>
-            <div class="tree-url">JTBD: "Shopee có nhận MoMo không?" "VTS mua Shopee"</div>
-          </div>
-        </div>
-        <div class="tree-item tree-depth-2">
-          <span>🏪</span>
-          <div>
-            <div><strong>/doi-tac/[ten-brand]</strong> — Brand</div>
-            <div class="tree-url">Flat URL — brand không nằm dưới /cat/brand/</div>
-          </div>
-        </div>
-        <div class="tree-item" style="padding-top:12px;">
-          <div style="width:100%;">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-3);margin-bottom:8px;">Quy tắc URL</div>
-            <div style="font-size:12px;color:var(--ink-2);line-height:1.7;">
-              · Category có URL riêng: /doi-tac/{ten-category}<br>
-              · Brand flat: /doi-tac/{ten-brand} — không phải /doi-tac/{cat}/{brand}<br>
-              · Category page link đến brand bằng tag/filter, không nest URL<br>
-              · Không đăng địa chỉ cửa hàng cụ thể
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--pink)">💳 VTS Activation</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">Mỗi Brand Page là một entry point cho VTS onboarding. User intent "mua tại [brand]" + friction thấp = điều kiện lý tưởng kích hoạt VTS.</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--purple)">🤖 GEO / AI Visibility</div>
+      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.7;">FAQ + HowTo Schema trên Brand Page inject câu trả lời vào AI Overview (Gemini, ChatGPT, Perplexity) khi user hỏi về brand cụ thể.</div>
     </div>
   </div>
 
-  <h2 class="sh">🏗 Kiến Trúc URL Tổng Thể</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>Cấp trang</th><th>URL Pattern</th><th>Số lượng</th><th>Intent chính</th><th>Priority</th>
-    </tr></thead>
-    <tbody>
-      <tr class="row-highlight">
-        <td><strong>Hub</strong></td>
-        <td><code class="url">/doi-tac</code></td>
-        <td>1 trang</td>
-        <td>Discovery — "MoMo có đối tác nào"</td>
-        <td><span class="tag tag-p1">P1</span></td>
-      </tr>
-      <tr>
-        <td><strong>Category</strong></td>
-        <td><code class="url">/doi-tac/{ten-category}</code></td>
-        <td>9 trang</td>
-        <td>Category intent — "Siêu thị nhận MoMo", "MoMo ưu đãi ăn uống"</td>
-        <td><span class="tag tag-p1">P1</span></td>
-      </tr>
-      <tr>
-        <td><strong>Brand</strong></td>
-        <td><code class="url">/doi-tac/{ten-brand}</code></td>
-        <td>100–300+ trang</td>
-        <td>Brand specific — "Shopee trả bằng MoMo", "VTS mua Lazada"</td>
-        <td><span class="tag tag-p1">P1→P3</span></td>
-      </tr>
-    </tbody>
-  </table>
+  <h2 class="sh">🔍 Phân Tích Thị Trường</h2>
+  <div class="callout callout-blue">
+    <div class="callout-title">💡 Cơ hội Inbound từ Brand Intent Search</div>
+    User đang search tên brand kết hợp "MoMo" là nhóm có <strong>commercial intent cao nhất</strong> - họ đã chọn brand, đang tìm cách thanh toán. Đây là bottom-funnel traffic đặc biệt giá trị: conversion rate cao hơn 3-5x so với informational query. Tuy nhiên, MoMo hiện <strong>chưa có landing page</strong> cho phần lớn brand query này - traffic đang về trang chủ hoặc bị Google trả lời trực tiếp. <span style="font-size:10.5px;color:var(--ink-3);">[Verify với GSC data thực]</span>
+  </div>
 
-  <div class="callout callout-pink">
-    <div class="callout-title">💳 Ví Trả Sau — Conversion Anchor Xuyên Suốt</div>
-    Ví Trả Sau là hook conversion chính trên toàn bộ hệ thống /doi-tac. Mọi Brand Page đều phải có section "Thanh toán bằng Ví Trả Sau — Mua trước, trả sau" với CTA deep link. Đây là differentiator so với ví điện tử thông thường — khai thác intent "mua hàng dù chưa có tiền trong ví".
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>Query Type</th><th>Ví dụ</th><th>Intent</th><th>Page Target</th><th>Volume Est.</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>Brand + MoMo</strong></td>
+          <td>"Shopee nhận MoMo không"</td>
+          <td><span class="tag tag-bofu">BoFu</span></td>
+          <td><code class="url">/doi-tac/shopee</code></td>
+          <td>High <span style="font-size:10px;color:var(--ink-3);">[verify]</span></td>
+        </tr>
+        <tr class="row-highlight">
+          <td><strong>Category + MoMo</strong></td>
+          <td>"Siêu thị nhận MoMo"</td>
+          <td><span class="tag tag-mofu">MoFu</span></td>
+          <td><code class="url">/doi-tac/sieu-thi</code></td>
+          <td>Med <span style="font-size:10px;color:var(--ink-3);">[verify]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Deal/Ưu đãi</strong></td>
+          <td>"MoMo giảm giá Shopee"</td>
+          <td><span class="tag tag-bofu">BoFu</span></td>
+          <td><code class="url">/doi-tac/shopee</code></td>
+          <td>High <span style="font-size:10px;color:var(--ink-3);">[verify]</span></td>
+        </tr>
+        <tr>
+          <td><strong>VTS + Brand</strong></td>
+          <td>"Ví Trả Sau mua Shopee"</td>
+          <td><span class="tag tag-bofu">BoFu</span></td>
+          <td><code class="url">/doi-tac/shopee#vi-tra-sau</code></td>
+          <td>Med <span style="font-size:10px;color:var(--ink-3);">[verify]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Discovery</strong></td>
+          <td>"MoMo đối tác ăn uống"</td>
+          <td><span class="tag tag-mofu">MoFu</span></td>
+          <td><code class="url">/doi-tac/am-thuc</code></td>
+          <td>Med <span style="font-size:10px;color:var(--ink-3);">[verify]</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
-<!-- ═══ 2. INTENT ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 2. JTBD                    -->
+<!-- ═══════════════════════════ -->
+<section class="section" id="s-jtbd">
+  <div class="page-header">
+    <div class="page-eyebrow">JTBD Analysis — Jobs to Be Done</div>
+    <div class="page-title">Người Dùng Đang Thuê /doi-tac Để Làm Gì?</div>
+    <div class="page-desc">Toàn bộ content architecture của /doi-tac được xây dựng từ 3 JTBD cốt lõi. Mỗi Job map đến một cấp trang và một CTA cụ thể - không build trang vì "cần có content" mà build vì user có Job thực sự cần giải quyết.</div>
+  </div>
+
+  <!-- JTBD 1 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;">
+    <div style="padding:14px 18px;background:var(--pink-m2);border-bottom:1px solid var(--pink-m1);">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--pink);margin-bottom:4px;">Job #1 · Xác Nhận Thanh Toán</div>
+      <div style="font-size:15px;font-weight:900;">"Tôi muốn biết [brand] có nhận MoMo không trước khi tôi ra quyết định."</div>
+    </div>
+    <div style="padding:16px 18px;font-size:12.5px;">
+      <div class="grid-3" style="margin-bottom:14px;">
+        <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Xác nhận brand X chấp nhận thanh toán MoMo. Biết đúng phương thức: QR, ví, VTS.</div>
+        </div>
+        <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Tránh tình huống xấu hổ tại quầy thanh toán. Tự tin khi dùng MoMo.</div>
+        </div>
+        <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Thể hiện am hiểu công nghệ thanh toán. Không bị coi là "lỗi thời".</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:12px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Page Implications</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Section Hình Thức Thanh Toán trên Brand Page</span>
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">FAQ: "[Brand] có nhận MoMo không?"</span>
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">HowTo Schema: cách thanh toán tại brand</span>
+          <span style="background:var(--pink-m2);color:var(--pink);font-size:11px;padding:2px 8px;border-radius:4px;border:1px dashed var(--pink);">VTS highlight trong payment list</span>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+        <strong>Trigger moment:</strong> Đang ở siêu thị/quán ăn · Chuẩn bị đặt hàng online · Lập kế hoạch mua sắm
+      </div>
+    </div>
+  </div>
+
+  <!-- JTBD 2 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;">
+    <div style="padding:14px 18px;background:var(--amber-light);border-bottom:1px solid #FFD0A0;">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--amber);margin-bottom:4px;">Job #2 · Tìm Ưu Đãi Tốt Nhất</div>
+      <div style="font-size:15px;font-weight:900;">"Tôi muốn biết MoMo có deal gì tại [brand/danh mục] để tôi chọn được lựa chọn thanh toán có lợi nhất."</div>
+    </div>
+    <div style="padding:16px 18px;font-size:12.5px;">
+      <div class="grid-3" style="margin-bottom:14px;">
+        <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Tìm mã giảm giá, deal flash đang chạy. So sánh ưu đãi giữa các brand cùng danh mục.</div>
+        </div>
+        <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Cảm giác thông minh khi mua được giá tốt. Không bỏ lỡ deal tốt.</div>
+        </div>
+        <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Chia sẻ deal tốt với bạn bè. Được coi là người "biết cách tiết kiệm".</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:12px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Page Implications</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Section Ưu Đãi Hiện Tại (dynamic từ CMS)</span>
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Category Page - filter "Ưu đãi hôm nay"</span>
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Deal badge nổi bật trên brand card</span>
+          <span style="background:var(--pink-m2);color:var(--pink);font-size:11px;padding:2px 8px;border-radius:4px;border:1px dashed var(--pink);">VTS exclusive deal angle</span>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+        <strong>Trigger moment:</strong> Trước khi mua sắm cuối tuần · Tìm deal ngày sinh nhật · Mùa sale (11.11, Tết...)
+      </div>
+    </div>
+  </div>
+
+  <!-- JTBD 3 -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;">
+    <div style="padding:14px 18px;background:var(--pink-m2);border-bottom:1px solid var(--pink-m1);">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--pink);margin-bottom:4px;">Job #3 · Mua Hàng Khi Chưa Có Tiền Trong Ví</div>
+      <div style="font-size:15px;font-weight:900;">"Tôi muốn mua ngay hôm nay tại [brand] nhưng chưa muốn nạp tiền vào ví."</div>
+    </div>
+    <div style="padding:16px 18px;font-size:12.5px;">
+      <div class="grid-3" style="margin-bottom:14px;">
+        <div style="background:var(--green-light);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FUNCTIONAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Hoàn thành giao dịch tại brand mà không cần nạp tiền trước. Chia nhỏ khoản thanh toán lớn.</div>
+        </div>
+        <div style="background:var(--pink-m2);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--pink);margin-bottom:4px;">EMOTIONAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Không phải từ chối bản thân. Linh hoạt về tài chính mà không cần vay mượn ai.</div>
+        </div>
+        <div style="background:var(--blue-light);border-radius:6px;padding:10px;">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;">SOCIAL</div>
+          <div style="color:var(--ink-2);line-height:1.5;">Trải nghiệm mua sắm thoải mái như người có điều kiện. Không bị giới hạn bởi số dư.</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:12px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-3);margin-bottom:8px;">Page Implications</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="background:var(--pink-m2);color:var(--pink);font-size:11px;padding:2px 8px;border-radius:4px;border:1px dashed var(--pink);">VTS Section riêng trên Brand Page (#vi-tra-sau)</span>
+          <span style="background:var(--pink-m2);color:var(--pink);font-size:11px;padding:2px 8px;border-radius:4px;border:1px dashed var(--pink);">VTS Banner trên Hub và Category</span>
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">FAQ: "Ví Trả Sau dùng tại [brand] được không?"</span>
+          <span style="background:#F0EDE8;color:var(--ink-2);font-size:11px;padding:2px 8px;border-radius:4px;">Deep link → VTS onboarding</span>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;font-size:11.5px;color:var(--ink-3);">
+        <strong>Trigger moment:</strong> Cuối tháng thiếu tiền · Mua item giá cao · Lần đầu tiếp xúc Ví Trả Sau
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Critical Assumption cần Validate</div>
+    Job #3 (VTS) giả định user đã biết Ví Trả Sau tồn tại khi họ vào Brand Page. Nếu user chưa biết VTS là gì, content trên Brand Page cần có thêm layer giáo dục ngắn (2-3 câu) trước khi pitch. Cần A/B test: "Mua trước trả sau" vs "Kích hoạt Ví Trả Sau" để tìm copy hiệu quả nhất.
+  </div>
+</section>
+
+<!-- ═══════════════════════════ -->
+<!-- 3. INTENT                  -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-intent">
   <div class="page-header">
     <div class="page-eyebrow">Inbound Strategy — Search Intent Mapping</div>
     <div class="page-title">2 Intent Clusters Mục Tiêu</div>
-    <div class="page-desc">Toàn bộ content /doi-tac phục vụ <strong>2 nhóm intent</strong> cốt lõi: Thanh toán (Where/How) và Ưu đãi (Deals). Mapping chính xác intent → trang → CTA là bước quyết định Inbound CR.</div>
+    <div class="page-desc">Toàn bộ content /doi-tac phục vụ <strong>2 nhóm intent</strong>: Thanh toán (Where/How - Navigation + Commercial) và Ưu đãi (Deals - Commercial + Transactional). Mapping chính xác intent → trang → CTA quyết định Inbound CR.</div>
   </div>
 
-  <div class="intent-grid" style="grid-template-columns:1fr 1fr;">
-    <div class="intent-card">
-      <div class="intent-header" style="background:var(--blue-light);">
-        <span class="intent-icon">💳</span>
-        <div>
-          <div class="intent-title" style="color:var(--blue);">Nhóm Thanh Toán</div>
-          <div class="intent-sub">Where & How — Commercial Investigation</div>
-        </div>
+  <!-- Intent 1 -->
+  <div class="intent-cluster" style="border-top:3px solid var(--blue);">
+    <div class="intent-cluster-header" style="background:var(--blue-light);">
+      <span style="font-size:20px;">💳</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:800;color:var(--blue);">Cluster 1 - Nhóm Thanh Toán</div>
+        <div style="font-size:11px;color:var(--ink-3);">Navigation + Commercial Investigation · Landing: Brand Page và Category Page</div>
       </div>
-      <div class="intent-body">
-        <div class="intent-kw">Shopee có nhận MoMo không<span class="intent-vol">High</span></div>
-        <div class="intent-kw">Thanh toán bằng MoMo ở đâu<span class="intent-vol">High</span></div>
-        <div class="intent-kw">Grab thanh toán MoMo được không<span class="intent-vol">High</span></div>
-        <div class="intent-kw">MoMo chấp nhận ở siêu thị nào<span class="intent-vol">Med</span></div>
-        <div class="intent-kw">Đặt vé máy bay trả bằng MoMo<span class="intent-vol">Med</span></div>
-        <div class="intent-kw">MoMo thanh toán online ở đâu<span class="intent-vol">Med</span></div>
-        <div style="margin-top:10px;">
-          <span class="tag tag-seo">Navigation + Commercial</span>
-          <span style="font-size:11px;color:var(--ink-3);margin-left:6px;">→ Category + Brand Page</span>
-        </div>
-      </div>
+      <span class="tag tag-mofu">MoFu/BoFu</span>
     </div>
-
-    <div class="intent-card">
-      <div class="intent-header" style="background:#FFF3DC;">
-        <span class="intent-icon">🎁</span>
-        <div>
-          <div class="intent-title" style="color:var(--amber);">Nhóm Ưu Đãi</div>
-          <div class="intent-sub">Deals — Commercial + Transactional</div>
-        </div>
-      </div>
-      <div class="intent-body">
-        <div class="intent-kw">Ưu đãi MoMo tháng này<span class="intent-vol">Very High</span></div>
-        <div class="intent-kw">MoMo giảm giá Shopee<span class="intent-vol">High</span></div>
-        <div class="intent-kw">Khuyến mãi MoMo ăn uống<span class="intent-vol">High</span></div>
-        <div class="intent-kw">MoMo deal du lịch<span class="intent-vol">Med</span></div>
-        <div class="intent-kw">Mã giảm giá MoMo Grab Food<span class="intent-vol">Med</span></div>
-        <div class="intent-kw">Ưu đãi Ví Trả Sau mua sắm<span class="intent-vol">Med</span></div>
-        <div style="margin-top:10px;">
-          <span class="tag tag-conv">Commercial High Intent</span>
-          <span style="font-size:11px;color:var(--ink-3);margin-left:6px;">→ Category + Brand</span>
-        </div>
-      </div>
+    <div class="intent-cluster-kw">
+      <span class="intent-kw-pill">Shopee có nhận MoMo không <span class="intent-vol">High</span></span>
+      <span class="intent-kw-pill">Thanh toán bằng MoMo ở đâu <span class="intent-vol">High</span></span>
+      <span class="intent-kw-pill">Grab thanh toán MoMo được không <span class="intent-vol">High</span></span>
+      <span class="intent-kw-pill">Siêu thị nào nhận MoMo <span class="intent-vol">Med</span></span>
+      <span class="intent-kw-pill">Đặt vé máy bay trả bằng MoMo <span class="intent-vol">Med</span></span>
+      <span class="intent-kw-pill">MoMo thanh toán online ở đâu <span class="intent-vol">Med</span></span>
+      <span class="intent-kw-pill">WinMart có dùng MoMo không <span class="intent-vol">Med</span></span>
     </div>
   </div>
 
-  <h2 class="sh">📊 Keyword → Trang → Intent Mapping</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>Keyword Pattern</th><th>Intent Type</th><th>Trang Target</th><th>CTA Chính</th><th>VTS Angle</th>
-    </tr></thead>
-    <tbody>
-      <tr>
-        <td>"[brand] có nhận MoMo không"</td>
-        <td><span class="tag tag-seo">Navigation</span></td>
-        <td><code class="url">/doi-tac/[brand]</code></td>
-        <td>Thanh toán ngay</td>
-        <td>Dùng VTS không cần nạp tiền</td>
-      </tr>
-      <tr>
-        <td>"[danh mục] nào nhận MoMo"</td>
-        <td><span class="tag tag-seo">Navigation</span></td>
-        <td><code class="url">/doi-tac/[ten-category]</code></td>
-        <td>Xem đối tác</td>
-        <td>VTS banner inline</td>
-      </tr>
-      <tr>
-        <td>"Ưu đãi MoMo [danh mục]"</td>
-        <td><span class="tag tag-conv">Commercial</span></td>
-        <td><code class="url">/doi-tac/[ten-category]</code></td>
-        <td>Xem ưu đãi + Tải app</td>
-        <td>Ưu đãi độc quyền VTS</td>
-      </tr>
-      <tr>
-        <td>"MoMo giảm giá [brand]"</td>
-        <td><span class="tag tag-conv">Commercial</span></td>
-        <td><code class="url">/doi-tac/[brand]</code></td>
-        <td>Lấy mã giảm giá</td>
-        <td>Mua trước trả sau</td>
-      </tr>
-      <tr class="row-vts">
-        <td>"Ví Trả Sau [brand]"</td>
-        <td><span class="tag tag-vts">VTS Intent</span></td>
-        <td><code class="url">/doi-tac/[brand]#vi-tra-sau</code></td>
-        <td>Kích hoạt VTS ngay</td>
-        <td><strong>Core VTS conversion</strong></td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Intent 2 -->
+  <div class="intent-cluster" style="border-top:3px solid var(--amber);margin-top:12px;">
+    <div class="intent-cluster-header" style="background:var(--amber-light);">
+      <span style="font-size:20px;">🎁</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:800;color:var(--amber);">Cluster 2 - Nhóm Ưu Đãi</div>
+        <div style="font-size:11px;color:var(--ink-3);">Commercial + Transactional · Landing: Category Page và Brand Page</div>
+      </div>
+      <span class="tag tag-bofu">BoFu</span>
+    </div>
+    <div class="intent-cluster-kw">
+      <span class="intent-kw-pill">Ưu đãi MoMo tháng này <span class="intent-vol">Very High</span></span>
+      <span class="intent-kw-pill">MoMo giảm giá Shopee <span class="intent-vol">High</span></span>
+      <span class="intent-kw-pill">Khuyến mãi MoMo ăn uống <span class="intent-vol">High</span></span>
+      <span class="intent-kw-pill">MoMo deal du lịch <span class="intent-vol">Med</span></span>
+      <span class="intent-kw-pill">Mã giảm giá MoMo Grab Food <span class="intent-vol">Med</span></span>
+      <span class="intent-kw-pill">Ưu đãi Ví Trả Sau mua sắm <span class="intent-vol">Med</span></span>
+    </div>
+  </div>
 
-  <div class="callout callout-blue">
-    <div class="callout-title">🤖 GEO Signal: Answer Engine Optimization</div>
-    Với AI search (ChatGPT, Gemini, Perplexity), các query như <em>"Shopee có nhận MoMo không?"</em> hay <em>"Cách thanh toán bằng Ví Trả Sau ở Grab"</em> sẽ được trả lời trực tiếp từ structured content. Brand Page cần có <strong>FAQ Schema + HowTo Schema</strong> để inject câu trả lời vào AI Overview và AI engines. Đây là moat GEO dài hạn.
+  <div class="divider"></div>
+
+  <h2 class="sh">📊 Keyword → Trang → CTA Mapping</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>Keyword Pattern</th><th>Intent</th><th>Trang Target</th><th>CTA Chính</th><th>VTS Angle</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>"[brand] có nhận MoMo không"</td>
+          <td><span class="tag tag-seo">Navigation</span></td>
+          <td><code class="url">/doi-tac/[brand]</code></td>
+          <td>Thanh toán ngay</td>
+          <td>Dùng VTS - không cần nạp tiền</td>
+        </tr>
+        <tr>
+          <td>"[category] nhận MoMo"</td>
+          <td><span class="tag tag-mofu">MoFu</span></td>
+          <td><code class="url">/doi-tac/[category]</code></td>
+          <td>Xem đối tác</td>
+          <td>VTS banner inline</td>
+        </tr>
+        <tr>
+          <td>"Ưu đãi MoMo [danh mục]"</td>
+          <td><span class="tag tag-conv">Commercial</span></td>
+          <td><code class="url">/doi-tac/[category]</code></td>
+          <td>Xem ưu đãi + Tải app</td>
+          <td>VTS exclusive deal</td>
+        </tr>
+        <tr>
+          <td>"MoMo giảm giá [brand]"</td>
+          <td><span class="tag tag-conv">Commercial</span></td>
+          <td><code class="url">/doi-tac/[brand]</code></td>
+          <td>Lấy deal ngay</td>
+          <td>Mua trước trả sau</td>
+        </tr>
+        <tr class="row-highlight">
+          <td>"Ví Trả Sau [brand]"</td>
+          <td><span class="tag tag-bofu">BoFu</span></td>
+          <td><code class="url">/doi-tac/[brand]#vi-tra-sau</code></td>
+          <td>Kích hoạt VTS ngay</td>
+          <td><strong>Core VTS conversion</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🤖 GEO Signal: Inject vào AI Answer Engines</div>
+    Query dạng "Shopee có nhận MoMo không?" hay "Cách thanh toán Ví Trả Sau tại Grab" sẽ được AI engines (ChatGPT, Gemini, Perplexity) trả lời trực tiếp từ structured content. Brand Page cần FAQPage Schema + HowTo Schema để trở thành nguồn trích dẫn. Đây là GEO moat dài hạn - đối thủ khó replicate vì cần entity relationship mạnh giữa MoMo và từng brand.
   </div>
 </section>
 
-<!-- ═══ 3. FUNNEL ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 4. FUNNEL                  -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-funnel">
   <div class="page-header">
-    <div class="page-eyebrow">PLG Framework — Content Funnel</div>
-    <div class="page-title">User Journey: Tìm kiếm → App Install</div>
-    <div class="page-desc">Mỗi cấp trang trong /doi-tac phục vụ một giai đoạn khác nhau trong user journey. Web giải quyết một phần nhu cầu (thông tin), App hoàn thành nhu cầu (giao dịch) — giảm friction tối đa qua Deep Link.</div>
+    <div class="page-eyebrow">PLG Framework — Content Funnel & Scenarios</div>
+    <div class="page-title">User Journey: Tìm Kiếm → App Transaction</div>
+    <div class="page-desc">Mỗi cấp trang phục vụ một giai đoạn trong journey. Web giải quyết nhu cầu thông tin - App hoàn thành giao dịch. Giảm friction tối đa qua Deep Link contextual.</div>
   </div>
 
   <div class="funnel-flow">
     <div class="funnel-stage fs-tofu">
-      <div class="funnel-stage-label">ToFu — Awareness</div>
+      <div class="funnel-stage-label">ToFu - Awareness</div>
       <div class="funnel-stage-title">Discovery</div>
       <ul class="funnel-stage-items">
-        <li>Tìm "MoMo đối tác"</li>
-        <li>Tìm "siêu thị nhận MoMo"</li>
+        <li>Google: "MoMo đối tác"</li>
+        <li>Google: "thanh toán MoMo ở đâu"</li>
         <li>Hub /doi-tac</li>
-        <li>Category grid</li>
-        <li>Brand listing</li>
+        <li>Filter tag danh mục</li>
+        <li>Brand listing grid</li>
       </ul>
     </div>
     <div class="funnel-stage fs-mofu">
-      <div class="funnel-stage-label">MoFu — Consideration</div>
-      <div class="funnel-stage-title">Evaluation</div>
+      <div class="funnel-stage-label">MoFu - Consideration</div>
+      <div class="funnel-stage-title">Category Browse</div>
       <ul class="funnel-stage-items">
-        <li>"MoMo ưu đãi ăn uống"</li>
-        <li>Category page ưu đãi</li>
-        <li>List brand + deals nổi bật</li>
-        <li>Filter theo ưu đãi</li>
-        <li>VTS banner category</li>
+        <li>"Siêu thị nhận MoMo"</li>
+        <li>Category /doi-tac/sieu-thi</li>
+        <li>Brand grid + ưu đãi</li>
+        <li>VTS inline banner</li>
+        <li>HowTo category</li>
       </ul>
     </div>
     <div class="funnel-stage fs-bofu">
-      <div class="funnel-stage-label">BoFu — Decision</div>
-      <div class="funnel-stage-title">Intent to Buy</div>
+      <div class="funnel-stage-label">BoFu - Decision</div>
+      <div class="funnel-stage-title">Brand Detail</div>
       <ul class="funnel-stage-items">
         <li>Brand Page chi tiết</li>
-        <li>Hình thức thanh toán</li>
-        <li>Ưu đãi VTS cụ thể</li>
-        <li>CTA mở app trực tiếp</li>
-        <li>Deep link đến deal</li>
+        <li>Hình thức TT + ưu đãi</li>
+        <li>VTS section anchor</li>
+        <li>HowTo: cách thanh toán</li>
+        <li>CTA → App deep link</li>
       </ul>
     </div>
     <div class="funnel-stage fs-convert">
-      <div class="funnel-stage-label">Convert — App</div>
-      <div class="funnel-stage-title">App Action</div>
+      <div class="funnel-stage-label">Convert - App</div>
+      <div class="funnel-stage-title">Transaction</div>
       <ul class="funnel-stage-items">
         <li>Smart Banner (iOS/Android)</li>
-        <li>Deep Link → mở đúng màn</li>
+        <li>Deep Link → đúng màn</li>
         <li>Kích hoạt VTS in-app</li>
         <li>Hoàn thành giao dịch</li>
         <li>Re-engagement loop</li>
@@ -683,126 +789,278 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   <div class="scenario-grid">
     <div class="scenario-card">
       <div class="scenario-header">
-        <span style="font-size:18px;">🍜</span>
+        <span>🛒</span>
         <div>
-          <div class="scenario-title">Scenario 1 — F&B Cashback Hunter</div>
-          <div style="font-size:11px;color:var(--ink-3);">Intent: Hoàn tiền · Danh mục: Ẩm thực</div>
+          <div class="scenario-title">Scenario 1 - TMĐT Deal Seeker</div>
+          <div style="font-size:11px;color:var(--ink-3);">JTBD #2 · Intent: Ưu đãi · Shopee</div>
         </div>
       </div>
       <div class="scenario-body">
-        <div class="scenario-step">
-          <div class="step-num">1</div>
-          <div class="step-text">Google: <em>"Grab Food MoMo ưu đãi"</em> → Category Page /doi-tac/am-thuc hoặc Brand Page /doi-tac/grab-food</div>
-        </div>
-        <div class="scenario-step">
-          <div class="step-num">2</div>
-          <div class="step-text">Đọc section Ưu Đãi: "Giảm 30K đơn đầu tiên khi thanh toán MoMo. Ưu đãi thêm với Ví Trả Sau."</div>
-        </div>
-        <div class="scenario-step">
-          <div class="step-num">3</div>
-          <div class="step-text">Click CTA "Đặt đồ ăn ngay" → Deep Link mở GrabFood trong MoMo App</div>
-        </div>
-        <div class="scenario-step">
-          <div class="step-num">4</div>
-          <div class="step-text">Nếu chưa có VTS → Smart Banner: "Kích hoạt VTS — Mua trước, ưu đãi nhiều hơn"</div>
-        </div>
-        <div class="scenario-result">✅ Web CR: Page view → App open → VTS activation</div>
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">Google: "Shopee giảm giá MoMo tháng này" → Brand Page /doi-tac/shopee</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Section Ưu Đãi: highlight deal "Giảm 50K cho đơn từ 200K" với badge deadline</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">Section VTS: "Mua Shopee bây giờ - không cần nạp tiền" → CTA Kích hoạt</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Deep Link → App, VTS onboarding → Mua hàng Shopee trong MoMo</div></div>
+        <div class="scenario-result-pink">🎯 VTS activation tại TMĐT - LTV cao nhất</div>
       </div>
     </div>
-
     <div class="scenario-card">
       <div class="scenario-header">
-        <span style="font-size:18px;">🛍</span>
+        <span>🏪</span>
         <div>
-          <div class="scenario-title">Scenario 2 — TMĐT Deal Seeker</div>
-          <div style="font-size:11px;color:var(--ink-3);">Intent: Ưu đãi · Danh mục: TMĐT</div>
+          <div class="scenario-title">Scenario 2 - Offline QR User</div>
+          <div style="font-size:11px;color:var(--ink-3);">JTBD #1 · Intent: Thanh toán · Siêu thị</div>
         </div>
       </div>
       <div class="scenario-body">
-        <div class="scenario-step">
-          <div class="step-num">1</div>
-          <div class="step-text">Google: <em>"Shopee giảm giá MoMo tháng này"</em> → Brand Page /doi-tac/shopee</div>
-        </div>
-        <div class="scenario-step">
-          <div class="step-num">2</div>
-          <div class="step-text">Section Ưu Đãi: highlight deal "Hoàn 15% hôm nay" với badge nổi bật</div>
-        </div>
-        <div class="scenario-step">
-          <div class="step-num">3</div>
-          <div class="step-text">Section VTS: "Mua trước trả sau trên Shopee — Không cần nạp tiền" → CTA Kích hoạt</div>
-        </div>
-        <div class="scenario-result-pink">🎯 VTS upsell opportunity cao nhất tại TMĐT segment</div>
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">Google: "WinMart có nhận MoMo không" → Brand Page /doi-tac/winmart</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Section Thanh Toán: "MoMo QR ✓ tại tất cả cửa hàng WinMart" - có ảnh minh họa</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">HowTo: "Scan QR tại quầy - 3 bước" → click CTA "Mở MoMo ngay"</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">Smart Banner → App open với QR scanner sẵn sàng</div></div>
+        <div class="scenario-result">✅ App open với context đúng - giảm friction tối đa</div>
       </div>
     </div>
-
     <div class="scenario-card">
       <div class="scenario-header">
-        <span style="font-size:18px;">✈️</span>
+        <span>✈️</span>
         <div>
-          <div class="scenario-title">Scenario 3 — Travel Payment</div>
-          <div style="font-size:11px;color:var(--ink-3);">Intent: Thanh toán · Danh mục: Du lịch</div>
+          <div class="scenario-title">Scenario 3 - Travel VTS</div>
+          <div style="font-size:11px;color:var(--ink-3);">JTBD #3 · Intent: VTS · Du lịch</div>
         </div>
       </div>
       <div class="scenario-body">
-        <div class="scenario-step">
-          <div class="step-num">1</div>
-          <div class="step-text">Google: <em>"Đặt vé Vietnam Airlines thanh toán MoMo được không"</em> → Brand Page /doi-tac/vietnam-airlines</div>
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">Google: "Đặt vé Vietnam Airlines thanh toán MoMo" → /doi-tac/vietnam-airlines</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Section TT: "Ví MoMo ✓ · Ví Trả Sau ✓ · QR ✓" - VTS highlighted rõ nhất</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">VTS Section: "Đặt vé bây giờ, trả tiền sau - phù hợp vé xa trước 1-3 tháng"</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">CTA: "Kích hoạt Ví Trả Sau" → Deep link → VTS onboarding → đặt vé</div></div>
+        <div class="scenario-result-pink">💳 High-ticket VTS activation (vé máy bay = AOV cao)</div>
+      </div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <span>🍜</span>
+        <div>
+          <div class="scenario-title">Scenario 4 - F&B Deal Seeker</div>
+          <div style="font-size:11px;color:var(--ink-3);">JTBD #2 · Intent: Ưu đãi · Ẩm thực</div>
         </div>
-        <div class="scenario-step">
-          <div class="step-num">2</div>
-          <div class="step-text">Thấy section: "Hình thức thanh toán: MoMo Wallet ✓ · Ví Trả Sau ✓ · QR Code ✓"</div>
-        </div>
-        <div class="scenario-step">
-          <div class="step-num">3</div>
-          <div class="step-text">HowTo Schema: "Cách đặt vé VNA bằng MoMo — 4 bước đơn giản" → click CTA</div>
-        </div>
-        <div class="scenario-step">
-          <div class="step-num">4</div>
-          <div class="step-text">CTA: "Đặt vé ngay trong MoMo" → Deep Link vào Travel section của App</div>
-        </div>
-        <div class="scenario-result">✅ High-ticket transaction → VTS upsell (trả sau chuyến bay)</div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step"><div class="step-num">1</div><div class="step-text">Google: "MoMo ưu đãi ăn uống" → Category /doi-tac/am-thuc</div></div>
+        <div class="scenario-step"><div class="step-num">2</div><div class="step-text">Xem brand grid F&B, lọc "Ưu đãi hôm nay" → click Grab Food card</div></div>
+        <div class="scenario-step"><div class="step-num">3</div><div class="step-text">Brand Page Grab Food - Deal "Giảm 30K đơn đầu" + VTS banner inline</div></div>
+        <div class="scenario-step"><div class="step-num">4</div><div class="step-text">"Đặt đồ ăn ngay" → Deep Link mở GrabFood trong MoMo App</div></div>
+        <div class="scenario-result">✅ Category → Brand → App - 3-click journey</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ═══ 4. HUB ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 5. SITEMAP                 -->
+<!-- ═══════════════════════════ -->
+<section class="section" id="s-sitemap">
+  <div class="page-header">
+    <div class="page-eyebrow">Information Architecture</div>
+    <div class="page-title">Sitemap 3 Cấp — /doi-tac</div>
+    <div class="page-desc">3 cấp URL phục vụ 3 intent khác nhau: Hub (Discovery), Category (Consideration), Brand (Decision/Convert). Brand Page là flat URL dưới /doi-tac/ - không nested dưới category.</div>
+  </div>
+
+  <div class="tree-grid">
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:var(--pink-m2);">
+        <span style="font-size:18px;">📍</span>
+        <div>
+          <div class="tree-box-title">Cấu Trúc URL</div>
+          <div class="tree-box-url">momo.vn/doi-tac/*</div>
+        </div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0"><span class="tree-badge tag-p1">Hub</span>/doi-tac</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p1">P1</span>/doi-tac/am-thuc</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p1">P1</span>/doi-tac/thuong-mai-dien-tu</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p1">P1</span>/doi-tac/du-lich</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p1">P1</span>/doi-tac/sieu-thi</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p2">P2</span>/doi-tac/giai-tri</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p2">P2</span>/doi-tac/di-lai</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p2">P2</span>/doi-tac/suc-khoe</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p3">P3</span>/doi-tac/giao-duc</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-p3">P3</span>/doi-tac/tien-ich</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-pseo">Brand</span>/doi-tac/shopee</div>
+        <div class="tree-item tree-depth-1"><span class="tree-badge tag-pseo">Brand</span>/doi-tac/grab-food</div>
+        <div class="tree-item tree-depth-2">... 100-300+ brand pages</div>
+      </div>
+    </div>
+    <div class="tree-box">
+      <div class="tree-box-header" style="background:var(--blue-light);">
+        <span style="font-size:18px;">🎯</span>
+        <div>
+          <div class="tree-box-title">JTBD Mapping</div>
+          <div class="tree-box-url">Intent → Trang → CTA</div>
+        </div>
+      </div>
+      <div class="tree-body">
+        <div class="tree-item tree-depth-0">Hub /doi-tac</div>
+        <div class="tree-item tree-depth-2">JTBD: "MoMo có đối tác nào?" · Discovery</div>
+        <div class="tree-item tree-depth-0">Category /doi-tac/{cat}</div>
+        <div class="tree-item tree-depth-2">JTBD: "Siêu thị nào nhận MoMo?" · Consideration</div>
+        <div class="tree-item tree-depth-0">Brand /doi-tac/{brand}</div>
+        <div class="tree-item tree-depth-2">JTBD: "Shopee nhận MoMo không?" · Decision</div>
+        <div class="tree-item" style="padding-top:10px;">
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-3);margin-bottom:6px;">Quy tắc URL</div>
+            <div style="font-size:11.5px;color:var(--ink-2);line-height:1.7;">- Brand URL: /doi-tac/{brand} (flat, không nested)<br>- Category tag trên Brand Page là badge, không URL riêng<br>- /doi-tac/{cat} là trang listing, không trang content hub</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sh">🏗 Bảng Kiến Trúc URL</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>Cấp</th><th>URL Pattern</th><th>Số Lượng</th><th>JTBD Phục Vụ</th><th>Priority</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>Hub</strong></td>
+          <td><code class="url">/doi-tac</code></td>
+          <td>1 trang</td>
+          <td>Discovery - "MoMo có đối tác nào"</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Category</strong></td>
+          <td><code class="url">/doi-tac/{ten-category}</code></td>
+          <td>9 trang</td>
+          <td>Consideration - "Siêu thị nhận MoMo"</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Brand</strong></td>
+          <td><code class="url">/doi-tac/{ten-brand}</code></td>
+          <td>100-300+ trang</td>
+          <td>Decision - "Shopee nhận MoMo không" + VTS</td>
+          <td><span class="tag tag-p1">P1→P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">📂 9 Danh Mục - URL & Intent Angle</h2>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>Danh mục</th><th>URL</th><th>Intent Angle</th><th>VTS Hook</th><th>Priority</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>🍜 Ẩm Thực & F&B</strong></td>
+          <td><code class="url">/doi-tac/am-thuc</code></td>
+          <td>Đặt đồ ăn bằng MoMo</td>
+          <td>Đặt đồ ăn trả sau</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr class="row-highlight">
+          <td><strong>🛒 Thương Mại Điện Tử</strong></td>
+          <td><code class="url">/doi-tac/thuong-mai-dien-tu</code></td>
+          <td>Mua sắm online MoMo</td>
+          <td>Mua trước trả sau</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr class="row-highlight">
+          <td><strong>✈️ Du Lịch</strong></td>
+          <td><code class="url">/doi-tac/du-lich</code></td>
+          <td>Đặt vé/phòng bằng MoMo</td>
+          <td>Đặt trước, trả sau</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr class="row-highlight">
+          <td><strong>🏪 Siêu Thị & Bán Lẻ</strong></td>
+          <td><code class="url">/doi-tac/sieu-thi</code></td>
+          <td>QR thanh toán tại quầy</td>
+          <td>Mua đồ dùng trả sau</td>
+          <td><span class="tag tag-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>🎬 Giải Trí</strong></td>
+          <td><code class="url">/doi-tac/giai-tri</code></td>
+          <td>Mua vé/subscription</td>
+          <td>Mua vé phim trả sau</td>
+          <td><span class="tag tag-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>🚗 Phương Tiện Di Lại</strong></td>
+          <td><code class="url">/doi-tac/di-lai</code></td>
+          <td>Thanh toán xe/taxi</td>
+          <td>Đi xe trả sau</td>
+          <td><span class="tag tag-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>💊 Sức Khỏe & Làm Đẹp</strong></td>
+          <td><code class="url">/doi-tac/suc-khoe</code></td>
+          <td>Thanh toán clinic/pharma</td>
+          <td>Khám bệnh trả sau</td>
+          <td><span class="tag tag-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>📚 Giáo Dục</strong></td>
+          <td><code class="url">/doi-tac/giao-duc</code></td>
+          <td>Đóng học phí MoMo</td>
+          <td>Học phí trả góp VTS</td>
+          <td><span class="tag tag-p3">P3</span></td>
+        </tr>
+        <tr>
+          <td><strong>🔌 Dịch Vụ Tiện Ích</strong></td>
+          <td><code class="url">/doi-tac/tien-ich</code></td>
+          <td>Thanh toán hóa đơn</td>
+          <td>Trả sau tiền điện/nước</td>
+          <td><span class="tag tag-p3">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ -->
+<!-- 6. HUB                     -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-hub">
   <div class="page-header">
     <div class="page-eyebrow">Content Architecture — Cấp 1</div>
     <div class="page-title">Hub Page: /doi-tac</div>
-    <div class="page-desc">Trang hub là điểm entry cho toàn bộ luồng Inbound. Nhiệm vụ: <strong>Discovery + Navigation</strong> — giúp user nhanh chóng tìm đúng danh mục và brand, đồng thời tạo anchor intent cho 3 nhóm search chính.</div>
+    <div class="page-desc">Trang entry point cho toàn bộ luồng Inbound. Nhiệm vụ: Discovery + Navigation - giúp user tìm đúng danh mục và brand. Đồng thời serve 2 intent clusters chính ngay tại Hub.</div>
   </div>
 
   <div class="cs-page">
     <div class="cs-header" onclick="toggleCS(this)">
       <div class="cs-header-left">
-        <span style="font-size:18px;">🏠</span>
+        <span style="font-size:20px;">🏠</span>
         <div>
-          <div class="cs-page-title">Hub /doi-tac — Cấu Trúc Nội Dung</div>
-          <div style="font-size:11px;color:var(--ink-3);">URL: momo.vn/doi-tac · Template: Static với dynamic data layer</div>
+          <div class="cs-page-title">Hub /doi-tac — Content Spec</div>
+          <div style="font-size:11px;color:var(--ink-3);">URL: momo.vn/doi-tac · Static HTML + dynamic deal layer từ CMS</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <span class="tag tag-p1">P1</span>
+        <span class="tag tag-p1">P1 · LAUNCH</span>
         <span class="cs-toggle">▶</span>
       </div>
     </div>
     <div class="cs-body open">
       <div class="cs-section">
-        <div class="cs-section-label">📌 Meta & SEO</div>
+        <div class="cs-section-label">📌 SEO Meta</div>
         <div class="cs-content-block">
           <div class="cs-block-title">Title Tag</div>
-          <div class="cs-block-desc">Đối Tác MoMo — Ưu đãi, Thanh toán & Hoàn tiền tại Hàng Nghìn Thương Hiệu | MoMo</div>
+          <div class="cs-block-desc">Đối Tác MoMo - Ưu đãi & Thanh toán tại Hàng Nghìn Thương Hiệu | MoMo</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">Meta Description</div>
-          <div class="cs-block-desc">Khám phá hàng nghìn đối tác MoMo: ưu đãi ẩm thực, hoàn tiền TMĐT, thanh toán du lịch và nhiều hơn. Dùng Ví Trả Sau — mua trước, trả sau, không lãi suất.</div>
+          <div class="cs-block-desc">Khám phá hàng nghìn đối tác MoMo: ưu đãi ẩm thực, mua sắm TMĐT, du lịch và hơn thế. Dùng Ví Trả Sau - mua trước, trả sau, không lãi suất.</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">H1</div>
-          <div class="cs-block-desc">Đối Tác MoMo — Thanh toán, Ưu đãi & Hoàn tiền</div>
+          <div class="cs-block-desc">Đối Tác MoMo - Thanh toán & Ưu đãi</div>
         </div>
       </div>
-
       <div class="cs-section">
         <div class="cs-section-label">🎯 Keyword Targets</div>
         <div class="cs-keyword-row">
@@ -814,37 +1072,35 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
           <span class="cs-kw-vts">Ví Trả Sau đối tác</span>
         </div>
       </div>
-
       <div class="cs-section">
-        <div class="cs-section-label">📐 Page Structure — Các Khối Nội Dung</div>
+        <div class="cs-section-label">📐 Page Structure - 6 Blocks</div>
         <div class="cs-content-block">
-          <div class="cs-block-title">① Hero Section</div>
-          <div class="cs-block-desc">H1 + subtitle giải thích value prop. Search/filter bar theo danh mục hoặc tên brand. Stat bar: "X+ đối tác · Y danh mục · Z ưu đãi đang chạy"</div>
+          <div class="cs-block-title">① Hero - Search & Discovery</div>
+          <div class="cs-block-desc">H1 + subtitle value prop. Search bar tìm brand theo tên. Stat bar: "X+ đối tác · 9 danh mục · Z ưu đãi đang chạy".</div>
         </div>
         <div class="cs-content-block">
-          <div class="cs-block-title">② 2 Intent Anchors (toàn trang)</div>
-          <div class="cs-block-desc">2 tab/section nổi bật: [💳 Thanh toán] [🎁 Ưu đãi hôm nay]. Mỗi tab hiển thị top 6 brand nổi bật của intent đó.</div>
+          <div class="cs-block-title">② 2 Intent Anchors</div>
+          <div class="cs-block-desc">2 tab song song: [💳 Thanh Toán - Top 6 brand hay dùng nhất] + [🎁 Ưu Đãi Hôm Nay - Top 6 brand đang có deal]. Dynamic từ data giao dịch.</div>
         </div>
         <div class="cs-content-block">
-          <div class="cs-block-title">③ Category Grid — 9 Danh Mục</div>
-          <div class="cs-block-desc">Grid 3×3 với icon danh mục, tên, số brand, badge ưu đãi nổi bật. Click → /doi-tac/{ten-category}</div>
+          <div class="cs-block-title">③ Category Grid 3x3</div>
+          <div class="cs-block-desc">9 ô danh mục: icon + tên + số brand + badge ưu đãi tiêu biểu. Click → /doi-tac/{ten-category}. Highlight 4 P1 categories.</div>
+        </div>
+        <div class="cs-content-block vts-block">
+          <div class="cs-block-title" style="color:var(--pink);">④ Ví Trả Sau Banner</div>
+          <div class="cs-block-desc">"Mua hàng bây giờ, trả sau - Không cần nạp tiền trước". Hiển thị 6 brand nổi bật hỗ trợ VTS. CTA: "Kích hoạt Ví Trả Sau" → Deep Link VTS onboarding.</div>
         </div>
         <div class="cs-content-block">
-          <div class="cs-block-title">④ Ví Trả Sau Banner (sticky intent)</div>
-          <div class="cs-block-desc">Section nổi bật: "Mua hàng bây giờ, trả sau — Không cần nạp tiền". List top đối tác hỗ trợ VTS. CTA: Kích hoạt VTS ngay → Deep Link.</div>
-        </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">⑤ "Đối tác nổi bật" — Brand Grid</div>
-          <div class="cs-block-desc">Top 20 brand theo lượt giao dịch. Logo + tên + danh mục + badge ưu đãi nhanh.</div>
+          <div class="cs-block-title">⑤ Brand Grid - Top 20 Nổi Bật</div>
+          <div class="cs-block-desc">Logo + tên + category badge + ưu đãi flash nếu có. Sorted theo transaction volume. Link → /doi-tac/{brand}.</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">⑥ FAQ Schema Block</div>
-          <div class="cs-block-desc">5–7 câu hỏi thường gặp về đối tác MoMo: "MoMo có thể thanh toán ở đâu?", "Ví Trả Sau dùng được ở những đối tác nào?", "Cách kích hoạt Ví Trả Sau?"...</div>
+          <div class="cs-block-desc">"MoMo có thể thanh toán ở đâu?" · "Ví Trả Sau dùng được ở đối tác nào?" · "Cách kích hoạt Ví Trả Sau?" · 5-7 câu, FAQPage Schema.</div>
         </div>
       </div>
-
       <div class="cs-section">
-        <div class="cs-section-label">🔧 Schema Markup</div>
+        <div class="cs-section-label">🔧 Schema & Tracking</div>
         <span class="cs-schema">ItemList</span>
         <span class="cs-schema">FAQPage</span>
         <span class="cs-schema">Organization</span>
@@ -854,40 +1110,43 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
     </div>
   </div>
 
-  <h2 class="sh">📐 Wireframe Logic Hub Page</h2>
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:28px;">
-    <div style="background:#F0EDE8;border-radius:8px;padding:16px;margin-bottom:12px;text-align:center;">
-      <div style="font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:0.5px;">HERO</div>
-      <div style="font-size:15px;font-weight:800;margin-top:4px;">H1 + Search Bar + 3 Intent Stats</div>
+  <h2 class="sh">📐 Wireframe Logic</h2>
+  <div class="wireframe">
+    <div class="wf-row wf-label">Hub Page — /doi-tac</div>
+    <div class="wf-row">① HERO — H1 + Search Bar + Stat (X+ đối tác · 9 danh mục)</div>
+    <div class="wf-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="wf-col" style="background:var(--blue-light);color:var(--blue);">💳 Thanh Toán<br><small style="font-weight:400">Top 6 brand payment</small></div>
+      <div class="wf-col" style="background:var(--amber-light);color:var(--amber);">🎁 Ưu Đãi Hôm Nay<br><small style="font-weight:400">Top 6 brand deals</small></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-      <div style="background:var(--blue-light);border-radius:6px;padding:12px;text-align:center;font-size:12px;font-weight:700;color:var(--blue);">💳 Thanh Toán<br><span style="font-weight:400;font-size:11px;">Top 6 brand payment</span></div>
-      <div style="background:#FFF3DC;border-radius:6px;padding:12px;text-align:center;font-size:12px;font-weight:700;color:var(--amber);">🎁 Ưu Đãi Hôm Nay<br><span style="font-weight:400;font-size:11px;">Top 6 brand deals</span></div>
-    </div>
-    <div style="background:#F0EDE8;border-radius:6px;padding:12px;margin-bottom:12px;text-align:center;font-size:12px;font-weight:700;">📂 Category Grid 3×3 — 9 Danh Mục</div>
-    <div style="background:var(--pink-light);border:1.5px dashed var(--pink);border-radius:6px;padding:12px;margin-bottom:12px;text-align:center;font-size:12px;font-weight:700;color:var(--pink);">💳 VTS BANNER — Mua trước, trả sau · CTA Kích hoạt</div>
-    <div style="background:#F0EDE8;border-radius:6px;padding:12px;margin-bottom:12px;text-align:center;font-size:12px;font-weight:700;">🏪 Brand Grid — Top 20 Đối Tác Nổi Bật</div>
-    <div style="background:#F0EDE8;border-radius:6px;padding:12px;text-align:center;font-size:12px;font-weight:700;">❓ FAQ Section (Schema)</div>
+    <div class="wf-row">③ Category Grid 3×3 — 9 Danh Mục → Link đến /{ten-category}</div>
+    <div class="wf-row wf-pink">④ VTS BANNER — Mua trước, trả sau · CTA Kích hoạt Ví Trả Sau</div>
+    <div class="wf-row">⑤ Brand Grid — Top 20 Đối Tác Nổi Bật</div>
+    <div class="wf-row">⑥ FAQ Section (FAQPage Schema)</div>
   </div>
 </section>
 
-
-
-<!-- ═══ 5. CATEGORY ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 7. CATEGORY                -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-category">
   <div class="page-header">
     <div class="page-eyebrow">Content Architecture — Cấp 2</div>
     <div class="page-title">Category Page: /doi-tac/{ten-category}</div>
-    <div class="page-desc">9 trang category với URL riêng — phục vụ intent danh mục: user biết họ muốn loại dịch vụ nào (siêu thị, ẩm thực...) nhưng chưa biết brand nào. Category page là cầu nối Hub → Brand, đồng thời capture category-level keyword độc lập.</div>
+    <div class="page-desc">9 trang category với URL riêng. Nhiệm vụ: capture category-level keyword và làm cầu nối Hub → Brand. Mỗi category có <strong>unique angle</strong> dựa trên use case thực của danh mục đó - không dùng chung template nội dung.</div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Nguyên tắc Content Category Page</div>
+    Category page KHÔNG phải trang informational dài. Nó là <strong>trang listing có context</strong>: intro 2-3 câu theo angle riêng + brand grid + VTS inline + HowTo ngắn. Tổng word count: 300-500 từ. Nếu viết dài hơn thì đang làm sai hướng.
   </div>
 
   <div class="cs-page">
     <div class="cs-header" onclick="toggleCS(this)">
       <div class="cs-header-left">
-        <span style="font-size:18px;">🏪</span>
+        <span style="font-size:20px;">🏪</span>
         <div>
           <div class="cs-page-title">Ví dụ: /doi-tac/sieu-thi — Siêu Thị & Bán Lẻ</div>
-          <div style="font-size:11px;color:var(--ink-3);">Template áp dụng cho 9 danh mục — angle riêng theo vertical</div>
+          <div style="font-size:11px;color:var(--ink-3);">Template - angle thay đổi theo từng vertical</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -897,18 +1156,18 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
     </div>
     <div class="cs-body open">
       <div class="cs-section">
-        <div class="cs-section-label">📌 Meta & SEO</div>
+        <div class="cs-section-label">📌 SEO Meta</div>
         <div class="cs-content-block">
           <div class="cs-block-title">Title</div>
-          <div class="cs-block-desc">Siêu Thị Nhận Thanh Toán MoMo — Ưu đãi mua sắm tại WinMart, AEON & hơn thế | MoMo</div>
+          <div class="cs-block-desc">Siêu Thị Nhận Thanh Toán MoMo - Ưu đãi tại WinMart, AEON & hơn thế | MoMo</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">H1</div>
-          <div class="cs-block-desc">Mua sắm siêu thị bằng MoMo — Thanh toán & Ưu đãi</div>
+          <div class="cs-block-desc">Mua sắm siêu thị bằng MoMo - Thanh toán & Ưu đãi</div>
         </div>
       </div>
       <div class="cs-section">
-        <div class="cs-section-label">🎯 Keyword Targets — theo category</div>
+        <div class="cs-section-label">🎯 Keyword Targets</div>
         <div class="cs-keyword-row">
           <span class="cs-kw">siêu thị nhận MoMo</span>
           <span class="cs-kw">thanh toán MoMo siêu thị</span>
@@ -922,23 +1181,23 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
         <div class="cs-section-label">📐 Page Structure</div>
         <div class="cs-content-block">
           <div class="cs-block-title">① Category Hero</div>
-          <div class="cs-block-desc">H1 + intro ngắn (2–3 câu) về thanh toán MoMo tại danh mục này. Breadcrumb: Đối Tác › Siêu Thị. Stat: X đối tác siêu thị nhận MoMo.</div>
+          <div class="cs-block-desc">H1 + intro 2-3 câu theo angle siêu thị (QR thanh toán nhanh, không cần ví tiền mặt). Breadcrumb: Đối Tác › Siêu Thị. Filter: "Ưu đãi hôm nay" / "Mới nhất".</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">② Brand Card Grid</div>
-          <div class="cs-block-desc">Grid 3–4 cột: Logo + tên brand + badge ưu đãi nổi bật + CTA "Xem chi tiết" → /doi-tac/{brand}. Highlight brand có VTS deal.</div>
+          <div class="cs-block-desc">Grid 3-4 cột: Logo + tên + badge ưu đãi nổi bật + CTA "Xem chi tiết" → /doi-tac/{brand}. Highlight brand đang có deal active.</div>
         </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">③ VTS Inline Banner</div>
-          <div class="cs-block-desc">"Mua sắm siêu thị bây giờ, trả tiền sau — Ví Trả Sau MoMo". Angle phù hợp vertical (siêu thị: tiện dụng, không cần tiền mặt).</div>
+        <div class="cs-content-block vts-block">
+          <div class="cs-block-title" style="color:var(--pink);">③ VTS Inline Banner</div>
+          <div class="cs-block-desc">"Mua sắm siêu thị bây giờ, trả tiền sau - Ví Trả Sau MoMo". Angle siêu thị: tiện dụng, không cần tiền mặt. CTA → VTS activation.</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">④ HowTo: "Cách thanh toán MoMo tại siêu thị"</div>
-          <div class="cs-block-desc">3–4 bước: Mở MoMo → Scan QR hoặc chọn brand → Xác nhận thanh toán. Trigger HowTo Schema → AI Overview.</div>
+          <div class="cs-block-desc">3-4 bước đơn giản: Mở MoMo → Scan QR hoặc chọn brand → Xác nhận. HowTo Schema → AI Overview.</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">⑤ FAQ category-specific</div>
-          <div class="cs-block-desc">"Siêu thị nào nhận MoMo?", "WinMart có dùng Ví Trả Sau không?", "Thanh toán QR MoMo tại AEON như thế nào?"... — FAQPage Schema.</div>
+          <div class="cs-block-desc">"Siêu thị nào nhận MoMo?" · "WinMart có dùng Ví Trả Sau không?" · "Scan QR MoMo tại AEON như thế nào?" - FAQPage Schema.</div>
         </div>
       </div>
       <div class="cs-section">
@@ -951,112 +1210,42 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
     </div>
   </div>
-
-  <h2 class="sh">📂 9 Danh Mục — URL & Intent Angle</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>Danh mục</th><th>URL</th><th>Intent Angle</th><th>VTS Hook</th><th>Priority</th>
-    </tr></thead>
-    <tbody>
-      <tr class="row-highlight">
-        <td><strong>🏪 Siêu Thị & Bán Lẻ</strong></td>
-        <td><code class="url">/doi-tac/sieu-thi</code></td>
-        <td>QR thanh toán tại quầy</td>
-        <td>Mua đồ dùng trả sau</td>
-        <td><span class="tag tag-p1">P1</span></td>
-      </tr>
-      <tr class="row-highlight">
-        <td><strong>🍜 Ẩm Thực & F&B</strong></td>
-        <td><code class="url">/doi-tac/am-thuc</code></td>
-        <td>Đặt đồ ăn bằng MoMo</td>
-        <td>Đặt đồ ăn trả sau</td>
-        <td><span class="tag tag-p1">P1</span></td>
-      </tr>
-      <tr class="row-highlight">
-        <td><strong>🛒 Thương Mại Điện Tử</strong></td>
-        <td><code class="url">/doi-tac/thuong-mai-dien-tu</code></td>
-        <td>Mua sắm online MoMo</td>
-        <td>Mua trước trả sau</td>
-        <td><span class="tag tag-p1">P1</span></td>
-      </tr>
-      <tr class="row-highlight">
-        <td><strong>✈️ Du Lịch</strong></td>
-        <td><code class="url">/doi-tac/du-lich</code></td>
-        <td>Đặt vé/phòng bằng MoMo</td>
-        <td>Đặt trước, trả sau chuyến bay</td>
-        <td><span class="tag tag-p1">P1</span></td>
-      </tr>
-      <tr>
-        <td><strong>🎬 Giải Trí</strong></td>
-        <td><code class="url">/doi-tac/giai-tri</code></td>
-        <td>Mua vé/subscription</td>
-        <td>Mua vé phim trả sau</td>
-        <td><span class="tag tag-p2">P2</span></td>
-      </tr>
-      <tr>
-        <td><strong>🚗 Phương Tiện Di Lại</strong></td>
-        <td><code class="url">/doi-tac/di-lai</code></td>
-        <td>Thanh toán xe/taxi</td>
-        <td>Đi xe trả sau</td>
-        <td><span class="tag tag-p2">P2</span></td>
-      </tr>
-      <tr>
-        <td><strong>💊 Sức Khỏe & Làm Đẹp</strong></td>
-        <td><code class="url">/doi-tac/suc-khoe</code></td>
-        <td>Thanh toán clinic/pharma</td>
-        <td>Khám bệnh trả sau</td>
-        <td><span class="tag tag-p2">P2</span></td>
-      </tr>
-      <tr>
-        <td><strong>📚 Giáo Dục</strong></td>
-        <td><code class="url">/doi-tac/giao-duc</code></td>
-        <td>Đóng học phí MoMo</td>
-        <td>Học phí trả góp VTS</td>
-        <td><span class="tag tag-p3">P3</span></td>
-      </tr>
-      <tr>
-        <td><strong>🔌 Dịch Vụ Tiện Ích</strong></td>
-        <td><code class="url">/doi-tac/tien-ich</code></td>
-        <td>Thanh toán hóa đơn</td>
-        <td>Trả sau tiền điện/nước</td>
-        <td><span class="tag tag-p3">P3</span></td>
-      </tr>
-    </tbody>
-  </table>
 </section>
 
-<!-- ═══ 6. BRAND ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 8. BRAND                   -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-brand">
   <div class="page-header">
-    <div class="page-eyebrow">Content Architecture — Cấp 3 (Core Conversion)</div>
+    <div class="page-eyebrow">Content Architecture — Cấp 3 · Core Conversion</div>
     <div class="page-title">Brand Page: /doi-tac/{ten-brand}</div>
-    <div class="page-desc">Brand Page là trang <strong>conversion chính</strong> — user đã có intent cụ thể, Web phải trả lời đầy đủ và dẫn vào App ngay. 2 nhóm intent (Thanh toán, Ưu đãi) đều phải được covered trên 1 trang. <strong>Không đăng địa chỉ cửa hàng cụ thể.</strong></div>
+    <div class="page-desc">Brand Page là trang <strong>conversion chính</strong>. User đã có intent cụ thể - Web phải trả lời đủ 2 nhóm intent (Thanh toán, Ưu đãi) và push VTS. Không đăng địa chỉ cửa hàng cụ thể.</div>
   </div>
 
   <div class="cs-page">
     <div class="cs-header" onclick="toggleCS(this)">
       <div class="cs-header-left">
-        <span style="font-size:18px;">🛍</span>
+        <span style="font-size:20px;">🛍</span>
         <div>
           <div class="cs-page-title">Ví dụ: /doi-tac/shopee</div>
-          <div style="font-size:11px;color:var(--ink-3);">Template Brand Page — áp dụng cho 100–300+ brand · Flat URL dưới /doi-tac/</div>
+          <div style="font-size:11px;color:var(--ink-3);">Template Brand Page - áp dụng 100-300+ brand · Flat URL /doi-tac/{brand}</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <span class="tag tag-p2">P2</span>
+        <span class="tag tag-p1">P1</span>
         <span class="cs-toggle">▶</span>
       </div>
     </div>
     <div class="cs-body open">
       <div class="cs-section">
-        <div class="cs-section-label">📌 Meta & SEO</div>
+        <div class="cs-section-label">📌 SEO Meta</div>
         <div class="cs-content-block">
           <div class="cs-block-title">Title Pattern</div>
-          <div class="cs-block-desc">[Brand] × MoMo — Thanh toán & Ưu đãi | MoMo</div>
+          <div class="cs-block-desc">[Brand] x MoMo - Thanh toán & Ưu đãi | MoMo</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">H1</div>
-          <div class="cs-block-desc">Shopee × MoMo — Thanh toán, ưu đãi & Ví Trả Sau</div>
+          <div class="cs-block-desc">Shopee x MoMo - Thanh toán, ưu đãi & Ví Trả Sau</div>
         </div>
         <div class="cs-content-block">
           <div class="cs-block-title">Keyword Targets</div>
@@ -1065,73 +1254,84 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
       </div>
 
       <div class="cs-section">
-        <div class="cs-section-label">📐 Cấu Trúc Nội Dung — 6 Blocks Bắt Buộc</div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">① Brand Hero</div>
-          <div class="cs-block-desc">H1 + intro ngắn về brand theo góc nhìn MoMo user. Breadcrumb: <strong>Đối Tác › Shopee</strong> (2 cấp, không có category giữa). Category tag hiển thị dưới dạng badge, không phải URL. Stat bar: "X triệu user · Z ưu đãi đang chạy"</div>
-        </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">② Mô Tả Đối Tác</div>
-          <div class="cs-block-desc">Đoạn 100–150 từ mô tả: Shopee là gì, tại sao dùng MoMo tại Shopee, lợi ích chính. <strong>Không phải bản copy Wikipedia</strong> — viết từ góc nhìn user MoMo (ưu đãi, VTS, thanh toán nhanh).</div>
-        </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">③ Hình Thức Thanh Toán [GROUP: Intent 1]</div>
-          <div class="cs-block-desc">Table hoặc list: Ví MoMo ✓ · Ví Trả Sau ✓ · QR Code ✓ · MoMo Pay Later ✓. Với mỗi hình thức: mô tả ngắn + điều kiện + limit nếu có. <strong>Ví Trả Sau phải nổi bật nhất</strong>.</div>
-        </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">④ Ưu Đãi Hiện Tại [GROUP: Intent 2]</div>
-          <div class="cs-block-desc">Grid ưu đãi đang chạy (dynamic, lấy từ CMS/API): Tên deal + % giảm + điều kiện + ngày hết hạn + CTA. Filter: "Ưu đãi VTS" / "Mã giảm giá" / "Deal mới nhất".</div>
-        </div>
-        <div class="cs-content-block" style="border:1.5px dashed var(--pink);background:var(--pink-light);">
-          <div class="cs-block-title" style="color:var(--pink);">⑤ Ví Trả Sau — Section Riêng [VTS ANCHOR]</div>
-          <div class="cs-block-desc">Section full-width nổi bật: "Mua tại Shopee với Ví Trả Sau — Không cần nạp tiền". Nội dung: hạn mức, cách dùng, điều kiện kích hoạt, ưu đãi riêng VTS. CTA Primary: "Kích hoạt Ví Trả Sau" → Deep Link onboarding VTS. Anchor: <code style="font-size:10px;">#vi-tra-sau</code></div>
-        </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">⑥ HowTo: "Cách thanh toán MoMo tại Shopee"</div>
-          <div class="cs-block-desc">4–5 bước đơn giản với icon. Trigger HowTo Schema → AI Overview. CTA cuối mỗi bước hướng về App.</div>
-        </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">⑦ FAQ Brand-Specific</div>
-          <div class="cs-block-desc">"Shopee có nhận Ví Trả Sau không?", "Mã giảm giá Shopee MoMo dùng như thế nào?", "Thanh toán Shopee bằng MoMo có an toàn không?"... — FAQPage Schema.</div>
-        </div>
-        <div class="cs-content-block">
-          <div class="cs-block-title">⑧ Related Partners (Internal Link)</div>
-          <div class="cs-block-desc">3–6 đối tác liên quan (cùng nhóm intent/use case): Lazada, Tiki, Sendo... → Internal Link juice + user journey kéo dài. Link về /doi-tac/{brand} — flat, không có category path.</div>
+        <div class="cs-section-label">📐 Anatomy - 8 Blocks Bắt Buộc</div>
+        <div class="anatomy-wrap">
+          <div class="anatomy-header-row">Brand Page Structure - /doi-tac/{brand}</div>
+          <div class="anatomy-row">
+            <div class="anatomy-section">① Brand Hero</div>
+            <div class="anatomy-content">Logo + H1 + 1 câu intro từ góc nhìn MoMo user. Breadcrumb: Đối Tác › Shopee. Category badge (không URL). Stat: X ưu đãi đang chạy.</div>
+            <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Breadcrumb 2 cấp</div>
+          </div>
+          <div class="anatomy-row">
+            <div class="anatomy-section">② Mô Tả Brand</div>
+            <div class="anatomy-content">100-150 từ: brand là gì + tại sao dùng MoMo tại đây. KHÔNG copy Wikipedia. Viết từ góc nhìn user MoMo - ưu đãi, VTS, thanh toán nhanh.</div>
+            <div class="anatomy-note"><span class="tag tag-ai">GEO</span> Entity building</div>
+          </div>
+          <div class="anatomy-row">
+            <div class="anatomy-section">③ Hình Thức TT</div>
+            <div class="anatomy-content">List: Ví MoMo ✓ · Ví Trả Sau ✓ · QR Code ✓. Mỗi hình thức: mô tả ngắn + điều kiện. VTS phải được highlight nổi bật nhất trong list này.</div>
+            <div class="anatomy-note"><span class="tag tag-conv">VTS!</span> Intent #1</div>
+          </div>
+          <div class="anatomy-row">
+            <div class="anatomy-section">④ Ưu Đãi Hiện Tại</div>
+            <div class="anatomy-content">Grid ưu đãi dynamic từ CMS/API: Tên deal + điều kiện + deadline + CTA. Filter: "VTS deals" / "Mã giảm giá" / "Mới nhất". Fallback khi hết deal: "Xem ưu đãi trong app".</div>
+            <div class="anatomy-note"><span class="tag tag-conv">CONV</span> Intent #2</div>
+          </div>
+          <div class="anatomy-row" style="border:1.5px dashed var(--pink-m1);background:var(--pink-m2);">
+            <div class="anatomy-section" style="background:var(--pink-m2);color:var(--pink);">⑤ Ví Trả Sau Section</div>
+            <div class="anatomy-content">"Mua tại Shopee với Ví Trả Sau - Không cần nạp tiền". Nội dung: hạn mức VTS, cách dùng (3 bước), điều kiện kích hoạt. Anchor: <code class="url">#vi-tra-sau</code>. CTA Primary: "Kích hoạt Ví Trả Sau" → Deep Link VTS onboarding.</div>
+            <div class="anatomy-note"><span class="tag tag-p1">PRIMARY</span> JTBD #3</div>
+          </div>
+          <div class="anatomy-row">
+            <div class="anatomy-section">⑥ HowTo TT</div>
+            <div class="anatomy-content">"Cách thanh toán MoMo tại Shopee" - 4-5 bước với icon. Trigger HowTo Schema → AI Overview. CTA sau bước cuối hướng về App.</div>
+            <div class="anatomy-note"><span class="tag tag-ai">GEO</span> HowTo Schema</div>
+          </div>
+          <div class="anatomy-row">
+            <div class="anatomy-section">⑦ FAQ</div>
+            <div class="anatomy-content">"Shopee có nhận Ví Trả Sau không?" · "Mã giảm giá Shopee MoMo dùng như thế nào?" · "Thanh toán Shopee bằng MoMo có an toàn không?" - FAQPage Schema. Minimum 4 câu.</div>
+            <div class="anatomy-note"><span class="tag tag-ai">GEO</span> FAQPage</div>
+          </div>
+          <div class="anatomy-row">
+            <div class="anatomy-section">⑧ Related Partners</div>
+            <div class="anatomy-content">3-6 đối tác cùng use case (Lazada, Tiki, Sendo...). Internal link juice + giữ user trên ecosystem /doi-tac. Link flat: /doi-tac/{brand}.</div>
+            <div class="anatomy-note"><span class="tag tag-seo">SEO</span> Internal link</div>
+          </div>
         </div>
       </div>
 
       <div class="cs-section">
-        <div class="cs-section-label">🔧 Schema</div>
+        <div class="cs-section-label">🔧 Schema & Events</div>
         <span class="cs-schema">Organization</span>
         <span class="cs-schema">FAQPage</span>
         <span class="cs-schema">HowTo</span>
         <span class="cs-schema">BreadcrumbList</span>
         <span class="cs-schema">Offer</span>
-        <span class="cs-ai">AI Answer Engine target</span>
+        <span class="cs-ai">AI Answer Engine</span>
       </div>
     </div>
   </div>
 
-  <h2 class="sh">🏪 Brand Priority List — Phase 1</h2>
+  <h2 class="sh">🏪 Brand Priority List - Phase 1</h2>
   <div class="priority-grid">
     <div class="priority-col">
-      <div class="priority-col-header" style="background:var(--pink-light);">
-        <span>🔴</span> <span>P1 — Launch cùng Hub</span>
+      <div class="priority-col-header" style="background:var(--pink-m2);">
+        <span>🔴</span><span>P1 - Launch cùng Hub</span>
       </div>
       <div class="priority-col-body">
         <div class="priority-item vts-item"><b>Shopee</b><span>TMĐT · VTS high value</span></div>
         <div class="priority-item vts-item"><b>Lazada</b><span>TMĐT · VTS high value</span></div>
-        <div class="priority-item vts-item"><b>Grab Food</b><span>Ẩm thực · Ưu đãi lớn</span></div>
+        <div class="priority-item"><b>Grab Food</b><span>Ẩm thực · Ưu đãi lớn</span></div>
         <div class="priority-item"><b>ShopeeFood</b><span>Ẩm thực · Volume cao</span></div>
         <div class="priority-item vts-item"><b>Booking.com</b><span>Du lịch · VTS trả sau</span></div>
         <div class="priority-item"><b>Vietnam Airlines</b><span>Du lịch · Vé máy bay</span></div>
-        <div class="priority-item"><b>WinMart/VinMart</b><span>Siêu thị · QR tại quầy</span></div>
-        <div class="priority-item"><b>CGV</b><span>Giải trí · Mua vé phim</span></div>
+        <div class="priority-item"><b>WinMart</b><span>Siêu thị · QR tại quầy</span></div>
+        <div class="priority-item"><b>CGV</b><span>Giải trí · Vé phim</span></div>
       </div>
     </div>
     <div class="priority-col">
       <div class="priority-col-header" style="background:#FFF3DC;">
-        <span>🟡</span> <span>P2 — 30 ngày sau Hub</span>
+        <span>🟡</span><span>P2 - +30 ngày</span>
       </div>
       <div class="priority-col-body">
         <div class="priority-item"><b>Tiki</b><span>TMĐT · Mid volume</span></div>
@@ -1140,16 +1340,15 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
         <div class="priority-item"><b>Grab (xe)</b><span>Di chuyển · QR pay</span></div>
         <div class="priority-item"><b>AEON</b><span>Siêu thị · Offline</span></div>
         <div class="priority-item"><b>Galaxy Cinema</b><span>Giải trí · Vé phim</span></div>
-        <div class="priority-item"><b>Pharmacity</b><span>Sức khỏe · Pharmacy</span></div>
+        <div class="priority-item"><b>Pharmacity</b><span>Sức khỏe</span></div>
         <div class="priority-item"><b>Be (taxi)</b><span>Di chuyển</span></div>
       </div>
     </div>
     <div class="priority-col">
       <div class="priority-col-header" style="background:#F0EDE8;">
-        <span>⚪</span> <span>P3 — 60–90 ngày</span>
+        <span>⚪</span><span>P3 - +60-90 ngày</span>
       </div>
       <div class="priority-col-body">
-        <div class="priority-item"><b>Outros TMĐT</b><span>Sendo, Shopee Mall...</span></div>
         <div class="priority-item"><b>Vietjet, Bamboo</b><span>Du lịch hàng không</span></div>
         <div class="priority-item"><b>Co.opmart</b><span>Siêu thị offline</span></div>
         <div class="priority-item"><b>Netflix, Spotify</b><span>Giải trí streaming</span></div>
@@ -1161,151 +1360,135 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
   </div>
 </section>
 
-<!-- ═══ 7. SEO / GEO ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 9. SEO / GEO               -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-seo">
   <div class="page-header">
-    <div class="page-eyebrow">Technical SEO & GEO — Generative Engine Optimization</div>
-    <div class="page-title">SEO Technical Stack cho /doi-tac</div>
-    <div class="page-desc">Hệ thống /doi-tac cần được build với nền tảng technical SEO vững để capture cả Google SERP truyền thống lẫn AI Overview (GEO). Đặc biệt quan trọng là Schema Markup và Entity building cho từng brand.</div>
+    <div class="page-eyebrow">Technical — SEO & GEO</div>
+    <div class="page-title">Technical Stack cho /doi-tac</div>
+    <div class="page-desc">Nền tảng technical SEO phải vững để capture Google SERP truyền thống lẫn AI Overview. Schema Markup và Entity building cho từng brand là differentiator GEO dài hạn.</div>
   </div>
 
   <h2 class="sh">📋 Schema Strategy theo Cấp Trang</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>Cấp trang</th><th>Schema bắt buộc</th><th>Schema tùy chọn</th><th>GEO impact</th>
-    </tr></thead>
-    <tbody>
-      <tr>
-        <td><strong>/doi-tac (Hub)</strong></td>
-        <td><span class="cs-schema">ItemList</span> <span class="cs-schema">FAQPage</span> <span class="cs-schema">Organization</span></td>
-        <td><span class="cs-schema">BreadcrumbList</span></td>
-        <td>FAQ → AI "MoMo có những đối tác nào"</td>
-      </tr>
-      <tr>
-        <td><strong>/doi-tac/{category}</strong></td>
-        <td><span class="cs-schema">ItemList</span> <span class="cs-schema">FAQPage</span> <span class="cs-schema">HowTo</span></td>
-        <td><span class="cs-schema">BreadcrumbList</span></td>
-        <td>HowTo → "Cách thanh toán MoMo tại siêu thị"</td>
-      </tr>
-      <tr class="row-highlight">
-        <td><strong>/doi-tac/{brand}</strong></td>
-        <td><span class="cs-schema">Organization</span> <span class="cs-schema">FAQPage</span> <span class="cs-schema">HowTo</span> <span class="cs-schema">Offer</span></td>
-        <td><span class="cs-schema">BreadcrumbList</span> <span class="cs-schema">AggregateRating</span></td>
-        <td>FAQ + HowTo → AI "Shopee có nhận VTS không"</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2 class="sh">🔗 Internal Link Architecture</h2>
-  <div class="callout callout-green">
-    <div class="callout-title">✅ Internal Link Rules — /doi-tac</div>
-    <strong>Hub → Category:</strong> 9 category grid đều link đến /doi-tac/{ten-category}.<br>
-    <strong>Hub → Brand:</strong> Top brand cards link thẳng /doi-tac/{brand}.<br>
-    <strong>Category → Brand:</strong> Brand cards trong category page link đến /doi-tac/{brand} (flat, không nest).<br>
-    <strong>Brand → Liên quan:</strong> 3–6 "Đối tác liên quan" cùng use case — link flat /doi-tac/{brand}.<br>
-    <strong>Brand → Hub/Category:</strong> Breadcrumb "Đối Tác" → Hub và tag category → /doi-tac/{category}.<br>
-    <strong>Brand → VTS:</strong> Section VTS link đến /vi-tra-sau để cross-sell.
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>Cấp</th><th>Schema bắt buộc</th><th>Schema tùy chọn</th><th>GEO Target</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>/doi-tac (Hub)</strong></td>
+          <td><span class="cs-schema">ItemList</span> <span class="cs-schema">FAQPage</span> <span class="cs-schema">Organization</span></td>
+          <td><span class="cs-schema">BreadcrumbList</span></td>
+          <td>FAQ → AI "MoMo có những đối tác nào"</td>
+        </tr>
+        <tr>
+          <td><strong>/doi-tac/{category}</strong></td>
+          <td><span class="cs-schema">ItemList</span> <span class="cs-schema">FAQPage</span> <span class="cs-schema">HowTo</span></td>
+          <td><span class="cs-schema">BreadcrumbList</span></td>
+          <td>HowTo → "Cách thanh toán MoMo tại siêu thị"</td>
+        </tr>
+        <tr class="row-highlight">
+          <td><strong>/doi-tac/{brand}</strong></td>
+          <td><span class="cs-schema">Organization</span> <span class="cs-schema">FAQPage</span> <span class="cs-schema">HowTo</span> <span class="cs-schema">Offer</span></td>
+          <td><span class="cs-schema">AggregateRating</span></td>
+          <td>FAQ + HowTo → AI "Shopee có nhận VTS không"</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <h2 class="sh">⚡ Core Web Vitals Requirements</h2>
+  <div class="callout callout-green">
+    <div class="callout-title">✅ Internal Link Rules</div>
+    <strong>Hub → Category:</strong> Category Grid link thẳng đến /doi-tac/{cat}. Top brand trên Hub link thẳng /doi-tac/{brand}.<br>
+    <strong>Category → Brand:</strong> Brand card trong category grid link /doi-tac/{brand} (flat).<br>
+    <strong>Brand → Related:</strong> 3-6 brand cùng use case, link /doi-tac/{brand} (flat, không qua category path).<br>
+    <strong>Brand → Hub:</strong> Breadcrumb "Đối Tác" link về /doi-tac.<br>
+    <strong>Brand → VTS:</strong> VTS section link cross-sell sang trang /vi-tra-sau.
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">🤖 GEO Entity Building Strategy</div>
+    Mỗi Brand Page build strong Entity cho cặp "[Brand] x MoMo". Cần: (1) Tên brand đầy đủ trong H1/Title, (2) Organization Schema với sameAs link đến Wikipedia/official site của brand, (3) FAQPage với exact-match query từ GSC. Khi AI engines index đủ entity này, MoMo sẽ được mention tự nhiên khi user hỏi về brand đó.
+  </div>
+
+  <h2 class="sh">⚡ Core Web Vitals</h2>
   <div class="grid-3">
     <div class="card">
       <div class="card-title">LCP &lt; 2.5s</div>
-      <div style="font-size:12px;color:var(--ink-2);">Logo brand + above-fold content phải load trước. Lazy load brand grid phần dưới. Optimize logo CDN.</div>
+      <div style="font-size:12.5px;color:var(--ink-2);">Logo brand + above-fold content load trước. Lazy load brand grid dưới fold. Optimize logo CDN.</div>
     </div>
     <div class="card">
       <div class="card-title">CLS &lt; 0.1</div>
-      <div style="font-size:12px;color:var(--ink-2);">Deal/offer banner dynamic phải có reserved space. Tránh layout shift khi load ưu đãi từ API.</div>
+      <div style="font-size:12.5px;color:var(--ink-2);">Deal banner dynamic phải có reserved space. Tránh layout shift khi ưu đãi load từ API.</div>
     </div>
     <div class="card">
       <div class="card-title">INP &lt; 200ms</div>
-      <div style="font-size:12px;color:var(--ink-2);">Filter tab, search brand phải responsive ngay. Ưu tiên JS hydration cho interactive elements.</div>
+      <div style="font-size:12.5px;color:var(--ink-2);">Filter tab, search brand phải responsive ngay. Ưu tiên JS hydration cho interactive elements.</div>
     </div>
-  </div>
-
-  <h2 class="sh">🤖 GEO — Generative Engine Optimization</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>AI Query Pattern</th><th>Content Target</th><th>Schema Trigger</th>
-    </tr></thead>
-    <tbody>
-      <tr>
-        <td>"Shopee có nhận MoMo không?"</td>
-        <td>Brand Page Shopee — Section Thanh Toán</td>
-        <td><span class="cs-schema">FAQPage</span></td>
-      </tr>
-      <tr>
-        <td>"Cách dùng Ví Trả Sau mua Shopee"</td>
-        <td>Brand Page Shopee — Section VTS #vi-tra-sau</td>
-        <td><span class="cs-schema">HowTo</span></td>
-      </tr>
-      <tr>
-        <td>"MoMo có đối tác ăn uống nào?"</td>
-        <td>Hub Page + Category /doi-tac/am-thuc</td>
-        <td><span class="cs-schema">ItemList</span> + <span class="cs-schema">FAQPage</span></td>
-      </tr>
-      <tr>
-        <td>"Siêu thị nào nhận MoMo?"</td>
-        <td>Category /doi-tac/sieu-thi</td>
-        <td><span class="cs-schema">ItemList</span> + <span class="cs-schema">FAQPage</span></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="callout callout-purple">
-    <div class="callout-title">🤖 GEO Moat — Entity Building</div>
-    Mỗi Brand Page phải build strong <strong>Entity</strong> cho cặp "[Brand] × MoMo". Sử dụng: (1) Tên brand đầy đủ trong H1/Title, (2) Organization Schema với sameAs link đến Wikipedia/official site của brand, (3) FAQPage với exact-match queries từ GSC. Khi AI engines index đủ entity này, MoMo sẽ được mention tự nhiên trong câu trả lời về brand đó.
   </div>
 </section>
 
-<!-- ═══ 8. VTS ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 10. VTS STRATEGY           -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-vts">
   <div class="page-header">
     <div class="page-eyebrow">Product Strategy — Ví Trả Sau</div>
-    <div class="page-title">Ví Trả Sau — Conversion Anchor xuyên suốt /doi-tac</div>
-    <div class="page-desc">Ví Trả Sau (VTS) là differentiator chiến lược của MoMo so với ví điện tử thông thường. Toàn bộ hệ thống /doi-tac phải serve VTS như một <strong>primary conversion goal</strong> — không phải secondary CTA. Mỗi intent cluster đều có VTS angle riêng.</div>
+    <div class="page-title">VTS - Conversion Anchor Xuyên Suốt /doi-tac</div>
+    <div class="page-desc">Ví Trả Sau là differentiator chiến lược so với ví điện tử thông thường. Toàn bộ /doi-tac serve VTS như <strong>primary conversion goal</strong> - không phải secondary CTA. Mỗi intent cluster có VTS angle riêng.</div>
   </div>
 
   <div class="callout callout-pink">
-    <div class="callout-title">💳 VTS Value Proposition theo Intent</div>
-    <strong>Intent Thanh toán:</strong> "Thanh toán ngay dù chưa có tiền trong ví — Ví Trả Sau MoMo"<br>
-    <strong>Intent Ưu đãi:</strong> "Ưu đãi độc quyền dành riêng cho Ví Trả Sau — Giảm thêm so với ví thường"
+    <div class="callout-title">💳 VTS Value Proposition theo JTBD</div>
+    <strong>JTBD #1 (Xác nhận TT):</strong> "Thanh toán ngay dù chưa nạp tiền vào ví - Ví Trả Sau MoMo"<br>
+    <strong>JTBD #2 (Ưu đãi):</strong> "Ưu đãi độc quyền dành riêng cho Ví Trả Sau - deal tốt hơn ví thường"<br>
+    <strong>JTBD #3 (Mua khi thiếu tiền):</strong> "Mua bây giờ, trả cuối tháng - không cần nạp tiền trước"
   </div>
 
   <h2 class="sh">📊 VTS Placement Matrix</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>Vị trí đặt VTS CTA</th><th>Loại CTA</th><th>Copy gợi ý</th><th>Deep Link Target</th>
-    </tr></thead>
-    <tbody>
-      <tr class="row-vts">
-        <td><strong>Brand Page — Section VTS (#anchor)</strong></td>
-        <td>Primary CTA Full Section</td>
-        <td>"Kích hoạt Ví Trả Sau — Mua [Brand] ngay không cần nạp tiền"</td>
-        <td>VTS Onboarding in-app</td>
-      </tr>
-      <tr>
-        <td>Hub Page — VTS Banner Block</td>
-        <td>Banner CTA</td>
-        <td>"Mua hàng bây giờ, trả sau — Không lãi suất tháng đầu"</td>
-        <td>VTS product page</td>
-      </tr>
-      <tr>
-        <td>Category Page — Inline Banner</td>
-        <td>Mid-page Banner</td>
-        <td>"[Danh mục] trả sau với Ví Trả Sau MoMo"</td>
-        <td>VTS + category deeplink</td>
-      </tr>
-      <tr>
-        <td>Brand Page — Thanh Toán Table</td>
-        <td>Row Highlight</td>
-        <td>"Ví Trả Sau ⭐ — Ưu đãi tốt nhất"</td>
-        <td>VTS activation</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>Vị trí</th><th>Loại CTA</th><th>Copy gợi ý</th><th>Deep Link</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><strong>Brand Page - Section VTS (#anchor)</strong></td>
+          <td>Primary CTA Full Section</td>
+          <td>"Kích hoạt Ví Trả Sau - Mua [Brand] ngay không cần nạp tiền"</td>
+          <td>VTS Onboarding flow</td>
+        </tr>
+        <tr>
+          <td>Hub Page - VTS Banner Block</td>
+          <td>Banner CTA</td>
+          <td>"Mua hàng bây giờ, trả sau - Không lãi suất tháng đầu"</td>
+          <td>VTS product page</td>
+        </tr>
+        <tr>
+          <td>Category Page - Inline Banner</td>
+          <td>Mid-page Banner</td>
+          <td>"[Danh mục] trả sau với Ví Trả Sau MoMo"</td>
+          <td>VTS + category deeplink</td>
+        </tr>
+        <tr>
+          <td>Brand Page - Payment Table</td>
+          <td>Row Highlight</td>
+          <td>"Ví Trả Sau ⭐ - Recommended"</td>
+          <td>VTS activation</td>
+        </tr>
+        <tr>
+          <td>Smart Banner mobile</td>
+          <td>App Banner</td>
+          <td>"Dùng VTS để nhận ưu đãi tốt hơn"</td>
+          <td>App → VTS section</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <h2 class="sh">🎯 VTS Intent Keywords — Targeting</h2>
+  <h2 class="sh">🎯 VTS Keyword Targets</h2>
   <div class="cs-keyword-row">
     <span class="cs-kw-vts">Ví Trả Sau MoMo là gì</span>
     <span class="cs-kw-vts">Ví Trả Sau dùng ở đâu</span>
@@ -1313,159 +1496,112 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
     <span class="cs-kw-vts">Ví Trả Sau Shopee</span>
     <span class="cs-kw-vts">Ví Trả Sau Grab Food</span>
     <span class="cs-kw-vts">Thanh toán trước trả sau MoMo</span>
-    <span class="cs-kw-vts">MoMo Pay Later</span>
     <span class="cs-kw-vts">Kích hoạt Ví Trả Sau</span>
-    <span class="cs-kw-vts">Điều kiện Ví Trả Sau MoMo</span>
-    <span class="cs-kw-vts">Hạn mức Ví Trả Sau</span>
+    <span class="cs-kw-vts">Hạn mức Ví Trả Sau MoMo</span>
   </div>
 
   <div class="callout callout-amber">
     <div class="callout-title">⚠️ VTS Copywriting Rules</div>
-    1. Luôn dùng "Ví Trả Sau" — không viết tắt VTS trong content public (SEO exact match).<br>
-    2. Highlight điểm khác biệt vs ví thường: hoàn % cao hơn + không cần nạp tiền trước.<br>
-    3. Không dùng từ ngữ tài chính phức tạp — viết đơn giản: "Mua trước, trả sau, không lãi suất X ngày".<br>
-    4. Mỗi brand page phải có section VTS riêng — không gộp chung vào payment table.
+    1. Luôn dùng "Ví Trả Sau" đầy đủ - không viết tắt trong content public (SEO exact match).<br>
+    2. Không dùng từ ngữ tài chính phức tạp. Viết đơn giản: "Mua trước, trả sau, không lãi suất X ngày".<br>
+    3. Mỗi brand page phải có VTS section riêng với anchor #vi-tra-sau - không gộp vào payment table.<br>
+    4. CTA "Kích hoạt Ví Trả Sau" - không dùng "Đăng ký" hay "Mở VTS" (friction cao hơn).
   </div>
 </section>
 
-<!-- ═══ 9. CONVERSION ═══ -->
-<section class="section" id="s-conversion">
+<!-- ═══════════════════════════ -->
+<!-- 11. WEB-TO-APP             -->
+<!-- ═══════════════════════════ -->
+<section class="section" id="s-w2a">
   <div class="page-header">
     <div class="page-eyebrow">PLG — Web-to-App Conversion</div>
     <div class="page-title">Giảm Friction: Web → App → Transaction</div>
-    <div class="page-desc">Mọi CTA trên /doi-tac đều phải có Deep Link đúng context — không đưa user về App homepage rồi để họ tự tìm. Friction cao = drop off. Mỗi intent có một deep link target khác nhau.</div>
+    <div class="page-desc">Mọi CTA trên /doi-tac phải có Deep Link đúng context. Không đưa user về App homepage rồi để họ tự tìm. Friction 1 bước thừa = drop off đáng kể.</div>
   </div>
 
   <h2 class="sh">📲 Deep Link Map</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>User Context</th><th>CTA Text</th><th>Deep Link Target</th><th>Fallback</th>
-    </tr></thead>
-    <tbody>
-      <tr>
-        <td>Brand Page — Thanh toán</td>
-        <td>"Thanh toán tại [Brand] ngay"</td>
-        <td>App → [Brand] payment screen</td>
-        <td>App store nếu chưa cài</td>
-      </tr>
-      <tr class="row-vts">
-        <td>Brand Page — VTS Section</td>
-        <td>"Kích hoạt Ví Trả Sau"</td>
-        <td>App → VTS onboarding flow</td>
-        <td>App store → VTS page</td>
-      </tr>
-      <tr>
-        <td>Category Page — Deal</td>
-        <td>"Xem ưu đãi trong app"</td>
-        <td>App → [Category] deals tab</td>
-        <td>App store</td>
-      </tr>
-      <tr>
-        <td>Hub Page — Discover</td>
-        <td>"Khám phá đối tác trong MoMo"</td>
-        <td>App → Partner discovery</td>
-        <td>App store</td>
-      </tr>
-      <tr>
-        <td>Brand Page — Offer claim</td>
-        <td>"Nhận ưu đãi ngay"</td>
-        <td>App → [Specific offer] claim</td>
-        <td>App store → offer</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2 class="sh">📱 Smart Banner & Mobile UX</h2>
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">📱 iOS Smart App Banner</div>
-      <div style="font-size:12px;color:var(--ink-2);line-height:1.7;">
-        Meta tag: <code class="url">apple-itunes-app</code><br>
-        Hiển thị: Native iOS banner top của page<br>
-        Content: "MoMo — Xem ưu đãi [Brand] trong app"<br>
-        Điều kiện: Tất cả Brand Page + Category Page<br>
-        Deep link: app-argument với context brand
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">🤖 Android — Custom Smart Banner</div>
-      <div style="font-size:12px;color:var(--ink-2);line-height:1.7;">
-        Implementation: Custom JS component<br>
-        Hiển thị: Sticky bottom bar mobile<br>
-        Content: "Mở MoMo để [action context]"<br>
-        Dismiss: X button + lưu cookie 7 ngày<br>
-        Deep link: intent:// Android scheme
-      </div>
-    </div>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>User Context</th><th>CTA Text</th><th>Deep Link Target</th><th>Fallback</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>Brand Page - Thanh toán</td>
+          <td>"Thanh toán tại [Brand] ngay"</td>
+          <td>App → [Brand] payment screen</td>
+          <td>App store nếu chưa cài</td>
+        </tr>
+        <tr class="row-highlight">
+          <td>Brand Page - VTS Section</td>
+          <td>"Kích hoạt Ví Trả Sau"</td>
+          <td>App → VTS onboarding flow</td>
+          <td>App store → VTS page</td>
+        </tr>
+        <tr>
+          <td>Category Page - Brand card</td>
+          <td>"Xem ưu đãi trong app"</td>
+          <td>App → [Brand] trong MoMo</td>
+          <td>App store</td>
+        </tr>
+        <tr>
+          <td>Hub Page - Discovery</td>
+          <td>"Khám phá đối tác trong MoMo"</td>
+          <td>App → Partner discovery tab</td>
+          <td>App store</td>
+        </tr>
+        <tr>
+          <td>Brand Page - Deal</td>
+          <td>"Nhận ưu đãi ngay"</td>
+          <td>App → [Specific offer] claim</td>
+          <td>App store → offer</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <h2 class="sh">📊 GA4 Events cần track</h2>
-  <table class="data-table">
-    <thead><tr>
-      <th>Event Name</th><th>Trigger</th><th>Parameters</th>
-    </tr></thead>
-    <tbody>
-      <tr>
-        <td><code class="url">partner_page_view</code></td>
-        <td>Load Brand Page</td>
-        <td>brand_name, category, source_intent</td>
-      </tr>
-      <tr>
-        <td><code class="url">payment_method_view</code></td>
-        <td>Scroll đến section Thanh Toán</td>
-        <td>brand_name, methods_available</td>
-      </tr>
-      <tr class="row-vts">
-        <td><code class="url">vts_cta_click</code></td>
-        <td>Click CTA Ví Trả Sau bất kỳ</td>
-        <td>brand_name, cta_position, page_type</td>
-      </tr>
-      <tr>
-        <td><code class="url">offer_view</code></td>
-        <td>Scroll đến section Ưu Đãi</td>
-        <td>brand_name, offer_count</td>
-      </tr>
-      <tr>
-        <td><code class="url">app_open_click</code></td>
-        <td>Click bất kỳ CTA → App</td>
-        <td>brand_name, cta_type, deep_link_target</td>
-      </tr>
-      <tr>
-        <td><code class="url">smart_banner_click</code></td>
-        <td>Click Smart Banner</td>
-        <td>page_type, brand_name, os</td>
-      </tr>
-      <tr>
-        <td><code class="url">category_filter_apply</code></td>
-        <td>Dùng filter trên Category Page</td>
-        <td>category, filter_type, filter_value</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>Event Name</th><th>Trigger</th><th>Key Parameters</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><code class="url">partner_page_view</code></td><td>Load Brand Page</td><td>brand_name, category, source_intent</td></tr>
+        <tr><td><code class="url">category_page_view</code></td><td>Load Category Page</td><td>category_name, brand_count</td></tr>
+        <tr class="row-highlight"><td><code class="url">vts_cta_click</code></td><td>Click CTA Ví Trả Sau</td><td>brand_name, cta_position, page_type</td></tr>
+        <tr><td><code class="url">offer_view</code></td><td>Scroll đến section Ưu Đãi</td><td>brand_name, offer_count</td></tr>
+        <tr><td><code class="url">app_open_click</code></td><td>Click bất kỳ CTA → App</td><td>brand_name, cta_type, deep_link_target</td></tr>
+        <tr><td><code class="url">smart_banner_click</code></td><td>Click Smart Banner</td><td>page_type, brand_name, os</td></tr>
+        <tr><td><code class="url">category_filter_apply</code></td><td>Dùng filter trên Category Page</td><td>category, filter_type</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="callout callout-blue">
-    <div class="callout-title">📊 Looker Studio Dashboard cần build</div>
-    Kết nối GA4 + GSC → Looker Studio với 3 view chính: (1) <strong>Organic Funnel</strong>: Impressions → Clicks → Sessions → App opens → VTS activations. (2) <strong>Brand Performance</strong>: Top brand pages by traffic, scroll depth, CTA CTR. (3) <strong>VTS Attribution</strong>: Số VTS activations attributed từ /doi-tac pages.
+    <div class="callout-title">📊 North Star Metric</div>
+    <strong>VTS Activations từ /doi-tac</strong> = số user kích hoạt Ví Trả Sau attributed từ trang đối tác. Đo qua: (1) GA4: vts_cta_click → app open → VTS activation (cross-platform tracking). (2) Looker Studio: Funnel /doi-tac page view → app open → VTS activated. Target: [cần set sau khi có baseline data].
   </div>
 </section>
 
-<!-- ═══ 10. CHECKLIST ═══ -->
+<!-- ═══════════════════════════ -->
+<!-- 12. CHECKLIST              -->
+<!-- ═══════════════════════════ -->
 <section class="section" id="s-checklist">
   <div class="page-header">
-    <div class="page-eyebrow">Launch Readiness — Checklist</div>
+    <div class="page-eyebrow">Launch Readiness</div>
     <div class="page-title">Pre-Launch Checklist /doi-tac</div>
-    <div class="page-desc">Checklist phân theo cấp trang và nhóm kỹ thuật. Phase 1 tập trung Hub + 9 Category + P1 Brand. Phase 2 triển khai P2/P3 Brand theo data traffic.</div>
+    <div class="page-desc">Phase 1: Hub + 9 Category + 8 P1 Brands. Phase 2: P2 brands + optimization. Phase 3: P3 long-tail theo data traffic.</div>
   </div>
 
-  <!-- HUB CHECKLIST -->
   <div class="cl-product">
     <div class="cl-product-header" onclick="toggleCL(this)">
       <span class="cl-product-icon">🏠</span>
       <div class="cl-product-meta">
         <div class="cl-product-name">Hub /doi-tac</div>
-        <div class="cl-product-sub">1 trang · Static với dynamic data layer · Phase 1</div>
+        <div class="cl-product-sub">1 trang · Static + dynamic deal layer · Phase 1 critical</div>
       </div>
-      <span class="cl-product-badge" style="background:var(--pink-light);color:var(--pink)">Critical P1</span>
+      <span class="cl-product-badge" style="background:var(--pink-m2);color:var(--pink)">Critical P1</span>
       <span class="cl-product-toggle">▶</span>
     </div>
     <div class="cl-product-body">
@@ -1474,164 +1610,156 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
         <div class="cl-grid">
           <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">H1 + Meta Title + Meta Description đúng keyword target</div></div>
           <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Hero section với Search/Filter bar hoạt động</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">3 Intent Anchor Tabs: Thanh Toán · Ưu Đãi · Hoàn Tiền</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Category Grid 9 ô đầy đủ, link đến /doi-tac/{ten-category}</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Brand Grid: top brand P1 có link thẳng /doi-tac/{brand}</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS Banner section nổi bật với CTA Deep Link</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQ Section ≥ 5 câu hỏi, đúng format Schema</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">2 Intent Anchor Tabs: Thanh Toán · Ưu Đãi</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Category Grid 9 ô, có link đến /doi-tac/{cat}</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS Banner section với CTA Deep Link</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQ Section min 5 câu, đúng format Schema</div></div>
         </div>
       </div>
       <div class="cl-group">
         <div class="cl-group-title">🔧 Technical</div>
         <div class="cl-grid">
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">ItemList Schema valid (Google Rich Results Test)</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQPage Schema valid</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">ItemList + FAQPage Schema valid (Rich Results Test)</div></div>
           <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Canonical tag chính xác</div></div>
           <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">LCP &lt; 2.5s trên mobile (PageSpeed Insights)</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sitemap.xml include /doi-tac và tất cả /doi-tac/{brand}</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 events: partner_page_view, category_click</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sitemap.xml include /doi-tac và tất cả subpages</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4: partner_page_view, vts_cta_click setup</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Smart Banner iOS + Android trên mobile</div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- CATEGORY CHECKLIST -->
   <div class="cl-product">
     <div class="cl-product-header" onclick="toggleCL(this)">
       <span class="cl-product-icon">📂</span>
       <div class="cl-product-meta">
         <div class="cl-product-name">9 Category Pages /doi-tac/{ten-category}</div>
-        <div class="cl-product-sub">9 trang · Mỗi category có URL riêng · Phase 1</div>
+        <div class="cl-product-sub">9 trang · Unique angle mỗi category · Phase 1</div>
       </div>
-      <span class="cl-product-badge" style="background:var(--pink-light);color:var(--pink)">Critical P1</span>
+      <span class="cl-product-badge" style="background:var(--pink-m2);color:var(--pink)">Critical P1</span>
       <span class="cl-product-toggle">▶</span>
     </div>
     <div class="cl-product-body">
       <div class="cl-group">
-        <div class="cl-group-title">📝 Content (áp dụng cho cả 9 trang)</div>
+        <div class="cl-group-title">📝 Content (áp dụng cả 9 trang)</div>
         <div class="cl-grid">
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">H1 unique cho từng category, đúng keyword intent</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Brand Card Grid với link → /doi-tac/{brand} (flat)</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS Inline Banner với angle phù hợp từng category</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">HowTo "Cách thanh toán MoMo tại [category]"</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQ ≥ 4 câu, specific cho danh mục</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Breadcrumb: Đối Tác › [Tên Danh Mục]</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">H1 unique theo angle từng category</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Brand Grid đủ brand P1 của category đó</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS Inline Banner với copy phù hợp vertical</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">HowTo block "Cách [action] bằng MoMo tại [cat]"</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQ min 4 câu, specific cho danh mục</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Breadcrumb: Đối Tác › [Danh Mục]</div></div>
         </div>
       </div>
       <div class="cl-group">
         <div class="cl-group-title">🔧 Technical</div>
         <div class="cl-grid">
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">ItemList + HowTo + FAQPage Schema valid</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Internal link từ Hub → đủ 9 category</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không duplicate content giữa các category</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Sitemap.xml include tất cả /doi-tac/{category}</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">HowTo + FAQPage Schema valid trên tất cả 9 trang</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Internal link Hub → Category đầy đủ 9 trang</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không duplicate H1 + meta giữa các category</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">All brand cards link đúng /doi-tac/{brand} (flat URL)</div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- BRAND CHECKLIST -->
   <div class="cl-product">
     <div class="cl-product-header" onclick="toggleCL(this)">
       <span class="cl-product-icon">🏪</span>
       <div class="cl-product-meta">
-        <div class="cl-product-name">Brand Pages /doi-tac/{cat}/{ten-brand}</div>
-        <div class="cl-product-sub">P1: 8 brand · P2: 8 brand · P3: Long tail · Template-driven</div>
+        <div class="cl-product-name">Brand Pages /doi-tac/{ten-brand}</div>
+        <div class="cl-product-sub">P1: 8 brand full content · P2: 8 brand · P3: template-driven</div>
       </div>
-      <span class="cl-product-badge" style="background:#FFF3DC;color:#8B5800">P1 Launch · P2 +30d</span>
+      <span class="cl-product-badge" style="background:#FFF3DC;color:#8B5800">P1→P3 Phases</span>
       <span class="cl-product-toggle">▶</span>
     </div>
     <div class="cl-product-body">
       <div class="cl-group">
         <div class="cl-group-title">📝 Content (mỗi Brand Page)</div>
         <div class="cl-grid">
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Brand Hero: Logo + H1 + Breadcrumb "Đối Tác › [Brand]" (2 cấp)</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Mô tả đối tác 100–150 từ (góc nhìn MoMo user)</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Section Thanh Toán: danh sách hình thức có/không</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Brand Hero: Logo + H1 + Breadcrumb "Đối Tác › [Brand]"</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Mô tả brand 100-150 từ từ góc nhìn MoMo user</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Section Thanh Toán: list hình thức, VTS highlighted</div></div>
           <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Section Ưu Đãi: dynamic deals từ CMS</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Section Ví Trả Sau (#vi-tra-sau anchor) với CTA riêng</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS Section riêng (#vi-tra-sau anchor) với CTA</div></div>
           <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">HowTo "Cách thanh toán MoMo tại [Brand]"</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQ ≥ 4 câu brand-specific</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Related Partners: 3–6 brand cùng category</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQ min 4 câu brand-specific</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Related Partners: 3-6 brand cùng use case</div></div>
         </div>
       </div>
       <div class="cl-group">
         <div class="cl-group-title">💳 VTS Requirements</div>
         <div class="cl-grid">
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS Section có anchor #vi-tra-sau</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS Section có anchor #vi-tra-sau hoạt động</div></div>
           <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">CTA "Kích hoạt Ví Trả Sau" với Deep Link đúng</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS được highlight trong Payment Methods table</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4 event: vts_cta_click với đủ parameters</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">VTS highlighted trong payment methods list</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">GA4: vts_cta_click với brand_name + cta_position</div></div>
         </div>
       </div>
       <div class="cl-group">
         <div class="cl-group-title">🔧 Technical</div>
         <div class="cl-grid">
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Organization Schema (brand entity) valid</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">HowTo Schema valid</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">FAQPage Schema valid</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Smart Banner trên mobile (iOS + Android)</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Tất cả CTA → App có deep link, không link homepage</div></div>
-          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không có địa chỉ cửa hàng cụ thể (local SEO risk)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Organization + FAQPage + HowTo Schema valid</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">All CTA → App có deep link (không link homepage)</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Smart Banner mobile iOS + Android</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Không có địa chỉ cửa hàng cụ thể trên page</div></div>
+          <div class="cl-item"><div class="cl-check"></div><div class="cl-item-text">Internal link: Brand ↔ Related brands (flat URL)</div></div>
         </div>
       </div>
-      <div class="cl-note"><strong>⚠️ Template rule:</strong> P1 brand (8 brand) phải có full content thủ công. P2+ có thể dùng template với data dynamic từ CMS — nhưng VTS section và FAQ phải được customize theo từng brand, không auto-generate 100%.</div>
     </div>
   </div>
 
-  <!-- ROADMAP -->
-  <h2 class="sh" style="margin-top:32px;">🗓 Roadmap Triển Khai</h2>
-
-  <div class="roadmap-row">
-    <div class="roadmap-phase">
-      <div class="roadmap-phase-label">Phase 1</div>
-      <div class="roadmap-phase-name">Tuần 1–2</div>
-    </div>
-    <div class="roadmap-body">
-      <div class="roadmap-body-title">Foundation: Hub + 9 Category + 8 P1 Brands</div>
-      <div class="roadmap-tasks">
-        <span class="roadmap-task">Hub /doi-tac live</span>
-        <span class="roadmap-task">9 Category Pages live</span>
-        <span class="roadmap-task vts">VTS sections cho P1 brands</span>
-        <span class="roadmap-task">Schema markup tất cả trang</span>
-        <span class="roadmap-task">Deep link integration</span>
-        <span class="roadmap-task">GA4 events setup</span>
+  <h2 class="sh" style="margin-top:8px;">🗓 Roadmap Triển Khai</h2>
+  <div class="grid-4">
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,#E0F4E8,#D0F0E0);">
+        <strong style="font-size:13px;">Phase 1 · Tuần 1-2</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">Hub /doi-tac live</div>
+        <div class="roadmap-item">9 Category Pages live</div>
+        <div class="roadmap-item vts-task">VTS sections P1 brands</div>
+        <div class="roadmap-item">Schema markup tất cả</div>
+        <div class="roadmap-item">Deep link integration</div>
+        <div class="roadmap-item">GA4 events setup</div>
       </div>
     </div>
-  </div>
-
-  <div class="roadmap-row">
-    <div class="roadmap-phase">
-      <div class="roadmap-phase-label">Phase 2</div>
-      <div class="roadmap-phase-name">Tuần 3–4</div>
-    </div>
-    <div class="roadmap-body">
-      <div class="roadmap-body-title">Expansion: P2 Brands + Optimization</div>
-      <div class="roadmap-tasks">
-        <span class="roadmap-task">8 P2 Brands live</span>
-        <span class="roadmap-task vts">VTS content optimization</span>
-        <span class="roadmap-task">Smart Banner A/B test</span>
-        <span class="roadmap-task">CTA copy optimization</span>
-        <span class="roadmap-task">GSC monitoring</span>
-        <span class="roadmap-task">Deal section dynamic CMS</span>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,var(--blue-light),#D0E0FF);">
+        <strong style="font-size:13px;">Phase 2 · Tuần 3-4</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">8 P2 Brands live</div>
+        <div class="roadmap-item vts-task">VTS copy optimization</div>
+        <div class="roadmap-item">Smart Banner A/B test</div>
+        <div class="roadmap-item">CTA copy optimization</div>
+        <div class="roadmap-item">GSC monitoring start</div>
+        <div class="roadmap-item">Deal section dynamic CMS</div>
       </div>
     </div>
-  </div>
-
-  <div class="roadmap-row">
-    <div class="roadmap-phase">
-      <div class="roadmap-phase-label">Phase 3</div>
-      <div class="roadmap-phase-name">Tháng 2+</div>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,var(--purple-light),#E0D0FF);">
+        <strong style="font-size:13px;">Phase 3 · Tháng 2</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">P3 brands template-driven</div>
+        <div class="roadmap-item">AI Overview monitoring</div>
+        <div class="roadmap-item">FAQ expand từ GSC</div>
+        <div class="roadmap-item vts-task">VTS CR optimization</div>
+        <div class="roadmap-item">Looker Studio dashboard</div>
+      </div>
     </div>
-    <div class="roadmap-body">
-      <div class="roadmap-body-title">Scale: P3 Long-tail + GEO Optimization</div>
-      <div class="roadmap-tasks">
-        <span class="roadmap-task">P3 brands (template-driven)</span>
-        <span class="roadmap-task">AI Overview monitoring</span>
-        <span class="roadmap-task">FAQ expansion từ GSC queries</span>
-        <span class="roadmap-task">VTS CR optimization</span>
-        <span class="roadmap-task">Looker Studio dashboard</span>
-        <span class="roadmap-task vts">VTS attribution model</span>
+    <div class="roadmap-col">
+      <div class="roadmap-col-header" style="background:linear-gradient(135deg,var(--amber-light),#FFE0C0);">
+        <strong style="font-size:13px;">Phase 4 · Tháng 3+</strong>
+      </div>
+      <div class="roadmap-col-body">
+        <div class="roadmap-item">Long tail brand expansion</div>
+        <div class="roadmap-item">pSEO brand template</div>
+        <div class="roadmap-item vts-task">VTS attribution model</div>
+        <div class="roadmap-item">GEO entity audit</div>
+        <div class="roadmap-item">Quarterly OKR review</div>
       </div>
     </div>
   </div>
@@ -1641,25 +1769,46 @@ code.url { font-family:'JetBrains Mono',monospace; font-size:11px; background:#F
 </div>
 
 <script>
-function go(id) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById('s-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
-  document.querySelector('.content').scrollTop = 0;
+function toggleSidebar(){
+  const sidebar=document.getElementById('sidebar');
+  const overlay=document.getElementById('overlay');
+  const burger=document.getElementById('hamburger');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow=sidebar.classList.contains('open')?'hidden':'';
 }
-function toggleCS(header) {
-  const body = header.nextElementSibling;
-  const toggle = header.querySelector('.cs-toggle');
+function closeSidebar(){
+  const sidebar=document.getElementById('sidebar');
+  const overlay=document.getElementById('overlay');
+  const burger=document.getElementById('hamburger');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  burger.classList.remove('open');
+  document.body.style.overflow='';
+}
+function go(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const target=document.getElementById('s-'+id);
+  if(target)target.classList.add('active');
+  if(event&&event.currentTarget)event.currentTarget.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  if(window.innerWidth<900)closeSidebar();
+}
+function toggleCS(header){
+  const body=header.nextElementSibling;
+  const toggle=header.querySelector('.cs-toggle');
   body.classList.toggle('open');
   toggle.classList.toggle('open');
 }
-function toggleCL(header) {
-  const body = header.nextElementSibling;
-  const toggle = header.querySelector('.cl-product-toggle');
+function toggleCL(header){
+  const body=header.nextElementSibling;
+  const toggle=header.querySelector('.cl-product-toggle');
   body.classList.toggle('open');
   toggle.classList.toggle('open');
 }
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
 </script>
 </body>
 </html>
