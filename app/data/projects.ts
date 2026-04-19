@@ -115,7 +115,7 @@ export const projects: Project[] = [
     subtitle: 'momo.vn/doi-tac',
     category: 'use-case',
     division: 'GPD',
-    tags: ['Directory', 'Schema', 'Credit Ecosystem'],
+    tags: ['Directory', 'Ví Trả Sau', 'Merchant'],
     status: 'draft',
     updatedAt: '2026-03-25',
     description: 'Sitemap design, Brand page components, schema markup cho partner directory. Credit Ecosystem Loop internal linking kết nối VTS product.',
