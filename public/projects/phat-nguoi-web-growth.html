@@ -1,2680 +1,1531 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tra Cứu Phạt Nguội - SEO/GEO Web Growth | MoMo</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --pink-core: #F95396;
-      --pink-mid: #FF9DBE;
-      --pink-light: #FEC8DC;
-      --white: #FFFFFF;
-      --pink-dim: rgba(249, 83, 150, 0.10);
-      --pink-glow: rgba(249, 83, 150, 0.22);
-      --pink-border: rgba(249, 83, 150, 0.28);
-      --bg: #FAFAFA;
-      --bg-white: #FFFFFF;
-      --bg-soft: #FFF5F8;
-      --bg-section: #FFF0F5;
-      --border: #EAEAEA;
-      --border-soft: #F3E0E9;
-      --text-dark: #18181B;
-      --text-body: #3F3F46;
-      --text-muted: #71717A;
-      --text-faint: #A1A1AA;
-      --green: #059669;
-      --amber: #D97706;
-      --blue: #2563EB;
-      --red: #DC2626;
-      --green-bg: rgba(5, 150, 105, 0.07);
-      --amber-bg: rgba(217, 119, 6, 0.08);
-      --blue-bg: rgba(37, 99, 235, 0.07);
-      --red-bg: rgba(220, 38, 38, 0.07);
-      --sidebar-w: 252px;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 14px;
-      --shadow-sm: 0 1px 3px rgba(249, 83, 150, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 16px rgba(249, 83, 150, 0.10), 0 2px 4px rgba(0, 0, 0, 0.04);
-      --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Be Vietnam Pro', sans-serif;
-      background: var(--bg);
-      color: var(--text-body);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* ── TOPBAR ── */
-    .topbar {
-      position: fixed;
-      top: 0;
-      left: var(--sidebar-w);
-      right: 0;
-      height: 50px;
-      background: var(--white);
-      border-bottom: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
-      z-index: 100;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .topbar-left span {
-      color: var(--text-faint);
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 9px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-    }
-
-    .badge-pink {
-      background: var(--pink-dim);
-      color: var(--pink-core);
-      border: 1px solid var(--pink-border);
-    }
-
-    .badge-amber {
-      background: var(--amber-bg);
-      color: var(--amber);
-      border: 1px solid rgba(217, 119, 6, 0.2);
-    }
-
-    .badge-green {
-      background: var(--green-bg);
-      color: var(--green);
-      border: 1px solid rgba(5, 150, 105, 0.2);
-    }
-
-    .badge-blue {
-      background: var(--blue-bg);
-      color: var(--blue);
-      border: 1px solid rgba(37, 99, 235, 0.2);
-    }
-
-    /* ── SIDEBAR ── */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: var(--sidebar-w);
-      height: 100vh;
-      background: #18181B;
-      display: flex;
-      flex-direction: column;
-      z-index: 200;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 18px 18px 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-      flex-shrink: 0;
-    }
-
-    .logo-box {
-      background: linear-gradient(135deg, var(--pink-core), #D0206A);
-      color: #fff;
-      font-weight: 900;
-      font-size: 14px;
-      padding: 4px 9px;
-      border-radius: 7px;
-      letter-spacing: -0.5px;
-    }
-
-    .logo-label {
-      font-size: 10px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.4);
-      line-height: 1.4;
-    }
-
-    .nav-group {
-      padding: 16px 0 4px;
-      flex-shrink: 0;
-    }
-
-    .nav-group-label {
-      display: block;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 1.6px;
-      text-transform: uppercase;
-      color: var(--pink-mid);
-      padding: 0 18px 6px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 18px 8px 16px;
-      cursor: pointer;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 12.5px;
-      font-weight: 500;
-      border-left: 2px solid transparent;
-      transition: all 0.13s;
-      user-select: none;
-      line-height: 1.3;
-    }
-
-    .nav-item:hover {
-      color: rgba(255, 255, 255, 0.88);
-      background: rgba(255, 255, 255, 0.04);
-      border-left-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .nav-item.active {
-      color: #fff;
-      background: rgba(249, 83, 150, 0.14);
-      border-left-color: var(--pink-core);
-      font-weight: 600;
-    }
-
-    .nav-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      flex-shrink: 0;
-      transition: background 0.13s;
-    }
-
-    .nav-item.active .nav-dot {
-      background: var(--pink-core);
-      box-shadow: 0 0 6px var(--pink-core);
-    }
-
-    .nav-item:hover .nav-dot {
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 14px 18px;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      flex-shrink: 0;
-      font-size: 9px;
-      color: rgba(255, 255, 255, 0.22);
-      line-height: 1.8;
-    }
-
-    /* ── MAIN ── */
-    .main {
-      margin-left: var(--sidebar-w);
-      padding-top: 50px;
-    }
-
-    .section {
-      display: none;
-      padding: 28px 28px 64px;
-      animation: fadeUp 0.2s ease;
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ── PAGE HEADER ── */
-    .page-eyebrow {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      margin-bottom: 6px;
-    }
-
-    .page-title {
-      font-size: clamp(22px, 4vw, 30px);
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      line-height: 1.2;
-      color: var(--text-dark);
-      margin-bottom: 8px;
-    }
-
-    .page-title span {
-      background: linear-gradient(135deg, var(--pink-core), var(--pink-mid));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .page-desc {
-      font-size: 13.5px;
-      color: var(--text-muted);
-      max-width: 680px;
-      line-height: 1.7;
-      margin-bottom: 28px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* ── HERO BANNER ── */
-    .hero-banner {
-      background: linear-gradient(135deg, #1A0A12 0%, #2D0F1F 50%, #1A0A12 100%);
-      border-radius: var(--radius-lg);
-      padding: 28px 32px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-md);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-banner::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(249, 83, 150, 0.2), transparent 70%);
-    }
-
-    .hero-uc-tag {
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--pink-mid);
-      margin-bottom: 10px;
-    }
-
-    .hero-banner h1 {
-      font-size: clamp(20px, 3vw, 26px);
-      font-weight: 900;
-      color: #fff;
-      line-height: 1.25;
-      margin-bottom: 8px;
-    }
-
-    .hero-banner h1 span {
-      background: linear-gradient(135deg, var(--pink-core), var(--pink-mid));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-sub {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.55);
-      max-width: 560px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .hero-stat .val {
-      font-size: 22px;
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: -0.5px;
-      line-height: 1;
-    }
-
-    .hero-stat .lbl {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.45);
-      font-weight: 600;
-      margin-top: 3px;
-      letter-spacing: 0.3px;
-    }
-
-    /* ── COMPONENTS ── */
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .card-title {
-      font-size: 13.5px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 3px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .card-sub {
-      font-size: 11.5px;
-      color: var(--text-faint);
-      margin-bottom: 12px;
-    }
-
-    .kpi-box {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 16px 18px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .kpi-box .kpi-label {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--text-faint);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .kpi-box .kpi-value {
-      font-size: 19px;
-      font-weight: 800;
-      color: var(--text-dark);
-      line-height: 1.2;
-    }
-
-    .kpi-box .kpi-note {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      line-height: 1.5;
-    }
-
-    .kpi-box.pink {
-      border-left: 3px solid var(--pink-core);
-    }
-
-    .kpi-box.green {
-      border-left: 3px solid var(--green);
-    }
-
-    .kpi-box.amber {
-      border-left: 3px solid var(--amber);
-    }
-
-    .kpi-box.blue {
-      border-left: 3px solid var(--blue);
-    }
-
-    .hl {
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      font-size: 12.5px;
-      line-height: 1.65;
-    }
-
-    .hl strong {
-      display: block;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-
-    .hl.pink {
-      background: var(--pink-dim);
-      border: 1px solid var(--pink-border);
-      color: #7B1D4A;
-    }
-
-    .hl.pink strong {
-      color: var(--pink-core);
-    }
-
-    .hl.green {
-      background: var(--green-bg);
-      border: 1px solid rgba(5, 150, 105, 0.18);
-      color: #065F46;
-    }
-
-    .hl.green strong {
-      color: var(--green);
-    }
-
-    .hl.amber {
-      background: var(--amber-bg);
-      border: 1px solid rgba(217, 119, 6, 0.18);
-      color: #78350F;
-    }
-
-    .hl.amber strong {
-      color: var(--amber);
-    }
-
-    .hl.blue {
-      background: var(--blue-bg);
-      border: 1px solid rgba(37, 99, 235, 0.18);
-      color: #1E3A8A;
-    }
-
-    .hl.blue strong {
-      color: var(--blue);
-    }
-
-    .chip {
-      display: inline-flex;
-      padding: 2px 9px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      background: var(--bg-soft);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-
-    .chip.pink {
-      background: var(--pink-dim);
-      color: var(--pink-core);
-      border-color: var(--pink-border);
-    }
-
-    .chip.green {
-      background: var(--green-bg);
-      color: var(--green);
-      border-color: rgba(5, 150, 105, 0.2);
-    }
-
-    .chip.amber {
-      background: var(--amber-bg);
-      color: var(--amber);
-      border-color: rgba(217, 119, 6, 0.2);
-    }
-
-    .chip.blue {
-      background: var(--blue-bg);
-      color: var(--blue);
-      border-color: rgba(37, 99, 235, 0.2);
-    }
-
-    .chip.red {
-      background: var(--red-bg);
-      color: var(--red);
-      border-color: rgba(220, 38, 38, 0.2);
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-
-    table.dt {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12.5px;
-      min-width: 520px;
-    }
-
-    table.dt th {
-      background: var(--bg-soft);
-      color: var(--text-faint);
-      font-weight: 700;
-      font-size: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 10px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-soft);
-      white-space: nowrap;
-    }
-
-    table.dt td {
-      padding: 10px 14px;
-      color: var(--text-body);
-      border-bottom: 1px solid #F5F5F5;
-      vertical-align: top;
-      line-height: 1.55;
-    }
-
-    table.dt tr:last-child td {
-      border-bottom: none;
-    }
-
-    table.dt tr:hover td {
-      background: var(--bg-soft);
-    }
-
-    table.dt td code {
-      font-size: 11px;
-      background: #F4F4F5;
-      padding: 1px 6px;
-      border-radius: 4px;
-      color: var(--text-muted);
-      font-family: monospace;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .sh {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin: 24px 0 14px;
-      letter-spacing: -0.2px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .sh::before {
-      content: '';
-      display: inline-block;
-      width: 3px;
-      height: 14px;
-      background: var(--pink-core);
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 24px 0;
-    }
-
-    /* ── KEYWORD CLUSTER ── */
-    .kw-cluster {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .kw-cluster-header {
-      background: #18181B;
-      color: #fff;
-      padding: 11px 18px;
-      font-size: 12px;
-      font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .kw-cluster-vol {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.45);
-      font-weight: 500;
-    }
-
-    .kw-cluster-body {
-      padding: 4px 0;
-    }
-
-    .kw-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 9px 18px;
-      border-bottom: 1px solid #F5F5F5;
-      font-size: 13px;
-    }
-
-    .kw-row:last-child {
-      border-bottom: none;
-    }
-
-    .kw-row:hover {
-      background: var(--bg-soft);
-    }
-
-    .kw-text {
-      font-weight: 500;
-      color: var(--text-dark);
-    }
-
-    .kw-meta {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .kw-vol {
-      font-size: 11px;
-      color: var(--text-faint);
-      font-weight: 600;
-      min-width: 52px;
-      text-align: right;
-    }
-
-    .intent-trans {
-      background: var(--pink-dim);
-      color: var(--pink-core);
-      border: 1px solid var(--pink-border);
-    }
-
-    .intent-info {
-      background: var(--green-bg);
-      color: var(--green);
-      border: 1px solid rgba(5, 150, 105, 0.2);
-    }
-
-    .intent-nav {
-      background: var(--blue-bg);
-      color: var(--blue);
-      border: 1px solid rgba(37, 99, 235, 0.2);
-    }
-
-    .intent-comm {
-      background: var(--amber-bg);
-      color: var(--amber);
-      border: 1px solid rgba(217, 119, 6, 0.2);
-    }
-
-    /* ── SITEMAP TREE ── */
-    .sitemap-tree {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .sitemap-tree-header {
-      background: #18181B;
-      color: #fff;
-      padding: 11px 20px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      font-family: monospace;
-    }
-
-    .sitemap-node {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .sitemap-node:last-child {
-      border-bottom: none;
-    }
-
-    .sitemap-node.root {
-      background: linear-gradient(90deg, var(--bg-soft), var(--white));
-      font-weight: 800;
-    }
-
-    .sitemap-node.child {
-      padding-left: 44px;
-      background: var(--white);
-    }
-
-    .sitemap-node.grandchild {
-      padding-left: 68px;
-      background: #FAFAFA;
-    }
-
-    .sitemap-node-body {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .sitemap-node-url {
-      font-size: 11px;
-      color: var(--pink-core);
-      font-weight: 600;
-      margin-bottom: 2px;
-      font-family: monospace;
-    }
-
-    .sitemap-node-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 2px;
-    }
-
-    .sitemap-node-desc {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .sitemap-node-tags {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-      margin-top: 5px;
-    }
-
-    .sitemap-node-kpi {
-      font-size: 10.5px;
-      color: var(--text-faint);
-      margin-left: auto;
-      flex-shrink: 0;
-      font-family: monospace;
-      white-space: nowrap;
-      padding-left: 14px;
-      padding-top: 2px;
-    }
-
-    /* ── PAGE ANATOMY ── */
-    .anatomy-wrap {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .anatomy-header {
-      background: #18181B;
-      color: #fff;
-      padding: 11px 20px;
-      font-size: 11px;
-      font-weight: 700;
-      font-family: monospace;
-    }
-
-    .anatomy-row {
-      display: grid;
-      grid-template-columns: 28px 1fr 2fr 100px;
-      align-items: start;
-      gap: 14px;
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-      transition: background 0.12s;
-    }
-
-    .anatomy-row:last-child {
-      border-bottom: none;
-    }
-
-    .anatomy-row:hover {
-      background: var(--bg-soft);
-    }
-
-    .anatomy-num {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--pink-core);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .anatomy-name {
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--text-dark);
-      padding-top: 3px;
-    }
-
-    .anatomy-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.55;
-      padding-top: 3px;
-    }
-
-    .anatomy-tag {
-      padding-top: 4px;
-    }
-
-    /* ── GEO BLOCK ── */
-    .geo-block {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(249, 83, 150, 0.04));
-      border: 1px solid rgba(37, 99, 235, 0.15);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      margin-bottom: 14px;
-    }
-
-    .geo-block-label {
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 8px;
-    }
-
-    .geo-block-q {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-      font-style: italic;
-    }
-
-    .geo-block-a {
-      font-size: 12.5px;
-      color: var(--text-body);
-      line-height: 1.65;
-    }
-
-    .geo-block-a strong {
-      color: var(--text-dark);
-    }
-
-    /* ── FUNNEL FLOW ── */
-    .funnel-wrap {
-      display: flex;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .funnel-stage {
-      flex: 1;
-      padding: 16px;
-      border-right: 1px solid var(--border);
-    }
-
-    .funnel-stage:last-child {
-      border-right: none;
-    }
-
-    .fs-label {
-      font-size: 9px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 6px;
-    }
-
-    .fs-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 8px;
-    }
-
-    .fs-items {
-      list-style: none;
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    .fs-items li::before {
-      content: "· ";
-      color: var(--text-faint);
-    }
-
-    .fs-tofu {
-      border-top: 3px solid var(--green);
-    }
-
-    .fs-tofu .fs-label {
-      color: var(--green);
-    }
-
-    .fs-mofu {
-      border-top: 3px solid var(--blue);
-    }
-
-    .fs-mofu .fs-label {
-      color: var(--blue);
-    }
-
-    .fs-bofu {
-      border-top: 3px solid var(--pink-core);
-    }
-
-    .fs-bofu .fs-label {
-      color: var(--pink-core);
-    }
-
-    .fs-convert {
-      border-top: 3px solid var(--amber);
-      background: rgba(217, 119, 6, 0.03);
-    }
-
-    .fs-convert .fs-label {
-      color: var(--amber);
-    }
-
-    /* ── PERSONA ── */
-    .persona-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-
-    .persona-header {
-      padding: 12px 18px;
-      background: var(--bg-soft);
-      border-bottom: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .persona-header-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    .persona-body {
-      padding: 14px 18px;
-    }
-
-    .persona-step {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 8px;
-      align-items: flex-start;
-    }
-
-    .step-num {
-      min-width: 22px;
-      height: 22px;
-      background: var(--text-dark);
-      color: #fff;
-      border-radius: 50%;
-      font-size: 10px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .step-text {
-      font-size: 12.5px;
-      color: var(--text-body);
-      line-height: 1.5;
-    }
-
-    .persona-result {
-      background: var(--green-bg);
-      border: 1px solid rgba(5, 150, 105, 0.18);
-      border-radius: var(--radius-sm);
-      padding: 8px 12px;
-      font-size: 12px;
-      color: #065F46;
-      font-weight: 600;
-      margin-top: 6px;
-    }
-
-    /* ── DEEPLINK SPEC ── */
-    .deeplink-spec {
-      background: #18181B;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-bottom: 12px;
-    }
-
-    .deeplink-label {
-      font-size: 9px;
-      color: rgba(255, 255, 255, 0.35);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 5px;
-    }
-
-    .deeplink-url {
-      font-size: 11.5px;
-      color: #7DFFBE;
-      word-break: break-all;
-      margin-bottom: 6px;
-      font-family: monospace;
-    }
-
-    .deeplink-params {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.45);
-      font-family: monospace;
-    }
-
-    .deeplink-params span {
-      color: #FFD0A0;
-    }
-
-    /* ── PHASE TIMELINE ── */
-    .phase-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .phase-col {
-      border-right: 1px solid var(--border);
-    }
-
-    .phase-col:last-child {
-      border-right: none;
-    }
-
-    .phase-header {
-      padding: 11px 16px;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .phase-body {
-      padding: 12px 16px;
-      font-size: 12px;
-      color: var(--text-body);
-      line-height: 1.7;
-    }
-
-    .phase-body li {
-      list-style: none;
-      padding: 2px 0;
-    }
-
-    .phase-body li::before {
-      content: "→ ";
-      color: var(--text-faint);
-      font-size: 10px;
-    }
-
-    /* ── MEASUREMENT ── */
-    .measure-row {
-      display: grid;
-      grid-template-columns: 100px 1fr 80px 120px 100px;
-      gap: 12px;
-      align-items: center;
-      padding: 10px 16px;
-      border-bottom: 1px solid #F5F5F5;
-      font-size: 12.5px;
-    }
-
-    .measure-row:hover {
-      background: var(--bg-soft);
-    }
-
-    /* ── MOBILE ── */
-    .mob-header {
-      display: none;
-      position: sticky;
-      top: 0;
-      z-index: 300;
-      height: 52px;
-      padding: 0 16px;
-      background: var(--white);
-      border-bottom: 1px solid var(--border-soft);
-      box-shadow: var(--shadow-sm);
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .mob-hamburger {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      cursor: pointer;
-      padding: 7px;
-      border: none;
-      background: none;
-    }
-
-    .mob-hamburger span {
-      display: block;
-      width: 20px;
-      height: 2px;
-      background: var(--text-muted);
-      border-radius: 2px;
-      transition: all 0.2s;
-    }
-
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 150;
-    }
-
-    @media(max-width:768px) {
-      .mob-header {
-        display: flex;
-      }
-
-      .topbar {
-        display: none;
-      }
-
-      .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .sidebar-overlay.open {
-        display: block;
-      }
-
-      .main {
-        margin-left: 0;
-        padding-top: 0;
-      }
-
-      .section {
-        padding: 20px 16px 48px;
-      }
-
-      .grid-2,
-      .grid-3,
-      .grid-4 {
-        grid-template-columns: 1fr;
-      }
-
-      .funnel-wrap {
-        flex-direction: column;
-      }
-
-      .funnel-stage {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .funnel-stage:last-child {
-        border-bottom: none;
-      }
-
-      .phase-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .phase-col {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tra Cứu Phạt Nguội - SEO/GEO Web Growth | MoMo</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink-core:   #F95396;
+  --pink-mid:    #FF9DBE;
+  --pink-light:  #FEC8DC;
+  --white:       #FFFFFF;
+  --pink-dim:    rgba(249,83,150,0.10);
+  --pink-glow:   rgba(249,83,150,0.22);
+  --pink-border: rgba(249,83,150,0.28);
+  --bg:          #FAFAFA;
+  --bg-white:    #FFFFFF;
+  --bg-soft:     #FFF5F8;
+  --bg-section:  #FFF0F5;
+  --border:      #EAEAEA;
+  --border-soft: #F3E0E9;
+  --text-dark:   #18181B;
+  --text-body:   #3F3F46;
+  --text-muted:  #71717A;
+  --text-faint:  #A1A1AA;
+  --green:  #059669;
+  --amber:  #D97706;
+  --blue:   #2563EB;
+  --red:    #DC2626;
+  --green-bg:  rgba(5,150,105,0.07);
+  --amber-bg:  rgba(217,119,6,0.08);
+  --blue-bg:   rgba(37,99,235,0.07);
+  --red-bg:    rgba(220,38,38,0.07);
+  --sidebar-w: 252px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm:   0 1px 3px rgba(249,83,150,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:   0 4px 16px rgba(249,83,150,0.10), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-card: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--text-body);font-size:14px;line-height:1.6;}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:fixed;top:0;left:var(--sidebar-w);right:0;height:50px;
+  background:var(--white);border-bottom:1px solid var(--border-soft);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;z-index:100;box-shadow:var(--shadow-sm);
+}
+.topbar-left{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-muted);}
+.topbar-left span{color:var(--text-faint);}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:0.3px;white-space:nowrap;}
+.badge-pink{background:var(--pink-dim);color:var(--pink-core);border:1px solid var(--pink-border);}
+.badge-amber{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,0.2);}
+.badge-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,0.2);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(37,99,235,0.2);}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+  background:#18181B;display:flex;flex-direction:column;
+  z-index:200;overflow-y:auto;overflow-x:hidden;
+}
+.sidebar-logo{
+  display:flex;align-items:center;gap:10px;
+  padding:18px 18px 15px;border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;
+}
+.logo-box{
+  background:linear-gradient(135deg,var(--pink-core),#D0206A);
+  color:#fff;font-weight:900;font-size:14px;
+  padding:4px 9px;border-radius:7px;letter-spacing:-0.5px;
+}
+.logo-label{font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);line-height:1.4;}
+
+.nav-group{padding:16px 0 4px;flex-shrink:0;}
+.nav-group-label{
+  display:block;font-size:9px;font-weight:800;letter-spacing:1.6px;
+  text-transform:uppercase;color:var(--pink-mid);padding:0 18px 6px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 18px 8px 16px;cursor:pointer;
+  color:rgba(255,255,255,0.5);font-size:12.5px;font-weight:500;
+  border-left:2px solid transparent;
+  transition:all 0.13s;user-select:none;line-height:1.3;
+}
+.nav-item:hover{color:rgba(255,255,255,0.88);background:rgba(255,255,255,0.04);border-left-color:rgba(255,255,255,0.2);}
+.nav-item.active{color:#fff;background:rgba(249,83,150,0.14);border-left-color:var(--pink-core);font-weight:600;}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.18);flex-shrink:0;transition:background 0.13s;}
+.nav-item.active .nav-dot{background:var(--pink-core);box-shadow:0 0 6px var(--pink-core);}
+.nav-item:hover .nav-dot{background:rgba(255,255,255,0.4);}
+
+.sidebar-footer{
+  margin-top:auto;padding:14px 18px;
+  border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0;
+  font-size:9px;color:rgba(255,255,255,0.22);line-height:1.8;
+}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar-w);padding-top:50px;}
+.section{display:none;padding:28px 28px 64px;animation:fadeUp 0.2s ease;}
+.section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── PAGE HEADER ── */
+.page-eyebrow{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px;}
+.page-title{font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-0.5px;line-height:1.2;color:var(--text-dark);margin-bottom:8px;}
+.page-title span{background:linear-gradient(135deg,var(--pink-core),var(--pink-mid));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.page-desc{font-size:13.5px;color:var(--text-muted);max-width:680px;line-height:1.7;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+
+/* ── HERO BANNER ── */
+.hero-banner{
+  background:linear-gradient(135deg,#1A0A12 0%,#2D0F1F 50%,#1A0A12 100%);
+  border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:24px;
+  box-shadow:var(--shadow-md);position:relative;overflow:hidden;
+}
+.hero-banner::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(249,83,150,0.2),transparent 70%);
+}
+.hero-uc-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--pink-mid);margin-bottom:10px;}
+.hero-banner h1{font-size:clamp(20px,3vw,26px);font-weight:900;color:#fff;line-height:1.25;margin-bottom:8px;}
+.hero-banner h1 span{background:linear-gradient(135deg,var(--pink-core),var(--pink-mid));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.55);max-width:560px;line-height:1.6;margin-bottom:20px;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hero-stat .val{font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.5px;line-height:1;}
+.hero-stat .lbl{font-size:10px;color:rgba(255,255,255,0.45);font-weight:600;margin-top:3px;letter-spacing:0.3px;}
+
+/* ── COMPONENTS ── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-card);}
+.card-title{font-size:13.5px;font-weight:700;color:var(--text-dark);margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.card-sub{font-size:11.5px;color:var(--text-faint);margin-bottom:12px;}
+
+.kpi-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;box-shadow:var(--shadow-card);}
+.kpi-box .kpi-label{font-size:10px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.kpi-box .kpi-value{font-size:19px;font-weight:800;color:var(--text-dark);line-height:1.2;}
+.kpi-box .kpi-note{font-size:11px;color:var(--text-muted);margin-top:4px;line-height:1.5;}
+.kpi-box.pink{border-left:3px solid var(--pink-core);}
+.kpi-box.green{border-left:3px solid var(--green);}
+.kpi-box.amber{border-left:3px solid var(--amber);}
+.kpi-box.blue{border-left:3px solid var(--blue);}
+
+.hl{border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:12px;font-size:12.5px;line-height:1.65;}
+.hl strong{display:block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.hl.pink{background:var(--pink-dim);border:1px solid var(--pink-border);color:#7B1D4A;}
+.hl.pink strong{color:var(--pink-core);}
+.hl.green{background:var(--green-bg);border:1px solid rgba(5,150,105,0.18);color:#065F46;}
+.hl.green strong{color:var(--green);}
+.hl.amber{background:var(--amber-bg);border:1px solid rgba(217,119,6,0.18);color:#78350F;}
+.hl.amber strong{color:var(--amber);}
+.hl.blue{background:var(--blue-bg);border:1px solid rgba(37,99,235,0.18);color:#1E3A8A;}
+.hl.blue strong{color:var(--blue);}
+
+.chip{display:inline-flex;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:600;background:var(--bg-soft);color:var(--text-muted);border:1px solid var(--border);}
+.chip.pink{background:var(--pink-dim);color:var(--pink-core);border-color:var(--pink-border);}
+.chip.green{background:var(--green-bg);color:var(--green);border-color:rgba(5,150,105,0.2);}
+.chip.amber{background:var(--amber-bg);color:var(--amber);border-color:rgba(217,119,6,0.2);}
+.chip.blue{background:var(--blue-bg);color:var(--blue);border-color:rgba(37,99,235,0.2);}
+.chip.red{background:var(--red-bg);color:var(--red);border-color:rgba(220,38,38,0.2);}
+
+.table-wrap{overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:20px;}
+table.dt{width:100%;border-collapse:collapse;font-size:12.5px;min-width:520px;}
+table.dt th{background:var(--bg-soft);color:var(--text-faint);font-weight:700;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border-soft);white-space:nowrap;}
+table.dt td{padding:10px 14px;color:var(--text-body);border-bottom:1px solid #F5F5F5;vertical-align:top;line-height:1.55;}
+table.dt tr:last-child td{border-bottom:none;}
+table.dt tr:hover td{background:var(--bg-soft);}
+table.dt td code{font-size:11px;background:#F4F4F5;padding:1px 6px;border-radius:4px;color:var(--text-muted);font-family:monospace;}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+
+.sh{font-size:14px;font-weight:800;color:var(--text-dark);margin:24px 0 14px;letter-spacing:-0.2px;display:flex;align-items:center;gap:8px;}
+.sh::before{content:'';display:inline-block;width:3px;height:14px;background:var(--pink-core);border-radius:2px;flex-shrink:0;}
+.divider{height:1px;background:var(--border);margin:24px 0;}
+
+/* ── KEYWORD CLUSTER ── */
+.kw-cluster{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-card);}
+.kw-cluster-header{background:#18181B;color:#fff;padding:11px 18px;font-size:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+.kw-cluster-vol{font-size:11px;color:rgba(255,255,255,0.45);font-weight:500;}
+.kw-cluster-body{padding:4px 0;}
+.kw-row{display:flex;justify-content:space-between;align-items:center;padding:9px 18px;border-bottom:1px solid #F5F5F5;font-size:13px;}
+.kw-row:last-child{border-bottom:none;}
+.kw-row:hover{background:var(--bg-soft);}
+.kw-text{font-weight:500;color:var(--text-dark);}
+.kw-meta{display:flex;gap:8px;align-items:center;}
+.kw-vol{font-size:11px;color:var(--text-faint);font-weight:600;min-width:52px;text-align:right;}
+.intent-trans{background:var(--pink-dim);color:var(--pink-core);border:1px solid var(--pink-border);}
+.intent-info{background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,0.2);}
+.intent-nav{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(37,99,235,0.2);}
+.intent-comm{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(217,119,6,0.2);}
+
+/* ── SITEMAP TREE ── */
+.sitemap-tree{border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow-card);}
+.sitemap-tree-header{background:#18181B;color:#fff;padding:11px 20px;font-size:11px;font-weight:700;letter-spacing:0.5px;font-family:monospace;}
+.sitemap-node{display:flex;align-items:flex-start;gap:14px;padding:12px 20px;border-bottom:1px solid var(--border);}
+.sitemap-node:last-child{border-bottom:none;}
+.sitemap-node.root{background:linear-gradient(90deg,var(--bg-soft),var(--white));font-weight:800;}
+.sitemap-node.child{padding-left:44px;background:var(--white);}
+.sitemap-node.grandchild{padding-left:68px;background:#FAFAFA;}
+.sitemap-node-body{flex:1;min-width:0;}
+.sitemap-node-url{font-size:11px;color:var(--pink-core);font-weight:600;margin-bottom:2px;font-family:monospace;}
+.sitemap-node-title{font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:2px;}
+.sitemap-node-desc{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.sitemap-node-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+.sitemap-node-kpi{font-size:10.5px;color:var(--text-faint);margin-left:auto;flex-shrink:0;font-family:monospace;white-space:nowrap;padding-left:14px;padding-top:2px;}
+
+/* ── PAGE ANATOMY ── */
+
+
+/* ── GEO BLOCK ── */
+.geo-block{background:linear-gradient(135deg,rgba(37,99,235,0.05),rgba(249,83,150,0.04));border:1px solid rgba(37,99,235,0.15);border-radius:var(--radius-md);padding:16px 20px;margin-bottom:14px;}
+.geo-block-label{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+.geo-block-q{font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:6px;font-style:italic;}
+.geo-block-a{font-size:12.5px;color:var(--text-body);line-height:1.65;}
+.geo-block-a strong{color:var(--text-dark);}
+
+/* ── FUNNEL FLOW ── */
+.funnel-wrap{display:flex;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow-card);}
+.funnel-stage{flex:1;padding:16px;border-right:1px solid var(--border);}
+.funnel-stage:last-child{border-right:none;}
+.fs-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.fs-title{font-size:14px;font-weight:800;color:var(--text-dark);margin-bottom:8px;}
+.fs-items{list-style:none;font-size:12px;color:var(--text-muted);line-height:1.7;}
+.fs-items li::before{content:"· ";color:var(--text-faint);}
+.fs-tofu{border-top:3px solid var(--green);}
+.fs-tofu .fs-label{color:var(--green);}
+.fs-mofu{border-top:3px solid var(--blue);}
+.fs-mofu .fs-label{color:var(--blue);}
+.fs-bofu{border-top:3px solid var(--pink-core);}
+.fs-bofu .fs-label{color:var(--pink-core);}
+.fs-convert{border-top:3px solid var(--amber);background:rgba(217,119,6,0.03);}
+.fs-convert .fs-label{color:var(--amber);}
+
+/* ── PERSONA ── */
+.persona-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-card);}
+.persona-header{padding:12px 18px;background:var(--bg-soft);border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:10px;}
+.persona-header-title{font-size:13px;font-weight:800;color:var(--text-dark);}
+.persona-body{padding:14px 18px;}
+.persona-step{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+.step-num{min-width:22px;height:22px;background:var(--text-dark);color:#fff;border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:12.5px;color:var(--text-body);line-height:1.5;}
+.persona-result{background:var(--green-bg);border:1px solid rgba(5,150,105,0.18);border-radius:var(--radius-sm);padding:8px 12px;font-size:12px;color:#065F46;font-weight:600;margin-top:6px;}
+
+
+/* ── PHASE TIMELINE ── */
+.phase-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow-card);}
+.phase-col{border-right:1px solid var(--border);}
+.phase-col:last-child{border-right:none;}
+.phase-header{padding:11px 16px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;}
+.phase-body{padding:12px 16px;font-size:12px;color:var(--text-body);line-height:1.7;}
+.phase-body li{list-style:none;padding:2px 0;}
+.phase-body li::before{content:"→ ";color:var(--text-faint);font-size:10px;}
+
+/* ── MEASUREMENT ── */
+.measure-row{display:grid;grid-template-columns:100px 1fr 80px 120px 100px;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid #F5F5F5;font-size:12.5px;}
+.measure-row:hover{background:var(--bg-soft);}
+
+/* ── MOBILE ── */
+.mob-header{display:none;position:sticky;top:0;z-index:300;height:52px;padding:0 16px;background:var(--white);border-bottom:1px solid var(--border-soft);box-shadow:var(--shadow-sm);align-items:center;justify-content:space-between;}
+.mob-hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;padding:7px;border:none;background:none;}
+.mob-hamburger span{display:block;width:20px;height:2px;background:var(--text-muted);border-radius:2px;transition:all 0.2s;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:150;}
+
+@media(max-width:768px){
+  .mob-header{display:flex;}
+  .topbar{display:none;}
+  .sidebar{transform:translateX(-100%);transition:transform 0.28s cubic-bezier(0.4,0,0.2,1);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.open{display:block;}
+  .main{margin-left:0;padding-top:0;}
+  .section{padding:20px 16px 48px;}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .funnel-wrap{flex-direction:column;}
+  .funnel-stage{border-right:none;border-bottom:1px solid var(--border);}
+  .funnel-stage:last-child{border-bottom:none;}
+  .phase-grid{grid-template-columns:1fr;}
+  .phase-col{border-right:none;border-bottom:1px solid var(--border);}
+}
+</style>
 </head>
-
 <body>
 
-  <!-- Mobile Header -->
-  <header class="mob-header" id="mobHeader">
-    <div style="display:flex;align-items:center;gap:9px;">
-      <div class="logo-box">MoMo</div>
-      <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);line-height:1.3;">Phạt Nguội<br>SEO/GEO
-        Project</div>
-    </div>
-    <button class="mob-hamburger" id="hamburger" onclick="toggleSidebar()">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
+<!-- Mobile Header -->
+<header class="mob-header" id="mobHeader">
+  <div style="display:flex;align-items:center;gap:9px;">
+    <div class="logo-box">MoMo</div>
+    <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);line-height:1.3;">Phạt Nguội<br>SEO/GEO Project</div>
+  </div>
+  <button class="mob-hamburger" id="hamburger" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
 
-  <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-box">MoMo</div>
-      <div class="logo-label">Phạt Nguội<br>SEO/GEO Project</div>
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-box">MoMo</div>
+    <div class="logo-label">Phạt Nguội<br>SEO/GEO Project</div>
+  </div>
+  <nav>
+    <div class="nav-group">
+      <span class="nav-group-label">Foundation</span>
+      <div class="nav-item active" onclick="go('overview')"><span class="nav-dot"></span>Project Overview</div>
+      <div class="nav-item" onclick="go('jtbd')"><span class="nav-dot"></span>JTBD Analysis</div>
     </div>
-    <nav>
-      <div class="nav-group">
-        <span class="nav-group-label">Foundation</span>
-        <div class="nav-item active" onclick="go('overview')"><span class="nav-dot"></span>Project Overview</div>
-        <div class="nav-item" onclick="go('jtbd')"><span class="nav-dot"></span>JTBD Analysis</div>
-      </div>
-      <div class="nav-group">
-        <span class="nav-group-label">Research</span>
-        <div class="nav-item" onclick="go('keyword')"><span class="nav-dot"></span>Keyword Research</div>
-        <div class="nav-item" onclick="go('competitive')"><span class="nav-dot"></span>Competitive Landscape</div>
-        <div class="nav-item" onclick="go('geo')"><span class="nav-dot"></span>GEO / AEO Intelligence</div>
-      </div>
-      <div class="nav-group">
-        <span class="nav-group-label">Architecture</span>
-        <div class="nav-item" onclick="go('sitemap')"><span class="nav-dot"></span>Sitemap Web Growth</div>
-        <div class="nav-item" onclick="go('anatomy')"><span class="nav-dot"></span>Page Anatomy</div>
-        <div class="nav-item" onclick="go('content')"><span class="nav-dot"></span>Content Direction</div>
-      </div>
-      <div class="nav-group">
-        <span class="nav-group-label">Growth & Conversion</span>
-        <div class="nav-item" onclick="go('w2a')"><span class="nav-dot"></span>Web-to-App Funnel</div>
-        <div class="nav-item" onclick="go('crosssale')"><span class="nav-dot"></span>Cross-sale Strategy</div>
-        <div class="nav-item" onclick="go('interlinking')"><span class="nav-dot"></span>Internal Link Building</div>
-      </div>
-      <div class="nav-group">
-        <span class="nav-group-label">Execution</span>
-        <div class="nav-item" onclick="go('measurement')"><span class="nav-dot"></span>Measurement Framework</div>
-        <div class="nav-item" onclick="go('checklist')"><span class="nav-dot"></span>Publish Checklist</div>
-      </div>
-    </nav>
-    <div class="sidebar-footer">
-      Out-App Traffic · GPD<br>
-      Last updated: Tháng 4/2026<br>
-      MoMo — momo.vn
+    <div class="nav-group">
+      <span class="nav-group-label">Research</span>
+      <div class="nav-item" onclick="go('keyword')"><span class="nav-dot"></span>Keyword Research</div>
+      <div class="nav-item" onclick="go('competitive')"><span class="nav-dot"></span>Competitive Landscape</div>
+      <div class="nav-item" onclick="go('geo')"><span class="nav-dot"></span>GEO / AEO Intelligence</div>
     </div>
-  </aside>
+    <div class="nav-group">
+      <span class="nav-group-label">Architecture</span>
+      <div class="nav-item" onclick="go('sitemap')"><span class="nav-dot"></span>Sitemap Web Growth</div>
+      <div class="nav-item" onclick="go('anatomy')"><span class="nav-dot"></span>Page Anatomy</div>
+      <div class="nav-item" onclick="go('content')"><span class="nav-dot"></span>Content Direction</div>
+    </div>
+    <div class="nav-group">
+      <span class="nav-group-label">Growth & Conversion</span>
+      <div class="nav-item" onclick="go('w2a')"><span class="nav-dot"></span>Web-to-App Funnel</div>
 
-  <!-- Topbar -->
-  <div class="topbar">
-    <div class="topbar-left">
-      <span>momo.vn</span> / <span>tra-cuu-phat-nguoi</span>
-      <span style="color:var(--border);">|</span>
-      <span>SEO/GEO Web Growth Document</span>
+      <div class="nav-item" onclick="go('interlinking')"><span class="nav-dot"></span>Internal Link Building</div>
     </div>
-    <div class="topbar-right">
-      <span class="badge badge-pink">Catalyst: ND168/2024</span>
-      <span class="badge badge-amber">In Progress</span>
+    <div class="nav-group">
+      <span class="nav-group-label">Execution</span>
+      <div class="nav-item" onclick="go('measurement')"><span class="nav-dot"></span>Measurement Framework</div>
+      <div class="nav-item" onclick="go('checklist')"><span class="nav-dot"></span>Publish Checklist</div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    Out-App Traffic · GPD<br>
+    Last updated: Tháng 4/2026<br>
+    MoMo — momo.vn
+  </div>
+</aside>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>momo.vn</span> / <span>phat-nguoi</span>
+    <span style="color:var(--border);">|</span>
+    <span>SEO/GEO Web Growth Document</span>
+  </div>
+  <div class="topbar-right">
+    <span class="badge badge-pink">Catalyst: ND168/2024</span>
+    <span class="badge badge-amber">In Progress</span>
+  </div>
+</div>
+
+<!-- Main Content -->
+<main class="main">
+
+<!-- ══ 0. PROJECT OVERVIEW ══ -->
+<section class="section active" id="s-overview">
+  <div class="page-eyebrow">Project Overview — momo.vn/phat-nguoi</div>
+  <h1 class="page-title">Tra Cứu <span>Phạt Nguội</span> — Web Growth</h1>
+  <p class="page-desc">Tài liệu chiến lược SEO/GEO cho Use Case Tra Cứu Phạt Nguội — khai thác search demand từ Nghị định 168/2024 để build top-of-funnel traffic chất lượng cao, tối ưu Web-to-App conversion sang tính năng Tra Cứu + Thông Báo Phạt Nguội trong app MoMo (powered by TTDK).</p>
+
+  <div class="hero-banner">
+    <div class="hero-uc-tag">◆ PAYMENT SERVICES · UTILITIES</div>
+    <h1>Phạt Nguội <span>SEO/GEO Project</span></h1>
+    <p class="hero-sub">ND168/2024 tạo ra evergreen search demand mới. MoMo đã có tính năng trong App (powered by TTDK). Web Growth là missing link để capture organic traffic và convert sang App users.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val">~2.7M</div><div class="lbl">Search vol/tháng (toàn quốc)</div></div>
+      <div class="hero-stat"><div class="val">~253K</div><div class="lbl">Search vol/tháng (HN + HCM)</div></div>
+      <div class="hero-stat"><div class="val">84M+</div><div class="lbl">Xe đang lưu hành VN</div></div>
+      <div class="hero-stat"><div class="val">700K+</div><div class="lbl">MoMo users có ô tô (identified)</div></div>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <main class="main">
+  <div class="grid-3">
+    <div class="kpi-box pink">
+      <div class="kpi-label">Primary Target</div>
+      <div class="kpi-value">New App Users</div>
+      <div class="kpi-note">Web → Install → Register qua organic traffic từ cụm phạt nguội</div>
+    </div>
+    <div class="kpi-box blue">
+      <div class="kpi-label">Secondary Target</div>
+      <div class="kpi-value">Existing User Activation</div>
+      <div class="kpi-note">Web → Deeplink tới tính năng trong App cho 700K+ user có ô tô đã identified</div>
+    </div>
+    <div class="kpi-box green">
+      <div class="kpi-label">GEO Target</div>
+      <div class="kpi-value">AI Citation</div>
+      <div class="kpi-note">Được cite trong Google AI Overviews, ChatGPT, Gemini cho top 20 queries phạt nguội</div>
+    </div>
+  </div>
 
-    <!-- ══ 0. PROJECT OVERVIEW ══ -->
-    <section class="section active" id="s-overview">
-      <div class="page-eyebrow">Project Overview — momo.vn/phat-nguoi</div>
-      <h1 class="page-title">Tra Cứu <span>Phạt Nguội</span> — Web Growth</h1>
-      <p class="page-desc">Tài liệu chiến lược SEO/GEO cho Use Case Tra Cứu Phạt Nguội — khai thác search demand từ Nghị
-        định 168/2024 để build top-of-funnel traffic chất lượng cao, tối ưu Web-to-App conversion sang tính năng Tra Cứu
-        + Thông Báo Phạt Nguội trong app MoMo (powered by TTDK).</p>
+  <h2 class="sh">Context & Business Case</h2>
+  <div class="hl amber">
+    <strong>Catalyst — Nghị định 168/2024/NĐ-CP (hiệu lực 01/01/2025)</strong>
+    Tăng mức phạt vi phạm giao thông gấp 3-5 lần. Vượt đèn đỏ ô tô: 3-5 triệu → 18-20 triệu đồng. Tạo ra search spike đột biến và duy trì evergreen demand cao trong 2025-2026. Đây không phải seasonal trend — đây là structural demand shift.
+  </div>
+  <div class="hl blue">
+    <strong>Data Source — TTDK (Trung tâm Đăng Kiểm Việt Nam)</strong>
+    MoMo nhận dữ liệu phạt nguội từ TTDK — không phải scraping 3rd party. TTDK nhận data trước CSGT trong pipeline. Đây là trust signal quan trọng trên web: "Dữ liệu chính thống từ Trung tâm Đăng Kiểm Việt Nam" — khác biệt với các app không uy tín trên thị trường.
+  </div>
+  <div class="hl green">
+    <strong>App Feature đã Live</strong>
+    Tính năng Tra Cứu + Thông Báo Phạt Nguội đã có trong MoMo App (Silver 199K/năm — Gold 299K/năm). Web không cần build tool mới, cần build traffic funnel dẫn user vào App feature đã có.
+  </div>
 
-      <div class="hero-banner">
-        <div class="hero-uc-tag">◆ PS-UTI · Q2/2026</div>
-        <h1>Phạt Nguội<span> SEO/GEO Project</span></h1>
-        <p class="hero-sub">ND168/2024 tạo ra evergreen search demand mới. MoMo đã có tính năng trong App (powered by
-          TTDK). Web Growth là missing link để capture organic traffic và convert sang App users.</p>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <div class="val">~2.7M</div>
-            <div class="lbl">Search vol/tháng (toàn quốc)</div>
-          </div>
-          <div class="hero-stat">
-            <div class="val">~253K</div>
-            <div class="lbl">Search vol/tháng (HN + HCM)</div>
-          </div>
-          <div class="hero-stat">
-            <div class="val">84M+</div>
-            <div class="lbl">Xe đang lưu hành VN</div>
-          </div>
-          <div class="hero-stat">
-            <div class="val">700K+</div>
-            <div class="lbl">MoMo users có ô tô (identified)</div>
-          </div>
+  <h2 class="sh">Scope tài liệu này</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span style="color:var(--green);">✓</span> Trong scope</div>
+      <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
+        Pillar page <code style="font-size:11px;background:#F4F4F5;padding:1px 6px;border-radius:4px;">/phat-nguoi</code> — full strategy<br>
+        3 Sub-pages theo loại phương tiện<br>
+        Keyword research & intent mapping (2,663 KWs)<br>
+        GEO/AEO optimization & structured data<br>
+        Page anatomy & content structure<br>
+        Web-to-App conversion funnel<br>
+        Internal link architecture<br>
+        Measurement framework
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span style="color:var(--text-faint);">✕</span> Ngoài scope</div>
+      <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
+        API integration kỹ thuật (Dev team)<br>
+        App UX flow tính năng nộp phạt (Product Cell)<br>
+        Subscription pricing strategy (Business team)<br>
+        Paid campaign & remarketing<br>
+        Backend xử lý nộp phạt online<br>
+        OKR targets (chưa set chính thức với Cell Team)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 1. JTBD ══ -->
+<section class="section" id="s-jtbd">
+  <div class="page-eyebrow">Foundation — Jobs To Be Done</div>
+  <h1 class="page-title">JTBD <span>Analysis</span></h1>
+  <p class="page-desc">Người dùng không search "phạt nguội" vì muốn đọc nội dung — họ có một job cụ thể cần hoàn thành. Hiểu đúng job mới định hướng đúng page structure và CTA.</p>
+
+  <div class="hl pink">
+    <strong>Core Insight</strong>
+    89.3% volume trong dataset là Transactional intent. User muốn thực hiện một action (tra cứu biển số, kiểm tra mức phạt), không phải đọc blog. Web phải là functional tool trước, content hub sau.
+  </div>
+
+  <h2 class="sh">4 Jobs chính cần serve</h2>
+  <div class="grid-2">
+    <div class="persona-card">
+      <div class="persona-header" style="border-left:3px solid var(--pink-core);">
+        <div>
+          <div class="persona-header-title">Job #1 — Tra cứu biển số ngay</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Transactional · 89.3% volume · Core Job</div>
         </div>
       </div>
-
-      <div class="grid-3">
-        <div class="kpi-box pink">
-          <div class="kpi-label">Primary Target</div>
-          <div class="kpi-value">New App Users</div>
-          <div class="kpi-note">Web → Install → Register qua organic traffic từ cụm phạt nguội</div>
-        </div>
-        <div class="kpi-box blue">
-          <div class="kpi-label">Secondary Target</div>
-          <div class="kpi-value">Existing User Activation</div>
-          <div class="kpi-note">Web → Deeplink tới tính năng trong App cho 700K+ user có ô tô đã identified</div>
-        </div>
-        <div class="kpi-box green">
-          <div class="kpi-label">GEO Target</div>
-          <div class="kpi-value">AI Citation</div>
-          <div class="kpi-note">Được cite trong Google AI Overviews, ChatGPT, Gemini cho top 20 queries phạt nguội</div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Nghi ngờ bị phạt nguội sau khi đi qua camera hoặc nhận tin từ người quen</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Search "tra cứu phạt nguội biển số [XXX]" — muốn kết quả ngay, không muốn đọc hướng dẫn</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Nếu có lỗi → muốn xem chi tiết và tìm cách xử lý nhanh nhất</div></div>
+        <div class="persona-result">MoMo giải quyết: Tool tra cứu embedded → Deeplink "Xem chi tiết + Đặt thông báo" trong App</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header" style="border-left:3px solid var(--amber);">
+        <div>
+          <div class="persona-header-title">Job #2 — Kiểm tra mức phạt mới ND168</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Informational · ~45K vol cluster · TOFU</div>
         </div>
       </div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Nghe tin ND168 tăng mức phạt mạnh — lo lắng về mức phạt mới cho các lỗi thường gặp</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Search "mức phạt nguội ô tô 2025", "phạt vượt đèn đỏ bao nhiêu" để nắm rõ con số</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">High viral potential — chia sẻ link cho bạn bè, group cộng đồng xe</div></div>
+        <div class="persona-result">MoMo giải quyết: Blog content ND168 + Bảng mức phạt cập nhật + branded awareness</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header" style="border-left:3px solid var(--blue);">
+        <div>
+          <div class="persona-header-title">Job #3 — Kiểm tra xe cũ trước khi mua</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Research intent · Cross-sale trigger</div>
+        </div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Chuẩn bị mua xe cũ — muốn kiểm tra xe có đang bị phạt nguội tồn đọng không</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Search "xe cũ có bị phạt nguội không", "kiểm tra phạt nguội xe cũ"</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Sau khi mua xe → immediate need: mua bảo hiểm xe ngay</div></div>
+        <div class="persona-result">MoMo giải quyết: Tra cứu + Cross-sale BH Xe Máy / BH Ô Tô contextual ngay trên trang</div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header" style="border-left:3px solid var(--green);">
+        <div>
+          <div class="persona-header-title">Job #4 — Tìm app uy tín, không lừa đảo</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Commercial · GEO opportunity · Trust intent</div>
+        </div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-step"><div class="step-num">1</div><div class="step-text">Đã biết cần tra cứu phạt nguội, nhưng lo ngại app 3rd party lừa đảo/khai thác data cá nhân</div></div>
+        <div class="persona-step"><div class="step-num">2</div><div class="step-text">Search "web tra cứu phạt nguội uy tín", "app tra cứu phạt nguội an toàn"</div></div>
+        <div class="persona-step"><div class="step-num">3</div><div class="step-text">Ưu tiên nền tảng có brand uy tín, dữ liệu chính thống — không muốn rủi ro</div></div>
+        <div class="persona-result">MoMo giải quyết: Trust signals mạnh — "Dữ liệu từ TTDK", tích hợp hệ sinh thái MoMo</div>
+      </div>
+    </div>
+  </div>
 
-      <h2 class="sh">Context & Business Case</h2>
-      <div class="hl amber">
-        <strong>Catalyst — Nghị định 168/2024/NĐ-CP (hiệu lực 01/01/2025)</strong>
-        Tăng mức phạt vi phạm giao thông gấp 3-5 lần. Vượt đèn đỏ ô tô: 3-5 triệu → 18-20 triệu đồng. Tạo ra search
-        spike đột biến và duy trì evergreen demand cao trong 2025-2026. Đây không phải seasonal trend — đây là
-        structural demand shift.
-      </div>
-      <div class="hl blue">
-        <strong>Data Source — TTDK (Trung tâm Đăng Kiểm Việt Nam)</strong>
-        MoMo nhận dữ liệu phạt nguội từ TTDK — không phải scraping 3rd party. TTDK nhận data trước CSGT trong pipeline.
-        Đây là trust signal quan trọng trên web: "Dữ liệu chính thống từ Trung tâm Đăng Kiểm Việt Nam" — khác biệt với
-        các app không uy tín trên thị trường.
-      </div>
-      <div class="hl green">
-        <strong>App Feature đã Live</strong>
-        Tính năng Tra Cứu + Thông Báo Phạt Nguội đã có trong MoMo App (Silver 199K/năm — Gold 299K/năm). Web không cần
-        build tool mới, cần build traffic funnel dẫn user vào App feature đã có.
-      </div>
+  <h2 class="sh">User Flow trên Web</h2>
+  <div class="funnel-wrap">
+    <div class="funnel-stage fs-tofu">
+      <div class="fs-label">Discover</div>
+      <div class="fs-title">Search</div>
+      <ul class="fs-items">
+        <li>Search "tra cứu phạt nguội"</li>
+        <li>Search "[biển số] phạt nguội"</li>
+        <li>Search "mức phạt ND168"</li>
+        <li>Land on Pillar / Sub-page / Blog</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-mofu">
+      <div class="fs-label">Engage</div>
+      <div class="fs-title">Tool Use</div>
+      <ul class="fs-items">
+        <li>Nhập biển số vào web tool</li>
+        <li>Xem kết quả sơ bộ</li>
+        <li>Đọc bảng mức phạt</li>
+        <li>Xem hướng dẫn xử lý</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-bofu">
+      <div class="fs-label">Convert</div>
+      <div class="fs-title">App CTA</div>
+      <ul class="fs-items">
+        <li>CTA "Xem chi tiết trong App"</li>
+        <li>CTA "Đặt thông báo tự động"</li>
+        <li>Smart App Banner</li>
+        <li>Cross-sale BH Xe / Vay</li>
+      </ul>
+    </div>
+    <div class="funnel-stage fs-convert">
+      <div class="fs-label">App Action</div>
+      <div class="fs-title">Install / Open</div>
+      <ul class="fs-items">
+        <li>Install App (New User)</li>
+        <li>Open → Tính năng Phạt Nguội</li>
+        <li>Register subscription</li>
+        <li>Cross-sell: BH, Vay, Nộp phạt</li>
+      </ul>
+    </div>
+  </div>
 
-      <h2 class="sh">Scope tài liệu này</h2>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title"><span style="color:var(--green);">✓</span> Trong scope</div>
-          <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
-            Pillar page <code
-              style="font-size:11px;background:#F4F4F5;padding:1px 6px;border-radius:4px;">/phat-nguoi</code> — full
-            strategy<br>
-            3 Sub-pages theo loại phương tiện<br>
-            Keyword research & intent mapping (2,663 KWs)<br>
-            GEO/AEO optimization & structured data<br>
-            Page anatomy & content structure<br>
-            Web-to-App conversion funnel<br>
-            Internal link architecture<br>
-            Measurement framework
+  <div class="hl blue">
+    <strong>Web chỉ serve bước 1-2</strong>
+    Web làm tốt hai việc: (1) Cho user tra được biển số, (2) Thuyết phục chuyển sang App để nhận thông báo tự động + xử lý đầy đủ. Không over-engineer conversion funnel trên web — App mới là nơi complete the job.
+  </div>
+</section>
+
+<!-- ══ 2. KEYWORD RESEARCH ══ -->
+<section class="section" id="s-keyword">
+  <div class="page-eyebrow">Research — Keyword Universe</div>
+  <h1 class="page-title">Keyword <span>Research</span></h1>
+  <p class="page-desc">Phân tích 2,663 keywords từ dataset thực tế. Tổng search volume có dữ liệu: ~2.74M/tháng toàn quốc. Intent distribution cho thấy đây là use case tool-first, không phải content-first.</p>
+
+  <div class="grid-4">
+    <div class="kpi-box pink">
+      <div class="kpi-label">Total Keywords</div>
+      <div class="kpi-value">2,663</div>
+      <div class="kpi-note">Full keyword universe từ dataset</div>
+    </div>
+    <div class="kpi-box blue">
+      <div class="kpi-label">Total Search Volume</div>
+      <div class="kpi-value">~2.74M</div>
+      <div class="kpi-note">Keywords có volume data / tháng</div>
+    </div>
+    <div class="kpi-box amber">
+      <div class="kpi-label">Transactional Intent</div>
+      <div class="kpi-value">89.3%</div>
+      <div class="kpi-note">2,443,800 vol — tool/action intent</div>
+    </div>
+    <div class="kpi-box green">
+      <div class="kpi-label">Head Terms (P1)</div>
+      <div class="kpi-value">~1.5M</div>
+      <div class="kpi-note">Top 20 keywords có thể compete</div>
+    </div>
+  </div>
+
+  <h2 class="sh">Intent Distribution</h2>
+  <div class="table-wrap">
+    <table class="dt">
+      <thead><tr><th>Intent Type</th><th>Keywords</th><th>Est. Volume</th><th>% Volume</th><th>Strategy</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip pink">Transactional</span></td><td>2,184</td><td>2,443,800</td><td><strong>89.3%</strong></td><td>Tool embedded trên Pillar + Sub-pages</td></tr>
+        <tr><td><span class="chip blue">Navigational</span></td><td>171</td><td>246,140</td><td>9.0%</td><td>Brand trust + Competitor displacement</td></tr>
+        <tr><td><span class="chip green">Informational</span></td><td>299</td><td>45,500</td><td>1.7%</td><td>Blog cluster ND168 + How-to</td></tr>
+        <tr><td><span class="chip amber">Commercial</span></td><td>9</td><td>2,870</td><td>0.1%</td><td>Cross-sale triggers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">Cluster 1 — Tra cứu / Kiểm tra (Core)</h2>
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>Tra cứu phạt nguội (generic)</span>
+      <span class="kw-cluster-vol">1,662 KWs · ~1.78M vol/tháng</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội</span><span class="kw-meta"><span class="kw-vol">673,000</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">phạt nguội</span><span class="kw-meta"><span class="kw-vol">301,000</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">kiểm tra phạt nguội</span><span class="kw-meta"><span class="kw-vol">165,000</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">check phạt nguội</span><span class="kw-meta"><span class="kw-vol">110,000</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra phạt nguội</span><span class="kw-meta"><span class="kw-vol">110,000</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội toàn quốc</span><span class="kw-meta"><span class="kw-vol">74,000</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội 2025</span><span class="kw-meta"><span class="kw-vol">27,100</span><span class="chip intent-trans">Transactional</span><span class="chip amber">P2</span></span></div>
+    </div>
+  </div>
+
+  <h2 class="sh">Cluster 2 — Ô tô</h2>
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>Ô tô sub-cluster</span>
+      <span class="kw-cluster-vol">148 KWs · ~332K vol/tháng</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội ô tô</span><span class="kw-meta"><span class="kw-vol">49,500</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội oto</span><span class="kw-meta"><span class="kw-vol">49,500</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">kiểm tra phạt nguội ô tô</span><span class="kw-meta"><span class="kw-vol">22,200</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội xe ô tô</span><span class="kw-meta"><span class="kw-vol">18,100</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">phạt nguội ô tô</span><span class="kw-meta"><span class="kw-vol">14,800</span><span class="chip intent-trans">Transactional</span><span class="chip amber">P2</span></span></div>
+      <div class="kw-row"><span class="kw-text">mức phạt nguội ô tô 2025</span><span class="kw-meta"><span class="kw-vol">33,100</span><span class="chip intent-info">Informational</span><span class="chip pink">P1</span></span></div>
+    </div>
+  </div>
+
+  <h2 class="sh">Cluster 3 — Xe máy</h2>
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>Xe máy sub-cluster</span>
+      <span class="kw-cluster-vol">46 KWs · ~150K vol/tháng</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội xe máy</span><span class="kw-meta"><span class="kw-vol">40,500</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">kiểm tra phạt nguội xe máy</span><span class="kw-meta"><span class="kw-vol">22,200</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">phạt nguội xe máy</span><span class="kw-meta"><span class="kw-vol">27,100</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">phạt nguội xe máy bao nhiêu tiền</span><span class="kw-meta"><span class="kw-vol">22,200</span><span class="chip intent-info">Informational</span><span class="chip amber">P2</span></span></div>
+      <div class="kw-row"><span class="kw-text">check phạt nguội xe máy</span><span class="kw-meta"><span class="kw-vol">9,900</span><span class="chip intent-trans">Transactional</span><span class="chip amber">P2</span></span></div>
+    </div>
+  </div>
+
+  <h2 class="sh">Cluster 4 — Địa phương (Programmatic SEO Potential)</h2>
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>Địa phương / Tỉnh-thành</span>
+      <span class="kw-cluster-vol">256 KWs · ~141K vol/tháng</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội toàn quốc</span><span class="kw-meta"><span class="kw-vol">74,000</span><span class="chip intent-trans">Transactional</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội đà nẵng</span><span class="kw-meta"><span class="kw-vol">5,400</span><span class="chip intent-trans">Transactional</span><span class="chip amber">P2</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội hà nội</span><span class="kw-meta"><span class="kw-vol">4,400</span><span class="chip intent-trans">Transactional</span><span class="chip amber">P2</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội tphcm</span><span class="kw-meta"><span class="kw-vol">3,600</span><span class="chip intent-trans">Transactional</span><span class="chip amber">P2</span></span></div>
+      <div class="kw-row"><span class="kw-text">tra cứu phạt nguội hải phòng</span><span class="kw-meta"><span class="kw-vol">2,400</span><span class="chip intent-trans">Transactional</span><span class="chip amber">P2</span></span></div>
+    </div>
+  </div>
+
+  <div class="hl amber">
+    <strong>Programmatic SEO — Cân nhắc Local Pages</strong>
+    256 local keywords với ~141K vol có thể capture bằng programmatic local pages (template × N tỉnh/thành). Risk: Google penalize nếu thin content. Decision criteria: chỉ build nếu có differentiating content per page (vd: dữ liệu camera theo tỉnh từ TTDK). Hold lại Phase 2.
+  </div>
+
+  <h2 class="sh">Cluster 5 — Nộp phạt (Low Volume, High Intent)</h2>
+  <div class="kw-cluster">
+    <div class="kw-cluster-header">
+      <span>Nộp phạt / Xử lý</span>
+      <span class="kw-cluster-vol">13 KWs · ~3,260 vol/tháng</span>
+    </div>
+    <div class="kw-cluster-body">
+      <div class="kw-row"><span class="kw-text">nộp phạt nguội online</span><span class="kw-meta"><span class="kw-vol">1,900</span><span class="chip intent-comm">Commercial</span><span class="chip pink">P1</span></span></div>
+      <div class="kw-row"><span class="kw-text">cách nộp phạt nguội online</span><span class="kw-meta"><span class="kw-vol">590</span><span class="chip intent-info">Informational</span><span class="chip amber">P2</span></span></div>
+      <div class="kw-row"><span class="kw-text">nộp phạt nguội online được không</span><span class="kw-meta"><span class="kw-vol">210</span><span class="chip intent-info">Informational</span><span class="chip amber">P2</span></span></div>
+    </div>
+  </div>
+  <div class="hl blue">
+    <strong>Note: Volume thấp nhưng commercial value cao nhất</strong>
+    User search "nộp phạt nguội online" đã hoàn thành step tra cứu (thường dùng competitor tool) và đang ở bottom-of-funnel thực sự. 3,260 vol nhỏ nhưng CVR tiềm năng cao nhất. Cần cover intent này trong Pillar page, không build trang riêng.
+  </div>
+</section>
+
+<!-- ══ 3. COMPETITIVE ══ -->
+<section class="section" id="s-competitive">
+  <div class="page-eyebrow">Research — Competitive Landscape</div>
+  <h1 class="page-title">Competitive <span>Landscape</span></h1>
+  <p class="page-desc">Phân tích đối thủ từ keyword data và product research. ~246K vol/tháng đang chảy vào các brand competitor — không thể intercept trực tiếp nhưng cần strategy rõ ràng.</p>
+
+  <h2 class="sh">Competitor Brand Search Volume</h2>
+  <div class="table-wrap">
+    <table class="dt">
+      <thead><tr><th>Competitor</th><th>Brand Keywords</th><th>Est. Vol/tháng</th><th>Loại</th><th>MoMo's angle</th></tr></thead>
+      <tbody>
+        <tr><td><strong>phạtnguoi.com</strong> (Van Luan Phan)</td><td>phạtnguoi.com, phatnguoi.com, phạt nguội.com</td><td>~148,500</td><td><span class="chip amber">3rd party</span></td><td>Tiện nhưng không uy tín, sợ lộ data</td></tr>
+        <tr><td><strong>vr.org.vn</strong> (VNeTraffic)</td><td>www vr org vn tra cứu phạt nguội</td><td>14,800</td><td><span class="chip blue">Semi-official</span></td><td>Official nhưng UX kém, hay nghẽn</td></tr>
+        <tr><td><strong>phạt nguội vn</strong></td><td>phạt nguội vn, phạt nguội chấm com</td><td>13,700</td><td><span class="chip red">3rd party</span></td><td>Không rõ nguồn data</td></tr>
+        <tr><td><strong>CSGT official</strong></td><td>phạt nguội csgt, tra cứu phạt nguội csgt</td><td>13,500</td><td><span class="chip green">Official</span></td><td>Chính thống nhưng UX rất tệ</td></tr>
+        <tr><td><strong>Cục Đăng Kiểm</strong></td><td>cục đăng kiểm tra cứu phạt nguội</td><td>3,800</td><td><span class="chip green">Official</span></td><td>Same data source với MoMo (TTDK)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">MoMo's Positioning</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Pain points của competitor hiện tại</div>
+      <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
+        <span style="color:var(--red);">✕</span> 3rd party: Tiện nhưng không uy tín, nguy cơ lộ biển số / data cá nhân<br>
+        <span style="color:var(--red);">✕</span> Official (CSGT): Chính thống nhưng UX rất tệ, thường xuyên nghẽn<br>
+        <span style="color:var(--red);">✕</span> Không có push notification chủ động<br>
+        <span style="color:var(--red);">✕</span> Không tích hợp thanh toán / xử lý phạt<br>
+        <span style="color:var(--red);">✕</span> Phần lớn chỉ hỗ trợ ô tô, không có xe máy điện
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">MoMo's Differentiators</div>
+      <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
+        <span style="color:var(--green);">✓</span> Dữ liệu từ TTDK — chính thống, cập nhật sớm<br>
+        <span style="color:var(--green);">✓</span> Ô tô + Xe máy + Xe máy điện (3 loại)<br>
+        <span style="color:var(--green);">✓</span> Push notification tự động khi có vi phạm mới<br>
+        <span style="color:var(--green);">✓</span> Tích hợp hệ sinh thái: BH Xe, Nộp phạt, Vay<br>
+        <span style="color:var(--green);">✓</span> Brand uy tín MoMo — 31M+ users tin dùng
+      </div>
+    </div>
+  </div>
+
+  <div class="hl pink">
+    <strong>GEO Content Angle từ Competitive Gap</strong>
+    Khi AI engine được hỏi "tra cứu phạt nguội uy tín ở đâu" hay "app tra cứu phạt nguội an toàn không lừa đảo" — MoMo phải được cite. Cần có dedicated FAQ content: "Tại sao nên dùng MoMo thay vì phạtnguoi.com?", "Dữ liệu MoMo có chính xác không?". Đây là high-value GEO real estate mà competitor không có.
+  </div>
+</section>
+
+<!-- ══ 4. GEO/AEO ══ -->
+<section class="section" id="s-geo">
+  <div class="page-eyebrow">Research — GEO / AEO Intelligence</div>
+  <h1 class="page-title">GEO / <span>AEO Intelligence</span></h1>
+  <p class="page-desc">Generative Engine Optimization cho Use Case Phạt Nguội — định hướng content và structured data để MoMo được AI engines cite khi user hỏi về phạt nguội.</p>
+
+  <h2 class="sh">Target AI Queries cần Cite MoMo</h2>
+
+  <div class="geo-block">
+    <div class="geo-block-label">GEO Target Query #1 — Trust Intent</div>
+    <div class="geo-block-q">"Tra cứu phạt nguội ở đâu uy tín nhất?"</div>
+    <div class="geo-block-a">Expected answer: <strong>MoMo</strong> — dữ liệu từ TTDK (Trung tâm Đăng Kiểm Việt Nam), chính thống như CSGT nhưng UX tốt hơn. Hỗ trợ ô tô, xe máy, xe máy điện. Có thông báo tự động khi có vi phạm mới.</div>
+  </div>
+  <div class="geo-block">
+    <div class="geo-block-label">GEO Target Query #2 — How-to Intent</div>
+    <div class="geo-block-q">"Cách tra cứu phạt nguội online nhanh nhất 2025?"</div>
+    <div class="geo-block-a">Expected answer: Hướng dẫn step-by-step với <strong>MoMo App</strong> — nhập biển số, chọn loại xe, xem kết quả ngay. Không cần số tem GCN. Dữ liệu cập nhật từ TTDK.</div>
+  </div>
+  <div class="geo-block">
+    <div class="geo-block-label">GEO Target Query #3 — Mức phạt ND168</div>
+    <div class="geo-block-q">"Phạt vượt đèn đỏ bao nhiêu tiền năm 2025?"</div>
+    <div class="geo-block-a">Expected answer: Theo Nghị định 168/2024/NĐ-CP, ô tô vượt đèn đỏ: <strong>18-20 triệu đồng</strong>, xe máy: 4-6 triệu đồng. Nguồn: momo.vn/blog/[slug-nd168].</div>
+  </div>
+  <div class="geo-block">
+    <div class="geo-block-label">GEO Target Query #4 — Comparative Intent</div>
+    <div class="geo-block-q">"App tra cứu phạt nguội nào tốt nhất, không lừa đảo?"</div>
+    <div class="geo-block-a">Expected answer: Comparison — CSGT official (chính thống, UX tệ), phạtnguoi.com (3rd party, tiện nhưng rủi ro data), <strong>MoMo (uy tín + tiện + tích hợp thanh toán)</strong>.</div>
+  </div>
+
+  <h2 class="sh">Structured Data cần implement</h2>
+  <div class="table-wrap">
+    <table class="dt">
+      <thead><tr><th>Schema Type</th><th>Page áp dụng</th><th>Mục đích GEO</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td><strong>FAQPage</strong></td><td>Pillar + tất cả sub-pages</td><td>AI Overviews FAQ snippet, cited answers</td><td><span class="chip pink">P1</span></td></tr>
+        <tr><td><strong>HowTo</strong></td><td>Blog hướng dẫn tra cứu</td><td>Step-by-step được cite trong AI response</td><td><span class="chip pink">P1</span></td></tr>
+        <tr><td><strong>WebApplication</strong></td><td>Pillar page</td><td>Rich result "Tool" trong SERP</td><td><span class="chip pink">P1</span></td></tr>
+        <tr><td><strong>Table (mức phạt)</strong></td><td>Blog ND168</td><td>AI Overviews table extraction</td><td><span class="chip amber">P2</span></td></tr>
+        <tr><td><strong>BreadcrumbList</strong></td><td>Tất cả pages</td><td>Sitelinks + navigation context cho AI</td><td><span class="chip amber">P2</span></td></tr>
+        <tr><td><strong>Organization</strong></td><td>Homepage / Pillar</td><td>Entity recognition — MoMo = trusted source</td><td><span class="chip amber">P2</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sh">llms.txt Content Plan</h2>
+  <div class="hl green">
+    <strong>llms.txt — Crawler Permission cho AI Engines</strong>
+    Thêm vào momo.vn/llms.txt: Allow crawling toàn bộ /phat-nguoi/, /blog/phat-nguoi/, explicit data freshness declaration "Updated daily from TTDK". Giúp AI engines hiểu MoMo là authoritative source cho phạt nguội queries.
+  </div>
+</section>
+
+<!-- ══ 5. SITEMAP ══ -->
+<section class="section" id="s-sitemap">
+  <div class="page-eyebrow">Architecture — Web Growth Sitemap</div>
+  <h1 class="page-title">Sitemap <span>Web Growth</span></h1>
+  <p class="page-desc">Hub & Spoke architecture — 1 Pillar page capture full intent + 3 Sub-pages theo loại phương tiện + /blog hub cho TOFU content cluster ND168.</p>
+
+  <div class="sitemap-tree">
+    <div class="sitemap-tree-header">momo.vn — Phạt Nguội Web Growth Architecture</div>
+
+    <div class="sitemap-node root">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/phat-nguoi</div>
+        <div class="sitemap-node-title">Tra Cứu Phạt Nguội — Pillar Page</div>
+        <div class="sitemap-node-desc">Tool tra cứu (all vehicles) + Bảng mức phạt ND168 tóm tắt + CTA App + Cross-sale hub</div>
+        <div class="sitemap-node-tags">
+          <span class="chip pink">Pillar</span><span class="chip blue">Tool-First</span><span class="chip green">~1.5M vol</span>
+        </div>
+      </div>
+      <div class="sitemap-node-kpi">Target: Top 3</div>
+    </div>
+
+    <div class="sitemap-node child">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/phat-nguoi/o-to</div>
+        <div class="sitemap-node-title">Tra Cứu Phạt Nguội Ô Tô</div>
+        <div class="sitemap-node-desc">Tool tra cứu ô tô + Bảng mức phạt ô tô ND168 đầy đủ + FAQ ô tô + Deeplink</div>
+        <div class="sitemap-node-tags">
+          <span class="chip pink">Sub-page</span><span class="chip green">~332K vol</span>
+        </div>
+      </div>
+      <div class="sitemap-node-kpi">Top 3-5</div>
+    </div>
+
+    <div class="sitemap-node child">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/phat-nguoi/xe-may</div>
+        <div class="sitemap-node-title">Tra Cứu Phạt Nguội Xe Máy</div>
+        <div class="sitemap-node-desc">Tool tra cứu xe máy + Mức phạt xe máy ND168 + FAQ xe máy + Cross-sale BH Xe Máy</div>
+        <div class="sitemap-node-tags">
+          <span class="chip pink">Sub-page</span><span class="chip green">~150K vol</span>
+        </div>
+      </div>
+      <div class="sitemap-node-kpi">Top 3-5</div>
+    </div>
+
+    <div class="sitemap-node child">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/phat-nguoi/xe-may-dien</div>
+        <div class="sitemap-node-title">Tra Cứu Phạt Nguội Xe Máy Điện</div>
+        <div class="sitemap-node-desc">Emerging cluster — xe máy điện ngày càng phổ biến, capture authority sớm trước khi demand tăng</div>
+        <div class="sitemap-node-tags">
+          <span class="chip pink">Sub-page</span><span class="chip amber">Emerging vol</span>
+        </div>
+      </div>
+      <div class="sitemap-node-kpi">Early capture</div>
+    </div>
+
+    <div class="sitemap-node child">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/blog/phat-nguoi/</div>
+        <div class="sitemap-node-title">Blog Hub — Phạt Nguội Content</div>
+        <div class="sitemap-node-desc">TOFU content cluster: ND168 updates, mức phạt theo lỗi, hướng dẫn xử lý, FAQ detailed — feed internal links về Pillar</div>
+        <div class="sitemap-node-tags">
+          <span class="chip blue">Blog Hub</span><span class="chip green">~45K info vol</span>
+        </div>
+      </div>
+      <div class="sitemap-node-kpi">TOFU + GEO</div>
+    </div>
+
+    <div class="sitemap-node grandchild">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/blog/phat-nguoi/nghi-dinh-168-muc-phat-giao-thong-2025</div>
+        <div class="sitemap-node-title">Nghị Định 168 — Bảng Mức Phạt Giao Thông 2025 Đầy Đủ</div>
+        <div class="sitemap-node-desc">Evergreen content ND168, HowTo schema, Table schema — target AI Overviews citations</div>
+        <div class="sitemap-node-tags"><span class="chip green">Priority #1</span><span class="chip blue">HowTo Schema</span></div>
+      </div>
+    </div>
+
+    <div class="sitemap-node grandchild">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/blog/phat-nguoi/cach-tra-cuu-phat-nguoi-online</div>
+        <div class="sitemap-node-title">Cách Tra Cứu Phạt Nguội Online Nhanh Nhất 2025</div>
+        <div class="sitemap-node-desc">HowTo step-by-step, FAQ schema — capture "how-to" intent và AI citation</div>
+        <div class="sitemap-node-tags"><span class="chip green">Priority #2</span></div>
+      </div>
+    </div>
+
+    <div class="sitemap-node grandchild">
+      <div class="sitemap-node-body">
+        <div class="sitemap-node-url">/blog/phat-nguoi/xe-cu-co-bi-phat-nguoi-khong</div>
+        <div class="sitemap-node-title">Xe Cũ Có Bị Phạt Nguội Không? Cách Kiểm Tra</div>
+        <div class="sitemap-node-desc">Research intent, cross-sale trigger BH Xe Máy / BH Ô Tô</div>
+        <div class="sitemap-node-tags"><span class="chip amber">Priority #3</span><span class="chip pink">Cross-sale</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. PAGE ANATOMY ══ -->
+<section class="section" id="s-anatomy">
+  <div class="page-eyebrow">Architecture — Page Anatomy</div>
+  <h1 class="page-title">Page <span>Anatomy</span></h1>
+  <p class="page-desc">Cấu trúc 5 sections theo thứ tự trên Pillar page momo.vn/phat-nguoi. Mỗi section có mục tiêu riêng biệt — từ capture intent tức thì đến build authority dài hạn.</p>
+
+  <style>
+  /* ── ANATOMY V2 ── */
+  .anv2-wrap{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:24px;}
+  .anv2-row{display:grid;grid-template-columns:52px 1fr;border-bottom:1px solid var(--border);}
+  .anv2-row:last-child{border-bottom:none;}
+  .anv2-num-col{background:var(--bg-soft);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 0 16px;border-right:1px solid var(--border-soft);gap:8px;}
+  .anv2-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;}
+  .anv2-fold{font-size:8px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:var(--text-faint);writing-mode:vertical-rl;transform:rotate(180deg);margin-top:4px;}
+  .anv2-body{padding:18px 20px;}
+  .anv2-section-label{font-size:9px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:4px;}
+  .anv2-section-title{font-size:14px;font-weight:800;color:var(--text-dark);margin-bottom:10px;line-height:1.3;}
+  .anv2-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .anv2-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .anv2-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;}
+  .anv2-item-label{font-size:9px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:var(--text-faint);margin-bottom:5px;}
+  .anv2-item-text{font-size:12px;color:var(--text-body);line-height:1.6;}
+  .anv2-item-text strong{color:var(--text-dark);}
+  .anv2-item.full{grid-column:1/-1;}
+  .anv2-rationale{margin-top:12px;padding:10px 12px;background:var(--pink-dim);border:1px solid var(--pink-border);border-radius:var(--radius-sm);font-size:11.5px;color:#7B1D4A;line-height:1.6;}
+  .anv2-rationale strong{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--pink-core);}
+
+  /* section accent colors */
+  .anv2-s1 .anv2-circle{background:linear-gradient(135deg,var(--green),#047857);}
+  .anv2-s1 .anv2-section-label{color:var(--green);}
+  .anv2-s1 .anv2-num-col{border-left:3px solid var(--green);}
+  .anv2-s2 .anv2-circle{background:linear-gradient(135deg,#2563EB,#1D4ED8);}
+  .anv2-s2 .anv2-section-label{color:var(--blue);}
+  .anv2-s2 .anv2-num-col{border-left:3px solid var(--blue);}
+  .anv2-s3 .anv2-circle{background:linear-gradient(135deg,var(--pink-core),#D0206A);}
+  .anv2-s3 .anv2-section-label{color:var(--pink-core);}
+  .anv2-s3 .anv2-num-col{border-left:3px solid var(--pink-core);}
+  .anv2-s4 .anv2-circle{background:linear-gradient(135deg,var(--amber),#B45309);}
+  .anv2-s4 .anv2-section-label{color:var(--amber);}
+  .anv2-s4 .anv2-num-col{border-left:3px solid var(--amber);}
+  .anv2-s5 .anv2-circle{background:linear-gradient(135deg,#7C3AED,#5B21B6);}
+  .anv2-s5 .anv2-section-label{color:#7C3AED;}
+  .anv2-s5 .anv2-num-col{border-left:3px solid #7C3AED;}
+
+  @media(max-width:640px){
+    .anv2-grid{grid-template-columns:1fr;}
+    .anv2-item.full{grid-column:1;}
+    .anv2-fold{display:none;}
+  }
+  </style>
+
+  <div class="anv2-wrap">
+
+    <!-- S1: Hero Section -->
+    <div class="anv2-row anv2-s1">
+      <div class="anv2-num-col">
+        <div class="anv2-circle">1</div>
+        <div class="anv2-fold">Above fold</div>
+      </div>
+      <div class="anv2-body">
+        <div class="anv2-section-label">Section 1</div>
+        <div class="anv2-section-title">Hero Section — H1 + Tra cứu Tool</div>
+        <div class="anv2-tags">
+          <span class="chip green">SEO · H1</span>
+          <span class="chip pink">PLG · Tool</span>
+          <span class="chip blue">Above Fold</span>
+        </div>
+        <div class="anv2-grid">
+          <div class="anv2-item">
+            <div class="anv2-item-label">H1 Title</div>
+            <div class="anv2-item-text"><strong>"Tra Cứu Phạt Nguội"</strong> — chứa head keyword, max 60 chars, không có emoji. Trust badge inline: "Dữ liệu từ TTDK · Cập nhật hàng ngày".</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Sub-heading</div>
+            <div class="anv2-item-text">1-2 dòng mô tả ngắn: loại xe hỗ trợ (Ô tô / Xe máy / Xe máy điện), tốc độ tra cứu, nguồn dữ liệu chính thống. Serve secondary keywords tự nhiên.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Tra cứu Tool — Functional</div>
+            <div class="anv2-item-text">Input biển số xe + tab loại xe (Ô tô / Xe máy / Xe máy điện). CTA "Kiểm tra ngay" → Onelink mở App với pre-filled data. <strong>Không phải mockup</strong> — phải functional thật.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Tool UX Notes</div>
+            <div class="anv2-item-text">Tap target &gt; 44px, input font &gt; 16px (tránh auto-zoom iOS). Placeholder ví dụ: "51K-123.45". Không cần đăng nhập để tra cứu lần đầu.</div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title"><span style="color:var(--text-faint);">✕</span> Ngoài scope</div>
-          <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
-            API integration kỹ thuật (Dev team)<br>
-            App UX flow tính năng nộp phạt (Product Cell)<br>
-            Subscription pricing strategy (Business team)<br>
-            Paid campaign & remarketing<br>
-            Backend xử lý nộp phạt online<br>
-            OKR targets (chưa set chính thức với Cell Team)
-          </div>
+        <div class="anv2-rationale">
+          <strong>Rationale</strong>
+          Tool above the fold = capture Transactional intent ngay lập tức (89.3% volume). User tìm "tra cứu phạt nguội" muốn dùng tool, không muốn đọc intro. H1 chứa keyword + trust badge phục vụ đồng thời SEO crawl và user trust.
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- ══ 1. JTBD ══ -->
-    <section class="section" id="s-jtbd">
-      <div class="page-eyebrow">Foundation — Jobs To Be Done</div>
-      <h1 class="page-title">JTBD <span>Analysis</span></h1>
-      <p class="page-desc">Người dùng không search "phạt nguội" vì muốn đọc nội dung — họ có một job cụ thể cần hoàn
-        thành. Hiểu đúng job mới định hướng đúng page structure và CTA.</p>
-
-      <div class="hl pink">
-        <strong>Core Insight</strong>
-        89.3% volume trong dataset là Transactional intent. User muốn thực hiện một action (tra cứu biển số, kiểm tra
-        mức phạt), không phải đọc blog. Web phải là functional tool trước, content hub sau.
+    <!-- S2: Value Prop -->
+    <div class="anv2-row anv2-s2">
+      <div class="anv2-num-col">
+        <div class="anv2-circle">2</div>
+        <div class="anv2-fold">Trust signal</div>
       </div>
+      <div class="anv2-body">
+        <div class="anv2-section-label">Section 2</div>
+        <div class="anv2-section-title">Value Proposition — Tại sao dùng MoMo?</div>
+        <div class="anv2-tags">
+          <span class="chip green">E-E-A-T</span>
+          <span class="chip blue">GEO · Trust</span>
+        </div>
+        <div class="anv2-grid">
+          <div class="anv2-item">
+            <div class="anv2-item-label">3 Trust Pillars</div>
+            <div class="anv2-item-text"><strong>Chính thống:</strong> Dữ liệu từ TTDK — Trung tâm Đăng Kiểm VN, không phải 3rd party scraping. <strong>Đầy đủ:</strong> Ô tô, xe máy, xe máy điện. <strong>An toàn:</strong> MoMo 31M+ users, không lộ data.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Competitive Angle</div>
+            <div class="anv2-item-text">Phân biệt rõ với 3rd party (phạtnguoi.com, iNguoi): MoMo có nguồn data chính thống từ TTDK + tích hợp xử lý phạt + thông báo tự động — không chỉ tra cứu đơn thuần.</div>
+          </div>
+          <div class="anv2-item full">
+            <div class="anv2-item-label">Proof Points</div>
+            <div class="anv2-item-text">Social proof cụ thể: số lượt tra cứu, đối tác TTDK, logo MoMo × TTDK. Tránh claim chung chung — AI engines cần số liệu cụ thể để cite. Ví dụ: "Hơn X lượt tra cứu · Dữ liệu từ TTDK · Hỗ trợ 3 loại xe".</div>
+          </div>
+        </div>
+        <div class="anv2-rationale">
+          <strong>Rationale</strong>
+          Section này serve Job #4 (tìm app uy tín) và là key GEO signal — khi AI được hỏi "tra cứu phạt nguội uy tín ở đâu", nội dung trust pillar này là thứ AI sẽ extract và cite. Cần viết dưới dạng direct answer, không marketing speak.
+        </div>
+      </div>
+    </div>
 
-      <h2 class="sh">4 Jobs chính cần serve</h2>
-      <div class="grid-2">
-        <div class="persona-card">
-          <div class="persona-header" style="border-left:3px solid var(--pink-core);">
-            <div>
-              <div class="persona-header-title">Job #1 — Tra cứu biển số ngay</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Transactional · 89.3% volume · Core
-                Job</div>
+    <!-- S3: Subscription -->
+    <div class="anv2-row anv2-s3">
+      <div class="anv2-num-col">
+        <div class="anv2-circle">3</div>
+        <div class="anv2-fold">Conversion</div>
+      </div>
+      <div class="anv2-body">
+        <div class="anv2-section-label">Section 3</div>
+        <div class="anv2-section-title">Intro Subscription — Gói Thông Báo Tự Động</div>
+        <div class="anv2-tags">
+          <span class="chip pink">W2A · Onelink</span>
+          <span class="chip amber">Revenue</span>
+        </div>
+        <div class="anv2-grid">
+          <div class="anv2-item">
+            <div class="anv2-item-label">Gói Silver — 199K/năm</div>
+            <div class="anv2-item-text">1 xe · Cảnh báo phạt nguội mới · Theo dõi lịch sử vi phạm · Nhắc hạn đăng kiểm · Hướng dẫn xử lý. CTA: <strong>"Dùng thử 7 ngày miễn phí"</strong> → Onelink.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Gói Gold — 299K/năm</div>
+            <div class="anv2-item-text">2 xe · Tất cả tính năng Silver · Ưu đãi Vietmap · Giảm giá BH Ô Tô. CTA: <strong>"Nâng cấp Gold"</strong> → Onelink. Badge "Phổ biến nhất" để anchor attention.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Trigger Message</div>
+            <div class="anv2-item-text">"Tra cứu 1 lần chưa đủ — xe có thể bị phạt bất cứ lúc nào. Đăng ký nhận thông báo tự động, không bỏ lỡ vi phạm mới." Đặt ngay sau kết quả tra cứu.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Trial Hook</div>
+            <div class="anv2-item-text">Nhấn mạnh "7 ngày miễn phí, hủy bất cứ lúc nào". Không yêu cầu nhập thẻ khi trial. Giảm friction tối đa để push vào App install.</div>
+          </div>
+        </div>
+        <div class="anv2-rationale">
+          <strong>Rationale</strong>
+          Đặt sau tool (S1) và trust (S2) — user đã có context về sản phẩm và đã tin tưởng MoMo. Đây là điểm conversion cao nhất trên page. Không đặt quá sớm (trước tool) sẽ bị coi là pushy trước khi deliver value.
+        </div>
+      </div>
+    </div>
+
+    <!-- S4: Guideline/FAQ -->
+    <div class="anv2-row anv2-s4">
+      <div class="anv2-num-col">
+        <div class="anv2-circle">4</div>
+        <div class="anv2-fold">GEO · FAQ</div>
+      </div>
+      <div class="anv2-body">
+        <div class="anv2-section-label">Section 4</div>
+        <div class="anv2-section-title">Guideline &amp; FAQ — Hướng dẫn + Câu hỏi thường gặp</div>
+        <div class="anv2-tags">
+          <span class="chip blue">GEO · FAQPage Schema</span>
+          <span class="chip green">E-E-A-T</span>
+          <span class="chip amber">Informational Intent</span>
+        </div>
+        <div class="anv2-grid">
+          <div class="anv2-item">
+            <div class="anv2-item-label">Hướng dẫn tra cứu</div>
+            <div class="anv2-item-text">HowTo 3-4 bước: Nhập biển số → Chọn loại xe → Xem kết quả → Xử lý nếu có lỗi. Dùng HowTo schema. Mỗi bước có screenshot App minh hoạ.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">FAQ Accordion — 10-15 Q&amp;A</div>
+            <div class="anv2-item-text">Câu trả lời direct, &lt;40 words mỗi câu. FAQPage schema bắt buộc. Mỗi câu là một AI citation opportunity riêng biệt.</div>
+          </div>
+          <div class="anv2-item full">
+            <div class="anv2-item-label">FAQ Priority Topics</div>
+            <div class="anv2-item-text">
+              "Phạt nguội bao lâu thì lên hệ thống?" · "Không nhận được giấy phạt có bị phạt không?" ·
+              "Phạt nguội chủ xe hay người lái bị phạt?" · "Nộp phạt nguội muộn có bị tính lãi không?" ·
+              "Xe cũ mua lại có bị phạt nguội tồn đọng không?" · "Tra cứu phạt nguội có cần đăng nhập không?" ·
+              "Dữ liệu MoMo có chính xác hơn phạtnguoi.com không?" · "Phạt nguội bao nhiêu ngày thì hết hạn xử lý?"
             </div>
           </div>
-          <div class="persona-body">
-            <div class="persona-step">
-              <div class="step-num">1</div>
-              <div class="step-text">Nghi ngờ bị phạt nguội sau khi đi qua camera hoặc nhận tin từ người quen</div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">2</div>
-              <div class="step-text">Search "tra cứu phạt nguội biển số [XXX]" — muốn kết quả ngay, không muốn đọc hướng
-                dẫn</div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">3</div>
-              <div class="step-text">Nếu có lỗi → muốn xem chi tiết và tìm cách xử lý nhanh nhất</div>
-            </div>
-            <div class="persona-result">MoMo giải quyết: Tool tra cứu embedded → Deeplink "Xem chi tiết + Đặt thông báo"
-              trong App</div>
+        </div>
+        <div class="anv2-rationale">
+          <strong>Rationale</strong>
+          FAQPage schema là schema có tỷ lệ được AI Overviews extract cao nhất cho YMYL content. Mỗi Q&A là một micro-answer riêng biệt — AI engines có thể cite từng câu độc lập. Guideline dạng HowTo giúp capture query "cách tra cứu phạt nguội" và được cite trong AI step-by-step responses.
+        </div>
+      </div>
+    </div>
+
+    <!-- S5: Long Content SEO -->
+    <div class="anv2-row anv2-s5">
+      <div class="anv2-num-col">
+        <div class="anv2-circle">5</div>
+        <div class="anv2-fold">Long-form</div>
+      </div>
+      <div class="anv2-body">
+        <div class="anv2-section-label">Section 5</div>
+        <div class="anv2-section-title">Long Content SEO — Bảng mức phạt &amp; Context ND168</div>
+        <div class="anv2-tags">
+          <span class="chip" style="background:rgba(124,58,237,0.08);color:#7C3AED;border-color:rgba(124,58,237,0.2);">Topical Authority</span>
+          <span class="chip blue">GEO · Table Schema</span>
+          <span class="chip green">Evergreen Content</span>
+        </div>
+        <div class="anv2-grid">
+          <div class="anv2-item">
+            <div class="anv2-item-label">Bảng mức phạt ND168</div>
+            <div class="anv2-item-text">Table đầy đủ: lỗi vi phạm / mức phạt ô tô / mức phạt xe máy / mức phạt xe máy điện. Table schema markup. Đây là content được AI Overviews extract nhiều nhất cho queries "mức phạt [lỗi] bao nhiêu".</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Context &amp; Giải thích</div>
+            <div class="anv2-item-text">Giải thích ngắn ND168 là gì, hiệu lực từ khi nào, thay đổi gì so với quy định cũ. 200-300 words. Dùng H2/H3 có keyword. Cung cấp context để AI engines hiểu MoMo là authoritative source.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Internal Links tới Sub-pages</div>
+            <div class="anv2-item-text">Card links contextual: "Xem mức phạt chi tiết theo loại xe" → /phat-nguoi/o-to, /xe-may, /xe-may-dien. Và top 3 blog posts liên quan. Distribute PageRank xuống spoke pages.</div>
+          </div>
+          <div class="anv2-item">
+            <div class="anv2-item-label">Update Cadence</div>
+            <div class="anv2-item-text">Cập nhật ngay khi có thay đổi pháp lý. Hiển thị "Cập nhật: [tháng/năm]" với dateModified schema. Freshness signal quan trọng cho cả SEO ranking và AI citation priority.</div>
           </div>
         </div>
-        <div class="persona-card">
-          <div class="persona-header" style="border-left:3px solid var(--amber);">
-            <div>
-              <div class="persona-header-title">Job #2 — Kiểm tra mức phạt mới ND168</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Informational · ~45K vol cluster ·
-                TOFU</div>
-            </div>
-          </div>
-          <div class="persona-body">
-            <div class="persona-step">
-              <div class="step-num">1</div>
-              <div class="step-text">Nghe tin ND168 tăng mức phạt mạnh — lo lắng về mức phạt mới cho các lỗi thường gặp
-              </div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">2</div>
-              <div class="step-text">Search "mức phạt nguội ô tô 2025", "phạt vượt đèn đỏ bao nhiêu" để nắm rõ con số
-              </div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">3</div>
-              <div class="step-text">High viral potential — chia sẻ link cho bạn bè, group cộng đồng xe</div>
-            </div>
-            <div class="persona-result">MoMo giải quyết: Blog content ND168 + Bảng mức phạt cập nhật + branded awareness
-            </div>
-          </div>
-        </div>
-        <div class="persona-card">
-          <div class="persona-header" style="border-left:3px solid var(--blue);">
-            <div>
-              <div class="persona-header-title">Job #3 — Kiểm tra xe cũ trước khi mua</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Research intent · Cross-sale trigger
-              </div>
-            </div>
-          </div>
-          <div class="persona-body">
-            <div class="persona-step">
-              <div class="step-num">1</div>
-              <div class="step-text">Chuẩn bị mua xe cũ — muốn kiểm tra xe có đang bị phạt nguội tồn đọng không</div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">2</div>
-              <div class="step-text">Search "xe cũ có bị phạt nguội không", "kiểm tra phạt nguội xe cũ"</div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">3</div>
-              <div class="step-text">Sau khi mua xe → immediate need: mua bảo hiểm xe ngay</div>
-            </div>
-            <div class="persona-result">MoMo giải quyết: Tra cứu + Cross-sale BH Xe Máy / BH Ô Tô contextual ngay trên
-              trang</div>
-          </div>
-        </div>
-        <div class="persona-card">
-          <div class="persona-header" style="border-left:3px solid var(--green);">
-            <div>
-              <div class="persona-header-title">Job #4 — Tìm app uy tín, không lừa đảo</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Commercial · GEO opportunity · Trust
-                intent</div>
-            </div>
-          </div>
-          <div class="persona-body">
-            <div class="persona-step">
-              <div class="step-num">1</div>
-              <div class="step-text">Đã biết cần tra cứu phạt nguội, nhưng lo ngại app 3rd party lừa đảo/khai thác data
-                cá nhân</div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">2</div>
-              <div class="step-text">Search "web tra cứu phạt nguội uy tín", "app tra cứu phạt nguội an toàn"</div>
-            </div>
-            <div class="persona-step">
-              <div class="step-num">3</div>
-              <div class="step-text">Ưu tiên nền tảng có brand uy tín, dữ liệu chính thống — không muốn rủi ro</div>
-            </div>
-            <div class="persona-result">MoMo giải quyết: Trust signals mạnh — "Dữ liệu từ TTDK", tích hợp hệ sinh thái
-              MoMo</div>
-          </div>
+        <div class="anv2-rationale">
+          <strong>Rationale</strong>
+          Long-form content ở cuối page phục vụ 3 mục tiêu: (1) Topical authority — Google cần thấy depth, không chỉ breadth. (2) AI citation pool — bảng mức phạt là thứ AI extract để trả lời "vượt đèn đỏ bị phạt bao nhiêu". (3) Long-tail keyword capture — hàng trăm biến thể "[lỗi cụ thể] bị phạt bao nhiêu" đều được serve bởi một bảng duy nhất.
         </div>
       </div>
+    </div>
 
-      <h2 class="sh">User Flow trên Web</h2>
-      <div class="funnel-wrap">
-        <div class="funnel-stage fs-tofu">
-          <div class="fs-label">Discover</div>
-          <div class="fs-title">Search</div>
-          <ul class="fs-items">
-            <li>Search "tra cứu phạt nguội"</li>
-            <li>Search "[biển số] phạt nguội"</li>
-            <li>Search "mức phạt ND168"</li>
-            <li>Land on Pillar / Sub-page / Blog</li>
-          </ul>
-        </div>
-        <div class="funnel-stage fs-mofu">
-          <div class="fs-label">Engage</div>
-          <div class="fs-title">Tool Use</div>
-          <ul class="fs-items">
-            <li>Nhập biển số vào web tool</li>
-            <li>Xem kết quả sơ bộ</li>
-            <li>Đọc bảng mức phạt</li>
-            <li>Xem hướng dẫn xử lý</li>
-          </ul>
-        </div>
-        <div class="funnel-stage fs-bofu">
-          <div class="fs-label">Convert</div>
-          <div class="fs-title">App CTA</div>
-          <ul class="fs-items">
-            <li>CTA "Xem chi tiết trong App"</li>
-            <li>CTA "Đặt thông báo tự động"</li>
-            <li>Smart App Banner</li>
-            <li>Cross-sale BH Xe / Vay</li>
-          </ul>
-        </div>
-        <div class="funnel-stage fs-convert">
-          <div class="fs-label">App Action</div>
-          <div class="fs-title">Install / Open</div>
-          <ul class="fs-items">
-            <li>Install App (New User)</li>
-            <li>Open → Tính năng Phạt Nguội</li>
-            <li>Register subscription</li>
-            <li>Cross-sell: BH, Vay, Nộp phạt</li>
-          </ul>
-        </div>
-      </div>
+  </div>
 
-      <div class="hl blue">
-        <strong>Web chỉ serve bước 1-2</strong>
-        Web làm tốt hai việc: (1) Cho user tra được biển số, (2) Thuyết phục chuyển sang App để nhận thông báo tự động +
-        xử lý đầy đủ. Không over-engineer conversion funnel trên web — App mới là nơi complete the job.
-      </div>
-    </section>
+  <h2 class="sh">Sub-pages — /o-to, /xe-may, /xe-may-dien</h2>
+  <div class="hl blue">
+    <strong>Same 5-section pattern, deeper per vehicle type</strong>
+    Sub-pages giữ nguyên 5 section nhưng scope hẹp hơn: Tool chỉ default loại xe đó, Value Prop nhấn use case cụ thể (ô tô vs xe máy), Subscription pitch tương tự, FAQ tập trung lỗi phổ biến theo loại xe, Long Content là bảng mức phạt đầy đủ theo loại xe đó. Canonical về Pillar nếu &gt;70% content duplicate.
+  </div>
+</section>
 
-    <!-- ══ 2. KEYWORD RESEARCH ══ -->
-    <section class="section" id="s-keyword">
-      <div class="page-eyebrow">Research — Keyword Universe</div>
-      <h1 class="page-title">Keyword <span>Research</span></h1>
-      <p class="page-desc">Phân tích 2,663 keywords từ dataset thực tế. Tổng search volume có dữ liệu: ~2.74M/tháng toàn
-        quốc. Intent distribution cho thấy đây là use case tool-first, không phải content-first.</p>
+<!-- ══ 7. CONTENT DIRECTION ══ -->
+<section class="section" id="s-content">
+  <div class="page-eyebrow">Architecture — Content Direction</div>
+  <h1 class="page-title">Content <span>Direction</span></h1>
+  <p class="page-desc">Blog cluster phục vụ TOFU Informational intent và GEO citation. Tất cả content đều có internal link về Pillar. Không viết content không có SEO/GEO purpose.</p>
 
-      <div class="grid-4">
-        <div class="kpi-box pink">
-          <div class="kpi-label">Total Keywords</div>
-          <div class="kpi-value">2,663</div>
-          <div class="kpi-note">Full keyword universe từ dataset</div>
-        </div>
-        <div class="kpi-box blue">
-          <div class="kpi-label">Total Search Volume</div>
-          <div class="kpi-value">~2.74M</div>
-          <div class="kpi-note">Keywords có volume data / tháng</div>
-        </div>
-        <div class="kpi-box amber">
-          <div class="kpi-label">Transactional Intent</div>
-          <div class="kpi-value">89.3%</div>
-          <div class="kpi-note">2,443,800 vol — tool/action intent</div>
-        </div>
-        <div class="kpi-box green">
-          <div class="kpi-label">Head Terms (P1)</div>
-          <div class="kpi-value">~1.5M</div>
-          <div class="kpi-note">Top 20 keywords có thể compete</div>
-        </div>
-      </div>
+  <h2 class="sh">Blog Content Priority Matrix</h2>
+  <div class="table-wrap">
+    <table class="dt">
+      <thead><tr><th>#</th><th>Title / Angle</th><th>Intent</th><th>Vol Est.</th><th>Schema</th><th>GEO Value</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="chip pink">P1</span></td>
+          <td><strong>Nghị Định 168 — Bảng Mức Phạt Giao Thông 2025 Đầy Đủ</strong><br><code>/blog/.../nghi-dinh-168-muc-phat-2025</code></td>
+          <td><span class="chip green">Informational</span></td>
+          <td>~100K+</td>
+          <td>Table + Article</td>
+          <td>Cao nhất — AI Overviews table</td>
+        </tr>
+        <tr>
+          <td><span class="chip pink">P1</span></td>
+          <td><strong>Cách Tra Cứu Phạt Nguội Online Nhanh Nhất 2025</strong><br><code>/blog/.../cach-tra-cuu-phat-nguoi-online</code></td>
+          <td><span class="chip green">Informational</span></td>
+          <td>~15K</td>
+          <td>HowTo + FAQ</td>
+          <td>Cao — How-to citation</td>
+        </tr>
+        <tr>
+          <td><span class="chip amber">P2</span></td>
+          <td><strong>Phạt Vượt Đèn Đỏ Bao Nhiêu Tiền? (ND168 2025)</strong></td>
+          <td><span class="chip green">Informational</span></td>
+          <td>~8K</td>
+          <td>FAQ</td>
+          <td>Trung bình — specific query</td>
+        </tr>
+        <tr>
+          <td><span class="chip amber">P2</span></td>
+          <td><strong>Xe Cũ Có Bị Phạt Nguội Không? Cách Kiểm Tra</strong></td>
+          <td><span class="chip green">Informational</span></td>
+          <td>~5K</td>
+          <td>FAQ</td>
+          <td>Thấp + Cross-sale trigger</td>
+        </tr>
+        <tr>
+          <td><span class="chip amber">P2</span></td>
+          <td><strong>Phạt Nguội Bao Lâu Thì Lên Hệ Thống?</strong></td>
+          <td><span class="chip green">Informational</span></td>
+          <td>~3K</td>
+          <td>FAQ</td>
+          <td>High GEO — unique data từ TTDK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <h2 class="sh">Intent Distribution</h2>
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>Intent Type</th>
-              <th>Keywords</th>
-              <th>Est. Volume</th>
-              <th>% Volume</th>
-              <th>Strategy</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="chip pink">Transactional</span></td>
-              <td>2,184</td>
-              <td>2,443,800</td>
-              <td><strong>89.3%</strong></td>
-              <td>Tool embedded trên Pillar + Sub-pages</td>
-            </tr>
-            <tr>
-              <td><span class="chip blue">Navigational</span></td>
-              <td>171</td>
-              <td>246,140</td>
-              <td>9.0%</td>
-              <td>Brand trust + Competitor displacement</td>
-            </tr>
-            <tr>
-              <td><span class="chip green">Informational</span></td>
-              <td>299</td>
-              <td>45,500</td>
-              <td>1.7%</td>
-              <td>Blog cluster ND168 + How-to</td>
-            </tr>
-            <tr>
-              <td><span class="chip amber">Commercial</span></td>
-              <td>9</td>
-              <td>2,870</td>
-              <td>0.1%</td>
-              <td>Cross-sale triggers</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <h2 class="sh">Content Writing Guidelines — E-E-A-T cho YMYL</h2>
+  <div class="hl amber">
+    <strong>Phạt Nguội là YMYL content (Your Money / Your Life)</strong>
+    Google và AI engines đánh giá cao E-E-A-T. Mọi bài viết phải có: (1) Named author với bio + chức vụ, (2) Legal review date, (3) Source citation từ TTDK hoặc văn bản pháp luật, (4) Last updated date rõ ràng. Thiếu những yếu tố này thì content không đủ điều kiện được cite trong AI Overviews.
+  </div>
+</section>
 
-      <h2 class="sh">Cluster 1 — Tra cứu / Kiểm tra (Core)</h2>
-      <div class="kw-cluster">
-        <div class="kw-cluster-header">
-          <span>Tra cứu phạt nguội (generic)</span>
-          <span class="kw-cluster-vol">1,662 KWs · ~1.78M vol/tháng</span>
-        </div>
-        <div class="kw-cluster-body">
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội</span><span class="kw-meta"><span
-                class="kw-vol">673,000</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">phạt nguội</span><span class="kw-meta"><span
-                class="kw-vol">301,000</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">kiểm tra phạt nguội</span><span class="kw-meta"><span
-                class="kw-vol">165,000</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">check phạt nguội</span><span class="kw-meta"><span
-                class="kw-vol">110,000</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra phạt nguội</span><span class="kw-meta"><span
-                class="kw-vol">110,000</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội toàn quốc</span><span class="kw-meta"><span
-                class="kw-vol">74,000</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội 2025</span><span class="kw-meta"><span
-                class="kw-vol">27,100</span><span class="chip intent-trans">Transactional</span><span
-                class="chip amber">P2</span></span></div>
-        </div>
-      </div>
+<!-- ══ 8. WEB-TO-APP ══ -->
+<section class="section" id="s-w2a">
+  <div class="page-eyebrow">Growth & Conversion — Web-to-App</div>
+  <h1 class="page-title">Web-to-App <span>Funnel</span></h1>
+  <p class="page-desc">Luồng user từ organic search/GEO → landing trên web → sử dụng sản phẩm → click CTA Onelink sang App. Web là điểm tiếp xúc đầu, App mới là nơi complete the job.</p>
 
-      <h2 class="sh">Cluster 2 — Ô tô</h2>
-      <div class="kw-cluster">
-        <div class="kw-cluster-header">
-          <span>Ô tô sub-cluster</span>
-          <span class="kw-cluster-vol">148 KWs · ~332K vol/tháng</span>
-        </div>
-        <div class="kw-cluster-body">
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội ô tô</span><span class="kw-meta"><span
-                class="kw-vol">49,500</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội oto</span><span class="kw-meta"><span
-                class="kw-vol">49,500</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">kiểm tra phạt nguội ô tô</span><span class="kw-meta"><span
-                class="kw-vol">22,200</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội xe ô tô</span><span class="kw-meta"><span
-                class="kw-vol">18,100</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">phạt nguội ô tô</span><span class="kw-meta"><span
-                class="kw-vol">14,800</span><span class="chip intent-trans">Transactional</span><span
-                class="chip amber">P2</span></span></div>
-          <div class="kw-row"><span class="kw-text">mức phạt nguội ô tô 2025</span><span class="kw-meta"><span
-                class="kw-vol">33,100</span><span class="chip intent-info">Informational</span><span
-                class="chip pink">P1</span></span></div>
-        </div>
-      </div>
+  <h2 class="sh">User Flow — Toàn cảnh</h2>
+  <style>
+  .flow-wrap{display:flex;align-items:stretch;gap:0;margin-bottom:24px;overflow-x:auto;}
+  .flow-stage{flex:0 0 auto;width:172px;background:var(--white);border:1px solid var(--border);border-right:none;padding:16px 14px 18px;}
+  .flow-stage:last-child{border-right:1px solid var(--border);border-radius:0 var(--radius-md) var(--radius-md) 0;}
+  .flow-stage:first-child{border-radius:var(--radius-md) 0 0 var(--radius-md);}
+  .flow-stage-num{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px;}
+  .flow-stage-title{font-size:13px;font-weight:800;color:var(--text-dark);margin-bottom:10px;line-height:1.3;}
+  .flow-stage-items{list-style:none;font-size:11.5px;color:var(--text-muted);line-height:1.8;}
+  .flow-stage-items li::before{content:"· ";color:var(--text-faint);}
+  .flow-arrow{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:24px;background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);color:var(--pink-core);font-size:14px;font-weight:900;}
+  .flow-s1{border-top:3px solid var(--green);}  .flow-s1 .flow-stage-num{color:var(--green);}
+  .flow-s2{border-top:3px solid var(--blue);}   .flow-s2 .flow-stage-num{color:var(--blue);}
+  .flow-s3{border-top:3px solid var(--amber);}  .flow-s3 .flow-stage-num{color:var(--amber);}
+  .flow-s4{border-top:3px solid var(--pink-core);}.flow-s4 .flow-stage-num{color:var(--pink-core);}
+  .flow-s5{border-top:3px solid #7C3AED;}.flow-s5 .flow-stage-num{color:#7C3AED;}
+  .flow-sub{background:var(--bg-soft);border:1px solid var(--border-soft);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:14px;}
+  .flow-sub-label{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;}
+  .flow-sub-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12.5px;}
+  .flow-sub-row:last-child{border-bottom:none;padding-bottom:0;}
+  .flow-sub-trigger{flex:0 0 155px;color:var(--text-muted);font-size:12px;}
+  .flow-sub-arr{flex:0 0 14px;color:var(--pink-core);font-weight:800;}
+  .flow-sub-action{flex:1;color:var(--text-body);line-height:1.5;}
+  .flow-sub-tag{flex:0 0 auto;margin-left:6px;margin-top:1px;}
+  @media(max-width:768px){.flow-wrap{flex-direction:column;}.flow-stage{width:100%;border-right:1px solid var(--border);border-bottom:none;}.flow-stage:last-child{border-bottom:1px solid var(--border);border-radius:0 0 var(--radius-md) var(--radius-md);}.flow-stage:first-child{border-radius:var(--radius-md) var(--radius-md) 0 0;}.flow-arrow{width:100%;height:22px;border-left:1px solid var(--border);border-right:1px solid var(--border);border-top:none;border-bottom:none;}}
+  </style>
 
-      <h2 class="sh">Cluster 3 — Xe máy</h2>
-      <div class="kw-cluster">
-        <div class="kw-cluster-header">
-          <span>Xe máy sub-cluster</span>
-          <span class="kw-cluster-vol">46 KWs · ~150K vol/tháng</span>
-        </div>
-        <div class="kw-cluster-body">
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội xe máy</span><span class="kw-meta"><span
-                class="kw-vol">40,500</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">kiểm tra phạt nguội xe máy</span><span class="kw-meta"><span
-                class="kw-vol">22,200</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">phạt nguội xe máy</span><span class="kw-meta"><span
-                class="kw-vol">27,100</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">phạt nguội xe máy bao nhiêu tiền</span><span class="kw-meta"><span
-                class="kw-vol">22,200</span><span class="chip intent-info">Informational</span><span
-                class="chip amber">P2</span></span></div>
-          <div class="kw-row"><span class="kw-text">check phạt nguội xe máy</span><span class="kw-meta"><span
-                class="kw-vol">9,900</span><span class="chip intent-trans">Transactional</span><span
-                class="chip amber">P2</span></span></div>
-        </div>
-      </div>
+  <div class="flow-wrap">
+    <div class="flow-stage flow-s1">
+      <div class="flow-stage-num">01 · Discover</div>
+      <div class="flow-stage-title">SEO / GEO</div>
+      <ul class="flow-stage-items">
+        <li>Google Search</li>
+        <li>AI Overview cite</li>
+        <li>ChatGPT / Gemini</li>
+        <li>Perplexity answer</li>
+      </ul>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-stage flow-s2">
+      <div class="flow-stage-num">02 · Land</div>
+      <div class="flow-stage-title">Web Landing</div>
+      <ul class="flow-stage-items">
+        <li>Pillar /phat-nguoi</li>
+        <li>Sub-page /o-to</li>
+        <li>Sub-page /xe-may</li>
+        <li>Blog ND168</li>
+      </ul>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-stage flow-s3">
+      <div class="flow-stage-num">03 · Use</div>
+      <div class="flow-stage-title">Sử dụng Web Tool</div>
+      <ul class="flow-stage-items">
+        <li>Nhập biển số xe</li>
+        <li>Chọn loại xe</li>
+        <li>Xem kết quả sơ bộ</li>
+        <li>Đọc mức phạt ND168</li>
+      </ul>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-stage flow-s4">
+      <div class="flow-stage-num">04 · Intent</div>
+      <div class="flow-stage-title">Muốn gói thông báo</div>
+      <ul class="flow-stage-items">
+        <li>Silver 199K/năm</li>
+        <li>Gold 299K/năm</li>
+        <li>Trial 7 ngày free</li>
+        <li>Thấy giá trị rõ</li>
+      </ul>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-stage flow-s5">
+      <div class="flow-stage-num">05 · Convert</div>
+      <div class="flow-stage-title">Click CTA Onelink</div>
+      <ul class="flow-stage-items">
+        <li>Install App (New)</li>
+        <li>Open App (Existing)</li>
+        <li>Register / Subscribe</li>
+        <li>Activate tính năng</li>
+      </ul>
+    </div>
+  </div>
 
-      <h2 class="sh">Cluster 4 — Địa phương (Programmatic SEO Potential)</h2>
-      <div class="kw-cluster">
-        <div class="kw-cluster-header">
-          <span>Địa phương / Tỉnh-thành</span>
-          <span class="kw-cluster-vol">256 KWs · ~141K vol/tháng</span>
-        </div>
-        <div class="kw-cluster-body">
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội toàn quốc</span><span class="kw-meta"><span
-                class="kw-vol">74,000</span><span class="chip intent-trans">Transactional</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội đà nẵng</span><span class="kw-meta"><span
-                class="kw-vol">5,400</span><span class="chip intent-trans">Transactional</span><span
-                class="chip amber">P2</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội hà nội</span><span class="kw-meta"><span
-                class="kw-vol">4,400</span><span class="chip intent-trans">Transactional</span><span
-                class="chip amber">P2</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội tphcm</span><span class="kw-meta"><span
-                class="kw-vol">3,600</span><span class="chip intent-trans">Transactional</span><span
-                class="chip amber">P2</span></span></div>
-          <div class="kw-row"><span class="kw-text">tra cứu phạt nguội hải phòng</span><span class="kw-meta"><span
-                class="kw-vol">2,400</span><span class="chip intent-trans">Transactional</span><span
-                class="chip amber">P2</span></span></div>
-        </div>
-      </div>
+  <h2 class="sh">CTA theo trạng thái user</h2>
 
-      <div class="hl amber">
-        <strong>Programmatic SEO — Cân nhắc Local Pages</strong>
-        256 local keywords với ~141K vol có thể capture bằng programmatic local pages (template × N tỉnh/thành). Risk:
-        Google penalize nếu thin content. Decision criteria: chỉ build nếu có differentiating content per page (vd: dữ
-        liệu camera theo tỉnh từ TTDK). Hold lại Phase 2.
-      </div>
+  <div class="flow-sub">
+    <div class="flow-sub-label">Sau khi dùng web tool tra cứu</div>
+    <div class="flow-sub-row">
+      <div class="flow-sub-trigger">Không có lỗi vi phạm</div>
+      <div class="flow-sub-arr">›</div>
+      <div class="flow-sub-action">"Đăng ký nhận thông báo tự động khi có vi phạm mới — thử miễn phí 7 ngày"</div>
+      <div class="flow-sub-tag"><span class="chip pink">Onelink</span></div>
+    </div>
+    <div class="flow-sub-row">
+      <div class="flow-sub-trigger">Có lỗi vi phạm</div>
+      <div class="flow-sub-arr">›</div>
+      <div class="flow-sub-action">"Xem chi tiết + Hướng dẫn xử lý đầy đủ ngay trên MoMo App"</div>
+      <div class="flow-sub-tag"><span class="chip pink">Onelink</span></div>
+    </div>
+    <div class="flow-sub-row">
+      <div class="flow-sub-trigger">Có app, chưa dùng tính năng</div>
+      <div class="flow-sub-arr">›</div>
+      <div class="flow-sub-action">"Mở MoMo — tra cứu nhanh hơn, nhận thông báo khi có vi phạm mới"</div>
+      <div class="flow-sub-tag"><span class="chip pink">Onelink</span></div>
+    </div>
+  </div>
 
-      <h2 class="sh">Cluster 5 — Nộp phạt (Low Volume, High Intent)</h2>
-      <div class="kw-cluster">
-        <div class="kw-cluster-header">
-          <span>Nộp phạt / Xử lý</span>
-          <span class="kw-cluster-vol">13 KWs · ~3,260 vol/tháng</span>
-        </div>
-        <div class="kw-cluster-body">
-          <div class="kw-row"><span class="kw-text">nộp phạt nguội online</span><span class="kw-meta"><span
-                class="kw-vol">1,900</span><span class="chip intent-comm">Commercial</span><span
-                class="chip pink">P1</span></span></div>
-          <div class="kw-row"><span class="kw-text">cách nộp phạt nguội online</span><span class="kw-meta"><span
-                class="kw-vol">590</span><span class="chip intent-info">Informational</span><span
-                class="chip amber">P2</span></span></div>
-          <div class="kw-row"><span class="kw-text">nộp phạt nguội online được không</span><span class="kw-meta"><span
-                class="kw-vol">210</span><span class="chip intent-info">Informational</span><span
-                class="chip amber">P2</span></span></div>
-        </div>
-      </div>
-      <div class="hl blue">
-        <strong>Note: Volume thấp nhưng commercial value cao nhất</strong>
-        User search "nộp phạt nguội online" đã hoàn thành step tra cứu (thường dùng competitor tool) và đang ở
-        bottom-of-funnel thực sự. 3,260 vol nhỏ nhưng CVR tiềm năng cao nhất. Cần cover intent này trong Pillar page,
-        không build trang riêng.
-      </div>
-    </section>
+  <div class="flow-sub">
+    <div class="flow-sub-label">Từ Blog content</div>
+    <div class="flow-sub-row">
+      <div class="flow-sub-trigger">Đọc blog ND168</div>
+      <div class="flow-sub-arr">›</div>
+      <div class="flow-sub-action">"Kiểm tra xe bạn có đang bị phạt không — tra cứu miễn phí trên MoMo"</div>
+      <div class="flow-sub-tag"><span class="chip pink">Onelink</span></div>
+    </div>
+    <div class="flow-sub-row">
+      <div class="flow-sub-trigger">Đọc hướng dẫn tra cứu</div>
+      <div class="flow-sub-arr">›</div>
+      <div class="flow-sub-action">"Tra cứu ngay — nhập biển số, có kết quả trong 3 giây"</div>
+      <div class="flow-sub-tag"><span class="chip pink">Onelink</span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- ══ 3. COMPETITIVE ══ -->
-    <section class="section" id="s-competitive">
-      <div class="page-eyebrow">Research — Competitive Landscape</div>
-      <h1 class="page-title">Competitive <span>Landscape</span></h1>
-      <p class="page-desc">Phân tích đối thủ từ keyword data và product research. ~246K vol/tháng đang chảy vào các
-        brand competitor — không thể intercept trực tiếp nhưng cần strategy rõ ràng.</p>
 
-      <h2 class="sh">Competitor Brand Search Volume</h2>
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>Competitor</th>
-              <th>Brand Keywords</th>
-              <th>Est. Vol/tháng</th>
-              <th>Loại</th>
-              <th>MoMo's angle</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>phạtnguoi.com</strong> (Van Luan Phan)</td>
-              <td>phạtnguoi.com, phatnguoi.com, phạt nguội.com</td>
-              <td>~148,500</td>
-              <td><span class="chip amber">3rd party</span></td>
-              <td>Tiện nhưng không uy tín, sợ lộ data</td>
-            </tr>
-            <tr>
-              <td><strong>vr.org.vn</strong> (VNeTraffic)</td>
-              <td>www vr org vn tra cứu phạt nguội</td>
-              <td>14,800</td>
-              <td><span class="chip blue">Semi-official</span></td>
-              <td>Official nhưng UX kém, hay nghẽn</td>
-            </tr>
-            <tr>
-              <td><strong>phạt nguội vn</strong></td>
-              <td>phạt nguội vn, phạt nguội chấm com</td>
-              <td>13,700</td>
-              <td><span class="chip red">3rd party</span></td>
-              <td>Không rõ nguồn data</td>
-            </tr>
-            <tr>
-              <td><strong>CSGT official</strong></td>
-              <td>phạt nguội csgt, tra cứu phạt nguội csgt</td>
-              <td>13,500</td>
-              <td><span class="chip green">Official</span></td>
-              <td>Chính thống nhưng UX rất tệ</td>
-            </tr>
-            <tr>
-              <td><strong>Cục Đăng Kiểm</strong></td>
-              <td>cục đăng kiểm tra cứu phạt nguội</td>
-              <td>3,800</td>
-              <td><span class="chip green">Official</span></td>
-              <td>Same data source với MoMo (TTDK)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<!-- ══ 10. INTERNAL LINK ══ -->
+<section class="section" id="s-interlinking">
+  <div class="page-eyebrow">SEO — Internal Link Architecture</div>
+  <h1 class="page-title">Internal Link <span>Building</span></h1>
+  <p class="page-desc">Internal link strategy để distribute PageRank, strengthen topic cluster authority, và guide user flow đúng hướng.</p>
 
-      <h2 class="sh">MoMo's Positioning</h2>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">Pain points của competitor hiện tại</div>
-          <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
-            <span style="color:var(--red);">✕</span> 3rd party: Tiện nhưng không uy tín, nguy cơ lộ biển số / data cá
-            nhân<br>
-            <span style="color:var(--red);">✕</span> Official (CSGT): Chính thống nhưng UX rất tệ, thường xuyên
-            nghẽn<br>
-            <span style="color:var(--red);">✕</span> Không có push notification chủ động<br>
-            <span style="color:var(--red);">✕</span> Không tích hợp thanh toán / xử lý phạt<br>
-            <span style="color:var(--red);">✕</span> Phần lớn chỉ hỗ trợ ô tô, không có xe máy điện
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">MoMo's Differentiators</div>
-          <div style="font-size:12.5px;color:var(--text-body);line-height:1.8;margin-top:8px;">
-            <span style="color:var(--green);">✓</span> Dữ liệu từ TTDK — chính thống, cập nhật sớm<br>
-            <span style="color:var(--green);">✓</span> Ô tô + Xe máy + Xe máy điện (3 loại)<br>
-            <span style="color:var(--green);">✓</span> Push notification tự động khi có vi phạm mới<br>
-            <span style="color:var(--green);">✓</span> Tích hợp hệ sinh thái: BH Xe, Nộp phạt, Vay<br>
-            <span style="color:var(--green);">✓</span> Brand uy tín MoMo — 31M+ users tin dùng
-          </div>
-        </div>
-      </div>
+  <h2 class="sh">Link Flow Architecture</h2>
+  <div class="hl pink">
+    <strong>Hub & Spoke Model</strong>
+    Pillar page là hub, nhận links từ tất cả sub-pages và blog posts. Sub-pages nhận links từ blog liên quan. Blog posts link về Pillar và sub-page phù hợp. Không link ngược từ Pillar về blog (tránh dilute PageRank).
+  </div>
 
-      <div class="hl pink">
-        <strong>GEO Content Angle từ Competitive Gap</strong>
-        Khi AI engine được hỏi "tra cứu phạt nguội uy tín ở đâu" hay "app tra cứu phạt nguội an toàn không lừa đảo" —
-        MoMo phải được cite. Cần có dedicated FAQ content: "Tại sao nên dùng MoMo thay vì phạtnguoi.com?", "Dữ liệu MoMo
-        có chính xác không?". Đây là high-value GEO real estate mà competitor không có.
-      </div>
-    </section>
+  <div class="table-wrap">
+    <table class="dt">
+      <thead><tr><th>Source Page</th><th>Target Page</th><th>Anchor Text</th><th>Context</th></tr></thead>
+      <tbody>
+        <tr><td>/o-to, /xe-may, /xe-may-dien</td><td>/phat-nguoi</td><td>"tra cứu phạt nguội"</td><td>Breadcrumb + footer link</td></tr>
+        <tr><td>Blog ND168</td><td>/phat-nguoi</td><td>"kiểm tra phạt nguội ngay"</td><td>In-content CTA</td></tr>
+        <tr><td>Blog hướng dẫn</td><td>/phat-nguoi/o-to</td><td>"tra cứu phạt nguội ô tô"</td><td>Contextual anchor</td></tr>
+        <tr><td>Blog xe cũ</td><td>/phat-nguoi/xe-may</td><td>"kiểm tra phạt nguội xe máy"</td><td>Relevant anchor</td></tr>
+        <tr><td>/phat-nguoi (Pillar)</td><td>/o-to, /xe-may, /xe-may-dien</td><td>Tên loại xe</td><td>Sub-page navigation cards</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-    <!-- ══ 4. GEO/AEO ══ -->
-    <section class="section" id="s-geo">
-      <div class="page-eyebrow">Research — GEO / AEO Intelligence</div>
-      <h1 class="page-title">GEO / <span>AEO Intelligence</span></h1>
-      <p class="page-desc">Generative Engine Optimization cho Use Case Phạt Nguội — định hướng content và structured
-        data để MoMo được AI engines cite khi user hỏi về phạt nguội.</p>
+</section>
 
-      <h2 class="sh">Target AI Queries cần Cite MoMo</h2>
+<!-- ══ 11. MEASUREMENT ══ -->
+<section class="section" id="s-measurement">
+  <div class="page-eyebrow">Execution — Measurement Framework</div>
+  <h1 class="page-title">Measurement <span>Framework</span></h1>
+  <p class="page-desc">North Star và các leading indicators theo funnel. Targets là directional estimates — cần align với Cell Team và verify baseline trước khi set OKR chính thức.</p>
 
-      <div class="geo-block">
-        <div class="geo-block-label">GEO Target Query #1 — Trust Intent</div>
-        <div class="geo-block-q">"Tra cứu phạt nguội ở đâu uy tín nhất?"</div>
-        <div class="geo-block-a">Expected answer: <strong>MoMo</strong> — dữ liệu từ TTDK (Trung tâm Đăng Kiểm Việt
-          Nam), chính thống như CSGT nhưng UX tốt hơn. Hỗ trợ ô tô, xe máy, xe máy điện. Có thông báo tự động khi có vi
-          phạm mới.</div>
-      </div>
-      <div class="geo-block">
-        <div class="geo-block-label">GEO Target Query #2 — How-to Intent</div>
-        <div class="geo-block-q">"Cách tra cứu phạt nguội online nhanh nhất 2025?"</div>
-        <div class="geo-block-a">Expected answer: Hướng dẫn step-by-step với <strong>MoMo App</strong> — nhập biển số,
-          chọn loại xe, xem kết quả ngay. Không cần số tem GCN. Dữ liệu cập nhật từ TTDK.</div>
-      </div>
-      <div class="geo-block">
-        <div class="geo-block-label">GEO Target Query #3 — Mức phạt ND168</div>
-        <div class="geo-block-q">"Phạt vượt đèn đỏ bao nhiêu tiền năm 2025?"</div>
-        <div class="geo-block-a">Expected answer: Theo Nghị định 168/2024/NĐ-CP, ô tô vượt đèn đỏ: <strong>18-20 triệu
-            đồng</strong>, xe máy: 4-6 triệu đồng. Nguồn: momo.vn/blog/[slug-nd168].</div>
-      </div>
-      <div class="geo-block">
-        <div class="geo-block-label">GEO Target Query #4 — Comparative Intent</div>
-        <div class="geo-block-q">"App tra cứu phạt nguội nào tốt nhất, không lừa đảo?"</div>
-        <div class="geo-block-a">Expected answer: Comparison — CSGT official (chính thống, UX tệ), phạtnguoi.com (3rd
-          party, tiện nhưng rủi ro data), <strong>MoMo (uy tín + tiện + tích hợp thanh toán)</strong>.</div>
-      </div>
+  <div class="hl pink">
+    <strong>North Star Metric</strong>
+    New Users from Organic — Use Case Phạt Nguội (Appsflyer attribution, organic channel, entry URLs /phat-nguoi/*). Metric này capture đầy đủ chain từ Search → Web → App → User. Traffic cao mà không có new users = funnel broken, không phải SEO issue.
+  </div>
 
-      <h2 class="sh">Structured Data cần implement</h2>
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>Schema Type</th>
-              <th>Page áp dụng</th>
-              <th>Mục đích GEO</th>
-              <th>Priority</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>FAQPage</strong></td>
-              <td>Pillar + tất cả sub-pages</td>
-              <td>AI Overviews FAQ snippet, cited answers</td>
-              <td><span class="chip pink">P1</span></td>
-            </tr>
-            <tr>
-              <td><strong>HowTo</strong></td>
-              <td>Blog hướng dẫn tra cứu</td>
-              <td>Step-by-step được cite trong AI response</td>
-              <td><span class="chip pink">P1</span></td>
-            </tr>
-            <tr>
-              <td><strong>WebApplication</strong></td>
-              <td>Pillar page</td>
-              <td>Rich result "Tool" trong SERP</td>
-              <td><span class="chip pink">P1</span></td>
-            </tr>
-            <tr>
-              <td><strong>Table (mức phạt)</strong></td>
-              <td>Blog ND168</td>
-              <td>AI Overviews table extraction</td>
-              <td><span class="chip amber">P2</span></td>
-            </tr>
-            <tr>
-              <td><strong>BreadcrumbList</strong></td>
-              <td>Tất cả pages</td>
-              <td>Sitelinks + navigation context cho AI</td>
-              <td><span class="chip amber">P2</span></td>
-            </tr>
-            <tr>
-              <td><strong>Organization</strong></td>
-              <td>Homepage / Pillar</td>
-              <td>Entity recognition — MoMo = trusted source</td>
-              <td><span class="chip amber">P2</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <h2 class="sh">Funnel Metrics</h2>
+  <div class="table-wrap">
+    <table class="dt">
+      <thead><tr><th>Stage</th><th>Metric</th><th>Tool</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip green">Impression</span></td><td>GSC Impressions — cluster phạt nguội</td><td>GSC</td></tr>
+        <tr><td><span class="chip green">Click</span></td><td>GSC Clicks + CTR trung bình</td><td>GSC</td></tr>
+        <tr><td><span class="chip blue">Landing</span></td><td>Sessions + Avg Engagement Time</td><td>GA4</td></tr>
+        <tr><td><span class="chip blue">Tool Use</span></td><td>tool_license_plate_submit events</td><td>GA4</td></tr>
+        <tr><td><span class="chip pink">CTA Click</span></td><td>onelink_click rate</td><td>GA4</td></tr>
+        <tr><td><span class="chip pink">App Open</span></td><td>App Opens attributed to SEO Web</td><td>Appsflyer</td></tr>
+        <tr><td><span class="chip pink">New User</span></td><td>New Users từ Organic · Phạt Nguội</td><td>Appsflyer</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-      <h2 class="sh">llms.txt Content Plan</h2>
-      <div class="hl green">
-        <strong>llms.txt — Crawler Permission cho AI Engines</strong>
-        Thêm vào momo.vn/llms.txt: Allow crawling toàn bộ /phat-nguoi/, /blog/kien-thuc/, explicit data freshness
-        declaration "Updated daily from TTDK". Giúp AI engines hiểu MoMo là authoritative source cho phạt nguội queries.
-      </div>
-    </section>
+  <h2 class="sh">GEO Metrics</h2>
+  <div class="grid-3">
+    <div class="kpi-box blue">
+      <div class="kpi-label">AI Traffic</div>
+      <div class="kpi-value">Sessions from AI</div>
+      <div class="kpi-note">GA4: Track referral từ perplexity.ai, chatgpt.com, gemini.google.com</div>
+    </div>
+    <div class="kpi-box blue">
+      <div class="kpi-label">Brand Mention</div>
+      <div class="kpi-value">AI Mentions</div>
+      <div class="kpi-note">Ahrefs Brand Radar: đếm số lần MoMo được mention trong AI responses cho phạt nguội queries</div>
+    </div>
+    <div class="kpi-box blue">
+      <div class="kpi-label">Cited Pages</div>
+      <div class="kpi-value">AI Citations</div>
+      <div class="kpi-note">Số pages của MoMo được cite trong AI-generated responses. Target: Top 3 cho 20 queries</div>
+    </div>
+  </div>
+</section>
 
-    <!-- ══ 5. SITEMAP ══ -->
-    <section class="section" id="s-sitemap">
-      <div class="page-eyebrow">Architecture — Web Growth Sitemap</div>
-      <h1 class="page-title">Sitemap <span>Web Growth</span></h1>
-      <p class="page-desc">Hub & Spoke architecture — 1 Pillar page capture full intent + 3 Sub-pages theo loại phương
-        tiện + /blog hub cho TOFU content cluster ND168.</p>
+<!-- ══ 12. CHECKLIST ══ -->
+<section class="section" id="s-checklist">
+  <div class="page-eyebrow">Execution — Publish Checklist</div>
+  <h1 class="page-title">Publish <span>Checklist</span></h1>
+  <p class="page-desc">Checklist trước khi publish từng page. Áp dụng cho cả Pillar, Sub-pages, và Blog posts.</p>
 
-      <div class="sitemap-tree">
-        <div class="sitemap-tree-header">momo.vn — Phạt Nguội Web Growth Architecture</div>
+  <h2 class="sh">On-page Technical SEO</h2>
+  <div class="card">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-faint);margin-bottom:10px;">Meta & Heading</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12.5px;color:var(--text-body);line-height:1.7;margin-bottom:16px;">
+      <div>Title tag: max 60 chars, có keyword head term</div>
+      <div>Meta description: max 155 chars, có CTA rõ ràng</div>
+      <div>H1 unique, chứa primary keyword, không dùng emoji</div>
+      <div>H2/H3 hierarchy đúng thứ tự, không skip level</div>
+      <div>URL slug ngắn, lowercase, dùng dấu gạch ngang</div>
+      <div>Canonical tag đúng (sub-pages point về pillar nếu cần)</div>
+    </div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-faint);margin-bottom:10px;">Core Web Vitals & Performance</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12.5px;color:var(--text-body);line-height:1.7;margin-bottom:16px;">
+      <div>LCP &lt; 2.5s — tối ưu ảnh hero, preload font</div>
+      <div>CLS &lt; 0.1 — khai báo width/height cho ảnh và iframe</div>
+      <div>INP &lt; 200ms — tránh JS blocking trên tool tra cứu</div>
+      <div>Mobile-first: tap target &gt; 44px, font &gt; 12px</div>
+      <div>Lazy load ảnh below-fold</div>
+      <div>Không dùng intrusive interstitial trên mobile</div>
+    </div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-faint);margin-bottom:10px;">Crawlability & Indexability</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12.5px;color:var(--text-body);line-height:1.7;margin-bottom:16px;">
+      <div>robots.txt: không block /phat-nguoi/* và /blog/phat-nguoi/*</div>
+      <div>Sitemap.xml: khai báo đầy đủ Pillar + Sub-pages + Blog</div>
+      <div>Không có noindex tag vô tình trên production</div>
+      <div>Không có redirect loop (301/302 chain &gt; 1 hop)</div>
+      <div>Hreflang nếu có vi/en version</div>
+      <div>Internal links dùng absolute URL, không relative</div>
+    </div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-faint);margin-bottom:10px;">Image & Media</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12.5px;color:var(--text-body);line-height:1.7;">
+      <div>Alt text mô tả đúng nội dung, có keyword tự nhiên</div>
+      <div>File size ảnh &lt; 200KB, dùng WebP/AVIF</div>
+      <div>OG image khai báo đủ (og:image, og:title, og:description)</div>
+      <div>OG image size: 1200×630px, không bị crop</div>
+    </div>
+  </div>
 
-        <div class="sitemap-node root">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/phat-nguoi</div>
-            <div class="sitemap-node-title">Tra Cứu Phạt Nguội — Pillar Page</div>
-            <div class="sitemap-node-desc">Tool tra cứu (all vehicles) + Bảng mức phạt ND168 tóm tắt + CTA App +
-              Cross-sale hub</div>
-            <div class="sitemap-node-tags">
-              <span class="chip pink">Pillar</span><span class="chip blue">Tool-First</span><span
-                class="chip green">~1.5M vol</span>
-            </div>
-          </div>
-          <div class="sitemap-node-kpi">Target: Top 3</div>
-        </div>
+  <h2 class="sh">Structured Data</h2>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px;color:var(--text-body);line-height:1.8;">
+      <div>FAQPage schema — tối thiểu 5 Q&A per page</div>
+      <div>HowTo schema — blog hướng dẫn</div>
+      <div>WebApplication schema — Pillar page</div>
+      <div>BreadcrumbList — tất cả pages</div>
+      <div>Validate qua Google Rich Results Test</div>
+      <div>Table schema cho bảng mức phạt ND168</div>
+    </div>
+  </div>
 
-        <div class="sitemap-node child">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/phat-nguoi/o-to</div>
-            <div class="sitemap-node-title">Tra Cứu Phạt Nguội Ô Tô</div>
-            <div class="sitemap-node-desc">Tool tra cứu ô tô + Bảng mức phạt ô tô ND168 đầy đủ + FAQ ô tô + Deeplink
-            </div>
-            <div class="sitemap-node-tags">
-              <span class="chip pink">Sub-page</span><span class="chip green">~332K vol</span>
-            </div>
-          </div>
-          <div class="sitemap-node-kpi">Top 3-5</div>
-        </div>
+  <h2 class="sh">GEO / AEO Checklist</h2>
+  <div class="card">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-faint);margin-bottom:10px;">AI Crawler Access</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12.5px;color:var(--text-body);line-height:1.7;margin-bottom:16px;">
+      <div>robots.txt: Allow GPTBot, ClaudeBot, PerplexityBot, Googlebot</div>
+      <div>llms.txt: khai báo /phat-nguoi/* cho phép crawl</div>
+      <div>llms.txt: data freshness declaration "Updated daily from TTDK"</div>
+      <div>Không block AI crawler bằng Cloudflare / WAF rule</div>
+      <div>Không dùng JS-only rendering cho main content (cần SSR/SSG)</div>
+      <div>Content accessible khi disable JavaScript</div>
+    </div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-faint);margin-bottom:10px;">E-E-A-T Signals</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12.5px;color:var(--text-body);line-height:1.7;margin-bottom:16px;">
+      <div>Named author có bio + chức vụ trong byline</div>
+      <div>Author schema (Person) liên kết với author page</div>
+      <div>Legal/source citation rõ ràng: TTDK, ND168/2024</div>
+      <div>Last updated date markup bằng dateModified schema</div>
+      <div>Organization schema: MoMo entity với logo, url, sameAs</div>
+      <div>Backlink từ domain uy tín (báo chí, gov.vn) liên quan phạt nguội</div>
+    </div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-faint);margin-bottom:10px;">Content Formatting cho AI</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12.5px;color:var(--text-body);line-height:1.7;">
+      <div>FAQ dùng direct answer format: câu trả lời đầu tiên &lt; 40 words</div>
+      <div>Bảng mức phạt có header row rõ ràng (không merge cell)</div>
+      <div>Định nghĩa term quan trọng inline (vd: "phạt nguội là gì")</div>
+      <div>Số liệu cụ thể: tiền phạt, ngày xử lý, deadline nộp phạt</div>
+    </div>
+  </div>
 
-        <div class="sitemap-node child">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/phat-nguoi/xe-may</div>
-            <div class="sitemap-node-title">Tra Cứu Phạt Nguội Xe Máy</div>
-            <div class="sitemap-node-desc">Tool tra cứu xe máy + Mức phạt xe máy ND168 + FAQ xe máy + Cross-sale BH Xe
-              Máy</div>
-            <div class="sitemap-node-tags">
-              <span class="chip pink">Sub-page</span><span class="chip green">~150K vol</span>
-            </div>
-          </div>
-          <div class="sitemap-node-kpi">Top 3-5</div>
-        </div>
+  <h2 class="sh">Content Quality</h2>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px;color:var(--text-body);line-height:1.8;">
+      <div>Tool tra cứu functional, không phải mockup</div>
+      <div>CTA Onelink đúng màn hình App tương ứng</div>
+      <div>Mức phạt verify đúng theo ND168/2024</div>
+      <div>Internal links đầy đủ (sub-page ↔ pillar ↔ blog)</div>
+      <div>Cross-sale contextual, không generic</div>
+      <div>Mobile UX tested (tool input, CTA tap target)</div>
+    </div>
+  </div>
+</section>
 
-        <div class="sitemap-node child">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/phat-nguoi/xe-may-dien</div>
-            <div class="sitemap-node-title">Tra Cứu Phạt Nguội Xe Máy Điện</div>
-            <div class="sitemap-node-desc">Emerging cluster — xe máy điện ngày càng phổ biến, capture authority sớm
-              trước khi demand tăng</div>
-            <div class="sitemap-node-tags">
-              <span class="chip pink">Sub-page</span><span class="chip amber">Emerging vol</span>
-            </div>
-          </div>
-          <div class="sitemap-node-kpi">Early capture</div>
-        </div>
+</main>
 
-        <div class="sitemap-node child">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/phat-nguoi/blog</div>
-            <div class="sitemap-node-title">Blog Hub — Phạt Nguội Content</div>
-            <div class="sitemap-node-desc">TOFU content cluster: ND168 updates, mức phạt theo lỗi, hướng dẫn xử lý, FAQ
-              detailed — feed internal links về Pillar</div>
-            <div class="sitemap-node-tags">
-              <span class="chip blue">Blog Hub</span><span class="chip green">~45K info vol</span>
-            </div>
-          </div>
-          <div class="sitemap-node-kpi">TOFU + GEO</div>
-        </div>
-
-        <div class="sitemap-node grandchild">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/blog/nghi-dinh-168-muc-phat-giao-thong-2025</div>
-            <div class="sitemap-node-title">Nghị Định 168 — Bảng Mức Phạt Giao Thông 2025 Đầy Đủ</div>
-            <div class="sitemap-node-desc">Evergreen content ND168, HowTo schema, Table schema — target AI Overviews
-              citations</div>
-            <div class="sitemap-node-tags"><span class="chip green">Priority #1</span><span class="chip blue">HowTo
-                Schema</span></div>
-          </div>
-        </div>
-
-        <div class="sitemap-node grandchild">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/blog/cach-tra-cuu-phat-nguoi-online</div>
-            <div class="sitemap-node-title">Cách Tra Cứu Phạt Nguội Online Nhanh Nhất 2025</div>
-            <div class="sitemap-node-desc">HowTo step-by-step, FAQ schema — capture "how-to" intent và AI citation</div>
-            <div class="sitemap-node-tags"><span class="chip green">Priority #2</span></div>
-          </div>
-        </div>
-
-        <div class="sitemap-node grandchild">
-          <div class="sitemap-node-body">
-            <div class="sitemap-node-url">/blog/xe-cu-co-bi-phat-nguoi-khong</div>
-            <div class="sitemap-node-title">Xe Cũ Có Bị Phạt Nguội Không? Cách Kiểm Tra</div>
-            <div class="sitemap-node-desc">Research intent, cross-sale trigger BH Xe Máy / BH Ô Tô</div>
-            <div class="sitemap-node-tags"><span class="chip amber">Priority #3</span><span
-                class="chip pink">Cross-sale</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ 6. PAGE ANATOMY ══ -->
-    <section class="section" id="s-anatomy">
-      <div class="page-eyebrow">Architecture — Page Anatomy</div>
-      <h1 class="page-title">Page <span>Anatomy</span></h1>
-      <p class="page-desc">Cấu trúc từng page trong sitemap — component order, SEO rationale, và CTA strategy. Nguyên
-        tắc: Tool-first, content-support, App-convert.</p>
-
-      <h2 class="sh">Pillar Page — /phat-nguoi</h2>
-      <div class="anatomy-wrap">
-        <div class="anatomy-header">momo.vn/phat-nguoi — Component Order</div>
-        <div class="anatomy-row">
-          <div class="anatomy-num">1</div>
-          <div class="anatomy-name">H1 + Trust Header</div>
-          <div class="anatomy-desc">"Tra Cứu Phạt Nguội Ô Tô / Xe Máy — Dữ liệu từ TTDK". Trust signal ngay đầu: "Chính
-            thống · Cập nhật hàng ngày · 3 loại xe". Không dùng emoji, dùng text badges.</div>
-          <div class="anatomy-tag"><span class="chip green">SEO</span></div>
-        </div>
-        <div class="anatomy-row">
-          <div class="anatomy-num">2</div>
-          <div class="anatomy-name">Tool Tra Cứu — Functional</div>
-          <div class="anatomy-desc">Input biển số + dropdown loại xe (Ô tô / Xe máy / Xe máy điện). Submit → Deeplink
-            vào App với pre-filled data. Đây là core value, phải above the fold. Không phải mockup.</div>
-          <div class="anatomy-tag"><span class="chip pink">PLG Core</span></div>
-        </div>
-        <div class="anatomy-row">
-          <div class="anatomy-num">3</div>
-          <div class="anatomy-name">App CTA Block</div>
-          <div class="anatomy-desc">"Xem chi tiết đầy đủ + Nhận thông báo tự động trong MoMo App". Smart App Banner +
-            deeplink button. Contextual: nếu user tra ô tô → deeplink sang màn ô tô trong App.</div>
-          <div class="anatomy-tag"><span class="chip pink">W2A</span></div>
-        </div>
-        <div class="anatomy-row">
-          <div class="anatomy-num">4</div>
-          <div class="anatomy-name">Bảng Mức Phạt Tóm Tắt ND168</div>
-          <div class="anatomy-desc">Table 5-7 lỗi phổ biến nhất + mức phạt 2025. Dùng Table schema. Serve cả
-            Informational intent và AI Overviews extraction.</div>
-          <div class="anatomy-tag"><span class="chip blue">GEO</span></div>
-        </div>
-        <div class="anatomy-row">
-          <div class="anatomy-num">5</div>
-          <div class="anatomy-name">Cross-sale Block</div>
-          <div class="anatomy-desc">BH Xe Máy / BH Ô Tô contextual. Trigger: "Xe bị phạt nguội? Bảo vệ xe từ 200K/năm
-            với BH MoMo". Chỉ show relevant type theo loại xe user vừa tra.</div>
-          <div class="anatomy-tag"><span class="chip amber">Revenue</span></div>
-        </div>
-        <div class="anatomy-row">
-          <div class="anatomy-num">6</div>
-          <div class="anatomy-name">FAQ Accordion</div>
-          <div class="anatomy-desc">10-15 câu hỏi thực tế: "Phạt nguội bao lâu thì lên hệ thống?", "Không nhận được giấy
-            phạt có bị phạt không?", "Nộp phạt nguội online được không?". FAQPage schema bắt buộc.</div>
-          <div class="anatomy-tag"><span class="chip blue">GEO</span></div>
-        </div>
-        <div class="anatomy-row">
-          <div class="anatomy-num">7</div>
-          <div class="anatomy-name">Internal Links sang Sub-pages</div>
-          <div class="anatomy-desc">Card links sang /o-to, /xe-may, /xe-may-dien và top 3 blog posts. Giúp distribute
-            PageRank và guide user theo loại xe.</div>
-          <div class="anatomy-tag"><span class="chip green">SEO</span></div>
-        </div>
-      </div>
-
-      <h2 class="sh">Sub-pages — /o-to và /xe-may</h2>
-      <div class="hl blue">
-        <strong>Same pattern, different content depth</strong>
-        Sub-pages có cùng component order như Pillar nhưng deeper: Tool chỉ show loại xe đó, bảng mức phạt đầy đủ theo
-        loại xe, FAQ riêng, cross-sale phù hợp (ô tô → BH Ô Tô / xe máy → BH Xe Máy). Canonical về Pillar nếu duplicate
-        content xảy ra.
-      </div>
-    </section>
-
-    <!-- ══ 7. CONTENT DIRECTION ══ -->
-    <section class="section" id="s-content">
-      <div class="page-eyebrow">Architecture — Content Direction</div>
-      <h1 class="page-title">Content <span>Direction</span></h1>
-      <p class="page-desc">Blog cluster phục vụ TOFU Informational intent và GEO citation. Tất cả content đều có
-        internal link về Pillar. Không viết content không có SEO/GEO purpose.</p>
-
-      <h2 class="sh">Blog Content Priority Matrix</h2>
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Title / Angle</th>
-              <th>Intent</th>
-              <th>Vol Est.</th>
-              <th>Schema</th>
-              <th>GEO Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="chip pink">P1</span></td>
-              <td><strong>Nghị Định 168 — Bảng Mức Phạt Giao Thông 2025 Đầy
-                  Đủ</strong><br><code>/blog/.../nghi-dinh-168-muc-phat-2025</code></td>
-              <td><span class="chip green">Informational</span></td>
-              <td>~100K+</td>
-              <td>Table + Article</td>
-              <td>Cao nhất — AI Overviews table</td>
-            </tr>
-            <tr>
-              <td><span class="chip pink">P1</span></td>
-              <td><strong>Cách Tra Cứu Phạt Nguội Online Nhanh Nhất
-                  2025</strong><br><code>/blog/.../cach-tra-cuu-phat-nguoi-online</code></td>
-              <td><span class="chip green">Informational</span></td>
-              <td>~15K</td>
-              <td>HowTo + FAQ</td>
-              <td>Cao — How-to citation</td>
-            </tr>
-            <tr>
-              <td><span class="chip amber">P2</span></td>
-              <td><strong>Phạt Vượt Đèn Đỏ Bao Nhiêu Tiền? (ND168 2025)</strong></td>
-              <td><span class="chip green">Informational</span></td>
-              <td>~8K</td>
-              <td>FAQ</td>
-              <td>Trung bình — specific query</td>
-            </tr>
-            <tr>
-              <td><span class="chip amber">P2</span></td>
-              <td><strong>Xe Cũ Có Bị Phạt Nguội Không? Cách Kiểm Tra</strong></td>
-              <td><span class="chip green">Informational</span></td>
-              <td>~5K</td>
-              <td>FAQ</td>
-              <td>Thấp + Cross-sale trigger</td>
-            </tr>
-            <tr>
-              <td><span class="chip amber">P2</span></td>
-              <td><strong>Phạt Nguội Bao Lâu Thì Lên Hệ Thống?</strong></td>
-              <td><span class="chip green">Informational</span></td>
-              <td>~3K</td>
-              <td>FAQ</td>
-              <td>High GEO — unique data từ TTDK</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="sh">Content Writing Guidelines — E-E-A-T cho YMYL</h2>
-      <div class="hl amber">
-        <strong>Phạt Nguội là YMYL content (Your Money / Your Life)</strong>
-        Google và AI engines đánh giá cao E-E-A-T. Mọi bài viết phải có: (1) Named author với bio + chức vụ, (2) Legal
-        review date, (3) Source citation từ TTDK hoặc văn bản pháp luật, (4) Last updated date rõ ràng. Thiếu những yếu
-        tố này thì content không đủ điều kiện được cite trong AI Overviews.
-      </div>
-    </section>
-
-    <!-- ══ 8. WEB-TO-APP ══ -->
-    <section class="section" id="s-w2a">
-      <div class="page-eyebrow">Growth & Conversion — Web-to-App</div>
-      <h1 class="page-title">Web-to-App <span>Funnel</span></h1>
-      <p class="page-desc">CTA strategy và Deeplink spec cho từng touchpoint trên web. Goal: maximize App installs và
-        tính năng activation từ organic traffic.</p>
-
-      <h2 class="sh">CTA Strategy theo Context</h2>
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>User Context</th>
-              <th>CTA Text</th>
-              <th>Deeplink Target</th>
-              <th>Expected Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Vừa tra cứu xong, <strong>không có lỗi</strong></td>
-              <td>"Đăng ký nhận thông báo khi có vi phạm mới"</td>
-              <td>App: màn đăng ký subscription</td>
-              <td>Install → Register trial</td>
-            </tr>
-            <tr>
-              <td>Vừa tra cứu xong, <strong>có lỗi vi phạm</strong></td>
-              <td>"Xem chi tiết + Hướng dẫn xử lý ngay"</td>
-              <td>App: kết quả tra cứu chi tiết</td>
-              <td>Install → View detail → Xử lý</td>
-            </tr>
-            <tr>
-              <td>Đọc blog ND168</td>
-              <td>"Kiểm tra xe bạn có đang bị phạt không"</td>
-              <td>App: màn tra cứu</td>
-              <td>Install → Tra cứu</td>
-            </tr>
-            <tr>
-              <td>Search "xe cũ phạt nguội"</td>
-              <td>"Tra ngay + Mua BH Xe Máy từ 200K"</td>
-              <td>App: tra cứu → cross-sale BH</td>
-              <td>Install → BH purchase</td>
-            </tr>
-            <tr>
-              <td>Existing user (has app)</td>
-              <td>"Mở MoMo để xem đầy đủ"</td>
-              <td>App: deeplink direct</td>
-              <td>Open → Feature activation</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="sh">Deeplink Spec</h2>
-      <div class="deeplink-spec">
-        <div class="deeplink-label">Deeplink — Tra cứu có pre-fill biển số</div>
-        <div class="deeplink-url">momoapp.onelink.vn/phat-nguoi?plate={BSX}&type={vehicle_type}</div>
-        <div class="deeplink-params">utm_source=<span>web_organic</span> · utm_medium=<span>phat_nguoi</span> ·
-          utm_campaign=<span>tra_cuu_pillar</span></div>
-      </div>
-      <div class="deeplink-spec">
-        <div class="deeplink-label">Deeplink — Đăng ký subscription (upsell)</div>
-        <div class="deeplink-url">momoapp.onelink.vn/phat-nguoi?action=subscribe&source=web_blog</div>
-        <div class="deeplink-params">utm_source=<span>web_organic</span> · utm_medium=<span>phat_nguoi</span> ·
-          utm_campaign=<span>subscription_upsell</span></div>
-      </div>
-
-      <div class="hl blue">
-        <strong>Tracking Requirement</strong>
-        Cần define với Dev team: event <code
-          style="font-size:11px;background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;color:inherit;">tool_license_plate_submit</code>
-        + <code
-          style="font-size:11px;background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;color:inherit;">deeplink_click</code>
-        với parameters đầy đủ (vehicle_type, has_violation, source_page). Full tracking spec cần được document riêng
-        trong Web Tracking Doc.
-      </div>
-    </section>
-
-    <!-- ══ 9. CROSS-SALE ══ -->
-    <section class="section" id="s-crosssale">
-      <div class="page-eyebrow">Growth & Conversion — Cross-sale</div>
-      <h1 class="page-title">Cross-sale <span>Strategy</span></h1>
-      <p class="page-desc">Người dùng tra cứu phạt nguội = đang có xe = purchasing power cao. Contextual cross-sale theo
-        đúng loại xe và stage của user journey.</p>
-
-      <h2 class="sh">Cross-sale Mapping</h2>
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>Page / Context</th>
-              <th>Product</th>
-              <th>Trigger Message</th>
-              <th>Priority</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>/phat-nguoi/o-to</td>
-              <td>BH Ô Tô</td>
-              <td>"Xe [biển số] đang lưu hành — BH Ô Tô từ 500K, bồi thường nhanh"</td>
-              <td><span class="chip pink">P1</span></td>
-            </tr>
-            <tr>
-              <td>/phat-nguoi/xe-may</td>
-              <td>BH Xe Máy</td>
-              <td>"Bảo vệ xe máy từ 200K/năm — mua ngay trên MoMo"</td>
-              <td><span class="chip pink">P1</span></td>
-            </tr>
-            <tr>
-              <td>Blog: "xe cũ phạt nguội"</td>
-              <td>BH Xe Máy / BH Ô Tô</td>
-              <td>"Mua xe cũ? Kiểm tra phạt nguội + Mua BH ngay trong 1 bước"</td>
-              <td><span class="chip pink">P1</span></td>
-            </tr>
-            <tr>
-              <td>Pillar — sau khi tra cứu</td>
-              <td>Subscription Phạt Nguội</td>
-              <td>"Đừng bỏ lỡ phạt nguội mới — Thông báo tự động 199K/năm"</td>
-              <td><span class="chip pink">P1</span></td>
-            </tr>
-            <tr>
-              <td>Blog: ND168 mức phạt cao</td>
-              <td>Vay Tiêu Dùng</td>
-              <td>"Phạt lớn? Vay nhanh 0% trong 30 ngày đầu để xử lý"</td>
-              <td><span class="chip amber">P2</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ══ 10. INTERNAL LINK ══ -->
-    <section class="section" id="s-interlinking">
-      <div class="page-eyebrow">SEO — Internal Link Architecture</div>
-      <h1 class="page-title">Internal Link <span>Building</span></h1>
-      <p class="page-desc">Internal link strategy để distribute PageRank, strengthen topic cluster authority, và guide
-        user flow đúng hướng.</p>
-
-      <h2 class="sh">Link Flow Architecture</h2>
-      <div class="hl pink">
-        <strong>Hub & Spoke Model</strong>
-        Pillar page là hub, nhận links từ tất cả sub-pages và blog posts. Sub-pages nhận links từ blog liên quan. Blog
-        posts link về Pillar và sub-page phù hợp. Không link ngược từ Pillar về blog (tránh dilute PageRank).
-      </div>
-
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>Source Page</th>
-              <th>Target Page</th>
-              <th>Anchor Text</th>
-              <th>Context</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>/o-to, /xe-may, /xe-may-dien</td>
-              <td>/phat-nguoi</td>
-              <td>"tra cứu phạt nguội"</td>
-              <td>Breadcrumb + footer link</td>
-            </tr>
-            <tr>
-              <td>Blog ND168</td>
-              <td>/phat-nguoi</td>
-              <td>"kiểm tra phạt nguội ngay"</td>
-              <td>In-content CTA</td>
-            </tr>
-            <tr>
-              <td>Blog hướng dẫn</td>
-              <td>/phat-nguoi/o-to</td>
-              <td>"tra cứu phạt nguội ô tô"</td>
-              <td>Contextual anchor</td>
-            </tr>
-            <tr>
-              <td>Blog xe cũ</td>
-              <td>/phat-nguoi/xe-may</td>
-              <td>"kiểm tra phạt nguội xe máy"</td>
-              <td>Relevant anchor</td>
-            </tr>
-            <tr>
-              <td>/phat-nguoi (Pillar)</td>
-              <td>/o-to, /xe-may, /xe-may-dien</td>
-              <td>Tên loại xe</td>
-              <td>Sub-page navigation cards</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="sh">Cơ hội từ Use Cases khác</h2>
-      <div class="hl green">
-        <strong>External Internal Links — từ các Use Case liên quan</strong>
-        BH Xe Máy / BH Ô Tô pages nên có contextual mention: "Kiểm tra xe có bị phạt nguội không trước khi mua BH". Vay
-        Tiêu Dùng page: "Xử lý phạt nguội gấp — Vay nhanh không lãi 30 ngày". Mỗi link này tạo topical signal và drive
-        traffic cross-use-case.
-      </div>
-    </section>
-
-    <!-- ══ 11. MEASUREMENT ══ -->
-    <section class="section" id="s-measurement">
-      <div class="page-eyebrow">Execution — Measurement Framework</div>
-      <h1 class="page-title">Measurement <span>Framework</span></h1>
-      <p class="page-desc">North Star và các leading indicators theo funnel. Targets là directional estimates — cần
-        align với Cell Team và verify baseline trước khi set OKR chính thức.</p>
-
-      <div class="hl pink">
-        <strong>North Star Metric</strong>
-        New Users from Organic — Use Case Phạt Nguội (Appsflyer attribution, organic channel, entry URLs /phat-nguoi/*).
-        Metric này capture đầy đủ chain từ Search → Web → App → User. Traffic cao mà không có new users = funnel broken,
-        không phải SEO issue.
-      </div>
-
-      <h2 class="sh">Funnel Metrics</h2>
-      <div class="table-wrap">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th>Stage</th>
-              <th>Metric</th>
-              <th>Tool</th>
-              <th>Baseline</th>
-              <th>Direction</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="chip green">Impression</span></td>
-              <td>GSC Impressions — cluster phạt nguội</td>
-              <td>GSC</td>
-              <td>[NA]</td>
-              <td>Tăng MoM</td>
-            </tr>
-            <tr>
-              <td><span class="chip green">Click</span></td>
-              <td>GSC Clicks + CTR trung bình</td>
-              <td>GSC</td>
-              <td>[NA]</td>
-              <td>CTR > 4%</td>
-            </tr>
-            <tr>
-              <td><span class="chip blue">Landing</span></td>
-              <td>Sessions + Avg Engagement Time</td>
-              <td>GA4</td>
-              <td>[NA]</td>
-              <td>&gt; 90s engagement</td>
-            </tr>
-            <tr>
-              <td><span class="chip blue">Tool Use</span></td>
-              <td>tool_license_plate_submit events</td>
-              <td>GA4</td>
-              <td>N/A (chưa có)</td>
-              <td>&gt; 40% sessions</td>
-            </tr>
-            <tr>
-              <td><span class="chip pink">CTA Click</span></td>
-              <td>deeplink_click rate</td>
-              <td>GA4</td>
-              <td>[NA]</td>
-              <td>&gt; 8% sessions</td>
-            </tr>
-            <tr>
-              <td><span class="chip pink">App Open</span></td>
-              <td>App Opens attributed to SEO Web</td>
-              <td>DynamicOnelink</td>
-              <td>[NA]</td>
-              <td>&gt; 60% deeplink clicks</td>
-            </tr>
-            <tr>
-              <td><span class="chip pink">New User</span></td>
-              <td>New Users từ Organic · Phạt Nguội</td>
-              <td>Appsflyer</td>
-              <td>[NA]</td>
-              <td>North Star</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="sh">GEO Metrics</h2>
-      <div class="grid-3">
-        <div class="kpi-box blue">
-          <div class="kpi-label">AI Traffic</div>
-          <div class="kpi-value">Sessions from AI</div>
-          <div class="kpi-note">GA4: Track referral từ perplexity.ai, chatgpt.com, gemini.google.com</div>
-        </div>
-        <div class="kpi-box blue">
-          <div class="kpi-label">Brand Mention</div>
-          <div class="kpi-value">AI Mentions</div>
-          <div class="kpi-note">Ahrefs Brand Radar: đếm số lần MoMo được mention trong AI responses cho phạt nguội
-            queries</div>
-        </div>
-        <div class="kpi-box blue">
-          <div class="kpi-label">Cited Pages</div>
-          <div class="kpi-value">AI Citations</div>
-          <div class="kpi-note">Số pages của MoMo được cite trong AI-generated responses. Target: Top 3 cho 20 queries
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ 12. CHECKLIST ══ -->
-    <section class="section" id="s-checklist">
-      <div class="page-eyebrow">Execution — Publish Checklist</div>
-      <h1 class="page-title">Publish <span>Checklist</span></h1>
-      <p class="page-desc">Checklist trước khi publish từng page. Áp dụng cho cả Pillar, Sub-pages, và Blog posts.</p>
-
-      <h2 class="sh">Technical SEO</h2>
-      <div class="card">
-        <div
-          style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px;color:var(--text-body);line-height:1.8;">
-          <div>Title tag: max 60 chars, có keyword head term</div>
-          <div>Meta description: max 155 chars, có CTA</div>
-          <div>H1 unique, chứa primary keyword</div>
-          <div>Canonical tag đúng (sub-pages → pillar nếu cần)</div>
-          <div>Hreflang nếu có vi/en version</div>
-          <div>Image alt text đầy đủ</div>
-          <div>Page speed &lt; 3s on mobile (Core Web Vitals)</div>
-          <div>robots.txt không block /phat-nguoi/*</div>
-        </div>
-      </div>
-
-      <h2 class="sh">Structured Data</h2>
-      <div class="card">
-        <div
-          style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px;color:var(--text-body);line-height:1.8;">
-          <div>FAQPage schema — tối thiểu 5 Q&A per page</div>
-          <div>HowTo schema — blog hướng dẫn</div>
-          <div>WebApplication schema — Pillar page</div>
-          <div>BreadcrumbList — tất cả pages</div>
-          <div>Validate qua Google Rich Results Test</div>
-          <div>Table schema cho bảng mức phạt ND168</div>
-        </div>
-      </div>
-
-      <h2 class="sh">GEO / AEO Checklist</h2>
-      <div class="card">
-        <div
-          style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px;color:var(--text-body);line-height:1.8;">
-          <div>Named author có bio + chức vụ (E-E-A-T)</div>
-          <div>Legal/source citation rõ ràng (TTDK, ND168)</div>
-          <div>Last updated date hiển thị trên page</div>
-          <div>Direct answer format cho FAQ (AI-friendly)</div>
-          <div>llms.txt: Allow crawl /phat-nguoi/*</div>
-          <div>robots.txt: Allow GPTBot, ClaudeBot, PerplexityBot</div>
-        </div>
-      </div>
-
-      <h2 class="sh">Content Quality</h2>
-      <div class="card">
-        <div
-          style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px;color:var(--text-body);line-height:1.8;">
-          <div>Tool tra cứu functional, không phải mockup</div>
-          <div>CTA deeplink đúng màn hình App</div>
-          <div>Mức phạt verify đúng theo ND168/2024</div>
-          <div>Internal links đầy đủ (sub-page ↔ pillar ↔ blog)</div>
-          <div>Cross-sale contextual, không generic</div>
-          <div>Mobile UX tested (tool input, CTA tap target)</div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <script>
-    function go(id) {
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      const s = document.getElementById('s-' + id);
-      if (s) s.classList.add('active');
-      if (event && event.currentTarget) event.currentTarget.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      if (window.innerWidth <= 768) closeSidebar();
-    }
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-      document.getElementById('overlay').classList.toggle('open');
-    }
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('overlay').classList.remove('open');
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
-  </script>
+<script>
+function go(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const s=document.getElementById('s-'+id);
+  if(s)s.classList.add('active');
+  if(event&&event.currentTarget)event.currentTarget.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  if(window.innerWidth<=768)closeSidebar();
+}
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+</script>
 </body>
-
 </html>

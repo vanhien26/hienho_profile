@@ -116,10 +116,15 @@ export const projects: Project[] = [
     category: 'use-case',
     division: 'GPD',
     tags: ['Directory', 'Ví Trả Sau', 'Merchant'],
-    status: 'draft',
-    updatedAt: '2026-03-25',
-    description: 'Sitemap design, Brand page components, schema markup cho partner directory. Credit Ecosystem Loop internal linking kết nối VTS product.',
+    status: 'live',
+    updatedAt: '2026-04-21',
+    description: 'Chiến lược Inbound Growth toàn diện cho Hub đối tác: URL phẳng 3 cấp, SEO/GEO stack cho AI Overview và phễu chuyển đổi Ví Trả Sau (VTS).',
     htmlFile: '/projects/doi-tac-directory.html',
+    metrics: [
+      { label: 'Category Pages', value: '9' },
+      { label: 'P1 Brands', value: '8' },
+      { label: 'Conversion', value: 'VTS' },
+    ],
   },
   {
     id: 'tin-dung',
