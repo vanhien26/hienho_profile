@@ -1,0 +1,2698 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema - Web Growth Strategy | MoMo</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --pink-core: #F95396;
+      --pink-mid: #FF9DBE;
+      --pink-light: #FEC8DC;
+      --white: #FFFFFF;
+      --pink-dim: rgba(249, 83, 150, 0.10);
+      --pink-glow: rgba(249, 83, 150, 0.22);
+      --pink-border: rgba(249, 83, 150, 0.28);
+      --bg: #FAFAFA;
+      --bg-white: #FFFFFF;
+      --bg-soft: #FFF5F8;
+      --bg-section: #FFF0F5;
+      --border: #EAEAEA;
+      --border-soft: #F3E0E9;
+      --text-dark: #18181B;
+      --text-body: #3F3F46;
+      --text-muted: #71717A;
+      --text-faint: #A1A1AA;
+      --green: #059669;
+      --amber: #D97706;
+      --blue: #2563EB;
+      --red: #DC2626;
+      --green-bg: rgba(5, 150, 105, 0.07);
+      --amber-bg: rgba(217, 119, 6, 0.08);
+      --blue-bg: rgba(37, 99, 235, 0.07);
+      --red-bg: rgba(220, 38, 38, 0.07);
+      --sidebar-w: 252px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(249, 83, 150, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(249, 83, 150, 0.10), 0 2px 4px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-body);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--bg-white);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-brand {
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .sidebar-brand .logo {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--pink-core);
+      letter-spacing: -0.3px;
+    }
+
+    .sidebar-brand .team {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 3px;
+    }
+
+    .nav-group {
+      padding: 14px 12px 6px;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 10px 6px;
+    }
+
+    .nav-item {
+      display: block;
+      padding: 7px 10px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      border-left: 2px solid transparent;
+      transition: all 0.14s;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-soft);
+      color: var(--text-dark);
+    }
+
+    .nav-item.active {
+      color: var(--pink-core);
+      background: var(--pink-dim);
+      border-left: 2px solid var(--pink-core);
+      font-weight: 600;
+    }
+
+    .sidebar-footer {
+      padding: 16px 22px;
+      font-size: 10px;
+      color: var(--text-faint);
+      line-height: 1.7;
+      border-top: 1px solid var(--border-soft);
+      margin-top: 14px;
+    }
+
+    /* ── Main ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 12px;
+      z-index: 50;
+    }
+
+    .hamburger {
+      display: none;
+      width: 32px;
+      height: 32px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hamburger svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .breadcrumb .crumb-sep {
+      color: var(--text-faint);
+    }
+
+    .breadcrumb .current {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .content {
+      padding: 28px 28px 64px;
+      max-width: 1180px;
+    }
+
+    section {
+      animation: fadeUp 0.2s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Hero Banner ── */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--pink-dim) 0%, rgba(254, 200, 220, 0.25) 100%);
+      border: 1px solid var(--pink-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 28px 24px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, var(--pink-glow) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-uc-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--pink-core);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-banner h1 {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1.2;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-banner h1 span {
+      background: linear-gradient(135deg, var(--pink-core), var(--pink-mid));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      max-width: 720px;
+      line-height: 1.65;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 18px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-stat {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+
+    .hero-stat .val {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.1;
+    }
+
+    .hero-stat .lbl {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* ── Section ── */
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin: 34px 0 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .section-sub {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .section-first {
+      margin-top: 0;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .card-title .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--pink-core);
+      flex-shrink: 0;
+    }
+
+    .card-title .dot.green {
+      background: var(--green);
+    }
+
+    .card-title .dot.amber {
+      background: var(--amber);
+    }
+
+    .card-title .dot.blue {
+      background: var(--blue);
+    }
+
+    .card-sub {
+      font-size: 11.5px;
+      color: var(--text-faint);
+      margin-bottom: 16px;
+    }
+
+    .card p+p {
+      margin-top: 10px;
+    }
+
+    .card strong {
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+
+    /* ── Badge & Chip ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .badge-pink {
+      background: var(--pink-dim);
+      color: var(--pink-core);
+      border: 1px solid var(--pink-border);
+    }
+
+    .badge-amber {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+    }
+
+    .badge-green {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+
+    .badge-blue {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .chip {
+      display: inline-flex;
+      padding: 2px 9px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-soft);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .chip.pink {
+      background: var(--pink-dim);
+      color: var(--pink-core);
+      border-color: var(--pink-border);
+    }
+
+    .chip.green {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: rgba(5, 150, 105, 0.2);
+    }
+
+    .chip.amber {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border-color: rgba(217, 119, 6, 0.2);
+    }
+
+    .chip.blue {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border-color: rgba(37, 99, 235, 0.2);
+    }
+
+    /* ── Highlight Box ── */
+    .hl {
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      font-size: 12.5px;
+      line-height: 1.65;
+    }
+
+    .hl strong {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .hl.pink {
+      background: var(--pink-dim);
+      border: 1px solid var(--pink-border);
+      color: #7B1D4A;
+    }
+
+    .hl.pink strong {
+      color: var(--pink-core);
+    }
+
+    .hl.green {
+      background: var(--green-bg);
+      border: 1px solid rgba(5, 150, 105, 0.18);
+      color: #065F46;
+    }
+
+    .hl.green strong {
+      color: var(--green);
+    }
+
+    .hl.amber {
+      background: var(--amber-bg);
+      border: 1px solid rgba(217, 119, 6, 0.18);
+      color: #78350F;
+    }
+
+    .hl.amber strong {
+      color: var(--amber);
+    }
+
+    .hl.blue {
+      background: var(--blue-bg);
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      color: #1E3A8A;
+    }
+
+    .hl.blue strong {
+      color: var(--blue);
+    }
+
+    /* ── KPI Box ── */
+    .kpi-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .kpi-box .kpi-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-box .kpi-value {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .kpi-box .kpi-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .kpi-box.pink {
+      border-left: 3px solid var(--pink-core);
+    }
+
+    .kpi-box.green {
+      border-left: 3px solid var(--green);
+    }
+
+    .kpi-box.amber {
+      border-left: 3px solid var(--amber);
+    }
+
+    .kpi-box.blue {
+      border-left: 3px solid var(--blue);
+    }
+
+    .kpi-box.red {
+      border-left: 3px solid var(--red);
+    }
+
+    /* ── Table ── */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    table.dt {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      min-width: 520px;
+    }
+
+    table.dt th {
+      background: var(--bg-soft);
+      color: var(--text-faint);
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-soft);
+      white-space: nowrap;
+    }
+
+    table.dt td {
+      padding: 10px 14px;
+      color: var(--text-body);
+      border-bottom: 1px solid #F5F5F5;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    table.dt tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.dt tr:hover td {
+      background: var(--bg-soft);
+    }
+
+    table.dt td strong {
+      color: var(--text-dark);
+    }
+
+    table.dt code {
+      background: var(--bg-soft);
+      color: var(--pink-core);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 11.5px;
+    }
+
+    /* ── Grid ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    /* ── Checklist ── */
+    .cl-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .cl-box-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-faint);
+      margin-bottom: 8px;
+    }
+
+    .cl-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 5px 0;
+      font-size: 12.5px;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .cl-item .mark {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      margin-top: 1px;
+    }
+
+    .cl-item .mark.check {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+
+    .cl-item .mark.warn {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+    }
+
+    .cl-item .mark.fail {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+    }
+
+    /* ── OKR Block ── */
+    .okr-block {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--pink-core);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .okr-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .okr-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .kr-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border-soft);
+      font-size: 12.5px;
+    }
+
+    .kr-row:last-child {
+      border-bottom: none;
+    }
+
+    .kr-label {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--pink-core);
+      letter-spacing: 0.5px;
+      min-width: 32px;
+    }
+
+    .kr-content {
+      flex: 1;
+      color: var(--text-body);
+    }
+
+    .kr-content strong {
+      color: var(--text-dark);
+    }
+
+    /* ── Arrow Flow ── */
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+
+    .flow-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 11.5px;
+      color: var(--text-body);
+      font-weight: 600;
+    }
+
+    .flow-box.active {
+      background: var(--pink-dim);
+      border-color: var(--pink-border);
+      color: var(--pink-core);
+    }
+
+    .flow-arrow {
+      color: var(--text-faint);
+      font-weight: 700;
+    }
+
+    /* ── Anchor offset ── */
+    [id] {
+      scroll-margin-top: 68px;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-md);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .hamburger {
+        display: inline-flex;
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 99;
+        display: none;
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      .content {
+        padding: 20px 18px 48px;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .hero-banner {
+        padding: 22px 20px;
+      }
+
+      .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">MoMo</div>
+      <div class="team">Out-App Traffic · GPD</div>
+    </div>
+
+    <nav class="nav-group">
+      <div class="nav-label">Overview</div>
+      <a href="#exec-summary" class="nav-item active">Executive Summary</a>
+      <a href="#okr" class="nav-item">OKR Q2-Q4/2026</a>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-label">Part 1 · Foundation</div>
+      <a href="#use-case-overview" class="nav-item">Use Case Overview</a>
+      <a href="#jtbd" class="nav-item">JTBD Analysis</a>
+      <a href="#market" class="nav-item">Market &amp; Competitive</a>
+      <a href="#diagnosis" class="nav-item">Zero-Traffic Diagnosis</a>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-label">Part 2 · Strategy</div>
+      <a href="#intent" class="nav-item">Search Intent</a>
+      <a href="#architecture" class="nav-item">Site Architecture</a>
+      <a href="#lifecycle" class="nav-item">URL Lifecycle</a>
+      <a href="#w2a" class="nav-item">Web-to-App</a>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-label">Part 3 · Build</div>
+      <a href="#utilities" class="nav-item">PLG Utilities</a>
+      <a href="#content" class="nav-item">Content Pipeline</a>
+      <a href="#geo-checklist" class="nav-item">GEO/AEO Checklist</a>
+      <a href="#programmatic" class="nav-item">Programmatic SEO</a>
+      <a href="#tech-seo" class="nav-item">Technical Hygiene</a>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-label">Part 4 · Growth Loop</div>
+      <a href="#measurement" class="nav-item">Measurement</a>
+      <a href="#crosssell" class="nav-item">Cross-sell</a>
+      <a href="#experiments" class="nav-item">Experiments</a>
+      <a href="#iteration" class="nav-item">Iteration</a>
+      <a href="#scaling" class="nav-item">Scaling Playbook</a>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-label">Appendix</div>
+      <a href="#appendix-keywords" class="nav-item">A. Keyword Universe</a>
+      <a href="#appendix-urls" class="nav-item">B. URL Inventory</a>
+      <a href="#appendix-brief" class="nav-item">C. Content Brief Template</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      Out-App Traffic · GPD<br>
+      Last updated: Tháng 4/2026<br>
+      MoMo - momo.vn
+    </div>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <div class="breadcrumb">
+        <span>Strategy Doc</span>
+        <span class="crumb-sep">/</span>
+        <span>Cinema</span>
+        <span class="crumb-sep">/</span>
+        <span class="current">Web Growth Strategy</span>
+      </div>
+      <span class="badge badge-pink">Hien.ho</span>
+      <span class="badge badge-amber">Q2-Q4/2026</span>
+    </div>
+
+    <div class="content">
+
+      <!-- ===== HERO ===== -->
+      <div class="hero-banner">
+        <div class="hero-uc-tag">◆ USE CASE · CINEMA</div>
+        <h1>Web Growth Strategy <span>momo.vn/cinema</span></h1>
+        <p class="hero-sub">Chiến lược Q2-Q4/2026 tập trung vào 3 vector: (1) Ngăn traffic leak từ phim hết lifecycle,
+          (2) Chuyển đổi từ traffic-first sang revenue-first qua W2A conversion, (3) Xây Programmatic moat cho
+          rạp/phim/lịch chiếu để scale bền vững.</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="val">1M</div>
+            <div class="lbl">Organic/3 tháng</div>
+          </div>
+          <div class="hero-stat">
+            <div class="val">959</div>
+            <div class="lbl">URLs zero-traffic</div>
+          </div>
+          <div class="hero-stat">
+            <div class="val">7,945</div>
+            <div class="lbl">Traffic lost/tháng</div>
+          </div>
+          <div class="hero-stat">
+            <div class="val">Top 1</div>
+            <div class="lbl">"Vé xem phim"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== EXECUTIVE SUMMARY ===== -->
+      <section id="exec-summary">
+        <h2 class="section-title section-first">Executive Summary</h2>
+        <p class="section-sub">So what - Cốt lõi của chiến lược trong 140 từ.</p>
+
+        <div class="hl pink">
+          <strong>THE CORE ARGUMENT</strong>
+          Cinema đang ở <b>Growth stage</b> với ~1M organic/3 tháng và Top 1 cho <i>vé xem phim</i>. Nhưng <b>91% URL
+            zero-traffic là phim detail + review hết lifecycle</b> (959 URLs, -7,945 traffic/tháng) - đây là bug kiến
+          trúc, không phải bug content. Song song, <b>ranking không chuyển thành revenue tương xứng</b> do W2A
+          touchpoint chưa tối ưu per-page-type. Chiến lược Q2-Q4/2026 đặt 3 vector đồng thời: <b>(1) Fix URL Lifecycle
+            System</b> - giữ equity khi phim hết chiếu; <b>(2) Shift Revenue-first</b> - tối ưu W2A conversion theo
+          intent tại từng page type; <b>(3) Build Programmatic Moat</b> - rạp × phim × lịch chiếu tạo long-tail
+          defensive layer. Target: <b>+30% transaction-driven sessions</b>, <b>+50% W2A conversion</b>, <b>giữ Top
+            1-3</b> cho cluster "vé xem phim".
+        </div>
+      </section>
+
+      <!-- ===== OKR ===== -->
+      <section id="okr">
+        <h2 class="section-title">OKR Q2-Q4/2026</h2>
+        <p class="section-sub">Outcome-based. Gắn trực tiếp với business goal Revenue/Transactions.</p>
+
+        <div class="okr-block">
+          <div class="okr-title">O1: Biến Cinema thành Revenue Engine của GPD - không chỉ là traffic champion</div>
+          <div class="okr-desc">Shift từ traffic-first sang conversion-first, đo bằng giao dịch vé phim thực tế qua W2A
+            pipeline.</div>
+          <div class="kr-row">
+            <div class="kr-label">KR1</div>
+            <div class="kr-content"><strong>Transaction-driven sessions</strong> từ Web Cinema: baseline [CẦN VERIFY] →
+              <strong>+30%</strong> (đo bằng deeplink fire rate × install completion rate)
+            </div>
+          </div>
+          <div class="kr-row">
+            <div class="kr-label">KR2</div>
+            <div class="kr-content"><strong>W2A Conversion Rate</strong> trên page phim detail: baseline [CẦN VERIFY] →
+              <strong>+50%</strong> (click CTA "Đặt vé ngay" → App open with deeplink)
+            </div>
+          </div>
+          <div class="kr-row">
+            <div class="kr-label">KR3</div>
+            <div class="kr-content"><strong>New Users</strong> từ Cinema organic (tracked via
+              <code>momoapp.onelink.vn</code>): baseline [CẦN VERIFY] → <strong>+25%</strong> cuối Q4
+            </div>
+          </div>
+        </div>
+
+        <div class="okr-block">
+          <div class="okr-title">O2: Giải quyết root cause của Traffic Leak - xây URL Lifecycle System</div>
+          <div class="okr-desc">Ngăn 91% URL phim chết khi hết chiếu; giữ lại link equity và keyword ranking.</div>
+          <div class="kr-row">
+            <div class="kr-label">KR1</div>
+            <div class="kr-content"><strong>Zero-traffic URLs</strong>: giảm từ <strong>959 → dưới 200</strong> cuối Q3
+              (loại trừ phim pre-release/archive intentional)</div>
+          </div>
+          <div class="kr-row">
+            <div class="kr-label">KR2</div>
+            <div class="kr-content">Traffic recovery từ URL migration (case <code>cgv-aeon-canary-16</code>):
+              <strong>khôi phục ≥70%</strong> traffic cũ (mục tiêu +1,100 sessions/tháng)
+            </div>
+          </div>
+          <div class="kr-row">
+            <div class="kr-label">KR3</div>
+            <div class="kr-content"><strong>URL Lifecycle SOP</strong> được Dev + PO approve và deploy pre-end-of-Q2
+            </div>
+          </div>
+        </div>
+
+        <div class="okr-block">
+          <div class="okr-title">O3: Xây moat GEO/AEO cho cluster vé xem phim trước khi AI Overview shift traffic</div>
+          <div class="okr-desc">Giữ vị thế khi Google AIO và ChatGPT Search dần thay thế classic SERP.</div>
+          <div class="kr-row">
+            <div class="kr-label">KR1</div>
+            <div class="kr-content"><strong>MoMo cited</strong> trong AI Overview cho ≥10/20 target queries ("mua vé xem
+              phim online", "lịch chiếu CGV hôm nay", v.v.)</div>
+          </div>
+          <div class="kr-row">
+            <div class="kr-label">KR2</div>
+            <div class="kr-content"><strong>Programmatic pages</strong> (rạp × phim × lịch chiếu) go-live với ≥500 URLs
+              indexed, CTR ≥3%</div>
+          </div>
+          <div class="kr-row">
+            <div class="kr-label">KR3</div>
+            <div class="kr-content"><strong>AI Traffic</strong> (từ ChatGPT, Perplexity, Gemini): baseline 0 →
+              <strong>≥5% total organic</strong> cuối Q4
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PART 1: FOUNDATION ===== -->
+      <section id="use-case-overview">
+        <h2 class="section-title">Part 1 · Foundation</h2>
+        <p class="section-sub">Bối cảnh, JTBD, thị trường - nền tảng để mọi quyết định sau đều có cơ sở.</p>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Use Case Overview</div>
+          <div class="card-sub">5 dòng định vị.</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <tbody>
+                <tr>
+                  <td style="width:30%"><strong>USE CASE</strong></td>
+                  <td>Cinema (momo.vn/cinema)</td>
+                </tr>
+                <tr>
+                  <td><strong>DIVISION</strong></td>
+                  <td>MDS</td>
+                </tr>
+                <tr>
+                  <td><strong>CELL TEAM</strong></td>
+                  <td>MDS-MOVIE</td>
+                </tr>
+                <tr>
+                  <td><strong>BUSINESS MODEL</strong></td>
+                  <td>Commission per transaction từ partners (CGV, Lotte, Galaxy, BHD Star, Mega GS, Dcine, Cinestar,
+                    Beta)</td>
+                </tr>
+                <tr>
+                  <td><strong>ECOSYSTEM POSITION</strong></td>
+                  <td>Discovery (SERP/AIO) → Use Case (momo.vn/cinema) → Transaction (App) → Retention (cross-sell sang
+                    Food/OTA)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="jtbd">
+        <div class="card">
+          <div class="card-title"><span class="dot blue"></span>JTBD Analysis - Summary</div>
+          <div class="card-sub">Import từ skill <code>jtbd-analysis</code>. Nếu chưa có output chính thức, cần chạy lại
+            trước khi triển khai content.</div>
+
+          <div class="hl blue">
+            <strong>JOB STATEMENTS</strong>
+            <p><b>Job #1 (Planning):</b> "When <i>tôi muốn đi xem phim cuối tuần</i>, I want to <i>biết phim nào đang
+                chiếu ở rạp gần nhà + còn chỗ suất giờ phù hợp</i>, so I can <i>quyết nhanh không mất thời gian so sánh
+                nhiều app</i>."</p>
+            <p><b>Job #2 (Transacting):</b> "When <i>đã chọn được phim+rạp+suất</i>, I want to <i>mua vé nhanh gọn với
+                giá tốt nhất có thể</i>, so I can <i>không bị hết ghế và tiết kiệm được chút qua ưu đãi</i>."</p>
+            <p><b>Job #3 (Discovering):</b> "When <i>đang rảnh và muốn có gợi ý</i>, I want to <i>xem top phim hay đang
+                chiếu + review đáng tin</i>, so I can <i>không phí tiền + thời gian vào phim dở</i>."</p>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <h4
+                style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--text-faint);text-transform:uppercase;margin-bottom:10px;">
+                Top 3 Anxieties (xử lý trong content)</h4>
+              <div class="cl-box">
+                <div class="cl-item"><span class="mark warn">!</span>
+                  <div><b>Giá vé MoMo có đắt hơn rạp trực tiếp không?</b> → FAQ schema + comparison module "Giá bằng
+                    rạp, thêm ưu đãi"</div>
+                </div>
+                <div class="cl-item"><span class="mark warn">!</span>
+                  <div><b>Đặt xong có đổi/huỷ được không?</b> → Hiển thị rõ policy ở transaction page + FAQ</div>
+                </div>
+                <div class="cl-item"><span class="mark warn">!</span>
+                  <div><b>Chỗ ngồi tôi chọn có đúng khi vào rạp không?</b> → Trust signal: mã QR + flow "Nhận vé tại
+                    rạp"</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4
+                style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--text-faint);text-transform:uppercase;margin-bottom:10px;">
+                Top 3 Push Forces (pain hook)</h4>
+              <div class="cl-box">
+                <div class="cl-item"><span class="mark fail">✕</span>
+                  <div><b>Xếp hàng dài tại rạp cuối tuần</b> → hook "Đặt trước, khỏi xếp hàng"</div>
+                </div>
+                <div class="cl-item"><span class="mark fail">✕</span>
+                  <div><b>Hết chỗ đẹp khi đến rạp</b> → hook "Chọn chỗ online, xem sơ đồ trực tiếp"</div>
+                </div>
+                <div class="cl-item"><span class="mark fail">✕</span>
+                  <div><b>Không biết phim gì đáng xem cuối tuần</b> → hook "Top phim hay đang chiếu + review ngắn"</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="market">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Market &amp; Competitive Landscape</div>
+          <div class="card-sub">Dữ liệu SERP thực tế (search tháng 4/2026). Số liệu volume = [CẦN VERIFY qua Ahrefs].
+          </div>
+
+          <div class="grid-3" style="margin-bottom:14px;">
+            <div class="kpi-box pink">
+              <div class="kpi-label">Search Demand (cluster)</div>
+              <div class="kpi-value">Growing</div>
+              <div class="kpi-note">"vé xem phim", "lịch chiếu", "top phim 2026" - trend up theo mùa phim Tết + hè</div>
+            </div>
+            <div class="kpi-box blue">
+              <div class="kpi-label">SERP Feature quan trọng</div>
+              <div class="kpi-value">AI Overview</div>
+              <div class="kpi-note">Đã xuất hiện cho "mua vé xem phim" và "lịch chiếu CGV" - cần audit cite rate</div>
+            </div>
+            <div class="kpi-box amber">
+              <div class="kpi-label">MoMo ranking hiện tại</div>
+              <div class="kpi-value">Top 1-3</div>
+              <div class="kpi-note">Core keyword "vé xem phim" Top 1; rạp theo địa điểm Top 3-5</div>
+            </div>
+          </div>
+
+          <h4 style="font-size:12px;font-weight:700;color:var(--text-dark);margin:14px 0 8px;">Top 3 Competitors</h4>
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Domain</th>
+                  <th>Positioning</th>
+                  <th>Điểm mạnh</th>
+                  <th>Điểm yếu</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>moveek.com</code></td>
+                  <td>Review + lịch chiếu tổng hợp</td>
+                  <td>Community &amp; review chuyên sâu; long-tail phim indie</td>
+                  <td>Không có transaction flow mạnh; monetize qua ads</td>
+                </tr>
+                <tr>
+                  <td><code>vnpay.vn/ve-xem-phim</code></td>
+                  <td>Ví điện tử cạnh tranh trực tiếp</td>
+                  <td>Tương tự MoMo về payment; có hub lịch chiếu riêng theo chain</td>
+                  <td>Traffic base nhỏ hơn; brand recall không mạnh ở entertainment</td>
+                </tr>
+                <tr>
+                  <td><code>galaxycine.vn</code>, <code>cgv.vn</code></td>
+                  <td>Rạp owned channel</td>
+                  <td>Authority gốc về lịch chiếu của chính họ; thương hiệu mạnh</td>
+                  <td>Mỗi rạp 1 silo; user phải search từng chain riêng</td>
+                </tr>
+                <tr>
+                  <td><code>rapchieuphim.com</code>, <code>cinenjoy.com</code></td>
+                  <td>Content aggregator + affiliate</td>
+                  <td>Content depth về từng rạp; long-tail location</td>
+                  <td>Không có payment flow; UX cũ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="font-size:12px;font-weight:700;color:var(--text-dark);margin:18px 0 8px;">Content Gap Analysis</h4>
+          <div class="grid-3">
+            <div class="hl green">
+              <strong>MoMo có, đối thủ không</strong>
+              Transaction flow liền mạch: xem lịch chiếu → chọn suất → thanh toán qua ví. Ưu đãi/khuyến mãi độc quyền từ
+              partners. Ecosystem cross-sell.
+            </div>
+            <div class="hl amber">
+              <strong>Đối thủ có, MoMo chưa</strong>
+              Review/đánh giá phim có community voice (Moveek). Content SEO cho "top phim theo thể loại". Hub rạp theo
+              chain có depth (giá vé chi tiết, sơ đồ phòng chiếu, hình ảnh).
+            </div>
+            <div class="hl blue">
+              <strong>Cả hai đều yếu</strong>
+              GEO/AEO cho queries phân tán ("phim hay cuối tuần này", "rạp nào có Dolby Atmos gần tôi"). Structured data
+              cho AI cite. Tool tiện ích (so sánh giá vé cross-chain, tìm suất chiếu theo thời gian rảnh).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="diagnosis">
+        <h2 class="section-title">Zero-Traffic Diagnosis</h2>
+        <p class="section-sub">Dữ liệu thật từ 959 URLs đã mất traffic. Phân loại để chẩn đoán root cause.</p>
+
+        <div class="grid-4" style="margin-bottom:16px;">
+          <div class="kpi-box red">
+            <div class="kpi-label">Phim detail</div>
+            <div class="kpi-value">449 URLs</div>
+            <div class="kpi-note">-5,139 traffic/tháng. Pattern: phim hết chiếu rạp</div>
+          </div>
+          <div class="kpi-box red">
+            <div class="kpi-label">Phim review</div>
+            <div class="kpi-value">469 URLs</div>
+            <div class="kpi-note">-1,169 traffic. Đi kèm phim detail hết lifecycle</div>
+          </div>
+          <div class="kpi-box amber">
+            <div class="kpi-label">Rạp detail</div>
+            <div class="kpi-value">5 URLs</div>
+            <div class="kpi-note">-1,593 traffic. Root cause: URL slug migration không redirect</div>
+          </div>
+          <div class="kpi-box blue">
+            <div class="kpi-label">Blog/khác</div>
+            <div class="kpi-value">36 URLs</div>
+            <div class="kpi-note">-44 traffic. Noise nhỏ, không priority</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot amber"></span>Root Cause #1 - Lifecycle Problem (91% URLs)</div>
+          <div class="card-sub">Phim detail &amp; review pages chết khi phim hết lifecycle phòng vé (~4-8 tuần sau khởi
+            chiếu).</div>
+
+          <div class="hl amber">
+            <strong>PATTERN ĐÃ XÁC NHẬN</strong>
+            <p>918/959 URLs (95.7%) là phim detail hoặc review. Ví dụ cụ thể từ CSV:</p>
+            <ul style="margin:8px 0 8px 20px;">
+              <li><code>/miss-fortune-23665</code> - mất 2,228 traffic/tháng sau khi phim rời rạp</li>
+              <li><code>/co-dau-ma-24519</code> - mất 235 traffic</li>
+              <li><code>/materialists-24344</code> - mất 168 traffic</li>
+              <li><code>/respati-23948</code> - mất 103 traffic</li>
+            </ul>
+            <p>Đây <b>không phải bug content</b>. Đây là <b>thiết kế URL + cấu trúc page</b> khiến page thành zombie khi
+              suất chiếu hết - không có showtime để hiển thị, không có transaction để CTA, intent người dùng đã shift về
+              "xem lại", "review offline".</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot amber"></span>Root Cause #2 - URL Slug Migration không redirect</div>
+          <div class="card-sub">Case điển hình: <code>cgv-aeon-canary-16</code></div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>URL cũ (Lost)</th>
+                  <th>URL mới (Live)</th>
+                  <th>Traffic impact</th>
+                  <th>Diagnosis</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>/rap/cgv/cgv-aeon-canary-16</code></td>
+                  <td><code>/rap/cgv/cgv-aeon-canary-binh-duong-16</code></td>
+                  <td><b style="color:var(--red)">-1,567/tháng</b></td>
+                  <td>Slug thay đổi thêm <code>-binh-duong</code>; không có 301 redirect từ URL cũ → mất 226 keywords
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="hl red" style="margin-top:12px;">
+            <strong>BÀI HỌC HỆ THỐNG</strong>
+            Đây chỉ là 1 rạp được phát hiện. Cần audit toàn bộ hệ thống rạp: bất cứ khi nào slug change (ví dụ thêm tên
+            tỉnh/thành sau sáp nhập đơn vị hành chính), phải có 301 redirect tự động. Nếu không, mỗi rạp có thể mất
+            100-2000 traffic.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Distribution phim detail theo cohort (proxy: movie_id)</div>
+          <div class="card-sub">Phân bố URLs lost theo thời gian publish (ID cao = phim mới).</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Cohort (movie_id)</th>
+                  <th>URLs lost</th>
+                  <th>Traffic lost</th>
+                  <th>Insight</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>&lt;1000</b> (cũ nhất)</td>
+                  <td>224</td>
+                  <td>876</td>
+                  <td>Long tail decay - phim 2015-2019, decay chậm nhưng không giá trị transaction</td>
+                </tr>
+                <tr>
+                  <td><b>1k-10k</b></td>
+                  <td>41</td>
+                  <td>154</td>
+                  <td>Giai đoạn ít publish - có thể do cấu trúc URL đổi</td>
+                </tr>
+                <tr>
+                  <td><b>20k+</b> (mới nhất)</td>
+                  <td>184</td>
+                  <td><b style="color:var(--red)">4,109</b></td>
+                  <td><b>Ưu tiên cao nhất</b> - phim vừa hết chiếu 3-6 tháng gần đây, traffic decay nhanh &amp; nhiều
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="hl blue" style="margin-top:12px;">
+            <strong>SO WHAT</strong>
+            Cohort phim mới (20k+) chiếm <b>52% traffic lost</b> - đây là bucket cần can thiệp Lifecycle System ngay.
+            Phim cũ (&lt;1000) vẫn có traffic thấp nhưng cumulative, nên xử lý bằng archive/consolidation thay vì
+            redirect-each.
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PART 2: STRATEGY ===== -->
+      <section id="intent">
+        <h2 class="section-title">Part 2 · Strategy</h2>
+        <p class="section-sub">Architecture, Intent Map, URL Lifecycle - bộ quyết định cốt lõi.</p>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Search Intent Architecture</div>
+          <div class="card-sub">Map intent → page type → CTA strategy. Mỗi intent cần page format riêng, không thể
+            1-size-fits-all.</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Intent</th>
+                  <th>Query pattern ví dụ</th>
+                  <th>Page type</th>
+                  <th>Primary CTA</th>
+                  <th>W2A priority</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="chip blue">Informational</span></td>
+                  <td>"cách mua vé xem phim MoMo", "giá vé CGV"</td>
+                  <td>Blog/FAQ + Hub page</td>
+                  <td>Mềm - "Xem thêm ưu đãi"</td>
+                  <td>Thấp (awareness)</td>
+                </tr>
+                <tr>
+                  <td><span class="chip amber">Navigational</span></td>
+                  <td>"CGV Aeon Canary", "Lotte Cinema Đà Nẵng"</td>
+                  <td>Rạp detail page</td>
+                  <td>"Xem lịch chiếu &amp; đặt vé"</td>
+                  <td>Cao (có commerce intent)</td>
+                </tr>
+                <tr>
+                  <td><span class="chip green">Commercial Investigation</span></td>
+                  <td>"top phim hay 2026", "phim hay cuối tuần", "review Avatar 3"</td>
+                  <td>Top-phim hub + Review</td>
+                  <td>"Xem phim này ở đâu?" → rạp gần nhất</td>
+                  <td>Trung bình (cần discovery)</td>
+                </tr>
+                <tr>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>"mua vé xem phim", "đặt vé CGV Aeon Canary", "lịch chiếu Avatar 3 hôm nay"</td>
+                  <td>Lịch chiếu + Phim detail (còn chiếu)</td>
+                  <td><b>"Đặt vé ngay"</b> (sticky)</td>
+                  <td><b>Cao nhất</b> (primary revenue)</td>
+                </tr>
+                <tr>
+                  <td><span class="chip">Post-purchase</span></td>
+                  <td>"cách đổi vé MoMo", "hoàn tiền vé phim"</td>
+                  <td>FAQ/Hỗ trợ</td>
+                  <td>Link Help Center</td>
+                  <td>Không (retention)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="hl pink" style="margin-top:12px;">
+            <strong>KEY DECISION</strong>
+            Không đặt CTA "Đặt vé ngay" trên Informational page. Không đưa content awareness lên Transactional page.
+            Mixing intent = dilute conversion và thin content.
+          </div>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <div class="card">
+          <div class="card-title"><span class="dot green"></span>Site Architecture Target (simplified)</div>
+          <div class="card-sub">Giữ structure hiện tại, bổ sung Lifecycle layer + Programmatic layer.</div>
+
+          <pre
+            style="background:var(--bg-soft);padding:14px;border-radius:var(--radius-sm);font-family:'SF Mono',Monaco,monospace;font-size:11.5px;line-height:1.7;overflow-x:auto;color:var(--text-body);border:1px solid var(--border);">
+momo.vn/cinema/                                    <span style="color:var(--pink-core)">[Hub · Transactional + Informational]</span>
+├── lich-chieu/                                    <span style="color:var(--pink-core)">[Spoke · Transactional]</span>
+│   ├── phim-dang-chieu/
+│   ├── phim-sap-chieu/
+│   └── phim-chieu-hom-nay/                        <span style="color:var(--green)">[MỚI - programmatic theo ngày]</span>
+├── rap/                                           <span style="color:var(--pink-core)">[Spoke · Navigational hub]</span>
+│   ├── {chain}/                                   (cgv, lotte, galaxy, bhd, mega-gs, dcine, cinestar)
+│   └── {chain}/{theater-slug}-{id}/               <span style="color:var(--blue)">[Programmatic · 200-500 URLs]</span>
+├── phim-chieu/                                    <span style="color:var(--pink-core)">[Info hub phim]</span>
+├── {movie-slug}-{id}/                             <span style="color:var(--amber)">[Phim detail · LIFECYCLE]</span>
+│   └── review/                                    <span style="color:var(--amber)">[Review · LIFECYCLE]</span>
+├── top-phim/                                      <span style="color:var(--green)">[Evergreen listing · KHÔNG chết]</span>
+│   └── {topic-slug}/                              (top-phim-hay-2026, top-phim-han-quoc...)
+├── blog/                                          <span style="color:var(--blue)">[Content · Informational]</span>
+│   └── {slug}/
+└── archive/                                       <span style="color:var(--green)">[MỚI - Landing page cho phim hết chiếu]</span>
+    └── {movie-slug}/                              (302 hoặc redirect-with-context)
+</pre>
+
+          <h4 style="font-size:12px;font-weight:700;color:var(--text-dark);margin:18px 0 8px;">URL Naming Rules (chốt)
+          </h4>
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Page type</th>
+                  <th>Pattern</th>
+                  <th>Ví dụ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Transactional hub</td>
+                  <td><code>/cinema/lich-chieu/{segment}</code></td>
+                  <td><code>/cinema/lich-chieu/phim-dang-chieu</code></td>
+                </tr>
+                <tr>
+                  <td>Rạp detail</td>
+                  <td><code>/cinema/rap/{chain}/{theater-slug}-{id}</code></td>
+                  <td><code>/cinema/rap/cgv/cgv-aeon-canary-binh-duong-16</code></td>
+                </tr>
+                <tr>
+                  <td>Phim detail</td>
+                  <td><code>/cinema/{movie-slug}-{id}</code></td>
+                  <td><code>/cinema/avatar-3-fire-and-ash-24700</code></td>
+                </tr>
+                <tr>
+                  <td>Phim review</td>
+                  <td><code>/cinema/{movie-slug}-{id}/review</code></td>
+                  <td><code>/cinema/avatar-3-fire-and-ash-24700/review</code></td>
+                </tr>
+                <tr>
+                  <td>Top phim</td>
+                  <td><code>/cinema/top-phim/{topic-slug}</code></td>
+                  <td><code>/cinema/top-phim/phim-han-quoc-hay-2026</code></td>
+                </tr>
+                <tr>
+                  <td>Archive (mới)</td>
+                  <td><code>/cinema/archive/{movie-slug}</code></td>
+                  <td>Landing giữ nguyên ID, redirect về top-phim + bookmark "Gặp lại khi available streaming"</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="lifecycle">
+        <h2 class="section-title">URL Lifecycle System <span class="badge badge-pink"
+            style="vertical-align:middle;">Core Intervention</span></h2>
+        <p class="section-sub">Giải quyết Root Cause #1. Đây là leverage point lớn nhất của chiến lược.</p>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>4 Phases của một URL phim</div>
+          <div class="card-sub">Mỗi phase có content template, CTA, schema, và internal link pattern riêng.</div>
+
+          <div class="flow-row">
+            <div class="flow-box active">Phase 1<br><b>Pre-release</b></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box active">Phase 2<br><b>Showing</b></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Phase 3<br><b>Post-release</b></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Phase 4<br><b>Archive</b></div>
+          </div>
+
+          <div class="table-wrap" style="margin-top:14px;">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Phase</th>
+                  <th>Trigger</th>
+                  <th>Page config</th>
+                  <th>Primary CTA</th>
+                  <th>Schema</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="chip blue">Phase 1 · Pre-release</span></td>
+                  <td>Trước khởi chiếu (thường 4-8 tuần)</td>
+                  <td>Trailer + thông tin phim + "Nhắc tôi khi mở bán vé"</td>
+                  <td>"Đăng ký nhận lịch chiếu"</td>
+                  <td>Movie + Event (releaseDate)</td>
+                </tr>
+                <tr>
+                  <td><span class="chip pink">Phase 2 · Showing</span></td>
+                  <td>Đang chiếu rạp</td>
+                  <td>Lịch chiếu theo rạp &amp; ngày + chọn chỗ + đặt vé</td>
+                  <td><b>"Đặt vé ngay"</b> (sticky)</td>
+                  <td>Movie + ScreeningEvent + Offer</td>
+                </tr>
+                <tr>
+                  <td><span class="chip amber">Phase 3 · Post-release</span></td>
+                  <td>Hết chiếu rạp, chưa streaming</td>
+                  <td>Content shift: review + "Có thể xem ở đâu" + "Top phim tương tự đang chiếu"</td>
+                  <td>Cross-sell: <b>"Xem phim tương tự đang chiếu"</b></td>
+                  <td>Movie + Review + ItemList (similar movies)</td>
+                </tr>
+                <tr>
+                  <td><span class="chip">Phase 4 · Archive</span></td>
+                  <td>Đã lên streaming (Netflix, K+, Galaxy Play)</td>
+                  <td>Lightweight landing: summary + "Xem trên {platform}"</td>
+                  <td>Outbound link + cross-sell<br>Cinema deals</td>
+                  <td>Movie + VideoOnDemand</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot green"></span>Lifecycle State Machine (Dev-spec)</div>
+          <div class="card-sub">Logic chuyển trạng thái tự động dựa trên data từ partners &amp; schedule API.</div>
+
+          <pre
+            style="background:var(--bg-soft);padding:14px;border-radius:var(--radius-sm);font-family:'SF Mono',Monaco,monospace;font-size:11px;line-height:1.7;overflow-x:auto;color:var(--text-body);border:1px solid var(--border);">
+IF (showtime_count == 0 AND release_date &gt; today)
+   THEN phase = "PRE_RELEASE"
+
+ELSE IF (showtime_count &gt; 0 for next 7 days)
+   THEN phase = "SHOWING"
+
+ELSE IF (last_showtime &lt; today AND last_showtime &gt; today - 90d)
+   THEN phase = "POST_RELEASE"
+
+ELSE IF (last_showtime &lt; today - 90d OR streaming_platforms IS NOT NULL)
+   THEN phase = "ARCHIVE"
+</pre>
+
+          <div class="hl green" style="margin-top:12px;">
+            <strong>IMPLEMENTATION NOTE</strong>
+            Transition phải có <b>nightly cron job</b>. Content template swap tự động theo phase. Không cần Content team
+            can thiệp manual per-movie. Đây là automation core - giảm dependency để scale.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot amber"></span>Thay vì 301 Redirect - Dùng Content Transformation
+          </div>
+
+          <div class="hl amber">
+            <strong>TẠI SAO KHÔNG REDIRECT HÀNG LOẠT?</strong>
+            <p>959 phim hết chiếu → 959 redirect về <code>/cinema</code> = mất hết equity + user intent mismatch.
+              Redirect hàng loạt về hub cũng bị Google coi là soft-404.</p>
+            <p><b>Cách làm đúng</b>: Giữ URL, swap content template theo phase. Page vẫn hữu ích (review + "xem tương tự
+              đang chiếu") → giữ được long-tail traffic cho query "review [phim]" và convert sang phim khác đang chiếu.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot blue"></span>URL Migration Protocol - case CGV Aeon Canary</div>
+          <div class="card-sub">Fix 1,567 traffic/tháng bị mất + xây SOP cho tương lai.</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Bước</th>
+                  <th>Hành động</th>
+                  <th>Owner</th>
+                  <th>Timeline</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Audit tất cả rạp có slug đổi (đặc biệt sau sáp nhập hành chính 2025)</td>
+                  <td>SEO (Klaus)</td>
+                  <td>Tuần 1</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Set up 301 redirect: URL cũ → URL mới cho tất cả cases</td>
+                  <td>Dev</td>
+                  <td>Tuần 2</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Resubmit sitemap + fetch as Google cho URL mới</td>
+                  <td>SEO</td>
+                  <td>Tuần 2</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Monitor recovery trong GSC 4-8 tuần</td>
+                  <td>SEO</td>
+                  <td>Tuần 3-10</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>Viết SOP: "Bất kỳ slug change nào phải đi kèm 301 redirect pre-deploy"</td>
+                  <td>SEO + Dev Lead</td>
+                  <td>Tuần 3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="w2a">
+        <h2 class="section-title">Web-to-App Conversion Strategy</h2>
+        <p class="section-sub">Shift từ "tăng traffic" sang "tăng transaction". Tối ưu touchpoint theo intent page type.
+        </p>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>W2A Touchpoint Map theo Page Type</div>
+          <div class="card-sub">Không phải page nào cũng đặt CTA "Đặt vé". Mix logic theo intent.</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Page type</th>
+                  <th>Smart Banner</th>
+                  <th>Inline CTA</th>
+                  <th>Sticky CTA</th>
+                  <th>Deeplink target</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="chip pink">Lịch chiếu + Rạp</span></td>
+                  <td>Scroll 30%</td>
+                  <td>Sau chọn suất</td>
+                  <td><b>Always on mobile</b></td>
+                  <td><code>momoapp.onelink.vn</code> → Cinema tab + pre-selected suất</td>
+                </tr>
+                <tr>
+                  <td><span class="chip amber">Phim detail (Phase 2)</span></td>
+                  <td>Scroll 50%</td>
+                  <td>Sau thông tin phim</td>
+                  <td>Always on mobile</td>
+                  <td><code>momoapp.onelink.vn</code> → movie deeplink</td>
+                </tr>
+                <tr>
+                  <td><span class="chip">Phim detail (Phase 3-4)</span></td>
+                  <td>Ẩn</td>
+                  <td>"Phim tương tự đang chiếu"</td>
+                  <td>Không sticky - soft CTA</td>
+                  <td><code>onelink.momo.vn</code> (has-app users) → hub</td>
+                </tr>
+                <tr>
+                  <td><span class="chip green">Top phim + Blog</span></td>
+                  <td>Scroll 70%</td>
+                  <td>Inline per movie mention</td>
+                  <td>Không</td>
+                  <td>Contextual - theo phim cụ thể</td>
+                </tr>
+                <tr>
+                  <td><span class="chip blue">Hub /cinema</span></td>
+                  <td>Scroll 50%</td>
+                  <td>Hero + mỗi section</td>
+                  <td>Always on mobile</td>
+                  <td><code>momoapp.onelink.vn</code> → Cinema tab</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot green"></span>Onelink &amp; Tracking Config</div>
+
+          <div class="hl blue">
+            <strong>DUAL ONELINK STRATEGY</strong>
+            <p><b>Has-app users</b> (detect qua cookie/fingerprint): <code>onelink.momo.vn</code> - trigger open app +
+              action (view/buy). Track ở GA4.</p>
+            <p><b>No-app users</b>: <code>momoapp.onelink.vn</code> (Appsflyer-integrated) - Store → Install → Register
+              → KYC → Cashin → Transaction. Track full funnel ở Appsflyer.</p>
+            <p><b>UTM convention bắt buộc</b>:
+              <code>?utm_source=web-cinema&amp;utm_medium=organic&amp;utm_campaign={page-type}&amp;utm_content={movie-id|theater-id}</code>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PART 3: BUILD ===== -->
+      <section id="utilities">
+        <h2 class="section-title">Part 3 · Build</h2>
+        <p class="section-sub">PLG Utilities, Content Pipeline, GEO Checklist, Programmatic SEO.</p>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>PLG Utilities (Anti-LLM Moat)</div>
+          <div class="card-sub">Tool tiện ích mà AI khó replicate - tạo dependency cho user quay lại web thay vì hỏi
+            ChatGPT.</div>
+
+          <div class="grid-2">
+            <div class="hl pink">
+              <strong>UTILITY #1 · SUẤT CHIẾU NHANH</strong>
+              <b>Job served:</b> Job #1 "tôi muốn đi xem phim cuối tuần, biết rạp gần nhà còn suất giờ phù hợp".<br>
+              <b>Input:</b> Location (auto-detect) + Time range + Genre (optional).<br>
+              <b>Logic:</b> Lọc tất cả rạp trong 5km × suất chiếu phù hợp khung giờ × còn ghế.<br>
+              <b>Output:</b> List rạp + phim + suất + CTA đặt vé.<br>
+              <b>ICE Priority:</b> I=9, C=7, E=5 → <b>315</b> (top priority)
+            </div>
+            <div class="hl pink">
+              <strong>UTILITY #2 · SO SÁNH GIÁ VÉ</strong>
+              <b>Job served:</b> Job #2 "tiết kiệm được chút qua ưu đãi".<br>
+              <b>Input:</b> Movie + Location + Date.<br>
+              <b>Logic:</b> So sánh giá vé + ưu đãi MoMo active giữa CGV, Lotte, Galaxy, BHD... cho cùng phim.<br>
+              <b>Output:</b> Rạp rẻ nhất + mức tiết kiệm + CTA.<br>
+              <b>ICE Priority:</b> I=8, C=7, E=6 → <b>336</b> (top priority)
+            </div>
+            <div class="hl amber">
+              <strong>UTILITY #3 · TIMELINE PHIM SẮP CHIẾU</strong>
+              <b>Job served:</b> Job #3 discovery phim sắp chiếu.<br>
+              <b>Input:</b> None (default: 30 ngày tới).<br>
+              <b>Logic:</b> Hiển thị calendar view phim sắp khởi chiếu + trailer + "Nhắc tôi".<br>
+              <b>Output:</b> Visual timeline có filter theo thể loại.<br>
+              <b>ICE Priority:</b> I=6, C=7, E=7 → <b>294</b> (phase 2)
+            </div>
+            <div class="hl amber">
+              <strong>UTILITY #4 · REVIEW SUMMARY BOT</strong>
+              <b>Job served:</b> "không phí tiền + thời gian vào phim dở".<br>
+              <b>Input:</b> Movie name.<br>
+              <b>Logic:</b> Aggregate reviews từ nhiều nguồn + NLP summary.<br>
+              <b>Output:</b> Spoiler-free summary + score.<br>
+              <b>ICE Priority:</b> I=7, C=5, E=4 → <b>140</b> (phase 3, cần NLP pipeline)
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="content">
+        <div class="card">
+          <div class="card-title"><span class="dot blue"></span>Content Production Pipeline</div>
+          <div class="card-sub">3 angles chính. Mỗi angle 2-3 topics/tháng. Priority theo ICE + intent quality.</div>
+
+          <div class="hl blue">
+            <strong>ANGLE 1 · TRANSACTIONAL ENABLEMENT</strong>
+            <p><i>Intent: Transactional - user đã sẵn sàng mua vé, cần thông tin cuối cùng.</i></p>
+            <ul style="margin:6px 0 0 20px;">
+              <li>"Lịch chiếu {phim hot} hôm nay tại {thành phố}" - programmatic, refresh daily</li>
+              <li>"Giá vé rạp {chain} 2026 cập nhật" - evergreen + quarterly refresh</li>
+              <li>"Cách đặt vé xem phim {chain} qua MoMo" - static, 1 bài/chain</li>
+            </ul>
+            <b>Differentiation:</b> Transaction flow embed, không phải chỉ mô tả.
+          </div>
+
+          <div class="hl green">
+            <strong>ANGLE 2 · DISCOVERY &amp; CONVERSION</strong>
+            <p><i>Intent: Commercial Investigation - user đang tìm phim để xem.</i></p>
+            <ul style="margin:6px 0 0 20px;">
+              <li>"Top phim hay đang chiếu tuần này" - weekly refresh</li>
+              <li>"Top phim {thể loại} 2026 không thể bỏ lỡ" - evergreen theo thể loại</li>
+              <li>"Review {phim hot}: có đáng đi rạp không?" - theo phim mới khởi chiếu</li>
+            </ul>
+            <b>Differentiation:</b> Mỗi phim mention đều có CTA "Xem lịch chiếu {phim này}" dẫn về transactional page.
+          </div>
+
+          <div class="hl pink">
+            <strong>ANGLE 3 · RẠP &amp; LOCATION EXPERIENCE</strong>
+            <p><i>Intent: Navigational + Commercial - user tìm rạp cụ thể.</i></p>
+            <ul style="margin:6px 0 0 20px;">
+              <li>"Review rạp {chain} {location}: chất lượng, giá vé, tiện ích" - 1 bài/rạp top</li>
+              <li>"5 rạp CGV tại {thành phố} có IMAX/4DX" - long-tail theo format + city</li>
+              <li>"Cách đi đến rạp {tên rạp}: đường, gửi xe, tips" - ultra long-tail local</li>
+            </ul>
+            <b>Differentiation:</b> Embed map + showtime widget + CTA đặt vé.
+          </div>
+
+          <h4 style="font-size:12px;font-weight:700;color:var(--text-dark);margin:18px 0 8px;">Content Calendar - 4 tuần
+            đầu</h4>
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Week</th>
+                  <th>Piece</th>
+                  <th>Type</th>
+                  <th>Target keyword</th>
+                  <th>Angle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>W1</td>
+                  <td>Lịch chiếu phim hôm nay tại TP.HCM</td>
+                  <td>Programmatic template</td>
+                  <td>lịch chiếu phim hôm nay</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>W1</td>
+                  <td>Top 10 phim hay đang chiếu tháng 5/2026</td>
+                  <td>Editorial</td>
+                  <td>phim hay đang chiếu</td>
+                  <td>2</td>
+                </tr>
+                <tr>
+                  <td>W2</td>
+                  <td>Cách đặt vé CGV qua MoMo: 5 bước + ưu đãi mới</td>
+                  <td>How-to</td>
+                  <td>đặt vé CGV MoMo</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>W2</td>
+                  <td>Review rạp CGV Aeon Canary Bình Dương (fix URL)</td>
+                  <td>Rạp detail (enhanced)</td>
+                  <td>CGV Aeon Canary</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>W3</td>
+                  <td>Giá vé Lotte Cinema 2026: bảng giá đầy đủ</td>
+                  <td>Reference</td>
+                  <td>giá vé Lotte Cinema</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>W3</td>
+                  <td>Top phim Hàn Quốc hay nhất 2026</td>
+                  <td>Listing evergreen</td>
+                  <td>phim Hàn Quốc hay 2026</td>
+                  <td>2</td>
+                </tr>
+                <tr>
+                  <td>W4</td>
+                  <td>5 rạp IMAX tại Hà Nội: so sánh chất lượng</td>
+                  <td>Comparison</td>
+                  <td>rạp IMAX Hà Nội</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>W4</td>
+                  <td>Review {phim Tết hot} có đáng đi rạp?</td>
+                  <td>Review</td>
+                  <td>review {phim}</td>
+                  <td>2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="geo-checklist">
+        <h2 class="section-title">GEO/AEO Checklist <span class="badge badge-amber" style="vertical-align:middle;">GATE
+            · Không pass = không publish</span></h2>
+        <p class="section-sub">Mọi page mới hoặc refresh phải qua gate này. Non-negotiable.</p>
+
+        <div class="grid-2">
+          <div class="cl-box">
+            <div class="cl-box-title">PRE-PUBLISH (bắt buộc)</div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>50 từ đầu trả lời <b>trực tiếp</b> câu hỏi chính của page (AI-optimized)</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>H1 phản ánh đúng search intent + chứa primary keyword</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Schema bắt buộc: primary type + <code>FAQPage</code> + <code>BreadcrumbList</code></div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Movie page: thêm <code>Movie</code> schema + <code>ScreeningEvent</code> + <code>Offer</code></div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Rạp page: thêm <code>MovieTheater</code> schema + <code>PostalAddress</code> +
+                <code>GeoCoordinates</code>
+              </div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>FAQ section với Q&amp;A tự nhiên (min 5 câu hỏi)</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Internal links: Hub ↔ Spokes + related movies/theaters</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>CTA đúng vị trí theo page type (ref: W2A Touchpoint Map)</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Mobile CWV: LCP &lt; 2.5s, CLS &lt; 0.1, INP &lt; 200ms</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Cited sources: nếu là review/blog có nguồn trích dẫn, schema <code>citation</code></div>
+            </div>
+          </div>
+
+          <div class="cl-box">
+            <div class="cl-box-title">POST-PUBLISH</div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>GSC: request indexing + validate schema (Rich Results Test)</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>GTM/GA4: verify events firing (<code>webads_*</code>, <code>cta_click</code>,
+                <code>deeplink_open</code>)
+              </div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Deeplink test: CTA → App opens đúng Cinema tab với context</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Appsflyer attribution test cho no-app users (full funnel)</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>Baseline logged: impressions, clicks, sessions, W2A conv</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div>AI cite monitoring: manual check Google AIO + Perplexity sau 2 tuần</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hl amber" style="margin-top:12px;">
+          <strong>NON-NEGOTIABLE RULE</strong>
+          Thiếu bất kỳ item pre-publish nào → KHÔNG PUBLISH. Trách nhiệm gate: Klaus (SEO) + Inbound writer sign-off
+          đôi.
+        </div>
+      </section>
+
+      <section id="programmatic">
+        <h2 class="section-title">Programmatic SEO Layer</h2>
+        <p class="section-sub">Long-tail defensive moat: rạp × phim × lịch chiếu theo ngày.</p>
+
+        <div class="card">
+          <div class="card-title"><span class="dot green"></span>Programmatic Opportunity Map</div>
+          <div class="card-sub">Biến số × Count = URLs tiềm năng.</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Template</th>
+                  <th>Biến số</th>
+                  <th>URLs ước tính</th>
+                  <th>Intent</th>
+                  <th>Phase</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Rạp detail (đã có)</b></td>
+                  <td>chains (8) × theaters (~250)</td>
+                  <td>~250</td>
+                  <td>Navigational</td>
+                  <td><span class="chip green">Live - cần audit quality</span></td>
+                </tr>
+                <tr>
+                  <td><b>Lịch chiếu theo ngày × thành phố</b></td>
+                  <td>cities (~30) × days (7)</td>
+                  <td>~210</td>
+                  <td>Transactional</td>
+                  <td><span class="chip amber">Phase 1 · Q2</span></td>
+                </tr>
+                <tr>
+                  <td><b>Phim × Rạp × Ngày</b></td>
+                  <td>top movies (~30) × theaters (~100) × days (7)</td>
+                  <td>~21,000 (filter theo showtime)</td>
+                  <td>Transactional</td>
+                  <td><span class="chip amber">Phase 2 · Q3</span></td>
+                </tr>
+                <tr>
+                  <td><b>Format × City</b></td>
+                  <td>formats (IMAX, 4DX, Dolby Atmos) × cities (10)</td>
+                  <td>~30</td>
+                  <td>Commercial</td>
+                  <td><span class="chip blue">Phase 1 · Q2</span></td>
+                </tr>
+                <tr>
+                  <td><b>Top phim theo thể loại × năm</b></td>
+                  <td>genres (~15) × years (3)</td>
+                  <td>~45</td>
+                  <td>Commercial</td>
+                  <td><span class="chip blue">Phase 1 · Q2</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="dot amber"></span>Programmatic Quality Gates</div>
+          <div class="card-sub">Không scale khi chưa validate template trên manual sample.</div>
+
+          <div class="cl-box">
+            <div class="cl-box-title">GATES TRƯỚC KHI LAUNCH</div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div><b>Data source</b>: API partners có SLA + fallback khi down; refresh daily cho showtime</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div><b>Template validation</b>: test 5-10 manual pages, đạt CR benchmark trước khi scale</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div><b>Unique content</b>: min 200 từ unique/page (không chỉ swap variable)</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div><b>Schema automated</b>: mỗi page có schema phù hợp type</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div><b>Thin page protection</b>: noindex nếu content &lt; 200 từ hoặc showtime_count = 0</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div><b>Sitemap chunking</b>: chia nhỏ nếu &gt; 10k URLs</div>
+            </div>
+            <div class="cl-item"><span class="mark check">✓</span>
+              <div><b>Canonical tự trỏ</b> mỗi page trỏ về chính nó</div>
+            </div>
+          </div>
+
+          <div class="hl green" style="margin-top:12px;">
+            <strong>SCALING PATH (3 phases)</strong>
+            Phase 1 (Q2): 50-100 manual pages cho top cities/chains → validate CR.<br>
+            Phase 2 (Q3): Programmatic 500-1000 URLs, monitor index rate phải ≥70%.<br>
+            Phase 3 (Q4): Scale to full set với auto-refresh daily + quality monitor.
+          </div>
+        </div>
+      </section>
+
+      <section id="tech-seo">
+        <div class="card">
+          <div class="card-title"><span class="dot blue"></span>Technical SEO Hygiene</div>
+
+          <div class="grid-2">
+            <div>
+              <h4
+                style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--text-faint);text-transform:uppercase;margin-bottom:10px;">
+                ROUTINE</h4>
+              <ul style="margin-left:20px;font-size:12.5px;line-height:1.8;">
+                <li>Core Web Vitals: weekly monitor (Looker Studio dashboard)</li>
+                <li>Zero-traffic URLs: monthly audit</li>
+                <li>Sitemap: auto-update khi có page mới/phase change</li>
+                <li>Broken links scan: biweekly Screaming Frog</li>
+                <li>Schema validation: weekly Rich Results Test trên sample</li>
+              </ul>
+            </div>
+            <div>
+              <h4
+                style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--text-faint);text-transform:uppercase;margin-bottom:10px;">
+                ESCALATION (cần Dev)</h4>
+              <ul style="margin-left:20px;font-size:12.5px;line-height:1.8;">
+                <li><b>Lifecycle state machine</b> cho phim detail</li>
+                <li><b>301 redirect handler</b> khi slug change</li>
+                <li><b>Programmatic template engine</b> với ISR/SSG</li>
+                <li><b>CWV optimization</b>: lazy-load images, font preload</li>
+                <li><b>Schema auto-generation</b> từ database</li>
+                <li><b>llms.txt</b> + robots.txt accept AI crawlers</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PART 4: GROWTH LOOP ===== -->
+      <section id="measurement">
+        <h2 class="section-title">Part 4 · Growth Loop</h2>
+        <p class="section-sub">Measurement, Experiments, Iteration, Scaling.</p>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Measurement Framework</div>
+          <div class="card-sub">North Star: <b>Transactions from Web Cinema</b>. Full funnel tracked.</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Stage</th>
+                  <th>Metric</th>
+                  <th>Tool</th>
+                  <th>Target Q4/2026</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Impression</td>
+                  <td>GSC Impressions (cluster vé xem phim)</td>
+                  <td>GSC</td>
+                  <td>Maintain growth</td>
+                </tr>
+                <tr>
+                  <td>Click</td>
+                  <td>GSC Clicks + CTR theo page type</td>
+                  <td>GSC</td>
+                  <td>CTR ≥ benchmark theo position</td>
+                </tr>
+                <tr>
+                  <td>Landing</td>
+                  <td>Sessions theo template (rạp, phim, lịch chiếu)</td>
+                  <td>GA4</td>
+                  <td>Programmatic ≥30% total</td>
+                </tr>
+                <tr>
+                  <td>Engage</td>
+                  <td>CTA Click Rate theo page type</td>
+                  <td>GA4 events</td>
+                  <td>+30% so baseline</td>
+                </tr>
+                <tr>
+                  <td>Convert</td>
+                  <td>Deeplink Fire Rate (onelink open)</td>
+                  <td>GA4 + AF</td>
+                  <td>+50% so baseline</td>
+                </tr>
+                <tr>
+                  <td>Activate</td>
+                  <td>App Open Rate (has-app) / Install Rate (no-app)</td>
+                  <td>Appsflyer</td>
+                  <td>Benchmark partner</td>
+                </tr>
+                <tr>
+                  <td><b>Revenue</b></td>
+                  <td>Transaction count + GMV via deeplink attribution</td>
+                  <td>Appsflyer + internal</td>
+                  <td><b>+30% transactions</b></td>
+                </tr>
+                <tr>
+                  <td>AI Traffic</td>
+                  <td>Sessions từ ChatGPT/Perplexity/Gemini referrers</td>
+                  <td>GA4 referrer analysis</td>
+                  <td>≥5% total organic</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="hl blue" style="margin-top:12px;">
+            <strong>DASHBOARD SPEC</strong>
+            Looker Studio dashboard "Cinema Growth" với 4 tabs: Overview (KR progress) / Lifecycle (URL phases
+            distribution) / Programmatic (index rate + quality) / AI Search (cite rate + referrer traffic). Owner:
+            Klaus. Review: Weekly với PO.
+          </div>
+        </div>
+      </section>
+
+      <section id="crosssell">
+        <div class="card">
+          <div class="card-title"><span class="dot green"></span>Cross-sell &amp; Ecosystem Links</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Logic</th>
+                  <th>Trigger</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Cinema (phim xong)</td>
+                  <td>Food delivery</td>
+                  <td>User vừa xem phim xong, có thể đói</td>
+                  <td>Post-transaction email/push</td>
+                </tr>
+                <tr>
+                  <td>Cinema (rạp AEON Mall)</td>
+                  <td>Shopping/Mall</td>
+                  <td>User đang ở mall, có thể shopping</td>
+                  <td>On rạp detail page nếu rạp nằm trong mall</td>
+                </tr>
+                <tr>
+                  <td>Cinema (phim du lịch)</td>
+                  <td>OTA (vé máy bay, khách sạn)</td>
+                  <td>Inspiration-based cross-sell</td>
+                  <td>Content level (blog post)</td>
+                </tr>
+                <tr>
+                  <td>Top-phim blog</td>
+                  <td>Cinema transaction</td>
+                  <td>User đang browse, dẫn về transaction</td>
+                  <td>Inline CTA per movie mention</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="experiments">
+        <div class="card">
+          <div class="card-title"><span class="dot amber"></span>Growth Experiments (Q2 queue)</div>
+          <div class="card-sub">3 hypothesis đầu tiên. Success criteria: p &lt; 0.05 với min sample size đạt.</div>
+
+          <div class="hl pink">
+            <strong>HYPOTHESIS #1 · Lifecycle State Swap</strong>
+            <p><i>"Nếu swap content template theo lifecycle phase (Phase 3 shift sang review + cross-sell phim tương tự)
+                trên 50 URLs phim hết chiếu, thì W2A conversion từ các URL này tăng ≥40% vì intent mismatch được xử
+                lý."</i></p>
+            <b>Control:</b> 50 URLs keep as-is. <b>Variant:</b> 50 URLs swap template. <b>Duration:</b> 4 tuần.
+            <b>Metric:</b> Deeplink fire rate.
+          </div>
+
+          <div class="hl blue">
+            <strong>HYPOTHESIS #2 · Sticky CTA Mobile</strong>
+            <p><i>"Nếu thêm sticky bar CTA 'Đặt vé ngay' trên mobile cho phim detail Phase 2 (đang chiếu), thì CR W2A
+                tăng ≥25% vì user mobile có intent transaction rõ ràng."</i></p>
+            <b>Control:</b> A/B test 50/50. <b>Duration:</b> 2 tuần. <b>Metric:</b> CTA click rate + downstream
+            conversion.
+          </div>
+
+          <div class="hl green">
+            <strong>HYPOTHESIS #3 · FAQ Schema for AIO Cite</strong>
+            <p><i>"Nếu thêm FAQ schema với 5 câu hỏi tự nhiên về đặt vé/giá vé/hoàn huỷ vào top 20 rạp detail pages, thì
+                xuất hiện cite rate trong Google AIO tăng ≥30% trong 8 tuần."</i></p>
+            <b>Control:</b> 20 rạp không có FAQ. <b>Variant:</b> 20 rạp có FAQ schema. <b>Metric:</b> Manual check AIO +
+            Perplexity weekly.
+          </div>
+        </div>
+      </section>
+
+      <section id="iteration">
+        <div class="card">
+          <div class="card-title"><span class="dot blue"></span>Iteration Cycle</div>
+
+          <div class="grid-3">
+            <div class="kpi-box blue">
+              <div class="kpi-label">Weekly</div>
+              <div class="kpi-value">Tactical</div>
+              <div class="kpi-note">Content performance review. Fix tracking bugs. Monitor lifecycle transition
+                correctness.</div>
+            </div>
+            <div class="kpi-box amber">
+              <div class="kpi-label">Monthly</div>
+              <div class="kpi-value">Operational</div>
+              <div class="kpi-note">Content audit. Utility usage review. Programmatic index rate. Experiment decisions.
+              </div>
+            </div>
+            <div class="kpi-box green">
+              <div class="kpi-label">Quarterly</div>
+              <div class="kpi-value">Strategic</div>
+              <div class="kpi-note">OKR check-in. Architecture review. Competitive re-assessment. AI Overview impact
+                check.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scaling">
+        <div class="card">
+          <div class="card-title"><span class="dot green"></span>Scaling Playbook - Replicate to Other Use Cases</div>
+          <div class="card-sub">Cinema là prototype cho pattern "Transactional + Programmatic + Lifecycle" - áp dụng
+            được cho OTA, Telco, Insurance.</div>
+
+          <div class="hl green">
+            <strong>REUSABLE PATTERNS</strong>
+            <ol style="margin:6px 0 0 20px;">
+              <li><b>URL Lifecycle System</b> → OTA (vé máy bay có flight date), Event ticketing, Insurance (policy
+                renewal cycle)</li>
+              <li><b>Dual Onelink + UTM convention</b> → mọi Use Case với W2A funnel</li>
+              <li><b>Intent-based CTA Map</b> → thay keyword, thay intent, giữ framework</li>
+              <li><b>Programmatic quality gates</b> → bất kỳ Use Case có structured data (Insurance theo xe, Billpay
+                theo provider)</li>
+              <li><b>GEO Checklist</b> → universal cho tất cả Use Case</li>
+            </ol>
+          </div>
+
+          <h4 style="font-size:12px;font-weight:700;color:var(--text-dark);margin:14px 0 8px;">Replication Steps</h4>
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Bước</th>
+                  <th>Hành động</th>
+                  <th>Thời gian</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Swap JTBD (chạy skill <code>jtbd-analysis</code> cho UC mới)</td>
+                  <td>1 tuần</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Swap keyword universe (scrape SERP mới)</td>
+                  <td>1 tuần</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Reuse component library (hero, card, kpi-box, etc)</td>
+                  <td>1-2 ngày</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Adapt lifecycle logic theo UC (nếu applicable)</td>
+                  <td>1-2 tuần</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>Run GEO checklist pre-publish</td>
+                  <td>Gate</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== APPENDIX ===== -->
+      <section id="appendix-keywords">
+        <h2 class="section-title">Appendix</h2>
+
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>A. Keyword Universe (Priority 20)</div>
+          <div class="card-sub">Volume = [CẦN VERIFY qua Ahrefs]. ICE score dựa trên business impact + match intent.
+          </div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Keyword</th>
+                  <th>Intent</th>
+                  <th>Current pos (GSC)</th>
+                  <th>Priority</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>vé xem phim</td>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>Top 1</td>
+                  <td><span class="badge badge-green">Maintain</span></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>mua vé xem phim online</td>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-green">Maintain</span></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>lịch chiếu phim hôm nay</td>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>lịch chiếu CGV</td>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>lịch chiếu Lotte</td>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>phim đang chiếu</td>
+                  <td><span class="chip green">Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>phim sắp chiếu</td>
+                  <td><span class="chip green">Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td>top phim hay 2026</td>
+                  <td><span class="chip green">Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td>phim hay cuối tuần</td>
+                  <td><span class="chip green">Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-amber">Monitor</span></td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td>rạp CGV gần đây</td>
+                  <td><span class="chip amber">Navigational+Local</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>11</td>
+                  <td>đặt vé CGV</td>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>12</td>
+                  <td>giá vé CGV</td>
+                  <td><span class="chip blue">Informational+Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-amber">Monitor</span></td>
+                </tr>
+                <tr>
+                  <td>13</td>
+                  <td>giá vé Lotte Cinema</td>
+                  <td><span class="chip blue">Informational+Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-amber">Monitor</span></td>
+                </tr>
+                <tr>
+                  <td>14</td>
+                  <td>cách đặt vé CGV qua MoMo</td>
+                  <td><span class="chip blue">Informational</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-green">Maintain</span></td>
+                </tr>
+                <tr>
+                  <td>15</td>
+                  <td>rạp IMAX Hà Nội</td>
+                  <td><span class="chip amber">Navigational+Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>16</td>
+                  <td>rạp 4DX TP.HCM</td>
+                  <td><span class="chip amber">Navigational+Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>17</td>
+                  <td>review {phim hot}</td>
+                  <td><span class="chip green">Commercial</span></td>
+                  <td>Theo phim</td>
+                  <td><span class="badge badge-amber">Opportunistic</span></td>
+                </tr>
+                <tr>
+                  <td>18</td>
+                  <td>phim Hàn Quốc hay 2026</td>
+                  <td><span class="chip green">Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>19</td>
+                  <td>phim chiếu rạp tháng {x}/2026</td>
+                  <td><span class="chip green">Commercial</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+                <tr>
+                  <td>20</td>
+                  <td>vé xem phim giá rẻ</td>
+                  <td><span class="chip pink">Transactional</span></td>
+                  <td>[CẦN VERIFY]</td>
+                  <td><span class="badge badge-pink">Attack</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="appendix-urls">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>B. URL Inventory - Priority Actions</div>
+          <div class="card-sub">Top URL cần intervention ngay trong Q2.</div>
+
+          <div class="table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>URL</th>
+                  <th>Type</th>
+                  <th>Angle</th>
+                  <th>Target keyword</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>/cinema/rap/cgv/cgv-aeon-canary-16</code></td>
+                  <td>Rạp detail (cũ)</td>
+                  <td>Infrastructure fix</td>
+                  <td>CGV Aeon Canary</td>
+                  <td><span class="chip pink">301 → cgv-aeon-canary-binh-duong-16</span></td>
+                </tr>
+                <tr>
+                  <td><code>/cinema/miss-fortune-23665</code></td>
+                  <td>Phim detail (Phase 3)</td>
+                  <td>Lifecycle transform</td>
+                  <td>review miss fortune</td>
+                  <td><span class="chip amber">Swap template Phase 3</span></td>
+                </tr>
+                <tr>
+                  <td><code>/cinema/lich-chieu/phim-dang-chieu</code></td>
+                  <td>Transactional hub</td>
+                  <td>1 - Transactional</td>
+                  <td>phim đang chiếu</td>
+                  <td><span class="chip green">Enhance + programmatic</span></td>
+                </tr>
+                <tr>
+                  <td><code>/cinema/lich-chieu/phim-chieu-hom-nay</code></td>
+                  <td>Programmatic (mới)</td>
+                  <td>1 - Transactional</td>
+                  <td>lịch chiếu hôm nay</td>
+                  <td><span class="chip pink">Build phase 1</span></td>
+                </tr>
+                <tr>
+                  <td><code>/cinema/top-phim/phim-han-quoc-hay-2026</code></td>
+                  <td>Top-phim listing</td>
+                  <td>2 - Discovery</td>
+                  <td>phim Hàn Quốc hay 2026</td>
+                  <td><span class="chip blue">Create new</span></td>
+                </tr>
+                <tr>
+                  <td><code>/cinema/rap/{chain}/rap-imax-ha-noi</code></td>
+                  <td>Format × city hub</td>
+                  <td>3 - Rạp experience</td>
+                  <td>rạp IMAX Hà Nội</td>
+                  <td><span class="chip blue">Create new</span></td>
+                </tr>
+                <tr>
+                  <td><code>/cinema/archive/*</code></td>
+                  <td>Archive (mới)</td>
+                  <td>Lifecycle Phase 4</td>
+                  <td>xem {phim cũ} ở đâu</td>
+                  <td><span class="chip pink">Build architecture</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="appendix-brief">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>C. Content Brief Template</div>
+          <div class="card-sub">Dùng cho mọi piece mới. Không viết khi chưa fill đầy đủ.</div>
+
+          <pre
+            style="background:var(--bg-soft);padding:16px;border-radius:var(--radius-sm);font-family:'SF Mono',Monaco,monospace;font-size:11.5px;line-height:1.8;overflow-x:auto;color:var(--text-body);border:1px solid var(--border);">
+TITLE (H1):         [Tiêu đề chính - phản ánh search intent]
+URL SLUG:           /cinema/[pattern đúng naming rules]
+TARGET KEYWORD:     [primary keyword]
+SECONDARY KW:       [2-3 keywords liên quan]
+INTENT:             [Transactional / Commercial / Navigational / Informational]
+PAGE TYPE:          [Hub / Spoke / Phim detail / Rạp detail / Top-phim / Blog]
+LIFECYCLE PHASE:    [Pre-release / Showing / Post-release / Archive / N/A]
+JTBD:               "When [situation], I want to [motivation], so I can [outcome]"
+
+CONTENT STRUCTURE:
+- Hero (first 50 words): trả lời trực tiếp câu hỏi chính
+- H2 sections (3-5): theo user journey logic
+- FAQ section: min 5 Q&amp;A tự nhiên
+- Related: 3-5 internal links tới hub + spokes
+
+SCHEMA:
+- Primary: [Movie / MovieTheater / Event / Article / FAQPage]
+- Secondary (required): FAQPage + BreadcrumbList
+- Optional: Review, Offer, ScreeningEvent, AggregateRating
+
+CTA:
+- Hero CTA: [text + link]
+- In-content CTA: [text + link + position]
+- Sticky (mobile): [có/không + text]
+- Deeplink: [onelink.momo.vn | momoapp.onelink.vn] + UTM
+
+GEO CHECK:         [ ] Pre-publish checklist passed
+POST-PUBLISH:      [ ] GSC + GA4 + Deeplink test logged
+OWNER:             [Inbound writer / SEO / Dev]
+DEADLINE:          [date]
+</pre>
+        </div>
+      </section>
+
+      <section>
+        <div class="hl pink">
+          <strong>CLOSING - NHỮNG ĐIỂM CẦN VALIDATE TIẾP</strong>
+          <p>Document này là <b>Draft v1</b>. Trước khi chuyển Execution, cần validate với data:</p>
+          <ol style="margin:8px 0 0 20px;">
+            <li><b>Baseline numbers</b> - tất cả [CẦN VERIFY] cần fill từ GSC + GA4 + Appsflyer: transaction-driven
+              sessions, W2A CR, New Users từ organic.</li>
+            <li><b>JTBD validation</b> - chạy skill <code>jtbd-analysis</code> v2.0 với live scraping để confirm job
+              statements + anxieties.</li>
+            <li><b>Cell Team alignment</b> - confirm đầu mối Cinema Cell (PO/Growth/Dev) để align lifecycle state
+              machine specs.</li>
+            <li><b>Partner API availability</b> - verify showtime API từ CGV/Lotte/Galaxy có SLA đủ để build
+              programmatic phase 2-3.</li>
+            <li><b>Dev capacity</b> - lifecycle state machine + programmatic engine cần estimate effort + timeline từ
+              Dev Lead.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    hamburger?.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('show');
+    });
+    overlay?.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+
+    // Active nav on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-item');
+    const setActive = (id) => {
+      navItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+      });
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) setActive(e.target.id);
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // Close mobile nav on click
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('show');
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

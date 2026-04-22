@@ -289,4 +289,21 @@ export const projects: Project[] = [
     description: 'Framework thiết kế và audit tracking toàn diện cho Web-to-App: event taxonomy, dataLayer, UTM structure và debug checklist.',
     htmlFile: '/projects/tracking-framework.html',
   },
+  {
+    id: 'cinema',
+    title: 'Cinema',
+    subtitle: 'momo.vn/cinema',
+    category: 'use-case',
+    division: 'UTI',
+    tags: ['Entertainment', 'GEO', 'pSEO'],
+    status: 'live',
+    updatedAt: '2026-04-22',
+    description: 'Chiến lược phát triển organic cho dịch vụ Cinema trên MoMo: tối ưu hóa tìm kiếm cho phim, rạp chiếu, và nâng cao khả năng khám phá nội dung.',
+    htmlFile: '/projects/cinema-momo.html',
+    metrics: [
+      { label: 'Movies tracked', value: '500+' },
+      { label: 'Content pages', value: '50+' },
+      { label: 'Key features', value: '8' },
+    ],
+  },
 ]
