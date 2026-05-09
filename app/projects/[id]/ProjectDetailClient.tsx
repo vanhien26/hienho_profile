@@ -9,20 +9,20 @@ import { useSidebar } from '../../context/sidebar'
 
 const tagColors: Record<string, string[]> = {
   SEO: ['#E6EEFF', '#1848B8'],
-  Credit: ['#F5E0EC', '#AE2070'],
+  Credit: ['#F0EEE6', 'var(--clay)'],
   Insurance: ['#EDE8FF', '#4B1DB8'],
-  BNPL: ['#F5E0EC', '#AE2070'],
+  BNPL: ['#F0EEE6', 'var(--clay)'],
   GEO: ['#EDE8FF', '#4B1DB8'],
   PLG: ['#E0F5EA', '#00663A'],
   JTBD: ['#FFF3DC', '#8B5800'],
   Framework: ['#F0EDE8', '#8C7D74'],
   pSEO: ['#E6EEFF', '#1848B8'],
   IA: ['#E6EEFF', '#1848B8'],
-  Schema: ['#F5E0EC', '#AE2070'],
+  Schema: ['#F0EEE6', 'var(--clay)'],
   Directory: ['#E0F5EA', '#00663A'],
   'Content Clusters': ['#E6EEFF', '#1848B8'],
   'Link Building': ['#FFF3DC', '#8B5800'],
-  'Internal Linking': ['#F5E0EC', '#AE2070'],
+  'Internal Linking': ['#F0EEE6', 'var(--clay)'],
   'Content Architecture': ['#E6EEFF', '#1848B8'],
   'Auto Insurance': ['#EDE8FF', '#4B1DB8'],
   'Template System': ['#F0EDE8', '#8C7D74'],
@@ -31,8 +31,8 @@ const tagColors: Record<string, string[]> = {
   'Multi-product': ['#E0F5EA', '#00663A'],
   'Search Intent': ['#FFF3DC', '#8B5800'],
   'Deep Link': ['#E0F5EA', '#00663A'],
-  CTA: ['#F5E0EC', '#AE2070'],
-  'Credit Ecosystem': ['#F5E0EC', '#AE2070'],
+  CTA: ['#F0EEE6', 'var(--clay)'],
+  'Credit Ecosystem': ['#F0EEE6', 'var(--clay)'],
   default: ['#F0EDE8', '#8C7D74'],
 }
 
@@ -112,7 +112,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             {project.division && (
               <span
                 className="text-[10px] font-bold px-2.5 py-1 rounded-full"
-                style={{ background: '#F5E0EC', color: '#AE2070' }}
+                style={{ background: '#F0EEE6', color: 'var(--clay)' }}
               >
                 {project.division}
               </span>
@@ -128,7 +128,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             {/* Meta bar */}
             <div
               className="px-4 sm:px-6 lg:px-8 py-4 sm:py-3 flex-shrink-0"
-              style={{ background: '#F6F3EF', borderBottom: '1px solid var(--border)' }}
+              style={{ background: 'var(--gray-100)', borderBottom: '1px solid var(--border)' }}
             >
               {isEditing ? (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 py-1">
@@ -193,7 +193,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                         <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
                           {project.metrics.map(m => (
                             <div key={m.label} className="text-center">
-                              <div className="text-sm font-black leading-tight" style={{ color: '#AE2070' }}>{m.value}</div>
+                              <div className="text-sm font-black leading-tight" style={{ color: 'var(--clay)' }}>{m.value}</div>
                               <div className="text-[9px] leading-tight" style={{ color: 'var(--ink-3)' }}>{m.label}</div>
                             </div>
                           ))}
@@ -202,7 +202,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                         {/* Mobile metrics pills */}
                         <div className="flex gap-1.5 sm:hidden">
                           {project.metrics.map(m => (
-                            <span key={m.label} className="text-[10px] font-black px-1.5 py-0.5 rounded-md" style={{ background: '#FFEFF4', color: '#AE2070' }}>
+                            <span key={m.label} className="text-[10px] font-black px-1.5 py-0.5 rounded-md" style={{ background: 'var(--gray-100)', color: 'var(--clay)' }}>
                               {m.value}
                             </span>
                           ))}
@@ -260,7 +260,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             <div className="flex-1 relative">
               {loading && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-10 transition-opacity duration-300">
-                  <div className="w-10 h-10 border-4 border-[#F5E0EC] border-t-[#AE2070] rounded-full animate-spin mb-4" />
+                  <div className="w-10 h-10 border-4 border-[#D1CFC5] border-t-[#202940] rounded-full animate-spin mb-4" />
                   <p className="text-[10px] font-bold tracking-widest text-[#8C7D74] uppercase animate-pulse">
                     Đang tải tài liệu chiến lược
                   </p>
@@ -315,7 +315,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 >
                   {project.metrics.map(m => (
                     <div key={m.label}>
-                      <div className="text-2xl font-black" style={{ color: '#AE2070' }}>
+                      <div className="text-2xl font-black" style={{ color: 'var(--clay)' }}>
                         {m.value}
                       </div>
                       <div className="text-xs mt-0.5" style={{ color: 'var(--ink-3)' }}>
