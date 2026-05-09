@@ -12,10 +12,6 @@ const divisionColors: Record<string, { bg: string; text: string; border: string 
   FS:  { bg: '#FFEFF4', text: '#A50064', border: '#A50064' },
   UTI: { bg: '#E0F2FE', text: '#0284C7', border: '#0284C7' },
   OTA: { bg: '#DCFCE7', text: '#16A34A', border: '#16A34A' },
-  MDS: { bg: '#FEF3C7', text: '#D97706', border: '#D97706' },
-  DLS: { bg: '#EDE9FE', text: '#7C3AED', border: '#7C3AED' },
-  SP:  { bg: '#FEE2E2', text: '#DC2626', border: '#DC2626' },
-  BMC: { bg: '#DBEAFE', text: '#2563EB', border: '#2563EB' },
   GPD: { bg: '#F9AFB5', text: '#E5303F', border: '#E5303F' },
 }
 
@@ -920,7 +916,7 @@ export default function HomePage() {
                           }}
                         >
                           {/* Thumb zone */}
-                          <div className="overflow-hidden" style={{ height: 120, borderBottom: '1px solid var(--border)' }}>
+                          <div className="w-full overflow-hidden" style={{ aspectRatio: '220/120', borderBottom: '1px solid var(--border)' }}>
                             <ThumbIllustration id={p.id} />
                           </div>
 
@@ -1028,7 +1024,7 @@ export default function HomePage() {
                       }}
                     >
                       {/* Thumb zone */}
-                      <div className="overflow-hidden" style={{ height: 100, borderBottom: '1px solid var(--border)' }}>
+                      <div className="w-full overflow-hidden" style={{ aspectRatio: '220/120', borderBottom: '1px solid var(--border)' }}>
                         <ThumbIllustration id={p.id} />
                       </div>
 

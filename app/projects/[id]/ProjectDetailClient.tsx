@@ -67,7 +67,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       subtitle: project.subtitle,
       description: project.description,
       tags: project.tags.join(', '),
-      status: project.status,
     }
   })
 
@@ -158,11 +157,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                       placeholder="SEO, GEO, Content Architecture"
                     />
                   </div>
-                  <select {...register('status')} className="w-full px-3 py-2 border rounded text-sm">
-                    <option value="live">Live</option>
-                    <option value="review">Review</option>
-                    <option value="draft">Draft</option>
-                  </select>
                   <div className="flex gap-2">
                     <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded text-sm flex items-center gap-1">
                       <Save size={14} /> Save
