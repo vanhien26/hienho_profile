@@ -28,7 +28,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── LOAN: bar chart growing + trend line ──────────────────────────────
     'vay-nhanh': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <line x1="18" y1="104" x2="170" y2="104" stroke={G} strokeWidth="1"/>
         <line x1="18" y1="104" x2="18" y2="14" stroke={G} strokeWidth="1"/>
@@ -52,7 +52,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── BNPL: 3-step payment flow ─────────────────────────────────────────
     'vi-tra-sau': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <rect x="12" y="30" width="54" height="48" rx="5" fill={C}/>
         <line x1="12" y1="45" x2="66" y2="45" stroke="white" strokeWidth="1" strokeOpacity=".25"/>
@@ -79,7 +79,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── MOTOR INSURANCE: shield + wheel ──────────────────────────────────
     'bao-hiem-xe-may': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <circle cx="68" cy="60" r="50" fill="none" stroke={O} strokeWidth="1.5"/>
         <circle cx="68" cy="60" r="36" fill="none" stroke={G} strokeWidth="1.5"/>
@@ -99,7 +99,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── INSURANCE HUB: 5-layer foundation pyramid ─────────────────────────
     'bao-hiem': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <rect x="10" y="90" width="140" height="14" rx="3" fill={O}/>
         <rect x="22" y="72" width="116" height="14" rx="3" fill={G}/>
@@ -116,7 +116,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── AUTO INSURANCE: template grid (43+ pages) ─────────────────────────
     'bao-hiem-o-to': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         {[0,1,2,3].map(col=>[0,1,2].map(row=>{
           const x=12+col*50; const y=12+row*36
@@ -142,7 +142,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── PARTNERS: network grid (merchant directory) ───────────────────────
     'doi-tac': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         {[[30,30],[90,20],[150,30],[180,60],[150,90],[90,100],[30,90],[10,60]].map(([cx,cy],i)=>(
           <circle key={i} cx={cx} cy={cy} r={i===0?8:6}
@@ -160,7 +160,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── CREDIT ECOSYSTEM: circular loop ───────────────────────────────────
     'tin-dung': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <circle cx="80" cy="60" r="48" fill="none" stroke={O} strokeWidth="1.5"/>
         <circle cx="80" cy="60" r="32" fill="none" stroke={G} strokeWidth="1.5" strokeDasharray="5 3"/>
@@ -180,7 +180,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── TELECOM: signal arcs radiating ────────────────────────────────────
     'vien-thong': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <path d="M60 100 A80 80 0 0 1 140 100" fill="none" stroke={O} strokeWidth="1.5" strokeLinecap="round"/>
         <path d="M72 88 A56 56 0 0 1 128 88" fill="none" stroke={G} strokeWidth="1.5" strokeLinecap="round"/>
@@ -203,7 +203,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── TRAVEL: destination dots + route path ─────────────────────────────
     'du-lich': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <line x1="10" y1="100" x2="210" y2="100" stroke={G} strokeWidth="1"/>
         {[0,1,2,3,4,5].map(i=>(
@@ -224,7 +224,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── PUBLIC SERVICES: document stack + check ───────────────────────────
     'dich-vu-cong': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <rect x="50" y="24" width="100" height="80" rx="5" fill={O} stroke={G} strokeWidth="1"/>
         <rect x="38" y="18" width="100" height="80" rx="5" fill={O} stroke={G} strokeWidth="1"/>
@@ -240,7 +240,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── eSIM: globe grid (200+ countries) ────────────────────────────────
     'esim-du-lich': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <circle cx="72" cy="60" r="52" fill="none" stroke={O} strokeWidth="1.5"/>
         <circle cx="72" cy="60" r="52" fill="none" stroke={G} strokeWidth="1"/>
@@ -261,7 +261,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── TRAFFIC FINES: search target + plate ─────────────────────────────
     'phat-nguoi': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <circle cx="72" cy="60" r="50" fill="none" stroke={O} strokeWidth="1.5"/>
         <circle cx="72" cy="60" r="34" fill="none" stroke={G} strokeWidth="1.5"/>
@@ -284,7 +284,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── BILL PAYMENT: 4 bill types with checks ────────────────────────────
     'thanh-toan-hoa-don': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         {[0,1,2,3].map(i=>(
           <g key={i}>
@@ -306,7 +306,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── EXPENSE MANAGEMENT: donut chart + legend ──────────────────────────
     'quan-ly-chi-tieu': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <circle cx="72" cy="60" r="48" fill="none" stroke={O} strokeWidth="16"/>
         <circle cx="72" cy="60" r="48" fill="none" stroke={C} strokeWidth="16"
@@ -330,7 +330,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── CINEMA: film strip grid + screen ─────────────────────────────────
     'cinema': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <rect x="10" y="10" width="130" height="100" rx="5" fill={C} fillOpacity=".06" stroke={G} strokeWidth="1"/>
         {[0,1,2,3,4,5].map(i=>(
@@ -357,7 +357,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── KNOWLEDGE: OUT-APP TRAFFIC — foundation pyramid ───────────────────
     'out-app-traffic': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <rect x="10" y="88" width="160" height="14" rx="3" fill={O}/>
         <rect x="24" y="70" width="132" height="14" rx="3" fill={G}/>
@@ -377,7 +377,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── KNOWLEDGE: GEO FRAMEWORK — target/focus ───────────────────────────
     'geo-framework': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <circle cx="80" cy="60" r="55" fill="none" stroke={O} strokeWidth="1.5"/>
         <circle cx="80" cy="60" r="38" fill="none" stroke={G} strokeWidth="1.5"/>
@@ -399,7 +399,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── KNOWLEDGE: JTBD — flow nodes (job mapping) ────────────────────────
     'jtbd': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <circle cx="30" cy="60" r="16" fill={C}/>
         <circle cx="30" cy="60" r="6" fill="white" fillOpacity=".5"/>
@@ -425,7 +425,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── KNOWLEDGE: WEB-TO-APP — funnel flow ───────────────────────────────
     'web-to-app': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <rect x="10" y="14" width="180" height="16" rx="3" fill={O}/>
         <rect x="22" y="38" width="156" height="16" rx="3" fill={G}/>
@@ -444,7 +444,7 @@ function ThumbIllustration({ id }: { id: string }) {
 
     // ── KNOWLEDGE: TRACKING FRAMEWORK — analytics ──────────────────────
     'tracking-framework': (
-      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
         <rect width="220" height="120" fill={BG}/>
         <line x1="18" y1="100" x2="200" y2="100" stroke={G} strokeWidth="1"/>
         <line x1="18" y1="100" x2="18" y2="10" stroke={G} strokeWidth="1"/>
@@ -469,7 +469,7 @@ function ThumbIllustration({ id }: { id: string }) {
   }
 
   const fallback = (
-    <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
       <rect width="220" height="120" fill={BG}/>
       <rect x="20" y="20" width="80" height="80" rx="8" fill={O}/>
       <rect x="32" y="46" width="56" height="6" rx="3" fill={G}/>
