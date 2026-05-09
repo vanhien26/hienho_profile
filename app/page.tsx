@@ -887,16 +887,16 @@ export default function HomePage() {
               initial={false}
               animate="visible"
               key={activeDivision || 'all'}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
             >
               <AnimatePresence mode="popLayout">
                 {filteredUseCases.map(p => {
                   const dc = p.division ? divisionColors[p.division] : null
                   return (
                     <motion.div key={p.id} layout variants={cardVariants} exit={{ opacity: 0, scale: 0.95 }}>
-                      <Link href={`/projects/${p.id}`} className="block group">
+                      <Link href={`/projects/${p.id}`} className="block group h-full">
                         <div
-                          className="rounded-2xl overflow-hidden border transition-all duration-300 group-hover:-translate-y-1"
+                          className="rounded-xl overflow-hidden border transition-all duration-300 group-hover:-translate-y-0.5 h-full flex flex-col"
                           style={{
                             background: 'var(--bg-panel)',
                             borderColor: 'var(--border)',
@@ -916,37 +916,37 @@ export default function HomePage() {
                           }}
                         >
                           {/* Thumb zone */}
-                          <div className="w-full overflow-hidden" style={{ aspectRatio: '220/120', borderBottom: '1px solid var(--border)' }}>
+                          <div className="w-full overflow-hidden flex-shrink-0" style={{ aspectRatio: '16/7', borderBottom: '1px solid var(--border)' }}>
                             <ThumbIllustration id={p.id} />
                           </div>
 
                           {/* Body */}
-                          <div className="p-4">
-                            <div className="flex items-center justify-between mb-2">
+                          <div className="p-3 flex-1 flex flex-col">
+                            <div className="flex items-center justify-between mb-1.5">
                               {dc && (
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md" style={{ background: dc.bg, color: dc.text }}>
+                                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: dc.bg, color: dc.text }}>
                                   {p.division}
                                 </span>
                               )}
-                              <span className="text-[10px] ml-auto" style={{ color: 'var(--ink-ghost)', fontFamily: "'Roboto Mono', monospace" }}>
+                              <span className="text-[9px] ml-auto" style={{ color: 'var(--ink-ghost)', fontFamily: "'Roboto Mono', monospace" }}>
                                 {new Date(p.updatedAt).toLocaleDateString('vi-VN', { month: 'short', year: 'numeric' })}
                               </span>
                             </div>
-                            <h3 className="font-bold text-[14px] leading-snug mb-0.5" style={{ color: 'var(--ink)' }}>
+                            <h3 className="font-bold text-[13px] leading-snug mb-0.5" style={{ color: 'var(--ink)' }}>
                               {p.title}
                             </h3>
-                            <p className="text-[10px] mb-2 truncate" style={{ color: 'var(--ink-ghost)', fontFamily: "'Roboto Mono', monospace" }}>
+                            <p className="text-[9px] mb-1.5 truncate" style={{ color: 'var(--ink-ghost)', fontFamily: "'Roboto Mono', monospace" }}>
                               {p.subtitle}
                             </p>
-                            <p className="text-[11px] leading-relaxed line-clamp-2" style={{ color: 'var(--ink-2)' }}>
+                            <p className="text-[11px] leading-relaxed line-clamp-2 flex-1" style={{ color: 'var(--ink-2)' }}>
                               {p.description}
                             </p>
 
                             {p.metrics && (
-                              <div className="flex gap-3 mt-3 pt-2.5" style={{ borderTop: '1px solid var(--border)' }}>
+                              <div className="flex gap-3 mt-2 pt-2" style={{ borderTop: '1px solid var(--border)' }}>
                                 {p.metrics.slice(0, 3).map(m => (
                                   <div key={m.label}>
-                                    <div className="text-xs font-black" style={{ color: 'var(--clay)' }}>{m.value}</div>
+                                    <div className="text-[11px] font-black" style={{ color: 'var(--clay)' }}>{m.value}</div>
                                     <div className="text-[9px]" style={{ color: 'var(--ink-ghost)' }}>{m.label}</div>
                                   </div>
                                 ))}
@@ -956,12 +956,12 @@ export default function HomePage() {
 
                           {/* Footer */}
                           <div
-                            className="px-4 py-2.5 flex items-center justify-between"
+                            className="px-3 py-2 flex items-center justify-between flex-shrink-0"
                             style={{ borderTop: '1px solid var(--border)', background: 'var(--gray-100)' }}
                           >
                             <span style={{
                               fontFamily: "'Roboto Mono', monospace",
-                              fontSize: 9,
+                              fontSize: 8,
                               fontWeight: 500,
                               letterSpacing: '0.1em',
                               textTransform: 'uppercase',
@@ -969,7 +969,7 @@ export default function HomePage() {
                             }}>
                               {p.id}
                             </span>
-                            <ArrowRight size={12} style={{ color: 'var(--clay)', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
+                            <ArrowRight size={11} style={{ color: 'var(--clay)', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
                           </div>
                         </div>
                       </Link>
@@ -998,13 +998,13 @@ export default function HomePage() {
               whileInView="visible"
               viewport={{ once: true }}
               key={`knowledge-${searchQuery}`}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-6"
             >
               {filteredKnowledge.map(p => (
                 <motion.div key={p.id} variants={cardVariants}>
                   <Link href={`/projects/${p.id}`} className="block group">
                     <div
-                      className="rounded-2xl overflow-hidden border transition-all duration-300 group-hover:-translate-y-1"
+                      className="rounded-xl overflow-hidden border transition-all duration-300 group-hover:-translate-y-0.5 h-full flex flex-col"
                       style={{
                         background: 'var(--white)',
                         borderColor: 'var(--gray-300)',
@@ -1024,21 +1024,21 @@ export default function HomePage() {
                       }}
                     >
                       {/* Thumb zone */}
-                      <div className="w-full overflow-hidden" style={{ aspectRatio: '220/120', borderBottom: '1px solid var(--border)' }}>
+                      <div className="w-full overflow-hidden" style={{ aspectRatio: '16/7', borderBottom: '1px solid var(--border)' }}>
                         <ThumbIllustration id={p.id} />
                       </div>
 
                       {/* Body */}
-                      <div className="p-4">
-                        <h3 className="font-bold text-[14px] leading-snug mb-2" style={{ color: 'var(--ink)' }}>
+                      <div className="p-3 flex-1 flex flex-col">
+                        <h3 className="font-bold text-[13px] leading-snug mb-1.5" style={{ color: 'var(--ink)' }}>
                           {p.title}
                         </h3>
-                        <p className="text-[11px] leading-relaxed line-clamp-3" style={{ color: 'var(--ink-2)' }}>
+                        <p className="text-[10px] leading-relaxed line-clamp-3 flex-1" style={{ color: 'var(--ink-2)' }}>
                           {p.description}
                         </p>
-                        <div className="flex flex-wrap gap-1.5 mt-3">
+                        <div className="flex flex-wrap gap-1 mt-2">
                           {p.tags.slice(0, 3).map(t => (
-                            <span key={t} className="text-[9px] font-semibold px-2 py-0.5 rounded-md" style={{ background: '#EDE9FE', color: '#7C3AED' }}>
+                            <span key={t} className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md" style={{ background: '#EDE9FE', color: '#7C3AED' }}>
                               {t}
                             </span>
                           ))}
@@ -1047,12 +1047,12 @@ export default function HomePage() {
 
                       {/* Footer */}
                       <div
-                        className="px-4 py-2.5 flex items-center justify-between"
+                        className="px-3 py-2 flex items-center justify-between"
                         style={{ borderTop: '1px solid var(--border)', background: 'rgba(237,233,254,.35)' }}
                       >
                         <span style={{
                           fontFamily: "'Roboto Mono', monospace",
-                          fontSize: 9,
+                          fontSize: 8,
                           fontWeight: 500,
                           letterSpacing: '0.1em',
                           textTransform: 'uppercase',
@@ -1060,7 +1060,7 @@ export default function HomePage() {
                         }}>
                           {p.id}
                         </span>
-                        <ArrowRight size={12} style={{ color: '#7C3AED', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
+                        <ArrowRight size={11} style={{ color: '#7C3AED', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>
                   </Link>
