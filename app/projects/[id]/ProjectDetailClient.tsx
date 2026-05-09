@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '../../components/Sidebar'
 import Link from 'next/link'
 import { Project } from '../../data/projects'
-import { Home, FileText, Lightbulb, Edit, Save, X } from 'lucide-react'
+import { Home, FileText, BookOpen, Lightbulb, Edit, Save, X, Calendar } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { useSidebar } from '../../context/sidebar'
 
@@ -91,10 +91,10 @@ function MetaBar({ project, isEditing, setIsEditing, isAdmin, register, handleSu
           </div>
           <div className="flex gap-2">
             <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded text-sm flex items-center gap-1">
-              <Save size={14} /> Save
+              <Save size={14} strokeWidth={1.8} /> Save
             </button>
             <button type="button" onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-500 text-white rounded text-sm flex items-center gap-1">
-              <X size={14} /> Cancel
+              <X size={14} strokeWidth={1.8} /> Cancel
             </button>
           </div>
         </form>
@@ -121,9 +121,12 @@ function MetaBar({ project, isEditing, setIsEditing, isAdmin, register, handleSu
               </span>
             )}
             <span
-              className="text-[10px] font-medium px-2 py-0.5 rounded-full"
+              className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full"
               style={{ background: 'var(--gray-300)', color: 'var(--ink-3)' }}
             >
+              {project.category === 'use-case'
+                ? <FileText size={10} strokeWidth={1.8} />
+                : <BookOpen size={10} strokeWidth={1.8} />}
               {project.category === 'use-case' ? 'Use Case' : 'Knowledge'}
             </span>
           </div>
@@ -182,7 +185,7 @@ function MetaBar({ project, isEditing, setIsEditing, isAdmin, register, handleSu
               className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:bg-blue-600"
               style={{ background: '#3B82F6', color: '#fff' }}
             >
-              <Edit size={13} />
+              <Edit size={13} strokeWidth={1.8} />
               <span>Edit</span>
             </button>
           )}
@@ -240,7 +243,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               className="text-xs font-medium flex items-center gap-1.5 hover:opacity-70 transition-opacity flex-shrink-0"
               style={{ color: 'var(--ink-3)' }}
             >
-              <Home size={12} /> Home
+              <Home size={12} strokeWidth={1.8} /> Home
             </Link>
             <span style={{ color: 'var(--border)' }} className="flex-shrink-0">/</span>
             <span className="text-xs font-medium flex-shrink-0 hidden sm:inline" style={{ color: 'var(--ink-3)' }}>
@@ -252,7 +255,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             </span>
           </div>
 
-          <span className="text-[10px] flex-shrink-0" style={{ color: 'var(--ink-3)' }}>
+          <span className="inline-flex items-center gap-1 text-[10px] flex-shrink-0" style={{ color: 'var(--ink-3)' }}>
+            <Calendar size={10} strokeWidth={1.8} />
             {new Date(project.updatedAt).toLocaleDateString('vi-VN')}
           </span>
         </div>
@@ -315,7 +319,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 }}
               >
                 <div className="flex justify-center mb-4">
-                  <FileText size={40} style={{ color: 'var(--ink-3)' }} strokeWidth={1} />
+                  <FileText size={40} style={{ color: 'var(--ink-3)' }} strokeWidth={1.8} />
                 </div>
                 <h2 className="text-lg font-black mb-1" style={{ color: 'var(--ink)' }}>
                   Chưa có tài liệu
@@ -327,7 +331,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                   className="mt-6 px-4 py-3 rounded-xl text-xs font-medium text-left flex items-start gap-2"
                   style={{ background: '#FFF3DC', color: '#8B5800' }}
                 >
-                  <Lightbulb size={13} className="flex-shrink-0 mt-0.5" />
+                  <Lightbulb size={13} strokeWidth={1.8} className="flex-shrink-0 mt-0.5" />
                   <span>Gửi file HTML cho dự án này để hiển thị nội dung chi tiết tại đây.</span>
                 </div>
               </div>

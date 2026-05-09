@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import Link from 'next/link'
 import { projects, Project } from './data/projects'
-import { Phone, Mail, MessageCircle, Search, Shield, ArrowRight } from 'lucide-react'
+import { Phone, Mail, MessageCircle, Search, Shield, ArrowRight, FileText, BookOpen, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSidebar } from './context/sidebar'
 import Fuse from 'fuse.js'
@@ -769,10 +769,10 @@ export default function HomePage() {
               {/* Contact row */}
               <div className="flex flex-wrap items-center gap-3">
                 <span className="text-xs flex items-center gap-1.5" style={{ color: 'rgba(250,249,245,.38)' }}>
-                  <Phone size={11} /> 090 6973942
+                  <Phone size={11} strokeWidth={1.8} /> 090 6973942
                 </span>
                 <span className="text-xs flex items-center gap-1.5" style={{ color: 'rgba(250,249,245,.38)' }}>
-                  <Mail size={11} /> hien.ho@momo.vn
+                  <Mail size={11} strokeWidth={1.8} /> hien.ho@momo.vn
                 </span>
                 <a
                   href="https://chat.google.com/dm/hien.ho@mservice.com.vn"
@@ -781,7 +781,7 @@ export default function HomePage() {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80"
                   style={{ background: 'rgba(250,249,245,.1)', color: 'var(--ivory)', border: '1px solid rgba(255,255,255,.18)' }}
                 >
-                  <MessageCircle size={11} /> Chat
+                  <MessageCircle size={11} strokeWidth={1.8} /> Chat
                 </a>
               </div>
             </div>
@@ -793,15 +793,20 @@ export default function HomePage() {
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { value: `${useCaseProjects.length}`, label: 'Use Cases' },
-                  { value: `${knowledgeProjects.length}`, label: 'Frameworks' },
-                  { value: '7yr', label: 'Experience' },
-                ].map(s => (
+                  { value: `${useCaseProjects.length}`, label: 'Use Cases', icon: FileText },
+                  { value: `${knowledgeProjects.length}`, label: 'Frameworks', icon: BookOpen },
+                  { value: '7yr', label: 'Experience', icon: Clock },
+                ].map(s => {
+                  const Icon = s.icon
+                  return (
                   <div key={s.label} className="rounded-xl px-3 py-2.5 text-center" style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.08)' }}>
-                    <div className="text-lg font-black" style={{ color: 'var(--ivory)' }}>{s.value}</div>
+                    <div className="flex justify-center mb-1">
+                      <Icon size={13} strokeWidth={1.8} style={{ color: 'rgba(250,249,245,.3)' }} />
+                    </div>
+                    <div className="text-lg font-black leading-tight" style={{ color: 'var(--ivory)' }}>{s.value}</div>
                     <div className="text-[10px]" style={{ color: 'rgba(250,249,245,.4)', fontFamily: "'Roboto Mono', monospace" }}>{s.label}</div>
                   </div>
-                ))}
+                )})}
               </div>
             </div>
           </div>
@@ -833,7 +838,7 @@ export default function HomePage() {
                   onFocus={(e) => { e.target.style.borderColor = 'var(--clay)'; e.target.style.boxShadow = '0 0 0 3px rgba(32,41,64,.08)' }}
                   onBlur={(e) => { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none' }}
                 />
-                <Search size={13} className="absolute left-3 top-2.5" style={{ color: 'var(--ink-ghost)' }} />
+                <Search size={13} strokeWidth={1.8} className="absolute left-3 top-2.5" style={{ color: 'var(--ink-ghost)' }} />
               </div>
 
               {/* Division filter pills */}
@@ -869,7 +874,7 @@ export default function HomePage() {
                 className="flex flex-col items-center justify-center py-16 text-center"
               >
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--gray-100)' }}>
-                  <Search size={20} style={{ color: 'var(--clay)' }} />
+                  <Search size={20} strokeWidth={1.8} style={{ color: 'var(--clay)' }} />
                 </div>
                 <p className="text-sm font-bold" style={{ color: 'var(--ink-2)' }}>Không tìm thấy kết quả</p>
                 <p className="text-xs mt-1" style={{ color: 'var(--ink-ghost)' }}>
@@ -969,7 +974,7 @@ export default function HomePage() {
                             }}>
                               {p.id}
                             </span>
-                            <ArrowRight size={11} style={{ color: 'var(--clay)', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
+                            <ArrowRight size={11} strokeWidth={1.8} style={{ color: 'var(--clay)', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
                           </div>
                         </div>
                       </Link>
@@ -1060,7 +1065,7 @@ export default function HomePage() {
                         }}>
                           {p.id}
                         </span>
-                        <ArrowRight size={11} style={{ color: '#7C3AED', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
+                        <ArrowRight size={11} strokeWidth={1.8} style={{ color: '#7C3AED', opacity: 0.5 }} className="transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>
                   </Link>
@@ -1081,7 +1086,7 @@ export default function HomePage() {
           className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
           style={{ background: 'var(--clay)', boxShadow: '0 6px 24px rgba(32,41,64,0.35)' }}
         >
-          <Shield size={18} color="white" />
+          <Shield size={18} strokeWidth={1.8} color="white" />
         </div>
         <div
           className="absolute bottom-full right-0 mb-2 px-2.5 py-1 rounded-lg text-xs font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap"

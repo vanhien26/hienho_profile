@@ -64,7 +64,7 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
           className={`absolute top-4 right-4 z-10 transition-colors ${alwaysOverlay ? '' : 'lg:hidden'}`}
           style={{ color: 'var(--gray-500)' }}
         >
-          <X size={18} />
+          <X size={18} strokeWidth={1.8} />
         </button>
 
         {/* Brand */}
@@ -111,7 +111,7 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                     color: active ? 'var(--clay)' : 'var(--gray-700)',
                   }}
                 >
-                  <Icon size={15} strokeWidth={active ? 2.5 : 2} />
+                  <Icon size={15} strokeWidth={1.8} />
                   <span className="text-[13px] font-semibold">{link.label}</span>
                 </Link>
               )
@@ -131,12 +131,13 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                   className="w-full flex items-center justify-between px-4 py-1.5"
                 >
                   <span className="text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5" style={{ color: 'var(--gray-500)' }}>
-                    <Icon size={11} />
+                    <Icon size={11} strokeWidth={1.8} />
                     {group.section}
                     <span className="ml-1 font-black" style={{ color: 'var(--gray-300)' }}>{group.items.length}</span>
                   </span>
                   <ChevronDown
                     size={12}
+                    strokeWidth={1.8}
                     style={{
                       color: 'var(--gray-300)',
                       transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0)',
@@ -154,13 +155,21 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                           key={item.href}
                           href={item.href}
                           onClick={handleLinkClick}
-                          className="flex items-center px-3 py-1.5 rounded-lg text-[12px] transition-all duration-150"
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] transition-all duration-150"
                           style={{
                             background: active ? 'var(--gray-100)' : 'transparent',
                             color: active ? 'var(--clay)' : 'var(--gray-500)',
                             fontWeight: active ? 600 : 400,
                           }}
                         >
+                          <span
+                            className="flex-shrink-0 rounded-full transition-all duration-150"
+                            style={{
+                              width: 5,
+                              height: 5,
+                              background: active ? 'var(--clay)' : 'var(--gray-300)',
+                            }}
+                          />
                           <span className="truncate">{item.label}</span>
                         </Link>
                       )
