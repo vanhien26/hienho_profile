@@ -23,7 +23,6 @@ export const projects: Project[] = [
     tags: ['SEO', 'GEO', 'Foundation'],
     updatedAt: '2026-04-10',
     description: 'Scopes & Foundation cho các SEO/GEO projects của MoMo.vn',
-    htmlFile: '/projects/out-app-traffic-foundation.html'
   },
   {
     id: 'vay-nhanh',
