@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased bg-[#FCF9F7] text-[#1F1A17]">
+      <body className="antialiased bg-[#FAF9F5] text-[#141413]">
         <SidebarProvider>
           <AppHeader />
           {children}

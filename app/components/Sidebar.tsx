@@ -56,26 +56,26 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
           ${alwaysOverlay ? '' : 'lg:sticky lg:translate-x-0 lg:z-auto'}
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
-        style={{ width: 240, background: '#FFFFFF', borderRight: '1px solid #E5E7EB' }}
+        style={{ width: 240, background: 'var(--white)', borderRight: '1px solid var(--gray-300)' }}
       >
         {/* Close button */}
         <button
           onClick={onClose}
           className={`absolute top-4 right-4 z-10 transition-colors ${alwaysOverlay ? '' : 'lg:hidden'}`}
-          style={{ color: '#6B7280' }}
+          style={{ color: 'var(--gray-500)' }}
         >
-          <X size={18} />
+          <X size={18} strokeWidth={1.8} />
         </button>
 
         {/* Brand */}
-        <div className="px-4 pt-5 pb-4" style={{ borderBottom: '1px solid #F3F4F6' }}>
+        <div className="px-4 pt-5 pb-4" style={{ borderBottom: '1px solid var(--gray-100)' }}>
           <Link href="/" className="block" onClick={handleLinkClick}>
             <div
               className="inline-flex items-center gap-1.5 mb-3 px-2.5 py-1 rounded-lg"
-              style={{ background: '#FFEFF4' }}
+              style={{ background: 'var(--gray-100)' }}
             >
-              <span className="font-black text-xs tracking-tight" style={{ color: '#AE2070' }}>MoMo</span>
-              <span className="text-xs font-medium" style={{ color: '#AE2070', opacity: 0.6 }}>Out-App Traffic</span>
+              <span className="font-black text-xs tracking-tight" style={{ color: 'var(--clay)' }}>MoMo</span>
+              <span className="text-xs font-medium" style={{ color: 'var(--clay)', opacity: 0.55 }}>Out-App Traffic</span>
             </div>
             <div className="flex items-center gap-2.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -83,11 +83,11 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                 src="/avatar.jpg"
                 alt="Klaus"
                 className="rounded-full flex-shrink-0 object-cover"
-                style={{ width: 32, height: 32, border: '2px solid #F9C9DC' }}
+                style={{ width: 32, height: 32, border: '2px solid var(--oat)' }}
               />
               <div>
-                <p className="text-xs font-bold leading-tight" style={{ color: '#111827' }}>Van Hien (Klaus)</p>
-                <p className="text-[10px] mt-0.5" style={{ color: '#9CA3AF' }}>SEO & GEO Lead · momo.vn</p>
+                <p className="text-xs font-bold leading-tight" style={{ color: 'var(--slate)' }}>Van Hien (Klaus)</p>
+                <p className="text-[10px] mt-0.5" style={{ color: 'var(--gray-500)' }}>SEO & GEO Lead · momo.vn</p>
               </div>
             </div>
           </Link>
@@ -107,18 +107,18 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                   onClick={handleLinkClick}
                   className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 mb-0.5"
                   style={{
-                    background: active ? '#FFEFF4' : 'transparent',
-                    color: active ? '#AE2070' : '#4B5563',
+                    background: active ? 'var(--gray-100)' : 'transparent',
+                    color: active ? 'var(--clay)' : 'var(--gray-700)',
                   }}
                 >
-                  <Icon size={15} strokeWidth={active ? 2.5 : 2} />
+                  <Icon size={15} strokeWidth={1.8} />
                   <span className="text-[13px] font-semibold">{link.label}</span>
                 </Link>
               )
             })}
           </div>
 
-          <div className="mx-4 mb-3" style={{ height: 1, background: '#F3F4F6' }} />
+          <div className="mx-4 mb-3" style={{ height: 1, background: 'var(--gray-100)' }} />
 
           {/* Dynamic sections */}
           {navTree.map(group => {
@@ -130,15 +130,16 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                   onClick={() => toggle(group.key)}
                   className="w-full flex items-center justify-between px-4 py-1.5"
                 >
-                  <span className="text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5" style={{ color: '#9CA3AF' }}>
-                    <Icon size={11} />
+                  <span className="text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5" style={{ color: 'var(--gray-500)' }}>
+                    <Icon size={11} strokeWidth={1.8} />
                     {group.section}
-                    <span className="ml-1 font-black" style={{ color: '#D1D5DB' }}>{group.items.length}</span>
+                    <span className="ml-1 font-black" style={{ color: 'var(--gray-300)' }}>{group.items.length}</span>
                   </span>
                   <ChevronDown
                     size={12}
+                    strokeWidth={1.8}
                     style={{
-                      color: '#D1D5DB',
+                      color: 'var(--gray-300)',
                       transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0)',
                       transition: 'transform 0.2s',
                     }}
@@ -154,13 +155,21 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
                           key={item.href}
                           href={item.href}
                           onClick={handleLinkClick}
-                          className="flex items-center px-3 py-1.5 rounded-lg text-[12px] transition-all duration-150"
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] transition-all duration-150"
                           style={{
-                            background: active ? '#FFEFF4' : 'transparent',
-                            color: active ? '#AE2070' : '#6B7280',
+                            background: active ? 'var(--gray-100)' : 'transparent',
+                            color: active ? 'var(--clay)' : 'var(--gray-500)',
                             fontWeight: active ? 600 : 400,
                           }}
                         >
+                          <span
+                            className="flex-shrink-0 rounded-full transition-all duration-150"
+                            style={{
+                              width: 5,
+                              height: 5,
+                              background: active ? 'var(--clay)' : 'var(--gray-300)',
+                            }}
+                          />
                           <span className="truncate">{item.label}</span>
                         </Link>
                       )
@@ -173,8 +182,8 @@ export default function Sidebar({ mobileOpen, onClose, alwaysOverlay }: { mobile
         </nav>
 
         {/* Footer */}
-        <div className="px-4 py-3" style={{ borderTop: '1px solid #F3F4F6' }}>
-          <p className="font-mono text-[10px]" style={{ color: '#D1D5DB' }}>v2026.03 · Growth Portfolio</p>
+        <div className="px-4 py-3" style={{ borderTop: '1px solid var(--gray-100)' }}>
+          <p className="font-mono text-[10px]" style={{ color: 'var(--gray-300)' }}>v2026.03 · Growth Portfolio</p>
         </div>
       </aside>
     </>
