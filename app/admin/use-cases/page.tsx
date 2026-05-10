@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Sidebar from '../../components/Sidebar'
 import { useCases, UseCase } from '../../data/use-cases'
-import { Menu, Shield, FileText, Plus, Save, X, ArrowLeft, LogOut } from 'lucide-react'
+import { Menu, FileText, Save, X, ArrowLeft } from 'lucide-react'
 
 function HamburgerButton({ onClick }: { onClick: () => void }) {
   return (
@@ -38,9 +38,6 @@ const defaultEntry: UseCase = {
 
 export default function AdminUseCasesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [hasAccess, setHasAccess] = useState(false)
-  const [codeInput, setCodeInput] = useState('')
-  const [authError, setAuthError] = useState('')
   const [entries, setEntries] = useState<UseCase[]>([])
   const [formState, setFormState] = useState<UseCase>(defaultEntry)
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null)
@@ -54,18 +51,6 @@ export default function AdminUseCasesPage() {
   const [formError, setFormError] = useState('')
 
   useEffect(() => {
-    const savedAuth = localStorage.getItem('adminAccess')
-    if (savedAuth) {
-      const { timestamp } = JSON.parse(savedAuth)
-      const now = Date.now()
-      const oneHour = 60 * 60 * 1000
-      if (now - timestamp < oneHour) {
-        setHasAccess(true)
-      } else {
-        localStorage.removeItem('adminAccess')
-      }
-    }
-
     const persisted = localStorage.getItem('adminUseCases')
     if (persisted) {
       try {
@@ -90,23 +75,6 @@ export default function AdminUseCasesPage() {
   const persistEntries = (nextEntries: UseCase[]) => {
     setEntries(nextEntries)
     localStorage.setItem('adminUseCases', JSON.stringify(nextEntries))
-  }
-
-  const handleCodeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (codeInput === '1507') {
-      localStorage.setItem('adminAccess', JSON.stringify({ timestamp: Date.now() }))
-      setHasAccess(true)
-      setAuthError('')
-    } else {
-      setAuthError('Mã truy cập không đúng. Vui lòng nhập lại 4 chữ số.')
-    }
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('adminAccess')
-    setHasAccess(false)
-    setCodeInput('')
   }
 
   const resetForm = () => {
@@ -164,44 +132,6 @@ export default function AdminUseCasesPage() {
     }
   }
 
-  if (!hasAccess) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5EBF5] px-4">
-        <div className="w-full max-w-md bg-white rounded-[28px] border border-[#E6D5E0] shadow-[0_24px_80px_rgba(174,32,112,0.12)] overflow-hidden">
-          <div className="px-8 py-6" style={{ background: 'linear-gradient(135deg, #AE2070 0%, #D97706 100%)' }}>
-            <div className="flex items-center gap-3">
-              <Shield size={24} color="white" />
-              <div>
-                <h1 className="text-2xl font-black text-white tracking-tight">Admin Access</h1>
-                <p className="text-sm text-[#FFE6F0] mt-2">Nhập code admin 4 chữ số để tiếp tục.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="px-8 py-8">
-            <form onSubmit={handleCodeSubmit} className="space-y-4">
-              <input
-                type="password"
-                value={codeInput}
-                onChange={(e) => setCodeInput(e.target.value)}
-                maxLength={4}
-                placeholder="••••"
-                className="w-full px-4 py-3 rounded-2xl border border-[#E5D0DD] bg-[#FCF4FA] text-lg tracking-[0.35em] text-center outline-none transition duration-200 focus:border-[#AE2070] focus:ring-2 focus:ring-[#F6D2E3]"
-              />
-              {authError && <p className="text-sm text-[#D92D3B]">{authError}</p>}
-              <button
-                type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 bg-[#AE2070] text-white font-semibold shadow-[0_16px_32px_rgba(174,32,112,0.24)] hover:bg-[#C84C8C] transition"
-              >
-                Xác nhận code
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="flex min-h-screen w-full bg-[#F9F2F7]">
       <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -211,17 +141,9 @@ export default function AdminUseCasesPage() {
             <h1 className="text-2xl font-black tracking-tight text-[#18120E]">Use Case</h1>
             <p className="text-sm text-[#8C7D74] mt-2">Quản lý danh sách Use Case / Mini Web trực tiếp từ admin.</p>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <Link href="/admin" className="inline-flex items-center gap-2 rounded-full border border-[#E4DDD6] px-4 py-2 text-sm font-semibold text-[#5B3A53] hover:bg-[#F3E6F5] transition">
-              <ArrowLeft size={16} /> Quay lại Admin
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center gap-2 rounded-full border border-[#E4DDD6] px-4 py-2 text-sm font-semibold text-[#5B3A53] hover:bg-[#F3E6F5] transition"
-            >
-              <LogOut size={16} /> Đăng xuất
-            </button>
-          </div>
+          <Link href="/admin" className="inline-flex items-center gap-2 rounded-full border border-[#E4DDD6] px-4 py-2 text-sm font-semibold text-[#5B3A53] hover:bg-[#F3E6F5] transition">
+            <ArrowLeft size={16} /> Quay lại Admin
+          </Link>
         </div>
 
         <div className="px-6 sm:px-10 py-8 space-y-8">
